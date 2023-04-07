@@ -208,6 +208,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutputResponse, AssociateBrowserSettingsOutputError>(id: "associateBrowserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutputResponse, AssociateBrowserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateBrowserSettingsInput, AssociateBrowserSettingsOutputResponse>())
@@ -220,8 +221,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateBrowserSettingsOutputResponse, AssociateBrowserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateBrowserSettingsOutputResponse, AssociateBrowserSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateBrowserSettingsOutputResponse, AssociateBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -241,6 +246,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutputResponse, AssociateNetworkSettingsOutputError>(id: "associateNetworkSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutputResponse, AssociateNetworkSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateNetworkSettingsInput, AssociateNetworkSettingsOutputResponse>())
@@ -253,8 +259,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateNetworkSettingsOutputResponse, AssociateNetworkSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateNetworkSettingsOutputResponse, AssociateNetworkSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateNetworkSettingsOutputResponse, AssociateNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -274,6 +284,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateTrustStoreInput, AssociateTrustStoreOutputResponse, AssociateTrustStoreOutputError>(id: "associateTrustStore")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateTrustStoreInput, AssociateTrustStoreOutputResponse, AssociateTrustStoreOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateTrustStoreInput, AssociateTrustStoreOutputResponse>())
@@ -286,8 +297,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateTrustStoreOutputResponse, AssociateTrustStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateTrustStoreOutputResponse, AssociateTrustStoreOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateTrustStoreOutputResponse, AssociateTrustStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -307,6 +322,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutputResponse, AssociateUserAccessLoggingSettingsOutputError>(id: "associateUserAccessLoggingSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutputResponse, AssociateUserAccessLoggingSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateUserAccessLoggingSettingsInput, AssociateUserAccessLoggingSettingsOutputResponse>())
@@ -319,8 +335,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateUserAccessLoggingSettingsOutputResponse, AssociateUserAccessLoggingSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateUserAccessLoggingSettingsOutputResponse, AssociateUserAccessLoggingSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateUserAccessLoggingSettingsOutputResponse, AssociateUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -340,6 +360,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateUserSettingsInput, AssociateUserSettingsOutputResponse, AssociateUserSettingsOutputError>(id: "associateUserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateUserSettingsInput, AssociateUserSettingsOutputResponse, AssociateUserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateUserSettingsInput, AssociateUserSettingsOutputResponse>())
@@ -352,8 +373,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateUserSettingsOutputResponse, AssociateUserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateUserSettingsOutputResponse, AssociateUserSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateUserSettingsOutputResponse, AssociateUserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -373,6 +398,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateBrowserSettingsInput, CreateBrowserSettingsOutputResponse, CreateBrowserSettingsOutputError>(id: "createBrowserSettings")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateBrowserSettingsOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -395,8 +421,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBrowserSettingsOutputResponse, CreateBrowserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBrowserSettingsOutputResponse, CreateBrowserSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBrowserSettingsOutputResponse, CreateBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -416,6 +446,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateIdentityProviderInput, CreateIdentityProviderOutputResponse, CreateIdentityProviderOutputError>(id: "createIdentityProvider")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateIdentityProviderOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -438,8 +469,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateIdentityProviderOutputResponse, CreateIdentityProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIdentityProviderOutputResponse, CreateIdentityProviderOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateIdentityProviderOutputResponse, CreateIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -459,6 +494,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateNetworkSettingsInput, CreateNetworkSettingsOutputResponse, CreateNetworkSettingsOutputError>(id: "createNetworkSettings")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateNetworkSettingsOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -481,8 +517,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNetworkSettingsOutputResponse, CreateNetworkSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNetworkSettingsOutputResponse, CreateNetworkSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNetworkSettingsOutputResponse, CreateNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -502,6 +542,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePortalInput, CreatePortalOutputResponse, CreatePortalOutputError>(id: "createPortal")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreatePortalOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -524,8 +565,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePortalOutputResponse, CreatePortalOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePortalOutputResponse, CreatePortalOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePortalOutputResponse, CreatePortalOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -545,6 +590,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTrustStoreInput, CreateTrustStoreOutputResponse, CreateTrustStoreOutputError>(id: "createTrustStore")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateTrustStoreOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -567,8 +613,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrustStoreOutputResponse, CreateTrustStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrustStoreOutputResponse, CreateTrustStoreOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTrustStoreOutputResponse, CreateTrustStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -588,6 +638,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateUserAccessLoggingSettingsInput, CreateUserAccessLoggingSettingsOutputResponse, CreateUserAccessLoggingSettingsOutputError>(id: "createUserAccessLoggingSettings")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateUserAccessLoggingSettingsOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -610,8 +661,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserAccessLoggingSettingsOutputResponse, CreateUserAccessLoggingSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserAccessLoggingSettingsOutputResponse, CreateUserAccessLoggingSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserAccessLoggingSettingsOutputResponse, CreateUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -631,6 +686,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateUserSettingsInput, CreateUserSettingsOutputResponse, CreateUserSettingsOutputError>(id: "createUserSettings")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateUserSettingsOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -653,8 +709,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserSettingsOutputResponse, CreateUserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserSettingsOutputResponse, CreateUserSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserSettingsOutputResponse, CreateUserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -674,6 +734,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBrowserSettingsInput, DeleteBrowserSettingsOutputResponse, DeleteBrowserSettingsOutputError>(id: "deleteBrowserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBrowserSettingsInput, DeleteBrowserSettingsOutputResponse, DeleteBrowserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBrowserSettingsInput, DeleteBrowserSettingsOutputResponse>())
@@ -685,8 +746,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBrowserSettingsOutputResponse, DeleteBrowserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBrowserSettingsOutputResponse, DeleteBrowserSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBrowserSettingsOutputResponse, DeleteBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -706,6 +771,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteIdentityProviderInput, DeleteIdentityProviderOutputResponse, DeleteIdentityProviderOutputError>(id: "deleteIdentityProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutputResponse, DeleteIdentityProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutputResponse>())
@@ -717,8 +783,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIdentityProviderOutputResponse, DeleteIdentityProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIdentityProviderOutputResponse, DeleteIdentityProviderOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIdentityProviderOutputResponse, DeleteIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -738,6 +808,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteNetworkSettingsInput, DeleteNetworkSettingsOutputResponse, DeleteNetworkSettingsOutputError>(id: "deleteNetworkSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNetworkSettingsInput, DeleteNetworkSettingsOutputResponse, DeleteNetworkSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNetworkSettingsInput, DeleteNetworkSettingsOutputResponse>())
@@ -749,8 +820,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNetworkSettingsOutputResponse, DeleteNetworkSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNetworkSettingsOutputResponse, DeleteNetworkSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNetworkSettingsOutputResponse, DeleteNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -770,6 +845,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePortalInput, DeletePortalOutputResponse, DeletePortalOutputError>(id: "deletePortal")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePortalInput, DeletePortalOutputResponse, DeletePortalOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePortalInput, DeletePortalOutputResponse>())
@@ -781,8 +857,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePortalOutputResponse, DeletePortalOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePortalOutputResponse, DeletePortalOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePortalOutputResponse, DeletePortalOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -802,6 +882,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTrustStoreInput, DeleteTrustStoreOutputResponse, DeleteTrustStoreOutputError>(id: "deleteTrustStore")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTrustStoreInput, DeleteTrustStoreOutputResponse, DeleteTrustStoreOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTrustStoreInput, DeleteTrustStoreOutputResponse>())
@@ -813,8 +894,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTrustStoreOutputResponse, DeleteTrustStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrustStoreOutputResponse, DeleteTrustStoreOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTrustStoreOutputResponse, DeleteTrustStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -834,6 +919,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteUserAccessLoggingSettingsInput, DeleteUserAccessLoggingSettingsOutputResponse, DeleteUserAccessLoggingSettingsOutputError>(id: "deleteUserAccessLoggingSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserAccessLoggingSettingsInput, DeleteUserAccessLoggingSettingsOutputResponse, DeleteUserAccessLoggingSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserAccessLoggingSettingsInput, DeleteUserAccessLoggingSettingsOutputResponse>())
@@ -845,8 +931,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserAccessLoggingSettingsOutputResponse, DeleteUserAccessLoggingSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserAccessLoggingSettingsOutputResponse, DeleteUserAccessLoggingSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserAccessLoggingSettingsOutputResponse, DeleteUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -866,6 +956,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteUserSettingsInput, DeleteUserSettingsOutputResponse, DeleteUserSettingsOutputError>(id: "deleteUserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserSettingsInput, DeleteUserSettingsOutputResponse, DeleteUserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserSettingsInput, DeleteUserSettingsOutputResponse>())
@@ -877,8 +968,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserSettingsOutputResponse, DeleteUserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserSettingsOutputResponse, DeleteUserSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserSettingsOutputResponse, DeleteUserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -898,6 +993,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateBrowserSettingsInput, DisassociateBrowserSettingsOutputResponse, DisassociateBrowserSettingsOutputError>(id: "disassociateBrowserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateBrowserSettingsInput, DisassociateBrowserSettingsOutputResponse, DisassociateBrowserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateBrowserSettingsInput, DisassociateBrowserSettingsOutputResponse>())
@@ -909,8 +1005,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateBrowserSettingsOutputResponse, DisassociateBrowserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateBrowserSettingsOutputResponse, DisassociateBrowserSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateBrowserSettingsOutputResponse, DisassociateBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -930,6 +1030,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateNetworkSettingsInput, DisassociateNetworkSettingsOutputResponse, DisassociateNetworkSettingsOutputError>(id: "disassociateNetworkSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateNetworkSettingsInput, DisassociateNetworkSettingsOutputResponse, DisassociateNetworkSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateNetworkSettingsInput, DisassociateNetworkSettingsOutputResponse>())
@@ -941,8 +1042,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateNetworkSettingsOutputResponse, DisassociateNetworkSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateNetworkSettingsOutputResponse, DisassociateNetworkSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateNetworkSettingsOutputResponse, DisassociateNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -962,6 +1067,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateTrustStoreInput, DisassociateTrustStoreOutputResponse, DisassociateTrustStoreOutputError>(id: "disassociateTrustStore")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateTrustStoreInput, DisassociateTrustStoreOutputResponse, DisassociateTrustStoreOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateTrustStoreInput, DisassociateTrustStoreOutputResponse>())
@@ -973,8 +1079,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateTrustStoreOutputResponse, DisassociateTrustStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateTrustStoreOutputResponse, DisassociateTrustStoreOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateTrustStoreOutputResponse, DisassociateTrustStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -994,6 +1104,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateUserAccessLoggingSettingsInput, DisassociateUserAccessLoggingSettingsOutputResponse, DisassociateUserAccessLoggingSettingsOutputError>(id: "disassociateUserAccessLoggingSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateUserAccessLoggingSettingsInput, DisassociateUserAccessLoggingSettingsOutputResponse, DisassociateUserAccessLoggingSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateUserAccessLoggingSettingsInput, DisassociateUserAccessLoggingSettingsOutputResponse>())
@@ -1005,8 +1116,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateUserAccessLoggingSettingsOutputResponse, DisassociateUserAccessLoggingSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateUserAccessLoggingSettingsOutputResponse, DisassociateUserAccessLoggingSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateUserAccessLoggingSettingsOutputResponse, DisassociateUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1026,6 +1141,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateUserSettingsInput, DisassociateUserSettingsOutputResponse, DisassociateUserSettingsOutputError>(id: "disassociateUserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateUserSettingsInput, DisassociateUserSettingsOutputResponse, DisassociateUserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateUserSettingsInput, DisassociateUserSettingsOutputResponse>())
@@ -1037,8 +1153,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateUserSettingsOutputResponse, DisassociateUserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateUserSettingsOutputResponse, DisassociateUserSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateUserSettingsOutputResponse, DisassociateUserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1058,6 +1178,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBrowserSettingsInput, GetBrowserSettingsOutputResponse, GetBrowserSettingsOutputError>(id: "getBrowserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBrowserSettingsInput, GetBrowserSettingsOutputResponse, GetBrowserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBrowserSettingsInput, GetBrowserSettingsOutputResponse>())
@@ -1069,8 +1190,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBrowserSettingsOutputResponse, GetBrowserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBrowserSettingsOutputResponse, GetBrowserSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBrowserSettingsOutputResponse, GetBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1090,6 +1215,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetIdentityProviderInput, GetIdentityProviderOutputResponse, GetIdentityProviderOutputError>(id: "getIdentityProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdentityProviderInput, GetIdentityProviderOutputResponse, GetIdentityProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdentityProviderInput, GetIdentityProviderOutputResponse>())
@@ -1101,8 +1227,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityProviderOutputResponse, GetIdentityProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityProviderOutputResponse, GetIdentityProviderOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIdentityProviderOutputResponse, GetIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1122,6 +1252,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetNetworkSettingsInput, GetNetworkSettingsOutputResponse, GetNetworkSettingsOutputError>(id: "getNetworkSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkSettingsInput, GetNetworkSettingsOutputResponse, GetNetworkSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNetworkSettingsInput, GetNetworkSettingsOutputResponse>())
@@ -1133,8 +1264,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkSettingsOutputResponse, GetNetworkSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkSettingsOutputResponse, GetNetworkSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkSettingsOutputResponse, GetNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1154,6 +1289,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPortalInput, GetPortalOutputResponse, GetPortalOutputError>(id: "getPortal")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPortalInput, GetPortalOutputResponse, GetPortalOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPortalInput, GetPortalOutputResponse>())
@@ -1165,8 +1301,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPortalOutputResponse, GetPortalOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPortalOutputResponse, GetPortalOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPortalOutputResponse, GetPortalOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1186,6 +1326,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPortalServiceProviderMetadataInput, GetPortalServiceProviderMetadataOutputResponse, GetPortalServiceProviderMetadataOutputError>(id: "getPortalServiceProviderMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPortalServiceProviderMetadataInput, GetPortalServiceProviderMetadataOutputResponse, GetPortalServiceProviderMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPortalServiceProviderMetadataInput, GetPortalServiceProviderMetadataOutputResponse>())
@@ -1197,8 +1338,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPortalServiceProviderMetadataOutputResponse, GetPortalServiceProviderMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPortalServiceProviderMetadataOutputResponse, GetPortalServiceProviderMetadataOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPortalServiceProviderMetadataOutputResponse, GetPortalServiceProviderMetadataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1218,6 +1363,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTrustStoreInput, GetTrustStoreOutputResponse, GetTrustStoreOutputError>(id: "getTrustStore")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTrustStoreInput, GetTrustStoreOutputResponse, GetTrustStoreOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrustStoreInput, GetTrustStoreOutputResponse>())
@@ -1229,8 +1375,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrustStoreOutputResponse, GetTrustStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrustStoreOutputResponse, GetTrustStoreOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrustStoreOutputResponse, GetTrustStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1250,6 +1400,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutputResponse, GetTrustStoreCertificateOutputError>(id: "getTrustStoreCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutputResponse, GetTrustStoreCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrustStoreCertificateInput, GetTrustStoreCertificateOutputResponse>())
@@ -1262,8 +1413,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrustStoreCertificateOutputResponse, GetTrustStoreCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrustStoreCertificateOutputResponse, GetTrustStoreCertificateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrustStoreCertificateOutputResponse, GetTrustStoreCertificateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1283,6 +1438,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetUserAccessLoggingSettingsInput, GetUserAccessLoggingSettingsOutputResponse, GetUserAccessLoggingSettingsOutputError>(id: "getUserAccessLoggingSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserAccessLoggingSettingsInput, GetUserAccessLoggingSettingsOutputResponse, GetUserAccessLoggingSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserAccessLoggingSettingsInput, GetUserAccessLoggingSettingsOutputResponse>())
@@ -1294,8 +1450,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserAccessLoggingSettingsOutputResponse, GetUserAccessLoggingSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserAccessLoggingSettingsOutputResponse, GetUserAccessLoggingSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserAccessLoggingSettingsOutputResponse, GetUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1315,6 +1475,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetUserSettingsInput, GetUserSettingsOutputResponse, GetUserSettingsOutputError>(id: "getUserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserSettingsInput, GetUserSettingsOutputResponse, GetUserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserSettingsInput, GetUserSettingsOutputResponse>())
@@ -1326,8 +1487,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserSettingsOutputResponse, GetUserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserSettingsOutputResponse, GetUserSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserSettingsOutputResponse, GetUserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1347,6 +1512,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListBrowserSettingsInput, ListBrowserSettingsOutputResponse, ListBrowserSettingsOutputError>(id: "listBrowserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBrowserSettingsInput, ListBrowserSettingsOutputResponse, ListBrowserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBrowserSettingsInput, ListBrowserSettingsOutputResponse>())
@@ -1359,8 +1525,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBrowserSettingsOutputResponse, ListBrowserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBrowserSettingsOutputResponse, ListBrowserSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBrowserSettingsOutputResponse, ListBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1380,6 +1550,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>(id: "listIdentityProviders")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse>())
@@ -1392,8 +1563,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1413,6 +1588,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListNetworkSettingsInput, ListNetworkSettingsOutputResponse, ListNetworkSettingsOutputError>(id: "listNetworkSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNetworkSettingsInput, ListNetworkSettingsOutputResponse, ListNetworkSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNetworkSettingsInput, ListNetworkSettingsOutputResponse>())
@@ -1425,8 +1601,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNetworkSettingsOutputResponse, ListNetworkSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNetworkSettingsOutputResponse, ListNetworkSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNetworkSettingsOutputResponse, ListNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1446,6 +1626,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPortalsInput, ListPortalsOutputResponse, ListPortalsOutputError>(id: "listPortals")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPortalsInput, ListPortalsOutputResponse, ListPortalsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPortalsInput, ListPortalsOutputResponse>())
@@ -1458,8 +1639,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPortalsOutputResponse, ListPortalsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPortalsOutputResponse, ListPortalsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPortalsOutputResponse, ListPortalsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1479,6 +1664,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1490,8 +1676,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1511,6 +1701,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutputResponse, ListTrustStoreCertificatesOutputError>(id: "listTrustStoreCertificates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutputResponse, ListTrustStoreCertificatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrustStoreCertificatesInput, ListTrustStoreCertificatesOutputResponse>())
@@ -1523,8 +1714,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrustStoreCertificatesOutputResponse, ListTrustStoreCertificatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrustStoreCertificatesOutputResponse, ListTrustStoreCertificatesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrustStoreCertificatesOutputResponse, ListTrustStoreCertificatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1544,6 +1739,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTrustStoresInput, ListTrustStoresOutputResponse, ListTrustStoresOutputError>(id: "listTrustStores")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrustStoresInput, ListTrustStoresOutputResponse, ListTrustStoresOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrustStoresInput, ListTrustStoresOutputResponse>())
@@ -1556,8 +1752,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrustStoresOutputResponse, ListTrustStoresOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrustStoresOutputResponse, ListTrustStoresOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrustStoresOutputResponse, ListTrustStoresOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1577,6 +1777,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutputResponse, ListUserAccessLoggingSettingsOutputError>(id: "listUserAccessLoggingSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutputResponse, ListUserAccessLoggingSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserAccessLoggingSettingsInput, ListUserAccessLoggingSettingsOutputResponse>())
@@ -1589,8 +1790,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserAccessLoggingSettingsOutputResponse, ListUserAccessLoggingSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserAccessLoggingSettingsOutputResponse, ListUserAccessLoggingSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserAccessLoggingSettingsOutputResponse, ListUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1610,6 +1815,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListUserSettingsInput, ListUserSettingsOutputResponse, ListUserSettingsOutputError>(id: "listUserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserSettingsInput, ListUserSettingsOutputResponse, ListUserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserSettingsInput, ListUserSettingsOutputResponse>())
@@ -1622,8 +1828,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserSettingsOutputResponse, ListUserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserSettingsOutputResponse, ListUserSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserSettingsOutputResponse, ListUserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1643,6 +1853,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<TagResourceOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1665,8 +1876,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1686,6 +1901,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1698,8 +1914,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1719,6 +1939,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateBrowserSettingsInput, UpdateBrowserSettingsOutputResponse, UpdateBrowserSettingsOutputError>(id: "updateBrowserSettings")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateBrowserSettingsOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1741,8 +1962,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBrowserSettingsOutputResponse, UpdateBrowserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBrowserSettingsOutputResponse, UpdateBrowserSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBrowserSettingsOutputResponse, UpdateBrowserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1762,6 +1987,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateIdentityProviderInput, UpdateIdentityProviderOutputResponse, UpdateIdentityProviderOutputError>(id: "updateIdentityProvider")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateIdentityProviderOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1784,8 +2010,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIdentityProviderOutputResponse, UpdateIdentityProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIdentityProviderOutputResponse, UpdateIdentityProviderOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIdentityProviderOutputResponse, UpdateIdentityProviderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1805,6 +2035,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateNetworkSettingsInput, UpdateNetworkSettingsOutputResponse, UpdateNetworkSettingsOutputError>(id: "updateNetworkSettings")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateNetworkSettingsOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1827,8 +2058,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNetworkSettingsOutputResponse, UpdateNetworkSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNetworkSettingsOutputResponse, UpdateNetworkSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNetworkSettingsOutputResponse, UpdateNetworkSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1848,6 +2083,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePortalInput, UpdatePortalOutputResponse, UpdatePortalOutputError>(id: "updatePortal")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePortalInput, UpdatePortalOutputResponse, UpdatePortalOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePortalInput, UpdatePortalOutputResponse>())
@@ -1862,8 +2098,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePortalOutputResponse, UpdatePortalOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePortalOutputResponse, UpdatePortalOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePortalOutputResponse, UpdatePortalOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1883,6 +2123,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTrustStoreInput, UpdateTrustStoreOutputResponse, UpdateTrustStoreOutputError>(id: "updateTrustStore")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateTrustStoreOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1905,8 +2146,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTrustStoreOutputResponse, UpdateTrustStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrustStoreOutputResponse, UpdateTrustStoreOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTrustStoreOutputResponse, UpdateTrustStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1926,6 +2171,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateUserAccessLoggingSettingsInput, UpdateUserAccessLoggingSettingsOutputResponse, UpdateUserAccessLoggingSettingsOutputError>(id: "updateUserAccessLoggingSettings")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateUserAccessLoggingSettingsOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1948,8 +2194,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserAccessLoggingSettingsOutputResponse, UpdateUserAccessLoggingSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserAccessLoggingSettingsOutputResponse, UpdateUserAccessLoggingSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserAccessLoggingSettingsOutputResponse, UpdateUserAccessLoggingSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1969,6 +2219,7 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workspaces-web")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateUserSettingsInput, UpdateUserSettingsOutputResponse, UpdateUserSettingsOutputError>(id: "updateUserSettings")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateUserSettingsOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1991,8 +2242,12 @@ extension WorkSpacesWebClient: WorkSpacesWebClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserSettingsOutputResponse, UpdateUserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserSettingsOutputResponse, UpdateUserSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserSettingsOutputResponse, UpdateUserSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

@@ -208,6 +208,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CloneBackendInput, CloneBackendOutputResponse, CloneBackendOutputError>(id: "cloneBackend")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CloneBackendInput, CloneBackendOutputResponse, CloneBackendOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CloneBackendInput, CloneBackendOutputResponse>())
@@ -222,8 +223,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CloneBackendOutputResponse, CloneBackendOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CloneBackendOutputResponse, CloneBackendOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CloneBackendOutputResponse, CloneBackendOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -243,6 +248,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateBackendInput, CreateBackendOutputResponse, CreateBackendOutputError>(id: "createBackend")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBackendInput, CreateBackendOutputResponse, CreateBackendOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBackendInput, CreateBackendOutputResponse>())
@@ -257,8 +263,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBackendOutputResponse, CreateBackendOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBackendOutputResponse, CreateBackendOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBackendOutputResponse, CreateBackendOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -278,6 +288,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateBackendAPIInput, CreateBackendAPIOutputResponse, CreateBackendAPIOutputError>(id: "createBackendAPI")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBackendAPIInput, CreateBackendAPIOutputResponse, CreateBackendAPIOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBackendAPIInput, CreateBackendAPIOutputResponse>())
@@ -292,8 +303,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBackendAPIOutputResponse, CreateBackendAPIOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBackendAPIOutputResponse, CreateBackendAPIOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBackendAPIOutputResponse, CreateBackendAPIOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -313,6 +328,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateBackendAuthInput, CreateBackendAuthOutputResponse, CreateBackendAuthOutputError>(id: "createBackendAuth")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBackendAuthInput, CreateBackendAuthOutputResponse, CreateBackendAuthOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBackendAuthInput, CreateBackendAuthOutputResponse>())
@@ -327,8 +343,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBackendAuthOutputResponse, CreateBackendAuthOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBackendAuthOutputResponse, CreateBackendAuthOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBackendAuthOutputResponse, CreateBackendAuthOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -348,6 +368,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateBackendConfigInput, CreateBackendConfigOutputResponse, CreateBackendConfigOutputError>(id: "createBackendConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBackendConfigInput, CreateBackendConfigOutputResponse, CreateBackendConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBackendConfigInput, CreateBackendConfigOutputResponse>())
@@ -362,8 +383,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBackendConfigOutputResponse, CreateBackendConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBackendConfigOutputResponse, CreateBackendConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBackendConfigOutputResponse, CreateBackendConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -383,6 +408,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateBackendStorageInput, CreateBackendStorageOutputResponse, CreateBackendStorageOutputError>(id: "createBackendStorage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBackendStorageInput, CreateBackendStorageOutputResponse, CreateBackendStorageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBackendStorageInput, CreateBackendStorageOutputResponse>())
@@ -397,8 +423,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBackendStorageOutputResponse, CreateBackendStorageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBackendStorageOutputResponse, CreateBackendStorageOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBackendStorageOutputResponse, CreateBackendStorageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -418,6 +448,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTokenInput, CreateTokenOutputResponse, CreateTokenOutputError>(id: "createToken")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTokenInput, CreateTokenOutputResponse, CreateTokenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTokenInput, CreateTokenOutputResponse>())
@@ -429,8 +460,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTokenOutputResponse, CreateTokenOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTokenOutputResponse, CreateTokenOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTokenOutputResponse, CreateTokenOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -450,6 +485,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBackendInput, DeleteBackendOutputResponse, DeleteBackendOutputError>(id: "deleteBackend")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBackendInput, DeleteBackendOutputResponse, DeleteBackendOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBackendInput, DeleteBackendOutputResponse>())
@@ -461,8 +497,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBackendOutputResponse, DeleteBackendOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBackendOutputResponse, DeleteBackendOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBackendOutputResponse, DeleteBackendOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -482,6 +522,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBackendAPIInput, DeleteBackendAPIOutputResponse, DeleteBackendAPIOutputError>(id: "deleteBackendAPI")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBackendAPIInput, DeleteBackendAPIOutputResponse, DeleteBackendAPIOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBackendAPIInput, DeleteBackendAPIOutputResponse>())
@@ -496,8 +537,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBackendAPIOutputResponse, DeleteBackendAPIOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBackendAPIOutputResponse, DeleteBackendAPIOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBackendAPIOutputResponse, DeleteBackendAPIOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -517,6 +562,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBackendAuthInput, DeleteBackendAuthOutputResponse, DeleteBackendAuthOutputError>(id: "deleteBackendAuth")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBackendAuthInput, DeleteBackendAuthOutputResponse, DeleteBackendAuthOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBackendAuthInput, DeleteBackendAuthOutputResponse>())
@@ -531,8 +577,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBackendAuthOutputResponse, DeleteBackendAuthOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBackendAuthOutputResponse, DeleteBackendAuthOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBackendAuthOutputResponse, DeleteBackendAuthOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -552,6 +602,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBackendStorageInput, DeleteBackendStorageOutputResponse, DeleteBackendStorageOutputError>(id: "deleteBackendStorage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBackendStorageInput, DeleteBackendStorageOutputResponse, DeleteBackendStorageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBackendStorageInput, DeleteBackendStorageOutputResponse>())
@@ -566,8 +617,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBackendStorageOutputResponse, DeleteBackendStorageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBackendStorageOutputResponse, DeleteBackendStorageOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBackendStorageOutputResponse, DeleteBackendStorageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -587,6 +642,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTokenInput, DeleteTokenOutputResponse, DeleteTokenOutputError>(id: "deleteToken")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTokenInput, DeleteTokenOutputResponse, DeleteTokenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTokenInput, DeleteTokenOutputResponse>())
@@ -598,8 +654,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTokenOutputResponse, DeleteTokenOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTokenOutputResponse, DeleteTokenOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTokenOutputResponse, DeleteTokenOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -619,6 +679,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GenerateBackendAPIModelsInput, GenerateBackendAPIModelsOutputResponse, GenerateBackendAPIModelsOutputError>(id: "generateBackendAPIModels")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateBackendAPIModelsInput, GenerateBackendAPIModelsOutputResponse, GenerateBackendAPIModelsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateBackendAPIModelsInput, GenerateBackendAPIModelsOutputResponse>())
@@ -633,8 +694,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateBackendAPIModelsOutputResponse, GenerateBackendAPIModelsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateBackendAPIModelsOutputResponse, GenerateBackendAPIModelsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateBackendAPIModelsOutputResponse, GenerateBackendAPIModelsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -654,6 +719,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBackendInput, GetBackendOutputResponse, GetBackendOutputError>(id: "getBackend")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBackendInput, GetBackendOutputResponse, GetBackendOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBackendInput, GetBackendOutputResponse>())
@@ -668,8 +734,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBackendOutputResponse, GetBackendOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBackendOutputResponse, GetBackendOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBackendOutputResponse, GetBackendOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -689,6 +759,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBackendAPIInput, GetBackendAPIOutputResponse, GetBackendAPIOutputError>(id: "getBackendAPI")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBackendAPIInput, GetBackendAPIOutputResponse, GetBackendAPIOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBackendAPIInput, GetBackendAPIOutputResponse>())
@@ -703,8 +774,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBackendAPIOutputResponse, GetBackendAPIOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBackendAPIOutputResponse, GetBackendAPIOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBackendAPIOutputResponse, GetBackendAPIOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -724,6 +799,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBackendAPIModelsInput, GetBackendAPIModelsOutputResponse, GetBackendAPIModelsOutputError>(id: "getBackendAPIModels")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBackendAPIModelsInput, GetBackendAPIModelsOutputResponse, GetBackendAPIModelsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBackendAPIModelsInput, GetBackendAPIModelsOutputResponse>())
@@ -738,8 +814,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBackendAPIModelsOutputResponse, GetBackendAPIModelsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBackendAPIModelsOutputResponse, GetBackendAPIModelsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBackendAPIModelsOutputResponse, GetBackendAPIModelsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -759,6 +839,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBackendAuthInput, GetBackendAuthOutputResponse, GetBackendAuthOutputError>(id: "getBackendAuth")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBackendAuthInput, GetBackendAuthOutputResponse, GetBackendAuthOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBackendAuthInput, GetBackendAuthOutputResponse>())
@@ -773,8 +854,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBackendAuthOutputResponse, GetBackendAuthOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBackendAuthOutputResponse, GetBackendAuthOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBackendAuthOutputResponse, GetBackendAuthOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -794,6 +879,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBackendJobInput, GetBackendJobOutputResponse, GetBackendJobOutputError>(id: "getBackendJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBackendJobInput, GetBackendJobOutputResponse, GetBackendJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBackendJobInput, GetBackendJobOutputResponse>())
@@ -805,8 +891,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBackendJobOutputResponse, GetBackendJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBackendJobOutputResponse, GetBackendJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBackendJobOutputResponse, GetBackendJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -826,6 +916,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBackendStorageInput, GetBackendStorageOutputResponse, GetBackendStorageOutputError>(id: "getBackendStorage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBackendStorageInput, GetBackendStorageOutputResponse, GetBackendStorageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBackendStorageInput, GetBackendStorageOutputResponse>())
@@ -840,8 +931,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBackendStorageOutputResponse, GetBackendStorageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBackendStorageOutputResponse, GetBackendStorageOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBackendStorageOutputResponse, GetBackendStorageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -861,6 +956,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTokenInput, GetTokenOutputResponse, GetTokenOutputError>(id: "getToken")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTokenInput, GetTokenOutputResponse, GetTokenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTokenInput, GetTokenOutputResponse>())
@@ -872,8 +968,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTokenOutputResponse, GetTokenOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTokenOutputResponse, GetTokenOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTokenOutputResponse, GetTokenOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -893,6 +993,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ImportBackendAuthInput, ImportBackendAuthOutputResponse, ImportBackendAuthOutputError>(id: "importBackendAuth")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportBackendAuthInput, ImportBackendAuthOutputResponse, ImportBackendAuthOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportBackendAuthInput, ImportBackendAuthOutputResponse>())
@@ -907,8 +1008,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportBackendAuthOutputResponse, ImportBackendAuthOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportBackendAuthOutputResponse, ImportBackendAuthOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportBackendAuthOutputResponse, ImportBackendAuthOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -928,6 +1033,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ImportBackendStorageInput, ImportBackendStorageOutputResponse, ImportBackendStorageOutputError>(id: "importBackendStorage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportBackendStorageInput, ImportBackendStorageOutputResponse, ImportBackendStorageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportBackendStorageInput, ImportBackendStorageOutputResponse>())
@@ -942,8 +1048,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportBackendStorageOutputResponse, ImportBackendStorageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportBackendStorageOutputResponse, ImportBackendStorageOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportBackendStorageOutputResponse, ImportBackendStorageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -963,6 +1073,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListBackendJobsInput, ListBackendJobsOutputResponse, ListBackendJobsOutputError>(id: "listBackendJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBackendJobsInput, ListBackendJobsOutputResponse, ListBackendJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBackendJobsInput, ListBackendJobsOutputResponse>())
@@ -977,8 +1088,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBackendJobsOutputResponse, ListBackendJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBackendJobsOutputResponse, ListBackendJobsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBackendJobsOutputResponse, ListBackendJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -998,6 +1113,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListS3BucketsInput, ListS3BucketsOutputResponse, ListS3BucketsOutputError>(id: "listS3Buckets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListS3BucketsInput, ListS3BucketsOutputResponse, ListS3BucketsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListS3BucketsInput, ListS3BucketsOutputResponse>())
@@ -1012,8 +1128,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListS3BucketsOutputResponse, ListS3BucketsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListS3BucketsOutputResponse, ListS3BucketsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListS3BucketsOutputResponse, ListS3BucketsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1033,6 +1153,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveAllBackendsInput, RemoveAllBackendsOutputResponse, RemoveAllBackendsOutputError>(id: "removeAllBackends")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveAllBackendsInput, RemoveAllBackendsOutputResponse, RemoveAllBackendsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveAllBackendsInput, RemoveAllBackendsOutputResponse>())
@@ -1047,8 +1168,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveAllBackendsOutputResponse, RemoveAllBackendsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveAllBackendsOutputResponse, RemoveAllBackendsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveAllBackendsOutputResponse, RemoveAllBackendsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1068,6 +1193,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveBackendConfigInput, RemoveBackendConfigOutputResponse, RemoveBackendConfigOutputError>(id: "removeBackendConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveBackendConfigInput, RemoveBackendConfigOutputResponse, RemoveBackendConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveBackendConfigInput, RemoveBackendConfigOutputResponse>())
@@ -1079,8 +1205,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveBackendConfigOutputResponse, RemoveBackendConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveBackendConfigOutputResponse, RemoveBackendConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveBackendConfigOutputResponse, RemoveBackendConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1100,6 +1230,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateBackendAPIInput, UpdateBackendAPIOutputResponse, UpdateBackendAPIOutputError>(id: "updateBackendAPI")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBackendAPIInput, UpdateBackendAPIOutputResponse, UpdateBackendAPIOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBackendAPIInput, UpdateBackendAPIOutputResponse>())
@@ -1114,8 +1245,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBackendAPIOutputResponse, UpdateBackendAPIOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBackendAPIOutputResponse, UpdateBackendAPIOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBackendAPIOutputResponse, UpdateBackendAPIOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1135,6 +1270,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateBackendAuthInput, UpdateBackendAuthOutputResponse, UpdateBackendAuthOutputError>(id: "updateBackendAuth")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBackendAuthInput, UpdateBackendAuthOutputResponse, UpdateBackendAuthOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBackendAuthInput, UpdateBackendAuthOutputResponse>())
@@ -1149,8 +1285,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBackendAuthOutputResponse, UpdateBackendAuthOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBackendAuthOutputResponse, UpdateBackendAuthOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBackendAuthOutputResponse, UpdateBackendAuthOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1170,6 +1310,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateBackendConfigInput, UpdateBackendConfigOutputResponse, UpdateBackendConfigOutputError>(id: "updateBackendConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBackendConfigInput, UpdateBackendConfigOutputResponse, UpdateBackendConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBackendConfigInput, UpdateBackendConfigOutputResponse>())
@@ -1184,8 +1325,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBackendConfigOutputResponse, UpdateBackendConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBackendConfigOutputResponse, UpdateBackendConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBackendConfigOutputResponse, UpdateBackendConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1205,6 +1350,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateBackendJobInput, UpdateBackendJobOutputResponse, UpdateBackendJobOutputError>(id: "updateBackendJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBackendJobInput, UpdateBackendJobOutputResponse, UpdateBackendJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBackendJobInput, UpdateBackendJobOutputResponse>())
@@ -1219,8 +1365,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBackendJobOutputResponse, UpdateBackendJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBackendJobOutputResponse, UpdateBackendJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBackendJobOutputResponse, UpdateBackendJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1240,6 +1390,7 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifybackend")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateBackendStorageInput, UpdateBackendStorageOutputResponse, UpdateBackendStorageOutputError>(id: "updateBackendStorage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBackendStorageInput, UpdateBackendStorageOutputResponse, UpdateBackendStorageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBackendStorageInput, UpdateBackendStorageOutputResponse>())
@@ -1254,8 +1405,12 @@ extension AmplifyBackendClient: AmplifyBackendClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBackendStorageOutputResponse, UpdateBackendStorageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBackendStorageOutputResponse, UpdateBackendStorageOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBackendStorageOutputResponse, UpdateBackendStorageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

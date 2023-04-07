@@ -13,7 +13,7 @@ extension AWSEventStream {
     /// AWS implementation of `MessageDecoder` for decoding event stream messages
     /// Note: This is class because struct does not allow using `self` in closure
     ///      and we need to use `self` to access `messageBuffer` per CRT API.
-    class AWSMessageDecoder: MessageDecoder {
+    public class AWSMessageDecoder: MessageDecoder {
         private var decoder: EventStreamMessageDecoder?
         private var messageBuffer: [EventStream.Message] = []
         private var error: Error?
@@ -59,14 +59,14 @@ extension AWSEventStream {
 
         /// Feeds data into the decoder, which may or may not result in a message.
         /// - Parameter data: The data to feed into the decoder.
-        func feed(data: Data) throws {
+        public func feed(data: Data) throws {
             try throwIfErrorOccurred()
             try decoder?.decode(data: data)
         }
 
         /// Notifies the decoder that the stream has ended.
         /// If the stream ends before a message is complete, an error will be thrown.
-        func endOfStream() throws {
+        public func endOfStream() throws {
             try throwIfErrorOccurred()
 
             guard decodedPayload.isEmpty && decodededHeaders.isEmpty else {
@@ -77,7 +77,7 @@ extension AWSEventStream {
         /// Returns the next message in the decoder's buffer
         /// and removes it from the buffer.
         /// If the buffer is empty then this returns `nil`.
-        func message() throws -> EventStream.Message? {
+        public func message() throws -> EventStream.Message? {
             try throwIfErrorOccurred()
 
             guard !messageBuffer.isEmpty else {

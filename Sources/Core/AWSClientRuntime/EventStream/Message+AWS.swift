@@ -9,7 +9,9 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 
 extension EventStream {
-    enum MessageType {
+    /// The type of the `EventStream.Message`
+    /// It allows for the message to be decoded into the correct type.
+    public enum MessageType {
         /// Represents an `event` message type.
         /// All events include the headers
         /// `:message-type`: Always `event`
@@ -57,18 +59,39 @@ extension EventStream {
         /// This is used when the message type is not recognized.
         case unknown(messageType: String)
 
-        struct EventParams {
+        /// Represents associated type parameter for `event` message type.
+        public struct EventParams {
+            /// Event type name defined in the event stream union.
+            /// eg. `MyStruct`
             public let eventType: String
+
+            /// Content type of the event payload.
+            /// This can be used to deserialize the payload.
+            /// eg. `application/json`
             public let contentType: String?
         }
 
-        struct ExceptionParams {
+        /// Represents associated type parameter for `exception` message type.
+        public struct ExceptionParams {
+            /// Exception type name defined in the event stream union.
+            /// eg. `FooException`
             public let exceptionType: String
+
+            /// Content type of the exception payload.
+            /// This can be used to deserialize the payload.
+            /// eg. `application/json`
             public let contentType: String?
         }
 
-        struct ErrorParams {
+        /// Represents associated type parameter for `error` message type.
+        public struct ErrorParams {
+            /// Error code which identifies the error.
+            /// This may not be defined in the service model.
+            /// eg. `InternalServerError`
             public let errorCode: String
+
+            /// Human readable error message.
+            /// eg. `An internal server error occurred`
             public let message: String?
         }
     }
@@ -76,7 +99,7 @@ extension EventStream {
 
 extension EventStream.Message {
     /// Parses the protocol level headers into a `MessageType`
-    func type() throws -> EventStream.MessageType {
+    public func type() throws -> EventStream.MessageType {
         let headersByName = Dictionary(grouping: headers, by: \.name)
         // look for messageType header
         guard let messageTypeHeader = headersByName[":message-type"]?.first,

@@ -208,6 +208,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AcceptMatchInput, AcceptMatchOutputResponse, AcceptMatchOutputError>(id: "acceptMatch")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptMatchInput, AcceptMatchOutputResponse, AcceptMatchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptMatchInput, AcceptMatchOutputResponse>())
@@ -223,8 +224,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptMatchOutputResponse, AcceptMatchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptMatchOutputResponse, AcceptMatchOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcceptMatchOutputResponse, AcceptMatchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -251,6 +256,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ClaimGameServerInput, ClaimGameServerOutputResponse, ClaimGameServerOutputError>(id: "claimGameServer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ClaimGameServerInput, ClaimGameServerOutputResponse, ClaimGameServerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ClaimGameServerInput, ClaimGameServerOutputResponse>())
@@ -266,8 +272,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ClaimGameServerOutputResponse, ClaimGameServerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ClaimGameServerOutputResponse, ClaimGameServerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ClaimGameServerOutputResponse, ClaimGameServerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -287,6 +297,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAliasInput, CreateAliasOutputResponse, CreateAliasOutputError>(id: "createAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAliasInput, CreateAliasOutputResponse, CreateAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAliasInput, CreateAliasOutputResponse>())
@@ -302,8 +313,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAliasOutputResponse, CreateAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAliasOutputResponse, CreateAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAliasOutputResponse, CreateAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -330,6 +345,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateBuildInput, CreateBuildOutputResponse, CreateBuildOutputError>(id: "createBuild")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBuildInput, CreateBuildOutputResponse, CreateBuildOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBuildInput, CreateBuildOutputResponse>())
@@ -345,8 +361,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBuildOutputResponse, CreateBuildOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBuildOutputResponse, CreateBuildOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBuildOutputResponse, CreateBuildOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -366,6 +386,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFleetInput, CreateFleetOutputResponse, CreateFleetOutputError>(id: "createFleet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFleetInput, CreateFleetOutputResponse, CreateFleetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFleetInput, CreateFleetOutputResponse>())
@@ -381,8 +402,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFleetOutputResponse, CreateFleetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFleetOutputResponse, CreateFleetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFleetOutputResponse, CreateFleetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -402,6 +427,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFleetLocationsInput, CreateFleetLocationsOutputResponse, CreateFleetLocationsOutputError>(id: "createFleetLocations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutputResponse, CreateFleetLocationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFleetLocationsInput, CreateFleetLocationsOutputResponse>())
@@ -417,8 +443,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFleetLocationsOutputResponse, CreateFleetLocationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFleetLocationsOutputResponse, CreateFleetLocationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFleetLocationsOutputResponse, CreateFleetLocationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -445,6 +475,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateGameServerGroupInput, CreateGameServerGroupOutputResponse, CreateGameServerGroupOutputError>(id: "createGameServerGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutputResponse, CreateGameServerGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGameServerGroupInput, CreateGameServerGroupOutputResponse>())
@@ -460,8 +491,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGameServerGroupOutputResponse, CreateGameServerGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGameServerGroupOutputResponse, CreateGameServerGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGameServerGroupOutputResponse, CreateGameServerGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -488,6 +523,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateGameSessionInput, CreateGameSessionOutputResponse, CreateGameSessionOutputError>(id: "createGameSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGameSessionInput, CreateGameSessionOutputResponse, CreateGameSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGameSessionInput, CreateGameSessionOutputResponse>())
@@ -503,8 +539,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGameSessionOutputResponse, CreateGameSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGameSessionOutputResponse, CreateGameSessionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGameSessionOutputResponse, CreateGameSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -524,6 +564,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateGameSessionQueueInput, CreateGameSessionQueueOutputResponse, CreateGameSessionQueueOutputError>(id: "createGameSessionQueue")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutputResponse, CreateGameSessionQueueOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGameSessionQueueInput, CreateGameSessionQueueOutputResponse>())
@@ -539,8 +580,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGameSessionQueueOutputResponse, CreateGameSessionQueueOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGameSessionQueueOutputResponse, CreateGameSessionQueueOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGameSessionQueueOutputResponse, CreateGameSessionQueueOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -560,6 +605,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLocationInput, CreateLocationOutputResponse, CreateLocationOutputError>(id: "createLocation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationInput, CreateLocationOutputResponse, CreateLocationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationInput, CreateLocationOutputResponse>())
@@ -575,8 +621,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationOutputResponse, CreateLocationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationOutputResponse, CreateLocationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationOutputResponse, CreateLocationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -596,6 +646,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutputResponse, CreateMatchmakingConfigurationOutputError>(id: "createMatchmakingConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutputResponse, CreateMatchmakingConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMatchmakingConfigurationInput, CreateMatchmakingConfigurationOutputResponse>())
@@ -611,8 +662,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMatchmakingConfigurationOutputResponse, CreateMatchmakingConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMatchmakingConfigurationOutputResponse, CreateMatchmakingConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMatchmakingConfigurationOutputResponse, CreateMatchmakingConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -638,6 +693,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutputResponse, CreateMatchmakingRuleSetOutputError>(id: "createMatchmakingRuleSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutputResponse, CreateMatchmakingRuleSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMatchmakingRuleSetInput, CreateMatchmakingRuleSetOutputResponse>())
@@ -653,8 +709,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMatchmakingRuleSetOutputResponse, CreateMatchmakingRuleSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMatchmakingRuleSetOutputResponse, CreateMatchmakingRuleSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMatchmakingRuleSetOutputResponse, CreateMatchmakingRuleSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -674,6 +734,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePlayerSessionInput, CreatePlayerSessionOutputResponse, CreatePlayerSessionOutputError>(id: "createPlayerSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutputResponse, CreatePlayerSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePlayerSessionInput, CreatePlayerSessionOutputResponse>())
@@ -689,8 +750,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePlayerSessionOutputResponse, CreatePlayerSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePlayerSessionOutputResponse, CreatePlayerSessionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePlayerSessionOutputResponse, CreatePlayerSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -710,6 +775,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePlayerSessionsInput, CreatePlayerSessionsOutputResponse, CreatePlayerSessionsOutputError>(id: "createPlayerSessions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutputResponse, CreatePlayerSessionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePlayerSessionsInput, CreatePlayerSessionsOutputResponse>())
@@ -725,8 +791,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePlayerSessionsOutputResponse, CreatePlayerSessionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePlayerSessionsOutputResponse, CreatePlayerSessionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePlayerSessionsOutputResponse, CreatePlayerSessionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -753,6 +823,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateScriptInput, CreateScriptOutputResponse, CreateScriptOutputError>(id: "createScript")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateScriptInput, CreateScriptOutputResponse, CreateScriptOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateScriptInput, CreateScriptOutputResponse>())
@@ -768,8 +839,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateScriptOutputResponse, CreateScriptOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateScriptOutputResponse, CreateScriptOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateScriptOutputResponse, CreateScriptOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -789,6 +864,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutputResponse, CreateVpcPeeringAuthorizationOutputError>(id: "createVpcPeeringAuthorization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutputResponse, CreateVpcPeeringAuthorizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVpcPeeringAuthorizationInput, CreateVpcPeeringAuthorizationOutputResponse>())
@@ -804,8 +880,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVpcPeeringAuthorizationOutputResponse, CreateVpcPeeringAuthorizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVpcPeeringAuthorizationOutputResponse, CreateVpcPeeringAuthorizationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVpcPeeringAuthorizationOutputResponse, CreateVpcPeeringAuthorizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -825,6 +905,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutputResponse, CreateVpcPeeringConnectionOutputError>(id: "createVpcPeeringConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutputResponse, CreateVpcPeeringConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVpcPeeringConnectionInput, CreateVpcPeeringConnectionOutputResponse>())
@@ -840,8 +921,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVpcPeeringConnectionOutputResponse, CreateVpcPeeringConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVpcPeeringConnectionOutputResponse, CreateVpcPeeringConnectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVpcPeeringConnectionOutputResponse, CreateVpcPeeringConnectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -861,6 +946,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAliasInput, DeleteAliasOutputResponse, DeleteAliasOutputError>(id: "deleteAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAliasInput, DeleteAliasOutputResponse, DeleteAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAliasInput, DeleteAliasOutputResponse>())
@@ -876,8 +962,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAliasOutputResponse, DeleteAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAliasOutputResponse, DeleteAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAliasOutputResponse, DeleteAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -897,6 +987,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBuildInput, DeleteBuildOutputResponse, DeleteBuildOutputError>(id: "deleteBuild")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBuildInput, DeleteBuildOutputResponse, DeleteBuildOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBuildInput, DeleteBuildOutputResponse>())
@@ -912,8 +1003,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBuildOutputResponse, DeleteBuildOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBuildOutputResponse, DeleteBuildOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBuildOutputResponse, DeleteBuildOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -933,6 +1028,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFleetInput, DeleteFleetOutputResponse, DeleteFleetOutputError>(id: "deleteFleet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFleetInput, DeleteFleetOutputResponse, DeleteFleetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFleetInput, DeleteFleetOutputResponse>())
@@ -948,8 +1044,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFleetOutputResponse, DeleteFleetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFleetOutputResponse, DeleteFleetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFleetOutputResponse, DeleteFleetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -969,6 +1069,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFleetLocationsInput, DeleteFleetLocationsOutputResponse, DeleteFleetLocationsOutputError>(id: "deleteFleetLocations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutputResponse, DeleteFleetLocationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFleetLocationsInput, DeleteFleetLocationsOutputResponse>())
@@ -984,8 +1085,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFleetLocationsOutputResponse, DeleteFleetLocationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFleetLocationsOutputResponse, DeleteFleetLocationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFleetLocationsOutputResponse, DeleteFleetLocationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1014,6 +1119,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteGameServerGroupInput, DeleteGameServerGroupOutputResponse, DeleteGameServerGroupOutputError>(id: "deleteGameServerGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutputResponse, DeleteGameServerGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGameServerGroupInput, DeleteGameServerGroupOutputResponse>())
@@ -1029,8 +1135,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGameServerGroupOutputResponse, DeleteGameServerGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGameServerGroupOutputResponse, DeleteGameServerGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGameServerGroupOutputResponse, DeleteGameServerGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1050,6 +1160,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutputResponse, DeleteGameSessionQueueOutputError>(id: "deleteGameSessionQueue")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutputResponse, DeleteGameSessionQueueOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGameSessionQueueInput, DeleteGameSessionQueueOutputResponse>())
@@ -1065,8 +1176,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGameSessionQueueOutputResponse, DeleteGameSessionQueueOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGameSessionQueueOutputResponse, DeleteGameSessionQueueOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGameSessionQueueOutputResponse, DeleteGameSessionQueueOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1086,6 +1201,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLocationInput, DeleteLocationOutputResponse, DeleteLocationOutputError>(id: "deleteLocation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLocationInput, DeleteLocationOutputResponse, DeleteLocationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLocationInput, DeleteLocationOutputResponse>())
@@ -1101,8 +1217,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLocationOutputResponse, DeleteLocationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLocationOutputResponse, DeleteLocationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLocationOutputResponse, DeleteLocationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1122,6 +1242,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutputResponse, DeleteMatchmakingConfigurationOutputError>(id: "deleteMatchmakingConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutputResponse, DeleteMatchmakingConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMatchmakingConfigurationInput, DeleteMatchmakingConfigurationOutputResponse>())
@@ -1137,8 +1258,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMatchmakingConfigurationOutputResponse, DeleteMatchmakingConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMatchmakingConfigurationOutputResponse, DeleteMatchmakingConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMatchmakingConfigurationOutputResponse, DeleteMatchmakingConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1160,6 +1285,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutputResponse, DeleteMatchmakingRuleSetOutputError>(id: "deleteMatchmakingRuleSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutputResponse, DeleteMatchmakingRuleSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMatchmakingRuleSetInput, DeleteMatchmakingRuleSetOutputResponse>())
@@ -1175,8 +1301,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMatchmakingRuleSetOutputResponse, DeleteMatchmakingRuleSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMatchmakingRuleSetOutputResponse, DeleteMatchmakingRuleSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMatchmakingRuleSetOutputResponse, DeleteMatchmakingRuleSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1196,6 +1326,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteScalingPolicyInput, DeleteScalingPolicyOutputResponse, DeleteScalingPolicyOutputError>(id: "deleteScalingPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutputResponse, DeleteScalingPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutputResponse>())
@@ -1211,8 +1342,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteScalingPolicyOutputResponse, DeleteScalingPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteScalingPolicyOutputResponse, DeleteScalingPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteScalingPolicyOutputResponse, DeleteScalingPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1232,6 +1367,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteScriptInput, DeleteScriptOutputResponse, DeleteScriptOutputError>(id: "deleteScript")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteScriptInput, DeleteScriptOutputResponse, DeleteScriptOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteScriptInput, DeleteScriptOutputResponse>())
@@ -1247,8 +1383,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteScriptOutputResponse, DeleteScriptOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteScriptOutputResponse, DeleteScriptOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteScriptOutputResponse, DeleteScriptOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1268,6 +1408,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutputResponse, DeleteVpcPeeringAuthorizationOutputError>(id: "deleteVpcPeeringAuthorization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutputResponse, DeleteVpcPeeringAuthorizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVpcPeeringAuthorizationInput, DeleteVpcPeeringAuthorizationOutputResponse>())
@@ -1283,8 +1424,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVpcPeeringAuthorizationOutputResponse, DeleteVpcPeeringAuthorizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVpcPeeringAuthorizationOutputResponse, DeleteVpcPeeringAuthorizationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVpcPeeringAuthorizationOutputResponse, DeleteVpcPeeringAuthorizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1304,6 +1449,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutputResponse, DeleteVpcPeeringConnectionOutputError>(id: "deleteVpcPeeringConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutputResponse, DeleteVpcPeeringConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVpcPeeringConnectionInput, DeleteVpcPeeringConnectionOutputResponse>())
@@ -1319,8 +1465,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVpcPeeringConnectionOutputResponse, DeleteVpcPeeringConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVpcPeeringConnectionOutputResponse, DeleteVpcPeeringConnectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVpcPeeringConnectionOutputResponse, DeleteVpcPeeringConnectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1340,6 +1490,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterComputeInput, DeregisterComputeOutputResponse, DeregisterComputeOutputError>(id: "deregisterCompute")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterComputeInput, DeregisterComputeOutputResponse, DeregisterComputeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterComputeInput, DeregisterComputeOutputResponse>())
@@ -1355,8 +1506,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterComputeOutputResponse, DeregisterComputeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterComputeOutputResponse, DeregisterComputeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterComputeOutputResponse, DeregisterComputeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1376,6 +1531,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterGameServerInput, DeregisterGameServerOutputResponse, DeregisterGameServerOutputError>(id: "deregisterGameServer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterGameServerInput, DeregisterGameServerOutputResponse, DeregisterGameServerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterGameServerInput, DeregisterGameServerOutputResponse>())
@@ -1391,8 +1547,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterGameServerOutputResponse, DeregisterGameServerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterGameServerOutputResponse, DeregisterGameServerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterGameServerOutputResponse, DeregisterGameServerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1412,6 +1572,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAliasInput, DescribeAliasOutputResponse, DescribeAliasOutputError>(id: "describeAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAliasInput, DescribeAliasOutputResponse, DescribeAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAliasInput, DescribeAliasOutputResponse>())
@@ -1427,8 +1588,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAliasOutputResponse, DescribeAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAliasOutputResponse, DescribeAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAliasOutputResponse, DescribeAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1448,6 +1613,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeBuildInput, DescribeBuildOutputResponse, DescribeBuildOutputError>(id: "describeBuild")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeBuildInput, DescribeBuildOutputResponse, DescribeBuildOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeBuildInput, DescribeBuildOutputResponse>())
@@ -1463,8 +1629,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeBuildOutputResponse, DescribeBuildOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeBuildOutputResponse, DescribeBuildOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeBuildOutputResponse, DescribeBuildOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1484,6 +1654,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeComputeInput, DescribeComputeOutputResponse, DescribeComputeOutputError>(id: "describeCompute")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeComputeInput, DescribeComputeOutputResponse, DescribeComputeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeComputeInput, DescribeComputeOutputResponse>())
@@ -1499,8 +1670,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeComputeOutputResponse, DescribeComputeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeComputeOutputResponse, DescribeComputeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeComputeOutputResponse, DescribeComputeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1536,6 +1711,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutputResponse, DescribeEC2InstanceLimitsOutputError>(id: "describeEC2InstanceLimits")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutputResponse, DescribeEC2InstanceLimitsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEC2InstanceLimitsInput, DescribeEC2InstanceLimitsOutputResponse>())
@@ -1551,8 +1727,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEC2InstanceLimitsOutputResponse, DescribeEC2InstanceLimitsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEC2InstanceLimitsOutputResponse, DescribeEC2InstanceLimitsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEC2InstanceLimitsOutputResponse, DescribeEC2InstanceLimitsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1579,6 +1759,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFleetAttributesInput, DescribeFleetAttributesOutputResponse, DescribeFleetAttributesOutputError>(id: "describeFleetAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutputResponse, DescribeFleetAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFleetAttributesInput, DescribeFleetAttributesOutputResponse>())
@@ -1594,8 +1775,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFleetAttributesOutputResponse, DescribeFleetAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFleetAttributesOutputResponse, DescribeFleetAttributesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFleetAttributesOutputResponse, DescribeFleetAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1622,6 +1807,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFleetCapacityInput, DescribeFleetCapacityOutputResponse, DescribeFleetCapacityOutputError>(id: "describeFleetCapacity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutputResponse, DescribeFleetCapacityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFleetCapacityInput, DescribeFleetCapacityOutputResponse>())
@@ -1637,8 +1823,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFleetCapacityOutputResponse, DescribeFleetCapacityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFleetCapacityOutputResponse, DescribeFleetCapacityOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFleetCapacityOutputResponse, DescribeFleetCapacityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1658,6 +1848,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFleetEventsInput, DescribeFleetEventsOutputResponse, DescribeFleetEventsOutputError>(id: "describeFleetEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutputResponse, DescribeFleetEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFleetEventsInput, DescribeFleetEventsOutputResponse>())
@@ -1673,8 +1864,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFleetEventsOutputResponse, DescribeFleetEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFleetEventsOutputResponse, DescribeFleetEventsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFleetEventsOutputResponse, DescribeFleetEventsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1701,6 +1896,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutputResponse, DescribeFleetLocationAttributesOutputError>(id: "describeFleetLocationAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutputResponse, DescribeFleetLocationAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFleetLocationAttributesInput, DescribeFleetLocationAttributesOutputResponse>())
@@ -1716,8 +1912,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFleetLocationAttributesOutputResponse, DescribeFleetLocationAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFleetLocationAttributesOutputResponse, DescribeFleetLocationAttributesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFleetLocationAttributesOutputResponse, DescribeFleetLocationAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1737,6 +1937,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutputResponse, DescribeFleetLocationCapacityOutputError>(id: "describeFleetLocationCapacity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutputResponse, DescribeFleetLocationCapacityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFleetLocationCapacityInput, DescribeFleetLocationCapacityOutputResponse>())
@@ -1752,8 +1953,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFleetLocationCapacityOutputResponse, DescribeFleetLocationCapacityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFleetLocationCapacityOutputResponse, DescribeFleetLocationCapacityOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFleetLocationCapacityOutputResponse, DescribeFleetLocationCapacityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1773,6 +1978,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutputResponse, DescribeFleetLocationUtilizationOutputError>(id: "describeFleetLocationUtilization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutputResponse, DescribeFleetLocationUtilizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFleetLocationUtilizationInput, DescribeFleetLocationUtilizationOutputResponse>())
@@ -1788,8 +1994,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFleetLocationUtilizationOutputResponse, DescribeFleetLocationUtilizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFleetLocationUtilizationOutputResponse, DescribeFleetLocationUtilizationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFleetLocationUtilizationOutputResponse, DescribeFleetLocationUtilizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1816,6 +2026,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutputResponse, DescribeFleetPortSettingsOutputError>(id: "describeFleetPortSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutputResponse, DescribeFleetPortSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFleetPortSettingsInput, DescribeFleetPortSettingsOutputResponse>())
@@ -1831,8 +2042,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFleetPortSettingsOutputResponse, DescribeFleetPortSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFleetPortSettingsOutputResponse, DescribeFleetPortSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFleetPortSettingsOutputResponse, DescribeFleetPortSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1859,6 +2074,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutputResponse, DescribeFleetUtilizationOutputError>(id: "describeFleetUtilization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutputResponse, DescribeFleetUtilizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFleetUtilizationInput, DescribeFleetUtilizationOutputResponse>())
@@ -1874,8 +2090,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFleetUtilizationOutputResponse, DescribeFleetUtilizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFleetUtilizationOutputResponse, DescribeFleetUtilizationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFleetUtilizationOutputResponse, DescribeFleetUtilizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1895,6 +2115,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeGameServerInput, DescribeGameServerOutputResponse, DescribeGameServerOutputError>(id: "describeGameServer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGameServerInput, DescribeGameServerOutputResponse, DescribeGameServerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeGameServerInput, DescribeGameServerOutputResponse>())
@@ -1910,8 +2131,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGameServerOutputResponse, DescribeGameServerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGameServerOutputResponse, DescribeGameServerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeGameServerOutputResponse, DescribeGameServerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1931,6 +2156,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeGameServerGroupInput, DescribeGameServerGroupOutputResponse, DescribeGameServerGroupOutputError>(id: "describeGameServerGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutputResponse, DescribeGameServerGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeGameServerGroupInput, DescribeGameServerGroupOutputResponse>())
@@ -1946,8 +2172,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGameServerGroupOutputResponse, DescribeGameServerGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGameServerGroupOutputResponse, DescribeGameServerGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeGameServerGroupOutputResponse, DescribeGameServerGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1967,6 +2197,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutputResponse, DescribeGameServerInstancesOutputError>(id: "describeGameServerInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutputResponse, DescribeGameServerInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeGameServerInstancesInput, DescribeGameServerInstancesOutputResponse>())
@@ -1982,8 +2213,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGameServerInstancesOutputResponse, DescribeGameServerInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGameServerInstancesOutputResponse, DescribeGameServerInstancesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeGameServerInstancesOutputResponse, DescribeGameServerInstancesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2012,6 +2247,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutputResponse, DescribeGameSessionDetailsOutputError>(id: "describeGameSessionDetails")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutputResponse, DescribeGameSessionDetailsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeGameSessionDetailsInput, DescribeGameSessionDetailsOutputResponse>())
@@ -2027,8 +2263,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGameSessionDetailsOutputResponse, DescribeGameSessionDetailsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGameSessionDetailsOutputResponse, DescribeGameSessionDetailsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeGameSessionDetailsOutputResponse, DescribeGameSessionDetailsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2048,6 +2288,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutputResponse, DescribeGameSessionPlacementOutputError>(id: "describeGameSessionPlacement")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutputResponse, DescribeGameSessionPlacementOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeGameSessionPlacementInput, DescribeGameSessionPlacementOutputResponse>())
@@ -2063,8 +2304,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGameSessionPlacementOutputResponse, DescribeGameSessionPlacementOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGameSessionPlacementOutputResponse, DescribeGameSessionPlacementOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeGameSessionPlacementOutputResponse, DescribeGameSessionPlacementOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2084,6 +2329,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutputResponse, DescribeGameSessionQueuesOutputError>(id: "describeGameSessionQueues")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutputResponse, DescribeGameSessionQueuesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeGameSessionQueuesInput, DescribeGameSessionQueuesOutputResponse>())
@@ -2099,8 +2345,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGameSessionQueuesOutputResponse, DescribeGameSessionQueuesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGameSessionQueuesOutputResponse, DescribeGameSessionQueuesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeGameSessionQueuesOutputResponse, DescribeGameSessionQueuesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2129,6 +2379,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeGameSessionsInput, DescribeGameSessionsOutputResponse, DescribeGameSessionsOutputError>(id: "describeGameSessions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutputResponse, DescribeGameSessionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeGameSessionsInput, DescribeGameSessionsOutputResponse>())
@@ -2144,8 +2395,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGameSessionsOutputResponse, DescribeGameSessionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGameSessionsOutputResponse, DescribeGameSessionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeGameSessionsOutputResponse, DescribeGameSessionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2174,6 +2429,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeInstancesInput, DescribeInstancesOutputResponse, DescribeInstancesOutputError>(id: "describeInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInstancesInput, DescribeInstancesOutputResponse, DescribeInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInstancesInput, DescribeInstancesOutputResponse>())
@@ -2189,8 +2445,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInstancesOutputResponse, DescribeInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInstancesOutputResponse, DescribeInstancesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInstancesOutputResponse, DescribeInstancesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2210,6 +2470,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMatchmakingInput, DescribeMatchmakingOutputResponse, DescribeMatchmakingOutputError>(id: "describeMatchmaking")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutputResponse, DescribeMatchmakingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMatchmakingInput, DescribeMatchmakingOutputResponse>())
@@ -2225,8 +2486,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMatchmakingOutputResponse, DescribeMatchmakingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMatchmakingOutputResponse, DescribeMatchmakingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMatchmakingOutputResponse, DescribeMatchmakingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2246,6 +2511,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutputResponse, DescribeMatchmakingConfigurationsOutputError>(id: "describeMatchmakingConfigurations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutputResponse, DescribeMatchmakingConfigurationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMatchmakingConfigurationsInput, DescribeMatchmakingConfigurationsOutputResponse>())
@@ -2261,8 +2527,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMatchmakingConfigurationsOutputResponse, DescribeMatchmakingConfigurationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMatchmakingConfigurationsOutputResponse, DescribeMatchmakingConfigurationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMatchmakingConfigurationsOutputResponse, DescribeMatchmakingConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2284,6 +2554,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutputResponse, DescribeMatchmakingRuleSetsOutputError>(id: "describeMatchmakingRuleSets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutputResponse, DescribeMatchmakingRuleSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMatchmakingRuleSetsInput, DescribeMatchmakingRuleSetsOutputResponse>())
@@ -2299,8 +2570,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMatchmakingRuleSetsOutputResponse, DescribeMatchmakingRuleSetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMatchmakingRuleSetsOutputResponse, DescribeMatchmakingRuleSetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMatchmakingRuleSetsOutputResponse, DescribeMatchmakingRuleSetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2329,6 +2604,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePlayerSessionsInput, DescribePlayerSessionsOutputResponse, DescribePlayerSessionsOutputError>(id: "describePlayerSessions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutputResponse, DescribePlayerSessionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePlayerSessionsInput, DescribePlayerSessionsOutputResponse>())
@@ -2344,8 +2620,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePlayerSessionsOutputResponse, DescribePlayerSessionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePlayerSessionsOutputResponse, DescribePlayerSessionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePlayerSessionsOutputResponse, DescribePlayerSessionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2365,6 +2645,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutputResponse, DescribeRuntimeConfigurationOutputError>(id: "describeRuntimeConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutputResponse, DescribeRuntimeConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRuntimeConfigurationInput, DescribeRuntimeConfigurationOutputResponse>())
@@ -2380,8 +2661,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRuntimeConfigurationOutputResponse, DescribeRuntimeConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRuntimeConfigurationOutputResponse, DescribeRuntimeConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRuntimeConfigurationOutputResponse, DescribeRuntimeConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2401,6 +2686,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutputResponse, DescribeScalingPoliciesOutputError>(id: "describeScalingPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutputResponse, DescribeScalingPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutputResponse>())
@@ -2416,8 +2702,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeScalingPoliciesOutputResponse, DescribeScalingPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeScalingPoliciesOutputResponse, DescribeScalingPoliciesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeScalingPoliciesOutputResponse, DescribeScalingPoliciesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2437,6 +2727,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeScriptInput, DescribeScriptOutputResponse, DescribeScriptOutputError>(id: "describeScript")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeScriptInput, DescribeScriptOutputResponse, DescribeScriptOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeScriptInput, DescribeScriptOutputResponse>())
@@ -2452,8 +2743,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeScriptOutputResponse, DescribeScriptOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeScriptOutputResponse, DescribeScriptOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeScriptOutputResponse, DescribeScriptOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2473,6 +2768,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutputResponse, DescribeVpcPeeringAuthorizationsOutputError>(id: "describeVpcPeeringAuthorizations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutputResponse, DescribeVpcPeeringAuthorizationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeVpcPeeringAuthorizationsInput, DescribeVpcPeeringAuthorizationsOutputResponse>())
@@ -2488,8 +2784,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeVpcPeeringAuthorizationsOutputResponse, DescribeVpcPeeringAuthorizationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeVpcPeeringAuthorizationsOutputResponse, DescribeVpcPeeringAuthorizationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeVpcPeeringAuthorizationsOutputResponse, DescribeVpcPeeringAuthorizationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2509,6 +2809,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutputResponse, DescribeVpcPeeringConnectionsOutputError>(id: "describeVpcPeeringConnections")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutputResponse, DescribeVpcPeeringConnectionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeVpcPeeringConnectionsInput, DescribeVpcPeeringConnectionsOutputResponse>())
@@ -2524,8 +2825,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeVpcPeeringConnectionsOutputResponse, DescribeVpcPeeringConnectionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeVpcPeeringConnectionsOutputResponse, DescribeVpcPeeringConnectionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeVpcPeeringConnectionsOutputResponse, DescribeVpcPeeringConnectionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2545,6 +2850,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetComputeAccessInput, GetComputeAccessOutputResponse, GetComputeAccessOutputError>(id: "getComputeAccess")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetComputeAccessInput, GetComputeAccessOutputResponse, GetComputeAccessOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetComputeAccessInput, GetComputeAccessOutputResponse>())
@@ -2560,8 +2866,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetComputeAccessOutputResponse, GetComputeAccessOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetComputeAccessOutputResponse, GetComputeAccessOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetComputeAccessOutputResponse, GetComputeAccessOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2581,6 +2891,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetComputeAuthTokenInput, GetComputeAuthTokenOutputResponse, GetComputeAuthTokenOutputError>(id: "getComputeAuthToken")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutputResponse, GetComputeAuthTokenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetComputeAuthTokenInput, GetComputeAuthTokenOutputResponse>())
@@ -2596,8 +2907,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetComputeAuthTokenOutputResponse, GetComputeAuthTokenOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetComputeAuthTokenOutputResponse, GetComputeAuthTokenOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetComputeAuthTokenOutputResponse, GetComputeAuthTokenOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2617,6 +2932,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutputResponse, GetGameSessionLogUrlOutputError>(id: "getGameSessionLogUrl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutputResponse, GetGameSessionLogUrlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGameSessionLogUrlInput, GetGameSessionLogUrlOutputResponse>())
@@ -2632,8 +2948,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGameSessionLogUrlOutputResponse, GetGameSessionLogUrlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGameSessionLogUrlOutputResponse, GetGameSessionLogUrlOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGameSessionLogUrlOutputResponse, GetGameSessionLogUrlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2653,6 +2973,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInstanceAccessInput, GetInstanceAccessOutputResponse, GetInstanceAccessOutputError>(id: "getInstanceAccess")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceAccessInput, GetInstanceAccessOutputResponse, GetInstanceAccessOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceAccessInput, GetInstanceAccessOutputResponse>())
@@ -2668,8 +2989,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInstanceAccessOutputResponse, GetInstanceAccessOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstanceAccessOutputResponse, GetInstanceAccessOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInstanceAccessOutputResponse, GetInstanceAccessOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2689,6 +3014,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAliasesInput, ListAliasesOutputResponse, ListAliasesOutputError>(id: "listAliases")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAliasesInput, ListAliasesOutputResponse, ListAliasesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAliasesInput, ListAliasesOutputResponse>())
@@ -2704,8 +3030,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAliasesOutputResponse, ListAliasesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAliasesOutputResponse, ListAliasesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAliasesOutputResponse, ListAliasesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2725,6 +3055,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListBuildsInput, ListBuildsOutputResponse, ListBuildsOutputError>(id: "listBuilds")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBuildsInput, ListBuildsOutputResponse, ListBuildsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBuildsInput, ListBuildsOutputResponse>())
@@ -2740,8 +3071,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBuildsOutputResponse, ListBuildsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBuildsOutputResponse, ListBuildsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBuildsOutputResponse, ListBuildsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2761,6 +3096,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListComputeInput, ListComputeOutputResponse, ListComputeOutputError>(id: "listCompute")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListComputeInput, ListComputeOutputResponse, ListComputeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListComputeInput, ListComputeOutputResponse>())
@@ -2776,8 +3112,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListComputeOutputResponse, ListComputeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListComputeOutputResponse, ListComputeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListComputeOutputResponse, ListComputeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2806,6 +3146,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFleetsInput, ListFleetsOutputResponse, ListFleetsOutputError>(id: "listFleets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFleetsInput, ListFleetsOutputResponse, ListFleetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFleetsInput, ListFleetsOutputResponse>())
@@ -2821,8 +3162,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFleetsOutputResponse, ListFleetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFleetsOutputResponse, ListFleetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFleetsOutputResponse, ListFleetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2842,6 +3187,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGameServerGroupsInput, ListGameServerGroupsOutputResponse, ListGameServerGroupsOutputError>(id: "listGameServerGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutputResponse, ListGameServerGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGameServerGroupsInput, ListGameServerGroupsOutputResponse>())
@@ -2857,8 +3203,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGameServerGroupsOutputResponse, ListGameServerGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGameServerGroupsOutputResponse, ListGameServerGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGameServerGroupsOutputResponse, ListGameServerGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2878,6 +3228,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGameServersInput, ListGameServersOutputResponse, ListGameServersOutputError>(id: "listGameServers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGameServersInput, ListGameServersOutputResponse, ListGameServersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGameServersInput, ListGameServersOutputResponse>())
@@ -2893,8 +3244,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGameServersOutputResponse, ListGameServersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGameServersOutputResponse, ListGameServersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGameServersOutputResponse, ListGameServersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2914,6 +3269,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListLocationsInput, ListLocationsOutputResponse, ListLocationsOutputError>(id: "listLocations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLocationsInput, ListLocationsOutputResponse, ListLocationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLocationsInput, ListLocationsOutputResponse>())
@@ -2929,8 +3285,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLocationsOutputResponse, ListLocationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLocationsOutputResponse, ListLocationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLocationsOutputResponse, ListLocationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2950,6 +3310,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListScriptsInput, ListScriptsOutputResponse, ListScriptsOutputError>(id: "listScripts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListScriptsInput, ListScriptsOutputResponse, ListScriptsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListScriptsInput, ListScriptsOutputResponse>())
@@ -2965,8 +3326,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListScriptsOutputResponse, ListScriptsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListScriptsOutputResponse, ListScriptsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListScriptsOutputResponse, ListScriptsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3003,6 +3368,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -3018,8 +3384,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3039,6 +3409,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutScalingPolicyInput, PutScalingPolicyOutputResponse, PutScalingPolicyOutputError>(id: "putScalingPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutScalingPolicyInput, PutScalingPolicyOutputResponse, PutScalingPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutScalingPolicyInput, PutScalingPolicyOutputResponse>())
@@ -3054,8 +3425,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutScalingPolicyOutputResponse, PutScalingPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutScalingPolicyOutputResponse, PutScalingPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutScalingPolicyOutputResponse, PutScalingPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3079,6 +3454,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterComputeInput, RegisterComputeOutputResponse, RegisterComputeOutputError>(id: "registerCompute")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterComputeInput, RegisterComputeOutputResponse, RegisterComputeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterComputeInput, RegisterComputeOutputResponse>())
@@ -3094,8 +3470,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterComputeOutputResponse, RegisterComputeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterComputeOutputResponse, RegisterComputeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterComputeOutputResponse, RegisterComputeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3115,6 +3495,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterGameServerInput, RegisterGameServerOutputResponse, RegisterGameServerOutputError>(id: "registerGameServer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterGameServerInput, RegisterGameServerOutputResponse, RegisterGameServerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterGameServerInput, RegisterGameServerOutputResponse>())
@@ -3130,8 +3511,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterGameServerOutputResponse, RegisterGameServerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterGameServerOutputResponse, RegisterGameServerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterGameServerOutputResponse, RegisterGameServerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3151,6 +3536,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RequestUploadCredentialsInput, RequestUploadCredentialsOutputResponse, RequestUploadCredentialsOutputError>(id: "requestUploadCredentials")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutputResponse, RequestUploadCredentialsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RequestUploadCredentialsInput, RequestUploadCredentialsOutputResponse>())
@@ -3166,8 +3552,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RequestUploadCredentialsOutputResponse, RequestUploadCredentialsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RequestUploadCredentialsOutputResponse, RequestUploadCredentialsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RequestUploadCredentialsOutputResponse, RequestUploadCredentialsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3187,6 +3577,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResolveAliasInput, ResolveAliasOutputResponse, ResolveAliasOutputError>(id: "resolveAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResolveAliasInput, ResolveAliasOutputResponse, ResolveAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResolveAliasInput, ResolveAliasOutputResponse>())
@@ -3202,8 +3593,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResolveAliasOutputResponse, ResolveAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResolveAliasOutputResponse, ResolveAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResolveAliasOutputResponse, ResolveAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3223,6 +3618,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResumeGameServerGroupInput, ResumeGameServerGroupOutputResponse, ResumeGameServerGroupOutputError>(id: "resumeGameServerGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutputResponse, ResumeGameServerGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResumeGameServerGroupInput, ResumeGameServerGroupOutputResponse>())
@@ -3238,8 +3634,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResumeGameServerGroupOutputResponse, ResumeGameServerGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResumeGameServerGroupOutputResponse, ResumeGameServerGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResumeGameServerGroupOutputResponse, ResumeGameServerGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3283,6 +3683,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchGameSessionsInput, SearchGameSessionsOutputResponse, SearchGameSessionsOutputError>(id: "searchGameSessions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchGameSessionsInput, SearchGameSessionsOutputResponse, SearchGameSessionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchGameSessionsInput, SearchGameSessionsOutputResponse>())
@@ -3298,8 +3699,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchGameSessionsOutputResponse, SearchGameSessionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchGameSessionsOutputResponse, SearchGameSessionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchGameSessionsOutputResponse, SearchGameSessionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3326,6 +3731,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartFleetActionsInput, StartFleetActionsOutputResponse, StartFleetActionsOutputError>(id: "startFleetActions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartFleetActionsInput, StartFleetActionsOutputResponse, StartFleetActionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartFleetActionsInput, StartFleetActionsOutputResponse>())
@@ -3341,8 +3747,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartFleetActionsOutputResponse, StartFleetActionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartFleetActionsOutputResponse, StartFleetActionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartFleetActionsOutputResponse, StartFleetActionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3373,6 +3783,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartGameSessionPlacementInput, StartGameSessionPlacementOutputResponse, StartGameSessionPlacementOutputError>(id: "startGameSessionPlacement")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutputResponse, StartGameSessionPlacementOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartGameSessionPlacementInput, StartGameSessionPlacementOutputResponse>())
@@ -3388,8 +3799,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartGameSessionPlacementOutputResponse, StartGameSessionPlacementOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartGameSessionPlacementOutputResponse, StartGameSessionPlacementOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartGameSessionPlacementOutputResponse, StartGameSessionPlacementOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3409,6 +3824,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartMatchBackfillInput, StartMatchBackfillOutputResponse, StartMatchBackfillOutputError>(id: "startMatchBackfill")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMatchBackfillInput, StartMatchBackfillOutputResponse, StartMatchBackfillOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMatchBackfillInput, StartMatchBackfillOutputResponse>())
@@ -3424,8 +3840,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMatchBackfillOutputResponse, StartMatchBackfillOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMatchBackfillOutputResponse, StartMatchBackfillOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMatchBackfillOutputResponse, StartMatchBackfillOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3445,6 +3865,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartMatchmakingInput, StartMatchmakingOutputResponse, StartMatchmakingOutputError>(id: "startMatchmaking")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMatchmakingInput, StartMatchmakingOutputResponse, StartMatchmakingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMatchmakingInput, StartMatchmakingOutputResponse>())
@@ -3460,8 +3881,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMatchmakingOutputResponse, StartMatchmakingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMatchmakingOutputResponse, StartMatchmakingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMatchmakingOutputResponse, StartMatchmakingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3488,6 +3913,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopFleetActionsInput, StopFleetActionsOutputResponse, StopFleetActionsOutputError>(id: "stopFleetActions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopFleetActionsInput, StopFleetActionsOutputResponse, StopFleetActionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopFleetActionsInput, StopFleetActionsOutputResponse>())
@@ -3503,8 +3929,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopFleetActionsOutputResponse, StopFleetActionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopFleetActionsOutputResponse, StopFleetActionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopFleetActionsOutputResponse, StopFleetActionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3524,6 +3954,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopGameSessionPlacementInput, StopGameSessionPlacementOutputResponse, StopGameSessionPlacementOutputError>(id: "stopGameSessionPlacement")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutputResponse, StopGameSessionPlacementOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopGameSessionPlacementInput, StopGameSessionPlacementOutputResponse>())
@@ -3539,8 +3970,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopGameSessionPlacementOutputResponse, StopGameSessionPlacementOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopGameSessionPlacementOutputResponse, StopGameSessionPlacementOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopGameSessionPlacementOutputResponse, StopGameSessionPlacementOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3560,6 +3995,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopMatchmakingInput, StopMatchmakingOutputResponse, StopMatchmakingOutputError>(id: "stopMatchmaking")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopMatchmakingInput, StopMatchmakingOutputResponse, StopMatchmakingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopMatchmakingInput, StopMatchmakingOutputResponse>())
@@ -3575,8 +4011,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopMatchmakingOutputResponse, StopMatchmakingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopMatchmakingOutputResponse, StopMatchmakingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopMatchmakingOutputResponse, StopMatchmakingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3601,6 +4041,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SuspendGameServerGroupInput, SuspendGameServerGroupOutputResponse, SuspendGameServerGroupOutputError>(id: "suspendGameServerGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutputResponse, SuspendGameServerGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SuspendGameServerGroupInput, SuspendGameServerGroupOutputResponse>())
@@ -3616,8 +4057,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SuspendGameServerGroupOutputResponse, SuspendGameServerGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SuspendGameServerGroupOutputResponse, SuspendGameServerGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SuspendGameServerGroupOutputResponse, SuspendGameServerGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3654,6 +4099,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -3669,8 +4115,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3707,6 +4157,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -3722,8 +4173,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3743,6 +4198,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAliasInput, UpdateAliasOutputResponse, UpdateAliasOutputError>(id: "updateAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAliasInput, UpdateAliasOutputResponse, UpdateAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAliasInput, UpdateAliasOutputResponse>())
@@ -3758,8 +4214,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAliasOutputResponse, UpdateAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAliasOutputResponse, UpdateAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAliasOutputResponse, UpdateAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3779,6 +4239,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateBuildInput, UpdateBuildOutputResponse, UpdateBuildOutputError>(id: "updateBuild")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBuildInput, UpdateBuildOutputResponse, UpdateBuildOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBuildInput, UpdateBuildOutputResponse>())
@@ -3794,8 +4255,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBuildOutputResponse, UpdateBuildOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBuildOutputResponse, UpdateBuildOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBuildOutputResponse, UpdateBuildOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3815,6 +4280,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFleetAttributesInput, UpdateFleetAttributesOutputResponse, UpdateFleetAttributesOutputError>(id: "updateFleetAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutputResponse, UpdateFleetAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFleetAttributesInput, UpdateFleetAttributesOutputResponse>())
@@ -3830,8 +4296,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFleetAttributesOutputResponse, UpdateFleetAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFleetAttributesOutputResponse, UpdateFleetAttributesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFleetAttributesOutputResponse, UpdateFleetAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3865,6 +4335,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFleetCapacityInput, UpdateFleetCapacityOutputResponse, UpdateFleetCapacityOutputError>(id: "updateFleetCapacity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutputResponse, UpdateFleetCapacityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFleetCapacityInput, UpdateFleetCapacityOutputResponse>())
@@ -3880,8 +4351,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFleetCapacityOutputResponse, UpdateFleetCapacityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFleetCapacityOutputResponse, UpdateFleetCapacityOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFleetCapacityOutputResponse, UpdateFleetCapacityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3901,6 +4376,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutputResponse, UpdateFleetPortSettingsOutputError>(id: "updateFleetPortSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutputResponse, UpdateFleetPortSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFleetPortSettingsInput, UpdateFleetPortSettingsOutputResponse>())
@@ -3916,8 +4392,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFleetPortSettingsOutputResponse, UpdateFleetPortSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFleetPortSettingsOutputResponse, UpdateFleetPortSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFleetPortSettingsOutputResponse, UpdateFleetPortSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3946,6 +4426,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateGameServerInput, UpdateGameServerOutputResponse, UpdateGameServerOutputError>(id: "updateGameServer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGameServerInput, UpdateGameServerOutputResponse, UpdateGameServerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGameServerInput, UpdateGameServerOutputResponse>())
@@ -3961,8 +4442,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGameServerOutputResponse, UpdateGameServerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGameServerOutputResponse, UpdateGameServerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGameServerOutputResponse, UpdateGameServerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3982,6 +4467,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateGameServerGroupInput, UpdateGameServerGroupOutputResponse, UpdateGameServerGroupOutputError>(id: "updateGameServerGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutputResponse, UpdateGameServerGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGameServerGroupInput, UpdateGameServerGroupOutputResponse>())
@@ -3997,8 +4483,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGameServerGroupOutputResponse, UpdateGameServerGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGameServerGroupOutputResponse, UpdateGameServerGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGameServerGroupOutputResponse, UpdateGameServerGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4018,6 +4508,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateGameSessionInput, UpdateGameSessionOutputResponse, UpdateGameSessionOutputError>(id: "updateGameSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGameSessionInput, UpdateGameSessionOutputResponse, UpdateGameSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGameSessionInput, UpdateGameSessionOutputResponse>())
@@ -4033,8 +4524,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGameSessionOutputResponse, UpdateGameSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGameSessionOutputResponse, UpdateGameSessionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGameSessionOutputResponse, UpdateGameSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4054,6 +4549,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutputResponse, UpdateGameSessionQueueOutputError>(id: "updateGameSessionQueue")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutputResponse, UpdateGameSessionQueueOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGameSessionQueueInput, UpdateGameSessionQueueOutputResponse>())
@@ -4069,8 +4565,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGameSessionQueueOutputResponse, UpdateGameSessionQueueOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGameSessionQueueOutputResponse, UpdateGameSessionQueueOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGameSessionQueueOutputResponse, UpdateGameSessionQueueOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4090,6 +4590,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutputResponse, UpdateMatchmakingConfigurationOutputError>(id: "updateMatchmakingConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutputResponse, UpdateMatchmakingConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMatchmakingConfigurationInput, UpdateMatchmakingConfigurationOutputResponse>())
@@ -4105,8 +4606,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMatchmakingConfigurationOutputResponse, UpdateMatchmakingConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMatchmakingConfigurationOutputResponse, UpdateMatchmakingConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMatchmakingConfigurationOutputResponse, UpdateMatchmakingConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4126,6 +4631,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutputResponse, UpdateRuntimeConfigurationOutputError>(id: "updateRuntimeConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutputResponse, UpdateRuntimeConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRuntimeConfigurationInput, UpdateRuntimeConfigurationOutputResponse>())
@@ -4141,8 +4647,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRuntimeConfigurationOutputResponse, UpdateRuntimeConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRuntimeConfigurationOutputResponse, UpdateRuntimeConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRuntimeConfigurationOutputResponse, UpdateRuntimeConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4162,6 +4672,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateScriptInput, UpdateScriptOutputResponse, UpdateScriptOutputError>(id: "updateScript")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateScriptInput, UpdateScriptOutputResponse, UpdateScriptOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateScriptInput, UpdateScriptOutputResponse>())
@@ -4177,8 +4688,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateScriptOutputResponse, UpdateScriptOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateScriptOutputResponse, UpdateScriptOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateScriptOutputResponse, UpdateScriptOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4200,6 +4715,7 @@ extension GameLiftClient: GameLiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamelift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutputResponse, ValidateMatchmakingRuleSetOutputError>(id: "validateMatchmakingRuleSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutputResponse, ValidateMatchmakingRuleSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ValidateMatchmakingRuleSetInput, ValidateMatchmakingRuleSetOutputResponse>())
@@ -4215,8 +4731,12 @@ extension GameLiftClient: GameLiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ValidateMatchmakingRuleSetOutputResponse, ValidateMatchmakingRuleSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ValidateMatchmakingRuleSetOutputResponse, ValidateMatchmakingRuleSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ValidateMatchmakingRuleSetOutputResponse, ValidateMatchmakingRuleSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

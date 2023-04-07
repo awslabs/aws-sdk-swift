@@ -67,8 +67,10 @@ public class AWSSigV4Signer {
                                                    config: try signingConfig.toCRTType())
         let binarySignature = signature.hexaData
 
-        let message = EventStream.Message(headers: [ .init(name: ":date", value: .timestamp(signingConfig.date)),
-                                                     .init(name: ":chunk-signature", value: .data(binarySignature))],
+        let message = EventStream.Message(headers: [ .init(name: ":date",
+                                                           value: .timestamp(signingConfig.date)),
+                                                     .init(name: ":chunk-signature",
+                                                           value: .byteArray(binarySignature))],
                                            payload: payload)
 
         return SigningResult(output: message, signature: signature)

@@ -208,6 +208,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutputResponse, CreateCallAnalyticsCategoryOutputError>(id: "createCallAnalyticsCategory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutputResponse, CreateCallAnalyticsCategoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutputResponse>())
@@ -223,8 +224,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCallAnalyticsCategoryOutputResponse, CreateCallAnalyticsCategoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCallAnalyticsCategoryOutputResponse, CreateCallAnalyticsCategoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCallAnalyticsCategoryOutputResponse, CreateCallAnalyticsCategoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -252,6 +257,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLanguageModelInput, CreateLanguageModelOutputResponse, CreateLanguageModelOutputError>(id: "createLanguageModel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLanguageModelInput, CreateLanguageModelOutputResponse, CreateLanguageModelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLanguageModelInput, CreateLanguageModelOutputResponse>())
@@ -267,8 +273,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLanguageModelOutputResponse, CreateLanguageModelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLanguageModelOutputResponse, CreateLanguageModelOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLanguageModelOutputResponse, CreateLanguageModelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -288,6 +298,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutputResponse, CreateMedicalVocabularyOutputError>(id: "createMedicalVocabulary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutputResponse, CreateMedicalVocabularyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutputResponse>())
@@ -303,8 +314,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMedicalVocabularyOutputResponse, CreateMedicalVocabularyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMedicalVocabularyOutputResponse, CreateMedicalVocabularyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMedicalVocabularyOutputResponse, CreateMedicalVocabularyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -324,6 +339,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateVocabularyInput, CreateVocabularyOutputResponse, CreateVocabularyOutputError>(id: "createVocabulary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVocabularyInput, CreateVocabularyOutputResponse, CreateVocabularyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVocabularyInput, CreateVocabularyOutputResponse>())
@@ -339,8 +355,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVocabularyOutputResponse, CreateVocabularyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVocabularyOutputResponse, CreateVocabularyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVocabularyOutputResponse, CreateVocabularyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -360,6 +380,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateVocabularyFilterInput, CreateVocabularyFilterOutputResponse, CreateVocabularyFilterOutputError>(id: "createVocabularyFilter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutputResponse, CreateVocabularyFilterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutputResponse>())
@@ -375,8 +396,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVocabularyFilterOutputResponse, CreateVocabularyFilterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVocabularyFilterOutputResponse, CreateVocabularyFilterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVocabularyFilterOutputResponse, CreateVocabularyFilterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -396,6 +421,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutputResponse, DeleteCallAnalyticsCategoryOutputError>(id: "deleteCallAnalyticsCategory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutputResponse, DeleteCallAnalyticsCategoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutputResponse>())
@@ -411,8 +437,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCallAnalyticsCategoryOutputResponse, DeleteCallAnalyticsCategoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCallAnalyticsCategoryOutputResponse, DeleteCallAnalyticsCategoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCallAnalyticsCategoryOutputResponse, DeleteCallAnalyticsCategoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -432,6 +462,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutputResponse, DeleteCallAnalyticsJobOutputError>(id: "deleteCallAnalyticsJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutputResponse, DeleteCallAnalyticsJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutputResponse>())
@@ -447,8 +478,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCallAnalyticsJobOutputResponse, DeleteCallAnalyticsJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCallAnalyticsJobOutputResponse, DeleteCallAnalyticsJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCallAnalyticsJobOutputResponse, DeleteCallAnalyticsJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -468,6 +503,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLanguageModelInput, DeleteLanguageModelOutputResponse, DeleteLanguageModelOutputError>(id: "deleteLanguageModel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutputResponse, DeleteLanguageModelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutputResponse>())
@@ -483,8 +519,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLanguageModelOutputResponse, DeleteLanguageModelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLanguageModelOutputResponse, DeleteLanguageModelOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLanguageModelOutputResponse, DeleteLanguageModelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -504,6 +544,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutputResponse, DeleteMedicalTranscriptionJobOutputError>(id: "deleteMedicalTranscriptionJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutputResponse, DeleteMedicalTranscriptionJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutputResponse>())
@@ -519,8 +560,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMedicalTranscriptionJobOutputResponse, DeleteMedicalTranscriptionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMedicalTranscriptionJobOutputResponse, DeleteMedicalTranscriptionJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMedicalTranscriptionJobOutputResponse, DeleteMedicalTranscriptionJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -540,6 +585,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutputResponse, DeleteMedicalVocabularyOutputError>(id: "deleteMedicalVocabulary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutputResponse, DeleteMedicalVocabularyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutputResponse>())
@@ -555,8 +601,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMedicalVocabularyOutputResponse, DeleteMedicalVocabularyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMedicalVocabularyOutputResponse, DeleteMedicalVocabularyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMedicalVocabularyOutputResponse, DeleteMedicalVocabularyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -576,6 +626,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutputResponse, DeleteTranscriptionJobOutputError>(id: "deleteTranscriptionJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutputResponse, DeleteTranscriptionJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutputResponse>())
@@ -591,8 +642,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTranscriptionJobOutputResponse, DeleteTranscriptionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTranscriptionJobOutputResponse, DeleteTranscriptionJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTranscriptionJobOutputResponse, DeleteTranscriptionJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -612,6 +667,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVocabularyInput, DeleteVocabularyOutputResponse, DeleteVocabularyOutputError>(id: "deleteVocabulary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVocabularyInput, DeleteVocabularyOutputResponse, DeleteVocabularyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVocabularyInput, DeleteVocabularyOutputResponse>())
@@ -627,8 +683,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVocabularyOutputResponse, DeleteVocabularyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVocabularyOutputResponse, DeleteVocabularyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVocabularyOutputResponse, DeleteVocabularyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -648,6 +708,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutputResponse, DeleteVocabularyFilterOutputError>(id: "deleteVocabularyFilter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutputResponse, DeleteVocabularyFilterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutputResponse>())
@@ -663,8 +724,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVocabularyFilterOutputResponse, DeleteVocabularyFilterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVocabularyFilterOutputResponse, DeleteVocabularyFilterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVocabularyFilterOutputResponse, DeleteVocabularyFilterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -684,6 +749,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLanguageModelInput, DescribeLanguageModelOutputResponse, DescribeLanguageModelOutputError>(id: "describeLanguageModel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutputResponse, DescribeLanguageModelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutputResponse>())
@@ -699,8 +765,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLanguageModelOutputResponse, DescribeLanguageModelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLanguageModelOutputResponse, DescribeLanguageModelOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLanguageModelOutputResponse, DescribeLanguageModelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -720,6 +790,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutputResponse, GetCallAnalyticsCategoryOutputError>(id: "getCallAnalyticsCategory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutputResponse, GetCallAnalyticsCategoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutputResponse>())
@@ -735,8 +806,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCallAnalyticsCategoryOutputResponse, GetCallAnalyticsCategoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCallAnalyticsCategoryOutputResponse, GetCallAnalyticsCategoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCallAnalyticsCategoryOutputResponse, GetCallAnalyticsCategoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -756,6 +831,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutputResponse, GetCallAnalyticsJobOutputError>(id: "getCallAnalyticsJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutputResponse, GetCallAnalyticsJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutputResponse>())
@@ -771,8 +847,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCallAnalyticsJobOutputResponse, GetCallAnalyticsJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCallAnalyticsJobOutputResponse, GetCallAnalyticsJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCallAnalyticsJobOutputResponse, GetCallAnalyticsJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -792,6 +872,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutputResponse, GetMedicalTranscriptionJobOutputError>(id: "getMedicalTranscriptionJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutputResponse, GetMedicalTranscriptionJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutputResponse>())
@@ -807,8 +888,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMedicalTranscriptionJobOutputResponse, GetMedicalTranscriptionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMedicalTranscriptionJobOutputResponse, GetMedicalTranscriptionJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMedicalTranscriptionJobOutputResponse, GetMedicalTranscriptionJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -828,6 +913,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMedicalVocabularyInput, GetMedicalVocabularyOutputResponse, GetMedicalVocabularyOutputError>(id: "getMedicalVocabulary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutputResponse, GetMedicalVocabularyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutputResponse>())
@@ -843,8 +929,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMedicalVocabularyOutputResponse, GetMedicalVocabularyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMedicalVocabularyOutputResponse, GetMedicalVocabularyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMedicalVocabularyOutputResponse, GetMedicalVocabularyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -864,6 +954,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTranscriptionJobInput, GetTranscriptionJobOutputResponse, GetTranscriptionJobOutputError>(id: "getTranscriptionJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutputResponse, GetTranscriptionJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutputResponse>())
@@ -879,8 +970,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTranscriptionJobOutputResponse, GetTranscriptionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTranscriptionJobOutputResponse, GetTranscriptionJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTranscriptionJobOutputResponse, GetTranscriptionJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -900,6 +995,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetVocabularyInput, GetVocabularyOutputResponse, GetVocabularyOutputError>(id: "getVocabulary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVocabularyInput, GetVocabularyOutputResponse, GetVocabularyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVocabularyInput, GetVocabularyOutputResponse>())
@@ -915,8 +1011,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVocabularyOutputResponse, GetVocabularyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVocabularyOutputResponse, GetVocabularyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVocabularyOutputResponse, GetVocabularyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -936,6 +1036,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetVocabularyFilterInput, GetVocabularyFilterOutputResponse, GetVocabularyFilterOutputError>(id: "getVocabularyFilter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutputResponse, GetVocabularyFilterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutputResponse>())
@@ -951,8 +1052,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVocabularyFilterOutputResponse, GetVocabularyFilterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVocabularyFilterOutputResponse, GetVocabularyFilterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVocabularyFilterOutputResponse, GetVocabularyFilterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -972,6 +1077,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutputResponse, ListCallAnalyticsCategoriesOutputError>(id: "listCallAnalyticsCategories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutputResponse, ListCallAnalyticsCategoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutputResponse>())
@@ -988,8 +1094,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCallAnalyticsCategoriesOutputResponse, ListCallAnalyticsCategoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCallAnalyticsCategoriesOutputResponse, ListCallAnalyticsCategoriesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCallAnalyticsCategoriesOutputResponse, ListCallAnalyticsCategoriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1009,6 +1119,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutputResponse, ListCallAnalyticsJobsOutputError>(id: "listCallAnalyticsJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutputResponse, ListCallAnalyticsJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutputResponse>())
@@ -1025,8 +1136,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCallAnalyticsJobsOutputResponse, ListCallAnalyticsJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCallAnalyticsJobsOutputResponse, ListCallAnalyticsJobsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCallAnalyticsJobsOutputResponse, ListCallAnalyticsJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1046,6 +1161,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListLanguageModelsInput, ListLanguageModelsOutputResponse, ListLanguageModelsOutputError>(id: "listLanguageModels")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLanguageModelsInput, ListLanguageModelsOutputResponse, ListLanguageModelsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLanguageModelsInput, ListLanguageModelsOutputResponse>())
@@ -1062,8 +1178,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLanguageModelsOutputResponse, ListLanguageModelsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLanguageModelsOutputResponse, ListLanguageModelsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLanguageModelsOutputResponse, ListLanguageModelsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1083,6 +1203,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutputResponse, ListMedicalTranscriptionJobsOutputError>(id: "listMedicalTranscriptionJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutputResponse, ListMedicalTranscriptionJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutputResponse>())
@@ -1099,8 +1220,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMedicalTranscriptionJobsOutputResponse, ListMedicalTranscriptionJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMedicalTranscriptionJobsOutputResponse, ListMedicalTranscriptionJobsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMedicalTranscriptionJobsOutputResponse, ListMedicalTranscriptionJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1120,6 +1245,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutputResponse, ListMedicalVocabulariesOutputError>(id: "listMedicalVocabularies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutputResponse, ListMedicalVocabulariesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutputResponse>())
@@ -1136,8 +1262,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMedicalVocabulariesOutputResponse, ListMedicalVocabulariesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMedicalVocabulariesOutputResponse, ListMedicalVocabulariesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMedicalVocabulariesOutputResponse, ListMedicalVocabulariesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1157,6 +1287,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1172,8 +1303,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1193,6 +1328,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTranscriptionJobsInput, ListTranscriptionJobsOutputResponse, ListTranscriptionJobsOutputError>(id: "listTranscriptionJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutputResponse, ListTranscriptionJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutputResponse>())
@@ -1209,8 +1345,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTranscriptionJobsOutputResponse, ListTranscriptionJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTranscriptionJobsOutputResponse, ListTranscriptionJobsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTranscriptionJobsOutputResponse, ListTranscriptionJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1230,6 +1370,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListVocabulariesInput, ListVocabulariesOutputResponse, ListVocabulariesOutputError>(id: "listVocabularies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVocabulariesInput, ListVocabulariesOutputResponse, ListVocabulariesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVocabulariesInput, ListVocabulariesOutputResponse>())
@@ -1246,8 +1387,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVocabulariesOutputResponse, ListVocabulariesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVocabulariesOutputResponse, ListVocabulariesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVocabulariesOutputResponse, ListVocabulariesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1267,6 +1412,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListVocabularyFiltersInput, ListVocabularyFiltersOutputResponse, ListVocabularyFiltersOutputError>(id: "listVocabularyFilters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutputResponse, ListVocabularyFiltersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutputResponse>())
@@ -1283,8 +1429,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVocabularyFiltersOutputResponse, ListVocabularyFiltersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVocabularyFiltersOutputResponse, ListVocabularyFiltersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVocabularyFiltersOutputResponse, ListVocabularyFiltersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1315,6 +1465,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutputResponse, StartCallAnalyticsJobOutputError>(id: "startCallAnalyticsJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutputResponse, StartCallAnalyticsJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutputResponse>())
@@ -1330,8 +1481,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartCallAnalyticsJobOutputResponse, StartCallAnalyticsJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartCallAnalyticsJobOutputResponse, StartCallAnalyticsJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartCallAnalyticsJobOutputResponse, StartCallAnalyticsJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1365,6 +1520,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutputResponse, StartMedicalTranscriptionJobOutputError>(id: "startMedicalTranscriptionJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutputResponse, StartMedicalTranscriptionJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutputResponse>())
@@ -1380,8 +1536,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMedicalTranscriptionJobOutputResponse, StartMedicalTranscriptionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMedicalTranscriptionJobOutputResponse, StartMedicalTranscriptionJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMedicalTranscriptionJobOutputResponse, StartMedicalTranscriptionJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1409,6 +1569,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartTranscriptionJobInput, StartTranscriptionJobOutputResponse, StartTranscriptionJobOutputError>(id: "startTranscriptionJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutputResponse, StartTranscriptionJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutputResponse>())
@@ -1424,8 +1585,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartTranscriptionJobOutputResponse, StartTranscriptionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartTranscriptionJobOutputResponse, StartTranscriptionJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartTranscriptionJobOutputResponse, StartTranscriptionJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1445,6 +1610,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1460,8 +1626,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1481,6 +1651,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1496,8 +1667,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1517,6 +1692,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutputResponse, UpdateCallAnalyticsCategoryOutputError>(id: "updateCallAnalyticsCategory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutputResponse, UpdateCallAnalyticsCategoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutputResponse>())
@@ -1532,8 +1708,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCallAnalyticsCategoryOutputResponse, UpdateCallAnalyticsCategoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCallAnalyticsCategoryOutputResponse, UpdateCallAnalyticsCategoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCallAnalyticsCategoryOutputResponse, UpdateCallAnalyticsCategoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1553,6 +1733,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutputResponse, UpdateMedicalVocabularyOutputError>(id: "updateMedicalVocabulary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutputResponse, UpdateMedicalVocabularyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutputResponse>())
@@ -1568,8 +1749,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMedicalVocabularyOutputResponse, UpdateMedicalVocabularyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMedicalVocabularyOutputResponse, UpdateMedicalVocabularyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMedicalVocabularyOutputResponse, UpdateMedicalVocabularyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1589,6 +1774,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateVocabularyInput, UpdateVocabularyOutputResponse, UpdateVocabularyOutputError>(id: "updateVocabulary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateVocabularyInput, UpdateVocabularyOutputResponse, UpdateVocabularyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateVocabularyInput, UpdateVocabularyOutputResponse>())
@@ -1604,8 +1790,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateVocabularyOutputResponse, UpdateVocabularyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateVocabularyOutputResponse, UpdateVocabularyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateVocabularyOutputResponse, UpdateVocabularyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1625,6 +1815,7 @@ extension TranscribeClient: TranscribeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutputResponse, UpdateVocabularyFilterOutputError>(id: "updateVocabularyFilter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutputResponse, UpdateVocabularyFilterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutputResponse>())
@@ -1640,8 +1831,12 @@ extension TranscribeClient: TranscribeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateVocabularyFilterOutputResponse, UpdateVocabularyFilterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateVocabularyFilterOutputResponse, UpdateVocabularyFilterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateVocabularyFilterOutputResponse, UpdateVocabularyFilterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

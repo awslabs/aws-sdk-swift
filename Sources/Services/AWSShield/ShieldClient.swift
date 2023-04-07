@@ -208,6 +208,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateDRTLogBucketInput, AssociateDRTLogBucketOutputResponse, AssociateDRTLogBucketOutputError>(id: "associateDRTLogBucket")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateDRTLogBucketInput, AssociateDRTLogBucketOutputResponse, AssociateDRTLogBucketOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateDRTLogBucketInput, AssociateDRTLogBucketOutputResponse>())
@@ -223,8 +224,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateDRTLogBucketOutputResponse, AssociateDRTLogBucketOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateDRTLogBucketOutputResponse, AssociateDRTLogBucketOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateDRTLogBucketOutputResponse, AssociateDRTLogBucketOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -244,6 +249,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateDRTRoleInput, AssociateDRTRoleOutputResponse, AssociateDRTRoleOutputError>(id: "associateDRTRole")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateDRTRoleInput, AssociateDRTRoleOutputResponse, AssociateDRTRoleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateDRTRoleInput, AssociateDRTRoleOutputResponse>())
@@ -259,8 +265,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateDRTRoleOutputResponse, AssociateDRTRoleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateDRTRoleOutputResponse, AssociateDRTRoleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateDRTRoleOutputResponse, AssociateDRTRoleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -280,6 +290,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateHealthCheckInput, AssociateHealthCheckOutputResponse, AssociateHealthCheckOutputError>(id: "associateHealthCheck")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateHealthCheckInput, AssociateHealthCheckOutputResponse, AssociateHealthCheckOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateHealthCheckInput, AssociateHealthCheckOutputResponse>())
@@ -295,8 +306,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateHealthCheckOutputResponse, AssociateHealthCheckOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateHealthCheckOutputResponse, AssociateHealthCheckOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateHealthCheckOutputResponse, AssociateHealthCheckOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -316,6 +331,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateProactiveEngagementDetailsInput, AssociateProactiveEngagementDetailsOutputResponse, AssociateProactiveEngagementDetailsOutputError>(id: "associateProactiveEngagementDetails")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateProactiveEngagementDetailsInput, AssociateProactiveEngagementDetailsOutputResponse, AssociateProactiveEngagementDetailsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateProactiveEngagementDetailsInput, AssociateProactiveEngagementDetailsOutputResponse>())
@@ -331,8 +347,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateProactiveEngagementDetailsOutputResponse, AssociateProactiveEngagementDetailsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateProactiveEngagementDetailsOutputResponse, AssociateProactiveEngagementDetailsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateProactiveEngagementDetailsOutputResponse, AssociateProactiveEngagementDetailsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -352,6 +372,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateProtectionInput, CreateProtectionOutputResponse, CreateProtectionOutputError>(id: "createProtection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProtectionInput, CreateProtectionOutputResponse, CreateProtectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProtectionInput, CreateProtectionOutputResponse>())
@@ -367,8 +388,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProtectionOutputResponse, CreateProtectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProtectionOutputResponse, CreateProtectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProtectionOutputResponse, CreateProtectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -388,6 +413,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateProtectionGroupInput, CreateProtectionGroupOutputResponse, CreateProtectionGroupOutputError>(id: "createProtectionGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProtectionGroupInput, CreateProtectionGroupOutputResponse, CreateProtectionGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProtectionGroupInput, CreateProtectionGroupOutputResponse>())
@@ -403,8 +429,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProtectionGroupOutputResponse, CreateProtectionGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProtectionGroupOutputResponse, CreateProtectionGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProtectionGroupOutputResponse, CreateProtectionGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -424,6 +454,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSubscriptionInput, CreateSubscriptionOutputResponse, CreateSubscriptionOutputError>(id: "createSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSubscriptionInput, CreateSubscriptionOutputResponse, CreateSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSubscriptionInput, CreateSubscriptionOutputResponse>())
@@ -439,8 +470,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSubscriptionOutputResponse, CreateSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSubscriptionOutputResponse, CreateSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSubscriptionOutputResponse, CreateSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -460,6 +495,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteProtectionInput, DeleteProtectionOutputResponse, DeleteProtectionOutputError>(id: "deleteProtection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProtectionInput, DeleteProtectionOutputResponse, DeleteProtectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProtectionInput, DeleteProtectionOutputResponse>())
@@ -475,8 +511,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProtectionOutputResponse, DeleteProtectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProtectionOutputResponse, DeleteProtectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProtectionOutputResponse, DeleteProtectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -496,6 +536,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteProtectionGroupInput, DeleteProtectionGroupOutputResponse, DeleteProtectionGroupOutputError>(id: "deleteProtectionGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProtectionGroupInput, DeleteProtectionGroupOutputResponse, DeleteProtectionGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProtectionGroupInput, DeleteProtectionGroupOutputResponse>())
@@ -511,8 +552,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProtectionGroupOutputResponse, DeleteProtectionGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProtectionGroupOutputResponse, DeleteProtectionGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProtectionGroupOutputResponse, DeleteProtectionGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -533,6 +578,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSubscriptionInput, DeleteSubscriptionOutputResponse, DeleteSubscriptionOutputError>(id: "deleteSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSubscriptionInput, DeleteSubscriptionOutputResponse, DeleteSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSubscriptionInput, DeleteSubscriptionOutputResponse>())
@@ -548,8 +594,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSubscriptionOutputResponse, DeleteSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSubscriptionOutputResponse, DeleteSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSubscriptionOutputResponse, DeleteSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -569,6 +619,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAttackInput, DescribeAttackOutputResponse, DescribeAttackOutputError>(id: "describeAttack")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAttackInput, DescribeAttackOutputResponse, DescribeAttackOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAttackInput, DescribeAttackOutputResponse>())
@@ -584,8 +635,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAttackOutputResponse, DescribeAttackOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAttackOutputResponse, DescribeAttackOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAttackOutputResponse, DescribeAttackOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -605,6 +660,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAttackStatisticsInput, DescribeAttackStatisticsOutputResponse, DescribeAttackStatisticsOutputError>(id: "describeAttackStatistics")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAttackStatisticsInput, DescribeAttackStatisticsOutputResponse, DescribeAttackStatisticsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAttackStatisticsInput, DescribeAttackStatisticsOutputResponse>())
@@ -620,8 +676,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAttackStatisticsOutputResponse, DescribeAttackStatisticsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAttackStatisticsOutputResponse, DescribeAttackStatisticsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAttackStatisticsOutputResponse, DescribeAttackStatisticsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -641,6 +701,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDRTAccessInput, DescribeDRTAccessOutputResponse, DescribeDRTAccessOutputError>(id: "describeDRTAccess")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDRTAccessInput, DescribeDRTAccessOutputResponse, DescribeDRTAccessOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDRTAccessInput, DescribeDRTAccessOutputResponse>())
@@ -656,8 +717,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDRTAccessOutputResponse, DescribeDRTAccessOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDRTAccessOutputResponse, DescribeDRTAccessOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDRTAccessOutputResponse, DescribeDRTAccessOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -677,6 +742,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEmergencyContactSettingsInput, DescribeEmergencyContactSettingsOutputResponse, DescribeEmergencyContactSettingsOutputError>(id: "describeEmergencyContactSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEmergencyContactSettingsInput, DescribeEmergencyContactSettingsOutputResponse, DescribeEmergencyContactSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEmergencyContactSettingsInput, DescribeEmergencyContactSettingsOutputResponse>())
@@ -692,8 +758,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEmergencyContactSettingsOutputResponse, DescribeEmergencyContactSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEmergencyContactSettingsOutputResponse, DescribeEmergencyContactSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEmergencyContactSettingsOutputResponse, DescribeEmergencyContactSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -713,6 +783,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeProtectionInput, DescribeProtectionOutputResponse, DescribeProtectionOutputError>(id: "describeProtection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProtectionInput, DescribeProtectionOutputResponse, DescribeProtectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProtectionInput, DescribeProtectionOutputResponse>())
@@ -728,8 +799,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProtectionOutputResponse, DescribeProtectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProtectionOutputResponse, DescribeProtectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProtectionOutputResponse, DescribeProtectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -749,6 +824,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeProtectionGroupInput, DescribeProtectionGroupOutputResponse, DescribeProtectionGroupOutputError>(id: "describeProtectionGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProtectionGroupInput, DescribeProtectionGroupOutputResponse, DescribeProtectionGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProtectionGroupInput, DescribeProtectionGroupOutputResponse>())
@@ -764,8 +840,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProtectionGroupOutputResponse, DescribeProtectionGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProtectionGroupOutputResponse, DescribeProtectionGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProtectionGroupOutputResponse, DescribeProtectionGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -785,6 +865,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSubscriptionInput, DescribeSubscriptionOutputResponse, DescribeSubscriptionOutputError>(id: "describeSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSubscriptionInput, DescribeSubscriptionOutputResponse, DescribeSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSubscriptionInput, DescribeSubscriptionOutputResponse>())
@@ -800,8 +881,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSubscriptionOutputResponse, DescribeSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSubscriptionOutputResponse, DescribeSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSubscriptionOutputResponse, DescribeSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -821,6 +906,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisableApplicationLayerAutomaticResponseInput, DisableApplicationLayerAutomaticResponseOutputResponse, DisableApplicationLayerAutomaticResponseOutputError>(id: "disableApplicationLayerAutomaticResponse")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableApplicationLayerAutomaticResponseInput, DisableApplicationLayerAutomaticResponseOutputResponse, DisableApplicationLayerAutomaticResponseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableApplicationLayerAutomaticResponseInput, DisableApplicationLayerAutomaticResponseOutputResponse>())
@@ -836,8 +922,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableApplicationLayerAutomaticResponseOutputResponse, DisableApplicationLayerAutomaticResponseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableApplicationLayerAutomaticResponseOutputResponse, DisableApplicationLayerAutomaticResponseOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableApplicationLayerAutomaticResponseOutputResponse, DisableApplicationLayerAutomaticResponseOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -857,6 +947,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisableProactiveEngagementInput, DisableProactiveEngagementOutputResponse, DisableProactiveEngagementOutputError>(id: "disableProactiveEngagement")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableProactiveEngagementInput, DisableProactiveEngagementOutputResponse, DisableProactiveEngagementOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableProactiveEngagementInput, DisableProactiveEngagementOutputResponse>())
@@ -872,8 +963,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableProactiveEngagementOutputResponse, DisableProactiveEngagementOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableProactiveEngagementOutputResponse, DisableProactiveEngagementOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableProactiveEngagementOutputResponse, DisableProactiveEngagementOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -893,6 +988,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateDRTLogBucketInput, DisassociateDRTLogBucketOutputResponse, DisassociateDRTLogBucketOutputError>(id: "disassociateDRTLogBucket")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateDRTLogBucketInput, DisassociateDRTLogBucketOutputResponse, DisassociateDRTLogBucketOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateDRTLogBucketInput, DisassociateDRTLogBucketOutputResponse>())
@@ -908,8 +1004,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateDRTLogBucketOutputResponse, DisassociateDRTLogBucketOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateDRTLogBucketOutputResponse, DisassociateDRTLogBucketOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateDRTLogBucketOutputResponse, DisassociateDRTLogBucketOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -929,6 +1029,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateDRTRoleInput, DisassociateDRTRoleOutputResponse, DisassociateDRTRoleOutputError>(id: "disassociateDRTRole")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateDRTRoleInput, DisassociateDRTRoleOutputResponse, DisassociateDRTRoleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateDRTRoleInput, DisassociateDRTRoleOutputResponse>())
@@ -944,8 +1045,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateDRTRoleOutputResponse, DisassociateDRTRoleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateDRTRoleOutputResponse, DisassociateDRTRoleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateDRTRoleOutputResponse, DisassociateDRTRoleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -965,6 +1070,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateHealthCheckInput, DisassociateHealthCheckOutputResponse, DisassociateHealthCheckOutputError>(id: "disassociateHealthCheck")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateHealthCheckInput, DisassociateHealthCheckOutputResponse, DisassociateHealthCheckOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateHealthCheckInput, DisassociateHealthCheckOutputResponse>())
@@ -980,8 +1086,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateHealthCheckOutputResponse, DisassociateHealthCheckOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateHealthCheckOutputResponse, DisassociateHealthCheckOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateHealthCheckOutputResponse, DisassociateHealthCheckOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1001,6 +1111,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableApplicationLayerAutomaticResponseInput, EnableApplicationLayerAutomaticResponseOutputResponse, EnableApplicationLayerAutomaticResponseOutputError>(id: "enableApplicationLayerAutomaticResponse")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableApplicationLayerAutomaticResponseInput, EnableApplicationLayerAutomaticResponseOutputResponse, EnableApplicationLayerAutomaticResponseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableApplicationLayerAutomaticResponseInput, EnableApplicationLayerAutomaticResponseOutputResponse>())
@@ -1016,8 +1127,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableApplicationLayerAutomaticResponseOutputResponse, EnableApplicationLayerAutomaticResponseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableApplicationLayerAutomaticResponseOutputResponse, EnableApplicationLayerAutomaticResponseOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableApplicationLayerAutomaticResponseOutputResponse, EnableApplicationLayerAutomaticResponseOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1037,6 +1152,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableProactiveEngagementInput, EnableProactiveEngagementOutputResponse, EnableProactiveEngagementOutputError>(id: "enableProactiveEngagement")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableProactiveEngagementInput, EnableProactiveEngagementOutputResponse, EnableProactiveEngagementOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableProactiveEngagementInput, EnableProactiveEngagementOutputResponse>())
@@ -1052,8 +1168,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableProactiveEngagementOutputResponse, EnableProactiveEngagementOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableProactiveEngagementOutputResponse, EnableProactiveEngagementOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableProactiveEngagementOutputResponse, EnableProactiveEngagementOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1073,6 +1193,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSubscriptionStateInput, GetSubscriptionStateOutputResponse, GetSubscriptionStateOutputError>(id: "getSubscriptionState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSubscriptionStateInput, GetSubscriptionStateOutputResponse, GetSubscriptionStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSubscriptionStateInput, GetSubscriptionStateOutputResponse>())
@@ -1088,8 +1209,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSubscriptionStateOutputResponse, GetSubscriptionStateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSubscriptionStateOutputResponse, GetSubscriptionStateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSubscriptionStateOutputResponse, GetSubscriptionStateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1109,6 +1234,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAttacksInput, ListAttacksOutputResponse, ListAttacksOutputError>(id: "listAttacks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttacksInput, ListAttacksOutputResponse, ListAttacksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAttacksInput, ListAttacksOutputResponse>())
@@ -1124,8 +1250,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttacksOutputResponse, ListAttacksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttacksOutputResponse, ListAttacksOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAttacksOutputResponse, ListAttacksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1145,6 +1275,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListProtectionGroupsInput, ListProtectionGroupsOutputResponse, ListProtectionGroupsOutputError>(id: "listProtectionGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProtectionGroupsInput, ListProtectionGroupsOutputResponse, ListProtectionGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProtectionGroupsInput, ListProtectionGroupsOutputResponse>())
@@ -1160,8 +1291,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProtectionGroupsOutputResponse, ListProtectionGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProtectionGroupsOutputResponse, ListProtectionGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProtectionGroupsOutputResponse, ListProtectionGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1181,6 +1316,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListProtectionsInput, ListProtectionsOutputResponse, ListProtectionsOutputError>(id: "listProtections")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProtectionsInput, ListProtectionsOutputResponse, ListProtectionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProtectionsInput, ListProtectionsOutputResponse>())
@@ -1196,8 +1332,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProtectionsOutputResponse, ListProtectionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProtectionsOutputResponse, ListProtectionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProtectionsOutputResponse, ListProtectionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1217,6 +1357,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListResourcesInProtectionGroupInput, ListResourcesInProtectionGroupOutputResponse, ListResourcesInProtectionGroupOutputError>(id: "listResourcesInProtectionGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourcesInProtectionGroupInput, ListResourcesInProtectionGroupOutputResponse, ListResourcesInProtectionGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourcesInProtectionGroupInput, ListResourcesInProtectionGroupOutputResponse>())
@@ -1232,8 +1373,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourcesInProtectionGroupOutputResponse, ListResourcesInProtectionGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourcesInProtectionGroupOutputResponse, ListResourcesInProtectionGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourcesInProtectionGroupOutputResponse, ListResourcesInProtectionGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1253,6 +1398,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1268,8 +1414,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1289,6 +1439,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1304,8 +1455,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1325,6 +1480,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1340,8 +1496,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1361,6 +1521,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateApplicationLayerAutomaticResponseInput, UpdateApplicationLayerAutomaticResponseOutputResponse, UpdateApplicationLayerAutomaticResponseOutputError>(id: "updateApplicationLayerAutomaticResponse")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApplicationLayerAutomaticResponseInput, UpdateApplicationLayerAutomaticResponseOutputResponse, UpdateApplicationLayerAutomaticResponseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApplicationLayerAutomaticResponseInput, UpdateApplicationLayerAutomaticResponseOutputResponse>())
@@ -1376,8 +1537,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateApplicationLayerAutomaticResponseOutputResponse, UpdateApplicationLayerAutomaticResponseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApplicationLayerAutomaticResponseOutputResponse, UpdateApplicationLayerAutomaticResponseOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApplicationLayerAutomaticResponseOutputResponse, UpdateApplicationLayerAutomaticResponseOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1397,6 +1562,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateEmergencyContactSettingsInput, UpdateEmergencyContactSettingsOutputResponse, UpdateEmergencyContactSettingsOutputError>(id: "updateEmergencyContactSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEmergencyContactSettingsInput, UpdateEmergencyContactSettingsOutputResponse, UpdateEmergencyContactSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEmergencyContactSettingsInput, UpdateEmergencyContactSettingsOutputResponse>())
@@ -1412,8 +1578,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEmergencyContactSettingsOutputResponse, UpdateEmergencyContactSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEmergencyContactSettingsOutputResponse, UpdateEmergencyContactSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEmergencyContactSettingsOutputResponse, UpdateEmergencyContactSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1433,6 +1603,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateProtectionGroupInput, UpdateProtectionGroupOutputResponse, UpdateProtectionGroupOutputError>(id: "updateProtectionGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProtectionGroupInput, UpdateProtectionGroupOutputResponse, UpdateProtectionGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProtectionGroupInput, UpdateProtectionGroupOutputResponse>())
@@ -1448,8 +1619,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProtectionGroupOutputResponse, UpdateProtectionGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProtectionGroupOutputResponse, UpdateProtectionGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProtectionGroupOutputResponse, UpdateProtectionGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1469,6 +1644,7 @@ extension ShieldClient: ShieldClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "shield")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSubscriptionInput, UpdateSubscriptionOutputResponse, UpdateSubscriptionOutputError>(id: "updateSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSubscriptionInput, UpdateSubscriptionOutputResponse, UpdateSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSubscriptionInput, UpdateSubscriptionOutputResponse>())
@@ -1484,8 +1660,12 @@ extension ShieldClient: ShieldClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSubscriptionOutputResponse, UpdateSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSubscriptionOutputResponse, UpdateSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSubscriptionOutputResponse, UpdateSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

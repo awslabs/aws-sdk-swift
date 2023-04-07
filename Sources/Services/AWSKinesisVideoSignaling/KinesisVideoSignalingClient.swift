@@ -208,6 +208,7 @@ extension KinesisVideoSignalingClient: KinesisVideoSignalingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetIceServerConfigInput, GetIceServerConfigOutputResponse, GetIceServerConfigOutputError>(id: "getIceServerConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIceServerConfigInput, GetIceServerConfigOutputResponse, GetIceServerConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIceServerConfigInput, GetIceServerConfigOutputResponse>())
@@ -222,8 +223,12 @@ extension KinesisVideoSignalingClient: KinesisVideoSignalingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIceServerConfigOutputResponse, GetIceServerConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIceServerConfigOutputResponse, GetIceServerConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIceServerConfigOutputResponse, GetIceServerConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -243,6 +248,7 @@ extension KinesisVideoSignalingClient: KinesisVideoSignalingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendAlexaOfferToMasterInput, SendAlexaOfferToMasterOutputResponse, SendAlexaOfferToMasterOutputError>(id: "sendAlexaOfferToMaster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendAlexaOfferToMasterInput, SendAlexaOfferToMasterOutputResponse, SendAlexaOfferToMasterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendAlexaOfferToMasterInput, SendAlexaOfferToMasterOutputResponse>())
@@ -257,8 +263,12 @@ extension KinesisVideoSignalingClient: KinesisVideoSignalingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendAlexaOfferToMasterOutputResponse, SendAlexaOfferToMasterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendAlexaOfferToMasterOutputResponse, SendAlexaOfferToMasterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendAlexaOfferToMasterOutputResponse, SendAlexaOfferToMasterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

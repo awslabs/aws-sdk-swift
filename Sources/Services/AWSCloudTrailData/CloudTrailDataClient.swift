@@ -208,6 +208,7 @@ extension CloudTrailDataClient: CloudTrailDataClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudtrail-data")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutAuditEventsInput, PutAuditEventsOutputResponse, PutAuditEventsOutputError>(id: "putAuditEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAuditEventsInput, PutAuditEventsOutputResponse, PutAuditEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAuditEventsInput, PutAuditEventsOutputResponse>())
@@ -223,8 +224,12 @@ extension CloudTrailDataClient: CloudTrailDataClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAuditEventsOutputResponse, PutAuditEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAuditEventsOutputResponse, PutAuditEventsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutAuditEventsOutputResponse, PutAuditEventsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

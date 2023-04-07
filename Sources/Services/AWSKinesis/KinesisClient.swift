@@ -208,6 +208,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddTagsToStreamInput, AddTagsToStreamOutputResponse, AddTagsToStreamOutputError>(id: "addTagsToStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsToStreamInput, AddTagsToStreamOutputResponse, AddTagsToStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsToStreamInput, AddTagsToStreamOutputResponse>())
@@ -223,8 +224,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsToStreamOutputResponse, AddTagsToStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsToStreamOutputResponse, AddTagsToStreamOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddTagsToStreamOutputResponse, AddTagsToStreamOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -251,6 +256,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateStreamInput, CreateStreamOutputResponse, CreateStreamOutputError>(id: "createStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStreamInput, CreateStreamOutputResponse, CreateStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStreamInput, CreateStreamOutputResponse>())
@@ -266,8 +272,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStreamOutputResponse, CreateStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStreamOutputResponse, CreateStreamOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateStreamOutputResponse, CreateStreamOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -287,6 +297,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutputResponse, DecreaseStreamRetentionPeriodOutputError>(id: "decreaseStreamRetentionPeriod")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutputResponse, DecreaseStreamRetentionPeriodOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DecreaseStreamRetentionPeriodInput, DecreaseStreamRetentionPeriodOutputResponse>())
@@ -302,8 +313,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DecreaseStreamRetentionPeriodOutputResponse, DecreaseStreamRetentionPeriodOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DecreaseStreamRetentionPeriodOutputResponse, DecreaseStreamRetentionPeriodOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DecreaseStreamRetentionPeriodOutputResponse, DecreaseStreamRetentionPeriodOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -323,6 +338,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteStreamInput, DeleteStreamOutputResponse, DeleteStreamOutputError>(id: "deleteStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStreamInput, DeleteStreamOutputResponse, DeleteStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStreamInput, DeleteStreamOutputResponse>())
@@ -338,8 +354,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStreamOutputResponse, DeleteStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStreamOutputResponse, DeleteStreamOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStreamOutputResponse, DeleteStreamOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -359,6 +379,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutputResponse, DeregisterStreamConsumerOutputError>(id: "deregisterStreamConsumer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutputResponse, DeregisterStreamConsumerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterStreamConsumerInput, DeregisterStreamConsumerOutputResponse>())
@@ -374,8 +395,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterStreamConsumerOutputResponse, DeregisterStreamConsumerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterStreamConsumerOutputResponse, DeregisterStreamConsumerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterStreamConsumerOutputResponse, DeregisterStreamConsumerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -395,6 +420,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLimitsInput, DescribeLimitsOutputResponse, DescribeLimitsOutputError>(id: "describeLimits")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLimitsInput, DescribeLimitsOutputResponse, DescribeLimitsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLimitsInput, DescribeLimitsOutputResponse>())
@@ -410,8 +436,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLimitsOutputResponse, DescribeLimitsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLimitsOutputResponse, DescribeLimitsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLimitsOutputResponse, DescribeLimitsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -431,6 +461,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeStreamInput, DescribeStreamOutputResponse, DescribeStreamOutputError>(id: "describeStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStreamInput, DescribeStreamOutputResponse, DescribeStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStreamInput, DescribeStreamOutputResponse>())
@@ -446,8 +477,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStreamOutputResponse, DescribeStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStreamOutputResponse, DescribeStreamOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStreamOutputResponse, DescribeStreamOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -467,6 +502,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeStreamConsumerInput, DescribeStreamConsumerOutputResponse, DescribeStreamConsumerOutputError>(id: "describeStreamConsumer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStreamConsumerInput, DescribeStreamConsumerOutputResponse, DescribeStreamConsumerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStreamConsumerInput, DescribeStreamConsumerOutputResponse>())
@@ -482,8 +518,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStreamConsumerOutputResponse, DescribeStreamConsumerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStreamConsumerOutputResponse, DescribeStreamConsumerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStreamConsumerOutputResponse, DescribeStreamConsumerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -503,6 +543,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeStreamSummaryInput, DescribeStreamSummaryOutputResponse, DescribeStreamSummaryOutputError>(id: "describeStreamSummary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStreamSummaryInput, DescribeStreamSummaryOutputResponse, DescribeStreamSummaryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStreamSummaryInput, DescribeStreamSummaryOutputResponse>())
@@ -518,8 +559,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStreamSummaryOutputResponse, DescribeStreamSummaryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStreamSummaryOutputResponse, DescribeStreamSummaryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStreamSummaryOutputResponse, DescribeStreamSummaryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -539,6 +584,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutputResponse, DisableEnhancedMonitoringOutputError>(id: "disableEnhancedMonitoring")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutputResponse, DisableEnhancedMonitoringOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableEnhancedMonitoringInput, DisableEnhancedMonitoringOutputResponse>())
@@ -554,8 +600,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableEnhancedMonitoringOutputResponse, DisableEnhancedMonitoringOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableEnhancedMonitoringOutputResponse, DisableEnhancedMonitoringOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableEnhancedMonitoringOutputResponse, DisableEnhancedMonitoringOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -575,6 +625,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutputResponse, EnableEnhancedMonitoringOutputError>(id: "enableEnhancedMonitoring")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutputResponse, EnableEnhancedMonitoringOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableEnhancedMonitoringInput, EnableEnhancedMonitoringOutputResponse>())
@@ -590,8 +641,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableEnhancedMonitoringOutputResponse, EnableEnhancedMonitoringOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableEnhancedMonitoringOutputResponse, EnableEnhancedMonitoringOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableEnhancedMonitoringOutputResponse, EnableEnhancedMonitoringOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -611,6 +666,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRecordsInput, GetRecordsOutputResponse, GetRecordsOutputError>(id: "getRecords")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRecordsInput, GetRecordsOutputResponse, GetRecordsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRecordsInput, GetRecordsOutputResponse>())
@@ -626,8 +682,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRecordsOutputResponse, GetRecordsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRecordsOutputResponse, GetRecordsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRecordsOutputResponse, GetRecordsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -647,6 +707,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetShardIteratorInput, GetShardIteratorOutputResponse, GetShardIteratorOutputError>(id: "getShardIterator")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetShardIteratorInput, GetShardIteratorOutputResponse, GetShardIteratorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetShardIteratorInput, GetShardIteratorOutputResponse>())
@@ -662,8 +723,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetShardIteratorOutputResponse, GetShardIteratorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetShardIteratorOutputResponse, GetShardIteratorOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetShardIteratorOutputResponse, GetShardIteratorOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -683,6 +748,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutputResponse, IncreaseStreamRetentionPeriodOutputError>(id: "increaseStreamRetentionPeriod")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutputResponse, IncreaseStreamRetentionPeriodOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<IncreaseStreamRetentionPeriodInput, IncreaseStreamRetentionPeriodOutputResponse>())
@@ -698,8 +764,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<IncreaseStreamRetentionPeriodOutputResponse, IncreaseStreamRetentionPeriodOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<IncreaseStreamRetentionPeriodOutputResponse, IncreaseStreamRetentionPeriodOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<IncreaseStreamRetentionPeriodOutputResponse, IncreaseStreamRetentionPeriodOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -719,6 +789,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListShardsInput, ListShardsOutputResponse, ListShardsOutputError>(id: "listShards")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListShardsInput, ListShardsOutputResponse, ListShardsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListShardsInput, ListShardsOutputResponse>())
@@ -734,8 +805,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListShardsOutputResponse, ListShardsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListShardsOutputResponse, ListShardsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListShardsOutputResponse, ListShardsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -755,6 +830,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListStreamConsumersInput, ListStreamConsumersOutputResponse, ListStreamConsumersOutputError>(id: "listStreamConsumers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStreamConsumersInput, ListStreamConsumersOutputResponse, ListStreamConsumersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStreamConsumersInput, ListStreamConsumersOutputResponse>())
@@ -770,8 +846,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStreamConsumersOutputResponse, ListStreamConsumersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStreamConsumersOutputResponse, ListStreamConsumersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStreamConsumersOutputResponse, ListStreamConsumersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -791,6 +871,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListStreamsInput, ListStreamsOutputResponse, ListStreamsOutputError>(id: "listStreams")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStreamsInput, ListStreamsOutputResponse, ListStreamsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStreamsInput, ListStreamsOutputResponse>())
@@ -806,8 +887,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStreamsOutputResponse, ListStreamsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStreamsOutputResponse, ListStreamsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStreamsOutputResponse, ListStreamsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -827,6 +912,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForStreamInput, ListTagsForStreamOutputResponse, ListTagsForStreamOutputError>(id: "listTagsForStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForStreamInput, ListTagsForStreamOutputResponse, ListTagsForStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForStreamInput, ListTagsForStreamOutputResponse>())
@@ -842,8 +928,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForStreamOutputResponse, ListTagsForStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForStreamOutputResponse, ListTagsForStreamOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForStreamOutputResponse, ListTagsForStreamOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -863,6 +953,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<MergeShardsInput, MergeShardsOutputResponse, MergeShardsOutputError>(id: "mergeShards")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergeShardsInput, MergeShardsOutputResponse, MergeShardsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergeShardsInput, MergeShardsOutputResponse>())
@@ -878,8 +969,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergeShardsOutputResponse, MergeShardsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergeShardsOutputResponse, MergeShardsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergeShardsOutputResponse, MergeShardsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -899,6 +994,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutRecordInput, PutRecordOutputResponse, PutRecordOutputError>(id: "putRecord")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRecordInput, PutRecordOutputResponse, PutRecordOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRecordInput, PutRecordOutputResponse>())
@@ -914,8 +1010,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRecordOutputResponse, PutRecordOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRecordOutputResponse, PutRecordOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRecordOutputResponse, PutRecordOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -935,6 +1035,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutRecordsInput, PutRecordsOutputResponse, PutRecordsOutputError>(id: "putRecords")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRecordsInput, PutRecordsOutputResponse, PutRecordsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRecordsInput, PutRecordsOutputResponse>())
@@ -950,8 +1051,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRecordsOutputResponse, PutRecordsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRecordsOutputResponse, PutRecordsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRecordsOutputResponse, PutRecordsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -971,6 +1076,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterStreamConsumerInput, RegisterStreamConsumerOutputResponse, RegisterStreamConsumerOutputError>(id: "registerStreamConsumer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterStreamConsumerInput, RegisterStreamConsumerOutputResponse, RegisterStreamConsumerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterStreamConsumerInput, RegisterStreamConsumerOutputResponse>())
@@ -986,8 +1092,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterStreamConsumerOutputResponse, RegisterStreamConsumerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterStreamConsumerOutputResponse, RegisterStreamConsumerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterStreamConsumerOutputResponse, RegisterStreamConsumerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1007,6 +1117,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutputResponse, RemoveTagsFromStreamOutputError>(id: "removeTagsFromStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutputResponse, RemoveTagsFromStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsFromStreamInput, RemoveTagsFromStreamOutputResponse>())
@@ -1022,8 +1133,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsFromStreamOutputResponse, RemoveTagsFromStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsFromStreamOutputResponse, RemoveTagsFromStreamOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsFromStreamOutputResponse, RemoveTagsFromStreamOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1043,6 +1158,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SplitShardInput, SplitShardOutputResponse, SplitShardOutputError>(id: "splitShard")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SplitShardInput, SplitShardOutputResponse, SplitShardOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SplitShardInput, SplitShardOutputResponse>())
@@ -1058,8 +1174,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SplitShardOutputResponse, SplitShardOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SplitShardOutputResponse, SplitShardOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SplitShardOutputResponse, SplitShardOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1079,6 +1199,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartStreamEncryptionInput, StartStreamEncryptionOutputResponse, StartStreamEncryptionOutputError>(id: "startStreamEncryption")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartStreamEncryptionInput, StartStreamEncryptionOutputResponse, StartStreamEncryptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartStreamEncryptionInput, StartStreamEncryptionOutputResponse>())
@@ -1094,8 +1215,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartStreamEncryptionOutputResponse, StartStreamEncryptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartStreamEncryptionOutputResponse, StartStreamEncryptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartStreamEncryptionOutputResponse, StartStreamEncryptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1115,6 +1240,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopStreamEncryptionInput, StopStreamEncryptionOutputResponse, StopStreamEncryptionOutputError>(id: "stopStreamEncryption")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopStreamEncryptionInput, StopStreamEncryptionOutputResponse, StopStreamEncryptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopStreamEncryptionInput, StopStreamEncryptionOutputResponse>())
@@ -1130,8 +1256,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopStreamEncryptionOutputResponse, StopStreamEncryptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopStreamEncryptionOutputResponse, StopStreamEncryptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopStreamEncryptionOutputResponse, StopStreamEncryptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1151,6 +1281,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SubscribeToShardInput, SubscribeToShardOutputResponse, SubscribeToShardOutputError>(id: "subscribeToShard")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SubscribeToShardInput, SubscribeToShardOutputResponse, SubscribeToShardOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SubscribeToShardInput, SubscribeToShardOutputResponse>())
@@ -1166,8 +1297,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SubscribeToShardOutputResponse, SubscribeToShardOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SubscribeToShardOutputResponse, SubscribeToShardOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SubscribeToShardOutputResponse, SubscribeToShardOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1202,6 +1337,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateShardCountInput, UpdateShardCountOutputResponse, UpdateShardCountOutputError>(id: "updateShardCount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateShardCountInput, UpdateShardCountOutputResponse, UpdateShardCountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateShardCountInput, UpdateShardCountOutputResponse>())
@@ -1217,8 +1353,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateShardCountOutputResponse, UpdateShardCountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateShardCountOutputResponse, UpdateShardCountOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateShardCountOutputResponse, UpdateShardCountOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1238,6 +1378,7 @@ extension KinesisClient: KinesisClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesis")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateStreamModeInput, UpdateStreamModeOutputResponse, UpdateStreamModeOutputError>(id: "updateStreamMode")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStreamModeInput, UpdateStreamModeOutputResponse, UpdateStreamModeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateStreamModeInput, UpdateStreamModeOutputResponse>())
@@ -1253,8 +1394,12 @@ extension KinesisClient: KinesisClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateStreamModeOutputResponse, UpdateStreamModeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStreamModeOutputResponse, UpdateStreamModeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateStreamModeOutputResponse, UpdateStreamModeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

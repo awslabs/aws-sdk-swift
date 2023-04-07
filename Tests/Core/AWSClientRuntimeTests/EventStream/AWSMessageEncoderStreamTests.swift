@@ -10,34 +10,34 @@ import ClientRuntime
 @testable import AWSClientRuntime
 
 final class AWSMessageEncoderStreamTests: XCTestCase {
-    func testIterator_EndMessageSent() async throws {
-        let baseStream = AsyncThrowingStream<TestEvent, Error> { continuation in
-            Task {
-                continuation.yield(.allHeaders)
-                continuation.yield(.emptyPayload)
-                continuation.yield(.noHeaders)
-                continuation.finish()
-            }
+    let baseStream = AsyncThrowingStream<TestEvent, Error> { continuation in
+        Task {
+            continuation.yield(.allHeaders)
+            continuation.yield(.emptyPayload)
+            continuation.yield(.noHeaders)
+            continuation.finish()
         }
+    }
+    let region = "us-east-2"
+    let requestSignature = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    let serviceName = "test"
+    let credentials = AWSCredentials(accessKey: "fake access key", secret: "fake secret key")
+    let messageEncoder = AWSEventStream.AWSMessageEncoder()
 
-        let messageEncoder = AWSEventStream.AWSMessageEncoder()
-        let context = HttpContextBuilder().withSigningRegion(value: "us-east-2")
-            .withSigningName(value: "test")
-            .withRequestSignature(value: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
-            .withCredentialsProvider(value: MyCustomCredentialsProvider(credentials:
-                    .init(accessKey: "fake access key", secret: "fake secret key")))
+    func testIterator_EndMessageSent() async throws {
+        let context = HttpContextBuilder().withSigningRegion(value: region)
+            .withSigningName(value: serviceName)
+            .withRequestSignature(value: requestSignature)
+            .withCredentialsProvider(value: MyCustomCredentialsProvider(credentials: credentials))
             .build()
-        
+
         let messageSigner = AWSEventStream.AWSMessageSigner(encoder: messageEncoder) {
             try await context.makeEventStreamSigningConfig()
         } requestSignature: {
-            guard let requestSignature = context.getRequestSignature() else {
-                fatalError("Unable to get request signature from context. This is likely a bug in the AWSClientRuntime")
-            }
-            return requestSignature
+            return context.getRequestSignature()
         }
 
-        let sut = AWSEventStream.AWSMessageEncoderStream(stream: baseStream,
+        let sut = EventStream.DefaultMessageEncoderStream(stream: baseStream,
                                                          messageEncoder: messageEncoder,
                                                          requestEncoder: JSONEncoder(),
                                                          messageSinger: messageSigner)
@@ -48,5 +48,36 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
         }
 
         XCTAssertEqual(4, actual.count)
+    }
+
+    func testReadAsync() async throws {
+        let context = HttpContextBuilder().withSigningRegion(value: region)
+            .withSigningName(value: serviceName)
+            .withRequestSignature(value: requestSignature)
+            .withCredentialsProvider(value: MyCustomCredentialsProvider(credentials: credentials))
+            .build()
+
+        let messageSigner = AWSEventStream.AWSMessageSigner(encoder: messageEncoder) {
+            try await context.makeEventStreamSigningConfig()
+        } requestSignature: {
+            return context.getRequestSignature()
+        }
+
+        let sut = EventStream.DefaultMessageEncoderStream(stream: baseStream,
+                                                          messageEncoder: messageEncoder,
+                                                          requestEncoder: JSONEncoder(),
+                                                          messageSinger: messageSigner)
+
+        let read1 = try await sut.readAsync(upToCount: 100)
+        XCTAssertEqual(100, read1!.count)
+
+        let read2 = try await sut.readAsync(upToCount: 200)
+        XCTAssertEqual(200, read2!.count)
+
+        let read3 = try await sut.readAsync(upToCount: 500)
+        XCTAssertEqual(249, read3!.count)
+
+        let read4 = try await sut.readAsync(upToCount: 500)
+        XCTAssertNil(read4)
     }
 }

@@ -17,3 +17,4 @@ software.amazon.smithy.aws.swift.codegen.model.AWSClientContextParamsTransformer
 software.amazon.smithy.aws.swift.codegen.customization.ServiceGeneratorIntegration
 software.amazon.smithy.aws.swift.codegen.model.AWSHttpTraitTransformer
 software.amazon.smithy.aws.swift.codegen.model.AWSEndpointTraitTransformer
+software.amazon.smithy.aws.swift.codegen.customization.MessageEncoderIntegration

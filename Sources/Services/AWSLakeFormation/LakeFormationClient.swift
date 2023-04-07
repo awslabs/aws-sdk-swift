@@ -208,6 +208,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddLFTagsToResourceInput, AddLFTagsToResourceOutputResponse, AddLFTagsToResourceOutputError>(id: "addLFTagsToResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddLFTagsToResourceInput, AddLFTagsToResourceOutputResponse, AddLFTagsToResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddLFTagsToResourceInput, AddLFTagsToResourceOutputResponse>())
@@ -222,8 +223,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddLFTagsToResourceOutputResponse, AddLFTagsToResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddLFTagsToResourceOutputResponse, AddLFTagsToResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddLFTagsToResourceOutputResponse, AddLFTagsToResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -243,6 +248,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssumeDecoratedRoleWithSAMLInput, AssumeDecoratedRoleWithSAMLOutputResponse, AssumeDecoratedRoleWithSAMLOutputError>(id: "assumeDecoratedRoleWithSAML")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssumeDecoratedRoleWithSAMLInput, AssumeDecoratedRoleWithSAMLOutputResponse, AssumeDecoratedRoleWithSAMLOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssumeDecoratedRoleWithSAMLInput, AssumeDecoratedRoleWithSAMLOutputResponse>())
@@ -257,8 +263,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssumeDecoratedRoleWithSAMLOutputResponse, AssumeDecoratedRoleWithSAMLOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssumeDecoratedRoleWithSAMLOutputResponse, AssumeDecoratedRoleWithSAMLOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssumeDecoratedRoleWithSAMLOutputResponse, AssumeDecoratedRoleWithSAMLOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -278,6 +288,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchGrantPermissionsInput, BatchGrantPermissionsOutputResponse, BatchGrantPermissionsOutputError>(id: "batchGrantPermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGrantPermissionsInput, BatchGrantPermissionsOutputResponse, BatchGrantPermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGrantPermissionsInput, BatchGrantPermissionsOutputResponse>())
@@ -292,8 +303,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGrantPermissionsOutputResponse, BatchGrantPermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGrantPermissionsOutputResponse, BatchGrantPermissionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGrantPermissionsOutputResponse, BatchGrantPermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -313,6 +328,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchRevokePermissionsInput, BatchRevokePermissionsOutputResponse, BatchRevokePermissionsOutputError>(id: "batchRevokePermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchRevokePermissionsInput, BatchRevokePermissionsOutputResponse, BatchRevokePermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchRevokePermissionsInput, BatchRevokePermissionsOutputResponse>())
@@ -327,8 +343,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchRevokePermissionsOutputResponse, BatchRevokePermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchRevokePermissionsOutputResponse, BatchRevokePermissionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchRevokePermissionsOutputResponse, BatchRevokePermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -348,6 +368,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelTransactionInput, CancelTransactionOutputResponse, CancelTransactionOutputError>(id: "cancelTransaction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelTransactionInput, CancelTransactionOutputResponse, CancelTransactionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelTransactionInput, CancelTransactionOutputResponse>())
@@ -362,8 +383,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelTransactionOutputResponse, CancelTransactionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelTransactionOutputResponse, CancelTransactionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelTransactionOutputResponse, CancelTransactionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -383,6 +408,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CommitTransactionInput, CommitTransactionOutputResponse, CommitTransactionOutputError>(id: "commitTransaction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CommitTransactionInput, CommitTransactionOutputResponse, CommitTransactionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CommitTransactionInput, CommitTransactionOutputResponse>())
@@ -397,8 +423,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CommitTransactionOutputResponse, CommitTransactionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CommitTransactionOutputResponse, CommitTransactionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CommitTransactionOutputResponse, CommitTransactionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -418,6 +448,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDataCellsFilterInput, CreateDataCellsFilterOutputResponse, CreateDataCellsFilterOutputError>(id: "createDataCellsFilter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDataCellsFilterInput, CreateDataCellsFilterOutputResponse, CreateDataCellsFilterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDataCellsFilterInput, CreateDataCellsFilterOutputResponse>())
@@ -432,8 +463,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDataCellsFilterOutputResponse, CreateDataCellsFilterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDataCellsFilterOutputResponse, CreateDataCellsFilterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDataCellsFilterOutputResponse, CreateDataCellsFilterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -453,6 +488,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLFTagInput, CreateLFTagOutputResponse, CreateLFTagOutputError>(id: "createLFTag")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLFTagInput, CreateLFTagOutputResponse, CreateLFTagOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLFTagInput, CreateLFTagOutputResponse>())
@@ -467,8 +503,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLFTagOutputResponse, CreateLFTagOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLFTagOutputResponse, CreateLFTagOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLFTagOutputResponse, CreateLFTagOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -488,6 +528,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDataCellsFilterInput, DeleteDataCellsFilterOutputResponse, DeleteDataCellsFilterOutputError>(id: "deleteDataCellsFilter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDataCellsFilterInput, DeleteDataCellsFilterOutputResponse, DeleteDataCellsFilterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDataCellsFilterInput, DeleteDataCellsFilterOutputResponse>())
@@ -502,8 +543,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDataCellsFilterOutputResponse, DeleteDataCellsFilterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDataCellsFilterOutputResponse, DeleteDataCellsFilterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDataCellsFilterOutputResponse, DeleteDataCellsFilterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -523,6 +568,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLFTagInput, DeleteLFTagOutputResponse, DeleteLFTagOutputError>(id: "deleteLFTag")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLFTagInput, DeleteLFTagOutputResponse, DeleteLFTagOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLFTagInput, DeleteLFTagOutputResponse>())
@@ -537,8 +583,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLFTagOutputResponse, DeleteLFTagOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLFTagOutputResponse, DeleteLFTagOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLFTagOutputResponse, DeleteLFTagOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -558,6 +608,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteObjectsOnCancelInput, DeleteObjectsOnCancelOutputResponse, DeleteObjectsOnCancelOutputError>(id: "deleteObjectsOnCancel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteObjectsOnCancelInput, DeleteObjectsOnCancelOutputResponse, DeleteObjectsOnCancelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteObjectsOnCancelInput, DeleteObjectsOnCancelOutputResponse>())
@@ -572,8 +623,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteObjectsOnCancelOutputResponse, DeleteObjectsOnCancelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteObjectsOnCancelOutputResponse, DeleteObjectsOnCancelOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteObjectsOnCancelOutputResponse, DeleteObjectsOnCancelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -593,6 +648,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterResourceInput, DeregisterResourceOutputResponse, DeregisterResourceOutputError>(id: "deregisterResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterResourceInput, DeregisterResourceOutputResponse, DeregisterResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterResourceInput, DeregisterResourceOutputResponse>())
@@ -607,8 +663,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterResourceOutputResponse, DeregisterResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterResourceOutputResponse, DeregisterResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterResourceOutputResponse, DeregisterResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -628,6 +688,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeResourceInput, DescribeResourceOutputResponse, DescribeResourceOutputError>(id: "describeResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeResourceInput, DescribeResourceOutputResponse, DescribeResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeResourceInput, DescribeResourceOutputResponse>())
@@ -642,8 +703,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeResourceOutputResponse, DescribeResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeResourceOutputResponse, DescribeResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeResourceOutputResponse, DescribeResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -663,6 +728,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTransactionInput, DescribeTransactionOutputResponse, DescribeTransactionOutputError>(id: "describeTransaction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTransactionInput, DescribeTransactionOutputResponse, DescribeTransactionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTransactionInput, DescribeTransactionOutputResponse>())
@@ -677,8 +743,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTransactionOutputResponse, DescribeTransactionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTransactionOutputResponse, DescribeTransactionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTransactionOutputResponse, DescribeTransactionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -698,6 +768,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExtendTransactionInput, ExtendTransactionOutputResponse, ExtendTransactionOutputError>(id: "extendTransaction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExtendTransactionInput, ExtendTransactionOutputResponse, ExtendTransactionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExtendTransactionInput, ExtendTransactionOutputResponse>())
@@ -712,6 +783,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExtendTransactionOutputResponse, ExtendTransactionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExtendTransactionOutputResponse, ExtendTransactionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExtendTransactionOutputResponse, ExtendTransactionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
@@ -749,6 +821,9 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDataCellsFilterOutputResponse, GetDataCellsFilterOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDataCellsFilterOutputResponse, GetDataCellsFilterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -768,6 +843,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDataLakeSettingsInput, GetDataLakeSettingsOutputResponse, GetDataLakeSettingsOutputError>(id: "getDataLakeSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDataLakeSettingsInput, GetDataLakeSettingsOutputResponse, GetDataLakeSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDataLakeSettingsInput, GetDataLakeSettingsOutputResponse>())
@@ -782,8 +858,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDataLakeSettingsOutputResponse, GetDataLakeSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDataLakeSettingsOutputResponse, GetDataLakeSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDataLakeSettingsOutputResponse, GetDataLakeSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -803,6 +883,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEffectivePermissionsForPathInput, GetEffectivePermissionsForPathOutputResponse, GetEffectivePermissionsForPathOutputError>(id: "getEffectivePermissionsForPath")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEffectivePermissionsForPathInput, GetEffectivePermissionsForPathOutputResponse, GetEffectivePermissionsForPathOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEffectivePermissionsForPathInput, GetEffectivePermissionsForPathOutputResponse>())
@@ -817,8 +898,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEffectivePermissionsForPathOutputResponse, GetEffectivePermissionsForPathOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEffectivePermissionsForPathOutputResponse, GetEffectivePermissionsForPathOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEffectivePermissionsForPathOutputResponse, GetEffectivePermissionsForPathOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -838,6 +923,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLFTagInput, GetLFTagOutputResponse, GetLFTagOutputError>(id: "getLFTag")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLFTagInput, GetLFTagOutputResponse, GetLFTagOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLFTagInput, GetLFTagOutputResponse>())
@@ -852,8 +938,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLFTagOutputResponse, GetLFTagOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLFTagOutputResponse, GetLFTagOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLFTagOutputResponse, GetLFTagOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -873,6 +963,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetQueryStateInput, GetQueryStateOutputResponse, GetQueryStateOutputError>(id: "getQueryState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQueryStateInput, GetQueryStateOutputResponse, GetQueryStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQueryStateInput, GetQueryStateOutputResponse>(hostPrefix: "query-"))
@@ -887,8 +978,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQueryStateOutputResponse, GetQueryStateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueryStateOutputResponse, GetQueryStateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQueryStateOutputResponse, GetQueryStateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -908,6 +1003,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetQueryStatisticsInput, GetQueryStatisticsOutputResponse, GetQueryStatisticsOutputError>(id: "getQueryStatistics")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQueryStatisticsInput, GetQueryStatisticsOutputResponse, GetQueryStatisticsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQueryStatisticsInput, GetQueryStatisticsOutputResponse>(hostPrefix: "query-"))
@@ -922,8 +1018,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQueryStatisticsOutputResponse, GetQueryStatisticsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueryStatisticsOutputResponse, GetQueryStatisticsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQueryStatisticsOutputResponse, GetQueryStatisticsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -943,6 +1043,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetResourceLFTagsInput, GetResourceLFTagsOutputResponse, GetResourceLFTagsOutputError>(id: "getResourceLFTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceLFTagsInput, GetResourceLFTagsOutputResponse, GetResourceLFTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourceLFTagsInput, GetResourceLFTagsOutputResponse>())
@@ -957,8 +1058,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceLFTagsOutputResponse, GetResourceLFTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceLFTagsOutputResponse, GetResourceLFTagsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourceLFTagsOutputResponse, GetResourceLFTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -978,6 +1083,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTableObjectsInput, GetTableObjectsOutputResponse, GetTableObjectsOutputError>(id: "getTableObjects")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTableObjectsInput, GetTableObjectsOutputResponse, GetTableObjectsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTableObjectsInput, GetTableObjectsOutputResponse>())
@@ -992,8 +1098,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTableObjectsOutputResponse, GetTableObjectsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTableObjectsOutputResponse, GetTableObjectsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTableObjectsOutputResponse, GetTableObjectsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1013,6 +1123,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTemporaryGluePartitionCredentialsInput, GetTemporaryGluePartitionCredentialsOutputResponse, GetTemporaryGluePartitionCredentialsOutputError>(id: "getTemporaryGluePartitionCredentials")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTemporaryGluePartitionCredentialsInput, GetTemporaryGluePartitionCredentialsOutputResponse, GetTemporaryGluePartitionCredentialsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTemporaryGluePartitionCredentialsInput, GetTemporaryGluePartitionCredentialsOutputResponse>())
@@ -1027,8 +1138,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTemporaryGluePartitionCredentialsOutputResponse, GetTemporaryGluePartitionCredentialsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTemporaryGluePartitionCredentialsOutputResponse, GetTemporaryGluePartitionCredentialsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTemporaryGluePartitionCredentialsOutputResponse, GetTemporaryGluePartitionCredentialsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1048,6 +1163,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTemporaryGlueTableCredentialsInput, GetTemporaryGlueTableCredentialsOutputResponse, GetTemporaryGlueTableCredentialsOutputError>(id: "getTemporaryGlueTableCredentials")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTemporaryGlueTableCredentialsInput, GetTemporaryGlueTableCredentialsOutputResponse, GetTemporaryGlueTableCredentialsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTemporaryGlueTableCredentialsInput, GetTemporaryGlueTableCredentialsOutputResponse>())
@@ -1062,8 +1178,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTemporaryGlueTableCredentialsOutputResponse, GetTemporaryGlueTableCredentialsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTemporaryGlueTableCredentialsOutputResponse, GetTemporaryGlueTableCredentialsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTemporaryGlueTableCredentialsOutputResponse, GetTemporaryGlueTableCredentialsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1083,6 +1203,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetWorkUnitResultsInput, GetWorkUnitResultsOutputResponse, GetWorkUnitResultsOutputError>(id: "getWorkUnitResults")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWorkUnitResultsInput, GetWorkUnitResultsOutputResponse, GetWorkUnitResultsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWorkUnitResultsInput, GetWorkUnitResultsOutputResponse>(hostPrefix: "data-"))
@@ -1097,8 +1218,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWorkUnitResultsOutputResponse, GetWorkUnitResultsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWorkUnitResultsOutputResponse, GetWorkUnitResultsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWorkUnitResultsOutputResponse, GetWorkUnitResultsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1118,6 +1243,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetWorkUnitsInput, GetWorkUnitsOutputResponse, GetWorkUnitsOutputError>(id: "getWorkUnits")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWorkUnitsInput, GetWorkUnitsOutputResponse, GetWorkUnitsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWorkUnitsInput, GetWorkUnitsOutputResponse>(hostPrefix: "query-"))
@@ -1132,8 +1258,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWorkUnitsOutputResponse, GetWorkUnitsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWorkUnitsOutputResponse, GetWorkUnitsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWorkUnitsOutputResponse, GetWorkUnitsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1153,6 +1283,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GrantPermissionsInput, GrantPermissionsOutputResponse, GrantPermissionsOutputError>(id: "grantPermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GrantPermissionsInput, GrantPermissionsOutputResponse, GrantPermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GrantPermissionsInput, GrantPermissionsOutputResponse>())
@@ -1167,8 +1298,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GrantPermissionsOutputResponse, GrantPermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GrantPermissionsOutputResponse, GrantPermissionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GrantPermissionsOutputResponse, GrantPermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1188,6 +1323,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDataCellsFilterInput, ListDataCellsFilterOutputResponse, ListDataCellsFilterOutputError>(id: "listDataCellsFilter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDataCellsFilterInput, ListDataCellsFilterOutputResponse, ListDataCellsFilterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDataCellsFilterInput, ListDataCellsFilterOutputResponse>())
@@ -1202,8 +1338,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDataCellsFilterOutputResponse, ListDataCellsFilterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDataCellsFilterOutputResponse, ListDataCellsFilterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDataCellsFilterOutputResponse, ListDataCellsFilterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1223,6 +1363,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListLFTagsInput, ListLFTagsOutputResponse, ListLFTagsOutputError>(id: "listLFTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLFTagsInput, ListLFTagsOutputResponse, ListLFTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLFTagsInput, ListLFTagsOutputResponse>())
@@ -1237,8 +1378,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLFTagsOutputResponse, ListLFTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLFTagsOutputResponse, ListLFTagsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLFTagsOutputResponse, ListLFTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1258,6 +1403,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPermissionsInput, ListPermissionsOutputResponse, ListPermissionsOutputError>(id: "listPermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPermissionsInput, ListPermissionsOutputResponse, ListPermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPermissionsInput, ListPermissionsOutputResponse>())
@@ -1272,8 +1418,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPermissionsOutputResponse, ListPermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPermissionsOutputResponse, ListPermissionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPermissionsOutputResponse, ListPermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1293,6 +1443,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListResourcesInput, ListResourcesOutputResponse, ListResourcesOutputError>(id: "listResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourcesInput, ListResourcesOutputResponse, ListResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourcesInput, ListResourcesOutputResponse>())
@@ -1307,8 +1458,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourcesOutputResponse, ListResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourcesOutputResponse, ListResourcesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourcesOutputResponse, ListResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1328,6 +1483,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTableStorageOptimizersInput, ListTableStorageOptimizersOutputResponse, ListTableStorageOptimizersOutputError>(id: "listTableStorageOptimizers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTableStorageOptimizersInput, ListTableStorageOptimizersOutputResponse, ListTableStorageOptimizersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTableStorageOptimizersInput, ListTableStorageOptimizersOutputResponse>())
@@ -1342,8 +1498,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTableStorageOptimizersOutputResponse, ListTableStorageOptimizersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTableStorageOptimizersOutputResponse, ListTableStorageOptimizersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTableStorageOptimizersOutputResponse, ListTableStorageOptimizersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1363,6 +1523,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTransactionsInput, ListTransactionsOutputResponse, ListTransactionsOutputError>(id: "listTransactions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTransactionsInput, ListTransactionsOutputResponse, ListTransactionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTransactionsInput, ListTransactionsOutputResponse>())
@@ -1377,8 +1538,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTransactionsOutputResponse, ListTransactionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTransactionsOutputResponse, ListTransactionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTransactionsOutputResponse, ListTransactionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1398,6 +1563,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutDataLakeSettingsInput, PutDataLakeSettingsOutputResponse, PutDataLakeSettingsOutputError>(id: "putDataLakeSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutDataLakeSettingsInput, PutDataLakeSettingsOutputResponse, PutDataLakeSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutDataLakeSettingsInput, PutDataLakeSettingsOutputResponse>())
@@ -1412,8 +1578,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutDataLakeSettingsOutputResponse, PutDataLakeSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutDataLakeSettingsOutputResponse, PutDataLakeSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutDataLakeSettingsOutputResponse, PutDataLakeSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1433,6 +1603,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterResourceInput, RegisterResourceOutputResponse, RegisterResourceOutputError>(id: "registerResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterResourceInput, RegisterResourceOutputResponse, RegisterResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterResourceInput, RegisterResourceOutputResponse>())
@@ -1447,8 +1618,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterResourceOutputResponse, RegisterResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterResourceOutputResponse, RegisterResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterResourceOutputResponse, RegisterResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1468,6 +1643,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveLFTagsFromResourceInput, RemoveLFTagsFromResourceOutputResponse, RemoveLFTagsFromResourceOutputError>(id: "removeLFTagsFromResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveLFTagsFromResourceInput, RemoveLFTagsFromResourceOutputResponse, RemoveLFTagsFromResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveLFTagsFromResourceInput, RemoveLFTagsFromResourceOutputResponse>())
@@ -1482,8 +1658,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveLFTagsFromResourceOutputResponse, RemoveLFTagsFromResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveLFTagsFromResourceOutputResponse, RemoveLFTagsFromResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveLFTagsFromResourceOutputResponse, RemoveLFTagsFromResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1503,6 +1683,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RevokePermissionsInput, RevokePermissionsOutputResponse, RevokePermissionsOutputError>(id: "revokePermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokePermissionsInput, RevokePermissionsOutputResponse, RevokePermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokePermissionsInput, RevokePermissionsOutputResponse>())
@@ -1517,8 +1698,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokePermissionsOutputResponse, RevokePermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokePermissionsOutputResponse, RevokePermissionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RevokePermissionsOutputResponse, RevokePermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1538,6 +1723,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchDatabasesByLFTagsInput, SearchDatabasesByLFTagsOutputResponse, SearchDatabasesByLFTagsOutputError>(id: "searchDatabasesByLFTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchDatabasesByLFTagsInput, SearchDatabasesByLFTagsOutputResponse, SearchDatabasesByLFTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchDatabasesByLFTagsInput, SearchDatabasesByLFTagsOutputResponse>())
@@ -1552,8 +1738,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchDatabasesByLFTagsOutputResponse, SearchDatabasesByLFTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchDatabasesByLFTagsOutputResponse, SearchDatabasesByLFTagsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchDatabasesByLFTagsOutputResponse, SearchDatabasesByLFTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1573,6 +1763,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchTablesByLFTagsInput, SearchTablesByLFTagsOutputResponse, SearchTablesByLFTagsOutputError>(id: "searchTablesByLFTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchTablesByLFTagsInput, SearchTablesByLFTagsOutputResponse, SearchTablesByLFTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchTablesByLFTagsInput, SearchTablesByLFTagsOutputResponse>())
@@ -1587,8 +1778,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchTablesByLFTagsOutputResponse, SearchTablesByLFTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchTablesByLFTagsOutputResponse, SearchTablesByLFTagsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchTablesByLFTagsOutputResponse, SearchTablesByLFTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1608,6 +1803,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartQueryPlanningInput, StartQueryPlanningOutputResponse, StartQueryPlanningOutputError>(id: "startQueryPlanning")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartQueryPlanningInput, StartQueryPlanningOutputResponse, StartQueryPlanningOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartQueryPlanningInput, StartQueryPlanningOutputResponse>(hostPrefix: "query-"))
@@ -1622,8 +1818,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartQueryPlanningOutputResponse, StartQueryPlanningOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartQueryPlanningOutputResponse, StartQueryPlanningOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartQueryPlanningOutputResponse, StartQueryPlanningOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1643,6 +1843,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartTransactionInput, StartTransactionOutputResponse, StartTransactionOutputError>(id: "startTransaction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartTransactionInput, StartTransactionOutputResponse, StartTransactionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartTransactionInput, StartTransactionOutputResponse>())
@@ -1657,6 +1858,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartTransactionOutputResponse, StartTransactionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartTransactionOutputResponse, StartTransactionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartTransactionOutputResponse, StartTransactionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
@@ -1694,6 +1896,9 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDataCellsFilterOutputResponse, UpdateDataCellsFilterOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDataCellsFilterOutputResponse, UpdateDataCellsFilterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1713,6 +1918,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateLFTagInput, UpdateLFTagOutputResponse, UpdateLFTagOutputError>(id: "updateLFTag")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLFTagInput, UpdateLFTagOutputResponse, UpdateLFTagOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLFTagInput, UpdateLFTagOutputResponse>())
@@ -1727,8 +1933,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLFTagOutputResponse, UpdateLFTagOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLFTagOutputResponse, UpdateLFTagOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLFTagOutputResponse, UpdateLFTagOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1748,6 +1958,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateResourceInput, UpdateResourceOutputResponse, UpdateResourceOutputError>(id: "updateResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateResourceInput, UpdateResourceOutputResponse, UpdateResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateResourceInput, UpdateResourceOutputResponse>())
@@ -1762,8 +1973,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResourceOutputResponse, UpdateResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResourceOutputResponse, UpdateResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateResourceOutputResponse, UpdateResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1783,6 +1998,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTableObjectsInput, UpdateTableObjectsOutputResponse, UpdateTableObjectsOutputError>(id: "updateTableObjects")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTableObjectsInput, UpdateTableObjectsOutputResponse, UpdateTableObjectsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTableObjectsInput, UpdateTableObjectsOutputResponse>())
@@ -1797,8 +2013,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTableObjectsOutputResponse, UpdateTableObjectsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTableObjectsOutputResponse, UpdateTableObjectsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTableObjectsOutputResponse, UpdateTableObjectsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1818,6 +2038,7 @@ extension LakeFormationClient: LakeFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lakeformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTableStorageOptimizerInput, UpdateTableStorageOptimizerOutputResponse, UpdateTableStorageOptimizerOutputError>(id: "updateTableStorageOptimizer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTableStorageOptimizerInput, UpdateTableStorageOptimizerOutputResponse, UpdateTableStorageOptimizerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTableStorageOptimizerInput, UpdateTableStorageOptimizerOutputResponse>())
@@ -1832,8 +2053,12 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTableStorageOptimizerOutputResponse, UpdateTableStorageOptimizerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTableStorageOptimizerOutputResponse, UpdateTableStorageOptimizerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTableStorageOptimizerOutputResponse, UpdateTableStorageOptimizerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

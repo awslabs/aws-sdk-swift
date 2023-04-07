@@ -223,6 +223,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddTagsToResourceInput, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(id: "addTagsToResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse>())
@@ -238,8 +239,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -259,6 +264,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateOpsItemRelatedItemInput, AssociateOpsItemRelatedItemOutputResponse, AssociateOpsItemRelatedItemOutputError>(id: "associateOpsItemRelatedItem")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateOpsItemRelatedItemInput, AssociateOpsItemRelatedItemOutputResponse, AssociateOpsItemRelatedItemOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateOpsItemRelatedItemInput, AssociateOpsItemRelatedItemOutputResponse>())
@@ -274,8 +280,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateOpsItemRelatedItemOutputResponse, AssociateOpsItemRelatedItemOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateOpsItemRelatedItemOutputResponse, AssociateOpsItemRelatedItemOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateOpsItemRelatedItemOutputResponse, AssociateOpsItemRelatedItemOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -295,6 +305,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelCommandInput, CancelCommandOutputResponse, CancelCommandOutputError>(id: "cancelCommand")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelCommandInput, CancelCommandOutputResponse, CancelCommandOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelCommandInput, CancelCommandOutputResponse>())
@@ -310,8 +321,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelCommandOutputResponse, CancelCommandOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelCommandOutputResponse, CancelCommandOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelCommandOutputResponse, CancelCommandOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -331,6 +346,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelMaintenanceWindowExecutionInput, CancelMaintenanceWindowExecutionOutputResponse, CancelMaintenanceWindowExecutionOutputError>(id: "cancelMaintenanceWindowExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelMaintenanceWindowExecutionInput, CancelMaintenanceWindowExecutionOutputResponse, CancelMaintenanceWindowExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelMaintenanceWindowExecutionInput, CancelMaintenanceWindowExecutionOutputResponse>())
@@ -346,8 +362,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelMaintenanceWindowExecutionOutputResponse, CancelMaintenanceWindowExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelMaintenanceWindowExecutionOutputResponse, CancelMaintenanceWindowExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelMaintenanceWindowExecutionOutputResponse, CancelMaintenanceWindowExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -367,6 +387,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateActivationInput, CreateActivationOutputResponse, CreateActivationOutputError>(id: "createActivation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateActivationInput, CreateActivationOutputResponse, CreateActivationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateActivationInput, CreateActivationOutputResponse>())
@@ -382,8 +403,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateActivationOutputResponse, CreateActivationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateActivationOutputResponse, CreateActivationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateActivationOutputResponse, CreateActivationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -403,6 +428,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAssociationInput, CreateAssociationOutputResponse, CreateAssociationOutputError>(id: "createAssociation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAssociationInput, CreateAssociationOutputResponse, CreateAssociationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAssociationInput, CreateAssociationOutputResponse>())
@@ -418,8 +444,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAssociationOutputResponse, CreateAssociationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAssociationOutputResponse, CreateAssociationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAssociationOutputResponse, CreateAssociationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -439,6 +469,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAssociationBatchInput, CreateAssociationBatchOutputResponse, CreateAssociationBatchOutputError>(id: "createAssociationBatch")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAssociationBatchInput, CreateAssociationBatchOutputResponse, CreateAssociationBatchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAssociationBatchInput, CreateAssociationBatchOutputResponse>())
@@ -454,8 +485,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAssociationBatchOutputResponse, CreateAssociationBatchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAssociationBatchOutputResponse, CreateAssociationBatchOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAssociationBatchOutputResponse, CreateAssociationBatchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -475,6 +510,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDocumentInput, CreateDocumentOutputResponse, CreateDocumentOutputError>(id: "createDocument")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDocumentInput, CreateDocumentOutputResponse, CreateDocumentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDocumentInput, CreateDocumentOutputResponse>())
@@ -490,8 +526,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDocumentOutputResponse, CreateDocumentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDocumentOutputResponse, CreateDocumentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDocumentOutputResponse, CreateDocumentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -511,6 +551,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMaintenanceWindowInput, CreateMaintenanceWindowOutputResponse, CreateMaintenanceWindowOutputError>(id: "createMaintenanceWindow")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateMaintenanceWindowOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -534,8 +575,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMaintenanceWindowOutputResponse, CreateMaintenanceWindowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMaintenanceWindowOutputResponse, CreateMaintenanceWindowOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMaintenanceWindowOutputResponse, CreateMaintenanceWindowOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -555,6 +600,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateOpsItemInput, CreateOpsItemOutputResponse, CreateOpsItemOutputError>(id: "createOpsItem")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateOpsItemInput, CreateOpsItemOutputResponse, CreateOpsItemOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateOpsItemInput, CreateOpsItemOutputResponse>())
@@ -570,8 +616,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOpsItemOutputResponse, CreateOpsItemOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOpsItemOutputResponse, CreateOpsItemOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateOpsItemOutputResponse, CreateOpsItemOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -591,6 +641,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateOpsMetadataInput, CreateOpsMetadataOutputResponse, CreateOpsMetadataOutputError>(id: "createOpsMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateOpsMetadataInput, CreateOpsMetadataOutputResponse, CreateOpsMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateOpsMetadataInput, CreateOpsMetadataOutputResponse>())
@@ -606,8 +657,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOpsMetadataOutputResponse, CreateOpsMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOpsMetadataOutputResponse, CreateOpsMetadataOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateOpsMetadataOutputResponse, CreateOpsMetadataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -627,6 +682,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePatchBaselineInput, CreatePatchBaselineOutputResponse, CreatePatchBaselineOutputError>(id: "createPatchBaseline")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreatePatchBaselineOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -650,8 +706,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePatchBaselineOutputResponse, CreatePatchBaselineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePatchBaselineOutputResponse, CreatePatchBaselineOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePatchBaselineOutputResponse, CreatePatchBaselineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -671,6 +731,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateResourceDataSyncInput, CreateResourceDataSyncOutputResponse, CreateResourceDataSyncOutputError>(id: "createResourceDataSync")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateResourceDataSyncInput, CreateResourceDataSyncOutputResponse, CreateResourceDataSyncOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateResourceDataSyncInput, CreateResourceDataSyncOutputResponse>())
@@ -686,8 +747,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateResourceDataSyncOutputResponse, CreateResourceDataSyncOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateResourceDataSyncOutputResponse, CreateResourceDataSyncOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateResourceDataSyncOutputResponse, CreateResourceDataSyncOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -707,6 +772,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteActivationInput, DeleteActivationOutputResponse, DeleteActivationOutputError>(id: "deleteActivation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteActivationInput, DeleteActivationOutputResponse, DeleteActivationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteActivationInput, DeleteActivationOutputResponse>())
@@ -722,8 +788,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteActivationOutputResponse, DeleteActivationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteActivationOutputResponse, DeleteActivationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteActivationOutputResponse, DeleteActivationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -743,6 +813,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAssociationInput, DeleteAssociationOutputResponse, DeleteAssociationOutputError>(id: "deleteAssociation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAssociationInput, DeleteAssociationOutputResponse, DeleteAssociationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAssociationInput, DeleteAssociationOutputResponse>())
@@ -758,8 +829,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAssociationOutputResponse, DeleteAssociationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAssociationOutputResponse, DeleteAssociationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAssociationOutputResponse, DeleteAssociationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -779,6 +854,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDocumentInput, DeleteDocumentOutputResponse, DeleteDocumentOutputError>(id: "deleteDocument")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDocumentInput, DeleteDocumentOutputResponse, DeleteDocumentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDocumentInput, DeleteDocumentOutputResponse>())
@@ -794,8 +870,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDocumentOutputResponse, DeleteDocumentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDocumentOutputResponse, DeleteDocumentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDocumentOutputResponse, DeleteDocumentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -815,6 +895,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteInventoryInput, DeleteInventoryOutputResponse, DeleteInventoryOutputError>(id: "deleteInventory")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteInventoryOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -838,8 +919,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInventoryOutputResponse, DeleteInventoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInventoryOutputResponse, DeleteInventoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInventoryOutputResponse, DeleteInventoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -859,6 +944,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteMaintenanceWindowInput, DeleteMaintenanceWindowOutputResponse, DeleteMaintenanceWindowOutputError>(id: "deleteMaintenanceWindow")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMaintenanceWindowInput, DeleteMaintenanceWindowOutputResponse, DeleteMaintenanceWindowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMaintenanceWindowInput, DeleteMaintenanceWindowOutputResponse>())
@@ -874,8 +960,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMaintenanceWindowOutputResponse, DeleteMaintenanceWindowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMaintenanceWindowOutputResponse, DeleteMaintenanceWindowOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMaintenanceWindowOutputResponse, DeleteMaintenanceWindowOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -895,6 +985,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteOpsMetadataInput, DeleteOpsMetadataOutputResponse, DeleteOpsMetadataOutputError>(id: "deleteOpsMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOpsMetadataInput, DeleteOpsMetadataOutputResponse, DeleteOpsMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOpsMetadataInput, DeleteOpsMetadataOutputResponse>())
@@ -910,8 +1001,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOpsMetadataOutputResponse, DeleteOpsMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOpsMetadataOutputResponse, DeleteOpsMetadataOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOpsMetadataOutputResponse, DeleteOpsMetadataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -931,6 +1026,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteParameterInput, DeleteParameterOutputResponse, DeleteParameterOutputError>(id: "deleteParameter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteParameterInput, DeleteParameterOutputResponse, DeleteParameterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteParameterInput, DeleteParameterOutputResponse>())
@@ -946,8 +1042,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteParameterOutputResponse, DeleteParameterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteParameterOutputResponse, DeleteParameterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteParameterOutputResponse, DeleteParameterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -967,6 +1067,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteParametersInput, DeleteParametersOutputResponse, DeleteParametersOutputError>(id: "deleteParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteParametersInput, DeleteParametersOutputResponse, DeleteParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteParametersInput, DeleteParametersOutputResponse>())
@@ -982,8 +1083,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteParametersOutputResponse, DeleteParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteParametersOutputResponse, DeleteParametersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteParametersOutputResponse, DeleteParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1003,6 +1108,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePatchBaselineInput, DeletePatchBaselineOutputResponse, DeletePatchBaselineOutputError>(id: "deletePatchBaseline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePatchBaselineInput, DeletePatchBaselineOutputResponse, DeletePatchBaselineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePatchBaselineInput, DeletePatchBaselineOutputResponse>())
@@ -1018,8 +1124,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePatchBaselineOutputResponse, DeletePatchBaselineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePatchBaselineOutputResponse, DeletePatchBaselineOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePatchBaselineOutputResponse, DeletePatchBaselineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1039,6 +1149,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteResourceDataSyncInput, DeleteResourceDataSyncOutputResponse, DeleteResourceDataSyncOutputError>(id: "deleteResourceDataSync")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourceDataSyncInput, DeleteResourceDataSyncOutputResponse, DeleteResourceDataSyncOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourceDataSyncInput, DeleteResourceDataSyncOutputResponse>())
@@ -1054,8 +1165,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourceDataSyncOutputResponse, DeleteResourceDataSyncOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourceDataSyncOutputResponse, DeleteResourceDataSyncOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResourceDataSyncOutputResponse, DeleteResourceDataSyncOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1075,6 +1190,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(id: "deleteResourcePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>())
@@ -1090,8 +1206,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1111,6 +1231,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterManagedInstanceInput, DeregisterManagedInstanceOutputResponse, DeregisterManagedInstanceOutputError>(id: "deregisterManagedInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterManagedInstanceInput, DeregisterManagedInstanceOutputResponse, DeregisterManagedInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterManagedInstanceInput, DeregisterManagedInstanceOutputResponse>())
@@ -1126,8 +1247,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterManagedInstanceOutputResponse, DeregisterManagedInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterManagedInstanceOutputResponse, DeregisterManagedInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterManagedInstanceOutputResponse, DeregisterManagedInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1147,6 +1272,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterPatchBaselineForPatchGroupInput, DeregisterPatchBaselineForPatchGroupOutputResponse, DeregisterPatchBaselineForPatchGroupOutputError>(id: "deregisterPatchBaselineForPatchGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterPatchBaselineForPatchGroupInput, DeregisterPatchBaselineForPatchGroupOutputResponse, DeregisterPatchBaselineForPatchGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterPatchBaselineForPatchGroupInput, DeregisterPatchBaselineForPatchGroupOutputResponse>())
@@ -1162,8 +1288,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterPatchBaselineForPatchGroupOutputResponse, DeregisterPatchBaselineForPatchGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterPatchBaselineForPatchGroupOutputResponse, DeregisterPatchBaselineForPatchGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterPatchBaselineForPatchGroupOutputResponse, DeregisterPatchBaselineForPatchGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1183,6 +1313,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterTargetFromMaintenanceWindowInput, DeregisterTargetFromMaintenanceWindowOutputResponse, DeregisterTargetFromMaintenanceWindowOutputError>(id: "deregisterTargetFromMaintenanceWindow")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterTargetFromMaintenanceWindowInput, DeregisterTargetFromMaintenanceWindowOutputResponse, DeregisterTargetFromMaintenanceWindowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterTargetFromMaintenanceWindowInput, DeregisterTargetFromMaintenanceWindowOutputResponse>())
@@ -1198,8 +1329,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterTargetFromMaintenanceWindowOutputResponse, DeregisterTargetFromMaintenanceWindowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterTargetFromMaintenanceWindowOutputResponse, DeregisterTargetFromMaintenanceWindowOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterTargetFromMaintenanceWindowOutputResponse, DeregisterTargetFromMaintenanceWindowOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1219,6 +1354,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterTaskFromMaintenanceWindowInput, DeregisterTaskFromMaintenanceWindowOutputResponse, DeregisterTaskFromMaintenanceWindowOutputError>(id: "deregisterTaskFromMaintenanceWindow")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterTaskFromMaintenanceWindowInput, DeregisterTaskFromMaintenanceWindowOutputResponse, DeregisterTaskFromMaintenanceWindowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterTaskFromMaintenanceWindowInput, DeregisterTaskFromMaintenanceWindowOutputResponse>())
@@ -1234,8 +1370,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterTaskFromMaintenanceWindowOutputResponse, DeregisterTaskFromMaintenanceWindowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterTaskFromMaintenanceWindowOutputResponse, DeregisterTaskFromMaintenanceWindowOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterTaskFromMaintenanceWindowOutputResponse, DeregisterTaskFromMaintenanceWindowOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1255,6 +1395,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeActivationsInput, DescribeActivationsOutputResponse, DescribeActivationsOutputError>(id: "describeActivations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeActivationsInput, DescribeActivationsOutputResponse, DescribeActivationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeActivationsInput, DescribeActivationsOutputResponse>())
@@ -1270,8 +1411,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeActivationsOutputResponse, DescribeActivationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeActivationsOutputResponse, DescribeActivationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeActivationsOutputResponse, DescribeActivationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1291,6 +1436,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAssociationInput, DescribeAssociationOutputResponse, DescribeAssociationOutputError>(id: "describeAssociation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAssociationInput, DescribeAssociationOutputResponse, DescribeAssociationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAssociationInput, DescribeAssociationOutputResponse>())
@@ -1306,8 +1452,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAssociationOutputResponse, DescribeAssociationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAssociationOutputResponse, DescribeAssociationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAssociationOutputResponse, DescribeAssociationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1327,6 +1477,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAssociationExecutionTargetsInput, DescribeAssociationExecutionTargetsOutputResponse, DescribeAssociationExecutionTargetsOutputError>(id: "describeAssociationExecutionTargets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAssociationExecutionTargetsInput, DescribeAssociationExecutionTargetsOutputResponse, DescribeAssociationExecutionTargetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAssociationExecutionTargetsInput, DescribeAssociationExecutionTargetsOutputResponse>())
@@ -1342,8 +1493,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAssociationExecutionTargetsOutputResponse, DescribeAssociationExecutionTargetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAssociationExecutionTargetsOutputResponse, DescribeAssociationExecutionTargetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAssociationExecutionTargetsOutputResponse, DescribeAssociationExecutionTargetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1363,6 +1518,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAssociationExecutionsInput, DescribeAssociationExecutionsOutputResponse, DescribeAssociationExecutionsOutputError>(id: "describeAssociationExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAssociationExecutionsInput, DescribeAssociationExecutionsOutputResponse, DescribeAssociationExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAssociationExecutionsInput, DescribeAssociationExecutionsOutputResponse>())
@@ -1378,8 +1534,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAssociationExecutionsOutputResponse, DescribeAssociationExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAssociationExecutionsOutputResponse, DescribeAssociationExecutionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAssociationExecutionsOutputResponse, DescribeAssociationExecutionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1399,6 +1559,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAutomationExecutionsInput, DescribeAutomationExecutionsOutputResponse, DescribeAutomationExecutionsOutputError>(id: "describeAutomationExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAutomationExecutionsInput, DescribeAutomationExecutionsOutputResponse, DescribeAutomationExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAutomationExecutionsInput, DescribeAutomationExecutionsOutputResponse>())
@@ -1414,8 +1575,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAutomationExecutionsOutputResponse, DescribeAutomationExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAutomationExecutionsOutputResponse, DescribeAutomationExecutionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAutomationExecutionsOutputResponse, DescribeAutomationExecutionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1435,6 +1600,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAutomationStepExecutionsInput, DescribeAutomationStepExecutionsOutputResponse, DescribeAutomationStepExecutionsOutputError>(id: "describeAutomationStepExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAutomationStepExecutionsInput, DescribeAutomationStepExecutionsOutputResponse, DescribeAutomationStepExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAutomationStepExecutionsInput, DescribeAutomationStepExecutionsOutputResponse>())
@@ -1450,8 +1616,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAutomationStepExecutionsOutputResponse, DescribeAutomationStepExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAutomationStepExecutionsOutputResponse, DescribeAutomationStepExecutionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAutomationStepExecutionsOutputResponse, DescribeAutomationStepExecutionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1471,6 +1641,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAvailablePatchesInput, DescribeAvailablePatchesOutputResponse, DescribeAvailablePatchesOutputError>(id: "describeAvailablePatches")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAvailablePatchesInput, DescribeAvailablePatchesOutputResponse, DescribeAvailablePatchesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAvailablePatchesInput, DescribeAvailablePatchesOutputResponse>())
@@ -1486,8 +1657,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAvailablePatchesOutputResponse, DescribeAvailablePatchesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAvailablePatchesOutputResponse, DescribeAvailablePatchesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAvailablePatchesOutputResponse, DescribeAvailablePatchesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1507,6 +1682,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDocumentInput, DescribeDocumentOutputResponse, DescribeDocumentOutputError>(id: "describeDocument")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDocumentInput, DescribeDocumentOutputResponse, DescribeDocumentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDocumentInput, DescribeDocumentOutputResponse>())
@@ -1522,8 +1698,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDocumentOutputResponse, DescribeDocumentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDocumentOutputResponse, DescribeDocumentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDocumentOutputResponse, DescribeDocumentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1543,6 +1723,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDocumentPermissionInput, DescribeDocumentPermissionOutputResponse, DescribeDocumentPermissionOutputError>(id: "describeDocumentPermission")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDocumentPermissionInput, DescribeDocumentPermissionOutputResponse, DescribeDocumentPermissionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDocumentPermissionInput, DescribeDocumentPermissionOutputResponse>())
@@ -1558,8 +1739,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDocumentPermissionOutputResponse, DescribeDocumentPermissionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDocumentPermissionOutputResponse, DescribeDocumentPermissionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDocumentPermissionOutputResponse, DescribeDocumentPermissionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1579,6 +1764,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEffectiveInstanceAssociationsInput, DescribeEffectiveInstanceAssociationsOutputResponse, DescribeEffectiveInstanceAssociationsOutputError>(id: "describeEffectiveInstanceAssociations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEffectiveInstanceAssociationsInput, DescribeEffectiveInstanceAssociationsOutputResponse, DescribeEffectiveInstanceAssociationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEffectiveInstanceAssociationsInput, DescribeEffectiveInstanceAssociationsOutputResponse>())
@@ -1594,8 +1780,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEffectiveInstanceAssociationsOutputResponse, DescribeEffectiveInstanceAssociationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEffectiveInstanceAssociationsOutputResponse, DescribeEffectiveInstanceAssociationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEffectiveInstanceAssociationsOutputResponse, DescribeEffectiveInstanceAssociationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1615,6 +1805,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEffectivePatchesForPatchBaselineInput, DescribeEffectivePatchesForPatchBaselineOutputResponse, DescribeEffectivePatchesForPatchBaselineOutputError>(id: "describeEffectivePatchesForPatchBaseline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEffectivePatchesForPatchBaselineInput, DescribeEffectivePatchesForPatchBaselineOutputResponse, DescribeEffectivePatchesForPatchBaselineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEffectivePatchesForPatchBaselineInput, DescribeEffectivePatchesForPatchBaselineOutputResponse>())
@@ -1630,8 +1821,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEffectivePatchesForPatchBaselineOutputResponse, DescribeEffectivePatchesForPatchBaselineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEffectivePatchesForPatchBaselineOutputResponse, DescribeEffectivePatchesForPatchBaselineOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEffectivePatchesForPatchBaselineOutputResponse, DescribeEffectivePatchesForPatchBaselineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1651,6 +1846,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeInstanceAssociationsStatusInput, DescribeInstanceAssociationsStatusOutputResponse, DescribeInstanceAssociationsStatusOutputError>(id: "describeInstanceAssociationsStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInstanceAssociationsStatusInput, DescribeInstanceAssociationsStatusOutputResponse, DescribeInstanceAssociationsStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInstanceAssociationsStatusInput, DescribeInstanceAssociationsStatusOutputResponse>())
@@ -1666,8 +1862,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInstanceAssociationsStatusOutputResponse, DescribeInstanceAssociationsStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInstanceAssociationsStatusOutputResponse, DescribeInstanceAssociationsStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInstanceAssociationsStatusOutputResponse, DescribeInstanceAssociationsStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1687,6 +1887,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeInstanceInformationInput, DescribeInstanceInformationOutputResponse, DescribeInstanceInformationOutputError>(id: "describeInstanceInformation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInstanceInformationInput, DescribeInstanceInformationOutputResponse, DescribeInstanceInformationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInstanceInformationInput, DescribeInstanceInformationOutputResponse>())
@@ -1702,8 +1903,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInstanceInformationOutputResponse, DescribeInstanceInformationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInstanceInformationOutputResponse, DescribeInstanceInformationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInstanceInformationOutputResponse, DescribeInstanceInformationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1723,6 +1928,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeInstancePatchStatesInput, DescribeInstancePatchStatesOutputResponse, DescribeInstancePatchStatesOutputError>(id: "describeInstancePatchStates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInstancePatchStatesInput, DescribeInstancePatchStatesOutputResponse, DescribeInstancePatchStatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInstancePatchStatesInput, DescribeInstancePatchStatesOutputResponse>())
@@ -1738,8 +1944,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInstancePatchStatesOutputResponse, DescribeInstancePatchStatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInstancePatchStatesOutputResponse, DescribeInstancePatchStatesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInstancePatchStatesOutputResponse, DescribeInstancePatchStatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1759,6 +1969,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeInstancePatchStatesForPatchGroupInput, DescribeInstancePatchStatesForPatchGroupOutputResponse, DescribeInstancePatchStatesForPatchGroupOutputError>(id: "describeInstancePatchStatesForPatchGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInstancePatchStatesForPatchGroupInput, DescribeInstancePatchStatesForPatchGroupOutputResponse, DescribeInstancePatchStatesForPatchGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInstancePatchStatesForPatchGroupInput, DescribeInstancePatchStatesForPatchGroupOutputResponse>())
@@ -1774,8 +1985,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInstancePatchStatesForPatchGroupOutputResponse, DescribeInstancePatchStatesForPatchGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInstancePatchStatesForPatchGroupOutputResponse, DescribeInstancePatchStatesForPatchGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInstancePatchStatesForPatchGroupOutputResponse, DescribeInstancePatchStatesForPatchGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1795,6 +2010,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeInstancePatchesInput, DescribeInstancePatchesOutputResponse, DescribeInstancePatchesOutputError>(id: "describeInstancePatches")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInstancePatchesInput, DescribeInstancePatchesOutputResponse, DescribeInstancePatchesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInstancePatchesInput, DescribeInstancePatchesOutputResponse>())
@@ -1810,8 +2026,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInstancePatchesOutputResponse, DescribeInstancePatchesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInstancePatchesOutputResponse, DescribeInstancePatchesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInstancePatchesOutputResponse, DescribeInstancePatchesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1831,6 +2051,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeInventoryDeletionsInput, DescribeInventoryDeletionsOutputResponse, DescribeInventoryDeletionsOutputError>(id: "describeInventoryDeletions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInventoryDeletionsInput, DescribeInventoryDeletionsOutputResponse, DescribeInventoryDeletionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInventoryDeletionsInput, DescribeInventoryDeletionsOutputResponse>())
@@ -1846,8 +2067,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInventoryDeletionsOutputResponse, DescribeInventoryDeletionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInventoryDeletionsOutputResponse, DescribeInventoryDeletionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInventoryDeletionsOutputResponse, DescribeInventoryDeletionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1867,6 +2092,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMaintenanceWindowExecutionTaskInvocationsInput, DescribeMaintenanceWindowExecutionTaskInvocationsOutputResponse, DescribeMaintenanceWindowExecutionTaskInvocationsOutputError>(id: "describeMaintenanceWindowExecutionTaskInvocations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMaintenanceWindowExecutionTaskInvocationsInput, DescribeMaintenanceWindowExecutionTaskInvocationsOutputResponse, DescribeMaintenanceWindowExecutionTaskInvocationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMaintenanceWindowExecutionTaskInvocationsInput, DescribeMaintenanceWindowExecutionTaskInvocationsOutputResponse>())
@@ -1882,8 +2108,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMaintenanceWindowExecutionTaskInvocationsOutputResponse, DescribeMaintenanceWindowExecutionTaskInvocationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMaintenanceWindowExecutionTaskInvocationsOutputResponse, DescribeMaintenanceWindowExecutionTaskInvocationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowExecutionTaskInvocationsOutputResponse, DescribeMaintenanceWindowExecutionTaskInvocationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1903,6 +2133,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMaintenanceWindowExecutionTasksInput, DescribeMaintenanceWindowExecutionTasksOutputResponse, DescribeMaintenanceWindowExecutionTasksOutputError>(id: "describeMaintenanceWindowExecutionTasks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMaintenanceWindowExecutionTasksInput, DescribeMaintenanceWindowExecutionTasksOutputResponse, DescribeMaintenanceWindowExecutionTasksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMaintenanceWindowExecutionTasksInput, DescribeMaintenanceWindowExecutionTasksOutputResponse>())
@@ -1918,8 +2149,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMaintenanceWindowExecutionTasksOutputResponse, DescribeMaintenanceWindowExecutionTasksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMaintenanceWindowExecutionTasksOutputResponse, DescribeMaintenanceWindowExecutionTasksOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowExecutionTasksOutputResponse, DescribeMaintenanceWindowExecutionTasksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1939,6 +2174,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMaintenanceWindowExecutionsInput, DescribeMaintenanceWindowExecutionsOutputResponse, DescribeMaintenanceWindowExecutionsOutputError>(id: "describeMaintenanceWindowExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMaintenanceWindowExecutionsInput, DescribeMaintenanceWindowExecutionsOutputResponse, DescribeMaintenanceWindowExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMaintenanceWindowExecutionsInput, DescribeMaintenanceWindowExecutionsOutputResponse>())
@@ -1954,8 +2190,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMaintenanceWindowExecutionsOutputResponse, DescribeMaintenanceWindowExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMaintenanceWindowExecutionsOutputResponse, DescribeMaintenanceWindowExecutionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowExecutionsOutputResponse, DescribeMaintenanceWindowExecutionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1975,6 +2215,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMaintenanceWindowScheduleInput, DescribeMaintenanceWindowScheduleOutputResponse, DescribeMaintenanceWindowScheduleOutputError>(id: "describeMaintenanceWindowSchedule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMaintenanceWindowScheduleInput, DescribeMaintenanceWindowScheduleOutputResponse, DescribeMaintenanceWindowScheduleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMaintenanceWindowScheduleInput, DescribeMaintenanceWindowScheduleOutputResponse>())
@@ -1990,8 +2231,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMaintenanceWindowScheduleOutputResponse, DescribeMaintenanceWindowScheduleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMaintenanceWindowScheduleOutputResponse, DescribeMaintenanceWindowScheduleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowScheduleOutputResponse, DescribeMaintenanceWindowScheduleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2011,6 +2256,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMaintenanceWindowTargetsInput, DescribeMaintenanceWindowTargetsOutputResponse, DescribeMaintenanceWindowTargetsOutputError>(id: "describeMaintenanceWindowTargets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMaintenanceWindowTargetsInput, DescribeMaintenanceWindowTargetsOutputResponse, DescribeMaintenanceWindowTargetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMaintenanceWindowTargetsInput, DescribeMaintenanceWindowTargetsOutputResponse>())
@@ -2026,8 +2272,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMaintenanceWindowTargetsOutputResponse, DescribeMaintenanceWindowTargetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMaintenanceWindowTargetsOutputResponse, DescribeMaintenanceWindowTargetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowTargetsOutputResponse, DescribeMaintenanceWindowTargetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2047,6 +2297,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMaintenanceWindowTasksInput, DescribeMaintenanceWindowTasksOutputResponse, DescribeMaintenanceWindowTasksOutputError>(id: "describeMaintenanceWindowTasks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMaintenanceWindowTasksInput, DescribeMaintenanceWindowTasksOutputResponse, DescribeMaintenanceWindowTasksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMaintenanceWindowTasksInput, DescribeMaintenanceWindowTasksOutputResponse>())
@@ -2062,8 +2313,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMaintenanceWindowTasksOutputResponse, DescribeMaintenanceWindowTasksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMaintenanceWindowTasksOutputResponse, DescribeMaintenanceWindowTasksOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowTasksOutputResponse, DescribeMaintenanceWindowTasksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2083,6 +2338,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMaintenanceWindowsInput, DescribeMaintenanceWindowsOutputResponse, DescribeMaintenanceWindowsOutputError>(id: "describeMaintenanceWindows")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMaintenanceWindowsInput, DescribeMaintenanceWindowsOutputResponse, DescribeMaintenanceWindowsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMaintenanceWindowsInput, DescribeMaintenanceWindowsOutputResponse>())
@@ -2098,8 +2354,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMaintenanceWindowsOutputResponse, DescribeMaintenanceWindowsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMaintenanceWindowsOutputResponse, DescribeMaintenanceWindowsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowsOutputResponse, DescribeMaintenanceWindowsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2119,6 +2379,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMaintenanceWindowsForTargetInput, DescribeMaintenanceWindowsForTargetOutputResponse, DescribeMaintenanceWindowsForTargetOutputError>(id: "describeMaintenanceWindowsForTarget")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMaintenanceWindowsForTargetInput, DescribeMaintenanceWindowsForTargetOutputResponse, DescribeMaintenanceWindowsForTargetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMaintenanceWindowsForTargetInput, DescribeMaintenanceWindowsForTargetOutputResponse>())
@@ -2134,8 +2395,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMaintenanceWindowsForTargetOutputResponse, DescribeMaintenanceWindowsForTargetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMaintenanceWindowsForTargetOutputResponse, DescribeMaintenanceWindowsForTargetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowsForTargetOutputResponse, DescribeMaintenanceWindowsForTargetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2155,6 +2420,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeOpsItemsInput, DescribeOpsItemsOutputResponse, DescribeOpsItemsOutputError>(id: "describeOpsItems")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOpsItemsInput, DescribeOpsItemsOutputResponse, DescribeOpsItemsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOpsItemsInput, DescribeOpsItemsOutputResponse>())
@@ -2170,8 +2436,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOpsItemsOutputResponse, DescribeOpsItemsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOpsItemsOutputResponse, DescribeOpsItemsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOpsItemsOutputResponse, DescribeOpsItemsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2191,6 +2461,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeParametersInput, DescribeParametersOutputResponse, DescribeParametersOutputError>(id: "describeParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeParametersInput, DescribeParametersOutputResponse, DescribeParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeParametersInput, DescribeParametersOutputResponse>())
@@ -2206,8 +2477,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeParametersOutputResponse, DescribeParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeParametersOutputResponse, DescribeParametersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeParametersOutputResponse, DescribeParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2227,6 +2502,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePatchBaselinesInput, DescribePatchBaselinesOutputResponse, DescribePatchBaselinesOutputError>(id: "describePatchBaselines")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePatchBaselinesInput, DescribePatchBaselinesOutputResponse, DescribePatchBaselinesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePatchBaselinesInput, DescribePatchBaselinesOutputResponse>())
@@ -2242,8 +2518,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePatchBaselinesOutputResponse, DescribePatchBaselinesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePatchBaselinesOutputResponse, DescribePatchBaselinesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePatchBaselinesOutputResponse, DescribePatchBaselinesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2263,6 +2543,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePatchGroupStateInput, DescribePatchGroupStateOutputResponse, DescribePatchGroupStateOutputError>(id: "describePatchGroupState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePatchGroupStateInput, DescribePatchGroupStateOutputResponse, DescribePatchGroupStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePatchGroupStateInput, DescribePatchGroupStateOutputResponse>())
@@ -2278,8 +2559,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePatchGroupStateOutputResponse, DescribePatchGroupStateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePatchGroupStateOutputResponse, DescribePatchGroupStateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePatchGroupStateOutputResponse, DescribePatchGroupStateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2299,6 +2584,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePatchGroupsInput, DescribePatchGroupsOutputResponse, DescribePatchGroupsOutputError>(id: "describePatchGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePatchGroupsInput, DescribePatchGroupsOutputResponse, DescribePatchGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePatchGroupsInput, DescribePatchGroupsOutputResponse>())
@@ -2314,8 +2600,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePatchGroupsOutputResponse, DescribePatchGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePatchGroupsOutputResponse, DescribePatchGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePatchGroupsOutputResponse, DescribePatchGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2335,6 +2625,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePatchPropertiesInput, DescribePatchPropertiesOutputResponse, DescribePatchPropertiesOutputError>(id: "describePatchProperties")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePatchPropertiesInput, DescribePatchPropertiesOutputResponse, DescribePatchPropertiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePatchPropertiesInput, DescribePatchPropertiesOutputResponse>())
@@ -2350,8 +2641,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePatchPropertiesOutputResponse, DescribePatchPropertiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePatchPropertiesOutputResponse, DescribePatchPropertiesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePatchPropertiesOutputResponse, DescribePatchPropertiesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2371,6 +2666,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSessionsInput, DescribeSessionsOutputResponse, DescribeSessionsOutputError>(id: "describeSessions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSessionsInput, DescribeSessionsOutputResponse, DescribeSessionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSessionsInput, DescribeSessionsOutputResponse>())
@@ -2386,8 +2682,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSessionsOutputResponse, DescribeSessionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSessionsOutputResponse, DescribeSessionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSessionsOutputResponse, DescribeSessionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2407,6 +2707,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateOpsItemRelatedItemInput, DisassociateOpsItemRelatedItemOutputResponse, DisassociateOpsItemRelatedItemOutputError>(id: "disassociateOpsItemRelatedItem")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateOpsItemRelatedItemInput, DisassociateOpsItemRelatedItemOutputResponse, DisassociateOpsItemRelatedItemOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateOpsItemRelatedItemInput, DisassociateOpsItemRelatedItemOutputResponse>())
@@ -2422,8 +2723,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateOpsItemRelatedItemOutputResponse, DisassociateOpsItemRelatedItemOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateOpsItemRelatedItemOutputResponse, DisassociateOpsItemRelatedItemOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateOpsItemRelatedItemOutputResponse, DisassociateOpsItemRelatedItemOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2443,6 +2748,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAutomationExecutionInput, GetAutomationExecutionOutputResponse, GetAutomationExecutionOutputError>(id: "getAutomationExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAutomationExecutionInput, GetAutomationExecutionOutputResponse, GetAutomationExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAutomationExecutionInput, GetAutomationExecutionOutputResponse>())
@@ -2458,8 +2764,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAutomationExecutionOutputResponse, GetAutomationExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAutomationExecutionOutputResponse, GetAutomationExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAutomationExecutionOutputResponse, GetAutomationExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2479,6 +2789,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCalendarStateInput, GetCalendarStateOutputResponse, GetCalendarStateOutputError>(id: "getCalendarState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCalendarStateInput, GetCalendarStateOutputResponse, GetCalendarStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCalendarStateInput, GetCalendarStateOutputResponse>())
@@ -2494,8 +2805,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCalendarStateOutputResponse, GetCalendarStateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCalendarStateOutputResponse, GetCalendarStateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCalendarStateOutputResponse, GetCalendarStateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2515,6 +2830,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCommandInvocationInput, GetCommandInvocationOutputResponse, GetCommandInvocationOutputError>(id: "getCommandInvocation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCommandInvocationInput, GetCommandInvocationOutputResponse, GetCommandInvocationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommandInvocationInput, GetCommandInvocationOutputResponse>())
@@ -2530,8 +2846,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCommandInvocationOutputResponse, GetCommandInvocationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCommandInvocationOutputResponse, GetCommandInvocationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCommandInvocationOutputResponse, GetCommandInvocationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2551,6 +2871,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetConnectionStatusInput, GetConnectionStatusOutputResponse, GetConnectionStatusOutputError>(id: "getConnectionStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConnectionStatusInput, GetConnectionStatusOutputResponse, GetConnectionStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConnectionStatusInput, GetConnectionStatusOutputResponse>())
@@ -2566,8 +2887,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConnectionStatusOutputResponse, GetConnectionStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConnectionStatusOutputResponse, GetConnectionStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConnectionStatusOutputResponse, GetConnectionStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2587,6 +2912,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDefaultPatchBaselineInput, GetDefaultPatchBaselineOutputResponse, GetDefaultPatchBaselineOutputError>(id: "getDefaultPatchBaseline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDefaultPatchBaselineInput, GetDefaultPatchBaselineOutputResponse, GetDefaultPatchBaselineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDefaultPatchBaselineInput, GetDefaultPatchBaselineOutputResponse>())
@@ -2602,8 +2928,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDefaultPatchBaselineOutputResponse, GetDefaultPatchBaselineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDefaultPatchBaselineOutputResponse, GetDefaultPatchBaselineOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDefaultPatchBaselineOutputResponse, GetDefaultPatchBaselineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2623,6 +2953,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDeployablePatchSnapshotForInstanceInput, GetDeployablePatchSnapshotForInstanceOutputResponse, GetDeployablePatchSnapshotForInstanceOutputError>(id: "getDeployablePatchSnapshotForInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeployablePatchSnapshotForInstanceInput, GetDeployablePatchSnapshotForInstanceOutputResponse, GetDeployablePatchSnapshotForInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeployablePatchSnapshotForInstanceInput, GetDeployablePatchSnapshotForInstanceOutputResponse>())
@@ -2638,8 +2969,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeployablePatchSnapshotForInstanceOutputResponse, GetDeployablePatchSnapshotForInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeployablePatchSnapshotForInstanceOutputResponse, GetDeployablePatchSnapshotForInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeployablePatchSnapshotForInstanceOutputResponse, GetDeployablePatchSnapshotForInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2659,6 +2994,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDocumentInput, GetDocumentOutputResponse, GetDocumentOutputError>(id: "getDocument")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDocumentInput, GetDocumentOutputResponse, GetDocumentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDocumentInput, GetDocumentOutputResponse>())
@@ -2674,8 +3010,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDocumentOutputResponse, GetDocumentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDocumentOutputResponse, GetDocumentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDocumentOutputResponse, GetDocumentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2695,6 +3035,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInventoryInput, GetInventoryOutputResponse, GetInventoryOutputError>(id: "getInventory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInventoryInput, GetInventoryOutputResponse, GetInventoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInventoryInput, GetInventoryOutputResponse>())
@@ -2710,8 +3051,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInventoryOutputResponse, GetInventoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInventoryOutputResponse, GetInventoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInventoryOutputResponse, GetInventoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2731,6 +3076,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInventorySchemaInput, GetInventorySchemaOutputResponse, GetInventorySchemaOutputError>(id: "getInventorySchema")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInventorySchemaInput, GetInventorySchemaOutputResponse, GetInventorySchemaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInventorySchemaInput, GetInventorySchemaOutputResponse>())
@@ -2746,8 +3092,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInventorySchemaOutputResponse, GetInventorySchemaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInventorySchemaOutputResponse, GetInventorySchemaOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInventorySchemaOutputResponse, GetInventorySchemaOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2767,6 +3117,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMaintenanceWindowInput, GetMaintenanceWindowOutputResponse, GetMaintenanceWindowOutputError>(id: "getMaintenanceWindow")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMaintenanceWindowInput, GetMaintenanceWindowOutputResponse, GetMaintenanceWindowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMaintenanceWindowInput, GetMaintenanceWindowOutputResponse>())
@@ -2782,8 +3133,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMaintenanceWindowOutputResponse, GetMaintenanceWindowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMaintenanceWindowOutputResponse, GetMaintenanceWindowOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMaintenanceWindowOutputResponse, GetMaintenanceWindowOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2803,6 +3158,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMaintenanceWindowExecutionInput, GetMaintenanceWindowExecutionOutputResponse, GetMaintenanceWindowExecutionOutputError>(id: "getMaintenanceWindowExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMaintenanceWindowExecutionInput, GetMaintenanceWindowExecutionOutputResponse, GetMaintenanceWindowExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMaintenanceWindowExecutionInput, GetMaintenanceWindowExecutionOutputResponse>())
@@ -2818,8 +3174,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMaintenanceWindowExecutionOutputResponse, GetMaintenanceWindowExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMaintenanceWindowExecutionOutputResponse, GetMaintenanceWindowExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMaintenanceWindowExecutionOutputResponse, GetMaintenanceWindowExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2839,6 +3199,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMaintenanceWindowExecutionTaskInput, GetMaintenanceWindowExecutionTaskOutputResponse, GetMaintenanceWindowExecutionTaskOutputError>(id: "getMaintenanceWindowExecutionTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMaintenanceWindowExecutionTaskInput, GetMaintenanceWindowExecutionTaskOutputResponse, GetMaintenanceWindowExecutionTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMaintenanceWindowExecutionTaskInput, GetMaintenanceWindowExecutionTaskOutputResponse>())
@@ -2854,8 +3215,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMaintenanceWindowExecutionTaskOutputResponse, GetMaintenanceWindowExecutionTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMaintenanceWindowExecutionTaskOutputResponse, GetMaintenanceWindowExecutionTaskOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMaintenanceWindowExecutionTaskOutputResponse, GetMaintenanceWindowExecutionTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2875,6 +3240,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMaintenanceWindowExecutionTaskInvocationInput, GetMaintenanceWindowExecutionTaskInvocationOutputResponse, GetMaintenanceWindowExecutionTaskInvocationOutputError>(id: "getMaintenanceWindowExecutionTaskInvocation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMaintenanceWindowExecutionTaskInvocationInput, GetMaintenanceWindowExecutionTaskInvocationOutputResponse, GetMaintenanceWindowExecutionTaskInvocationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMaintenanceWindowExecutionTaskInvocationInput, GetMaintenanceWindowExecutionTaskInvocationOutputResponse>())
@@ -2890,8 +3256,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMaintenanceWindowExecutionTaskInvocationOutputResponse, GetMaintenanceWindowExecutionTaskInvocationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMaintenanceWindowExecutionTaskInvocationOutputResponse, GetMaintenanceWindowExecutionTaskInvocationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMaintenanceWindowExecutionTaskInvocationOutputResponse, GetMaintenanceWindowExecutionTaskInvocationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2911,6 +3281,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMaintenanceWindowTaskInput, GetMaintenanceWindowTaskOutputResponse, GetMaintenanceWindowTaskOutputError>(id: "getMaintenanceWindowTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMaintenanceWindowTaskInput, GetMaintenanceWindowTaskOutputResponse, GetMaintenanceWindowTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMaintenanceWindowTaskInput, GetMaintenanceWindowTaskOutputResponse>())
@@ -2926,8 +3297,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMaintenanceWindowTaskOutputResponse, GetMaintenanceWindowTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMaintenanceWindowTaskOutputResponse, GetMaintenanceWindowTaskOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMaintenanceWindowTaskOutputResponse, GetMaintenanceWindowTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2947,6 +3322,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetOpsItemInput, GetOpsItemOutputResponse, GetOpsItemOutputError>(id: "getOpsItem")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOpsItemInput, GetOpsItemOutputResponse, GetOpsItemOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOpsItemInput, GetOpsItemOutputResponse>())
@@ -2962,8 +3338,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOpsItemOutputResponse, GetOpsItemOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOpsItemOutputResponse, GetOpsItemOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOpsItemOutputResponse, GetOpsItemOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2983,6 +3363,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetOpsMetadataInput, GetOpsMetadataOutputResponse, GetOpsMetadataOutputError>(id: "getOpsMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOpsMetadataInput, GetOpsMetadataOutputResponse, GetOpsMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOpsMetadataInput, GetOpsMetadataOutputResponse>())
@@ -2998,8 +3379,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOpsMetadataOutputResponse, GetOpsMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOpsMetadataOutputResponse, GetOpsMetadataOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOpsMetadataOutputResponse, GetOpsMetadataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3019,6 +3404,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetOpsSummaryInput, GetOpsSummaryOutputResponse, GetOpsSummaryOutputError>(id: "getOpsSummary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOpsSummaryInput, GetOpsSummaryOutputResponse, GetOpsSummaryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOpsSummaryInput, GetOpsSummaryOutputResponse>())
@@ -3034,8 +3420,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOpsSummaryOutputResponse, GetOpsSummaryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOpsSummaryOutputResponse, GetOpsSummaryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOpsSummaryOutputResponse, GetOpsSummaryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3055,6 +3445,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetParameterInput, GetParameterOutputResponse, GetParameterOutputError>(id: "getParameter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetParameterInput, GetParameterOutputResponse, GetParameterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetParameterInput, GetParameterOutputResponse>())
@@ -3070,8 +3461,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetParameterOutputResponse, GetParameterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetParameterOutputResponse, GetParameterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetParameterOutputResponse, GetParameterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3091,6 +3486,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetParameterHistoryInput, GetParameterHistoryOutputResponse, GetParameterHistoryOutputError>(id: "getParameterHistory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetParameterHistoryInput, GetParameterHistoryOutputResponse, GetParameterHistoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetParameterHistoryInput, GetParameterHistoryOutputResponse>())
@@ -3106,8 +3502,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetParameterHistoryOutputResponse, GetParameterHistoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetParameterHistoryOutputResponse, GetParameterHistoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetParameterHistoryOutputResponse, GetParameterHistoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3127,6 +3527,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetParametersInput, GetParametersOutputResponse, GetParametersOutputError>(id: "getParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetParametersInput, GetParametersOutputResponse, GetParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetParametersInput, GetParametersOutputResponse>())
@@ -3142,8 +3543,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetParametersOutputResponse, GetParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetParametersOutputResponse, GetParametersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetParametersOutputResponse, GetParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3163,6 +3568,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetParametersByPathInput, GetParametersByPathOutputResponse, GetParametersByPathOutputError>(id: "getParametersByPath")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetParametersByPathInput, GetParametersByPathOutputResponse, GetParametersByPathOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetParametersByPathInput, GetParametersByPathOutputResponse>())
@@ -3178,8 +3584,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetParametersByPathOutputResponse, GetParametersByPathOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetParametersByPathOutputResponse, GetParametersByPathOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetParametersByPathOutputResponse, GetParametersByPathOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3199,6 +3609,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPatchBaselineInput, GetPatchBaselineOutputResponse, GetPatchBaselineOutputError>(id: "getPatchBaseline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPatchBaselineInput, GetPatchBaselineOutputResponse, GetPatchBaselineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPatchBaselineInput, GetPatchBaselineOutputResponse>())
@@ -3214,8 +3625,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPatchBaselineOutputResponse, GetPatchBaselineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPatchBaselineOutputResponse, GetPatchBaselineOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPatchBaselineOutputResponse, GetPatchBaselineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3235,6 +3650,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPatchBaselineForPatchGroupInput, GetPatchBaselineForPatchGroupOutputResponse, GetPatchBaselineForPatchGroupOutputError>(id: "getPatchBaselineForPatchGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPatchBaselineForPatchGroupInput, GetPatchBaselineForPatchGroupOutputResponse, GetPatchBaselineForPatchGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPatchBaselineForPatchGroupInput, GetPatchBaselineForPatchGroupOutputResponse>())
@@ -3250,8 +3666,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPatchBaselineForPatchGroupOutputResponse, GetPatchBaselineForPatchGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPatchBaselineForPatchGroupOutputResponse, GetPatchBaselineForPatchGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPatchBaselineForPatchGroupOutputResponse, GetPatchBaselineForPatchGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3271,6 +3691,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetResourcePoliciesInput, GetResourcePoliciesOutputResponse, GetResourcePoliciesOutputError>(id: "getResourcePolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutputResponse, GetResourcePoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutputResponse>())
@@ -3286,8 +3707,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourcePoliciesOutputResponse, GetResourcePoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourcePoliciesOutputResponse, GetResourcePoliciesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourcePoliciesOutputResponse, GetResourcePoliciesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3307,6 +3732,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetServiceSettingInput, GetServiceSettingOutputResponse, GetServiceSettingOutputError>(id: "getServiceSetting")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceSettingInput, GetServiceSettingOutputResponse, GetServiceSettingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServiceSettingInput, GetServiceSettingOutputResponse>())
@@ -3322,8 +3748,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceSettingOutputResponse, GetServiceSettingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceSettingOutputResponse, GetServiceSettingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceSettingOutputResponse, GetServiceSettingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3359,6 +3789,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<LabelParameterVersionInput, LabelParameterVersionOutputResponse, LabelParameterVersionOutputError>(id: "labelParameterVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<LabelParameterVersionInput, LabelParameterVersionOutputResponse, LabelParameterVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<LabelParameterVersionInput, LabelParameterVersionOutputResponse>())
@@ -3374,8 +3805,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<LabelParameterVersionOutputResponse, LabelParameterVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<LabelParameterVersionOutputResponse, LabelParameterVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<LabelParameterVersionOutputResponse, LabelParameterVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3395,6 +3830,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAssociationVersionsInput, ListAssociationVersionsOutputResponse, ListAssociationVersionsOutputError>(id: "listAssociationVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAssociationVersionsInput, ListAssociationVersionsOutputResponse, ListAssociationVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssociationVersionsInput, ListAssociationVersionsOutputResponse>())
@@ -3410,8 +3846,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAssociationVersionsOutputResponse, ListAssociationVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAssociationVersionsOutputResponse, ListAssociationVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAssociationVersionsOutputResponse, ListAssociationVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3431,6 +3871,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAssociationsInput, ListAssociationsOutputResponse, ListAssociationsOutputError>(id: "listAssociations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAssociationsInput, ListAssociationsOutputResponse, ListAssociationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssociationsInput, ListAssociationsOutputResponse>())
@@ -3446,8 +3887,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAssociationsOutputResponse, ListAssociationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAssociationsOutputResponse, ListAssociationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAssociationsOutputResponse, ListAssociationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3467,6 +3912,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCommandInvocationsInput, ListCommandInvocationsOutputResponse, ListCommandInvocationsOutputError>(id: "listCommandInvocations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCommandInvocationsInput, ListCommandInvocationsOutputResponse, ListCommandInvocationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCommandInvocationsInput, ListCommandInvocationsOutputResponse>())
@@ -3482,8 +3928,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCommandInvocationsOutputResponse, ListCommandInvocationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCommandInvocationsOutputResponse, ListCommandInvocationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCommandInvocationsOutputResponse, ListCommandInvocationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3503,6 +3953,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCommandsInput, ListCommandsOutputResponse, ListCommandsOutputError>(id: "listCommands")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCommandsInput, ListCommandsOutputResponse, ListCommandsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCommandsInput, ListCommandsOutputResponse>())
@@ -3518,8 +3969,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCommandsOutputResponse, ListCommandsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCommandsOutputResponse, ListCommandsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCommandsOutputResponse, ListCommandsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3539,6 +3994,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListComplianceItemsInput, ListComplianceItemsOutputResponse, ListComplianceItemsOutputError>(id: "listComplianceItems")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListComplianceItemsInput, ListComplianceItemsOutputResponse, ListComplianceItemsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListComplianceItemsInput, ListComplianceItemsOutputResponse>())
@@ -3554,8 +4010,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListComplianceItemsOutputResponse, ListComplianceItemsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListComplianceItemsOutputResponse, ListComplianceItemsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListComplianceItemsOutputResponse, ListComplianceItemsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3575,6 +4035,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListComplianceSummariesInput, ListComplianceSummariesOutputResponse, ListComplianceSummariesOutputError>(id: "listComplianceSummaries")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListComplianceSummariesInput, ListComplianceSummariesOutputResponse, ListComplianceSummariesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListComplianceSummariesInput, ListComplianceSummariesOutputResponse>())
@@ -3590,8 +4051,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListComplianceSummariesOutputResponse, ListComplianceSummariesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListComplianceSummariesOutputResponse, ListComplianceSummariesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListComplianceSummariesOutputResponse, ListComplianceSummariesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3611,6 +4076,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDocumentMetadataHistoryInput, ListDocumentMetadataHistoryOutputResponse, ListDocumentMetadataHistoryOutputError>(id: "listDocumentMetadataHistory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDocumentMetadataHistoryInput, ListDocumentMetadataHistoryOutputResponse, ListDocumentMetadataHistoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDocumentMetadataHistoryInput, ListDocumentMetadataHistoryOutputResponse>())
@@ -3626,8 +4092,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDocumentMetadataHistoryOutputResponse, ListDocumentMetadataHistoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDocumentMetadataHistoryOutputResponse, ListDocumentMetadataHistoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDocumentMetadataHistoryOutputResponse, ListDocumentMetadataHistoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3647,6 +4117,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDocumentVersionsInput, ListDocumentVersionsOutputResponse, ListDocumentVersionsOutputError>(id: "listDocumentVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDocumentVersionsInput, ListDocumentVersionsOutputResponse, ListDocumentVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDocumentVersionsInput, ListDocumentVersionsOutputResponse>())
@@ -3662,8 +4133,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDocumentVersionsOutputResponse, ListDocumentVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDocumentVersionsOutputResponse, ListDocumentVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDocumentVersionsOutputResponse, ListDocumentVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3683,6 +4158,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDocumentsInput, ListDocumentsOutputResponse, ListDocumentsOutputError>(id: "listDocuments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDocumentsInput, ListDocumentsOutputResponse, ListDocumentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDocumentsInput, ListDocumentsOutputResponse>())
@@ -3698,8 +4174,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDocumentsOutputResponse, ListDocumentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDocumentsOutputResponse, ListDocumentsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDocumentsOutputResponse, ListDocumentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3719,6 +4199,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListInventoryEntriesInput, ListInventoryEntriesOutputResponse, ListInventoryEntriesOutputError>(id: "listInventoryEntries")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInventoryEntriesInput, ListInventoryEntriesOutputResponse, ListInventoryEntriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInventoryEntriesInput, ListInventoryEntriesOutputResponse>())
@@ -3734,8 +4215,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInventoryEntriesOutputResponse, ListInventoryEntriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInventoryEntriesOutputResponse, ListInventoryEntriesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInventoryEntriesOutputResponse, ListInventoryEntriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3755,6 +4240,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListOpsItemEventsInput, ListOpsItemEventsOutputResponse, ListOpsItemEventsOutputError>(id: "listOpsItemEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOpsItemEventsInput, ListOpsItemEventsOutputResponse, ListOpsItemEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOpsItemEventsInput, ListOpsItemEventsOutputResponse>())
@@ -3770,8 +4256,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOpsItemEventsOutputResponse, ListOpsItemEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOpsItemEventsOutputResponse, ListOpsItemEventsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOpsItemEventsOutputResponse, ListOpsItemEventsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3791,6 +4281,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListOpsItemRelatedItemsInput, ListOpsItemRelatedItemsOutputResponse, ListOpsItemRelatedItemsOutputError>(id: "listOpsItemRelatedItems")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOpsItemRelatedItemsInput, ListOpsItemRelatedItemsOutputResponse, ListOpsItemRelatedItemsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOpsItemRelatedItemsInput, ListOpsItemRelatedItemsOutputResponse>())
@@ -3806,8 +4297,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOpsItemRelatedItemsOutputResponse, ListOpsItemRelatedItemsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOpsItemRelatedItemsOutputResponse, ListOpsItemRelatedItemsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOpsItemRelatedItemsOutputResponse, ListOpsItemRelatedItemsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3827,6 +4322,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListOpsMetadataInput, ListOpsMetadataOutputResponse, ListOpsMetadataOutputError>(id: "listOpsMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOpsMetadataInput, ListOpsMetadataOutputResponse, ListOpsMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOpsMetadataInput, ListOpsMetadataOutputResponse>())
@@ -3842,8 +4338,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOpsMetadataOutputResponse, ListOpsMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOpsMetadataOutputResponse, ListOpsMetadataOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOpsMetadataOutputResponse, ListOpsMetadataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3863,6 +4363,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListResourceComplianceSummariesInput, ListResourceComplianceSummariesOutputResponse, ListResourceComplianceSummariesOutputError>(id: "listResourceComplianceSummaries")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceComplianceSummariesInput, ListResourceComplianceSummariesOutputResponse, ListResourceComplianceSummariesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceComplianceSummariesInput, ListResourceComplianceSummariesOutputResponse>())
@@ -3878,8 +4379,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceComplianceSummariesOutputResponse, ListResourceComplianceSummariesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceComplianceSummariesOutputResponse, ListResourceComplianceSummariesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourceComplianceSummariesOutputResponse, ListResourceComplianceSummariesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3899,6 +4404,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListResourceDataSyncInput, ListResourceDataSyncOutputResponse, ListResourceDataSyncOutputError>(id: "listResourceDataSync")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceDataSyncInput, ListResourceDataSyncOutputResponse, ListResourceDataSyncOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceDataSyncInput, ListResourceDataSyncOutputResponse>())
@@ -3914,8 +4420,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceDataSyncOutputResponse, ListResourceDataSyncOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceDataSyncOutputResponse, ListResourceDataSyncOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourceDataSyncOutputResponse, ListResourceDataSyncOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3935,6 +4445,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -3950,8 +4461,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3971,6 +4486,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDocumentPermissionInput, ModifyDocumentPermissionOutputResponse, ModifyDocumentPermissionOutputError>(id: "modifyDocumentPermission")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDocumentPermissionInput, ModifyDocumentPermissionOutputResponse, ModifyDocumentPermissionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDocumentPermissionInput, ModifyDocumentPermissionOutputResponse>())
@@ -3986,8 +4502,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDocumentPermissionOutputResponse, ModifyDocumentPermissionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDocumentPermissionOutputResponse, ModifyDocumentPermissionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyDocumentPermissionOutputResponse, ModifyDocumentPermissionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4037,6 +4557,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutComplianceItemsInput, PutComplianceItemsOutputResponse, PutComplianceItemsOutputError>(id: "putComplianceItems")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutComplianceItemsInput, PutComplianceItemsOutputResponse, PutComplianceItemsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutComplianceItemsInput, PutComplianceItemsOutputResponse>())
@@ -4052,8 +4573,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutComplianceItemsOutputResponse, PutComplianceItemsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutComplianceItemsOutputResponse, PutComplianceItemsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutComplianceItemsOutputResponse, PutComplianceItemsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4073,6 +4598,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutInventoryInput, PutInventoryOutputResponse, PutInventoryOutputError>(id: "putInventory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutInventoryInput, PutInventoryOutputResponse, PutInventoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutInventoryInput, PutInventoryOutputResponse>())
@@ -4088,8 +4614,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutInventoryOutputResponse, PutInventoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutInventoryOutputResponse, PutInventoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutInventoryOutputResponse, PutInventoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4109,6 +4639,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutParameterInput, PutParameterOutputResponse, PutParameterOutputError>(id: "putParameter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutParameterInput, PutParameterOutputResponse, PutParameterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutParameterInput, PutParameterOutputResponse>())
@@ -4124,8 +4655,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutParameterOutputResponse, PutParameterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutParameterOutputResponse, PutParameterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutParameterOutputResponse, PutParameterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4145,6 +4680,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutResourcePolicyInput, PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(id: "putResourcePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>())
@@ -4160,8 +4696,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4181,6 +4721,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterDefaultPatchBaselineInput, RegisterDefaultPatchBaselineOutputResponse, RegisterDefaultPatchBaselineOutputError>(id: "registerDefaultPatchBaseline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterDefaultPatchBaselineInput, RegisterDefaultPatchBaselineOutputResponse, RegisterDefaultPatchBaselineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterDefaultPatchBaselineInput, RegisterDefaultPatchBaselineOutputResponse>())
@@ -4196,8 +4737,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterDefaultPatchBaselineOutputResponse, RegisterDefaultPatchBaselineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterDefaultPatchBaselineOutputResponse, RegisterDefaultPatchBaselineOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterDefaultPatchBaselineOutputResponse, RegisterDefaultPatchBaselineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4217,6 +4762,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterPatchBaselineForPatchGroupInput, RegisterPatchBaselineForPatchGroupOutputResponse, RegisterPatchBaselineForPatchGroupOutputError>(id: "registerPatchBaselineForPatchGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterPatchBaselineForPatchGroupInput, RegisterPatchBaselineForPatchGroupOutputResponse, RegisterPatchBaselineForPatchGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterPatchBaselineForPatchGroupInput, RegisterPatchBaselineForPatchGroupOutputResponse>())
@@ -4232,8 +4778,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterPatchBaselineForPatchGroupOutputResponse, RegisterPatchBaselineForPatchGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterPatchBaselineForPatchGroupOutputResponse, RegisterPatchBaselineForPatchGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterPatchBaselineForPatchGroupOutputResponse, RegisterPatchBaselineForPatchGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4253,6 +4803,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterTargetWithMaintenanceWindowInput, RegisterTargetWithMaintenanceWindowOutputResponse, RegisterTargetWithMaintenanceWindowOutputError>(id: "registerTargetWithMaintenanceWindow")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<RegisterTargetWithMaintenanceWindowOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -4276,8 +4827,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterTargetWithMaintenanceWindowOutputResponse, RegisterTargetWithMaintenanceWindowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterTargetWithMaintenanceWindowOutputResponse, RegisterTargetWithMaintenanceWindowOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterTargetWithMaintenanceWindowOutputResponse, RegisterTargetWithMaintenanceWindowOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4297,6 +4852,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterTaskWithMaintenanceWindowInput, RegisterTaskWithMaintenanceWindowOutputResponse, RegisterTaskWithMaintenanceWindowOutputError>(id: "registerTaskWithMaintenanceWindow")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<RegisterTaskWithMaintenanceWindowOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -4320,8 +4876,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterTaskWithMaintenanceWindowOutputResponse, RegisterTaskWithMaintenanceWindowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterTaskWithMaintenanceWindowOutputResponse, RegisterTaskWithMaintenanceWindowOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterTaskWithMaintenanceWindowOutputResponse, RegisterTaskWithMaintenanceWindowOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4341,6 +4901,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(id: "removeTagsFromResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse>())
@@ -4356,8 +4917,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4377,6 +4942,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResetServiceSettingInput, ResetServiceSettingOutputResponse, ResetServiceSettingOutputError>(id: "resetServiceSetting")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetServiceSettingInput, ResetServiceSettingOutputResponse, ResetServiceSettingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetServiceSettingInput, ResetServiceSettingOutputResponse>())
@@ -4392,8 +4958,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetServiceSettingOutputResponse, ResetServiceSettingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetServiceSettingOutputResponse, ResetServiceSettingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetServiceSettingOutputResponse, ResetServiceSettingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4413,6 +4983,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResumeSessionInput, ResumeSessionOutputResponse, ResumeSessionOutputError>(id: "resumeSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResumeSessionInput, ResumeSessionOutputResponse, ResumeSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResumeSessionInput, ResumeSessionOutputResponse>())
@@ -4428,8 +4999,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResumeSessionOutputResponse, ResumeSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResumeSessionOutputResponse, ResumeSessionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResumeSessionOutputResponse, ResumeSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4449,6 +5024,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendAutomationSignalInput, SendAutomationSignalOutputResponse, SendAutomationSignalOutputError>(id: "sendAutomationSignal")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendAutomationSignalInput, SendAutomationSignalOutputResponse, SendAutomationSignalOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendAutomationSignalInput, SendAutomationSignalOutputResponse>())
@@ -4464,8 +5040,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendAutomationSignalOutputResponse, SendAutomationSignalOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendAutomationSignalOutputResponse, SendAutomationSignalOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendAutomationSignalOutputResponse, SendAutomationSignalOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4485,6 +5065,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendCommandInput, SendCommandOutputResponse, SendCommandOutputError>(id: "sendCommand")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendCommandInput, SendCommandOutputResponse, SendCommandOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendCommandInput, SendCommandOutputResponse>())
@@ -4500,8 +5081,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendCommandOutputResponse, SendCommandOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendCommandOutputResponse, SendCommandOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendCommandOutputResponse, SendCommandOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4521,6 +5106,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartAssociationsOnceInput, StartAssociationsOnceOutputResponse, StartAssociationsOnceOutputError>(id: "startAssociationsOnce")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartAssociationsOnceInput, StartAssociationsOnceOutputResponse, StartAssociationsOnceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartAssociationsOnceInput, StartAssociationsOnceOutputResponse>())
@@ -4536,8 +5122,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartAssociationsOnceOutputResponse, StartAssociationsOnceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartAssociationsOnceOutputResponse, StartAssociationsOnceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartAssociationsOnceOutputResponse, StartAssociationsOnceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4557,6 +5147,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartAutomationExecutionInput, StartAutomationExecutionOutputResponse, StartAutomationExecutionOutputError>(id: "startAutomationExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartAutomationExecutionInput, StartAutomationExecutionOutputResponse, StartAutomationExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartAutomationExecutionInput, StartAutomationExecutionOutputResponse>())
@@ -4572,8 +5163,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartAutomationExecutionOutputResponse, StartAutomationExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartAutomationExecutionOutputResponse, StartAutomationExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartAutomationExecutionOutputResponse, StartAutomationExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4593,6 +5188,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartChangeRequestExecutionInput, StartChangeRequestExecutionOutputResponse, StartChangeRequestExecutionOutputError>(id: "startChangeRequestExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartChangeRequestExecutionInput, StartChangeRequestExecutionOutputResponse, StartChangeRequestExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartChangeRequestExecutionInput, StartChangeRequestExecutionOutputResponse>())
@@ -4608,8 +5204,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartChangeRequestExecutionOutputResponse, StartChangeRequestExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartChangeRequestExecutionOutputResponse, StartChangeRequestExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartChangeRequestExecutionOutputResponse, StartChangeRequestExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4629,6 +5229,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartSessionInput, StartSessionOutputResponse, StartSessionOutputError>(id: "startSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSessionInput, StartSessionOutputResponse, StartSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSessionInput, StartSessionOutputResponse>())
@@ -4644,8 +5245,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSessionOutputResponse, StartSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSessionOutputResponse, StartSessionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSessionOutputResponse, StartSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4665,6 +5270,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopAutomationExecutionInput, StopAutomationExecutionOutputResponse, StopAutomationExecutionOutputError>(id: "stopAutomationExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopAutomationExecutionInput, StopAutomationExecutionOutputResponse, StopAutomationExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopAutomationExecutionInput, StopAutomationExecutionOutputResponse>())
@@ -4680,8 +5286,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopAutomationExecutionOutputResponse, StopAutomationExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopAutomationExecutionOutputResponse, StopAutomationExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopAutomationExecutionOutputResponse, StopAutomationExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4701,6 +5311,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TerminateSessionInput, TerminateSessionOutputResponse, TerminateSessionOutputError>(id: "terminateSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TerminateSessionInput, TerminateSessionOutputResponse, TerminateSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TerminateSessionInput, TerminateSessionOutputResponse>())
@@ -4716,8 +5327,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TerminateSessionOutputResponse, TerminateSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TerminateSessionOutputResponse, TerminateSessionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TerminateSessionOutputResponse, TerminateSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4737,6 +5352,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UnlabelParameterVersionInput, UnlabelParameterVersionOutputResponse, UnlabelParameterVersionOutputError>(id: "unlabelParameterVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UnlabelParameterVersionInput, UnlabelParameterVersionOutputResponse, UnlabelParameterVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UnlabelParameterVersionInput, UnlabelParameterVersionOutputResponse>())
@@ -4752,8 +5368,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UnlabelParameterVersionOutputResponse, UnlabelParameterVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UnlabelParameterVersionOutputResponse, UnlabelParameterVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UnlabelParameterVersionOutputResponse, UnlabelParameterVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4773,6 +5393,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAssociationInput, UpdateAssociationOutputResponse, UpdateAssociationOutputError>(id: "updateAssociation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAssociationInput, UpdateAssociationOutputResponse, UpdateAssociationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAssociationInput, UpdateAssociationOutputResponse>())
@@ -4788,8 +5409,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAssociationOutputResponse, UpdateAssociationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAssociationOutputResponse, UpdateAssociationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAssociationOutputResponse, UpdateAssociationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4809,6 +5434,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAssociationStatusInput, UpdateAssociationStatusOutputResponse, UpdateAssociationStatusOutputError>(id: "updateAssociationStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAssociationStatusInput, UpdateAssociationStatusOutputResponse, UpdateAssociationStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAssociationStatusInput, UpdateAssociationStatusOutputResponse>())
@@ -4824,8 +5450,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAssociationStatusOutputResponse, UpdateAssociationStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAssociationStatusOutputResponse, UpdateAssociationStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAssociationStatusOutputResponse, UpdateAssociationStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4845,6 +5475,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDocumentInput, UpdateDocumentOutputResponse, UpdateDocumentOutputError>(id: "updateDocument")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDocumentInput, UpdateDocumentOutputResponse, UpdateDocumentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDocumentInput, UpdateDocumentOutputResponse>())
@@ -4860,8 +5491,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDocumentOutputResponse, UpdateDocumentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDocumentOutputResponse, UpdateDocumentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDocumentOutputResponse, UpdateDocumentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4881,6 +5516,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDocumentDefaultVersionInput, UpdateDocumentDefaultVersionOutputResponse, UpdateDocumentDefaultVersionOutputError>(id: "updateDocumentDefaultVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDocumentDefaultVersionInput, UpdateDocumentDefaultVersionOutputResponse, UpdateDocumentDefaultVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDocumentDefaultVersionInput, UpdateDocumentDefaultVersionOutputResponse>())
@@ -4896,8 +5532,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDocumentDefaultVersionOutputResponse, UpdateDocumentDefaultVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDocumentDefaultVersionOutputResponse, UpdateDocumentDefaultVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDocumentDefaultVersionOutputResponse, UpdateDocumentDefaultVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4917,6 +5557,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDocumentMetadataInput, UpdateDocumentMetadataOutputResponse, UpdateDocumentMetadataOutputError>(id: "updateDocumentMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDocumentMetadataInput, UpdateDocumentMetadataOutputResponse, UpdateDocumentMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDocumentMetadataInput, UpdateDocumentMetadataOutputResponse>())
@@ -4932,8 +5573,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDocumentMetadataOutputResponse, UpdateDocumentMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDocumentMetadataOutputResponse, UpdateDocumentMetadataOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDocumentMetadataOutputResponse, UpdateDocumentMetadataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4953,6 +5598,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateMaintenanceWindowInput, UpdateMaintenanceWindowOutputResponse, UpdateMaintenanceWindowOutputError>(id: "updateMaintenanceWindow")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMaintenanceWindowInput, UpdateMaintenanceWindowOutputResponse, UpdateMaintenanceWindowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMaintenanceWindowInput, UpdateMaintenanceWindowOutputResponse>())
@@ -4968,8 +5614,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMaintenanceWindowOutputResponse, UpdateMaintenanceWindowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMaintenanceWindowOutputResponse, UpdateMaintenanceWindowOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMaintenanceWindowOutputResponse, UpdateMaintenanceWindowOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -5004,6 +5654,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateMaintenanceWindowTargetInput, UpdateMaintenanceWindowTargetOutputResponse, UpdateMaintenanceWindowTargetOutputError>(id: "updateMaintenanceWindowTarget")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMaintenanceWindowTargetInput, UpdateMaintenanceWindowTargetOutputResponse, UpdateMaintenanceWindowTargetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMaintenanceWindowTargetInput, UpdateMaintenanceWindowTargetOutputResponse>())
@@ -5019,8 +5670,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMaintenanceWindowTargetOutputResponse, UpdateMaintenanceWindowTargetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMaintenanceWindowTargetOutputResponse, UpdateMaintenanceWindowTargetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMaintenanceWindowTargetOutputResponse, UpdateMaintenanceWindowTargetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -5055,6 +5710,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateMaintenanceWindowTaskInput, UpdateMaintenanceWindowTaskOutputResponse, UpdateMaintenanceWindowTaskOutputError>(id: "updateMaintenanceWindowTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMaintenanceWindowTaskInput, UpdateMaintenanceWindowTaskOutputResponse, UpdateMaintenanceWindowTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMaintenanceWindowTaskInput, UpdateMaintenanceWindowTaskOutputResponse>())
@@ -5070,8 +5726,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMaintenanceWindowTaskOutputResponse, UpdateMaintenanceWindowTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMaintenanceWindowTaskOutputResponse, UpdateMaintenanceWindowTaskOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMaintenanceWindowTaskOutputResponse, UpdateMaintenanceWindowTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -5091,6 +5751,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateManagedInstanceRoleInput, UpdateManagedInstanceRoleOutputResponse, UpdateManagedInstanceRoleOutputError>(id: "updateManagedInstanceRole")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateManagedInstanceRoleInput, UpdateManagedInstanceRoleOutputResponse, UpdateManagedInstanceRoleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateManagedInstanceRoleInput, UpdateManagedInstanceRoleOutputResponse>())
@@ -5106,8 +5767,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateManagedInstanceRoleOutputResponse, UpdateManagedInstanceRoleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateManagedInstanceRoleOutputResponse, UpdateManagedInstanceRoleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateManagedInstanceRoleOutputResponse, UpdateManagedInstanceRoleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -5127,6 +5792,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateOpsItemInput, UpdateOpsItemOutputResponse, UpdateOpsItemOutputError>(id: "updateOpsItem")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateOpsItemInput, UpdateOpsItemOutputResponse, UpdateOpsItemOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateOpsItemInput, UpdateOpsItemOutputResponse>())
@@ -5142,8 +5808,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateOpsItemOutputResponse, UpdateOpsItemOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateOpsItemOutputResponse, UpdateOpsItemOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateOpsItemOutputResponse, UpdateOpsItemOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -5163,6 +5833,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateOpsMetadataInput, UpdateOpsMetadataOutputResponse, UpdateOpsMetadataOutputError>(id: "updateOpsMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateOpsMetadataInput, UpdateOpsMetadataOutputResponse, UpdateOpsMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateOpsMetadataInput, UpdateOpsMetadataOutputResponse>())
@@ -5178,8 +5849,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateOpsMetadataOutputResponse, UpdateOpsMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateOpsMetadataOutputResponse, UpdateOpsMetadataOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateOpsMetadataOutputResponse, UpdateOpsMetadataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -5199,6 +5874,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePatchBaselineInput, UpdatePatchBaselineOutputResponse, UpdatePatchBaselineOutputError>(id: "updatePatchBaseline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePatchBaselineInput, UpdatePatchBaselineOutputResponse, UpdatePatchBaselineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePatchBaselineInput, UpdatePatchBaselineOutputResponse>())
@@ -5214,8 +5890,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePatchBaselineOutputResponse, UpdatePatchBaselineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePatchBaselineOutputResponse, UpdatePatchBaselineOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePatchBaselineOutputResponse, UpdatePatchBaselineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -5235,6 +5915,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateResourceDataSyncInput, UpdateResourceDataSyncOutputResponse, UpdateResourceDataSyncOutputError>(id: "updateResourceDataSync")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateResourceDataSyncInput, UpdateResourceDataSyncOutputResponse, UpdateResourceDataSyncOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateResourceDataSyncInput, UpdateResourceDataSyncOutputResponse>())
@@ -5250,8 +5931,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResourceDataSyncOutputResponse, UpdateResourceDataSyncOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResourceDataSyncOutputResponse, UpdateResourceDataSyncOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateResourceDataSyncOutputResponse, UpdateResourceDataSyncOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -5271,6 +5956,7 @@ extension SSMClient: SSMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateServiceSettingInput, UpdateServiceSettingOutputResponse, UpdateServiceSettingOutputError>(id: "updateServiceSetting")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServiceSettingInput, UpdateServiceSettingOutputResponse, UpdateServiceSettingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServiceSettingInput, UpdateServiceSettingOutputResponse>())
@@ -5286,8 +5972,12 @@ extension SSMClient: SSMClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServiceSettingOutputResponse, UpdateServiceSettingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServiceSettingOutputResponse, UpdateServiceSettingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServiceSettingOutputResponse, UpdateServiceSettingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

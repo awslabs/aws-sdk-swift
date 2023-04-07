@@ -208,6 +208,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEarthObservationJobInput, DeleteEarthObservationJobOutputResponse, DeleteEarthObservationJobOutputError>(id: "deleteEarthObservationJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEarthObservationJobInput, DeleteEarthObservationJobOutputResponse, DeleteEarthObservationJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEarthObservationJobInput, DeleteEarthObservationJobOutputResponse>())
@@ -219,8 +220,12 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEarthObservationJobOutputResponse, DeleteEarthObservationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEarthObservationJobOutputResponse, DeleteEarthObservationJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEarthObservationJobOutputResponse, DeleteEarthObservationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -240,6 +245,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVectorEnrichmentJobInput, DeleteVectorEnrichmentJobOutputResponse, DeleteVectorEnrichmentJobOutputError>(id: "deleteVectorEnrichmentJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVectorEnrichmentJobInput, DeleteVectorEnrichmentJobOutputResponse, DeleteVectorEnrichmentJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVectorEnrichmentJobInput, DeleteVectorEnrichmentJobOutputResponse>())
@@ -251,8 +257,12 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVectorEnrichmentJobOutputResponse, DeleteVectorEnrichmentJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVectorEnrichmentJobOutputResponse, DeleteVectorEnrichmentJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVectorEnrichmentJobOutputResponse, DeleteVectorEnrichmentJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -272,6 +282,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExportEarthObservationJobInput, ExportEarthObservationJobOutputResponse, ExportEarthObservationJobOutputError>(id: "exportEarthObservationJob")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ExportEarthObservationJobOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -294,8 +305,12 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportEarthObservationJobOutputResponse, ExportEarthObservationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportEarthObservationJobOutputResponse, ExportEarthObservationJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExportEarthObservationJobOutputResponse, ExportEarthObservationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -315,6 +330,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExportVectorEnrichmentJobInput, ExportVectorEnrichmentJobOutputResponse, ExportVectorEnrichmentJobOutputError>(id: "exportVectorEnrichmentJob")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ExportVectorEnrichmentJobOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -337,8 +353,12 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportVectorEnrichmentJobOutputResponse, ExportVectorEnrichmentJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportVectorEnrichmentJobOutputResponse, ExportVectorEnrichmentJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExportVectorEnrichmentJobOutputResponse, ExportVectorEnrichmentJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -358,6 +378,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEarthObservationJobInput, GetEarthObservationJobOutputResponse, GetEarthObservationJobOutputError>(id: "getEarthObservationJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEarthObservationJobInput, GetEarthObservationJobOutputResponse, GetEarthObservationJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEarthObservationJobInput, GetEarthObservationJobOutputResponse>())
@@ -369,8 +390,12 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEarthObservationJobOutputResponse, GetEarthObservationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEarthObservationJobOutputResponse, GetEarthObservationJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEarthObservationJobOutputResponse, GetEarthObservationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -390,6 +415,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRasterDataCollectionInput, GetRasterDataCollectionOutputResponse, GetRasterDataCollectionOutputError>(id: "getRasterDataCollection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRasterDataCollectionInput, GetRasterDataCollectionOutputResponse, GetRasterDataCollectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRasterDataCollectionInput, GetRasterDataCollectionOutputResponse>())
@@ -401,8 +427,12 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRasterDataCollectionOutputResponse, GetRasterDataCollectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRasterDataCollectionOutputResponse, GetRasterDataCollectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRasterDataCollectionOutputResponse, GetRasterDataCollectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -422,6 +452,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTileInput, GetTileOutputResponse, GetTileOutputError>(id: "getTile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTileInput, GetTileOutputResponse, GetTileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTileInput, GetTileOutputResponse>())
@@ -434,8 +465,12 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTileOutputResponse, GetTileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTileOutputResponse, GetTileOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTileOutputResponse, GetTileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -455,6 +490,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetVectorEnrichmentJobInput, GetVectorEnrichmentJobOutputResponse, GetVectorEnrichmentJobOutputError>(id: "getVectorEnrichmentJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVectorEnrichmentJobInput, GetVectorEnrichmentJobOutputResponse, GetVectorEnrichmentJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVectorEnrichmentJobInput, GetVectorEnrichmentJobOutputResponse>())
@@ -466,8 +502,12 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVectorEnrichmentJobOutputResponse, GetVectorEnrichmentJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVectorEnrichmentJobOutputResponse, GetVectorEnrichmentJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVectorEnrichmentJobOutputResponse, GetVectorEnrichmentJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -487,6 +527,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEarthObservationJobsInput, ListEarthObservationJobsOutputResponse, ListEarthObservationJobsOutputError>(id: "listEarthObservationJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEarthObservationJobsInput, ListEarthObservationJobsOutputResponse, ListEarthObservationJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEarthObservationJobsInput, ListEarthObservationJobsOutputResponse>())
@@ -501,8 +542,12 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEarthObservationJobsOutputResponse, ListEarthObservationJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEarthObservationJobsOutputResponse, ListEarthObservationJobsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEarthObservationJobsOutputResponse, ListEarthObservationJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -522,6 +567,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRasterDataCollectionsInput, ListRasterDataCollectionsOutputResponse, ListRasterDataCollectionsOutputError>(id: "listRasterDataCollections")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRasterDataCollectionsInput, ListRasterDataCollectionsOutputResponse, ListRasterDataCollectionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRasterDataCollectionsInput, ListRasterDataCollectionsOutputResponse>())
@@ -534,8 +580,12 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRasterDataCollectionsOutputResponse, ListRasterDataCollectionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRasterDataCollectionsOutputResponse, ListRasterDataCollectionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRasterDataCollectionsOutputResponse, ListRasterDataCollectionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -555,6 +605,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -566,8 +617,12 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -587,6 +642,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListVectorEnrichmentJobsInput, ListVectorEnrichmentJobsOutputResponse, ListVectorEnrichmentJobsOutputError>(id: "listVectorEnrichmentJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVectorEnrichmentJobsInput, ListVectorEnrichmentJobsOutputResponse, ListVectorEnrichmentJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVectorEnrichmentJobsInput, ListVectorEnrichmentJobsOutputResponse>())
@@ -601,8 +657,12 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVectorEnrichmentJobsOutputResponse, ListVectorEnrichmentJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVectorEnrichmentJobsOutputResponse, ListVectorEnrichmentJobsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVectorEnrichmentJobsOutputResponse, ListVectorEnrichmentJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -622,6 +682,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchRasterDataCollectionInput, SearchRasterDataCollectionOutputResponse, SearchRasterDataCollectionOutputError>(id: "searchRasterDataCollection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchRasterDataCollectionInput, SearchRasterDataCollectionOutputResponse, SearchRasterDataCollectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchRasterDataCollectionInput, SearchRasterDataCollectionOutputResponse>())
@@ -636,8 +697,12 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchRasterDataCollectionOutputResponse, SearchRasterDataCollectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchRasterDataCollectionOutputResponse, SearchRasterDataCollectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchRasterDataCollectionOutputResponse, SearchRasterDataCollectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -657,6 +722,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartEarthObservationJobInput, StartEarthObservationJobOutputResponse, StartEarthObservationJobOutputError>(id: "startEarthObservationJob")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartEarthObservationJobOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -679,8 +745,12 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartEarthObservationJobOutputResponse, StartEarthObservationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartEarthObservationJobOutputResponse, StartEarthObservationJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartEarthObservationJobOutputResponse, StartEarthObservationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -700,6 +770,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartVectorEnrichmentJobInput, StartVectorEnrichmentJobOutputResponse, StartVectorEnrichmentJobOutputError>(id: "startVectorEnrichmentJob")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartVectorEnrichmentJobOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -722,8 +793,12 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartVectorEnrichmentJobOutputResponse, StartVectorEnrichmentJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartVectorEnrichmentJobOutputResponse, StartVectorEnrichmentJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartVectorEnrichmentJobOutputResponse, StartVectorEnrichmentJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -743,6 +818,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopEarthObservationJobInput, StopEarthObservationJobOutputResponse, StopEarthObservationJobOutputError>(id: "stopEarthObservationJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopEarthObservationJobInput, StopEarthObservationJobOutputResponse, StopEarthObservationJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopEarthObservationJobInput, StopEarthObservationJobOutputResponse>())
@@ -757,8 +833,12 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopEarthObservationJobOutputResponse, StopEarthObservationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopEarthObservationJobOutputResponse, StopEarthObservationJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopEarthObservationJobOutputResponse, StopEarthObservationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -778,6 +858,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopVectorEnrichmentJobInput, StopVectorEnrichmentJobOutputResponse, StopVectorEnrichmentJobOutputError>(id: "stopVectorEnrichmentJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopVectorEnrichmentJobInput, StopVectorEnrichmentJobOutputResponse, StopVectorEnrichmentJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopVectorEnrichmentJobInput, StopVectorEnrichmentJobOutputResponse>())
@@ -792,8 +873,12 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopVectorEnrichmentJobOutputResponse, StopVectorEnrichmentJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopVectorEnrichmentJobOutputResponse, StopVectorEnrichmentJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopVectorEnrichmentJobOutputResponse, StopVectorEnrichmentJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -813,6 +898,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -827,8 +913,12 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -848,6 +938,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -860,8 +951,12 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

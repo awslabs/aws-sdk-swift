@@ -133,7 +133,7 @@ public enum GreetingWithErrorsError {
 }
 
 extension GreetingWithErrorsError: HttpResponseBinding {
-    public init(httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder?) throws {
         let errorDetails = try RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)

@@ -34,10 +34,26 @@ open class ProtocolTestTask : DefaultTask() {
             args = listOf("Package.swift")
         }
 
+        // build including tests
         project.exec {
             workingDir = generatedBuildDir
             executable = "swift"
-            args = listOf("test")
+            args = listOf("build", "--build-tests")
+        }
+
+        // run tests if test target exists
+        // test target directory ends with "Tests"
+        val testTargetDir = generatedBuildDir.listFiles().firstOrNull { it.name.endsWith("Tests") }
+        if (testTargetDir == null) {
+            println("[$protocol] no test target found")
+            return
+        }
+
+        // test without building
+        project.exec {
+            workingDir = generatedBuildDir
+            executable = "swift"
+            args = listOf("test", "--skip-build")
         }
     }
 }

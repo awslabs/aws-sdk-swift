@@ -204,6 +204,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AcceptReservedNodeExchangeInput, AcceptReservedNodeExchangeOutputResponse, AcceptReservedNodeExchangeOutputError>(id: "acceptReservedNodeExchange")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptReservedNodeExchangeInput, AcceptReservedNodeExchangeOutputResponse, AcceptReservedNodeExchangeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptReservedNodeExchangeInput, AcceptReservedNodeExchangeOutputResponse>())
@@ -218,8 +219,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptReservedNodeExchangeOutputResponse, AcceptReservedNodeExchangeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptReservedNodeExchangeOutputResponse, AcceptReservedNodeExchangeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcceptReservedNodeExchangeOutputResponse, AcceptReservedNodeExchangeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -239,6 +244,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddPartnerInput, AddPartnerOutputResponse, AddPartnerOutputError>(id: "addPartner")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddPartnerInput, AddPartnerOutputResponse, AddPartnerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddPartnerInput, AddPartnerOutputResponse>())
@@ -253,8 +259,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddPartnerOutputResponse, AddPartnerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddPartnerOutputResponse, AddPartnerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddPartnerOutputResponse, AddPartnerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -274,6 +284,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateDataShareConsumerInput, AssociateDataShareConsumerOutputResponse, AssociateDataShareConsumerOutputError>(id: "associateDataShareConsumer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateDataShareConsumerInput, AssociateDataShareConsumerOutputResponse, AssociateDataShareConsumerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateDataShareConsumerInput, AssociateDataShareConsumerOutputResponse>())
@@ -288,8 +299,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateDataShareConsumerOutputResponse, AssociateDataShareConsumerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateDataShareConsumerOutputResponse, AssociateDataShareConsumerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateDataShareConsumerOutputResponse, AssociateDataShareConsumerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -309,6 +324,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AuthorizeClusterSecurityGroupIngressInput, AuthorizeClusterSecurityGroupIngressOutputResponse, AuthorizeClusterSecurityGroupIngressOutputError>(id: "authorizeClusterSecurityGroupIngress")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AuthorizeClusterSecurityGroupIngressInput, AuthorizeClusterSecurityGroupIngressOutputResponse, AuthorizeClusterSecurityGroupIngressOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AuthorizeClusterSecurityGroupIngressInput, AuthorizeClusterSecurityGroupIngressOutputResponse>())
@@ -323,8 +339,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AuthorizeClusterSecurityGroupIngressOutputResponse, AuthorizeClusterSecurityGroupIngressOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AuthorizeClusterSecurityGroupIngressOutputResponse, AuthorizeClusterSecurityGroupIngressOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AuthorizeClusterSecurityGroupIngressOutputResponse, AuthorizeClusterSecurityGroupIngressOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -344,6 +364,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AuthorizeDataShareInput, AuthorizeDataShareOutputResponse, AuthorizeDataShareOutputError>(id: "authorizeDataShare")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AuthorizeDataShareInput, AuthorizeDataShareOutputResponse, AuthorizeDataShareOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AuthorizeDataShareInput, AuthorizeDataShareOutputResponse>())
@@ -358,8 +379,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AuthorizeDataShareOutputResponse, AuthorizeDataShareOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AuthorizeDataShareOutputResponse, AuthorizeDataShareOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AuthorizeDataShareOutputResponse, AuthorizeDataShareOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -379,6 +404,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AuthorizeEndpointAccessInput, AuthorizeEndpointAccessOutputResponse, AuthorizeEndpointAccessOutputError>(id: "authorizeEndpointAccess")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AuthorizeEndpointAccessInput, AuthorizeEndpointAccessOutputResponse, AuthorizeEndpointAccessOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AuthorizeEndpointAccessInput, AuthorizeEndpointAccessOutputResponse>())
@@ -393,8 +419,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AuthorizeEndpointAccessOutputResponse, AuthorizeEndpointAccessOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AuthorizeEndpointAccessOutputResponse, AuthorizeEndpointAccessOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AuthorizeEndpointAccessOutputResponse, AuthorizeEndpointAccessOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -414,6 +444,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AuthorizeSnapshotAccessInput, AuthorizeSnapshotAccessOutputResponse, AuthorizeSnapshotAccessOutputError>(id: "authorizeSnapshotAccess")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AuthorizeSnapshotAccessInput, AuthorizeSnapshotAccessOutputResponse, AuthorizeSnapshotAccessOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AuthorizeSnapshotAccessInput, AuthorizeSnapshotAccessOutputResponse>())
@@ -428,8 +459,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AuthorizeSnapshotAccessOutputResponse, AuthorizeSnapshotAccessOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AuthorizeSnapshotAccessOutputResponse, AuthorizeSnapshotAccessOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AuthorizeSnapshotAccessOutputResponse, AuthorizeSnapshotAccessOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -449,6 +484,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDeleteClusterSnapshotsInput, BatchDeleteClusterSnapshotsOutputResponse, BatchDeleteClusterSnapshotsOutputError>(id: "batchDeleteClusterSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteClusterSnapshotsInput, BatchDeleteClusterSnapshotsOutputResponse, BatchDeleteClusterSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteClusterSnapshotsInput, BatchDeleteClusterSnapshotsOutputResponse>())
@@ -463,8 +499,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeleteClusterSnapshotsOutputResponse, BatchDeleteClusterSnapshotsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteClusterSnapshotsOutputResponse, BatchDeleteClusterSnapshotsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteClusterSnapshotsOutputResponse, BatchDeleteClusterSnapshotsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -484,6 +524,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchModifyClusterSnapshotsInput, BatchModifyClusterSnapshotsOutputResponse, BatchModifyClusterSnapshotsOutputError>(id: "batchModifyClusterSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchModifyClusterSnapshotsInput, BatchModifyClusterSnapshotsOutputResponse, BatchModifyClusterSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchModifyClusterSnapshotsInput, BatchModifyClusterSnapshotsOutputResponse>())
@@ -498,8 +539,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchModifyClusterSnapshotsOutputResponse, BatchModifyClusterSnapshotsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchModifyClusterSnapshotsOutputResponse, BatchModifyClusterSnapshotsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchModifyClusterSnapshotsOutputResponse, BatchModifyClusterSnapshotsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -519,6 +564,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelResizeInput, CancelResizeOutputResponse, CancelResizeOutputError>(id: "cancelResize")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelResizeInput, CancelResizeOutputResponse, CancelResizeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelResizeInput, CancelResizeOutputResponse>())
@@ -533,8 +579,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelResizeOutputResponse, CancelResizeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelResizeOutputResponse, CancelResizeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelResizeOutputResponse, CancelResizeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -554,6 +604,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CopyClusterSnapshotInput, CopyClusterSnapshotOutputResponse, CopyClusterSnapshotOutputError>(id: "copyClusterSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyClusterSnapshotInput, CopyClusterSnapshotOutputResponse, CopyClusterSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyClusterSnapshotInput, CopyClusterSnapshotOutputResponse>())
@@ -568,8 +619,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopyClusterSnapshotOutputResponse, CopyClusterSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyClusterSnapshotOutputResponse, CopyClusterSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopyClusterSnapshotOutputResponse, CopyClusterSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -589,6 +644,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAuthenticationProfileInput, CreateAuthenticationProfileOutputResponse, CreateAuthenticationProfileOutputError>(id: "createAuthenticationProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAuthenticationProfileInput, CreateAuthenticationProfileOutputResponse, CreateAuthenticationProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAuthenticationProfileInput, CreateAuthenticationProfileOutputResponse>())
@@ -603,8 +659,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAuthenticationProfileOutputResponse, CreateAuthenticationProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAuthenticationProfileOutputResponse, CreateAuthenticationProfileOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAuthenticationProfileOutputResponse, CreateAuthenticationProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -624,6 +684,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateClusterInput, CreateClusterOutputResponse, CreateClusterOutputError>(id: "createCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateClusterInput, CreateClusterOutputResponse, CreateClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateClusterInput, CreateClusterOutputResponse>())
@@ -638,8 +699,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateClusterOutputResponse, CreateClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateClusterOutputResponse, CreateClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateClusterOutputResponse, CreateClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -659,6 +724,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateClusterParameterGroupInput, CreateClusterParameterGroupOutputResponse, CreateClusterParameterGroupOutputError>(id: "createClusterParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateClusterParameterGroupInput, CreateClusterParameterGroupOutputResponse, CreateClusterParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateClusterParameterGroupInput, CreateClusterParameterGroupOutputResponse>())
@@ -673,8 +739,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateClusterParameterGroupOutputResponse, CreateClusterParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateClusterParameterGroupOutputResponse, CreateClusterParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateClusterParameterGroupOutputResponse, CreateClusterParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -694,6 +764,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateClusterSecurityGroupInput, CreateClusterSecurityGroupOutputResponse, CreateClusterSecurityGroupOutputError>(id: "createClusterSecurityGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateClusterSecurityGroupInput, CreateClusterSecurityGroupOutputResponse, CreateClusterSecurityGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateClusterSecurityGroupInput, CreateClusterSecurityGroupOutputResponse>())
@@ -708,8 +779,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateClusterSecurityGroupOutputResponse, CreateClusterSecurityGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateClusterSecurityGroupOutputResponse, CreateClusterSecurityGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateClusterSecurityGroupOutputResponse, CreateClusterSecurityGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -729,6 +804,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateClusterSnapshotInput, CreateClusterSnapshotOutputResponse, CreateClusterSnapshotOutputError>(id: "createClusterSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateClusterSnapshotInput, CreateClusterSnapshotOutputResponse, CreateClusterSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateClusterSnapshotInput, CreateClusterSnapshotOutputResponse>())
@@ -743,8 +819,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateClusterSnapshotOutputResponse, CreateClusterSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateClusterSnapshotOutputResponse, CreateClusterSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateClusterSnapshotOutputResponse, CreateClusterSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -764,6 +844,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateClusterSubnetGroupInput, CreateClusterSubnetGroupOutputResponse, CreateClusterSubnetGroupOutputError>(id: "createClusterSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateClusterSubnetGroupInput, CreateClusterSubnetGroupOutputResponse, CreateClusterSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateClusterSubnetGroupInput, CreateClusterSubnetGroupOutputResponse>())
@@ -778,8 +859,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateClusterSubnetGroupOutputResponse, CreateClusterSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateClusterSubnetGroupOutputResponse, CreateClusterSubnetGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateClusterSubnetGroupOutputResponse, CreateClusterSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -799,6 +884,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEndpointAccessInput, CreateEndpointAccessOutputResponse, CreateEndpointAccessOutputError>(id: "createEndpointAccess")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEndpointAccessInput, CreateEndpointAccessOutputResponse, CreateEndpointAccessOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEndpointAccessInput, CreateEndpointAccessOutputResponse>())
@@ -813,8 +899,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEndpointAccessOutputResponse, CreateEndpointAccessOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEndpointAccessOutputResponse, CreateEndpointAccessOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEndpointAccessOutputResponse, CreateEndpointAccessOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -834,6 +924,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEventSubscriptionInput, CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>(id: "createEventSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEventSubscriptionInput, CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEventSubscriptionInput, CreateEventSubscriptionOutputResponse>())
@@ -848,8 +939,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -869,6 +964,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateHsmClientCertificateInput, CreateHsmClientCertificateOutputResponse, CreateHsmClientCertificateOutputError>(id: "createHsmClientCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateHsmClientCertificateInput, CreateHsmClientCertificateOutputResponse, CreateHsmClientCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateHsmClientCertificateInput, CreateHsmClientCertificateOutputResponse>())
@@ -883,8 +979,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateHsmClientCertificateOutputResponse, CreateHsmClientCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateHsmClientCertificateOutputResponse, CreateHsmClientCertificateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateHsmClientCertificateOutputResponse, CreateHsmClientCertificateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -904,6 +1004,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateHsmConfigurationInput, CreateHsmConfigurationOutputResponse, CreateHsmConfigurationOutputError>(id: "createHsmConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateHsmConfigurationInput, CreateHsmConfigurationOutputResponse, CreateHsmConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateHsmConfigurationInput, CreateHsmConfigurationOutputResponse>())
@@ -918,8 +1019,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateHsmConfigurationOutputResponse, CreateHsmConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateHsmConfigurationOutputResponse, CreateHsmConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateHsmConfigurationOutputResponse, CreateHsmConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -939,6 +1044,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateScheduledActionInput, CreateScheduledActionOutputResponse, CreateScheduledActionOutputError>(id: "createScheduledAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateScheduledActionInput, CreateScheduledActionOutputResponse, CreateScheduledActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateScheduledActionInput, CreateScheduledActionOutputResponse>())
@@ -953,8 +1059,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateScheduledActionOutputResponse, CreateScheduledActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateScheduledActionOutputResponse, CreateScheduledActionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateScheduledActionOutputResponse, CreateScheduledActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -974,6 +1084,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSnapshotCopyGrantInput, CreateSnapshotCopyGrantOutputResponse, CreateSnapshotCopyGrantOutputError>(id: "createSnapshotCopyGrant")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSnapshotCopyGrantInput, CreateSnapshotCopyGrantOutputResponse, CreateSnapshotCopyGrantOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSnapshotCopyGrantInput, CreateSnapshotCopyGrantOutputResponse>())
@@ -988,8 +1099,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSnapshotCopyGrantOutputResponse, CreateSnapshotCopyGrantOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSnapshotCopyGrantOutputResponse, CreateSnapshotCopyGrantOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSnapshotCopyGrantOutputResponse, CreateSnapshotCopyGrantOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1009,6 +1124,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSnapshotScheduleInput, CreateSnapshotScheduleOutputResponse, CreateSnapshotScheduleOutputError>(id: "createSnapshotSchedule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSnapshotScheduleInput, CreateSnapshotScheduleOutputResponse, CreateSnapshotScheduleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSnapshotScheduleInput, CreateSnapshotScheduleOutputResponse>())
@@ -1023,8 +1139,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSnapshotScheduleOutputResponse, CreateSnapshotScheduleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSnapshotScheduleOutputResponse, CreateSnapshotScheduleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSnapshotScheduleOutputResponse, CreateSnapshotScheduleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1044,6 +1164,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTagsInput, CreateTagsOutputResponse, CreateTagsOutputError>(id: "createTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTagsInput, CreateTagsOutputResponse, CreateTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTagsInput, CreateTagsOutputResponse>())
@@ -1058,8 +1179,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTagsOutputResponse, CreateTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTagsOutputResponse, CreateTagsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTagsOutputResponse, CreateTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1079,6 +1204,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateUsageLimitInput, CreateUsageLimitOutputResponse, CreateUsageLimitOutputError>(id: "createUsageLimit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUsageLimitInput, CreateUsageLimitOutputResponse, CreateUsageLimitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUsageLimitInput, CreateUsageLimitOutputResponse>())
@@ -1093,8 +1219,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUsageLimitOutputResponse, CreateUsageLimitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUsageLimitOutputResponse, CreateUsageLimitOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUsageLimitOutputResponse, CreateUsageLimitOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1114,6 +1244,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeauthorizeDataShareInput, DeauthorizeDataShareOutputResponse, DeauthorizeDataShareOutputError>(id: "deauthorizeDataShare")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeauthorizeDataShareInput, DeauthorizeDataShareOutputResponse, DeauthorizeDataShareOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeauthorizeDataShareInput, DeauthorizeDataShareOutputResponse>())
@@ -1128,8 +1259,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeauthorizeDataShareOutputResponse, DeauthorizeDataShareOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeauthorizeDataShareOutputResponse, DeauthorizeDataShareOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeauthorizeDataShareOutputResponse, DeauthorizeDataShareOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1149,6 +1284,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAuthenticationProfileInput, DeleteAuthenticationProfileOutputResponse, DeleteAuthenticationProfileOutputError>(id: "deleteAuthenticationProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAuthenticationProfileInput, DeleteAuthenticationProfileOutputResponse, DeleteAuthenticationProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAuthenticationProfileInput, DeleteAuthenticationProfileOutputResponse>())
@@ -1163,8 +1299,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAuthenticationProfileOutputResponse, DeleteAuthenticationProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAuthenticationProfileOutputResponse, DeleteAuthenticationProfileOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAuthenticationProfileOutputResponse, DeleteAuthenticationProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1184,6 +1324,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteClusterInput, DeleteClusterOutputResponse, DeleteClusterOutputError>(id: "deleteCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteClusterInput, DeleteClusterOutputResponse, DeleteClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteClusterInput, DeleteClusterOutputResponse>())
@@ -1198,8 +1339,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteClusterOutputResponse, DeleteClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteClusterOutputResponse, DeleteClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteClusterOutputResponse, DeleteClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1219,6 +1364,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteClusterParameterGroupInput, DeleteClusterParameterGroupOutputResponse, DeleteClusterParameterGroupOutputError>(id: "deleteClusterParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteClusterParameterGroupInput, DeleteClusterParameterGroupOutputResponse, DeleteClusterParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteClusterParameterGroupInput, DeleteClusterParameterGroupOutputResponse>())
@@ -1233,8 +1379,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteClusterParameterGroupOutputResponse, DeleteClusterParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteClusterParameterGroupOutputResponse, DeleteClusterParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteClusterParameterGroupOutputResponse, DeleteClusterParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1254,6 +1404,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteClusterSecurityGroupInput, DeleteClusterSecurityGroupOutputResponse, DeleteClusterSecurityGroupOutputError>(id: "deleteClusterSecurityGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteClusterSecurityGroupInput, DeleteClusterSecurityGroupOutputResponse, DeleteClusterSecurityGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteClusterSecurityGroupInput, DeleteClusterSecurityGroupOutputResponse>())
@@ -1268,8 +1419,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteClusterSecurityGroupOutputResponse, DeleteClusterSecurityGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteClusterSecurityGroupOutputResponse, DeleteClusterSecurityGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteClusterSecurityGroupOutputResponse, DeleteClusterSecurityGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1289,6 +1444,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteClusterSnapshotInput, DeleteClusterSnapshotOutputResponse, DeleteClusterSnapshotOutputError>(id: "deleteClusterSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteClusterSnapshotInput, DeleteClusterSnapshotOutputResponse, DeleteClusterSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteClusterSnapshotInput, DeleteClusterSnapshotOutputResponse>())
@@ -1303,8 +1459,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteClusterSnapshotOutputResponse, DeleteClusterSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteClusterSnapshotOutputResponse, DeleteClusterSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteClusterSnapshotOutputResponse, DeleteClusterSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1324,6 +1484,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteClusterSubnetGroupInput, DeleteClusterSubnetGroupOutputResponse, DeleteClusterSubnetGroupOutputError>(id: "deleteClusterSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteClusterSubnetGroupInput, DeleteClusterSubnetGroupOutputResponse, DeleteClusterSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteClusterSubnetGroupInput, DeleteClusterSubnetGroupOutputResponse>())
@@ -1338,8 +1499,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteClusterSubnetGroupOutputResponse, DeleteClusterSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteClusterSubnetGroupOutputResponse, DeleteClusterSubnetGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteClusterSubnetGroupOutputResponse, DeleteClusterSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1359,6 +1524,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEndpointAccessInput, DeleteEndpointAccessOutputResponse, DeleteEndpointAccessOutputError>(id: "deleteEndpointAccess")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEndpointAccessInput, DeleteEndpointAccessOutputResponse, DeleteEndpointAccessOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEndpointAccessInput, DeleteEndpointAccessOutputResponse>())
@@ -1373,8 +1539,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEndpointAccessOutputResponse, DeleteEndpointAccessOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEndpointAccessOutputResponse, DeleteEndpointAccessOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEndpointAccessOutputResponse, DeleteEndpointAccessOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1394,6 +1564,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>(id: "deleteEventSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutputResponse>())
@@ -1408,8 +1579,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1429,6 +1604,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteHsmClientCertificateInput, DeleteHsmClientCertificateOutputResponse, DeleteHsmClientCertificateOutputError>(id: "deleteHsmClientCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteHsmClientCertificateInput, DeleteHsmClientCertificateOutputResponse, DeleteHsmClientCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteHsmClientCertificateInput, DeleteHsmClientCertificateOutputResponse>())
@@ -1443,8 +1619,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteHsmClientCertificateOutputResponse, DeleteHsmClientCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteHsmClientCertificateOutputResponse, DeleteHsmClientCertificateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteHsmClientCertificateOutputResponse, DeleteHsmClientCertificateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1464,6 +1644,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteHsmConfigurationInput, DeleteHsmConfigurationOutputResponse, DeleteHsmConfigurationOutputError>(id: "deleteHsmConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteHsmConfigurationInput, DeleteHsmConfigurationOutputResponse, DeleteHsmConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteHsmConfigurationInput, DeleteHsmConfigurationOutputResponse>())
@@ -1478,8 +1659,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteHsmConfigurationOutputResponse, DeleteHsmConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteHsmConfigurationOutputResponse, DeleteHsmConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteHsmConfigurationOutputResponse, DeleteHsmConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1499,6 +1684,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePartnerInput, DeletePartnerOutputResponse, DeletePartnerOutputError>(id: "deletePartner")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePartnerInput, DeletePartnerOutputResponse, DeletePartnerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePartnerInput, DeletePartnerOutputResponse>())
@@ -1513,8 +1699,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePartnerOutputResponse, DeletePartnerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePartnerOutputResponse, DeletePartnerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePartnerOutputResponse, DeletePartnerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1534,6 +1724,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteScheduledActionInput, DeleteScheduledActionOutputResponse, DeleteScheduledActionOutputError>(id: "deleteScheduledAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteScheduledActionInput, DeleteScheduledActionOutputResponse, DeleteScheduledActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteScheduledActionInput, DeleteScheduledActionOutputResponse>())
@@ -1548,8 +1739,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteScheduledActionOutputResponse, DeleteScheduledActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteScheduledActionOutputResponse, DeleteScheduledActionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteScheduledActionOutputResponse, DeleteScheduledActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1569,6 +1764,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSnapshotCopyGrantInput, DeleteSnapshotCopyGrantOutputResponse, DeleteSnapshotCopyGrantOutputError>(id: "deleteSnapshotCopyGrant")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSnapshotCopyGrantInput, DeleteSnapshotCopyGrantOutputResponse, DeleteSnapshotCopyGrantOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSnapshotCopyGrantInput, DeleteSnapshotCopyGrantOutputResponse>())
@@ -1583,8 +1779,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSnapshotCopyGrantOutputResponse, DeleteSnapshotCopyGrantOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSnapshotCopyGrantOutputResponse, DeleteSnapshotCopyGrantOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSnapshotCopyGrantOutputResponse, DeleteSnapshotCopyGrantOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1604,6 +1804,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSnapshotScheduleInput, DeleteSnapshotScheduleOutputResponse, DeleteSnapshotScheduleOutputError>(id: "deleteSnapshotSchedule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSnapshotScheduleInput, DeleteSnapshotScheduleOutputResponse, DeleteSnapshotScheduleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSnapshotScheduleInput, DeleteSnapshotScheduleOutputResponse>())
@@ -1618,8 +1819,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSnapshotScheduleOutputResponse, DeleteSnapshotScheduleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSnapshotScheduleOutputResponse, DeleteSnapshotScheduleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSnapshotScheduleOutputResponse, DeleteSnapshotScheduleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1639,6 +1844,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTagsInput, DeleteTagsOutputResponse, DeleteTagsOutputError>(id: "deleteTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTagsInput, DeleteTagsOutputResponse, DeleteTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTagsInput, DeleteTagsOutputResponse>())
@@ -1653,8 +1859,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTagsOutputResponse, DeleteTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTagsOutputResponse, DeleteTagsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTagsOutputResponse, DeleteTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1674,6 +1884,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteUsageLimitInput, DeleteUsageLimitOutputResponse, DeleteUsageLimitOutputError>(id: "deleteUsageLimit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUsageLimitInput, DeleteUsageLimitOutputResponse, DeleteUsageLimitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUsageLimitInput, DeleteUsageLimitOutputResponse>())
@@ -1688,8 +1899,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUsageLimitOutputResponse, DeleteUsageLimitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUsageLimitOutputResponse, DeleteUsageLimitOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUsageLimitOutputResponse, DeleteUsageLimitOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1709,6 +1924,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAccountAttributesInput, DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>(id: "describeAccountAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutputResponse>())
@@ -1723,8 +1939,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1744,6 +1964,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAuthenticationProfilesInput, DescribeAuthenticationProfilesOutputResponse, DescribeAuthenticationProfilesOutputError>(id: "describeAuthenticationProfiles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAuthenticationProfilesInput, DescribeAuthenticationProfilesOutputResponse, DescribeAuthenticationProfilesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAuthenticationProfilesInput, DescribeAuthenticationProfilesOutputResponse>())
@@ -1758,8 +1979,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAuthenticationProfilesOutputResponse, DescribeAuthenticationProfilesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAuthenticationProfilesOutputResponse, DescribeAuthenticationProfilesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAuthenticationProfilesOutputResponse, DescribeAuthenticationProfilesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1779,6 +2004,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeClusterDbRevisionsInput, DescribeClusterDbRevisionsOutputResponse, DescribeClusterDbRevisionsOutputError>(id: "describeClusterDbRevisions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClusterDbRevisionsInput, DescribeClusterDbRevisionsOutputResponse, DescribeClusterDbRevisionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClusterDbRevisionsInput, DescribeClusterDbRevisionsOutputResponse>())
@@ -1793,8 +2019,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeClusterDbRevisionsOutputResponse, DescribeClusterDbRevisionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeClusterDbRevisionsOutputResponse, DescribeClusterDbRevisionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeClusterDbRevisionsOutputResponse, DescribeClusterDbRevisionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1814,6 +2044,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeClusterParameterGroupsInput, DescribeClusterParameterGroupsOutputResponse, DescribeClusterParameterGroupsOutputError>(id: "describeClusterParameterGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClusterParameterGroupsInput, DescribeClusterParameterGroupsOutputResponse, DescribeClusterParameterGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClusterParameterGroupsInput, DescribeClusterParameterGroupsOutputResponse>())
@@ -1828,8 +2059,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeClusterParameterGroupsOutputResponse, DescribeClusterParameterGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeClusterParameterGroupsOutputResponse, DescribeClusterParameterGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeClusterParameterGroupsOutputResponse, DescribeClusterParameterGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1849,6 +2084,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeClusterParametersInput, DescribeClusterParametersOutputResponse, DescribeClusterParametersOutputError>(id: "describeClusterParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClusterParametersInput, DescribeClusterParametersOutputResponse, DescribeClusterParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClusterParametersInput, DescribeClusterParametersOutputResponse>())
@@ -1863,8 +2099,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeClusterParametersOutputResponse, DescribeClusterParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeClusterParametersOutputResponse, DescribeClusterParametersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeClusterParametersOutputResponse, DescribeClusterParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1884,6 +2124,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeClusterSecurityGroupsInput, DescribeClusterSecurityGroupsOutputResponse, DescribeClusterSecurityGroupsOutputError>(id: "describeClusterSecurityGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClusterSecurityGroupsInput, DescribeClusterSecurityGroupsOutputResponse, DescribeClusterSecurityGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClusterSecurityGroupsInput, DescribeClusterSecurityGroupsOutputResponse>())
@@ -1898,8 +2139,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeClusterSecurityGroupsOutputResponse, DescribeClusterSecurityGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeClusterSecurityGroupsOutputResponse, DescribeClusterSecurityGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeClusterSecurityGroupsOutputResponse, DescribeClusterSecurityGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1919,6 +2164,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeClusterSnapshotsInput, DescribeClusterSnapshotsOutputResponse, DescribeClusterSnapshotsOutputError>(id: "describeClusterSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClusterSnapshotsInput, DescribeClusterSnapshotsOutputResponse, DescribeClusterSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClusterSnapshotsInput, DescribeClusterSnapshotsOutputResponse>())
@@ -1933,8 +2179,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeClusterSnapshotsOutputResponse, DescribeClusterSnapshotsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeClusterSnapshotsOutputResponse, DescribeClusterSnapshotsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeClusterSnapshotsOutputResponse, DescribeClusterSnapshotsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1954,6 +2204,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeClusterSubnetGroupsInput, DescribeClusterSubnetGroupsOutputResponse, DescribeClusterSubnetGroupsOutputError>(id: "describeClusterSubnetGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClusterSubnetGroupsInput, DescribeClusterSubnetGroupsOutputResponse, DescribeClusterSubnetGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClusterSubnetGroupsInput, DescribeClusterSubnetGroupsOutputResponse>())
@@ -1968,8 +2219,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeClusterSubnetGroupsOutputResponse, DescribeClusterSubnetGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeClusterSubnetGroupsOutputResponse, DescribeClusterSubnetGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeClusterSubnetGroupsOutputResponse, DescribeClusterSubnetGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1989,6 +2244,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeClusterTracksInput, DescribeClusterTracksOutputResponse, DescribeClusterTracksOutputError>(id: "describeClusterTracks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClusterTracksInput, DescribeClusterTracksOutputResponse, DescribeClusterTracksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClusterTracksInput, DescribeClusterTracksOutputResponse>())
@@ -2003,8 +2259,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeClusterTracksOutputResponse, DescribeClusterTracksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeClusterTracksOutputResponse, DescribeClusterTracksOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeClusterTracksOutputResponse, DescribeClusterTracksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2024,6 +2284,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeClusterVersionsInput, DescribeClusterVersionsOutputResponse, DescribeClusterVersionsOutputError>(id: "describeClusterVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClusterVersionsInput, DescribeClusterVersionsOutputResponse, DescribeClusterVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClusterVersionsInput, DescribeClusterVersionsOutputResponse>())
@@ -2038,8 +2299,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeClusterVersionsOutputResponse, DescribeClusterVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeClusterVersionsOutputResponse, DescribeClusterVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeClusterVersionsOutputResponse, DescribeClusterVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2059,6 +2324,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeClustersInput, DescribeClustersOutputResponse, DescribeClustersOutputError>(id: "describeClusters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClustersInput, DescribeClustersOutputResponse, DescribeClustersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClustersInput, DescribeClustersOutputResponse>())
@@ -2073,8 +2339,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeClustersOutputResponse, DescribeClustersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeClustersOutputResponse, DescribeClustersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeClustersOutputResponse, DescribeClustersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2094,6 +2364,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDataSharesInput, DescribeDataSharesOutputResponse, DescribeDataSharesOutputError>(id: "describeDataShares")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDataSharesInput, DescribeDataSharesOutputResponse, DescribeDataSharesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDataSharesInput, DescribeDataSharesOutputResponse>())
@@ -2108,8 +2379,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDataSharesOutputResponse, DescribeDataSharesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDataSharesOutputResponse, DescribeDataSharesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDataSharesOutputResponse, DescribeDataSharesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2129,6 +2404,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDataSharesForConsumerInput, DescribeDataSharesForConsumerOutputResponse, DescribeDataSharesForConsumerOutputError>(id: "describeDataSharesForConsumer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDataSharesForConsumerInput, DescribeDataSharesForConsumerOutputResponse, DescribeDataSharesForConsumerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDataSharesForConsumerInput, DescribeDataSharesForConsumerOutputResponse>())
@@ -2143,8 +2419,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDataSharesForConsumerOutputResponse, DescribeDataSharesForConsumerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDataSharesForConsumerOutputResponse, DescribeDataSharesForConsumerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDataSharesForConsumerOutputResponse, DescribeDataSharesForConsumerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2164,6 +2444,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDataSharesForProducerInput, DescribeDataSharesForProducerOutputResponse, DescribeDataSharesForProducerOutputError>(id: "describeDataSharesForProducer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDataSharesForProducerInput, DescribeDataSharesForProducerOutputResponse, DescribeDataSharesForProducerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDataSharesForProducerInput, DescribeDataSharesForProducerOutputResponse>())
@@ -2178,8 +2459,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDataSharesForProducerOutputResponse, DescribeDataSharesForProducerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDataSharesForProducerOutputResponse, DescribeDataSharesForProducerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDataSharesForProducerOutputResponse, DescribeDataSharesForProducerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2199,6 +2484,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDefaultClusterParametersInput, DescribeDefaultClusterParametersOutputResponse, DescribeDefaultClusterParametersOutputError>(id: "describeDefaultClusterParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDefaultClusterParametersInput, DescribeDefaultClusterParametersOutputResponse, DescribeDefaultClusterParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDefaultClusterParametersInput, DescribeDefaultClusterParametersOutputResponse>())
@@ -2213,8 +2499,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDefaultClusterParametersOutputResponse, DescribeDefaultClusterParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDefaultClusterParametersOutputResponse, DescribeDefaultClusterParametersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDefaultClusterParametersOutputResponse, DescribeDefaultClusterParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2234,6 +2524,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEndpointAccessInput, DescribeEndpointAccessOutputResponse, DescribeEndpointAccessOutputError>(id: "describeEndpointAccess")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEndpointAccessInput, DescribeEndpointAccessOutputResponse, DescribeEndpointAccessOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEndpointAccessInput, DescribeEndpointAccessOutputResponse>())
@@ -2248,8 +2539,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEndpointAccessOutputResponse, DescribeEndpointAccessOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEndpointAccessOutputResponse, DescribeEndpointAccessOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEndpointAccessOutputResponse, DescribeEndpointAccessOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2269,6 +2564,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEndpointAuthorizationInput, DescribeEndpointAuthorizationOutputResponse, DescribeEndpointAuthorizationOutputError>(id: "describeEndpointAuthorization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEndpointAuthorizationInput, DescribeEndpointAuthorizationOutputResponse, DescribeEndpointAuthorizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEndpointAuthorizationInput, DescribeEndpointAuthorizationOutputResponse>())
@@ -2283,8 +2579,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEndpointAuthorizationOutputResponse, DescribeEndpointAuthorizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEndpointAuthorizationOutputResponse, DescribeEndpointAuthorizationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEndpointAuthorizationOutputResponse, DescribeEndpointAuthorizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2304,6 +2604,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventCategoriesInput, DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>(id: "describeEventCategories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventCategoriesInput, DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventCategoriesInput, DescribeEventCategoriesOutputResponse>())
@@ -2318,8 +2619,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2339,6 +2644,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>(id: "describeEventSubscriptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse>())
@@ -2353,8 +2659,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2374,6 +2684,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>(id: "describeEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventsInput, DescribeEventsOutputResponse>())
@@ -2388,8 +2699,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2409,6 +2724,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeHsmClientCertificatesInput, DescribeHsmClientCertificatesOutputResponse, DescribeHsmClientCertificatesOutputError>(id: "describeHsmClientCertificates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeHsmClientCertificatesInput, DescribeHsmClientCertificatesOutputResponse, DescribeHsmClientCertificatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeHsmClientCertificatesInput, DescribeHsmClientCertificatesOutputResponse>())
@@ -2423,8 +2739,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeHsmClientCertificatesOutputResponse, DescribeHsmClientCertificatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeHsmClientCertificatesOutputResponse, DescribeHsmClientCertificatesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeHsmClientCertificatesOutputResponse, DescribeHsmClientCertificatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2444,6 +2764,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeHsmConfigurationsInput, DescribeHsmConfigurationsOutputResponse, DescribeHsmConfigurationsOutputError>(id: "describeHsmConfigurations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeHsmConfigurationsInput, DescribeHsmConfigurationsOutputResponse, DescribeHsmConfigurationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeHsmConfigurationsInput, DescribeHsmConfigurationsOutputResponse>())
@@ -2458,8 +2779,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeHsmConfigurationsOutputResponse, DescribeHsmConfigurationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeHsmConfigurationsOutputResponse, DescribeHsmConfigurationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeHsmConfigurationsOutputResponse, DescribeHsmConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2479,6 +2804,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLoggingStatusInput, DescribeLoggingStatusOutputResponse, DescribeLoggingStatusOutputError>(id: "describeLoggingStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLoggingStatusInput, DescribeLoggingStatusOutputResponse, DescribeLoggingStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLoggingStatusInput, DescribeLoggingStatusOutputResponse>())
@@ -2493,8 +2819,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLoggingStatusOutputResponse, DescribeLoggingStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLoggingStatusOutputResponse, DescribeLoggingStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLoggingStatusOutputResponse, DescribeLoggingStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2514,6 +2844,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeNodeConfigurationOptionsInput, DescribeNodeConfigurationOptionsOutputResponse, DescribeNodeConfigurationOptionsOutputError>(id: "describeNodeConfigurationOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeNodeConfigurationOptionsInput, DescribeNodeConfigurationOptionsOutputResponse, DescribeNodeConfigurationOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeNodeConfigurationOptionsInput, DescribeNodeConfigurationOptionsOutputResponse>())
@@ -2528,8 +2859,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeNodeConfigurationOptionsOutputResponse, DescribeNodeConfigurationOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeNodeConfigurationOptionsOutputResponse, DescribeNodeConfigurationOptionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeNodeConfigurationOptionsOutputResponse, DescribeNodeConfigurationOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2549,6 +2884,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeOrderableClusterOptionsInput, DescribeOrderableClusterOptionsOutputResponse, DescribeOrderableClusterOptionsOutputError>(id: "describeOrderableClusterOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrderableClusterOptionsInput, DescribeOrderableClusterOptionsOutputResponse, DescribeOrderableClusterOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrderableClusterOptionsInput, DescribeOrderableClusterOptionsOutputResponse>())
@@ -2563,8 +2899,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrderableClusterOptionsOutputResponse, DescribeOrderableClusterOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrderableClusterOptionsOutputResponse, DescribeOrderableClusterOptionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOrderableClusterOptionsOutputResponse, DescribeOrderableClusterOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2584,6 +2924,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePartnersInput, DescribePartnersOutputResponse, DescribePartnersOutputError>(id: "describePartners")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePartnersInput, DescribePartnersOutputResponse, DescribePartnersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePartnersInput, DescribePartnersOutputResponse>())
@@ -2598,8 +2939,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePartnersOutputResponse, DescribePartnersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePartnersOutputResponse, DescribePartnersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePartnersOutputResponse, DescribePartnersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2619,6 +2964,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReservedNodeExchangeStatusInput, DescribeReservedNodeExchangeStatusOutputResponse, DescribeReservedNodeExchangeStatusOutputError>(id: "describeReservedNodeExchangeStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReservedNodeExchangeStatusInput, DescribeReservedNodeExchangeStatusOutputResponse, DescribeReservedNodeExchangeStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReservedNodeExchangeStatusInput, DescribeReservedNodeExchangeStatusOutputResponse>())
@@ -2633,8 +2979,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReservedNodeExchangeStatusOutputResponse, DescribeReservedNodeExchangeStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReservedNodeExchangeStatusOutputResponse, DescribeReservedNodeExchangeStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReservedNodeExchangeStatusOutputResponse, DescribeReservedNodeExchangeStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2654,6 +3004,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReservedNodeOfferingsInput, DescribeReservedNodeOfferingsOutputResponse, DescribeReservedNodeOfferingsOutputError>(id: "describeReservedNodeOfferings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReservedNodeOfferingsInput, DescribeReservedNodeOfferingsOutputResponse, DescribeReservedNodeOfferingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReservedNodeOfferingsInput, DescribeReservedNodeOfferingsOutputResponse>())
@@ -2668,8 +3019,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReservedNodeOfferingsOutputResponse, DescribeReservedNodeOfferingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReservedNodeOfferingsOutputResponse, DescribeReservedNodeOfferingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReservedNodeOfferingsOutputResponse, DescribeReservedNodeOfferingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2689,6 +3044,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReservedNodesInput, DescribeReservedNodesOutputResponse, DescribeReservedNodesOutputError>(id: "describeReservedNodes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReservedNodesInput, DescribeReservedNodesOutputResponse, DescribeReservedNodesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReservedNodesInput, DescribeReservedNodesOutputResponse>())
@@ -2703,8 +3059,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReservedNodesOutputResponse, DescribeReservedNodesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReservedNodesOutputResponse, DescribeReservedNodesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReservedNodesOutputResponse, DescribeReservedNodesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2724,6 +3084,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeResizeInput, DescribeResizeOutputResponse, DescribeResizeOutputError>(id: "describeResize")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeResizeInput, DescribeResizeOutputResponse, DescribeResizeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeResizeInput, DescribeResizeOutputResponse>())
@@ -2738,8 +3099,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeResizeOutputResponse, DescribeResizeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeResizeOutputResponse, DescribeResizeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeResizeOutputResponse, DescribeResizeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2759,6 +3124,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeScheduledActionsInput, DescribeScheduledActionsOutputResponse, DescribeScheduledActionsOutputError>(id: "describeScheduledActions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeScheduledActionsInput, DescribeScheduledActionsOutputResponse, DescribeScheduledActionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeScheduledActionsInput, DescribeScheduledActionsOutputResponse>())
@@ -2773,8 +3139,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeScheduledActionsOutputResponse, DescribeScheduledActionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeScheduledActionsOutputResponse, DescribeScheduledActionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeScheduledActionsOutputResponse, DescribeScheduledActionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2794,6 +3164,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSnapshotCopyGrantsInput, DescribeSnapshotCopyGrantsOutputResponse, DescribeSnapshotCopyGrantsOutputError>(id: "describeSnapshotCopyGrants")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSnapshotCopyGrantsInput, DescribeSnapshotCopyGrantsOutputResponse, DescribeSnapshotCopyGrantsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSnapshotCopyGrantsInput, DescribeSnapshotCopyGrantsOutputResponse>())
@@ -2808,8 +3179,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSnapshotCopyGrantsOutputResponse, DescribeSnapshotCopyGrantsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSnapshotCopyGrantsOutputResponse, DescribeSnapshotCopyGrantsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSnapshotCopyGrantsOutputResponse, DescribeSnapshotCopyGrantsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2829,6 +3204,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSnapshotSchedulesInput, DescribeSnapshotSchedulesOutputResponse, DescribeSnapshotSchedulesOutputError>(id: "describeSnapshotSchedules")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSnapshotSchedulesInput, DescribeSnapshotSchedulesOutputResponse, DescribeSnapshotSchedulesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSnapshotSchedulesInput, DescribeSnapshotSchedulesOutputResponse>())
@@ -2843,8 +3219,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSnapshotSchedulesOutputResponse, DescribeSnapshotSchedulesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSnapshotSchedulesOutputResponse, DescribeSnapshotSchedulesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSnapshotSchedulesOutputResponse, DescribeSnapshotSchedulesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2864,6 +3244,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeStorageInput, DescribeStorageOutputResponse, DescribeStorageOutputError>(id: "describeStorage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStorageInput, DescribeStorageOutputResponse, DescribeStorageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStorageInput, DescribeStorageOutputResponse>())
@@ -2878,8 +3259,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStorageOutputResponse, DescribeStorageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStorageOutputResponse, DescribeStorageOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStorageOutputResponse, DescribeStorageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2899,6 +3284,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTableRestoreStatusInput, DescribeTableRestoreStatusOutputResponse, DescribeTableRestoreStatusOutputError>(id: "describeTableRestoreStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTableRestoreStatusInput, DescribeTableRestoreStatusOutputResponse, DescribeTableRestoreStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTableRestoreStatusInput, DescribeTableRestoreStatusOutputResponse>())
@@ -2913,8 +3299,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTableRestoreStatusOutputResponse, DescribeTableRestoreStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTableRestoreStatusOutputResponse, DescribeTableRestoreStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTableRestoreStatusOutputResponse, DescribeTableRestoreStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2943,6 +3333,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTagsInput, DescribeTagsOutputResponse, DescribeTagsOutputError>(id: "describeTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTagsInput, DescribeTagsOutputResponse, DescribeTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTagsInput, DescribeTagsOutputResponse>())
@@ -2957,8 +3348,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTagsOutputResponse, DescribeTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTagsOutputResponse, DescribeTagsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTagsOutputResponse, DescribeTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2986,6 +3381,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeUsageLimitsInput, DescribeUsageLimitsOutputResponse, DescribeUsageLimitsOutputError>(id: "describeUsageLimits")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUsageLimitsInput, DescribeUsageLimitsOutputResponse, DescribeUsageLimitsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUsageLimitsInput, DescribeUsageLimitsOutputResponse>())
@@ -3000,8 +3396,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUsageLimitsOutputResponse, DescribeUsageLimitsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUsageLimitsOutputResponse, DescribeUsageLimitsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUsageLimitsOutputResponse, DescribeUsageLimitsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3021,6 +3421,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisableLoggingInput, DisableLoggingOutputResponse, DisableLoggingOutputError>(id: "disableLogging")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableLoggingInput, DisableLoggingOutputResponse, DisableLoggingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableLoggingInput, DisableLoggingOutputResponse>())
@@ -3035,8 +3436,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableLoggingOutputResponse, DisableLoggingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableLoggingOutputResponse, DisableLoggingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableLoggingOutputResponse, DisableLoggingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3056,6 +3461,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisableSnapshotCopyInput, DisableSnapshotCopyOutputResponse, DisableSnapshotCopyOutputError>(id: "disableSnapshotCopy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableSnapshotCopyInput, DisableSnapshotCopyOutputResponse, DisableSnapshotCopyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableSnapshotCopyInput, DisableSnapshotCopyOutputResponse>())
@@ -3070,8 +3476,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableSnapshotCopyOutputResponse, DisableSnapshotCopyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableSnapshotCopyOutputResponse, DisableSnapshotCopyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableSnapshotCopyOutputResponse, DisableSnapshotCopyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3091,6 +3501,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateDataShareConsumerInput, DisassociateDataShareConsumerOutputResponse, DisassociateDataShareConsumerOutputError>(id: "disassociateDataShareConsumer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateDataShareConsumerInput, DisassociateDataShareConsumerOutputResponse, DisassociateDataShareConsumerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateDataShareConsumerInput, DisassociateDataShareConsumerOutputResponse>())
@@ -3105,8 +3516,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateDataShareConsumerOutputResponse, DisassociateDataShareConsumerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateDataShareConsumerOutputResponse, DisassociateDataShareConsumerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateDataShareConsumerOutputResponse, DisassociateDataShareConsumerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3126,6 +3541,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableLoggingInput, EnableLoggingOutputResponse, EnableLoggingOutputError>(id: "enableLogging")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableLoggingInput, EnableLoggingOutputResponse, EnableLoggingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableLoggingInput, EnableLoggingOutputResponse>())
@@ -3140,8 +3556,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableLoggingOutputResponse, EnableLoggingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableLoggingOutputResponse, EnableLoggingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableLoggingOutputResponse, EnableLoggingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3161,6 +3581,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableSnapshotCopyInput, EnableSnapshotCopyOutputResponse, EnableSnapshotCopyOutputError>(id: "enableSnapshotCopy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableSnapshotCopyInput, EnableSnapshotCopyOutputResponse, EnableSnapshotCopyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableSnapshotCopyInput, EnableSnapshotCopyOutputResponse>())
@@ -3175,8 +3596,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableSnapshotCopyOutputResponse, EnableSnapshotCopyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableSnapshotCopyOutputResponse, EnableSnapshotCopyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableSnapshotCopyOutputResponse, EnableSnapshotCopyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3196,6 +3621,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetClusterCredentialsInput, GetClusterCredentialsOutputResponse, GetClusterCredentialsOutputError>(id: "getClusterCredentials")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetClusterCredentialsInput, GetClusterCredentialsOutputResponse, GetClusterCredentialsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetClusterCredentialsInput, GetClusterCredentialsOutputResponse>())
@@ -3210,8 +3636,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetClusterCredentialsOutputResponse, GetClusterCredentialsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetClusterCredentialsOutputResponse, GetClusterCredentialsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetClusterCredentialsOutputResponse, GetClusterCredentialsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3231,6 +3661,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetClusterCredentialsWithIAMInput, GetClusterCredentialsWithIAMOutputResponse, GetClusterCredentialsWithIAMOutputError>(id: "getClusterCredentialsWithIAM")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetClusterCredentialsWithIAMInput, GetClusterCredentialsWithIAMOutputResponse, GetClusterCredentialsWithIAMOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetClusterCredentialsWithIAMInput, GetClusterCredentialsWithIAMOutputResponse>())
@@ -3245,8 +3676,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetClusterCredentialsWithIAMOutputResponse, GetClusterCredentialsWithIAMOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetClusterCredentialsWithIAMOutputResponse, GetClusterCredentialsWithIAMOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetClusterCredentialsWithIAMOutputResponse, GetClusterCredentialsWithIAMOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3266,6 +3701,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetReservedNodeExchangeConfigurationOptionsInput, GetReservedNodeExchangeConfigurationOptionsOutputResponse, GetReservedNodeExchangeConfigurationOptionsOutputError>(id: "getReservedNodeExchangeConfigurationOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetReservedNodeExchangeConfigurationOptionsInput, GetReservedNodeExchangeConfigurationOptionsOutputResponse, GetReservedNodeExchangeConfigurationOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetReservedNodeExchangeConfigurationOptionsInput, GetReservedNodeExchangeConfigurationOptionsOutputResponse>())
@@ -3280,8 +3716,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetReservedNodeExchangeConfigurationOptionsOutputResponse, GetReservedNodeExchangeConfigurationOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetReservedNodeExchangeConfigurationOptionsOutputResponse, GetReservedNodeExchangeConfigurationOptionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetReservedNodeExchangeConfigurationOptionsOutputResponse, GetReservedNodeExchangeConfigurationOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3301,6 +3741,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetReservedNodeExchangeOfferingsInput, GetReservedNodeExchangeOfferingsOutputResponse, GetReservedNodeExchangeOfferingsOutputError>(id: "getReservedNodeExchangeOfferings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetReservedNodeExchangeOfferingsInput, GetReservedNodeExchangeOfferingsOutputResponse, GetReservedNodeExchangeOfferingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetReservedNodeExchangeOfferingsInput, GetReservedNodeExchangeOfferingsOutputResponse>())
@@ -3315,8 +3756,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetReservedNodeExchangeOfferingsOutputResponse, GetReservedNodeExchangeOfferingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetReservedNodeExchangeOfferingsOutputResponse, GetReservedNodeExchangeOfferingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetReservedNodeExchangeOfferingsOutputResponse, GetReservedNodeExchangeOfferingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3336,6 +3781,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyAquaConfigurationInput, ModifyAquaConfigurationOutputResponse, ModifyAquaConfigurationOutputError>(id: "modifyAquaConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyAquaConfigurationInput, ModifyAquaConfigurationOutputResponse, ModifyAquaConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyAquaConfigurationInput, ModifyAquaConfigurationOutputResponse>())
@@ -3350,8 +3796,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyAquaConfigurationOutputResponse, ModifyAquaConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyAquaConfigurationOutputResponse, ModifyAquaConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyAquaConfigurationOutputResponse, ModifyAquaConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3371,6 +3821,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyAuthenticationProfileInput, ModifyAuthenticationProfileOutputResponse, ModifyAuthenticationProfileOutputError>(id: "modifyAuthenticationProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyAuthenticationProfileInput, ModifyAuthenticationProfileOutputResponse, ModifyAuthenticationProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyAuthenticationProfileInput, ModifyAuthenticationProfileOutputResponse>())
@@ -3385,8 +3836,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyAuthenticationProfileOutputResponse, ModifyAuthenticationProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyAuthenticationProfileOutputResponse, ModifyAuthenticationProfileOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyAuthenticationProfileOutputResponse, ModifyAuthenticationProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3406,6 +3861,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyClusterInput, ModifyClusterOutputResponse, ModifyClusterOutputError>(id: "modifyCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyClusterInput, ModifyClusterOutputResponse, ModifyClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyClusterInput, ModifyClusterOutputResponse>())
@@ -3420,8 +3876,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyClusterOutputResponse, ModifyClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyClusterOutputResponse, ModifyClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyClusterOutputResponse, ModifyClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3441,6 +3901,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyClusterDbRevisionInput, ModifyClusterDbRevisionOutputResponse, ModifyClusterDbRevisionOutputError>(id: "modifyClusterDbRevision")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyClusterDbRevisionInput, ModifyClusterDbRevisionOutputResponse, ModifyClusterDbRevisionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyClusterDbRevisionInput, ModifyClusterDbRevisionOutputResponse>())
@@ -3455,8 +3916,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyClusterDbRevisionOutputResponse, ModifyClusterDbRevisionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyClusterDbRevisionOutputResponse, ModifyClusterDbRevisionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyClusterDbRevisionOutputResponse, ModifyClusterDbRevisionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3476,6 +3941,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyClusterIamRolesInput, ModifyClusterIamRolesOutputResponse, ModifyClusterIamRolesOutputError>(id: "modifyClusterIamRoles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyClusterIamRolesInput, ModifyClusterIamRolesOutputResponse, ModifyClusterIamRolesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyClusterIamRolesInput, ModifyClusterIamRolesOutputResponse>())
@@ -3490,8 +3956,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyClusterIamRolesOutputResponse, ModifyClusterIamRolesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyClusterIamRolesOutputResponse, ModifyClusterIamRolesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyClusterIamRolesOutputResponse, ModifyClusterIamRolesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3511,6 +3981,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyClusterMaintenanceInput, ModifyClusterMaintenanceOutputResponse, ModifyClusterMaintenanceOutputError>(id: "modifyClusterMaintenance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyClusterMaintenanceInput, ModifyClusterMaintenanceOutputResponse, ModifyClusterMaintenanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyClusterMaintenanceInput, ModifyClusterMaintenanceOutputResponse>())
@@ -3525,8 +3996,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyClusterMaintenanceOutputResponse, ModifyClusterMaintenanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyClusterMaintenanceOutputResponse, ModifyClusterMaintenanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyClusterMaintenanceOutputResponse, ModifyClusterMaintenanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3546,6 +4021,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyClusterParameterGroupInput, ModifyClusterParameterGroupOutputResponse, ModifyClusterParameterGroupOutputError>(id: "modifyClusterParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyClusterParameterGroupInput, ModifyClusterParameterGroupOutputResponse, ModifyClusterParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyClusterParameterGroupInput, ModifyClusterParameterGroupOutputResponse>())
@@ -3560,8 +4036,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyClusterParameterGroupOutputResponse, ModifyClusterParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyClusterParameterGroupOutputResponse, ModifyClusterParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyClusterParameterGroupOutputResponse, ModifyClusterParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3581,6 +4061,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyClusterSnapshotInput, ModifyClusterSnapshotOutputResponse, ModifyClusterSnapshotOutputError>(id: "modifyClusterSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyClusterSnapshotInput, ModifyClusterSnapshotOutputResponse, ModifyClusterSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyClusterSnapshotInput, ModifyClusterSnapshotOutputResponse>())
@@ -3595,8 +4076,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyClusterSnapshotOutputResponse, ModifyClusterSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyClusterSnapshotOutputResponse, ModifyClusterSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyClusterSnapshotOutputResponse, ModifyClusterSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3616,6 +4101,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyClusterSnapshotScheduleInput, ModifyClusterSnapshotScheduleOutputResponse, ModifyClusterSnapshotScheduleOutputError>(id: "modifyClusterSnapshotSchedule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyClusterSnapshotScheduleInput, ModifyClusterSnapshotScheduleOutputResponse, ModifyClusterSnapshotScheduleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyClusterSnapshotScheduleInput, ModifyClusterSnapshotScheduleOutputResponse>())
@@ -3630,8 +4116,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyClusterSnapshotScheduleOutputResponse, ModifyClusterSnapshotScheduleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyClusterSnapshotScheduleOutputResponse, ModifyClusterSnapshotScheduleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyClusterSnapshotScheduleOutputResponse, ModifyClusterSnapshotScheduleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3651,6 +4141,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyClusterSubnetGroupInput, ModifyClusterSubnetGroupOutputResponse, ModifyClusterSubnetGroupOutputError>(id: "modifyClusterSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyClusterSubnetGroupInput, ModifyClusterSubnetGroupOutputResponse, ModifyClusterSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyClusterSubnetGroupInput, ModifyClusterSubnetGroupOutputResponse>())
@@ -3665,8 +4156,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyClusterSubnetGroupOutputResponse, ModifyClusterSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyClusterSubnetGroupOutputResponse, ModifyClusterSubnetGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyClusterSubnetGroupOutputResponse, ModifyClusterSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3686,6 +4181,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyEndpointAccessInput, ModifyEndpointAccessOutputResponse, ModifyEndpointAccessOutputError>(id: "modifyEndpointAccess")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyEndpointAccessInput, ModifyEndpointAccessOutputResponse, ModifyEndpointAccessOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyEndpointAccessInput, ModifyEndpointAccessOutputResponse>())
@@ -3700,8 +4196,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyEndpointAccessOutputResponse, ModifyEndpointAccessOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyEndpointAccessOutputResponse, ModifyEndpointAccessOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyEndpointAccessOutputResponse, ModifyEndpointAccessOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3721,6 +4221,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>(id: "modifyEventSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutputResponse>())
@@ -3735,8 +4236,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3756,6 +4261,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyScheduledActionInput, ModifyScheduledActionOutputResponse, ModifyScheduledActionOutputError>(id: "modifyScheduledAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyScheduledActionInput, ModifyScheduledActionOutputResponse, ModifyScheduledActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyScheduledActionInput, ModifyScheduledActionOutputResponse>())
@@ -3770,8 +4276,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyScheduledActionOutputResponse, ModifyScheduledActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyScheduledActionOutputResponse, ModifyScheduledActionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyScheduledActionOutputResponse, ModifyScheduledActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3791,6 +4301,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifySnapshotCopyRetentionPeriodInput, ModifySnapshotCopyRetentionPeriodOutputResponse, ModifySnapshotCopyRetentionPeriodOutputError>(id: "modifySnapshotCopyRetentionPeriod")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifySnapshotCopyRetentionPeriodInput, ModifySnapshotCopyRetentionPeriodOutputResponse, ModifySnapshotCopyRetentionPeriodOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifySnapshotCopyRetentionPeriodInput, ModifySnapshotCopyRetentionPeriodOutputResponse>())
@@ -3805,8 +4316,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifySnapshotCopyRetentionPeriodOutputResponse, ModifySnapshotCopyRetentionPeriodOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifySnapshotCopyRetentionPeriodOutputResponse, ModifySnapshotCopyRetentionPeriodOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifySnapshotCopyRetentionPeriodOutputResponse, ModifySnapshotCopyRetentionPeriodOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3826,6 +4341,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifySnapshotScheduleInput, ModifySnapshotScheduleOutputResponse, ModifySnapshotScheduleOutputError>(id: "modifySnapshotSchedule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifySnapshotScheduleInput, ModifySnapshotScheduleOutputResponse, ModifySnapshotScheduleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifySnapshotScheduleInput, ModifySnapshotScheduleOutputResponse>())
@@ -3840,8 +4356,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifySnapshotScheduleOutputResponse, ModifySnapshotScheduleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifySnapshotScheduleOutputResponse, ModifySnapshotScheduleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifySnapshotScheduleOutputResponse, ModifySnapshotScheduleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3861,6 +4381,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyUsageLimitInput, ModifyUsageLimitOutputResponse, ModifyUsageLimitOutputError>(id: "modifyUsageLimit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyUsageLimitInput, ModifyUsageLimitOutputResponse, ModifyUsageLimitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyUsageLimitInput, ModifyUsageLimitOutputResponse>())
@@ -3875,8 +4396,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyUsageLimitOutputResponse, ModifyUsageLimitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyUsageLimitOutputResponse, ModifyUsageLimitOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyUsageLimitOutputResponse, ModifyUsageLimitOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3896,6 +4421,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PauseClusterInput, PauseClusterOutputResponse, PauseClusterOutputError>(id: "pauseCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PauseClusterInput, PauseClusterOutputResponse, PauseClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PauseClusterInput, PauseClusterOutputResponse>())
@@ -3910,8 +4436,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PauseClusterOutputResponse, PauseClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PauseClusterOutputResponse, PauseClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PauseClusterOutputResponse, PauseClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3931,6 +4461,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PurchaseReservedNodeOfferingInput, PurchaseReservedNodeOfferingOutputResponse, PurchaseReservedNodeOfferingOutputError>(id: "purchaseReservedNodeOffering")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PurchaseReservedNodeOfferingInput, PurchaseReservedNodeOfferingOutputResponse, PurchaseReservedNodeOfferingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PurchaseReservedNodeOfferingInput, PurchaseReservedNodeOfferingOutputResponse>())
@@ -3945,8 +4476,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PurchaseReservedNodeOfferingOutputResponse, PurchaseReservedNodeOfferingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PurchaseReservedNodeOfferingOutputResponse, PurchaseReservedNodeOfferingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PurchaseReservedNodeOfferingOutputResponse, PurchaseReservedNodeOfferingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3966,6 +4501,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RebootClusterInput, RebootClusterOutputResponse, RebootClusterOutputError>(id: "rebootCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebootClusterInput, RebootClusterOutputResponse, RebootClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebootClusterInput, RebootClusterOutputResponse>())
@@ -3980,8 +4516,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RebootClusterOutputResponse, RebootClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RebootClusterOutputResponse, RebootClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RebootClusterOutputResponse, RebootClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4001,6 +4541,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RejectDataShareInput, RejectDataShareOutputResponse, RejectDataShareOutputError>(id: "rejectDataShare")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RejectDataShareInput, RejectDataShareOutputResponse, RejectDataShareOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RejectDataShareInput, RejectDataShareOutputResponse>())
@@ -4015,8 +4556,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RejectDataShareOutputResponse, RejectDataShareOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RejectDataShareOutputResponse, RejectDataShareOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RejectDataShareOutputResponse, RejectDataShareOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4036,6 +4581,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResetClusterParameterGroupInput, ResetClusterParameterGroupOutputResponse, ResetClusterParameterGroupOutputError>(id: "resetClusterParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetClusterParameterGroupInput, ResetClusterParameterGroupOutputResponse, ResetClusterParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetClusterParameterGroupInput, ResetClusterParameterGroupOutputResponse>())
@@ -4050,8 +4596,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetClusterParameterGroupOutputResponse, ResetClusterParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetClusterParameterGroupOutputResponse, ResetClusterParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetClusterParameterGroupOutputResponse, ResetClusterParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4096,6 +4646,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResizeClusterInput, ResizeClusterOutputResponse, ResizeClusterOutputError>(id: "resizeCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResizeClusterInput, ResizeClusterOutputResponse, ResizeClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResizeClusterInput, ResizeClusterOutputResponse>())
@@ -4110,8 +4661,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResizeClusterOutputResponse, ResizeClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResizeClusterOutputResponse, ResizeClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResizeClusterOutputResponse, ResizeClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4131,6 +4686,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RestoreFromClusterSnapshotInput, RestoreFromClusterSnapshotOutputResponse, RestoreFromClusterSnapshotOutputError>(id: "restoreFromClusterSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreFromClusterSnapshotInput, RestoreFromClusterSnapshotOutputResponse, RestoreFromClusterSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreFromClusterSnapshotInput, RestoreFromClusterSnapshotOutputResponse>())
@@ -4145,8 +4701,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreFromClusterSnapshotOutputResponse, RestoreFromClusterSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreFromClusterSnapshotOutputResponse, RestoreFromClusterSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreFromClusterSnapshotOutputResponse, RestoreFromClusterSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4166,6 +4726,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RestoreTableFromClusterSnapshotInput, RestoreTableFromClusterSnapshotOutputResponse, RestoreTableFromClusterSnapshotOutputError>(id: "restoreTableFromClusterSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreTableFromClusterSnapshotInput, RestoreTableFromClusterSnapshotOutputResponse, RestoreTableFromClusterSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreTableFromClusterSnapshotInput, RestoreTableFromClusterSnapshotOutputResponse>())
@@ -4180,8 +4741,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreTableFromClusterSnapshotOutputResponse, RestoreTableFromClusterSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreTableFromClusterSnapshotOutputResponse, RestoreTableFromClusterSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreTableFromClusterSnapshotOutputResponse, RestoreTableFromClusterSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4201,6 +4766,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResumeClusterInput, ResumeClusterOutputResponse, ResumeClusterOutputError>(id: "resumeCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResumeClusterInput, ResumeClusterOutputResponse, ResumeClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResumeClusterInput, ResumeClusterOutputResponse>())
@@ -4215,8 +4781,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResumeClusterOutputResponse, ResumeClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResumeClusterOutputResponse, ResumeClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResumeClusterOutputResponse, ResumeClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4236,6 +4806,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RevokeClusterSecurityGroupIngressInput, RevokeClusterSecurityGroupIngressOutputResponse, RevokeClusterSecurityGroupIngressOutputError>(id: "revokeClusterSecurityGroupIngress")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeClusterSecurityGroupIngressInput, RevokeClusterSecurityGroupIngressOutputResponse, RevokeClusterSecurityGroupIngressOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeClusterSecurityGroupIngressInput, RevokeClusterSecurityGroupIngressOutputResponse>())
@@ -4250,8 +4821,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokeClusterSecurityGroupIngressOutputResponse, RevokeClusterSecurityGroupIngressOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeClusterSecurityGroupIngressOutputResponse, RevokeClusterSecurityGroupIngressOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RevokeClusterSecurityGroupIngressOutputResponse, RevokeClusterSecurityGroupIngressOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4271,6 +4846,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RevokeEndpointAccessInput, RevokeEndpointAccessOutputResponse, RevokeEndpointAccessOutputError>(id: "revokeEndpointAccess")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeEndpointAccessInput, RevokeEndpointAccessOutputResponse, RevokeEndpointAccessOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeEndpointAccessInput, RevokeEndpointAccessOutputResponse>())
@@ -4285,8 +4861,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokeEndpointAccessOutputResponse, RevokeEndpointAccessOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeEndpointAccessOutputResponse, RevokeEndpointAccessOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RevokeEndpointAccessOutputResponse, RevokeEndpointAccessOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4306,6 +4886,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RevokeSnapshotAccessInput, RevokeSnapshotAccessOutputResponse, RevokeSnapshotAccessOutputError>(id: "revokeSnapshotAccess")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeSnapshotAccessInput, RevokeSnapshotAccessOutputResponse, RevokeSnapshotAccessOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeSnapshotAccessInput, RevokeSnapshotAccessOutputResponse>())
@@ -4320,8 +4901,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokeSnapshotAccessOutputResponse, RevokeSnapshotAccessOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeSnapshotAccessOutputResponse, RevokeSnapshotAccessOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RevokeSnapshotAccessOutputResponse, RevokeSnapshotAccessOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4341,6 +4926,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RotateEncryptionKeyInput, RotateEncryptionKeyOutputResponse, RotateEncryptionKeyOutputError>(id: "rotateEncryptionKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RotateEncryptionKeyInput, RotateEncryptionKeyOutputResponse, RotateEncryptionKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RotateEncryptionKeyInput, RotateEncryptionKeyOutputResponse>())
@@ -4355,8 +4941,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RotateEncryptionKeyOutputResponse, RotateEncryptionKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RotateEncryptionKeyOutputResponse, RotateEncryptionKeyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RotateEncryptionKeyOutputResponse, RotateEncryptionKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4376,6 +4966,7 @@ extension RedshiftClient: RedshiftClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "redshift")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePartnerStatusInput, UpdatePartnerStatusOutputResponse, UpdatePartnerStatusOutputError>(id: "updatePartnerStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePartnerStatusInput, UpdatePartnerStatusOutputResponse, UpdatePartnerStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePartnerStatusInput, UpdatePartnerStatusOutputResponse>())
@@ -4390,8 +4981,12 @@ extension RedshiftClient: RedshiftClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePartnerStatusOutputResponse, UpdatePartnerStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePartnerStatusOutputResponse, UpdatePartnerStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePartnerStatusOutputResponse, UpdatePartnerStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

@@ -34,8 +34,11 @@ class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGene
             writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
 
             writer.openBlock("extension \$L: \$N {", "}", operationErrorName, ClientRuntimeTypes.Http.HttpResponseBinding) {
-                writer.openBlock("public init(httpResponse: \$N, decoder: \$D) throws {", "}", ClientRuntimeTypes.Http.HttpResponse, ClientRuntimeTypes.Serde.ResponseDecoder) {
-
+                writer.openBlock(
+                    "public init(httpResponse: \$N, decoder: \$D) throws {", "}",
+                    ClientRuntimeTypes.Http.HttpResponse,
+                    ClientRuntimeTypes.Serde.ResponseDecoder
+                ) {
                     writer.declareSection(RestXMLResponseBindingSectionId, mapOf<String, Any>("operationErrorName" to operationErrorName)) {
                         writer.write("let errorDetails = try \$N(httpResponse: httpResponse)", AWSClientRuntimeTypes.RestXML.RestXMLError)
                         writer.write("try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)")

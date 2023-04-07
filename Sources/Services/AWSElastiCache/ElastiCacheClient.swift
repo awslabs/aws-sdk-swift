@@ -204,6 +204,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddTagsToResourceInput, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(id: "addTagsToResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse>())
@@ -218,8 +219,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -239,6 +244,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AuthorizeCacheSecurityGroupIngressInput, AuthorizeCacheSecurityGroupIngressOutputResponse, AuthorizeCacheSecurityGroupIngressOutputError>(id: "authorizeCacheSecurityGroupIngress")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AuthorizeCacheSecurityGroupIngressInput, AuthorizeCacheSecurityGroupIngressOutputResponse, AuthorizeCacheSecurityGroupIngressOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AuthorizeCacheSecurityGroupIngressInput, AuthorizeCacheSecurityGroupIngressOutputResponse>())
@@ -253,8 +259,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AuthorizeCacheSecurityGroupIngressOutputResponse, AuthorizeCacheSecurityGroupIngressOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AuthorizeCacheSecurityGroupIngressOutputResponse, AuthorizeCacheSecurityGroupIngressOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AuthorizeCacheSecurityGroupIngressOutputResponse, AuthorizeCacheSecurityGroupIngressOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -274,6 +284,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchApplyUpdateActionInput, BatchApplyUpdateActionOutputResponse, BatchApplyUpdateActionOutputError>(id: "batchApplyUpdateAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchApplyUpdateActionInput, BatchApplyUpdateActionOutputResponse, BatchApplyUpdateActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchApplyUpdateActionInput, BatchApplyUpdateActionOutputResponse>())
@@ -288,8 +299,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchApplyUpdateActionOutputResponse, BatchApplyUpdateActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchApplyUpdateActionOutputResponse, BatchApplyUpdateActionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchApplyUpdateActionOutputResponse, BatchApplyUpdateActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -309,6 +324,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchStopUpdateActionInput, BatchStopUpdateActionOutputResponse, BatchStopUpdateActionOutputError>(id: "batchStopUpdateAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchStopUpdateActionInput, BatchStopUpdateActionOutputResponse, BatchStopUpdateActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchStopUpdateActionInput, BatchStopUpdateActionOutputResponse>())
@@ -323,8 +339,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchStopUpdateActionOutputResponse, BatchStopUpdateActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchStopUpdateActionOutputResponse, BatchStopUpdateActionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchStopUpdateActionOutputResponse, BatchStopUpdateActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -344,6 +364,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CompleteMigrationInput, CompleteMigrationOutputResponse, CompleteMigrationOutputError>(id: "completeMigration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CompleteMigrationInput, CompleteMigrationOutputResponse, CompleteMigrationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CompleteMigrationInput, CompleteMigrationOutputResponse>())
@@ -358,8 +379,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CompleteMigrationOutputResponse, CompleteMigrationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CompleteMigrationOutputResponse, CompleteMigrationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CompleteMigrationOutputResponse, CompleteMigrationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -395,6 +420,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CopySnapshotInput, CopySnapshotOutputResponse, CopySnapshotOutputError>(id: "copySnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopySnapshotInput, CopySnapshotOutputResponse, CopySnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopySnapshotInput, CopySnapshotOutputResponse>())
@@ -409,8 +435,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopySnapshotOutputResponse, CopySnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopySnapshotOutputResponse, CopySnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopySnapshotOutputResponse, CopySnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -430,6 +460,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCacheClusterInput, CreateCacheClusterOutputResponse, CreateCacheClusterOutputError>(id: "createCacheCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCacheClusterInput, CreateCacheClusterOutputResponse, CreateCacheClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCacheClusterInput, CreateCacheClusterOutputResponse>())
@@ -444,8 +475,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCacheClusterOutputResponse, CreateCacheClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCacheClusterOutputResponse, CreateCacheClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCacheClusterOutputResponse, CreateCacheClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -469,6 +504,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCacheParameterGroupInput, CreateCacheParameterGroupOutputResponse, CreateCacheParameterGroupOutputError>(id: "createCacheParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCacheParameterGroupInput, CreateCacheParameterGroupOutputResponse, CreateCacheParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCacheParameterGroupInput, CreateCacheParameterGroupOutputResponse>())
@@ -483,8 +519,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCacheParameterGroupOutputResponse, CreateCacheParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCacheParameterGroupOutputResponse, CreateCacheParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCacheParameterGroupOutputResponse, CreateCacheParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -504,6 +544,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCacheSecurityGroupInput, CreateCacheSecurityGroupOutputResponse, CreateCacheSecurityGroupOutputError>(id: "createCacheSecurityGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCacheSecurityGroupInput, CreateCacheSecurityGroupOutputResponse, CreateCacheSecurityGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCacheSecurityGroupInput, CreateCacheSecurityGroupOutputResponse>())
@@ -518,8 +559,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCacheSecurityGroupOutputResponse, CreateCacheSecurityGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCacheSecurityGroupOutputResponse, CreateCacheSecurityGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCacheSecurityGroupOutputResponse, CreateCacheSecurityGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -539,6 +584,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCacheSubnetGroupInput, CreateCacheSubnetGroupOutputResponse, CreateCacheSubnetGroupOutputError>(id: "createCacheSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCacheSubnetGroupInput, CreateCacheSubnetGroupOutputResponse, CreateCacheSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCacheSubnetGroupInput, CreateCacheSubnetGroupOutputResponse>())
@@ -553,8 +599,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCacheSubnetGroupOutputResponse, CreateCacheSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCacheSubnetGroupOutputResponse, CreateCacheSubnetGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCacheSubnetGroupOutputResponse, CreateCacheSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -578,6 +628,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateGlobalReplicationGroupInput, CreateGlobalReplicationGroupOutputResponse, CreateGlobalReplicationGroupOutputError>(id: "createGlobalReplicationGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGlobalReplicationGroupInput, CreateGlobalReplicationGroupOutputResponse, CreateGlobalReplicationGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGlobalReplicationGroupInput, CreateGlobalReplicationGroupOutputResponse>())
@@ -592,8 +643,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGlobalReplicationGroupOutputResponse, CreateGlobalReplicationGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGlobalReplicationGroupOutputResponse, CreateGlobalReplicationGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGlobalReplicationGroupOutputResponse, CreateGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -613,6 +668,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateReplicationGroupInput, CreateReplicationGroupOutputResponse, CreateReplicationGroupOutputError>(id: "createReplicationGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateReplicationGroupInput, CreateReplicationGroupOutputResponse, CreateReplicationGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateReplicationGroupInput, CreateReplicationGroupOutputResponse>())
@@ -627,8 +683,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateReplicationGroupOutputResponse, CreateReplicationGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReplicationGroupOutputResponse, CreateReplicationGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateReplicationGroupOutputResponse, CreateReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -648,6 +708,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSnapshotInput, CreateSnapshotOutputResponse, CreateSnapshotOutputError>(id: "createSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSnapshotInput, CreateSnapshotOutputResponse, CreateSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSnapshotInput, CreateSnapshotOutputResponse>())
@@ -662,8 +723,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -683,6 +748,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateUserInput, CreateUserOutputResponse, CreateUserOutputError>(id: "createUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserInput, CreateUserOutputResponse, CreateUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserInput, CreateUserOutputResponse>())
@@ -697,8 +763,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserOutputResponse, CreateUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserOutputResponse, CreateUserOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserOutputResponse, CreateUserOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -718,6 +788,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateUserGroupInput, CreateUserGroupOutputResponse, CreateUserGroupOutputError>(id: "createUserGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserGroupInput, CreateUserGroupOutputResponse, CreateUserGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserGroupInput, CreateUserGroupOutputResponse>())
@@ -732,8 +803,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserGroupOutputResponse, CreateUserGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserGroupOutputResponse, CreateUserGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserGroupOutputResponse, CreateUserGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -753,6 +828,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DecreaseNodeGroupsInGlobalReplicationGroupInput, DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse, DecreaseNodeGroupsInGlobalReplicationGroupOutputError>(id: "decreaseNodeGroupsInGlobalReplicationGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DecreaseNodeGroupsInGlobalReplicationGroupInput, DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse, DecreaseNodeGroupsInGlobalReplicationGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DecreaseNodeGroupsInGlobalReplicationGroupInput, DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse>())
@@ -767,8 +843,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse, DecreaseNodeGroupsInGlobalReplicationGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse, DecreaseNodeGroupsInGlobalReplicationGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DecreaseNodeGroupsInGlobalReplicationGroupOutputResponse, DecreaseNodeGroupsInGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -788,6 +868,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DecreaseReplicaCountInput, DecreaseReplicaCountOutputResponse, DecreaseReplicaCountOutputError>(id: "decreaseReplicaCount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DecreaseReplicaCountInput, DecreaseReplicaCountOutputResponse, DecreaseReplicaCountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DecreaseReplicaCountInput, DecreaseReplicaCountOutputResponse>())
@@ -802,8 +883,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DecreaseReplicaCountOutputResponse, DecreaseReplicaCountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DecreaseReplicaCountOutputResponse, DecreaseReplicaCountOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DecreaseReplicaCountOutputResponse, DecreaseReplicaCountOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -837,6 +922,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCacheClusterInput, DeleteCacheClusterOutputResponse, DeleteCacheClusterOutputError>(id: "deleteCacheCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCacheClusterInput, DeleteCacheClusterOutputResponse, DeleteCacheClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCacheClusterInput, DeleteCacheClusterOutputResponse>())
@@ -851,8 +937,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCacheClusterOutputResponse, DeleteCacheClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCacheClusterOutputResponse, DeleteCacheClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCacheClusterOutputResponse, DeleteCacheClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -872,6 +962,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCacheParameterGroupInput, DeleteCacheParameterGroupOutputResponse, DeleteCacheParameterGroupOutputError>(id: "deleteCacheParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCacheParameterGroupInput, DeleteCacheParameterGroupOutputResponse, DeleteCacheParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCacheParameterGroupInput, DeleteCacheParameterGroupOutputResponse>())
@@ -886,8 +977,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCacheParameterGroupOutputResponse, DeleteCacheParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCacheParameterGroupOutputResponse, DeleteCacheParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCacheParameterGroupOutputResponse, DeleteCacheParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -907,6 +1002,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCacheSecurityGroupInput, DeleteCacheSecurityGroupOutputResponse, DeleteCacheSecurityGroupOutputError>(id: "deleteCacheSecurityGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCacheSecurityGroupInput, DeleteCacheSecurityGroupOutputResponse, DeleteCacheSecurityGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCacheSecurityGroupInput, DeleteCacheSecurityGroupOutputResponse>())
@@ -921,8 +1017,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCacheSecurityGroupOutputResponse, DeleteCacheSecurityGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCacheSecurityGroupOutputResponse, DeleteCacheSecurityGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCacheSecurityGroupOutputResponse, DeleteCacheSecurityGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -942,6 +1042,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCacheSubnetGroupInput, DeleteCacheSubnetGroupOutputResponse, DeleteCacheSubnetGroupOutputError>(id: "deleteCacheSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCacheSubnetGroupInput, DeleteCacheSubnetGroupOutputResponse, DeleteCacheSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCacheSubnetGroupInput, DeleteCacheSubnetGroupOutputResponse>())
@@ -956,8 +1057,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCacheSubnetGroupOutputResponse, DeleteCacheSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCacheSubnetGroupOutputResponse, DeleteCacheSubnetGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCacheSubnetGroupOutputResponse, DeleteCacheSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -984,6 +1089,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteGlobalReplicationGroupInput, DeleteGlobalReplicationGroupOutputResponse, DeleteGlobalReplicationGroupOutputError>(id: "deleteGlobalReplicationGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGlobalReplicationGroupInput, DeleteGlobalReplicationGroupOutputResponse, DeleteGlobalReplicationGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGlobalReplicationGroupInput, DeleteGlobalReplicationGroupOutputResponse>())
@@ -998,8 +1104,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGlobalReplicationGroupOutputResponse, DeleteGlobalReplicationGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGlobalReplicationGroupOutputResponse, DeleteGlobalReplicationGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGlobalReplicationGroupOutputResponse, DeleteGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1019,6 +1129,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteReplicationGroupInput, DeleteReplicationGroupOutputResponse, DeleteReplicationGroupOutputError>(id: "deleteReplicationGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReplicationGroupInput, DeleteReplicationGroupOutputResponse, DeleteReplicationGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReplicationGroupInput, DeleteReplicationGroupOutputResponse>())
@@ -1033,8 +1144,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReplicationGroupOutputResponse, DeleteReplicationGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReplicationGroupOutputResponse, DeleteReplicationGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteReplicationGroupOutputResponse, DeleteReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1054,6 +1169,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSnapshotInput, DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(id: "deleteSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSnapshotInput, DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSnapshotInput, DeleteSnapshotOutputResponse>())
@@ -1068,8 +1184,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1089,6 +1209,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteUserInput, DeleteUserOutputResponse, DeleteUserOutputError>(id: "deleteUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserInput, DeleteUserOutputResponse, DeleteUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutputResponse>())
@@ -1103,8 +1224,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserOutputResponse, DeleteUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1124,6 +1249,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteUserGroupInput, DeleteUserGroupOutputResponse, DeleteUserGroupOutputError>(id: "deleteUserGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserGroupInput, DeleteUserGroupOutputResponse, DeleteUserGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserGroupInput, DeleteUserGroupOutputResponse>())
@@ -1138,8 +1264,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserGroupOutputResponse, DeleteUserGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserGroupOutputResponse, DeleteUserGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserGroupOutputResponse, DeleteUserGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1159,6 +1289,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCacheClustersInput, DescribeCacheClustersOutputResponse, DescribeCacheClustersOutputError>(id: "describeCacheClusters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCacheClustersInput, DescribeCacheClustersOutputResponse, DescribeCacheClustersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCacheClustersInput, DescribeCacheClustersOutputResponse>())
@@ -1173,8 +1304,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCacheClustersOutputResponse, DescribeCacheClustersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCacheClustersOutputResponse, DescribeCacheClustersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCacheClustersOutputResponse, DescribeCacheClustersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1194,6 +1329,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutputResponse, DescribeCacheEngineVersionsOutputError>(id: "describeCacheEngineVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutputResponse, DescribeCacheEngineVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCacheEngineVersionsInput, DescribeCacheEngineVersionsOutputResponse>())
@@ -1208,8 +1344,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCacheEngineVersionsOutputResponse, DescribeCacheEngineVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCacheEngineVersionsOutputResponse, DescribeCacheEngineVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCacheEngineVersionsOutputResponse, DescribeCacheEngineVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1229,6 +1369,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutputResponse, DescribeCacheParameterGroupsOutputError>(id: "describeCacheParameterGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutputResponse, DescribeCacheParameterGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCacheParameterGroupsInput, DescribeCacheParameterGroupsOutputResponse>())
@@ -1243,8 +1384,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCacheParameterGroupsOutputResponse, DescribeCacheParameterGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCacheParameterGroupsOutputResponse, DescribeCacheParameterGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCacheParameterGroupsOutputResponse, DescribeCacheParameterGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1264,6 +1409,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCacheParametersInput, DescribeCacheParametersOutputResponse, DescribeCacheParametersOutputError>(id: "describeCacheParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCacheParametersInput, DescribeCacheParametersOutputResponse, DescribeCacheParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCacheParametersInput, DescribeCacheParametersOutputResponse>())
@@ -1278,8 +1424,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCacheParametersOutputResponse, DescribeCacheParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCacheParametersOutputResponse, DescribeCacheParametersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCacheParametersOutputResponse, DescribeCacheParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1299,6 +1449,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutputResponse, DescribeCacheSecurityGroupsOutputError>(id: "describeCacheSecurityGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutputResponse, DescribeCacheSecurityGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCacheSecurityGroupsInput, DescribeCacheSecurityGroupsOutputResponse>())
@@ -1313,8 +1464,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCacheSecurityGroupsOutputResponse, DescribeCacheSecurityGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCacheSecurityGroupsOutputResponse, DescribeCacheSecurityGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCacheSecurityGroupsOutputResponse, DescribeCacheSecurityGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1334,6 +1489,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutputResponse, DescribeCacheSubnetGroupsOutputError>(id: "describeCacheSubnetGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutputResponse, DescribeCacheSubnetGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCacheSubnetGroupsInput, DescribeCacheSubnetGroupsOutputResponse>())
@@ -1348,8 +1504,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCacheSubnetGroupsOutputResponse, DescribeCacheSubnetGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCacheSubnetGroupsOutputResponse, DescribeCacheSubnetGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCacheSubnetGroupsOutputResponse, DescribeCacheSubnetGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1369,6 +1529,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>(id: "describeEngineDefaultParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutputResponse>())
@@ -1383,8 +1544,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1404,6 +1569,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>(id: "describeEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventsInput, DescribeEventsOutputResponse>())
@@ -1418,8 +1584,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1439,6 +1609,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutputResponse, DescribeGlobalReplicationGroupsOutputError>(id: "describeGlobalReplicationGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutputResponse, DescribeGlobalReplicationGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeGlobalReplicationGroupsInput, DescribeGlobalReplicationGroupsOutputResponse>())
@@ -1453,8 +1624,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGlobalReplicationGroupsOutputResponse, DescribeGlobalReplicationGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGlobalReplicationGroupsOutputResponse, DescribeGlobalReplicationGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeGlobalReplicationGroupsOutputResponse, DescribeGlobalReplicationGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1474,6 +1649,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutputResponse, DescribeReplicationGroupsOutputError>(id: "describeReplicationGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutputResponse, DescribeReplicationGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReplicationGroupsInput, DescribeReplicationGroupsOutputResponse>())
@@ -1488,8 +1664,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReplicationGroupsOutputResponse, DescribeReplicationGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReplicationGroupsOutputResponse, DescribeReplicationGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReplicationGroupsOutputResponse, DescribeReplicationGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1509,6 +1689,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutputResponse, DescribeReservedCacheNodesOutputError>(id: "describeReservedCacheNodes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutputResponse, DescribeReservedCacheNodesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReservedCacheNodesInput, DescribeReservedCacheNodesOutputResponse>())
@@ -1523,8 +1704,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReservedCacheNodesOutputResponse, DescribeReservedCacheNodesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReservedCacheNodesOutputResponse, DescribeReservedCacheNodesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReservedCacheNodesOutputResponse, DescribeReservedCacheNodesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1544,6 +1729,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutputResponse, DescribeReservedCacheNodesOfferingsOutputError>(id: "describeReservedCacheNodesOfferings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutputResponse, DescribeReservedCacheNodesOfferingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReservedCacheNodesOfferingsInput, DescribeReservedCacheNodesOfferingsOutputResponse>())
@@ -1558,8 +1744,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReservedCacheNodesOfferingsOutputResponse, DescribeReservedCacheNodesOfferingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReservedCacheNodesOfferingsOutputResponse, DescribeReservedCacheNodesOfferingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReservedCacheNodesOfferingsOutputResponse, DescribeReservedCacheNodesOfferingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1579,6 +1769,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutputResponse, DescribeServiceUpdatesOutputError>(id: "describeServiceUpdates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutputResponse, DescribeServiceUpdatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutputResponse>())
@@ -1593,8 +1784,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeServiceUpdatesOutputResponse, DescribeServiceUpdatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeServiceUpdatesOutputResponse, DescribeServiceUpdatesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeServiceUpdatesOutputResponse, DescribeServiceUpdatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1614,6 +1809,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(id: "describeSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse>())
@@ -1628,8 +1824,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1649,6 +1849,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeUpdateActionsInput, DescribeUpdateActionsOutputResponse, DescribeUpdateActionsOutputError>(id: "describeUpdateActions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUpdateActionsInput, DescribeUpdateActionsOutputResponse, DescribeUpdateActionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUpdateActionsInput, DescribeUpdateActionsOutputResponse>())
@@ -1663,8 +1864,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUpdateActionsOutputResponse, DescribeUpdateActionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUpdateActionsOutputResponse, DescribeUpdateActionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUpdateActionsOutputResponse, DescribeUpdateActionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1684,6 +1889,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeUserGroupsInput, DescribeUserGroupsOutputResponse, DescribeUserGroupsOutputError>(id: "describeUserGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUserGroupsInput, DescribeUserGroupsOutputResponse, DescribeUserGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUserGroupsInput, DescribeUserGroupsOutputResponse>())
@@ -1698,8 +1904,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUserGroupsOutputResponse, DescribeUserGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUserGroupsOutputResponse, DescribeUserGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUserGroupsOutputResponse, DescribeUserGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1719,6 +1929,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeUsersInput, DescribeUsersOutputResponse, DescribeUsersOutputError>(id: "describeUsers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUsersInput, DescribeUsersOutputResponse, DescribeUsersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUsersInput, DescribeUsersOutputResponse>())
@@ -1733,8 +1944,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUsersOutputResponse, DescribeUsersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUsersOutputResponse, DescribeUsersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUsersOutputResponse, DescribeUsersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1754,6 +1969,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateGlobalReplicationGroupInput, DisassociateGlobalReplicationGroupOutputResponse, DisassociateGlobalReplicationGroupOutputError>(id: "disassociateGlobalReplicationGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateGlobalReplicationGroupInput, DisassociateGlobalReplicationGroupOutputResponse, DisassociateGlobalReplicationGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateGlobalReplicationGroupInput, DisassociateGlobalReplicationGroupOutputResponse>())
@@ -1768,8 +1984,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateGlobalReplicationGroupOutputResponse, DisassociateGlobalReplicationGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateGlobalReplicationGroupOutputResponse, DisassociateGlobalReplicationGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateGlobalReplicationGroupOutputResponse, DisassociateGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1789,6 +2009,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<FailoverGlobalReplicationGroupInput, FailoverGlobalReplicationGroupOutputResponse, FailoverGlobalReplicationGroupOutputError>(id: "failoverGlobalReplicationGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<FailoverGlobalReplicationGroupInput, FailoverGlobalReplicationGroupOutputResponse, FailoverGlobalReplicationGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<FailoverGlobalReplicationGroupInput, FailoverGlobalReplicationGroupOutputResponse>())
@@ -1803,8 +2024,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<FailoverGlobalReplicationGroupOutputResponse, FailoverGlobalReplicationGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<FailoverGlobalReplicationGroupOutputResponse, FailoverGlobalReplicationGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<FailoverGlobalReplicationGroupOutputResponse, FailoverGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1824,6 +2049,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<IncreaseNodeGroupsInGlobalReplicationGroupInput, IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse, IncreaseNodeGroupsInGlobalReplicationGroupOutputError>(id: "increaseNodeGroupsInGlobalReplicationGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<IncreaseNodeGroupsInGlobalReplicationGroupInput, IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse, IncreaseNodeGroupsInGlobalReplicationGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<IncreaseNodeGroupsInGlobalReplicationGroupInput, IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse>())
@@ -1838,8 +2064,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse, IncreaseNodeGroupsInGlobalReplicationGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse, IncreaseNodeGroupsInGlobalReplicationGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<IncreaseNodeGroupsInGlobalReplicationGroupOutputResponse, IncreaseNodeGroupsInGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1859,6 +2089,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<IncreaseReplicaCountInput, IncreaseReplicaCountOutputResponse, IncreaseReplicaCountOutputError>(id: "increaseReplicaCount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<IncreaseReplicaCountInput, IncreaseReplicaCountOutputResponse, IncreaseReplicaCountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<IncreaseReplicaCountInput, IncreaseReplicaCountOutputResponse>())
@@ -1873,8 +2104,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<IncreaseReplicaCountOutputResponse, IncreaseReplicaCountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<IncreaseReplicaCountOutputResponse, IncreaseReplicaCountOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<IncreaseReplicaCountOutputResponse, IncreaseReplicaCountOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1894,6 +2129,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAllowedNodeTypeModificationsInput, ListAllowedNodeTypeModificationsOutputResponse, ListAllowedNodeTypeModificationsOutputError>(id: "listAllowedNodeTypeModifications")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAllowedNodeTypeModificationsInput, ListAllowedNodeTypeModificationsOutputResponse, ListAllowedNodeTypeModificationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAllowedNodeTypeModificationsInput, ListAllowedNodeTypeModificationsOutputResponse>())
@@ -1908,8 +2144,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAllowedNodeTypeModificationsOutputResponse, ListAllowedNodeTypeModificationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAllowedNodeTypeModificationsOutputResponse, ListAllowedNodeTypeModificationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAllowedNodeTypeModificationsOutputResponse, ListAllowedNodeTypeModificationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1929,6 +2169,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1943,8 +2184,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1964,6 +2209,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyCacheClusterInput, ModifyCacheClusterOutputResponse, ModifyCacheClusterOutputError>(id: "modifyCacheCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyCacheClusterInput, ModifyCacheClusterOutputResponse, ModifyCacheClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyCacheClusterInput, ModifyCacheClusterOutputResponse>())
@@ -1978,8 +2224,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyCacheClusterOutputResponse, ModifyCacheClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyCacheClusterOutputResponse, ModifyCacheClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyCacheClusterOutputResponse, ModifyCacheClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1999,6 +2249,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyCacheParameterGroupInput, ModifyCacheParameterGroupOutputResponse, ModifyCacheParameterGroupOutputError>(id: "modifyCacheParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyCacheParameterGroupInput, ModifyCacheParameterGroupOutputResponse, ModifyCacheParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyCacheParameterGroupInput, ModifyCacheParameterGroupOutputResponse>())
@@ -2013,8 +2264,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyCacheParameterGroupOutputResponse, ModifyCacheParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyCacheParameterGroupOutputResponse, ModifyCacheParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyCacheParameterGroupOutputResponse, ModifyCacheParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2034,6 +2289,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyCacheSubnetGroupInput, ModifyCacheSubnetGroupOutputResponse, ModifyCacheSubnetGroupOutputError>(id: "modifyCacheSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyCacheSubnetGroupInput, ModifyCacheSubnetGroupOutputResponse, ModifyCacheSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyCacheSubnetGroupInput, ModifyCacheSubnetGroupOutputResponse>())
@@ -2048,8 +2304,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyCacheSubnetGroupOutputResponse, ModifyCacheSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyCacheSubnetGroupOutputResponse, ModifyCacheSubnetGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyCacheSubnetGroupOutputResponse, ModifyCacheSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2069,6 +2329,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyGlobalReplicationGroupInput, ModifyGlobalReplicationGroupOutputResponse, ModifyGlobalReplicationGroupOutputError>(id: "modifyGlobalReplicationGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyGlobalReplicationGroupInput, ModifyGlobalReplicationGroupOutputResponse, ModifyGlobalReplicationGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyGlobalReplicationGroupInput, ModifyGlobalReplicationGroupOutputResponse>())
@@ -2083,8 +2344,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyGlobalReplicationGroupOutputResponse, ModifyGlobalReplicationGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyGlobalReplicationGroupOutputResponse, ModifyGlobalReplicationGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyGlobalReplicationGroupOutputResponse, ModifyGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2111,6 +2376,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyReplicationGroupInput, ModifyReplicationGroupOutputResponse, ModifyReplicationGroupOutputError>(id: "modifyReplicationGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyReplicationGroupInput, ModifyReplicationGroupOutputResponse, ModifyReplicationGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyReplicationGroupInput, ModifyReplicationGroupOutputResponse>())
@@ -2125,8 +2391,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyReplicationGroupOutputResponse, ModifyReplicationGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyReplicationGroupOutputResponse, ModifyReplicationGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyReplicationGroupOutputResponse, ModifyReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2146,6 +2416,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyReplicationGroupShardConfigurationInput, ModifyReplicationGroupShardConfigurationOutputResponse, ModifyReplicationGroupShardConfigurationOutputError>(id: "modifyReplicationGroupShardConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyReplicationGroupShardConfigurationInput, ModifyReplicationGroupShardConfigurationOutputResponse, ModifyReplicationGroupShardConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyReplicationGroupShardConfigurationInput, ModifyReplicationGroupShardConfigurationOutputResponse>())
@@ -2160,8 +2431,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyReplicationGroupShardConfigurationOutputResponse, ModifyReplicationGroupShardConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyReplicationGroupShardConfigurationOutputResponse, ModifyReplicationGroupShardConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyReplicationGroupShardConfigurationOutputResponse, ModifyReplicationGroupShardConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2181,6 +2456,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyUserInput, ModifyUserOutputResponse, ModifyUserOutputError>(id: "modifyUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyUserInput, ModifyUserOutputResponse, ModifyUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyUserInput, ModifyUserOutputResponse>())
@@ -2195,8 +2471,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyUserOutputResponse, ModifyUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyUserOutputResponse, ModifyUserOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyUserOutputResponse, ModifyUserOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2216,6 +2496,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyUserGroupInput, ModifyUserGroupOutputResponse, ModifyUserGroupOutputError>(id: "modifyUserGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyUserGroupInput, ModifyUserGroupOutputResponse, ModifyUserGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyUserGroupInput, ModifyUserGroupOutputResponse>())
@@ -2230,8 +2511,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyUserGroupOutputResponse, ModifyUserGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyUserGroupOutputResponse, ModifyUserGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyUserGroupOutputResponse, ModifyUserGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2251,6 +2536,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PurchaseReservedCacheNodesOfferingInput, PurchaseReservedCacheNodesOfferingOutputResponse, PurchaseReservedCacheNodesOfferingOutputError>(id: "purchaseReservedCacheNodesOffering")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PurchaseReservedCacheNodesOfferingInput, PurchaseReservedCacheNodesOfferingOutputResponse, PurchaseReservedCacheNodesOfferingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PurchaseReservedCacheNodesOfferingInput, PurchaseReservedCacheNodesOfferingOutputResponse>())
@@ -2265,8 +2551,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PurchaseReservedCacheNodesOfferingOutputResponse, PurchaseReservedCacheNodesOfferingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PurchaseReservedCacheNodesOfferingOutputResponse, PurchaseReservedCacheNodesOfferingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PurchaseReservedCacheNodesOfferingOutputResponse, PurchaseReservedCacheNodesOfferingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2286,6 +2576,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RebalanceSlotsInGlobalReplicationGroupInput, RebalanceSlotsInGlobalReplicationGroupOutputResponse, RebalanceSlotsInGlobalReplicationGroupOutputError>(id: "rebalanceSlotsInGlobalReplicationGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebalanceSlotsInGlobalReplicationGroupInput, RebalanceSlotsInGlobalReplicationGroupOutputResponse, RebalanceSlotsInGlobalReplicationGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebalanceSlotsInGlobalReplicationGroupInput, RebalanceSlotsInGlobalReplicationGroupOutputResponse>())
@@ -2300,8 +2591,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RebalanceSlotsInGlobalReplicationGroupOutputResponse, RebalanceSlotsInGlobalReplicationGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RebalanceSlotsInGlobalReplicationGroupOutputResponse, RebalanceSlotsInGlobalReplicationGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RebalanceSlotsInGlobalReplicationGroupOutputResponse, RebalanceSlotsInGlobalReplicationGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2321,6 +2616,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RebootCacheClusterInput, RebootCacheClusterOutputResponse, RebootCacheClusterOutputError>(id: "rebootCacheCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebootCacheClusterInput, RebootCacheClusterOutputResponse, RebootCacheClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebootCacheClusterInput, RebootCacheClusterOutputResponse>())
@@ -2335,8 +2631,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RebootCacheClusterOutputResponse, RebootCacheClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RebootCacheClusterOutputResponse, RebootCacheClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RebootCacheClusterOutputResponse, RebootCacheClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2356,6 +2656,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(id: "removeTagsFromResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse>())
@@ -2370,8 +2671,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2391,6 +2696,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResetCacheParameterGroupInput, ResetCacheParameterGroupOutputResponse, ResetCacheParameterGroupOutputError>(id: "resetCacheParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetCacheParameterGroupInput, ResetCacheParameterGroupOutputResponse, ResetCacheParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetCacheParameterGroupInput, ResetCacheParameterGroupOutputResponse>())
@@ -2405,8 +2711,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetCacheParameterGroupOutputResponse, ResetCacheParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetCacheParameterGroupOutputResponse, ResetCacheParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetCacheParameterGroupOutputResponse, ResetCacheParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2426,6 +2736,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RevokeCacheSecurityGroupIngressInput, RevokeCacheSecurityGroupIngressOutputResponse, RevokeCacheSecurityGroupIngressOutputError>(id: "revokeCacheSecurityGroupIngress")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeCacheSecurityGroupIngressInput, RevokeCacheSecurityGroupIngressOutputResponse, RevokeCacheSecurityGroupIngressOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeCacheSecurityGroupIngressInput, RevokeCacheSecurityGroupIngressOutputResponse>())
@@ -2440,8 +2751,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokeCacheSecurityGroupIngressOutputResponse, RevokeCacheSecurityGroupIngressOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeCacheSecurityGroupIngressOutputResponse, RevokeCacheSecurityGroupIngressOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RevokeCacheSecurityGroupIngressOutputResponse, RevokeCacheSecurityGroupIngressOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2461,6 +2776,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartMigrationInput, StartMigrationOutputResponse, StartMigrationOutputError>(id: "startMigration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMigrationInput, StartMigrationOutputResponse, StartMigrationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMigrationInput, StartMigrationOutputResponse>())
@@ -2475,8 +2791,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMigrationOutputResponse, StartMigrationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMigrationOutputResponse, StartMigrationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMigrationOutputResponse, StartMigrationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2527,6 +2847,7 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticache")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TestFailoverInput, TestFailoverOutputResponse, TestFailoverOutputError>(id: "testFailover")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestFailoverInput, TestFailoverOutputResponse, TestFailoverOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestFailoverInput, TestFailoverOutputResponse>())
@@ -2541,8 +2862,12 @@ extension ElastiCacheClient: ElastiCacheClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestFailoverOutputResponse, TestFailoverOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestFailoverOutputResponse, TestFailoverOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestFailoverOutputResponse, TestFailoverOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

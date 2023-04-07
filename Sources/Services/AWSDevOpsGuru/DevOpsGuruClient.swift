@@ -208,6 +208,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddNotificationChannelInput, AddNotificationChannelOutputResponse, AddNotificationChannelOutputError>(id: "addNotificationChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddNotificationChannelInput, AddNotificationChannelOutputResponse, AddNotificationChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddNotificationChannelInput, AddNotificationChannelOutputResponse>())
@@ -222,8 +223,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddNotificationChannelOutputResponse, AddNotificationChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddNotificationChannelOutputResponse, AddNotificationChannelOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddNotificationChannelOutputResponse, AddNotificationChannelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -243,6 +248,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteInsightInput, DeleteInsightOutputResponse, DeleteInsightOutputError>(id: "deleteInsight")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInsightInput, DeleteInsightOutputResponse, DeleteInsightOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInsightInput, DeleteInsightOutputResponse>())
@@ -254,8 +260,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInsightOutputResponse, DeleteInsightOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInsightOutputResponse, DeleteInsightOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInsightOutputResponse, DeleteInsightOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -275,6 +285,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAccountHealthInput, DescribeAccountHealthOutputResponse, DescribeAccountHealthOutputError>(id: "describeAccountHealth")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountHealthInput, DescribeAccountHealthOutputResponse, DescribeAccountHealthOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountHealthInput, DescribeAccountHealthOutputResponse>())
@@ -286,8 +297,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountHealthOutputResponse, DescribeAccountHealthOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountHealthOutputResponse, DescribeAccountHealthOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountHealthOutputResponse, DescribeAccountHealthOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -307,6 +322,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAccountOverviewInput, DescribeAccountOverviewOutputResponse, DescribeAccountOverviewOutputError>(id: "describeAccountOverview")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountOverviewInput, DescribeAccountOverviewOutputResponse, DescribeAccountOverviewOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountOverviewInput, DescribeAccountOverviewOutputResponse>())
@@ -321,8 +337,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountOverviewOutputResponse, DescribeAccountOverviewOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountOverviewOutputResponse, DescribeAccountOverviewOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountOverviewOutputResponse, DescribeAccountOverviewOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -342,6 +362,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAnomalyInput, DescribeAnomalyOutputResponse, DescribeAnomalyOutputError>(id: "describeAnomaly")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAnomalyInput, DescribeAnomalyOutputResponse, DescribeAnomalyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAnomalyInput, DescribeAnomalyOutputResponse>())
@@ -354,8 +375,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAnomalyOutputResponse, DescribeAnomalyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAnomalyOutputResponse, DescribeAnomalyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAnomalyOutputResponse, DescribeAnomalyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -375,6 +400,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventSourcesConfigInput, DescribeEventSourcesConfigOutputResponse, DescribeEventSourcesConfigOutputError>(id: "describeEventSourcesConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventSourcesConfigInput, DescribeEventSourcesConfigOutputResponse, DescribeEventSourcesConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventSourcesConfigInput, DescribeEventSourcesConfigOutputResponse>())
@@ -386,8 +412,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventSourcesConfigOutputResponse, DescribeEventSourcesConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventSourcesConfigOutputResponse, DescribeEventSourcesConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventSourcesConfigOutputResponse, DescribeEventSourcesConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -407,6 +437,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFeedbackInput, DescribeFeedbackOutputResponse, DescribeFeedbackOutputError>(id: "describeFeedback")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFeedbackInput, DescribeFeedbackOutputResponse, DescribeFeedbackOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFeedbackInput, DescribeFeedbackOutputResponse>())
@@ -421,8 +452,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFeedbackOutputResponse, DescribeFeedbackOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFeedbackOutputResponse, DescribeFeedbackOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFeedbackOutputResponse, DescribeFeedbackOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -442,6 +477,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeInsightInput, DescribeInsightOutputResponse, DescribeInsightOutputError>(id: "describeInsight")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInsightInput, DescribeInsightOutputResponse, DescribeInsightOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInsightInput, DescribeInsightOutputResponse>())
@@ -454,8 +490,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInsightOutputResponse, DescribeInsightOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInsightOutputResponse, DescribeInsightOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInsightOutputResponse, DescribeInsightOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -475,6 +515,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeOrganizationHealthInput, DescribeOrganizationHealthOutputResponse, DescribeOrganizationHealthOutputError>(id: "describeOrganizationHealth")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrganizationHealthInput, DescribeOrganizationHealthOutputResponse, DescribeOrganizationHealthOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrganizationHealthInput, DescribeOrganizationHealthOutputResponse>())
@@ -489,8 +530,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrganizationHealthOutputResponse, DescribeOrganizationHealthOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrganizationHealthOutputResponse, DescribeOrganizationHealthOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOrganizationHealthOutputResponse, DescribeOrganizationHealthOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -510,6 +555,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeOrganizationOverviewInput, DescribeOrganizationOverviewOutputResponse, DescribeOrganizationOverviewOutputError>(id: "describeOrganizationOverview")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrganizationOverviewInput, DescribeOrganizationOverviewOutputResponse, DescribeOrganizationOverviewOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrganizationOverviewInput, DescribeOrganizationOverviewOutputResponse>())
@@ -524,8 +570,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrganizationOverviewOutputResponse, DescribeOrganizationOverviewOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrganizationOverviewOutputResponse, DescribeOrganizationOverviewOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOrganizationOverviewOutputResponse, DescribeOrganizationOverviewOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -545,6 +595,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeOrganizationResourceCollectionHealthInput, DescribeOrganizationResourceCollectionHealthOutputResponse, DescribeOrganizationResourceCollectionHealthOutputError>(id: "describeOrganizationResourceCollectionHealth")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrganizationResourceCollectionHealthInput, DescribeOrganizationResourceCollectionHealthOutputResponse, DescribeOrganizationResourceCollectionHealthOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrganizationResourceCollectionHealthInput, DescribeOrganizationResourceCollectionHealthOutputResponse>())
@@ -559,8 +610,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrganizationResourceCollectionHealthOutputResponse, DescribeOrganizationResourceCollectionHealthOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrganizationResourceCollectionHealthOutputResponse, DescribeOrganizationResourceCollectionHealthOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOrganizationResourceCollectionHealthOutputResponse, DescribeOrganizationResourceCollectionHealthOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -580,6 +635,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeResourceCollectionHealthInput, DescribeResourceCollectionHealthOutputResponse, DescribeResourceCollectionHealthOutputError>(id: "describeResourceCollectionHealth")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeResourceCollectionHealthInput, DescribeResourceCollectionHealthOutputResponse, DescribeResourceCollectionHealthOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeResourceCollectionHealthInput, DescribeResourceCollectionHealthOutputResponse>())
@@ -592,8 +648,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeResourceCollectionHealthOutputResponse, DescribeResourceCollectionHealthOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeResourceCollectionHealthOutputResponse, DescribeResourceCollectionHealthOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeResourceCollectionHealthOutputResponse, DescribeResourceCollectionHealthOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -613,6 +673,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeServiceIntegrationInput, DescribeServiceIntegrationOutputResponse, DescribeServiceIntegrationOutputError>(id: "describeServiceIntegration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeServiceIntegrationInput, DescribeServiceIntegrationOutputResponse, DescribeServiceIntegrationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeServiceIntegrationInput, DescribeServiceIntegrationOutputResponse>())
@@ -624,8 +685,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeServiceIntegrationOutputResponse, DescribeServiceIntegrationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeServiceIntegrationOutputResponse, DescribeServiceIntegrationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeServiceIntegrationOutputResponse, DescribeServiceIntegrationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -645,6 +710,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCostEstimationInput, GetCostEstimationOutputResponse, GetCostEstimationOutputError>(id: "getCostEstimation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCostEstimationInput, GetCostEstimationOutputResponse, GetCostEstimationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCostEstimationInput, GetCostEstimationOutputResponse>())
@@ -657,8 +723,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCostEstimationOutputResponse, GetCostEstimationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCostEstimationOutputResponse, GetCostEstimationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCostEstimationOutputResponse, GetCostEstimationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -678,6 +748,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetResourceCollectionInput, GetResourceCollectionOutputResponse, GetResourceCollectionOutputError>(id: "getResourceCollection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceCollectionInput, GetResourceCollectionOutputResponse, GetResourceCollectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourceCollectionInput, GetResourceCollectionOutputResponse>())
@@ -690,8 +761,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceCollectionOutputResponse, GetResourceCollectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceCollectionOutputResponse, GetResourceCollectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourceCollectionOutputResponse, GetResourceCollectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -711,6 +786,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAnomaliesForInsightInput, ListAnomaliesForInsightOutputResponse, ListAnomaliesForInsightOutputError>(id: "listAnomaliesForInsight")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAnomaliesForInsightInput, ListAnomaliesForInsightOutputResponse, ListAnomaliesForInsightOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAnomaliesForInsightInput, ListAnomaliesForInsightOutputResponse>())
@@ -725,8 +801,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAnomaliesForInsightOutputResponse, ListAnomaliesForInsightOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAnomaliesForInsightOutputResponse, ListAnomaliesForInsightOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAnomaliesForInsightOutputResponse, ListAnomaliesForInsightOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -746,6 +826,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAnomalousLogGroupsInput, ListAnomalousLogGroupsOutputResponse, ListAnomalousLogGroupsOutputError>(id: "listAnomalousLogGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAnomalousLogGroupsInput, ListAnomalousLogGroupsOutputResponse, ListAnomalousLogGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAnomalousLogGroupsInput, ListAnomalousLogGroupsOutputResponse>())
@@ -760,8 +841,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAnomalousLogGroupsOutputResponse, ListAnomalousLogGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAnomalousLogGroupsOutputResponse, ListAnomalousLogGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAnomalousLogGroupsOutputResponse, ListAnomalousLogGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -781,6 +866,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEventsInput, ListEventsOutputResponse, ListEventsOutputError>(id: "listEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEventsInput, ListEventsOutputResponse, ListEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEventsInput, ListEventsOutputResponse>())
@@ -795,8 +881,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEventsOutputResponse, ListEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEventsOutputResponse, ListEventsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEventsOutputResponse, ListEventsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -816,6 +906,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListInsightsInput, ListInsightsOutputResponse, ListInsightsOutputError>(id: "listInsights")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInsightsInput, ListInsightsOutputResponse, ListInsightsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInsightsInput, ListInsightsOutputResponse>())
@@ -830,8 +921,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInsightsOutputResponse, ListInsightsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInsightsOutputResponse, ListInsightsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInsightsOutputResponse, ListInsightsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -851,6 +946,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMonitoredResourcesInput, ListMonitoredResourcesOutputResponse, ListMonitoredResourcesOutputError>(id: "listMonitoredResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMonitoredResourcesInput, ListMonitoredResourcesOutputResponse, ListMonitoredResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMonitoredResourcesInput, ListMonitoredResourcesOutputResponse>())
@@ -865,8 +961,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMonitoredResourcesOutputResponse, ListMonitoredResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMonitoredResourcesOutputResponse, ListMonitoredResourcesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMonitoredResourcesOutputResponse, ListMonitoredResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -886,6 +986,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListNotificationChannelsInput, ListNotificationChannelsOutputResponse, ListNotificationChannelsOutputError>(id: "listNotificationChannels")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNotificationChannelsInput, ListNotificationChannelsOutputResponse, ListNotificationChannelsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNotificationChannelsInput, ListNotificationChannelsOutputResponse>())
@@ -900,8 +1001,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNotificationChannelsOutputResponse, ListNotificationChannelsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNotificationChannelsOutputResponse, ListNotificationChannelsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNotificationChannelsOutputResponse, ListNotificationChannelsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -921,6 +1026,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListOrganizationInsightsInput, ListOrganizationInsightsOutputResponse, ListOrganizationInsightsOutputError>(id: "listOrganizationInsights")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOrganizationInsightsInput, ListOrganizationInsightsOutputResponse, ListOrganizationInsightsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOrganizationInsightsInput, ListOrganizationInsightsOutputResponse>())
@@ -935,8 +1041,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOrganizationInsightsOutputResponse, ListOrganizationInsightsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOrganizationInsightsOutputResponse, ListOrganizationInsightsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOrganizationInsightsOutputResponse, ListOrganizationInsightsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -956,6 +1066,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRecommendationsInput, ListRecommendationsOutputResponse, ListRecommendationsOutputError>(id: "listRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRecommendationsInput, ListRecommendationsOutputResponse, ListRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRecommendationsInput, ListRecommendationsOutputResponse>())
@@ -970,8 +1081,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRecommendationsOutputResponse, ListRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRecommendationsOutputResponse, ListRecommendationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRecommendationsOutputResponse, ListRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -991,6 +1106,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutFeedbackInput, PutFeedbackOutputResponse, PutFeedbackOutputError>(id: "putFeedback")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutFeedbackInput, PutFeedbackOutputResponse, PutFeedbackOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutFeedbackInput, PutFeedbackOutputResponse>())
@@ -1005,8 +1121,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFeedbackOutputResponse, PutFeedbackOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFeedbackOutputResponse, PutFeedbackOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutFeedbackOutputResponse, PutFeedbackOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1026,6 +1146,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveNotificationChannelInput, RemoveNotificationChannelOutputResponse, RemoveNotificationChannelOutputError>(id: "removeNotificationChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveNotificationChannelInput, RemoveNotificationChannelOutputResponse, RemoveNotificationChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveNotificationChannelInput, RemoveNotificationChannelOutputResponse>())
@@ -1037,8 +1158,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveNotificationChannelOutputResponse, RemoveNotificationChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveNotificationChannelOutputResponse, RemoveNotificationChannelOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveNotificationChannelOutputResponse, RemoveNotificationChannelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1058,6 +1183,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchInsightsInput, SearchInsightsOutputResponse, SearchInsightsOutputError>(id: "searchInsights")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchInsightsInput, SearchInsightsOutputResponse, SearchInsightsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchInsightsInput, SearchInsightsOutputResponse>())
@@ -1072,8 +1198,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchInsightsOutputResponse, SearchInsightsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchInsightsOutputResponse, SearchInsightsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchInsightsOutputResponse, SearchInsightsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1093,6 +1223,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchOrganizationInsightsInput, SearchOrganizationInsightsOutputResponse, SearchOrganizationInsightsOutputError>(id: "searchOrganizationInsights")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchOrganizationInsightsInput, SearchOrganizationInsightsOutputResponse, SearchOrganizationInsightsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchOrganizationInsightsInput, SearchOrganizationInsightsOutputResponse>())
@@ -1107,8 +1238,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchOrganizationInsightsOutputResponse, SearchOrganizationInsightsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchOrganizationInsightsOutputResponse, SearchOrganizationInsightsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchOrganizationInsightsOutputResponse, SearchOrganizationInsightsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1128,6 +1263,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartCostEstimationInput, StartCostEstimationOutputResponse, StartCostEstimationOutputError>(id: "startCostEstimation")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartCostEstimationOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1150,8 +1286,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartCostEstimationOutputResponse, StartCostEstimationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartCostEstimationOutputResponse, StartCostEstimationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartCostEstimationOutputResponse, StartCostEstimationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1171,6 +1311,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateEventSourcesConfigInput, UpdateEventSourcesConfigOutputResponse, UpdateEventSourcesConfigOutputError>(id: "updateEventSourcesConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEventSourcesConfigInput, UpdateEventSourcesConfigOutputResponse, UpdateEventSourcesConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEventSourcesConfigInput, UpdateEventSourcesConfigOutputResponse>())
@@ -1185,8 +1326,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEventSourcesConfigOutputResponse, UpdateEventSourcesConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEventSourcesConfigOutputResponse, UpdateEventSourcesConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEventSourcesConfigOutputResponse, UpdateEventSourcesConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1206,6 +1351,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateResourceCollectionInput, UpdateResourceCollectionOutputResponse, UpdateResourceCollectionOutputError>(id: "updateResourceCollection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateResourceCollectionInput, UpdateResourceCollectionOutputResponse, UpdateResourceCollectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateResourceCollectionInput, UpdateResourceCollectionOutputResponse>())
@@ -1220,8 +1366,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResourceCollectionOutputResponse, UpdateResourceCollectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResourceCollectionOutputResponse, UpdateResourceCollectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateResourceCollectionOutputResponse, UpdateResourceCollectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1241,6 +1391,7 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devops-guru")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateServiceIntegrationInput, UpdateServiceIntegrationOutputResponse, UpdateServiceIntegrationOutputError>(id: "updateServiceIntegration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServiceIntegrationInput, UpdateServiceIntegrationOutputResponse, UpdateServiceIntegrationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServiceIntegrationInput, UpdateServiceIntegrationOutputResponse>())
@@ -1255,8 +1406,12 @@ extension DevOpsGuruClient: DevOpsGuruClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServiceIntegrationOutputResponse, UpdateServiceIntegrationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServiceIntegrationOutputResponse, UpdateServiceIntegrationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServiceIntegrationOutputResponse, UpdateServiceIntegrationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

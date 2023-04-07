@@ -204,6 +204,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddTagsInput, AddTagsOutputResponse, AddTagsOutputError>(id: "addTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsInput, AddTagsOutputResponse, AddTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsInput, AddTagsOutputResponse>())
@@ -218,8 +219,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsOutputResponse, AddTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsOutputResponse, AddTagsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddTagsOutputResponse, AddTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -239,6 +244,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ApplySecurityGroupsToLoadBalancerInput, ApplySecurityGroupsToLoadBalancerOutputResponse, ApplySecurityGroupsToLoadBalancerOutputError>(id: "applySecurityGroupsToLoadBalancer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ApplySecurityGroupsToLoadBalancerInput, ApplySecurityGroupsToLoadBalancerOutputResponse, ApplySecurityGroupsToLoadBalancerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ApplySecurityGroupsToLoadBalancerInput, ApplySecurityGroupsToLoadBalancerOutputResponse>())
@@ -253,8 +259,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ApplySecurityGroupsToLoadBalancerOutputResponse, ApplySecurityGroupsToLoadBalancerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ApplySecurityGroupsToLoadBalancerOutputResponse, ApplySecurityGroupsToLoadBalancerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ApplySecurityGroupsToLoadBalancerOutputResponse, ApplySecurityGroupsToLoadBalancerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -274,6 +284,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AttachLoadBalancerToSubnetsInput, AttachLoadBalancerToSubnetsOutputResponse, AttachLoadBalancerToSubnetsOutputError>(id: "attachLoadBalancerToSubnets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachLoadBalancerToSubnetsInput, AttachLoadBalancerToSubnetsOutputResponse, AttachLoadBalancerToSubnetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachLoadBalancerToSubnetsInput, AttachLoadBalancerToSubnetsOutputResponse>())
@@ -288,8 +299,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachLoadBalancerToSubnetsOutputResponse, AttachLoadBalancerToSubnetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachLoadBalancerToSubnetsOutputResponse, AttachLoadBalancerToSubnetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AttachLoadBalancerToSubnetsOutputResponse, AttachLoadBalancerToSubnetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -309,6 +324,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ConfigureHealthCheckInput, ConfigureHealthCheckOutputResponse, ConfigureHealthCheckOutputError>(id: "configureHealthCheck")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConfigureHealthCheckInput, ConfigureHealthCheckOutputResponse, ConfigureHealthCheckOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConfigureHealthCheckInput, ConfigureHealthCheckOutputResponse>())
@@ -323,8 +339,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ConfigureHealthCheckOutputResponse, ConfigureHealthCheckOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConfigureHealthCheckOutputResponse, ConfigureHealthCheckOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ConfigureHealthCheckOutputResponse, ConfigureHealthCheckOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -344,6 +364,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAppCookieStickinessPolicyInput, CreateAppCookieStickinessPolicyOutputResponse, CreateAppCookieStickinessPolicyOutputError>(id: "createAppCookieStickinessPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAppCookieStickinessPolicyInput, CreateAppCookieStickinessPolicyOutputResponse, CreateAppCookieStickinessPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAppCookieStickinessPolicyInput, CreateAppCookieStickinessPolicyOutputResponse>())
@@ -358,8 +379,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppCookieStickinessPolicyOutputResponse, CreateAppCookieStickinessPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppCookieStickinessPolicyOutputResponse, CreateAppCookieStickinessPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppCookieStickinessPolicyOutputResponse, CreateAppCookieStickinessPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -379,6 +404,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLBCookieStickinessPolicyInput, CreateLBCookieStickinessPolicyOutputResponse, CreateLBCookieStickinessPolicyOutputError>(id: "createLBCookieStickinessPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLBCookieStickinessPolicyInput, CreateLBCookieStickinessPolicyOutputResponse, CreateLBCookieStickinessPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLBCookieStickinessPolicyInput, CreateLBCookieStickinessPolicyOutputResponse>())
@@ -393,8 +419,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLBCookieStickinessPolicyOutputResponse, CreateLBCookieStickinessPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLBCookieStickinessPolicyOutputResponse, CreateLBCookieStickinessPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLBCookieStickinessPolicyOutputResponse, CreateLBCookieStickinessPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -414,6 +444,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLoadBalancerInput, CreateLoadBalancerOutputResponse, CreateLoadBalancerOutputError>(id: "createLoadBalancer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLoadBalancerInput, CreateLoadBalancerOutputResponse, CreateLoadBalancerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLoadBalancerInput, CreateLoadBalancerOutputResponse>())
@@ -428,8 +459,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLoadBalancerOutputResponse, CreateLoadBalancerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLoadBalancerOutputResponse, CreateLoadBalancerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLoadBalancerOutputResponse, CreateLoadBalancerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -449,6 +484,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLoadBalancerListenersInput, CreateLoadBalancerListenersOutputResponse, CreateLoadBalancerListenersOutputError>(id: "createLoadBalancerListeners")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLoadBalancerListenersInput, CreateLoadBalancerListenersOutputResponse, CreateLoadBalancerListenersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLoadBalancerListenersInput, CreateLoadBalancerListenersOutputResponse>())
@@ -463,8 +499,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLoadBalancerListenersOutputResponse, CreateLoadBalancerListenersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLoadBalancerListenersOutputResponse, CreateLoadBalancerListenersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLoadBalancerListenersOutputResponse, CreateLoadBalancerListenersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -484,6 +524,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLoadBalancerPolicyInput, CreateLoadBalancerPolicyOutputResponse, CreateLoadBalancerPolicyOutputError>(id: "createLoadBalancerPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLoadBalancerPolicyInput, CreateLoadBalancerPolicyOutputResponse, CreateLoadBalancerPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLoadBalancerPolicyInput, CreateLoadBalancerPolicyOutputResponse>())
@@ -498,8 +539,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLoadBalancerPolicyOutputResponse, CreateLoadBalancerPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLoadBalancerPolicyOutputResponse, CreateLoadBalancerPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLoadBalancerPolicyOutputResponse, CreateLoadBalancerPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -519,6 +564,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLoadBalancerInput, DeleteLoadBalancerOutputResponse, DeleteLoadBalancerOutputError>(id: "deleteLoadBalancer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLoadBalancerInput, DeleteLoadBalancerOutputResponse, DeleteLoadBalancerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLoadBalancerInput, DeleteLoadBalancerOutputResponse>())
@@ -533,8 +579,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLoadBalancerOutputResponse, DeleteLoadBalancerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLoadBalancerOutputResponse, DeleteLoadBalancerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLoadBalancerOutputResponse, DeleteLoadBalancerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -554,6 +604,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLoadBalancerListenersInput, DeleteLoadBalancerListenersOutputResponse, DeleteLoadBalancerListenersOutputError>(id: "deleteLoadBalancerListeners")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLoadBalancerListenersInput, DeleteLoadBalancerListenersOutputResponse, DeleteLoadBalancerListenersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLoadBalancerListenersInput, DeleteLoadBalancerListenersOutputResponse>())
@@ -568,8 +619,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLoadBalancerListenersOutputResponse, DeleteLoadBalancerListenersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLoadBalancerListenersOutputResponse, DeleteLoadBalancerListenersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLoadBalancerListenersOutputResponse, DeleteLoadBalancerListenersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -589,6 +644,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLoadBalancerPolicyInput, DeleteLoadBalancerPolicyOutputResponse, DeleteLoadBalancerPolicyOutputError>(id: "deleteLoadBalancerPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLoadBalancerPolicyInput, DeleteLoadBalancerPolicyOutputResponse, DeleteLoadBalancerPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLoadBalancerPolicyInput, DeleteLoadBalancerPolicyOutputResponse>())
@@ -603,8 +659,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLoadBalancerPolicyOutputResponse, DeleteLoadBalancerPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLoadBalancerPolicyOutputResponse, DeleteLoadBalancerPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLoadBalancerPolicyOutputResponse, DeleteLoadBalancerPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -624,6 +684,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterInstancesFromLoadBalancerInput, DeregisterInstancesFromLoadBalancerOutputResponse, DeregisterInstancesFromLoadBalancerOutputError>(id: "deregisterInstancesFromLoadBalancer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterInstancesFromLoadBalancerInput, DeregisterInstancesFromLoadBalancerOutputResponse, DeregisterInstancesFromLoadBalancerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterInstancesFromLoadBalancerInput, DeregisterInstancesFromLoadBalancerOutputResponse>())
@@ -638,8 +699,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterInstancesFromLoadBalancerOutputResponse, DeregisterInstancesFromLoadBalancerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterInstancesFromLoadBalancerOutputResponse, DeregisterInstancesFromLoadBalancerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterInstancesFromLoadBalancerOutputResponse, DeregisterInstancesFromLoadBalancerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -659,6 +724,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAccountLimitsInput, DescribeAccountLimitsOutputResponse, DescribeAccountLimitsOutputError>(id: "describeAccountLimits")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutputResponse, DescribeAccountLimitsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutputResponse>())
@@ -673,8 +739,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountLimitsOutputResponse, DescribeAccountLimitsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountLimitsOutputResponse, DescribeAccountLimitsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountLimitsOutputResponse, DescribeAccountLimitsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -694,6 +764,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeInstanceHealthInput, DescribeInstanceHealthOutputResponse, DescribeInstanceHealthOutputError>(id: "describeInstanceHealth")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInstanceHealthInput, DescribeInstanceHealthOutputResponse, DescribeInstanceHealthOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInstanceHealthInput, DescribeInstanceHealthOutputResponse>())
@@ -708,8 +779,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInstanceHealthOutputResponse, DescribeInstanceHealthOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInstanceHealthOutputResponse, DescribeInstanceHealthOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInstanceHealthOutputResponse, DescribeInstanceHealthOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -729,6 +804,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLoadBalancerAttributesInput, DescribeLoadBalancerAttributesOutputResponse, DescribeLoadBalancerAttributesOutputError>(id: "describeLoadBalancerAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLoadBalancerAttributesInput, DescribeLoadBalancerAttributesOutputResponse, DescribeLoadBalancerAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLoadBalancerAttributesInput, DescribeLoadBalancerAttributesOutputResponse>())
@@ -743,8 +819,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLoadBalancerAttributesOutputResponse, DescribeLoadBalancerAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLoadBalancerAttributesOutputResponse, DescribeLoadBalancerAttributesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLoadBalancerAttributesOutputResponse, DescribeLoadBalancerAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -764,6 +844,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLoadBalancerPoliciesInput, DescribeLoadBalancerPoliciesOutputResponse, DescribeLoadBalancerPoliciesOutputError>(id: "describeLoadBalancerPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLoadBalancerPoliciesInput, DescribeLoadBalancerPoliciesOutputResponse, DescribeLoadBalancerPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLoadBalancerPoliciesInput, DescribeLoadBalancerPoliciesOutputResponse>())
@@ -778,8 +859,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLoadBalancerPoliciesOutputResponse, DescribeLoadBalancerPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLoadBalancerPoliciesOutputResponse, DescribeLoadBalancerPoliciesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLoadBalancerPoliciesOutputResponse, DescribeLoadBalancerPoliciesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -799,6 +884,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLoadBalancerPolicyTypesInput, DescribeLoadBalancerPolicyTypesOutputResponse, DescribeLoadBalancerPolicyTypesOutputError>(id: "describeLoadBalancerPolicyTypes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLoadBalancerPolicyTypesInput, DescribeLoadBalancerPolicyTypesOutputResponse, DescribeLoadBalancerPolicyTypesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLoadBalancerPolicyTypesInput, DescribeLoadBalancerPolicyTypesOutputResponse>())
@@ -813,8 +899,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLoadBalancerPolicyTypesOutputResponse, DescribeLoadBalancerPolicyTypesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLoadBalancerPolicyTypesOutputResponse, DescribeLoadBalancerPolicyTypesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLoadBalancerPolicyTypesOutputResponse, DescribeLoadBalancerPolicyTypesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -834,6 +924,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLoadBalancersInput, DescribeLoadBalancersOutputResponse, DescribeLoadBalancersOutputError>(id: "describeLoadBalancers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLoadBalancersInput, DescribeLoadBalancersOutputResponse, DescribeLoadBalancersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLoadBalancersInput, DescribeLoadBalancersOutputResponse>())
@@ -848,8 +939,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLoadBalancersOutputResponse, DescribeLoadBalancersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLoadBalancersOutputResponse, DescribeLoadBalancersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLoadBalancersOutputResponse, DescribeLoadBalancersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -869,6 +964,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTagsInput, DescribeTagsOutputResponse, DescribeTagsOutputError>(id: "describeTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTagsInput, DescribeTagsOutputResponse, DescribeTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTagsInput, DescribeTagsOutputResponse>())
@@ -883,8 +979,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTagsOutputResponse, DescribeTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTagsOutputResponse, DescribeTagsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTagsOutputResponse, DescribeTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -904,6 +1004,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetachLoadBalancerFromSubnetsInput, DetachLoadBalancerFromSubnetsOutputResponse, DetachLoadBalancerFromSubnetsOutputError>(id: "detachLoadBalancerFromSubnets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachLoadBalancerFromSubnetsInput, DetachLoadBalancerFromSubnetsOutputResponse, DetachLoadBalancerFromSubnetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachLoadBalancerFromSubnetsInput, DetachLoadBalancerFromSubnetsOutputResponse>())
@@ -918,8 +1019,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachLoadBalancerFromSubnetsOutputResponse, DetachLoadBalancerFromSubnetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachLoadBalancerFromSubnetsOutputResponse, DetachLoadBalancerFromSubnetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetachLoadBalancerFromSubnetsOutputResponse, DetachLoadBalancerFromSubnetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -939,6 +1044,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisableAvailabilityZonesForLoadBalancerInput, DisableAvailabilityZonesForLoadBalancerOutputResponse, DisableAvailabilityZonesForLoadBalancerOutputError>(id: "disableAvailabilityZonesForLoadBalancer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableAvailabilityZonesForLoadBalancerInput, DisableAvailabilityZonesForLoadBalancerOutputResponse, DisableAvailabilityZonesForLoadBalancerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableAvailabilityZonesForLoadBalancerInput, DisableAvailabilityZonesForLoadBalancerOutputResponse>())
@@ -953,8 +1059,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableAvailabilityZonesForLoadBalancerOutputResponse, DisableAvailabilityZonesForLoadBalancerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableAvailabilityZonesForLoadBalancerOutputResponse, DisableAvailabilityZonesForLoadBalancerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableAvailabilityZonesForLoadBalancerOutputResponse, DisableAvailabilityZonesForLoadBalancerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -974,6 +1084,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableAvailabilityZonesForLoadBalancerInput, EnableAvailabilityZonesForLoadBalancerOutputResponse, EnableAvailabilityZonesForLoadBalancerOutputError>(id: "enableAvailabilityZonesForLoadBalancer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableAvailabilityZonesForLoadBalancerInput, EnableAvailabilityZonesForLoadBalancerOutputResponse, EnableAvailabilityZonesForLoadBalancerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableAvailabilityZonesForLoadBalancerInput, EnableAvailabilityZonesForLoadBalancerOutputResponse>())
@@ -988,8 +1099,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableAvailabilityZonesForLoadBalancerOutputResponse, EnableAvailabilityZonesForLoadBalancerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableAvailabilityZonesForLoadBalancerOutputResponse, EnableAvailabilityZonesForLoadBalancerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableAvailabilityZonesForLoadBalancerOutputResponse, EnableAvailabilityZonesForLoadBalancerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1017,6 +1132,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyLoadBalancerAttributesInput, ModifyLoadBalancerAttributesOutputResponse, ModifyLoadBalancerAttributesOutputError>(id: "modifyLoadBalancerAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyLoadBalancerAttributesInput, ModifyLoadBalancerAttributesOutputResponse, ModifyLoadBalancerAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyLoadBalancerAttributesInput, ModifyLoadBalancerAttributesOutputResponse>())
@@ -1031,8 +1147,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyLoadBalancerAttributesOutputResponse, ModifyLoadBalancerAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyLoadBalancerAttributesOutputResponse, ModifyLoadBalancerAttributesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyLoadBalancerAttributesOutputResponse, ModifyLoadBalancerAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1052,6 +1172,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterInstancesWithLoadBalancerInput, RegisterInstancesWithLoadBalancerOutputResponse, RegisterInstancesWithLoadBalancerOutputError>(id: "registerInstancesWithLoadBalancer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterInstancesWithLoadBalancerInput, RegisterInstancesWithLoadBalancerOutputResponse, RegisterInstancesWithLoadBalancerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterInstancesWithLoadBalancerInput, RegisterInstancesWithLoadBalancerOutputResponse>())
@@ -1066,8 +1187,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterInstancesWithLoadBalancerOutputResponse, RegisterInstancesWithLoadBalancerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterInstancesWithLoadBalancerOutputResponse, RegisterInstancesWithLoadBalancerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterInstancesWithLoadBalancerOutputResponse, RegisterInstancesWithLoadBalancerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1087,6 +1212,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveTagsInput, RemoveTagsOutputResponse, RemoveTagsOutputError>(id: "removeTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsInput, RemoveTagsOutputResponse, RemoveTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsInput, RemoveTagsOutputResponse>())
@@ -1101,8 +1227,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsOutputResponse, RemoveTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsOutputResponse, RemoveTagsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsOutputResponse, RemoveTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1122,6 +1252,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetLoadBalancerListenerSSLCertificateInput, SetLoadBalancerListenerSSLCertificateOutputResponse, SetLoadBalancerListenerSSLCertificateOutputError>(id: "setLoadBalancerListenerSSLCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetLoadBalancerListenerSSLCertificateInput, SetLoadBalancerListenerSSLCertificateOutputResponse, SetLoadBalancerListenerSSLCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetLoadBalancerListenerSSLCertificateInput, SetLoadBalancerListenerSSLCertificateOutputResponse>())
@@ -1136,8 +1267,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetLoadBalancerListenerSSLCertificateOutputResponse, SetLoadBalancerListenerSSLCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetLoadBalancerListenerSSLCertificateOutputResponse, SetLoadBalancerListenerSSLCertificateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetLoadBalancerListenerSSLCertificateOutputResponse, SetLoadBalancerListenerSSLCertificateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1157,6 +1292,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetLoadBalancerPoliciesForBackendServerInput, SetLoadBalancerPoliciesForBackendServerOutputResponse, SetLoadBalancerPoliciesForBackendServerOutputError>(id: "setLoadBalancerPoliciesForBackendServer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetLoadBalancerPoliciesForBackendServerInput, SetLoadBalancerPoliciesForBackendServerOutputResponse, SetLoadBalancerPoliciesForBackendServerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetLoadBalancerPoliciesForBackendServerInput, SetLoadBalancerPoliciesForBackendServerOutputResponse>())
@@ -1171,8 +1307,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetLoadBalancerPoliciesForBackendServerOutputResponse, SetLoadBalancerPoliciesForBackendServerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetLoadBalancerPoliciesForBackendServerOutputResponse, SetLoadBalancerPoliciesForBackendServerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetLoadBalancerPoliciesForBackendServerOutputResponse, SetLoadBalancerPoliciesForBackendServerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1192,6 +1332,7 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticloadbalancing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetLoadBalancerPoliciesOfListenerInput, SetLoadBalancerPoliciesOfListenerOutputResponse, SetLoadBalancerPoliciesOfListenerOutputError>(id: "setLoadBalancerPoliciesOfListener")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetLoadBalancerPoliciesOfListenerInput, SetLoadBalancerPoliciesOfListenerOutputResponse, SetLoadBalancerPoliciesOfListenerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetLoadBalancerPoliciesOfListenerInput, SetLoadBalancerPoliciesOfListenerOutputResponse>())
@@ -1206,8 +1347,12 @@ extension ElasticLoadBalancingClient: ElasticLoadBalancingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetLoadBalancerPoliciesOfListenerOutputResponse, SetLoadBalancerPoliciesOfListenerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetLoadBalancerPoliciesOfListenerOutputResponse, SetLoadBalancerPoliciesOfListenerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetLoadBalancerPoliciesOfListenerOutputResponse, SetLoadBalancerPoliciesOfListenerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

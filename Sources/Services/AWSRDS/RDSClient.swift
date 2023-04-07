@@ -204,6 +204,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddRoleToDBClusterInput, AddRoleToDBClusterOutputResponse, AddRoleToDBClusterOutputError>(id: "addRoleToDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddRoleToDBClusterInput, AddRoleToDBClusterOutputResponse, AddRoleToDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddRoleToDBClusterInput, AddRoleToDBClusterOutputResponse>())
@@ -218,8 +219,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddRoleToDBClusterOutputResponse, AddRoleToDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddRoleToDBClusterOutputResponse, AddRoleToDBClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddRoleToDBClusterOutputResponse, AddRoleToDBClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -239,6 +244,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddRoleToDBInstanceInput, AddRoleToDBInstanceOutputResponse, AddRoleToDBInstanceOutputError>(id: "addRoleToDBInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddRoleToDBInstanceInput, AddRoleToDBInstanceOutputResponse, AddRoleToDBInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddRoleToDBInstanceInput, AddRoleToDBInstanceOutputResponse>())
@@ -253,8 +259,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddRoleToDBInstanceOutputResponse, AddRoleToDBInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddRoleToDBInstanceOutputResponse, AddRoleToDBInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddRoleToDBInstanceOutputResponse, AddRoleToDBInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -274,6 +284,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddSourceIdentifierToSubscriptionInput, AddSourceIdentifierToSubscriptionOutputResponse, AddSourceIdentifierToSubscriptionOutputError>(id: "addSourceIdentifierToSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddSourceIdentifierToSubscriptionInput, AddSourceIdentifierToSubscriptionOutputResponse, AddSourceIdentifierToSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddSourceIdentifierToSubscriptionInput, AddSourceIdentifierToSubscriptionOutputResponse>())
@@ -288,8 +299,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddSourceIdentifierToSubscriptionOutputResponse, AddSourceIdentifierToSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddSourceIdentifierToSubscriptionOutputResponse, AddSourceIdentifierToSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddSourceIdentifierToSubscriptionOutputResponse, AddSourceIdentifierToSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -309,6 +324,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddTagsToResourceInput, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(id: "addTagsToResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse>())
@@ -323,8 +339,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -344,6 +364,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>(id: "applyPendingMaintenanceAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutputResponse>())
@@ -358,8 +379,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -379,6 +404,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AuthorizeDBSecurityGroupIngressInput, AuthorizeDBSecurityGroupIngressOutputResponse, AuthorizeDBSecurityGroupIngressOutputError>(id: "authorizeDBSecurityGroupIngress")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AuthorizeDBSecurityGroupIngressInput, AuthorizeDBSecurityGroupIngressOutputResponse, AuthorizeDBSecurityGroupIngressOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AuthorizeDBSecurityGroupIngressInput, AuthorizeDBSecurityGroupIngressOutputResponse>())
@@ -393,8 +419,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AuthorizeDBSecurityGroupIngressOutputResponse, AuthorizeDBSecurityGroupIngressOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AuthorizeDBSecurityGroupIngressOutputResponse, AuthorizeDBSecurityGroupIngressOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AuthorizeDBSecurityGroupIngressOutputResponse, AuthorizeDBSecurityGroupIngressOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -414,6 +444,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BacktrackDBClusterInput, BacktrackDBClusterOutputResponse, BacktrackDBClusterOutputError>(id: "backtrackDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BacktrackDBClusterInput, BacktrackDBClusterOutputResponse, BacktrackDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BacktrackDBClusterInput, BacktrackDBClusterOutputResponse>())
@@ -428,8 +459,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BacktrackDBClusterOutputResponse, BacktrackDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BacktrackDBClusterOutputResponse, BacktrackDBClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BacktrackDBClusterOutputResponse, BacktrackDBClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -449,6 +484,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelExportTaskInput, CancelExportTaskOutputResponse, CancelExportTaskOutputError>(id: "cancelExportTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelExportTaskInput, CancelExportTaskOutputResponse, CancelExportTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelExportTaskInput, CancelExportTaskOutputResponse>())
@@ -463,8 +499,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelExportTaskOutputResponse, CancelExportTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelExportTaskOutputResponse, CancelExportTaskOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelExportTaskOutputResponse, CancelExportTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -484,6 +524,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CopyDBClusterParameterGroupInput, CopyDBClusterParameterGroupOutputResponse, CopyDBClusterParameterGroupOutputError>(id: "copyDBClusterParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyDBClusterParameterGroupInput, CopyDBClusterParameterGroupOutputResponse, CopyDBClusterParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyDBClusterParameterGroupInput, CopyDBClusterParameterGroupOutputResponse>())
@@ -498,8 +539,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopyDBClusterParameterGroupOutputResponse, CopyDBClusterParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyDBClusterParameterGroupOutputResponse, CopyDBClusterParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopyDBClusterParameterGroupOutputResponse, CopyDBClusterParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -528,6 +573,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CopyDBClusterSnapshotInput, CopyDBClusterSnapshotOutputResponse, CopyDBClusterSnapshotOutputError>(id: "copyDBClusterSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyDBClusterSnapshotInput, CopyDBClusterSnapshotOutputResponse, CopyDBClusterSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyDBClusterSnapshotInput, CopyDBClusterSnapshotOutputResponse>())
@@ -542,8 +588,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopyDBClusterSnapshotOutputResponse, CopyDBClusterSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyDBClusterSnapshotOutputResponse, CopyDBClusterSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopyDBClusterSnapshotOutputResponse, CopyDBClusterSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -563,6 +613,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CopyDBParameterGroupInput, CopyDBParameterGroupOutputResponse, CopyDBParameterGroupOutputError>(id: "copyDBParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyDBParameterGroupInput, CopyDBParameterGroupOutputResponse, CopyDBParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyDBParameterGroupInput, CopyDBParameterGroupOutputResponse>())
@@ -577,8 +628,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopyDBParameterGroupOutputResponse, CopyDBParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyDBParameterGroupOutputResponse, CopyDBParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopyDBParameterGroupOutputResponse, CopyDBParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -598,6 +653,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CopyDBSnapshotInput, CopyDBSnapshotOutputResponse, CopyDBSnapshotOutputError>(id: "copyDBSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyDBSnapshotInput, CopyDBSnapshotOutputResponse, CopyDBSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyDBSnapshotInput, CopyDBSnapshotOutputResponse>())
@@ -612,8 +668,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopyDBSnapshotOutputResponse, CopyDBSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyDBSnapshotOutputResponse, CopyDBSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopyDBSnapshotOutputResponse, CopyDBSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -633,6 +693,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CopyOptionGroupInput, CopyOptionGroupOutputResponse, CopyOptionGroupOutputError>(id: "copyOptionGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyOptionGroupInput, CopyOptionGroupOutputResponse, CopyOptionGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyOptionGroupInput, CopyOptionGroupOutputResponse>())
@@ -647,8 +708,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopyOptionGroupOutputResponse, CopyOptionGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyOptionGroupOutputResponse, CopyOptionGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopyOptionGroupOutputResponse, CopyOptionGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -668,6 +733,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateBlueGreenDeploymentInput, CreateBlueGreenDeploymentOutputResponse, CreateBlueGreenDeploymentOutputError>(id: "createBlueGreenDeployment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBlueGreenDeploymentInput, CreateBlueGreenDeploymentOutputResponse, CreateBlueGreenDeploymentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBlueGreenDeploymentInput, CreateBlueGreenDeploymentOutputResponse>())
@@ -682,8 +748,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBlueGreenDeploymentOutputResponse, CreateBlueGreenDeploymentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBlueGreenDeploymentOutputResponse, CreateBlueGreenDeploymentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBlueGreenDeploymentOutputResponse, CreateBlueGreenDeploymentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -703,6 +773,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCustomDBEngineVersionInput, CreateCustomDBEngineVersionOutputResponse, CreateCustomDBEngineVersionOutputError>(id: "createCustomDBEngineVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCustomDBEngineVersionInput, CreateCustomDBEngineVersionOutputResponse, CreateCustomDBEngineVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCustomDBEngineVersionInput, CreateCustomDBEngineVersionOutputResponse>())
@@ -717,8 +788,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCustomDBEngineVersionOutputResponse, CreateCustomDBEngineVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCustomDBEngineVersionOutputResponse, CreateCustomDBEngineVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCustomDBEngineVersionOutputResponse, CreateCustomDBEngineVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -738,6 +813,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBClusterInput, CreateDBClusterOutputResponse, CreateDBClusterOutputError>(id: "createDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBClusterInput, CreateDBClusterOutputResponse, CreateDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBClusterInput, CreateDBClusterOutputResponse>())
@@ -752,8 +828,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBClusterOutputResponse, CreateDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBClusterOutputResponse, CreateDBClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDBClusterOutputResponse, CreateDBClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -773,6 +853,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBClusterEndpointInput, CreateDBClusterEndpointOutputResponse, CreateDBClusterEndpointOutputError>(id: "createDBClusterEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBClusterEndpointInput, CreateDBClusterEndpointOutputResponse, CreateDBClusterEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBClusterEndpointInput, CreateDBClusterEndpointOutputResponse>())
@@ -787,8 +868,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBClusterEndpointOutputResponse, CreateDBClusterEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBClusterEndpointOutputResponse, CreateDBClusterEndpointOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDBClusterEndpointOutputResponse, CreateDBClusterEndpointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -808,6 +893,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBClusterParameterGroupInput, CreateDBClusterParameterGroupOutputResponse, CreateDBClusterParameterGroupOutputError>(id: "createDBClusterParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBClusterParameterGroupInput, CreateDBClusterParameterGroupOutputResponse, CreateDBClusterParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBClusterParameterGroupInput, CreateDBClusterParameterGroupOutputResponse>())
@@ -822,8 +908,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBClusterParameterGroupOutputResponse, CreateDBClusterParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBClusterParameterGroupOutputResponse, CreateDBClusterParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDBClusterParameterGroupOutputResponse, CreateDBClusterParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -843,6 +933,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBClusterSnapshotInput, CreateDBClusterSnapshotOutputResponse, CreateDBClusterSnapshotOutputError>(id: "createDBClusterSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBClusterSnapshotInput, CreateDBClusterSnapshotOutputResponse, CreateDBClusterSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBClusterSnapshotInput, CreateDBClusterSnapshotOutputResponse>())
@@ -857,8 +948,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBClusterSnapshotOutputResponse, CreateDBClusterSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBClusterSnapshotOutputResponse, CreateDBClusterSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDBClusterSnapshotOutputResponse, CreateDBClusterSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -878,6 +973,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBInstanceInput, CreateDBInstanceOutputResponse, CreateDBInstanceOutputError>(id: "createDBInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBInstanceInput, CreateDBInstanceOutputResponse, CreateDBInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBInstanceInput, CreateDBInstanceOutputResponse>())
@@ -892,8 +988,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBInstanceOutputResponse, CreateDBInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBInstanceOutputResponse, CreateDBInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDBInstanceOutputResponse, CreateDBInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -913,6 +1013,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBInstanceReadReplicaInput, CreateDBInstanceReadReplicaOutputResponse, CreateDBInstanceReadReplicaOutputError>(id: "createDBInstanceReadReplica")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBInstanceReadReplicaInput, CreateDBInstanceReadReplicaOutputResponse, CreateDBInstanceReadReplicaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBInstanceReadReplicaInput, CreateDBInstanceReadReplicaOutputResponse>())
@@ -927,8 +1028,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBInstanceReadReplicaOutputResponse, CreateDBInstanceReadReplicaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBInstanceReadReplicaOutputResponse, CreateDBInstanceReadReplicaOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDBInstanceReadReplicaOutputResponse, CreateDBInstanceReadReplicaOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -948,6 +1053,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBParameterGroupInput, CreateDBParameterGroupOutputResponse, CreateDBParameterGroupOutputError>(id: "createDBParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBParameterGroupInput, CreateDBParameterGroupOutputResponse, CreateDBParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBParameterGroupInput, CreateDBParameterGroupOutputResponse>())
@@ -962,8 +1068,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBParameterGroupOutputResponse, CreateDBParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBParameterGroupOutputResponse, CreateDBParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDBParameterGroupOutputResponse, CreateDBParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -983,6 +1093,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBProxyInput, CreateDBProxyOutputResponse, CreateDBProxyOutputError>(id: "createDBProxy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBProxyInput, CreateDBProxyOutputResponse, CreateDBProxyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBProxyInput, CreateDBProxyOutputResponse>())
@@ -997,8 +1108,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBProxyOutputResponse, CreateDBProxyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBProxyOutputResponse, CreateDBProxyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDBProxyOutputResponse, CreateDBProxyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1018,6 +1133,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBProxyEndpointInput, CreateDBProxyEndpointOutputResponse, CreateDBProxyEndpointOutputError>(id: "createDBProxyEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBProxyEndpointInput, CreateDBProxyEndpointOutputResponse, CreateDBProxyEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBProxyEndpointInput, CreateDBProxyEndpointOutputResponse>())
@@ -1032,8 +1148,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBProxyEndpointOutputResponse, CreateDBProxyEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBProxyEndpointOutputResponse, CreateDBProxyEndpointOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDBProxyEndpointOutputResponse, CreateDBProxyEndpointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1053,6 +1173,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBSecurityGroupInput, CreateDBSecurityGroupOutputResponse, CreateDBSecurityGroupOutputError>(id: "createDBSecurityGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBSecurityGroupInput, CreateDBSecurityGroupOutputResponse, CreateDBSecurityGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBSecurityGroupInput, CreateDBSecurityGroupOutputResponse>())
@@ -1067,8 +1188,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBSecurityGroupOutputResponse, CreateDBSecurityGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBSecurityGroupOutputResponse, CreateDBSecurityGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDBSecurityGroupOutputResponse, CreateDBSecurityGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1088,6 +1213,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBSnapshotInput, CreateDBSnapshotOutputResponse, CreateDBSnapshotOutputError>(id: "createDBSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBSnapshotInput, CreateDBSnapshotOutputResponse, CreateDBSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBSnapshotInput, CreateDBSnapshotOutputResponse>())
@@ -1102,8 +1228,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBSnapshotOutputResponse, CreateDBSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBSnapshotOutputResponse, CreateDBSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDBSnapshotOutputResponse, CreateDBSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1123,6 +1253,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBSubnetGroupInput, CreateDBSubnetGroupOutputResponse, CreateDBSubnetGroupOutputError>(id: "createDBSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBSubnetGroupInput, CreateDBSubnetGroupOutputResponse, CreateDBSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBSubnetGroupInput, CreateDBSubnetGroupOutputResponse>())
@@ -1137,8 +1268,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBSubnetGroupOutputResponse, CreateDBSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBSubnetGroupOutputResponse, CreateDBSubnetGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDBSubnetGroupOutputResponse, CreateDBSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1158,6 +1293,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEventSubscriptionInput, CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>(id: "createEventSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEventSubscriptionInput, CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEventSubscriptionInput, CreateEventSubscriptionOutputResponse>())
@@ -1172,8 +1308,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1193,6 +1333,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateGlobalClusterInput, CreateGlobalClusterOutputResponse, CreateGlobalClusterOutputError>(id: "createGlobalCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGlobalClusterInput, CreateGlobalClusterOutputResponse, CreateGlobalClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGlobalClusterInput, CreateGlobalClusterOutputResponse>())
@@ -1207,8 +1348,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGlobalClusterOutputResponse, CreateGlobalClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGlobalClusterOutputResponse, CreateGlobalClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGlobalClusterOutputResponse, CreateGlobalClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1228,6 +1373,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateOptionGroupInput, CreateOptionGroupOutputResponse, CreateOptionGroupOutputError>(id: "createOptionGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateOptionGroupInput, CreateOptionGroupOutputResponse, CreateOptionGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateOptionGroupInput, CreateOptionGroupOutputResponse>())
@@ -1242,8 +1388,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOptionGroupOutputResponse, CreateOptionGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOptionGroupOutputResponse, CreateOptionGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateOptionGroupOutputResponse, CreateOptionGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1263,6 +1413,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBlueGreenDeploymentInput, DeleteBlueGreenDeploymentOutputResponse, DeleteBlueGreenDeploymentOutputError>(id: "deleteBlueGreenDeployment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBlueGreenDeploymentInput, DeleteBlueGreenDeploymentOutputResponse, DeleteBlueGreenDeploymentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBlueGreenDeploymentInput, DeleteBlueGreenDeploymentOutputResponse>())
@@ -1277,8 +1428,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBlueGreenDeploymentOutputResponse, DeleteBlueGreenDeploymentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBlueGreenDeploymentOutputResponse, DeleteBlueGreenDeploymentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBlueGreenDeploymentOutputResponse, DeleteBlueGreenDeploymentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1305,6 +1460,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCustomDBEngineVersionInput, DeleteCustomDBEngineVersionOutputResponse, DeleteCustomDBEngineVersionOutputError>(id: "deleteCustomDBEngineVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCustomDBEngineVersionInput, DeleteCustomDBEngineVersionOutputResponse, DeleteCustomDBEngineVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCustomDBEngineVersionInput, DeleteCustomDBEngineVersionOutputResponse>())
@@ -1319,8 +1475,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCustomDBEngineVersionOutputResponse, DeleteCustomDBEngineVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCustomDBEngineVersionOutputResponse, DeleteCustomDBEngineVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCustomDBEngineVersionOutputResponse, DeleteCustomDBEngineVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1340,6 +1500,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBClusterInput, DeleteDBClusterOutputResponse, DeleteDBClusterOutputError>(id: "deleteDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBClusterInput, DeleteDBClusterOutputResponse, DeleteDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBClusterInput, DeleteDBClusterOutputResponse>())
@@ -1354,8 +1515,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBClusterOutputResponse, DeleteDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBClusterOutputResponse, DeleteDBClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBClusterOutputResponse, DeleteDBClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1375,6 +1540,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBClusterEndpointInput, DeleteDBClusterEndpointOutputResponse, DeleteDBClusterEndpointOutputError>(id: "deleteDBClusterEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBClusterEndpointInput, DeleteDBClusterEndpointOutputResponse, DeleteDBClusterEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBClusterEndpointInput, DeleteDBClusterEndpointOutputResponse>())
@@ -1389,8 +1555,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBClusterEndpointOutputResponse, DeleteDBClusterEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBClusterEndpointOutputResponse, DeleteDBClusterEndpointOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBClusterEndpointOutputResponse, DeleteDBClusterEndpointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1410,6 +1580,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBClusterParameterGroupInput, DeleteDBClusterParameterGroupOutputResponse, DeleteDBClusterParameterGroupOutputError>(id: "deleteDBClusterParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBClusterParameterGroupInput, DeleteDBClusterParameterGroupOutputResponse, DeleteDBClusterParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBClusterParameterGroupInput, DeleteDBClusterParameterGroupOutputResponse>())
@@ -1424,8 +1595,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBClusterParameterGroupOutputResponse, DeleteDBClusterParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBClusterParameterGroupOutputResponse, DeleteDBClusterParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBClusterParameterGroupOutputResponse, DeleteDBClusterParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1445,6 +1620,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBClusterSnapshotInput, DeleteDBClusterSnapshotOutputResponse, DeleteDBClusterSnapshotOutputError>(id: "deleteDBClusterSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBClusterSnapshotInput, DeleteDBClusterSnapshotOutputResponse, DeleteDBClusterSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBClusterSnapshotInput, DeleteDBClusterSnapshotOutputResponse>())
@@ -1459,8 +1635,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBClusterSnapshotOutputResponse, DeleteDBClusterSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBClusterSnapshotOutputResponse, DeleteDBClusterSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBClusterSnapshotOutputResponse, DeleteDBClusterSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1487,6 +1667,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBInstanceInput, DeleteDBInstanceOutputResponse, DeleteDBInstanceOutputError>(id: "deleteDBInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBInstanceInput, DeleteDBInstanceOutputResponse, DeleteDBInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBInstanceInput, DeleteDBInstanceOutputResponse>())
@@ -1501,8 +1682,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBInstanceOutputResponse, DeleteDBInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBInstanceOutputResponse, DeleteDBInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBInstanceOutputResponse, DeleteDBInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1522,6 +1707,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBInstanceAutomatedBackupInput, DeleteDBInstanceAutomatedBackupOutputResponse, DeleteDBInstanceAutomatedBackupOutputError>(id: "deleteDBInstanceAutomatedBackup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBInstanceAutomatedBackupInput, DeleteDBInstanceAutomatedBackupOutputResponse, DeleteDBInstanceAutomatedBackupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBInstanceAutomatedBackupInput, DeleteDBInstanceAutomatedBackupOutputResponse>())
@@ -1536,8 +1722,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBInstanceAutomatedBackupOutputResponse, DeleteDBInstanceAutomatedBackupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBInstanceAutomatedBackupOutputResponse, DeleteDBInstanceAutomatedBackupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBInstanceAutomatedBackupOutputResponse, DeleteDBInstanceAutomatedBackupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1557,6 +1747,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBParameterGroupInput, DeleteDBParameterGroupOutputResponse, DeleteDBParameterGroupOutputError>(id: "deleteDBParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBParameterGroupInput, DeleteDBParameterGroupOutputResponse, DeleteDBParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBParameterGroupInput, DeleteDBParameterGroupOutputResponse>())
@@ -1571,8 +1762,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBParameterGroupOutputResponse, DeleteDBParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBParameterGroupOutputResponse, DeleteDBParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBParameterGroupOutputResponse, DeleteDBParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1592,6 +1787,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBProxyInput, DeleteDBProxyOutputResponse, DeleteDBProxyOutputError>(id: "deleteDBProxy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBProxyInput, DeleteDBProxyOutputResponse, DeleteDBProxyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBProxyInput, DeleteDBProxyOutputResponse>())
@@ -1606,8 +1802,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBProxyOutputResponse, DeleteDBProxyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBProxyOutputResponse, DeleteDBProxyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBProxyOutputResponse, DeleteDBProxyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1627,6 +1827,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBProxyEndpointInput, DeleteDBProxyEndpointOutputResponse, DeleteDBProxyEndpointOutputError>(id: "deleteDBProxyEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBProxyEndpointInput, DeleteDBProxyEndpointOutputResponse, DeleteDBProxyEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBProxyEndpointInput, DeleteDBProxyEndpointOutputResponse>())
@@ -1641,8 +1842,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBProxyEndpointOutputResponse, DeleteDBProxyEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBProxyEndpointOutputResponse, DeleteDBProxyEndpointOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBProxyEndpointOutputResponse, DeleteDBProxyEndpointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1662,6 +1867,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBSecurityGroupInput, DeleteDBSecurityGroupOutputResponse, DeleteDBSecurityGroupOutputError>(id: "deleteDBSecurityGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBSecurityGroupInput, DeleteDBSecurityGroupOutputResponse, DeleteDBSecurityGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBSecurityGroupInput, DeleteDBSecurityGroupOutputResponse>())
@@ -1676,8 +1882,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBSecurityGroupOutputResponse, DeleteDBSecurityGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBSecurityGroupOutputResponse, DeleteDBSecurityGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBSecurityGroupOutputResponse, DeleteDBSecurityGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1697,6 +1907,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBSnapshotInput, DeleteDBSnapshotOutputResponse, DeleteDBSnapshotOutputError>(id: "deleteDBSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBSnapshotInput, DeleteDBSnapshotOutputResponse, DeleteDBSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBSnapshotInput, DeleteDBSnapshotOutputResponse>())
@@ -1711,8 +1922,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBSnapshotOutputResponse, DeleteDBSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBSnapshotOutputResponse, DeleteDBSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBSnapshotOutputResponse, DeleteDBSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1732,6 +1947,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBSubnetGroupInput, DeleteDBSubnetGroupOutputResponse, DeleteDBSubnetGroupOutputError>(id: "deleteDBSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBSubnetGroupInput, DeleteDBSubnetGroupOutputResponse, DeleteDBSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBSubnetGroupInput, DeleteDBSubnetGroupOutputResponse>())
@@ -1746,8 +1962,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBSubnetGroupOutputResponse, DeleteDBSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBSubnetGroupOutputResponse, DeleteDBSubnetGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBSubnetGroupOutputResponse, DeleteDBSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1767,6 +1987,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>(id: "deleteEventSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutputResponse>())
@@ -1781,8 +2002,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1802,6 +2027,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteGlobalClusterInput, DeleteGlobalClusterOutputResponse, DeleteGlobalClusterOutputError>(id: "deleteGlobalCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGlobalClusterInput, DeleteGlobalClusterOutputResponse, DeleteGlobalClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGlobalClusterInput, DeleteGlobalClusterOutputResponse>())
@@ -1816,8 +2042,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGlobalClusterOutputResponse, DeleteGlobalClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGlobalClusterOutputResponse, DeleteGlobalClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGlobalClusterOutputResponse, DeleteGlobalClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1837,6 +2067,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteOptionGroupInput, DeleteOptionGroupOutputResponse, DeleteOptionGroupOutputError>(id: "deleteOptionGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOptionGroupInput, DeleteOptionGroupOutputResponse, DeleteOptionGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOptionGroupInput, DeleteOptionGroupOutputResponse>())
@@ -1851,8 +2082,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOptionGroupOutputResponse, DeleteOptionGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOptionGroupOutputResponse, DeleteOptionGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOptionGroupOutputResponse, DeleteOptionGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1872,6 +2107,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterDBProxyTargetsInput, DeregisterDBProxyTargetsOutputResponse, DeregisterDBProxyTargetsOutputError>(id: "deregisterDBProxyTargets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterDBProxyTargetsInput, DeregisterDBProxyTargetsOutputResponse, DeregisterDBProxyTargetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterDBProxyTargetsInput, DeregisterDBProxyTargetsOutputResponse>())
@@ -1886,8 +2122,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterDBProxyTargetsOutputResponse, DeregisterDBProxyTargetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterDBProxyTargetsOutputResponse, DeregisterDBProxyTargetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterDBProxyTargetsOutputResponse, DeregisterDBProxyTargetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1907,6 +2147,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAccountAttributesInput, DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>(id: "describeAccountAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutputResponse>())
@@ -1921,8 +2162,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1942,6 +2187,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeBlueGreenDeploymentsInput, DescribeBlueGreenDeploymentsOutputResponse, DescribeBlueGreenDeploymentsOutputError>(id: "describeBlueGreenDeployments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeBlueGreenDeploymentsInput, DescribeBlueGreenDeploymentsOutputResponse, DescribeBlueGreenDeploymentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeBlueGreenDeploymentsInput, DescribeBlueGreenDeploymentsOutputResponse>())
@@ -1956,8 +2202,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeBlueGreenDeploymentsOutputResponse, DescribeBlueGreenDeploymentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeBlueGreenDeploymentsOutputResponse, DescribeBlueGreenDeploymentsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeBlueGreenDeploymentsOutputResponse, DescribeBlueGreenDeploymentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1977,6 +2227,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCertificatesInput, DescribeCertificatesOutputResponse, DescribeCertificatesOutputError>(id: "describeCertificates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCertificatesInput, DescribeCertificatesOutputResponse, DescribeCertificatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCertificatesInput, DescribeCertificatesOutputResponse>())
@@ -1991,8 +2242,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCertificatesOutputResponse, DescribeCertificatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCertificatesOutputResponse, DescribeCertificatesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCertificatesOutputResponse, DescribeCertificatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2012,6 +2267,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBClusterBacktracksInput, DescribeDBClusterBacktracksOutputResponse, DescribeDBClusterBacktracksOutputError>(id: "describeDBClusterBacktracks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBClusterBacktracksInput, DescribeDBClusterBacktracksOutputResponse, DescribeDBClusterBacktracksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBClusterBacktracksInput, DescribeDBClusterBacktracksOutputResponse>())
@@ -2026,8 +2282,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBClusterBacktracksOutputResponse, DescribeDBClusterBacktracksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBClusterBacktracksOutputResponse, DescribeDBClusterBacktracksOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBClusterBacktracksOutputResponse, DescribeDBClusterBacktracksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2047,6 +2307,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutputResponse, DescribeDBClusterEndpointsOutputError>(id: "describeDBClusterEndpoints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutputResponse, DescribeDBClusterEndpointsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutputResponse>())
@@ -2061,8 +2322,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBClusterEndpointsOutputResponse, DescribeDBClusterEndpointsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBClusterEndpointsOutputResponse, DescribeDBClusterEndpointsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBClusterEndpointsOutputResponse, DescribeDBClusterEndpointsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2082,6 +2347,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutputResponse, DescribeDBClusterParameterGroupsOutputError>(id: "describeDBClusterParameterGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutputResponse, DescribeDBClusterParameterGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutputResponse>())
@@ -2096,8 +2362,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBClusterParameterGroupsOutputResponse, DescribeDBClusterParameterGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBClusterParameterGroupsOutputResponse, DescribeDBClusterParameterGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBClusterParameterGroupsOutputResponse, DescribeDBClusterParameterGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2117,6 +2387,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutputResponse, DescribeDBClusterParametersOutputError>(id: "describeDBClusterParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutputResponse, DescribeDBClusterParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutputResponse>())
@@ -2131,8 +2402,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBClusterParametersOutputResponse, DescribeDBClusterParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBClusterParametersOutputResponse, DescribeDBClusterParametersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBClusterParametersOutputResponse, DescribeDBClusterParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2152,6 +2427,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBClusterSnapshotAttributesInput, DescribeDBClusterSnapshotAttributesOutputResponse, DescribeDBClusterSnapshotAttributesOutputError>(id: "describeDBClusterSnapshotAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBClusterSnapshotAttributesInput, DescribeDBClusterSnapshotAttributesOutputResponse, DescribeDBClusterSnapshotAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBClusterSnapshotAttributesInput, DescribeDBClusterSnapshotAttributesOutputResponse>())
@@ -2166,8 +2442,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBClusterSnapshotAttributesOutputResponse, DescribeDBClusterSnapshotAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBClusterSnapshotAttributesOutputResponse, DescribeDBClusterSnapshotAttributesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBClusterSnapshotAttributesOutputResponse, DescribeDBClusterSnapshotAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2187,6 +2467,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutputResponse, DescribeDBClusterSnapshotsOutputError>(id: "describeDBClusterSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutputResponse, DescribeDBClusterSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutputResponse>())
@@ -2201,8 +2482,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBClusterSnapshotsOutputResponse, DescribeDBClusterSnapshotsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBClusterSnapshotsOutputResponse, DescribeDBClusterSnapshotsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBClusterSnapshotsOutputResponse, DescribeDBClusterSnapshotsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2222,6 +2507,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBClustersInput, DescribeDBClustersOutputResponse, DescribeDBClustersOutputError>(id: "describeDBClusters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBClustersInput, DescribeDBClustersOutputResponse, DescribeDBClustersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBClustersInput, DescribeDBClustersOutputResponse>())
@@ -2236,8 +2522,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBClustersOutputResponse, DescribeDBClustersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBClustersOutputResponse, DescribeDBClustersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBClustersOutputResponse, DescribeDBClustersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2257,6 +2547,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutputResponse, DescribeDBEngineVersionsOutputError>(id: "describeDBEngineVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutputResponse, DescribeDBEngineVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutputResponse>())
@@ -2271,8 +2562,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBEngineVersionsOutputResponse, DescribeDBEngineVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBEngineVersionsOutputResponse, DescribeDBEngineVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBEngineVersionsOutputResponse, DescribeDBEngineVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2292,6 +2587,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBInstanceAutomatedBackupsInput, DescribeDBInstanceAutomatedBackupsOutputResponse, DescribeDBInstanceAutomatedBackupsOutputError>(id: "describeDBInstanceAutomatedBackups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBInstanceAutomatedBackupsInput, DescribeDBInstanceAutomatedBackupsOutputResponse, DescribeDBInstanceAutomatedBackupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBInstanceAutomatedBackupsInput, DescribeDBInstanceAutomatedBackupsOutputResponse>())
@@ -2306,8 +2602,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBInstanceAutomatedBackupsOutputResponse, DescribeDBInstanceAutomatedBackupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBInstanceAutomatedBackupsOutputResponse, DescribeDBInstanceAutomatedBackupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBInstanceAutomatedBackupsOutputResponse, DescribeDBInstanceAutomatedBackupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2327,6 +2627,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBInstancesInput, DescribeDBInstancesOutputResponse, DescribeDBInstancesOutputError>(id: "describeDBInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBInstancesInput, DescribeDBInstancesOutputResponse, DescribeDBInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBInstancesInput, DescribeDBInstancesOutputResponse>())
@@ -2341,8 +2642,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBInstancesOutputResponse, DescribeDBInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBInstancesOutputResponse, DescribeDBInstancesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBInstancesOutputResponse, DescribeDBInstancesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2362,6 +2667,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBLogFilesInput, DescribeDBLogFilesOutputResponse, DescribeDBLogFilesOutputError>(id: "describeDBLogFiles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBLogFilesInput, DescribeDBLogFilesOutputResponse, DescribeDBLogFilesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBLogFilesInput, DescribeDBLogFilesOutputResponse>())
@@ -2376,8 +2682,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBLogFilesOutputResponse, DescribeDBLogFilesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBLogFilesOutputResponse, DescribeDBLogFilesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBLogFilesOutputResponse, DescribeDBLogFilesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2397,6 +2707,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutputResponse, DescribeDBParameterGroupsOutputError>(id: "describeDBParameterGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutputResponse, DescribeDBParameterGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutputResponse>())
@@ -2411,8 +2722,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBParameterGroupsOutputResponse, DescribeDBParameterGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBParameterGroupsOutputResponse, DescribeDBParameterGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBParameterGroupsOutputResponse, DescribeDBParameterGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2432,6 +2747,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBParametersInput, DescribeDBParametersOutputResponse, DescribeDBParametersOutputError>(id: "describeDBParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBParametersInput, DescribeDBParametersOutputResponse, DescribeDBParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBParametersInput, DescribeDBParametersOutputResponse>())
@@ -2446,8 +2762,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBParametersOutputResponse, DescribeDBParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBParametersOutputResponse, DescribeDBParametersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBParametersOutputResponse, DescribeDBParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2467,6 +2787,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBProxiesInput, DescribeDBProxiesOutputResponse, DescribeDBProxiesOutputError>(id: "describeDBProxies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBProxiesInput, DescribeDBProxiesOutputResponse, DescribeDBProxiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBProxiesInput, DescribeDBProxiesOutputResponse>())
@@ -2481,8 +2802,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBProxiesOutputResponse, DescribeDBProxiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBProxiesOutputResponse, DescribeDBProxiesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBProxiesOutputResponse, DescribeDBProxiesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2502,6 +2827,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBProxyEndpointsInput, DescribeDBProxyEndpointsOutputResponse, DescribeDBProxyEndpointsOutputError>(id: "describeDBProxyEndpoints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBProxyEndpointsInput, DescribeDBProxyEndpointsOutputResponse, DescribeDBProxyEndpointsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBProxyEndpointsInput, DescribeDBProxyEndpointsOutputResponse>())
@@ -2516,8 +2842,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBProxyEndpointsOutputResponse, DescribeDBProxyEndpointsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBProxyEndpointsOutputResponse, DescribeDBProxyEndpointsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBProxyEndpointsOutputResponse, DescribeDBProxyEndpointsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2537,6 +2867,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBProxyTargetGroupsInput, DescribeDBProxyTargetGroupsOutputResponse, DescribeDBProxyTargetGroupsOutputError>(id: "describeDBProxyTargetGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBProxyTargetGroupsInput, DescribeDBProxyTargetGroupsOutputResponse, DescribeDBProxyTargetGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBProxyTargetGroupsInput, DescribeDBProxyTargetGroupsOutputResponse>())
@@ -2551,8 +2882,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBProxyTargetGroupsOutputResponse, DescribeDBProxyTargetGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBProxyTargetGroupsOutputResponse, DescribeDBProxyTargetGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBProxyTargetGroupsOutputResponse, DescribeDBProxyTargetGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2572,6 +2907,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBProxyTargetsInput, DescribeDBProxyTargetsOutputResponse, DescribeDBProxyTargetsOutputError>(id: "describeDBProxyTargets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBProxyTargetsInput, DescribeDBProxyTargetsOutputResponse, DescribeDBProxyTargetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBProxyTargetsInput, DescribeDBProxyTargetsOutputResponse>())
@@ -2586,8 +2922,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBProxyTargetsOutputResponse, DescribeDBProxyTargetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBProxyTargetsOutputResponse, DescribeDBProxyTargetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBProxyTargetsOutputResponse, DescribeDBProxyTargetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2607,6 +2947,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBSecurityGroupsInput, DescribeDBSecurityGroupsOutputResponse, DescribeDBSecurityGroupsOutputError>(id: "describeDBSecurityGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBSecurityGroupsInput, DescribeDBSecurityGroupsOutputResponse, DescribeDBSecurityGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBSecurityGroupsInput, DescribeDBSecurityGroupsOutputResponse>())
@@ -2621,8 +2962,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBSecurityGroupsOutputResponse, DescribeDBSecurityGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBSecurityGroupsOutputResponse, DescribeDBSecurityGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBSecurityGroupsOutputResponse, DescribeDBSecurityGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2642,6 +2987,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBSnapshotAttributesInput, DescribeDBSnapshotAttributesOutputResponse, DescribeDBSnapshotAttributesOutputError>(id: "describeDBSnapshotAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBSnapshotAttributesInput, DescribeDBSnapshotAttributesOutputResponse, DescribeDBSnapshotAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBSnapshotAttributesInput, DescribeDBSnapshotAttributesOutputResponse>())
@@ -2656,8 +3002,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBSnapshotAttributesOutputResponse, DescribeDBSnapshotAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBSnapshotAttributesOutputResponse, DescribeDBSnapshotAttributesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBSnapshotAttributesOutputResponse, DescribeDBSnapshotAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2677,6 +3027,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutputResponse, DescribeDBSnapshotsOutputError>(id: "describeDBSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutputResponse, DescribeDBSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBSnapshotsInput, DescribeDBSnapshotsOutputResponse>())
@@ -2691,8 +3042,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBSnapshotsOutputResponse, DescribeDBSnapshotsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBSnapshotsOutputResponse, DescribeDBSnapshotsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBSnapshotsOutputResponse, DescribeDBSnapshotsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2712,6 +3067,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutputResponse, DescribeDBSubnetGroupsOutputError>(id: "describeDBSubnetGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutputResponse, DescribeDBSubnetGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutputResponse>())
@@ -2726,8 +3082,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBSubnetGroupsOutputResponse, DescribeDBSubnetGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBSubnetGroupsOutputResponse, DescribeDBSubnetGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBSubnetGroupsOutputResponse, DescribeDBSubnetGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2747,6 +3107,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEngineDefaultClusterParametersInput, DescribeEngineDefaultClusterParametersOutputResponse, DescribeEngineDefaultClusterParametersOutputError>(id: "describeEngineDefaultClusterParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEngineDefaultClusterParametersInput, DescribeEngineDefaultClusterParametersOutputResponse, DescribeEngineDefaultClusterParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEngineDefaultClusterParametersInput, DescribeEngineDefaultClusterParametersOutputResponse>())
@@ -2761,8 +3122,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEngineDefaultClusterParametersOutputResponse, DescribeEngineDefaultClusterParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEngineDefaultClusterParametersOutputResponse, DescribeEngineDefaultClusterParametersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEngineDefaultClusterParametersOutputResponse, DescribeEngineDefaultClusterParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2782,6 +3147,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>(id: "describeEngineDefaultParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutputResponse>())
@@ -2796,8 +3162,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2817,6 +3187,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventCategoriesInput, DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>(id: "describeEventCategories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventCategoriesInput, DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventCategoriesInput, DescribeEventCategoriesOutputResponse>())
@@ -2831,8 +3202,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2852,6 +3227,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>(id: "describeEventSubscriptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse>())
@@ -2866,8 +3242,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2887,6 +3267,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>(id: "describeEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventsInput, DescribeEventsOutputResponse>())
@@ -2901,8 +3282,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2922,6 +3307,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeExportTasksInput, DescribeExportTasksOutputResponse, DescribeExportTasksOutputError>(id: "describeExportTasks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeExportTasksInput, DescribeExportTasksOutputResponse, DescribeExportTasksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeExportTasksInput, DescribeExportTasksOutputResponse>())
@@ -2936,8 +3322,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeExportTasksOutputResponse, DescribeExportTasksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeExportTasksOutputResponse, DescribeExportTasksOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeExportTasksOutputResponse, DescribeExportTasksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2957,6 +3347,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeGlobalClustersInput, DescribeGlobalClustersOutputResponse, DescribeGlobalClustersOutputError>(id: "describeGlobalClusters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGlobalClustersInput, DescribeGlobalClustersOutputResponse, DescribeGlobalClustersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeGlobalClustersInput, DescribeGlobalClustersOutputResponse>())
@@ -2971,8 +3362,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGlobalClustersOutputResponse, DescribeGlobalClustersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGlobalClustersOutputResponse, DescribeGlobalClustersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeGlobalClustersOutputResponse, DescribeGlobalClustersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2992,6 +3387,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeOptionGroupOptionsInput, DescribeOptionGroupOptionsOutputResponse, DescribeOptionGroupOptionsOutputError>(id: "describeOptionGroupOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOptionGroupOptionsInput, DescribeOptionGroupOptionsOutputResponse, DescribeOptionGroupOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOptionGroupOptionsInput, DescribeOptionGroupOptionsOutputResponse>())
@@ -3006,8 +3402,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOptionGroupOptionsOutputResponse, DescribeOptionGroupOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOptionGroupOptionsOutputResponse, DescribeOptionGroupOptionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOptionGroupOptionsOutputResponse, DescribeOptionGroupOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3027,6 +3427,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeOptionGroupsInput, DescribeOptionGroupsOutputResponse, DescribeOptionGroupsOutputError>(id: "describeOptionGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOptionGroupsInput, DescribeOptionGroupsOutputResponse, DescribeOptionGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOptionGroupsInput, DescribeOptionGroupsOutputResponse>())
@@ -3041,8 +3442,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOptionGroupsOutputResponse, DescribeOptionGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOptionGroupsOutputResponse, DescribeOptionGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOptionGroupsOutputResponse, DescribeOptionGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3062,6 +3467,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutputResponse, DescribeOrderableDBInstanceOptionsOutputError>(id: "describeOrderableDBInstanceOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutputResponse, DescribeOrderableDBInstanceOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutputResponse>())
@@ -3076,8 +3482,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrderableDBInstanceOptionsOutputResponse, DescribeOrderableDBInstanceOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrderableDBInstanceOptionsOutputResponse, DescribeOrderableDBInstanceOptionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOrderableDBInstanceOptionsOutputResponse, DescribeOrderableDBInstanceOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3097,6 +3507,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>(id: "describePendingMaintenanceActions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutputResponse>())
@@ -3111,8 +3522,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3132,6 +3547,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReservedDBInstancesInput, DescribeReservedDBInstancesOutputResponse, DescribeReservedDBInstancesOutputError>(id: "describeReservedDBInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReservedDBInstancesInput, DescribeReservedDBInstancesOutputResponse, DescribeReservedDBInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReservedDBInstancesInput, DescribeReservedDBInstancesOutputResponse>())
@@ -3146,8 +3562,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReservedDBInstancesOutputResponse, DescribeReservedDBInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReservedDBInstancesOutputResponse, DescribeReservedDBInstancesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReservedDBInstancesOutputResponse, DescribeReservedDBInstancesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3167,6 +3587,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReservedDBInstancesOfferingsInput, DescribeReservedDBInstancesOfferingsOutputResponse, DescribeReservedDBInstancesOfferingsOutputError>(id: "describeReservedDBInstancesOfferings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReservedDBInstancesOfferingsInput, DescribeReservedDBInstancesOfferingsOutputResponse, DescribeReservedDBInstancesOfferingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReservedDBInstancesOfferingsInput, DescribeReservedDBInstancesOfferingsOutputResponse>())
@@ -3181,8 +3602,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReservedDBInstancesOfferingsOutputResponse, DescribeReservedDBInstancesOfferingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReservedDBInstancesOfferingsOutputResponse, DescribeReservedDBInstancesOfferingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReservedDBInstancesOfferingsOutputResponse, DescribeReservedDBInstancesOfferingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3202,6 +3627,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSourceRegionsInput, DescribeSourceRegionsOutputResponse, DescribeSourceRegionsOutputError>(id: "describeSourceRegions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSourceRegionsInput, DescribeSourceRegionsOutputResponse, DescribeSourceRegionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSourceRegionsInput, DescribeSourceRegionsOutputResponse>())
@@ -3216,8 +3642,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSourceRegionsOutputResponse, DescribeSourceRegionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSourceRegionsOutputResponse, DescribeSourceRegionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSourceRegionsOutputResponse, DescribeSourceRegionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3237,6 +3667,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeValidDBInstanceModificationsInput, DescribeValidDBInstanceModificationsOutputResponse, DescribeValidDBInstanceModificationsOutputError>(id: "describeValidDBInstanceModifications")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeValidDBInstanceModificationsInput, DescribeValidDBInstanceModificationsOutputResponse, DescribeValidDBInstanceModificationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeValidDBInstanceModificationsInput, DescribeValidDBInstanceModificationsOutputResponse>())
@@ -3251,8 +3682,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeValidDBInstanceModificationsOutputResponse, DescribeValidDBInstanceModificationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeValidDBInstanceModificationsOutputResponse, DescribeValidDBInstanceModificationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeValidDBInstanceModificationsOutputResponse, DescribeValidDBInstanceModificationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3272,6 +3707,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DownloadDBLogFilePortionInput, DownloadDBLogFilePortionOutputResponse, DownloadDBLogFilePortionOutputError>(id: "downloadDBLogFilePortion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DownloadDBLogFilePortionInput, DownloadDBLogFilePortionOutputResponse, DownloadDBLogFilePortionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DownloadDBLogFilePortionInput, DownloadDBLogFilePortionOutputResponse>())
@@ -3286,8 +3722,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DownloadDBLogFilePortionOutputResponse, DownloadDBLogFilePortionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DownloadDBLogFilePortionOutputResponse, DownloadDBLogFilePortionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DownloadDBLogFilePortionOutputResponse, DownloadDBLogFilePortionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3307,6 +3747,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<FailoverDBClusterInput, FailoverDBClusterOutputResponse, FailoverDBClusterOutputError>(id: "failoverDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<FailoverDBClusterInput, FailoverDBClusterOutputResponse, FailoverDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<FailoverDBClusterInput, FailoverDBClusterOutputResponse>())
@@ -3321,8 +3762,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<FailoverDBClusterOutputResponse, FailoverDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<FailoverDBClusterOutputResponse, FailoverDBClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<FailoverDBClusterOutputResponse, FailoverDBClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3342,6 +3787,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<FailoverGlobalClusterInput, FailoverGlobalClusterOutputResponse, FailoverGlobalClusterOutputError>(id: "failoverGlobalCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<FailoverGlobalClusterInput, FailoverGlobalClusterOutputResponse, FailoverGlobalClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<FailoverGlobalClusterInput, FailoverGlobalClusterOutputResponse>())
@@ -3356,8 +3802,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<FailoverGlobalClusterOutputResponse, FailoverGlobalClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<FailoverGlobalClusterOutputResponse, FailoverGlobalClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<FailoverGlobalClusterOutputResponse, FailoverGlobalClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3377,6 +3827,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -3391,8 +3842,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3412,6 +3867,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyActivityStreamInput, ModifyActivityStreamOutputResponse, ModifyActivityStreamOutputError>(id: "modifyActivityStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyActivityStreamInput, ModifyActivityStreamOutputResponse, ModifyActivityStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyActivityStreamInput, ModifyActivityStreamOutputResponse>())
@@ -3426,8 +3882,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyActivityStreamOutputResponse, ModifyActivityStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyActivityStreamOutputResponse, ModifyActivityStreamOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyActivityStreamOutputResponse, ModifyActivityStreamOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3454,6 +3914,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyCertificatesInput, ModifyCertificatesOutputResponse, ModifyCertificatesOutputError>(id: "modifyCertificates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyCertificatesInput, ModifyCertificatesOutputResponse, ModifyCertificatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyCertificatesInput, ModifyCertificatesOutputResponse>())
@@ -3468,8 +3929,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyCertificatesOutputResponse, ModifyCertificatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyCertificatesOutputResponse, ModifyCertificatesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyCertificatesOutputResponse, ModifyCertificatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3489,6 +3954,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyCurrentDBClusterCapacityInput, ModifyCurrentDBClusterCapacityOutputResponse, ModifyCurrentDBClusterCapacityOutputError>(id: "modifyCurrentDBClusterCapacity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyCurrentDBClusterCapacityInput, ModifyCurrentDBClusterCapacityOutputResponse, ModifyCurrentDBClusterCapacityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyCurrentDBClusterCapacityInput, ModifyCurrentDBClusterCapacityOutputResponse>())
@@ -3503,8 +3969,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyCurrentDBClusterCapacityOutputResponse, ModifyCurrentDBClusterCapacityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyCurrentDBClusterCapacityOutputResponse, ModifyCurrentDBClusterCapacityOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyCurrentDBClusterCapacityOutputResponse, ModifyCurrentDBClusterCapacityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3524,6 +3994,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyCustomDBEngineVersionInput, ModifyCustomDBEngineVersionOutputResponse, ModifyCustomDBEngineVersionOutputError>(id: "modifyCustomDBEngineVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyCustomDBEngineVersionInput, ModifyCustomDBEngineVersionOutputResponse, ModifyCustomDBEngineVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyCustomDBEngineVersionInput, ModifyCustomDBEngineVersionOutputResponse>())
@@ -3538,8 +4009,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyCustomDBEngineVersionOutputResponse, ModifyCustomDBEngineVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyCustomDBEngineVersionOutputResponse, ModifyCustomDBEngineVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyCustomDBEngineVersionOutputResponse, ModifyCustomDBEngineVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3559,6 +4034,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBClusterInput, ModifyDBClusterOutputResponse, ModifyDBClusterOutputError>(id: "modifyDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBClusterInput, ModifyDBClusterOutputResponse, ModifyDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBClusterInput, ModifyDBClusterOutputResponse>())
@@ -3573,8 +4049,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBClusterOutputResponse, ModifyDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBClusterOutputResponse, ModifyDBClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyDBClusterOutputResponse, ModifyDBClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3594,6 +4074,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBClusterEndpointInput, ModifyDBClusterEndpointOutputResponse, ModifyDBClusterEndpointOutputError>(id: "modifyDBClusterEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBClusterEndpointInput, ModifyDBClusterEndpointOutputResponse, ModifyDBClusterEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBClusterEndpointInput, ModifyDBClusterEndpointOutputResponse>())
@@ -3608,8 +4089,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBClusterEndpointOutputResponse, ModifyDBClusterEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBClusterEndpointOutputResponse, ModifyDBClusterEndpointOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyDBClusterEndpointOutputResponse, ModifyDBClusterEndpointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3629,6 +4114,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBClusterParameterGroupInput, ModifyDBClusterParameterGroupOutputResponse, ModifyDBClusterParameterGroupOutputError>(id: "modifyDBClusterParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBClusterParameterGroupInput, ModifyDBClusterParameterGroupOutputResponse, ModifyDBClusterParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBClusterParameterGroupInput, ModifyDBClusterParameterGroupOutputResponse>())
@@ -3643,8 +4129,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBClusterParameterGroupOutputResponse, ModifyDBClusterParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBClusterParameterGroupOutputResponse, ModifyDBClusterParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyDBClusterParameterGroupOutputResponse, ModifyDBClusterParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3664,6 +4154,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBClusterSnapshotAttributeInput, ModifyDBClusterSnapshotAttributeOutputResponse, ModifyDBClusterSnapshotAttributeOutputError>(id: "modifyDBClusterSnapshotAttribute")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBClusterSnapshotAttributeInput, ModifyDBClusterSnapshotAttributeOutputResponse, ModifyDBClusterSnapshotAttributeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBClusterSnapshotAttributeInput, ModifyDBClusterSnapshotAttributeOutputResponse>())
@@ -3678,8 +4169,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBClusterSnapshotAttributeOutputResponse, ModifyDBClusterSnapshotAttributeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBClusterSnapshotAttributeOutputResponse, ModifyDBClusterSnapshotAttributeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyDBClusterSnapshotAttributeOutputResponse, ModifyDBClusterSnapshotAttributeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3699,6 +4194,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBInstanceInput, ModifyDBInstanceOutputResponse, ModifyDBInstanceOutputError>(id: "modifyDBInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBInstanceInput, ModifyDBInstanceOutputResponse, ModifyDBInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBInstanceInput, ModifyDBInstanceOutputResponse>())
@@ -3713,8 +4209,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBInstanceOutputResponse, ModifyDBInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBInstanceOutputResponse, ModifyDBInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyDBInstanceOutputResponse, ModifyDBInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3734,6 +4234,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBParameterGroupInput, ModifyDBParameterGroupOutputResponse, ModifyDBParameterGroupOutputError>(id: "modifyDBParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBParameterGroupInput, ModifyDBParameterGroupOutputResponse, ModifyDBParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBParameterGroupInput, ModifyDBParameterGroupOutputResponse>())
@@ -3748,8 +4249,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBParameterGroupOutputResponse, ModifyDBParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBParameterGroupOutputResponse, ModifyDBParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyDBParameterGroupOutputResponse, ModifyDBParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3769,6 +4274,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBProxyInput, ModifyDBProxyOutputResponse, ModifyDBProxyOutputError>(id: "modifyDBProxy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBProxyInput, ModifyDBProxyOutputResponse, ModifyDBProxyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBProxyInput, ModifyDBProxyOutputResponse>())
@@ -3783,8 +4289,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBProxyOutputResponse, ModifyDBProxyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBProxyOutputResponse, ModifyDBProxyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyDBProxyOutputResponse, ModifyDBProxyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3804,6 +4314,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBProxyEndpointInput, ModifyDBProxyEndpointOutputResponse, ModifyDBProxyEndpointOutputError>(id: "modifyDBProxyEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBProxyEndpointInput, ModifyDBProxyEndpointOutputResponse, ModifyDBProxyEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBProxyEndpointInput, ModifyDBProxyEndpointOutputResponse>())
@@ -3818,8 +4329,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBProxyEndpointOutputResponse, ModifyDBProxyEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBProxyEndpointOutputResponse, ModifyDBProxyEndpointOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyDBProxyEndpointOutputResponse, ModifyDBProxyEndpointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3839,6 +4354,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBProxyTargetGroupInput, ModifyDBProxyTargetGroupOutputResponse, ModifyDBProxyTargetGroupOutputError>(id: "modifyDBProxyTargetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBProxyTargetGroupInput, ModifyDBProxyTargetGroupOutputResponse, ModifyDBProxyTargetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBProxyTargetGroupInput, ModifyDBProxyTargetGroupOutputResponse>())
@@ -3853,8 +4369,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBProxyTargetGroupOutputResponse, ModifyDBProxyTargetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBProxyTargetGroupOutputResponse, ModifyDBProxyTargetGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyDBProxyTargetGroupOutputResponse, ModifyDBProxyTargetGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3874,6 +4394,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBSnapshotInput, ModifyDBSnapshotOutputResponse, ModifyDBSnapshotOutputError>(id: "modifyDBSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBSnapshotInput, ModifyDBSnapshotOutputResponse, ModifyDBSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBSnapshotInput, ModifyDBSnapshotOutputResponse>())
@@ -3888,8 +4409,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBSnapshotOutputResponse, ModifyDBSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBSnapshotOutputResponse, ModifyDBSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyDBSnapshotOutputResponse, ModifyDBSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3909,6 +4434,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBSnapshotAttributeInput, ModifyDBSnapshotAttributeOutputResponse, ModifyDBSnapshotAttributeOutputError>(id: "modifyDBSnapshotAttribute")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBSnapshotAttributeInput, ModifyDBSnapshotAttributeOutputResponse, ModifyDBSnapshotAttributeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBSnapshotAttributeInput, ModifyDBSnapshotAttributeOutputResponse>())
@@ -3923,8 +4449,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBSnapshotAttributeOutputResponse, ModifyDBSnapshotAttributeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBSnapshotAttributeOutputResponse, ModifyDBSnapshotAttributeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyDBSnapshotAttributeOutputResponse, ModifyDBSnapshotAttributeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3944,6 +4474,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBSubnetGroupInput, ModifyDBSubnetGroupOutputResponse, ModifyDBSubnetGroupOutputError>(id: "modifyDBSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBSubnetGroupInput, ModifyDBSubnetGroupOutputResponse, ModifyDBSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBSubnetGroupInput, ModifyDBSubnetGroupOutputResponse>())
@@ -3958,8 +4489,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBSubnetGroupOutputResponse, ModifyDBSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBSubnetGroupOutputResponse, ModifyDBSubnetGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyDBSubnetGroupOutputResponse, ModifyDBSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3979,6 +4514,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>(id: "modifyEventSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutputResponse>())
@@ -3993,8 +4529,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4014,6 +4554,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyGlobalClusterInput, ModifyGlobalClusterOutputResponse, ModifyGlobalClusterOutputError>(id: "modifyGlobalCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyGlobalClusterInput, ModifyGlobalClusterOutputResponse, ModifyGlobalClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyGlobalClusterInput, ModifyGlobalClusterOutputResponse>())
@@ -4028,8 +4569,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyGlobalClusterOutputResponse, ModifyGlobalClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyGlobalClusterOutputResponse, ModifyGlobalClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyGlobalClusterOutputResponse, ModifyGlobalClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4049,6 +4594,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyOptionGroupInput, ModifyOptionGroupOutputResponse, ModifyOptionGroupOutputError>(id: "modifyOptionGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyOptionGroupInput, ModifyOptionGroupOutputResponse, ModifyOptionGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyOptionGroupInput, ModifyOptionGroupOutputResponse>())
@@ -4063,8 +4609,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyOptionGroupOutputResponse, ModifyOptionGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyOptionGroupOutputResponse, ModifyOptionGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyOptionGroupOutputResponse, ModifyOptionGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4088,6 +4638,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PromoteReadReplicaInput, PromoteReadReplicaOutputResponse, PromoteReadReplicaOutputError>(id: "promoteReadReplica")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PromoteReadReplicaInput, PromoteReadReplicaOutputResponse, PromoteReadReplicaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PromoteReadReplicaInput, PromoteReadReplicaOutputResponse>())
@@ -4102,8 +4653,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PromoteReadReplicaOutputResponse, PromoteReadReplicaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PromoteReadReplicaOutputResponse, PromoteReadReplicaOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PromoteReadReplicaOutputResponse, PromoteReadReplicaOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4123,6 +4678,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PromoteReadReplicaDBClusterInput, PromoteReadReplicaDBClusterOutputResponse, PromoteReadReplicaDBClusterOutputError>(id: "promoteReadReplicaDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PromoteReadReplicaDBClusterInput, PromoteReadReplicaDBClusterOutputResponse, PromoteReadReplicaDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PromoteReadReplicaDBClusterInput, PromoteReadReplicaDBClusterOutputResponse>())
@@ -4137,8 +4693,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PromoteReadReplicaDBClusterOutputResponse, PromoteReadReplicaDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PromoteReadReplicaDBClusterOutputResponse, PromoteReadReplicaDBClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PromoteReadReplicaDBClusterOutputResponse, PromoteReadReplicaDBClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4158,6 +4718,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PurchaseReservedDBInstancesOfferingInput, PurchaseReservedDBInstancesOfferingOutputResponse, PurchaseReservedDBInstancesOfferingOutputError>(id: "purchaseReservedDBInstancesOffering")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PurchaseReservedDBInstancesOfferingInput, PurchaseReservedDBInstancesOfferingOutputResponse, PurchaseReservedDBInstancesOfferingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PurchaseReservedDBInstancesOfferingInput, PurchaseReservedDBInstancesOfferingOutputResponse>())
@@ -4172,8 +4733,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PurchaseReservedDBInstancesOfferingOutputResponse, PurchaseReservedDBInstancesOfferingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PurchaseReservedDBInstancesOfferingOutputResponse, PurchaseReservedDBInstancesOfferingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PurchaseReservedDBInstancesOfferingOutputResponse, PurchaseReservedDBInstancesOfferingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4193,6 +4758,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RebootDBClusterInput, RebootDBClusterOutputResponse, RebootDBClusterOutputError>(id: "rebootDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebootDBClusterInput, RebootDBClusterOutputResponse, RebootDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebootDBClusterInput, RebootDBClusterOutputResponse>())
@@ -4207,8 +4773,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RebootDBClusterOutputResponse, RebootDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RebootDBClusterOutputResponse, RebootDBClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RebootDBClusterOutputResponse, RebootDBClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4228,6 +4798,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RebootDBInstanceInput, RebootDBInstanceOutputResponse, RebootDBInstanceOutputError>(id: "rebootDBInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebootDBInstanceInput, RebootDBInstanceOutputResponse, RebootDBInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebootDBInstanceInput, RebootDBInstanceOutputResponse>())
@@ -4242,8 +4813,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RebootDBInstanceOutputResponse, RebootDBInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RebootDBInstanceOutputResponse, RebootDBInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RebootDBInstanceOutputResponse, RebootDBInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4263,6 +4838,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterDBProxyTargetsInput, RegisterDBProxyTargetsOutputResponse, RegisterDBProxyTargetsOutputError>(id: "registerDBProxyTargets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterDBProxyTargetsInput, RegisterDBProxyTargetsOutputResponse, RegisterDBProxyTargetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterDBProxyTargetsInput, RegisterDBProxyTargetsOutputResponse>())
@@ -4277,8 +4853,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterDBProxyTargetsOutputResponse, RegisterDBProxyTargetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterDBProxyTargetsOutputResponse, RegisterDBProxyTargetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterDBProxyTargetsOutputResponse, RegisterDBProxyTargetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4298,6 +4878,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveFromGlobalClusterInput, RemoveFromGlobalClusterOutputResponse, RemoveFromGlobalClusterOutputError>(id: "removeFromGlobalCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveFromGlobalClusterInput, RemoveFromGlobalClusterOutputResponse, RemoveFromGlobalClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveFromGlobalClusterInput, RemoveFromGlobalClusterOutputResponse>())
@@ -4312,8 +4893,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveFromGlobalClusterOutputResponse, RemoveFromGlobalClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveFromGlobalClusterOutputResponse, RemoveFromGlobalClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveFromGlobalClusterOutputResponse, RemoveFromGlobalClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4333,6 +4918,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveRoleFromDBClusterInput, RemoveRoleFromDBClusterOutputResponse, RemoveRoleFromDBClusterOutputError>(id: "removeRoleFromDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveRoleFromDBClusterInput, RemoveRoleFromDBClusterOutputResponse, RemoveRoleFromDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveRoleFromDBClusterInput, RemoveRoleFromDBClusterOutputResponse>())
@@ -4347,8 +4933,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveRoleFromDBClusterOutputResponse, RemoveRoleFromDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveRoleFromDBClusterOutputResponse, RemoveRoleFromDBClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveRoleFromDBClusterOutputResponse, RemoveRoleFromDBClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4368,6 +4958,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveRoleFromDBInstanceInput, RemoveRoleFromDBInstanceOutputResponse, RemoveRoleFromDBInstanceOutputError>(id: "removeRoleFromDBInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveRoleFromDBInstanceInput, RemoveRoleFromDBInstanceOutputResponse, RemoveRoleFromDBInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveRoleFromDBInstanceInput, RemoveRoleFromDBInstanceOutputResponse>())
@@ -4382,8 +4973,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveRoleFromDBInstanceOutputResponse, RemoveRoleFromDBInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveRoleFromDBInstanceOutputResponse, RemoveRoleFromDBInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveRoleFromDBInstanceOutputResponse, RemoveRoleFromDBInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4403,6 +4998,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveSourceIdentifierFromSubscriptionInput, RemoveSourceIdentifierFromSubscriptionOutputResponse, RemoveSourceIdentifierFromSubscriptionOutputError>(id: "removeSourceIdentifierFromSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveSourceIdentifierFromSubscriptionInput, RemoveSourceIdentifierFromSubscriptionOutputResponse, RemoveSourceIdentifierFromSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveSourceIdentifierFromSubscriptionInput, RemoveSourceIdentifierFromSubscriptionOutputResponse>())
@@ -4417,8 +5013,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveSourceIdentifierFromSubscriptionOutputResponse, RemoveSourceIdentifierFromSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveSourceIdentifierFromSubscriptionOutputResponse, RemoveSourceIdentifierFromSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveSourceIdentifierFromSubscriptionOutputResponse, RemoveSourceIdentifierFromSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4438,6 +5038,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(id: "removeTagsFromResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse>())
@@ -4452,8 +5053,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4473,6 +5078,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResetDBClusterParameterGroupInput, ResetDBClusterParameterGroupOutputResponse, ResetDBClusterParameterGroupOutputError>(id: "resetDBClusterParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetDBClusterParameterGroupInput, ResetDBClusterParameterGroupOutputResponse, ResetDBClusterParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetDBClusterParameterGroupInput, ResetDBClusterParameterGroupOutputResponse>())
@@ -4487,8 +5093,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetDBClusterParameterGroupOutputResponse, ResetDBClusterParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetDBClusterParameterGroupOutputResponse, ResetDBClusterParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetDBClusterParameterGroupOutputResponse, ResetDBClusterParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4508,6 +5118,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResetDBParameterGroupInput, ResetDBParameterGroupOutputResponse, ResetDBParameterGroupOutputError>(id: "resetDBParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetDBParameterGroupInput, ResetDBParameterGroupOutputResponse, ResetDBParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetDBParameterGroupInput, ResetDBParameterGroupOutputResponse>())
@@ -4522,8 +5133,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetDBParameterGroupOutputResponse, ResetDBParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetDBParameterGroupOutputResponse, ResetDBParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetDBParameterGroupOutputResponse, ResetDBParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4543,6 +5158,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RestoreDBClusterFromS3Input, RestoreDBClusterFromS3OutputResponse, RestoreDBClusterFromS3OutputError>(id: "restoreDBClusterFromS3")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreDBClusterFromS3Input, RestoreDBClusterFromS3OutputResponse, RestoreDBClusterFromS3OutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreDBClusterFromS3Input, RestoreDBClusterFromS3OutputResponse>())
@@ -4557,8 +5173,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreDBClusterFromS3OutputResponse, RestoreDBClusterFromS3OutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreDBClusterFromS3OutputResponse, RestoreDBClusterFromS3OutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreDBClusterFromS3OutputResponse, RestoreDBClusterFromS3OutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4578,6 +5198,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RestoreDBClusterFromSnapshotInput, RestoreDBClusterFromSnapshotOutputResponse, RestoreDBClusterFromSnapshotOutputError>(id: "restoreDBClusterFromSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreDBClusterFromSnapshotInput, RestoreDBClusterFromSnapshotOutputResponse, RestoreDBClusterFromSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreDBClusterFromSnapshotInput, RestoreDBClusterFromSnapshotOutputResponse>())
@@ -4592,8 +5213,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreDBClusterFromSnapshotOutputResponse, RestoreDBClusterFromSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreDBClusterFromSnapshotOutputResponse, RestoreDBClusterFromSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreDBClusterFromSnapshotOutputResponse, RestoreDBClusterFromSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4613,6 +5238,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RestoreDBClusterToPointInTimeInput, RestoreDBClusterToPointInTimeOutputResponse, RestoreDBClusterToPointInTimeOutputError>(id: "restoreDBClusterToPointInTime")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreDBClusterToPointInTimeInput, RestoreDBClusterToPointInTimeOutputResponse, RestoreDBClusterToPointInTimeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreDBClusterToPointInTimeInput, RestoreDBClusterToPointInTimeOutputResponse>())
@@ -4627,8 +5253,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreDBClusterToPointInTimeOutputResponse, RestoreDBClusterToPointInTimeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreDBClusterToPointInTimeOutputResponse, RestoreDBClusterToPointInTimeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreDBClusterToPointInTimeOutputResponse, RestoreDBClusterToPointInTimeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4648,6 +5278,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RestoreDBInstanceFromDBSnapshotInput, RestoreDBInstanceFromDBSnapshotOutputResponse, RestoreDBInstanceFromDBSnapshotOutputError>(id: "restoreDBInstanceFromDBSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreDBInstanceFromDBSnapshotInput, RestoreDBInstanceFromDBSnapshotOutputResponse, RestoreDBInstanceFromDBSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreDBInstanceFromDBSnapshotInput, RestoreDBInstanceFromDBSnapshotOutputResponse>())
@@ -4662,8 +5293,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreDBInstanceFromDBSnapshotOutputResponse, RestoreDBInstanceFromDBSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreDBInstanceFromDBSnapshotOutputResponse, RestoreDBInstanceFromDBSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreDBInstanceFromDBSnapshotOutputResponse, RestoreDBInstanceFromDBSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4683,6 +5318,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RestoreDBInstanceFromS3Input, RestoreDBInstanceFromS3OutputResponse, RestoreDBInstanceFromS3OutputError>(id: "restoreDBInstanceFromS3")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreDBInstanceFromS3Input, RestoreDBInstanceFromS3OutputResponse, RestoreDBInstanceFromS3OutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreDBInstanceFromS3Input, RestoreDBInstanceFromS3OutputResponse>())
@@ -4697,8 +5333,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreDBInstanceFromS3OutputResponse, RestoreDBInstanceFromS3OutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreDBInstanceFromS3OutputResponse, RestoreDBInstanceFromS3OutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreDBInstanceFromS3OutputResponse, RestoreDBInstanceFromS3OutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4718,6 +5358,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RestoreDBInstanceToPointInTimeInput, RestoreDBInstanceToPointInTimeOutputResponse, RestoreDBInstanceToPointInTimeOutputError>(id: "restoreDBInstanceToPointInTime")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreDBInstanceToPointInTimeInput, RestoreDBInstanceToPointInTimeOutputResponse, RestoreDBInstanceToPointInTimeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreDBInstanceToPointInTimeInput, RestoreDBInstanceToPointInTimeOutputResponse>())
@@ -4732,8 +5373,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreDBInstanceToPointInTimeOutputResponse, RestoreDBInstanceToPointInTimeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreDBInstanceToPointInTimeOutputResponse, RestoreDBInstanceToPointInTimeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreDBInstanceToPointInTimeOutputResponse, RestoreDBInstanceToPointInTimeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4753,6 +5398,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RevokeDBSecurityGroupIngressInput, RevokeDBSecurityGroupIngressOutputResponse, RevokeDBSecurityGroupIngressOutputError>(id: "revokeDBSecurityGroupIngress")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeDBSecurityGroupIngressInput, RevokeDBSecurityGroupIngressOutputResponse, RevokeDBSecurityGroupIngressOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeDBSecurityGroupIngressInput, RevokeDBSecurityGroupIngressOutputResponse>())
@@ -4767,8 +5413,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokeDBSecurityGroupIngressOutputResponse, RevokeDBSecurityGroupIngressOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeDBSecurityGroupIngressOutputResponse, RevokeDBSecurityGroupIngressOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RevokeDBSecurityGroupIngressOutputResponse, RevokeDBSecurityGroupIngressOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4788,6 +5438,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartActivityStreamInput, StartActivityStreamOutputResponse, StartActivityStreamOutputError>(id: "startActivityStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartActivityStreamInput, StartActivityStreamOutputResponse, StartActivityStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartActivityStreamInput, StartActivityStreamOutputResponse>())
@@ -4802,8 +5453,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartActivityStreamOutputResponse, StartActivityStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartActivityStreamOutputResponse, StartActivityStreamOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartActivityStreamOutputResponse, StartActivityStreamOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4823,6 +5478,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartDBClusterInput, StartDBClusterOutputResponse, StartDBClusterOutputError>(id: "startDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDBClusterInput, StartDBClusterOutputResponse, StartDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDBClusterInput, StartDBClusterOutputResponse>())
@@ -4837,8 +5493,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDBClusterOutputResponse, StartDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDBClusterOutputResponse, StartDBClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDBClusterOutputResponse, StartDBClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4858,6 +5518,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartDBInstanceInput, StartDBInstanceOutputResponse, StartDBInstanceOutputError>(id: "startDBInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDBInstanceInput, StartDBInstanceOutputResponse, StartDBInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDBInstanceInput, StartDBInstanceOutputResponse>())
@@ -4872,8 +5533,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDBInstanceOutputResponse, StartDBInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDBInstanceOutputResponse, StartDBInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDBInstanceOutputResponse, StartDBInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4893,6 +5558,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartDBInstanceAutomatedBackupsReplicationInput, StartDBInstanceAutomatedBackupsReplicationOutputResponse, StartDBInstanceAutomatedBackupsReplicationOutputError>(id: "startDBInstanceAutomatedBackupsReplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDBInstanceAutomatedBackupsReplicationInput, StartDBInstanceAutomatedBackupsReplicationOutputResponse, StartDBInstanceAutomatedBackupsReplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDBInstanceAutomatedBackupsReplicationInput, StartDBInstanceAutomatedBackupsReplicationOutputResponse>())
@@ -4907,8 +5573,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDBInstanceAutomatedBackupsReplicationOutputResponse, StartDBInstanceAutomatedBackupsReplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDBInstanceAutomatedBackupsReplicationOutputResponse, StartDBInstanceAutomatedBackupsReplicationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDBInstanceAutomatedBackupsReplicationOutputResponse, StartDBInstanceAutomatedBackupsReplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4928,6 +5598,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartExportTaskInput, StartExportTaskOutputResponse, StartExportTaskOutputError>(id: "startExportTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartExportTaskInput, StartExportTaskOutputResponse, StartExportTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartExportTaskInput, StartExportTaskOutputResponse>())
@@ -4942,8 +5613,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartExportTaskOutputResponse, StartExportTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartExportTaskOutputResponse, StartExportTaskOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartExportTaskOutputResponse, StartExportTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4963,6 +5638,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopActivityStreamInput, StopActivityStreamOutputResponse, StopActivityStreamOutputError>(id: "stopActivityStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopActivityStreamInput, StopActivityStreamOutputResponse, StopActivityStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopActivityStreamInput, StopActivityStreamOutputResponse>())
@@ -4977,8 +5653,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopActivityStreamOutputResponse, StopActivityStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopActivityStreamOutputResponse, StopActivityStreamOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopActivityStreamOutputResponse, StopActivityStreamOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4998,6 +5678,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopDBClusterInput, StopDBClusterOutputResponse, StopDBClusterOutputError>(id: "stopDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDBClusterInput, StopDBClusterOutputResponse, StopDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopDBClusterInput, StopDBClusterOutputResponse>())
@@ -5012,8 +5693,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopDBClusterOutputResponse, StopDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDBClusterOutputResponse, StopDBClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopDBClusterOutputResponse, StopDBClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -5033,6 +5718,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopDBInstanceInput, StopDBInstanceOutputResponse, StopDBInstanceOutputError>(id: "stopDBInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDBInstanceInput, StopDBInstanceOutputResponse, StopDBInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopDBInstanceInput, StopDBInstanceOutputResponse>())
@@ -5047,8 +5733,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopDBInstanceOutputResponse, StopDBInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDBInstanceOutputResponse, StopDBInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopDBInstanceOutputResponse, StopDBInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -5068,6 +5758,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopDBInstanceAutomatedBackupsReplicationInput, StopDBInstanceAutomatedBackupsReplicationOutputResponse, StopDBInstanceAutomatedBackupsReplicationOutputError>(id: "stopDBInstanceAutomatedBackupsReplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDBInstanceAutomatedBackupsReplicationInput, StopDBInstanceAutomatedBackupsReplicationOutputResponse, StopDBInstanceAutomatedBackupsReplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopDBInstanceAutomatedBackupsReplicationInput, StopDBInstanceAutomatedBackupsReplicationOutputResponse>())
@@ -5082,8 +5773,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopDBInstanceAutomatedBackupsReplicationOutputResponse, StopDBInstanceAutomatedBackupsReplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDBInstanceAutomatedBackupsReplicationOutputResponse, StopDBInstanceAutomatedBackupsReplicationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopDBInstanceAutomatedBackupsReplicationOutputResponse, StopDBInstanceAutomatedBackupsReplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -5103,6 +5798,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SwitchoverBlueGreenDeploymentInput, SwitchoverBlueGreenDeploymentOutputResponse, SwitchoverBlueGreenDeploymentOutputError>(id: "switchoverBlueGreenDeployment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SwitchoverBlueGreenDeploymentInput, SwitchoverBlueGreenDeploymentOutputResponse, SwitchoverBlueGreenDeploymentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SwitchoverBlueGreenDeploymentInput, SwitchoverBlueGreenDeploymentOutputResponse>())
@@ -5117,8 +5813,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SwitchoverBlueGreenDeploymentOutputResponse, SwitchoverBlueGreenDeploymentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SwitchoverBlueGreenDeploymentOutputResponse, SwitchoverBlueGreenDeploymentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SwitchoverBlueGreenDeploymentOutputResponse, SwitchoverBlueGreenDeploymentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -5138,6 +5838,7 @@ extension RDSClient: RDSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SwitchoverReadReplicaInput, SwitchoverReadReplicaOutputResponse, SwitchoverReadReplicaOutputError>(id: "switchoverReadReplica")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SwitchoverReadReplicaInput, SwitchoverReadReplicaOutputResponse, SwitchoverReadReplicaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SwitchoverReadReplicaInput, SwitchoverReadReplicaOutputResponse>())
@@ -5152,8 +5853,12 @@ extension RDSClient: RDSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SwitchoverReadReplicaOutputResponse, SwitchoverReadReplicaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SwitchoverReadReplicaOutputResponse, SwitchoverReadReplicaOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SwitchoverReadReplicaOutputResponse, SwitchoverReadReplicaOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

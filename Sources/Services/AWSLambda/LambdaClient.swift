@@ -208,6 +208,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddLayerVersionPermissionInput, AddLayerVersionPermissionOutputResponse, AddLayerVersionPermissionOutputError>(id: "addLayerVersionPermission")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddLayerVersionPermissionInput, AddLayerVersionPermissionOutputResponse, AddLayerVersionPermissionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddLayerVersionPermissionInput, AddLayerVersionPermissionOutputResponse>())
@@ -223,8 +224,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddLayerVersionPermissionOutputResponse, AddLayerVersionPermissionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddLayerVersionPermissionOutputResponse, AddLayerVersionPermissionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddLayerVersionPermissionOutputResponse, AddLayerVersionPermissionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -244,6 +249,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddPermissionInput, AddPermissionOutputResponse, AddPermissionOutputError>(id: "addPermission")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddPermissionInput, AddPermissionOutputResponse, AddPermissionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddPermissionInput, AddPermissionOutputResponse>())
@@ -259,8 +265,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddPermissionOutputResponse, AddPermissionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddPermissionOutputResponse, AddPermissionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddPermissionOutputResponse, AddPermissionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -280,6 +290,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAliasInput, CreateAliasOutputResponse, CreateAliasOutputError>(id: "createAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAliasInput, CreateAliasOutputResponse, CreateAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAliasInput, CreateAliasOutputResponse>())
@@ -294,8 +305,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAliasOutputResponse, CreateAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAliasOutputResponse, CreateAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAliasOutputResponse, CreateAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -315,6 +330,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCodeSigningConfigInput, CreateCodeSigningConfigOutputResponse, CreateCodeSigningConfigOutputError>(id: "createCodeSigningConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCodeSigningConfigInput, CreateCodeSigningConfigOutputResponse, CreateCodeSigningConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCodeSigningConfigInput, CreateCodeSigningConfigOutputResponse>())
@@ -329,8 +345,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCodeSigningConfigOutputResponse, CreateCodeSigningConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCodeSigningConfigOutputResponse, CreateCodeSigningConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCodeSigningConfigOutputResponse, CreateCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -394,6 +414,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEventSourceMappingInput, CreateEventSourceMappingOutputResponse, CreateEventSourceMappingOutputError>(id: "createEventSourceMapping")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEventSourceMappingInput, CreateEventSourceMappingOutputResponse, CreateEventSourceMappingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEventSourceMappingInput, CreateEventSourceMappingOutputResponse>())
@@ -408,8 +429,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEventSourceMappingOutputResponse, CreateEventSourceMappingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEventSourceMappingOutputResponse, CreateEventSourceMappingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEventSourceMappingOutputResponse, CreateEventSourceMappingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -429,6 +454,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFunctionInput, CreateFunctionOutputResponse, CreateFunctionOutputError>(id: "createFunction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFunctionInput, CreateFunctionOutputResponse, CreateFunctionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFunctionInput, CreateFunctionOutputResponse>())
@@ -443,8 +469,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFunctionOutputResponse, CreateFunctionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFunctionOutputResponse, CreateFunctionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFunctionOutputResponse, CreateFunctionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -464,6 +494,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFunctionUrlConfigInput, CreateFunctionUrlConfigOutputResponse, CreateFunctionUrlConfigOutputError>(id: "createFunctionUrlConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFunctionUrlConfigInput, CreateFunctionUrlConfigOutputResponse, CreateFunctionUrlConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFunctionUrlConfigInput, CreateFunctionUrlConfigOutputResponse>())
@@ -479,8 +510,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFunctionUrlConfigOutputResponse, CreateFunctionUrlConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFunctionUrlConfigOutputResponse, CreateFunctionUrlConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFunctionUrlConfigOutputResponse, CreateFunctionUrlConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -500,6 +535,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAliasInput, DeleteAliasOutputResponse, DeleteAliasOutputError>(id: "deleteAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAliasInput, DeleteAliasOutputResponse, DeleteAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAliasInput, DeleteAliasOutputResponse>())
@@ -511,8 +547,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAliasOutputResponse, DeleteAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAliasOutputResponse, DeleteAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAliasOutputResponse, DeleteAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -532,6 +572,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCodeSigningConfigInput, DeleteCodeSigningConfigOutputResponse, DeleteCodeSigningConfigOutputError>(id: "deleteCodeSigningConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCodeSigningConfigInput, DeleteCodeSigningConfigOutputResponse, DeleteCodeSigningConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCodeSigningConfigInput, DeleteCodeSigningConfigOutputResponse>())
@@ -543,8 +584,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCodeSigningConfigOutputResponse, DeleteCodeSigningConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCodeSigningConfigOutputResponse, DeleteCodeSigningConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCodeSigningConfigOutputResponse, DeleteCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -564,6 +609,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEventSourceMappingInput, DeleteEventSourceMappingOutputResponse, DeleteEventSourceMappingOutputError>(id: "deleteEventSourceMapping")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEventSourceMappingInput, DeleteEventSourceMappingOutputResponse, DeleteEventSourceMappingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEventSourceMappingInput, DeleteEventSourceMappingOutputResponse>())
@@ -575,8 +621,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEventSourceMappingOutputResponse, DeleteEventSourceMappingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEventSourceMappingOutputResponse, DeleteEventSourceMappingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEventSourceMappingOutputResponse, DeleteEventSourceMappingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -596,6 +646,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFunctionInput, DeleteFunctionOutputResponse, DeleteFunctionOutputError>(id: "deleteFunction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFunctionInput, DeleteFunctionOutputResponse, DeleteFunctionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFunctionInput, DeleteFunctionOutputResponse>())
@@ -608,8 +659,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFunctionOutputResponse, DeleteFunctionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFunctionOutputResponse, DeleteFunctionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFunctionOutputResponse, DeleteFunctionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -629,6 +684,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFunctionCodeSigningConfigInput, DeleteFunctionCodeSigningConfigOutputResponse, DeleteFunctionCodeSigningConfigOutputError>(id: "deleteFunctionCodeSigningConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFunctionCodeSigningConfigInput, DeleteFunctionCodeSigningConfigOutputResponse, DeleteFunctionCodeSigningConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFunctionCodeSigningConfigInput, DeleteFunctionCodeSigningConfigOutputResponse>())
@@ -640,8 +696,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFunctionCodeSigningConfigOutputResponse, DeleteFunctionCodeSigningConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFunctionCodeSigningConfigOutputResponse, DeleteFunctionCodeSigningConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFunctionCodeSigningConfigOutputResponse, DeleteFunctionCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -661,6 +721,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFunctionConcurrencyInput, DeleteFunctionConcurrencyOutputResponse, DeleteFunctionConcurrencyOutputError>(id: "deleteFunctionConcurrency")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFunctionConcurrencyInput, DeleteFunctionConcurrencyOutputResponse, DeleteFunctionConcurrencyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFunctionConcurrencyInput, DeleteFunctionConcurrencyOutputResponse>())
@@ -672,8 +733,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFunctionConcurrencyOutputResponse, DeleteFunctionConcurrencyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFunctionConcurrencyOutputResponse, DeleteFunctionConcurrencyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFunctionConcurrencyOutputResponse, DeleteFunctionConcurrencyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -693,6 +758,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFunctionEventInvokeConfigInput, DeleteFunctionEventInvokeConfigOutputResponse, DeleteFunctionEventInvokeConfigOutputError>(id: "deleteFunctionEventInvokeConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFunctionEventInvokeConfigInput, DeleteFunctionEventInvokeConfigOutputResponse, DeleteFunctionEventInvokeConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFunctionEventInvokeConfigInput, DeleteFunctionEventInvokeConfigOutputResponse>())
@@ -705,8 +771,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFunctionEventInvokeConfigOutputResponse, DeleteFunctionEventInvokeConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFunctionEventInvokeConfigOutputResponse, DeleteFunctionEventInvokeConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFunctionEventInvokeConfigOutputResponse, DeleteFunctionEventInvokeConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -726,6 +796,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFunctionUrlConfigInput, DeleteFunctionUrlConfigOutputResponse, DeleteFunctionUrlConfigOutputError>(id: "deleteFunctionUrlConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFunctionUrlConfigInput, DeleteFunctionUrlConfigOutputResponse, DeleteFunctionUrlConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFunctionUrlConfigInput, DeleteFunctionUrlConfigOutputResponse>())
@@ -738,8 +809,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFunctionUrlConfigOutputResponse, DeleteFunctionUrlConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFunctionUrlConfigOutputResponse, DeleteFunctionUrlConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFunctionUrlConfigOutputResponse, DeleteFunctionUrlConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -759,6 +834,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLayerVersionInput, DeleteLayerVersionOutputResponse, DeleteLayerVersionOutputError>(id: "deleteLayerVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLayerVersionInput, DeleteLayerVersionOutputResponse, DeleteLayerVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLayerVersionInput, DeleteLayerVersionOutputResponse>())
@@ -770,8 +846,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLayerVersionOutputResponse, DeleteLayerVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLayerVersionOutputResponse, DeleteLayerVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLayerVersionOutputResponse, DeleteLayerVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -791,6 +871,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteProvisionedConcurrencyConfigInput, DeleteProvisionedConcurrencyConfigOutputResponse, DeleteProvisionedConcurrencyConfigOutputError>(id: "deleteProvisionedConcurrencyConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProvisionedConcurrencyConfigInput, DeleteProvisionedConcurrencyConfigOutputResponse, DeleteProvisionedConcurrencyConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProvisionedConcurrencyConfigInput, DeleteProvisionedConcurrencyConfigOutputResponse>())
@@ -803,8 +884,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProvisionedConcurrencyConfigOutputResponse, DeleteProvisionedConcurrencyConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProvisionedConcurrencyConfigOutputResponse, DeleteProvisionedConcurrencyConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProvisionedConcurrencyConfigOutputResponse, DeleteProvisionedConcurrencyConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -824,6 +909,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccountSettingsInput, GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(id: "getAccountSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountSettingsInput, GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountSettingsInput, GetAccountSettingsOutputResponse>())
@@ -835,8 +921,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -856,6 +946,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAliasInput, GetAliasOutputResponse, GetAliasOutputError>(id: "getAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAliasInput, GetAliasOutputResponse, GetAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAliasInput, GetAliasOutputResponse>())
@@ -867,8 +958,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAliasOutputResponse, GetAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAliasOutputResponse, GetAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAliasOutputResponse, GetAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -888,6 +983,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCodeSigningConfigInput, GetCodeSigningConfigOutputResponse, GetCodeSigningConfigOutputError>(id: "getCodeSigningConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCodeSigningConfigInput, GetCodeSigningConfigOutputResponse, GetCodeSigningConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCodeSigningConfigInput, GetCodeSigningConfigOutputResponse>())
@@ -899,8 +995,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCodeSigningConfigOutputResponse, GetCodeSigningConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCodeSigningConfigOutputResponse, GetCodeSigningConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCodeSigningConfigOutputResponse, GetCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -920,6 +1020,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEventSourceMappingInput, GetEventSourceMappingOutputResponse, GetEventSourceMappingOutputError>(id: "getEventSourceMapping")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEventSourceMappingInput, GetEventSourceMappingOutputResponse, GetEventSourceMappingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEventSourceMappingInput, GetEventSourceMappingOutputResponse>())
@@ -931,8 +1032,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEventSourceMappingOutputResponse, GetEventSourceMappingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEventSourceMappingOutputResponse, GetEventSourceMappingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEventSourceMappingOutputResponse, GetEventSourceMappingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -952,6 +1057,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFunctionInput, GetFunctionOutputResponse, GetFunctionOutputError>(id: "getFunction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionInput, GetFunctionOutputResponse, GetFunctionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionInput, GetFunctionOutputResponse>())
@@ -964,8 +1070,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionOutputResponse, GetFunctionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionOutputResponse, GetFunctionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionOutputResponse, GetFunctionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -985,6 +1095,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFunctionCodeSigningConfigInput, GetFunctionCodeSigningConfigOutputResponse, GetFunctionCodeSigningConfigOutputError>(id: "getFunctionCodeSigningConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionCodeSigningConfigInput, GetFunctionCodeSigningConfigOutputResponse, GetFunctionCodeSigningConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionCodeSigningConfigInput, GetFunctionCodeSigningConfigOutputResponse>())
@@ -996,8 +1107,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionCodeSigningConfigOutputResponse, GetFunctionCodeSigningConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionCodeSigningConfigOutputResponse, GetFunctionCodeSigningConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionCodeSigningConfigOutputResponse, GetFunctionCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1017,6 +1132,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFunctionConcurrencyInput, GetFunctionConcurrencyOutputResponse, GetFunctionConcurrencyOutputError>(id: "getFunctionConcurrency")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionConcurrencyInput, GetFunctionConcurrencyOutputResponse, GetFunctionConcurrencyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionConcurrencyInput, GetFunctionConcurrencyOutputResponse>())
@@ -1028,8 +1144,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionConcurrencyOutputResponse, GetFunctionConcurrencyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionConcurrencyOutputResponse, GetFunctionConcurrencyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionConcurrencyOutputResponse, GetFunctionConcurrencyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1049,6 +1169,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFunctionConfigurationInput, GetFunctionConfigurationOutputResponse, GetFunctionConfigurationOutputError>(id: "getFunctionConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionConfigurationInput, GetFunctionConfigurationOutputResponse, GetFunctionConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionConfigurationInput, GetFunctionConfigurationOutputResponse>())
@@ -1061,8 +1182,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionConfigurationOutputResponse, GetFunctionConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionConfigurationOutputResponse, GetFunctionConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionConfigurationOutputResponse, GetFunctionConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1082,6 +1207,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFunctionEventInvokeConfigInput, GetFunctionEventInvokeConfigOutputResponse, GetFunctionEventInvokeConfigOutputError>(id: "getFunctionEventInvokeConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionEventInvokeConfigInput, GetFunctionEventInvokeConfigOutputResponse, GetFunctionEventInvokeConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionEventInvokeConfigInput, GetFunctionEventInvokeConfigOutputResponse>())
@@ -1094,8 +1220,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionEventInvokeConfigOutputResponse, GetFunctionEventInvokeConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionEventInvokeConfigOutputResponse, GetFunctionEventInvokeConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionEventInvokeConfigOutputResponse, GetFunctionEventInvokeConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1115,6 +1245,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFunctionUrlConfigInput, GetFunctionUrlConfigOutputResponse, GetFunctionUrlConfigOutputError>(id: "getFunctionUrlConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFunctionUrlConfigInput, GetFunctionUrlConfigOutputResponse, GetFunctionUrlConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFunctionUrlConfigInput, GetFunctionUrlConfigOutputResponse>())
@@ -1127,8 +1258,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFunctionUrlConfigOutputResponse, GetFunctionUrlConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFunctionUrlConfigOutputResponse, GetFunctionUrlConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFunctionUrlConfigOutputResponse, GetFunctionUrlConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1148,6 +1283,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLayerVersionInput, GetLayerVersionOutputResponse, GetLayerVersionOutputError>(id: "getLayerVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLayerVersionInput, GetLayerVersionOutputResponse, GetLayerVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLayerVersionInput, GetLayerVersionOutputResponse>())
@@ -1159,8 +1295,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLayerVersionOutputResponse, GetLayerVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLayerVersionOutputResponse, GetLayerVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLayerVersionOutputResponse, GetLayerVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1180,6 +1320,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLayerVersionByArnInput, GetLayerVersionByArnOutputResponse, GetLayerVersionByArnOutputError>(id: "getLayerVersionByArn")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLayerVersionByArnInput, GetLayerVersionByArnOutputResponse, GetLayerVersionByArnOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLayerVersionByArnInput, GetLayerVersionByArnOutputResponse>())
@@ -1192,8 +1333,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLayerVersionByArnOutputResponse, GetLayerVersionByArnOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLayerVersionByArnOutputResponse, GetLayerVersionByArnOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLayerVersionByArnOutputResponse, GetLayerVersionByArnOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1213,6 +1358,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLayerVersionPolicyInput, GetLayerVersionPolicyOutputResponse, GetLayerVersionPolicyOutputError>(id: "getLayerVersionPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLayerVersionPolicyInput, GetLayerVersionPolicyOutputResponse, GetLayerVersionPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLayerVersionPolicyInput, GetLayerVersionPolicyOutputResponse>())
@@ -1224,8 +1370,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLayerVersionPolicyOutputResponse, GetLayerVersionPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLayerVersionPolicyOutputResponse, GetLayerVersionPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLayerVersionPolicyOutputResponse, GetLayerVersionPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1245,6 +1395,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPolicyInput, GetPolicyOutputResponse, GetPolicyOutputError>(id: "getPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPolicyInput, GetPolicyOutputResponse, GetPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPolicyInput, GetPolicyOutputResponse>())
@@ -1257,8 +1408,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPolicyOutputResponse, GetPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyOutputResponse, GetPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPolicyOutputResponse, GetPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1278,6 +1433,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetProvisionedConcurrencyConfigInput, GetProvisionedConcurrencyConfigOutputResponse, GetProvisionedConcurrencyConfigOutputError>(id: "getProvisionedConcurrencyConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProvisionedConcurrencyConfigInput, GetProvisionedConcurrencyConfigOutputResponse, GetProvisionedConcurrencyConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProvisionedConcurrencyConfigInput, GetProvisionedConcurrencyConfigOutputResponse>())
@@ -1290,8 +1446,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProvisionedConcurrencyConfigOutputResponse, GetProvisionedConcurrencyConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProvisionedConcurrencyConfigOutputResponse, GetProvisionedConcurrencyConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProvisionedConcurrencyConfigOutputResponse, GetProvisionedConcurrencyConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1311,6 +1471,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRuntimeManagementConfigInput, GetRuntimeManagementConfigOutputResponse, GetRuntimeManagementConfigOutputError>(id: "getRuntimeManagementConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRuntimeManagementConfigInput, GetRuntimeManagementConfigOutputResponse, GetRuntimeManagementConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRuntimeManagementConfigInput, GetRuntimeManagementConfigOutputResponse>())
@@ -1323,8 +1484,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRuntimeManagementConfigOutputResponse, GetRuntimeManagementConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRuntimeManagementConfigOutputResponse, GetRuntimeManagementConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRuntimeManagementConfigOutputResponse, GetRuntimeManagementConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1344,6 +1509,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<InvokeInput, InvokeOutputResponse, InvokeOutputError>(id: "invoke")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InvokeInput, InvokeOutputResponse, InvokeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InvokeInput, InvokeOutputResponse>())
@@ -1360,8 +1526,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InvokeOutputResponse, InvokeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InvokeOutputResponse, InvokeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InvokeOutputResponse, InvokeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1382,6 +1552,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<InvokeAsyncInput, InvokeAsyncOutputResponse, InvokeAsyncOutputError>(id: "invokeAsync")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InvokeAsyncInput, InvokeAsyncOutputResponse, InvokeAsyncOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InvokeAsyncInput, InvokeAsyncOutputResponse>())
@@ -1396,8 +1567,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InvokeAsyncOutputResponse, InvokeAsyncOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InvokeAsyncOutputResponse, InvokeAsyncOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InvokeAsyncOutputResponse, InvokeAsyncOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1454,6 +1629,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAliasesInput, ListAliasesOutputResponse, ListAliasesOutputError>(id: "listAliases")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAliasesInput, ListAliasesOutputResponse, ListAliasesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAliasesInput, ListAliasesOutputResponse>())
@@ -1466,8 +1642,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAliasesOutputResponse, ListAliasesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAliasesOutputResponse, ListAliasesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAliasesOutputResponse, ListAliasesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1487,6 +1667,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCodeSigningConfigsInput, ListCodeSigningConfigsOutputResponse, ListCodeSigningConfigsOutputError>(id: "listCodeSigningConfigs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCodeSigningConfigsInput, ListCodeSigningConfigsOutputResponse, ListCodeSigningConfigsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCodeSigningConfigsInput, ListCodeSigningConfigsOutputResponse>())
@@ -1499,8 +1680,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCodeSigningConfigsOutputResponse, ListCodeSigningConfigsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCodeSigningConfigsOutputResponse, ListCodeSigningConfigsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCodeSigningConfigsOutputResponse, ListCodeSigningConfigsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1520,6 +1705,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEventSourceMappingsInput, ListEventSourceMappingsOutputResponse, ListEventSourceMappingsOutputError>(id: "listEventSourceMappings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEventSourceMappingsInput, ListEventSourceMappingsOutputResponse, ListEventSourceMappingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEventSourceMappingsInput, ListEventSourceMappingsOutputResponse>())
@@ -1532,8 +1718,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEventSourceMappingsOutputResponse, ListEventSourceMappingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEventSourceMappingsOutputResponse, ListEventSourceMappingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEventSourceMappingsOutputResponse, ListEventSourceMappingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1553,6 +1743,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFunctionEventInvokeConfigsInput, ListFunctionEventInvokeConfigsOutputResponse, ListFunctionEventInvokeConfigsOutputError>(id: "listFunctionEventInvokeConfigs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFunctionEventInvokeConfigsInput, ListFunctionEventInvokeConfigsOutputResponse, ListFunctionEventInvokeConfigsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFunctionEventInvokeConfigsInput, ListFunctionEventInvokeConfigsOutputResponse>())
@@ -1565,8 +1756,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFunctionEventInvokeConfigsOutputResponse, ListFunctionEventInvokeConfigsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFunctionEventInvokeConfigsOutputResponse, ListFunctionEventInvokeConfigsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFunctionEventInvokeConfigsOutputResponse, ListFunctionEventInvokeConfigsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1586,6 +1781,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFunctionUrlConfigsInput, ListFunctionUrlConfigsOutputResponse, ListFunctionUrlConfigsOutputError>(id: "listFunctionUrlConfigs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFunctionUrlConfigsInput, ListFunctionUrlConfigsOutputResponse, ListFunctionUrlConfigsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFunctionUrlConfigsInput, ListFunctionUrlConfigsOutputResponse>())
@@ -1598,8 +1794,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFunctionUrlConfigsOutputResponse, ListFunctionUrlConfigsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFunctionUrlConfigsOutputResponse, ListFunctionUrlConfigsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFunctionUrlConfigsOutputResponse, ListFunctionUrlConfigsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1619,6 +1819,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFunctionsInput, ListFunctionsOutputResponse, ListFunctionsOutputError>(id: "listFunctions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFunctionsInput, ListFunctionsOutputResponse, ListFunctionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFunctionsInput, ListFunctionsOutputResponse>())
@@ -1631,8 +1832,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFunctionsOutputResponse, ListFunctionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFunctionsOutputResponse, ListFunctionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFunctionsOutputResponse, ListFunctionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1652,6 +1857,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFunctionsByCodeSigningConfigInput, ListFunctionsByCodeSigningConfigOutputResponse, ListFunctionsByCodeSigningConfigOutputError>(id: "listFunctionsByCodeSigningConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFunctionsByCodeSigningConfigInput, ListFunctionsByCodeSigningConfigOutputResponse, ListFunctionsByCodeSigningConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFunctionsByCodeSigningConfigInput, ListFunctionsByCodeSigningConfigOutputResponse>())
@@ -1664,8 +1870,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFunctionsByCodeSigningConfigOutputResponse, ListFunctionsByCodeSigningConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFunctionsByCodeSigningConfigOutputResponse, ListFunctionsByCodeSigningConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFunctionsByCodeSigningConfigOutputResponse, ListFunctionsByCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1685,6 +1895,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListLayerVersionsInput, ListLayerVersionsOutputResponse, ListLayerVersionsOutputError>(id: "listLayerVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLayerVersionsInput, ListLayerVersionsOutputResponse, ListLayerVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLayerVersionsInput, ListLayerVersionsOutputResponse>())
@@ -1697,8 +1908,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLayerVersionsOutputResponse, ListLayerVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLayerVersionsOutputResponse, ListLayerVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLayerVersionsOutputResponse, ListLayerVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1718,6 +1933,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListLayersInput, ListLayersOutputResponse, ListLayersOutputError>(id: "listLayers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLayersInput, ListLayersOutputResponse, ListLayersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLayersInput, ListLayersOutputResponse>())
@@ -1730,8 +1946,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLayersOutputResponse, ListLayersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLayersOutputResponse, ListLayersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLayersOutputResponse, ListLayersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1751,6 +1971,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListProvisionedConcurrencyConfigsInput, ListProvisionedConcurrencyConfigsOutputResponse, ListProvisionedConcurrencyConfigsOutputError>(id: "listProvisionedConcurrencyConfigs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProvisionedConcurrencyConfigsInput, ListProvisionedConcurrencyConfigsOutputResponse, ListProvisionedConcurrencyConfigsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProvisionedConcurrencyConfigsInput, ListProvisionedConcurrencyConfigsOutputResponse>())
@@ -1763,8 +1984,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProvisionedConcurrencyConfigsOutputResponse, ListProvisionedConcurrencyConfigsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProvisionedConcurrencyConfigsOutputResponse, ListProvisionedConcurrencyConfigsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProvisionedConcurrencyConfigsOutputResponse, ListProvisionedConcurrencyConfigsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1784,6 +2009,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsInput, ListTagsOutputResponse, ListTagsOutputError>(id: "listTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsInput, ListTagsOutputResponse, ListTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsInput, ListTagsOutputResponse>())
@@ -1795,8 +2021,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsOutputResponse, ListTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsOutputResponse, ListTagsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsOutputResponse, ListTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1816,6 +2046,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListVersionsByFunctionInput, ListVersionsByFunctionOutputResponse, ListVersionsByFunctionOutputError>(id: "listVersionsByFunction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVersionsByFunctionInput, ListVersionsByFunctionOutputResponse, ListVersionsByFunctionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVersionsByFunctionInput, ListVersionsByFunctionOutputResponse>())
@@ -1828,8 +2059,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVersionsByFunctionOutputResponse, ListVersionsByFunctionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVersionsByFunctionOutputResponse, ListVersionsByFunctionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVersionsByFunctionOutputResponse, ListVersionsByFunctionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1849,6 +2084,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PublishLayerVersionInput, PublishLayerVersionOutputResponse, PublishLayerVersionOutputError>(id: "publishLayerVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishLayerVersionInput, PublishLayerVersionOutputResponse, PublishLayerVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishLayerVersionInput, PublishLayerVersionOutputResponse>())
@@ -1863,8 +2099,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishLayerVersionOutputResponse, PublishLayerVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishLayerVersionOutputResponse, PublishLayerVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PublishLayerVersionOutputResponse, PublishLayerVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1884,6 +2124,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PublishVersionInput, PublishVersionOutputResponse, PublishVersionOutputError>(id: "publishVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishVersionInput, PublishVersionOutputResponse, PublishVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishVersionInput, PublishVersionOutputResponse>())
@@ -1898,8 +2139,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishVersionOutputResponse, PublishVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishVersionOutputResponse, PublishVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PublishVersionOutputResponse, PublishVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1919,6 +2164,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutFunctionCodeSigningConfigInput, PutFunctionCodeSigningConfigOutputResponse, PutFunctionCodeSigningConfigOutputError>(id: "putFunctionCodeSigningConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutFunctionCodeSigningConfigInput, PutFunctionCodeSigningConfigOutputResponse, PutFunctionCodeSigningConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutFunctionCodeSigningConfigInput, PutFunctionCodeSigningConfigOutputResponse>())
@@ -1933,8 +2179,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFunctionCodeSigningConfigOutputResponse, PutFunctionCodeSigningConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFunctionCodeSigningConfigOutputResponse, PutFunctionCodeSigningConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutFunctionCodeSigningConfigOutputResponse, PutFunctionCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1954,6 +2204,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutFunctionConcurrencyInput, PutFunctionConcurrencyOutputResponse, PutFunctionConcurrencyOutputError>(id: "putFunctionConcurrency")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutFunctionConcurrencyInput, PutFunctionConcurrencyOutputResponse, PutFunctionConcurrencyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutFunctionConcurrencyInput, PutFunctionConcurrencyOutputResponse>())
@@ -1968,8 +2219,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFunctionConcurrencyOutputResponse, PutFunctionConcurrencyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFunctionConcurrencyOutputResponse, PutFunctionConcurrencyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutFunctionConcurrencyOutputResponse, PutFunctionConcurrencyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1989,6 +2244,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutFunctionEventInvokeConfigInput, PutFunctionEventInvokeConfigOutputResponse, PutFunctionEventInvokeConfigOutputError>(id: "putFunctionEventInvokeConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutFunctionEventInvokeConfigInput, PutFunctionEventInvokeConfigOutputResponse, PutFunctionEventInvokeConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutFunctionEventInvokeConfigInput, PutFunctionEventInvokeConfigOutputResponse>())
@@ -2004,8 +2260,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFunctionEventInvokeConfigOutputResponse, PutFunctionEventInvokeConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFunctionEventInvokeConfigOutputResponse, PutFunctionEventInvokeConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutFunctionEventInvokeConfigOutputResponse, PutFunctionEventInvokeConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2025,6 +2285,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutProvisionedConcurrencyConfigInput, PutProvisionedConcurrencyConfigOutputResponse, PutProvisionedConcurrencyConfigOutputError>(id: "putProvisionedConcurrencyConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutProvisionedConcurrencyConfigInput, PutProvisionedConcurrencyConfigOutputResponse, PutProvisionedConcurrencyConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutProvisionedConcurrencyConfigInput, PutProvisionedConcurrencyConfigOutputResponse>())
@@ -2040,8 +2301,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutProvisionedConcurrencyConfigOutputResponse, PutProvisionedConcurrencyConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutProvisionedConcurrencyConfigOutputResponse, PutProvisionedConcurrencyConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutProvisionedConcurrencyConfigOutputResponse, PutProvisionedConcurrencyConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2061,6 +2326,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutRuntimeManagementConfigInput, PutRuntimeManagementConfigOutputResponse, PutRuntimeManagementConfigOutputError>(id: "putRuntimeManagementConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRuntimeManagementConfigInput, PutRuntimeManagementConfigOutputResponse, PutRuntimeManagementConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRuntimeManagementConfigInput, PutRuntimeManagementConfigOutputResponse>())
@@ -2076,8 +2342,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRuntimeManagementConfigOutputResponse, PutRuntimeManagementConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRuntimeManagementConfigOutputResponse, PutRuntimeManagementConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRuntimeManagementConfigOutputResponse, PutRuntimeManagementConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2097,6 +2367,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveLayerVersionPermissionInput, RemoveLayerVersionPermissionOutputResponse, RemoveLayerVersionPermissionOutputError>(id: "removeLayerVersionPermission")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveLayerVersionPermissionInput, RemoveLayerVersionPermissionOutputResponse, RemoveLayerVersionPermissionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveLayerVersionPermissionInput, RemoveLayerVersionPermissionOutputResponse>())
@@ -2109,8 +2380,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveLayerVersionPermissionOutputResponse, RemoveLayerVersionPermissionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveLayerVersionPermissionOutputResponse, RemoveLayerVersionPermissionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveLayerVersionPermissionOutputResponse, RemoveLayerVersionPermissionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2130,6 +2405,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemovePermissionInput, RemovePermissionOutputResponse, RemovePermissionOutputError>(id: "removePermission")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemovePermissionInput, RemovePermissionOutputResponse, RemovePermissionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemovePermissionInput, RemovePermissionOutputResponse>())
@@ -2142,8 +2418,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemovePermissionOutputResponse, RemovePermissionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemovePermissionOutputResponse, RemovePermissionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemovePermissionOutputResponse, RemovePermissionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2163,6 +2443,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -2177,8 +2458,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2198,6 +2483,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -2210,8 +2496,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2231,6 +2521,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAliasInput, UpdateAliasOutputResponse, UpdateAliasOutputError>(id: "updateAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAliasInput, UpdateAliasOutputResponse, UpdateAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAliasInput, UpdateAliasOutputResponse>())
@@ -2245,8 +2536,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAliasOutputResponse, UpdateAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAliasOutputResponse, UpdateAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAliasOutputResponse, UpdateAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2266,6 +2561,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateCodeSigningConfigInput, UpdateCodeSigningConfigOutputResponse, UpdateCodeSigningConfigOutputError>(id: "updateCodeSigningConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCodeSigningConfigInput, UpdateCodeSigningConfigOutputResponse, UpdateCodeSigningConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCodeSigningConfigInput, UpdateCodeSigningConfigOutputResponse>())
@@ -2280,8 +2576,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCodeSigningConfigOutputResponse, UpdateCodeSigningConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCodeSigningConfigOutputResponse, UpdateCodeSigningConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCodeSigningConfigOutputResponse, UpdateCodeSigningConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2345,6 +2645,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateEventSourceMappingInput, UpdateEventSourceMappingOutputResponse, UpdateEventSourceMappingOutputError>(id: "updateEventSourceMapping")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEventSourceMappingInput, UpdateEventSourceMappingOutputResponse, UpdateEventSourceMappingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEventSourceMappingInput, UpdateEventSourceMappingOutputResponse>())
@@ -2359,8 +2660,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEventSourceMappingOutputResponse, UpdateEventSourceMappingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEventSourceMappingOutputResponse, UpdateEventSourceMappingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEventSourceMappingOutputResponse, UpdateEventSourceMappingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2380,6 +2685,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFunctionCodeInput, UpdateFunctionCodeOutputResponse, UpdateFunctionCodeOutputError>(id: "updateFunctionCode")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFunctionCodeInput, UpdateFunctionCodeOutputResponse, UpdateFunctionCodeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFunctionCodeInput, UpdateFunctionCodeOutputResponse>())
@@ -2394,8 +2700,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFunctionCodeOutputResponse, UpdateFunctionCodeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFunctionCodeOutputResponse, UpdateFunctionCodeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFunctionCodeOutputResponse, UpdateFunctionCodeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2415,6 +2725,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFunctionConfigurationInput, UpdateFunctionConfigurationOutputResponse, UpdateFunctionConfigurationOutputError>(id: "updateFunctionConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFunctionConfigurationInput, UpdateFunctionConfigurationOutputResponse, UpdateFunctionConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFunctionConfigurationInput, UpdateFunctionConfigurationOutputResponse>())
@@ -2429,8 +2740,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFunctionConfigurationOutputResponse, UpdateFunctionConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFunctionConfigurationOutputResponse, UpdateFunctionConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFunctionConfigurationOutputResponse, UpdateFunctionConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2450,6 +2765,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFunctionEventInvokeConfigInput, UpdateFunctionEventInvokeConfigOutputResponse, UpdateFunctionEventInvokeConfigOutputError>(id: "updateFunctionEventInvokeConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFunctionEventInvokeConfigInput, UpdateFunctionEventInvokeConfigOutputResponse, UpdateFunctionEventInvokeConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFunctionEventInvokeConfigInput, UpdateFunctionEventInvokeConfigOutputResponse>())
@@ -2465,8 +2781,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFunctionEventInvokeConfigOutputResponse, UpdateFunctionEventInvokeConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFunctionEventInvokeConfigOutputResponse, UpdateFunctionEventInvokeConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFunctionEventInvokeConfigOutputResponse, UpdateFunctionEventInvokeConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2486,6 +2806,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFunctionUrlConfigInput, UpdateFunctionUrlConfigOutputResponse, UpdateFunctionUrlConfigOutputError>(id: "updateFunctionUrlConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFunctionUrlConfigInput, UpdateFunctionUrlConfigOutputResponse, UpdateFunctionUrlConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFunctionUrlConfigInput, UpdateFunctionUrlConfigOutputResponse>())
@@ -2501,8 +2822,12 @@ extension LambdaClient: LambdaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFunctionUrlConfigOutputResponse, UpdateFunctionUrlConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFunctionUrlConfigOutputResponse, UpdateFunctionUrlConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFunctionUrlConfigOutputResponse, UpdateFunctionUrlConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

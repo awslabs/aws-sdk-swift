@@ -92,7 +92,7 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            public struct ComplexError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+            public struct ComplexError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
                 public var _headers: ClientRuntime.Headers?
                 public var _statusCode: ClientRuntime.HttpStatusCode?
                 public var _message: Swift.String?

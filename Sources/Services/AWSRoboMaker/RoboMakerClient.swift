@@ -208,6 +208,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDeleteWorldsInput, BatchDeleteWorldsOutputResponse, BatchDeleteWorldsOutputError>(id: "batchDeleteWorlds")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteWorldsInput, BatchDeleteWorldsOutputResponse, BatchDeleteWorldsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteWorldsInput, BatchDeleteWorldsOutputResponse>())
@@ -222,8 +223,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeleteWorldsOutputResponse, BatchDeleteWorldsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteWorldsOutputResponse, BatchDeleteWorldsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteWorldsOutputResponse, BatchDeleteWorldsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -243,6 +248,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDescribeSimulationJobInput, BatchDescribeSimulationJobOutputResponse, BatchDescribeSimulationJobOutputError>(id: "batchDescribeSimulationJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDescribeSimulationJobInput, BatchDescribeSimulationJobOutputResponse, BatchDescribeSimulationJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDescribeSimulationJobInput, BatchDescribeSimulationJobOutputResponse>())
@@ -257,8 +263,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDescribeSimulationJobOutputResponse, BatchDescribeSimulationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDescribeSimulationJobOutputResponse, BatchDescribeSimulationJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDescribeSimulationJobOutputResponse, BatchDescribeSimulationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -279,6 +289,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelDeploymentJobInput, CancelDeploymentJobOutputResponse, CancelDeploymentJobOutputError>(id: "cancelDeploymentJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelDeploymentJobInput, CancelDeploymentJobOutputResponse, CancelDeploymentJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelDeploymentJobInput, CancelDeploymentJobOutputResponse>())
@@ -293,8 +304,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelDeploymentJobOutputResponse, CancelDeploymentJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelDeploymentJobOutputResponse, CancelDeploymentJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelDeploymentJobOutputResponse, CancelDeploymentJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -314,6 +329,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelSimulationJobInput, CancelSimulationJobOutputResponse, CancelSimulationJobOutputError>(id: "cancelSimulationJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelSimulationJobInput, CancelSimulationJobOutputResponse, CancelSimulationJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelSimulationJobInput, CancelSimulationJobOutputResponse>())
@@ -328,8 +344,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelSimulationJobOutputResponse, CancelSimulationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelSimulationJobOutputResponse, CancelSimulationJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelSimulationJobOutputResponse, CancelSimulationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -349,6 +369,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelSimulationJobBatchInput, CancelSimulationJobBatchOutputResponse, CancelSimulationJobBatchOutputError>(id: "cancelSimulationJobBatch")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelSimulationJobBatchInput, CancelSimulationJobBatchOutputResponse, CancelSimulationJobBatchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelSimulationJobBatchInput, CancelSimulationJobBatchOutputResponse>())
@@ -363,8 +384,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelSimulationJobBatchOutputResponse, CancelSimulationJobBatchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelSimulationJobBatchOutputResponse, CancelSimulationJobBatchOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelSimulationJobBatchOutputResponse, CancelSimulationJobBatchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -384,6 +409,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelWorldExportJobInput, CancelWorldExportJobOutputResponse, CancelWorldExportJobOutputError>(id: "cancelWorldExportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelWorldExportJobInput, CancelWorldExportJobOutputResponse, CancelWorldExportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelWorldExportJobInput, CancelWorldExportJobOutputResponse>())
@@ -398,8 +424,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelWorldExportJobOutputResponse, CancelWorldExportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelWorldExportJobOutputResponse, CancelWorldExportJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelWorldExportJobOutputResponse, CancelWorldExportJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -419,6 +449,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelWorldGenerationJobInput, CancelWorldGenerationJobOutputResponse, CancelWorldGenerationJobOutputError>(id: "cancelWorldGenerationJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelWorldGenerationJobInput, CancelWorldGenerationJobOutputResponse, CancelWorldGenerationJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelWorldGenerationJobInput, CancelWorldGenerationJobOutputResponse>())
@@ -433,8 +464,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelWorldGenerationJobOutputResponse, CancelWorldGenerationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelWorldGenerationJobOutputResponse, CancelWorldGenerationJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelWorldGenerationJobOutputResponse, CancelWorldGenerationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -455,6 +490,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDeploymentJobInput, CreateDeploymentJobOutputResponse, CreateDeploymentJobOutputError>(id: "createDeploymentJob")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateDeploymentJobOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -477,8 +513,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDeploymentJobOutputResponse, CreateDeploymentJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDeploymentJobOutputResponse, CreateDeploymentJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDeploymentJobOutputResponse, CreateDeploymentJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -499,6 +539,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFleetInput, CreateFleetOutputResponse, CreateFleetOutputError>(id: "createFleet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFleetInput, CreateFleetOutputResponse, CreateFleetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFleetInput, CreateFleetOutputResponse>())
@@ -513,8 +554,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFleetOutputResponse, CreateFleetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFleetOutputResponse, CreateFleetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFleetOutputResponse, CreateFleetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -535,6 +580,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRobotInput, CreateRobotOutputResponse, CreateRobotOutputError>(id: "createRobot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRobotInput, CreateRobotOutputResponse, CreateRobotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRobotInput, CreateRobotOutputResponse>())
@@ -549,8 +595,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRobotOutputResponse, CreateRobotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRobotOutputResponse, CreateRobotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRobotOutputResponse, CreateRobotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -570,6 +620,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRobotApplicationInput, CreateRobotApplicationOutputResponse, CreateRobotApplicationOutputError>(id: "createRobotApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRobotApplicationInput, CreateRobotApplicationOutputResponse, CreateRobotApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRobotApplicationInput, CreateRobotApplicationOutputResponse>())
@@ -584,8 +635,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRobotApplicationOutputResponse, CreateRobotApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRobotApplicationOutputResponse, CreateRobotApplicationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRobotApplicationOutputResponse, CreateRobotApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -605,6 +660,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRobotApplicationVersionInput, CreateRobotApplicationVersionOutputResponse, CreateRobotApplicationVersionOutputError>(id: "createRobotApplicationVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRobotApplicationVersionInput, CreateRobotApplicationVersionOutputResponse, CreateRobotApplicationVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRobotApplicationVersionInput, CreateRobotApplicationVersionOutputResponse>())
@@ -619,8 +675,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRobotApplicationVersionOutputResponse, CreateRobotApplicationVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRobotApplicationVersionOutputResponse, CreateRobotApplicationVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRobotApplicationVersionOutputResponse, CreateRobotApplicationVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -640,6 +700,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSimulationApplicationInput, CreateSimulationApplicationOutputResponse, CreateSimulationApplicationOutputError>(id: "createSimulationApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSimulationApplicationInput, CreateSimulationApplicationOutputResponse, CreateSimulationApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSimulationApplicationInput, CreateSimulationApplicationOutputResponse>())
@@ -654,8 +715,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSimulationApplicationOutputResponse, CreateSimulationApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSimulationApplicationOutputResponse, CreateSimulationApplicationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSimulationApplicationOutputResponse, CreateSimulationApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -675,6 +740,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSimulationApplicationVersionInput, CreateSimulationApplicationVersionOutputResponse, CreateSimulationApplicationVersionOutputError>(id: "createSimulationApplicationVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSimulationApplicationVersionInput, CreateSimulationApplicationVersionOutputResponse, CreateSimulationApplicationVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSimulationApplicationVersionInput, CreateSimulationApplicationVersionOutputResponse>())
@@ -689,8 +755,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSimulationApplicationVersionOutputResponse, CreateSimulationApplicationVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSimulationApplicationVersionOutputResponse, CreateSimulationApplicationVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSimulationApplicationVersionOutputResponse, CreateSimulationApplicationVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -710,6 +780,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSimulationJobInput, CreateSimulationJobOutputResponse, CreateSimulationJobOutputError>(id: "createSimulationJob")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateSimulationJobOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -732,8 +803,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSimulationJobOutputResponse, CreateSimulationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSimulationJobOutputResponse, CreateSimulationJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSimulationJobOutputResponse, CreateSimulationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -753,6 +828,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateWorldExportJobInput, CreateWorldExportJobOutputResponse, CreateWorldExportJobOutputError>(id: "createWorldExportJob")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateWorldExportJobOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -775,8 +851,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorldExportJobOutputResponse, CreateWorldExportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorldExportJobOutputResponse, CreateWorldExportJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWorldExportJobOutputResponse, CreateWorldExportJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -796,6 +876,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateWorldGenerationJobInput, CreateWorldGenerationJobOutputResponse, CreateWorldGenerationJobOutputError>(id: "createWorldGenerationJob")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateWorldGenerationJobOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -818,8 +899,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorldGenerationJobOutputResponse, CreateWorldGenerationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorldGenerationJobOutputResponse, CreateWorldGenerationJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWorldGenerationJobOutputResponse, CreateWorldGenerationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -839,6 +924,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateWorldTemplateInput, CreateWorldTemplateOutputResponse, CreateWorldTemplateOutputError>(id: "createWorldTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorldTemplateInput, CreateWorldTemplateOutputResponse, CreateWorldTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorldTemplateInput, CreateWorldTemplateOutputResponse>())
@@ -853,8 +939,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorldTemplateOutputResponse, CreateWorldTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorldTemplateOutputResponse, CreateWorldTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWorldTemplateOutputResponse, CreateWorldTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -875,6 +965,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFleetInput, DeleteFleetOutputResponse, DeleteFleetOutputError>(id: "deleteFleet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFleetInput, DeleteFleetOutputResponse, DeleteFleetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFleetInput, DeleteFleetOutputResponse>())
@@ -889,8 +980,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFleetOutputResponse, DeleteFleetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFleetOutputResponse, DeleteFleetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFleetOutputResponse, DeleteFleetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -911,6 +1006,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRobotInput, DeleteRobotOutputResponse, DeleteRobotOutputError>(id: "deleteRobot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRobotInput, DeleteRobotOutputResponse, DeleteRobotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRobotInput, DeleteRobotOutputResponse>())
@@ -925,8 +1021,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRobotOutputResponse, DeleteRobotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRobotOutputResponse, DeleteRobotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRobotOutputResponse, DeleteRobotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -946,6 +1046,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRobotApplicationInput, DeleteRobotApplicationOutputResponse, DeleteRobotApplicationOutputError>(id: "deleteRobotApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRobotApplicationInput, DeleteRobotApplicationOutputResponse, DeleteRobotApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRobotApplicationInput, DeleteRobotApplicationOutputResponse>())
@@ -960,8 +1061,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRobotApplicationOutputResponse, DeleteRobotApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRobotApplicationOutputResponse, DeleteRobotApplicationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRobotApplicationOutputResponse, DeleteRobotApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -981,6 +1086,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSimulationApplicationInput, DeleteSimulationApplicationOutputResponse, DeleteSimulationApplicationOutputError>(id: "deleteSimulationApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSimulationApplicationInput, DeleteSimulationApplicationOutputResponse, DeleteSimulationApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSimulationApplicationInput, DeleteSimulationApplicationOutputResponse>())
@@ -995,8 +1101,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSimulationApplicationOutputResponse, DeleteSimulationApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSimulationApplicationOutputResponse, DeleteSimulationApplicationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSimulationApplicationOutputResponse, DeleteSimulationApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1016,6 +1126,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteWorldTemplateInput, DeleteWorldTemplateOutputResponse, DeleteWorldTemplateOutputError>(id: "deleteWorldTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWorldTemplateInput, DeleteWorldTemplateOutputResponse, DeleteWorldTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWorldTemplateInput, DeleteWorldTemplateOutputResponse>())
@@ -1030,8 +1141,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWorldTemplateOutputResponse, DeleteWorldTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorldTemplateOutputResponse, DeleteWorldTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWorldTemplateOutputResponse, DeleteWorldTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1052,6 +1167,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterRobotInput, DeregisterRobotOutputResponse, DeregisterRobotOutputError>(id: "deregisterRobot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterRobotInput, DeregisterRobotOutputResponse, DeregisterRobotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterRobotInput, DeregisterRobotOutputResponse>())
@@ -1066,8 +1182,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterRobotOutputResponse, DeregisterRobotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterRobotOutputResponse, DeregisterRobotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterRobotOutputResponse, DeregisterRobotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1088,6 +1208,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDeploymentJobInput, DescribeDeploymentJobOutputResponse, DescribeDeploymentJobOutputError>(id: "describeDeploymentJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDeploymentJobInput, DescribeDeploymentJobOutputResponse, DescribeDeploymentJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDeploymentJobInput, DescribeDeploymentJobOutputResponse>())
@@ -1102,8 +1223,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDeploymentJobOutputResponse, DescribeDeploymentJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDeploymentJobOutputResponse, DescribeDeploymentJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDeploymentJobOutputResponse, DescribeDeploymentJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1124,6 +1249,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFleetInput, DescribeFleetOutputResponse, DescribeFleetOutputError>(id: "describeFleet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFleetInput, DescribeFleetOutputResponse, DescribeFleetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFleetInput, DescribeFleetOutputResponse>())
@@ -1138,8 +1264,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFleetOutputResponse, DescribeFleetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFleetOutputResponse, DescribeFleetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFleetOutputResponse, DescribeFleetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1160,6 +1290,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeRobotInput, DescribeRobotOutputResponse, DescribeRobotOutputError>(id: "describeRobot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRobotInput, DescribeRobotOutputResponse, DescribeRobotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRobotInput, DescribeRobotOutputResponse>())
@@ -1174,8 +1305,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRobotOutputResponse, DescribeRobotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRobotOutputResponse, DescribeRobotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRobotOutputResponse, DescribeRobotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1195,6 +1330,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeRobotApplicationInput, DescribeRobotApplicationOutputResponse, DescribeRobotApplicationOutputError>(id: "describeRobotApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRobotApplicationInput, DescribeRobotApplicationOutputResponse, DescribeRobotApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRobotApplicationInput, DescribeRobotApplicationOutputResponse>())
@@ -1209,8 +1345,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRobotApplicationOutputResponse, DescribeRobotApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRobotApplicationOutputResponse, DescribeRobotApplicationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRobotApplicationOutputResponse, DescribeRobotApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1230,6 +1370,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSimulationApplicationInput, DescribeSimulationApplicationOutputResponse, DescribeSimulationApplicationOutputError>(id: "describeSimulationApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSimulationApplicationInput, DescribeSimulationApplicationOutputResponse, DescribeSimulationApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSimulationApplicationInput, DescribeSimulationApplicationOutputResponse>())
@@ -1244,8 +1385,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSimulationApplicationOutputResponse, DescribeSimulationApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSimulationApplicationOutputResponse, DescribeSimulationApplicationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSimulationApplicationOutputResponse, DescribeSimulationApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1265,6 +1410,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSimulationJobInput, DescribeSimulationJobOutputResponse, DescribeSimulationJobOutputError>(id: "describeSimulationJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSimulationJobInput, DescribeSimulationJobOutputResponse, DescribeSimulationJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSimulationJobInput, DescribeSimulationJobOutputResponse>())
@@ -1279,8 +1425,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSimulationJobOutputResponse, DescribeSimulationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSimulationJobOutputResponse, DescribeSimulationJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSimulationJobOutputResponse, DescribeSimulationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1300,6 +1450,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSimulationJobBatchInput, DescribeSimulationJobBatchOutputResponse, DescribeSimulationJobBatchOutputError>(id: "describeSimulationJobBatch")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSimulationJobBatchInput, DescribeSimulationJobBatchOutputResponse, DescribeSimulationJobBatchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSimulationJobBatchInput, DescribeSimulationJobBatchOutputResponse>())
@@ -1314,8 +1465,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSimulationJobBatchOutputResponse, DescribeSimulationJobBatchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSimulationJobBatchOutputResponse, DescribeSimulationJobBatchOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSimulationJobBatchOutputResponse, DescribeSimulationJobBatchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1335,6 +1490,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeWorldInput, DescribeWorldOutputResponse, DescribeWorldOutputError>(id: "describeWorld")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorldInput, DescribeWorldOutputResponse, DescribeWorldOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorldInput, DescribeWorldOutputResponse>())
@@ -1349,8 +1505,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWorldOutputResponse, DescribeWorldOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorldOutputResponse, DescribeWorldOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeWorldOutputResponse, DescribeWorldOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1370,6 +1530,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeWorldExportJobInput, DescribeWorldExportJobOutputResponse, DescribeWorldExportJobOutputError>(id: "describeWorldExportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorldExportJobInput, DescribeWorldExportJobOutputResponse, DescribeWorldExportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorldExportJobInput, DescribeWorldExportJobOutputResponse>())
@@ -1384,8 +1545,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWorldExportJobOutputResponse, DescribeWorldExportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorldExportJobOutputResponse, DescribeWorldExportJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeWorldExportJobOutputResponse, DescribeWorldExportJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1405,6 +1570,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeWorldGenerationJobInput, DescribeWorldGenerationJobOutputResponse, DescribeWorldGenerationJobOutputError>(id: "describeWorldGenerationJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorldGenerationJobInput, DescribeWorldGenerationJobOutputResponse, DescribeWorldGenerationJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorldGenerationJobInput, DescribeWorldGenerationJobOutputResponse>())
@@ -1419,8 +1585,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWorldGenerationJobOutputResponse, DescribeWorldGenerationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorldGenerationJobOutputResponse, DescribeWorldGenerationJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeWorldGenerationJobOutputResponse, DescribeWorldGenerationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1440,6 +1610,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeWorldTemplateInput, DescribeWorldTemplateOutputResponse, DescribeWorldTemplateOutputError>(id: "describeWorldTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorldTemplateInput, DescribeWorldTemplateOutputResponse, DescribeWorldTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorldTemplateInput, DescribeWorldTemplateOutputResponse>())
@@ -1454,8 +1625,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWorldTemplateOutputResponse, DescribeWorldTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorldTemplateOutputResponse, DescribeWorldTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeWorldTemplateOutputResponse, DescribeWorldTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1475,6 +1650,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetWorldTemplateBodyInput, GetWorldTemplateBodyOutputResponse, GetWorldTemplateBodyOutputError>(id: "getWorldTemplateBody")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWorldTemplateBodyInput, GetWorldTemplateBodyOutputResponse, GetWorldTemplateBodyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWorldTemplateBodyInput, GetWorldTemplateBodyOutputResponse>())
@@ -1489,8 +1665,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWorldTemplateBodyOutputResponse, GetWorldTemplateBodyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWorldTemplateBodyOutputResponse, GetWorldTemplateBodyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWorldTemplateBodyOutputResponse, GetWorldTemplateBodyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1511,6 +1691,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDeploymentJobsInput, ListDeploymentJobsOutputResponse, ListDeploymentJobsOutputError>(id: "listDeploymentJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeploymentJobsInput, ListDeploymentJobsOutputResponse, ListDeploymentJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeploymentJobsInput, ListDeploymentJobsOutputResponse>())
@@ -1525,8 +1706,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeploymentJobsOutputResponse, ListDeploymentJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeploymentJobsOutputResponse, ListDeploymentJobsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeploymentJobsOutputResponse, ListDeploymentJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1547,6 +1732,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFleetsInput, ListFleetsOutputResponse, ListFleetsOutputError>(id: "listFleets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFleetsInput, ListFleetsOutputResponse, ListFleetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFleetsInput, ListFleetsOutputResponse>())
@@ -1561,8 +1747,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFleetsOutputResponse, ListFleetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFleetsOutputResponse, ListFleetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFleetsOutputResponse, ListFleetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1582,6 +1772,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRobotApplicationsInput, ListRobotApplicationsOutputResponse, ListRobotApplicationsOutputError>(id: "listRobotApplications")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRobotApplicationsInput, ListRobotApplicationsOutputResponse, ListRobotApplicationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRobotApplicationsInput, ListRobotApplicationsOutputResponse>())
@@ -1596,8 +1787,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRobotApplicationsOutputResponse, ListRobotApplicationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRobotApplicationsOutputResponse, ListRobotApplicationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRobotApplicationsOutputResponse, ListRobotApplicationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1618,6 +1813,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRobotsInput, ListRobotsOutputResponse, ListRobotsOutputError>(id: "listRobots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRobotsInput, ListRobotsOutputResponse, ListRobotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRobotsInput, ListRobotsOutputResponse>())
@@ -1632,8 +1828,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRobotsOutputResponse, ListRobotsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRobotsOutputResponse, ListRobotsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRobotsOutputResponse, ListRobotsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1653,6 +1853,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSimulationApplicationsInput, ListSimulationApplicationsOutputResponse, ListSimulationApplicationsOutputError>(id: "listSimulationApplications")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSimulationApplicationsInput, ListSimulationApplicationsOutputResponse, ListSimulationApplicationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSimulationApplicationsInput, ListSimulationApplicationsOutputResponse>())
@@ -1667,8 +1868,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSimulationApplicationsOutputResponse, ListSimulationApplicationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSimulationApplicationsOutputResponse, ListSimulationApplicationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSimulationApplicationsOutputResponse, ListSimulationApplicationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1688,6 +1893,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutputResponse, ListSimulationJobBatchesOutputError>(id: "listSimulationJobBatches")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutputResponse, ListSimulationJobBatchesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutputResponse>())
@@ -1702,8 +1908,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSimulationJobBatchesOutputResponse, ListSimulationJobBatchesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSimulationJobBatchesOutputResponse, ListSimulationJobBatchesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSimulationJobBatchesOutputResponse, ListSimulationJobBatchesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1723,6 +1933,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSimulationJobsInput, ListSimulationJobsOutputResponse, ListSimulationJobsOutputError>(id: "listSimulationJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSimulationJobsInput, ListSimulationJobsOutputResponse, ListSimulationJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSimulationJobsInput, ListSimulationJobsOutputResponse>())
@@ -1737,8 +1948,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSimulationJobsOutputResponse, ListSimulationJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSimulationJobsOutputResponse, ListSimulationJobsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSimulationJobsOutputResponse, ListSimulationJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1758,6 +1973,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1769,8 +1985,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1790,6 +2010,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWorldExportJobsInput, ListWorldExportJobsOutputResponse, ListWorldExportJobsOutputError>(id: "listWorldExportJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorldExportJobsInput, ListWorldExportJobsOutputResponse, ListWorldExportJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorldExportJobsInput, ListWorldExportJobsOutputResponse>())
@@ -1804,8 +2025,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorldExportJobsOutputResponse, ListWorldExportJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorldExportJobsOutputResponse, ListWorldExportJobsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWorldExportJobsOutputResponse, ListWorldExportJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1825,6 +2050,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutputResponse, ListWorldGenerationJobsOutputError>(id: "listWorldGenerationJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutputResponse, ListWorldGenerationJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutputResponse>())
@@ -1839,8 +2065,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorldGenerationJobsOutputResponse, ListWorldGenerationJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorldGenerationJobsOutputResponse, ListWorldGenerationJobsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWorldGenerationJobsOutputResponse, ListWorldGenerationJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1860,6 +2090,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWorldTemplatesInput, ListWorldTemplatesOutputResponse, ListWorldTemplatesOutputError>(id: "listWorldTemplates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorldTemplatesInput, ListWorldTemplatesOutputResponse, ListWorldTemplatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorldTemplatesInput, ListWorldTemplatesOutputResponse>())
@@ -1874,8 +2105,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorldTemplatesOutputResponse, ListWorldTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorldTemplatesOutputResponse, ListWorldTemplatesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWorldTemplatesOutputResponse, ListWorldTemplatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1895,6 +2130,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWorldsInput, ListWorldsOutputResponse, ListWorldsOutputError>(id: "listWorlds")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorldsInput, ListWorldsOutputResponse, ListWorldsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorldsInput, ListWorldsOutputResponse>())
@@ -1909,8 +2145,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorldsOutputResponse, ListWorldsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorldsOutputResponse, ListWorldsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWorldsOutputResponse, ListWorldsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1931,6 +2171,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterRobotInput, RegisterRobotOutputResponse, RegisterRobotOutputError>(id: "registerRobot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterRobotInput, RegisterRobotOutputResponse, RegisterRobotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterRobotInput, RegisterRobotOutputResponse>())
@@ -1945,8 +2186,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterRobotOutputResponse, RegisterRobotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterRobotOutputResponse, RegisterRobotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterRobotOutputResponse, RegisterRobotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1966,6 +2211,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RestartSimulationJobInput, RestartSimulationJobOutputResponse, RestartSimulationJobOutputError>(id: "restartSimulationJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestartSimulationJobInput, RestartSimulationJobOutputResponse, RestartSimulationJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestartSimulationJobInput, RestartSimulationJobOutputResponse>())
@@ -1980,8 +2226,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestartSimulationJobOutputResponse, RestartSimulationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestartSimulationJobOutputResponse, RestartSimulationJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestartSimulationJobOutputResponse, RestartSimulationJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2001,6 +2251,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartSimulationJobBatchInput, StartSimulationJobBatchOutputResponse, StartSimulationJobBatchOutputError>(id: "startSimulationJobBatch")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartSimulationJobBatchOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -2023,8 +2274,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSimulationJobBatchOutputResponse, StartSimulationJobBatchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSimulationJobBatchOutputResponse, StartSimulationJobBatchOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSimulationJobBatchOutputResponse, StartSimulationJobBatchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2045,6 +2300,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SyncDeploymentJobInput, SyncDeploymentJobOutputResponse, SyncDeploymentJobOutputError>(id: "syncDeploymentJob")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<SyncDeploymentJobOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -2067,8 +2323,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SyncDeploymentJobOutputResponse, SyncDeploymentJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SyncDeploymentJobOutputResponse, SyncDeploymentJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SyncDeploymentJobOutputResponse, SyncDeploymentJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2088,6 +2348,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -2102,8 +2363,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2123,6 +2388,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -2135,8 +2401,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2156,6 +2426,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateRobotApplicationInput, UpdateRobotApplicationOutputResponse, UpdateRobotApplicationOutputError>(id: "updateRobotApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRobotApplicationInput, UpdateRobotApplicationOutputResponse, UpdateRobotApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRobotApplicationInput, UpdateRobotApplicationOutputResponse>())
@@ -2170,8 +2441,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRobotApplicationOutputResponse, UpdateRobotApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRobotApplicationOutputResponse, UpdateRobotApplicationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRobotApplicationOutputResponse, UpdateRobotApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2191,6 +2466,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSimulationApplicationInput, UpdateSimulationApplicationOutputResponse, UpdateSimulationApplicationOutputError>(id: "updateSimulationApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSimulationApplicationInput, UpdateSimulationApplicationOutputResponse, UpdateSimulationApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSimulationApplicationInput, UpdateSimulationApplicationOutputResponse>())
@@ -2205,8 +2481,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSimulationApplicationOutputResponse, UpdateSimulationApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSimulationApplicationOutputResponse, UpdateSimulationApplicationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSimulationApplicationOutputResponse, UpdateSimulationApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2226,6 +2506,7 @@ extension RoboMakerClient: RoboMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "robomaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateWorldTemplateInput, UpdateWorldTemplateOutputResponse, UpdateWorldTemplateOutputError>(id: "updateWorldTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWorldTemplateInput, UpdateWorldTemplateOutputResponse, UpdateWorldTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWorldTemplateInput, UpdateWorldTemplateOutputResponse>())
@@ -2240,8 +2521,12 @@ extension RoboMakerClient: RoboMakerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWorldTemplateOutputResponse, UpdateWorldTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWorldTemplateOutputResponse, UpdateWorldTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateWorldTemplateOutputResponse, UpdateWorldTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

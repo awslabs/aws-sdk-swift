@@ -208,6 +208,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutputResponse, DescribeEntitiesDetectionV2JobOutputError>(id: "describeEntitiesDetectionV2Job")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutputResponse, DescribeEntitiesDetectionV2JobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutputResponse>())
@@ -223,8 +224,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEntitiesDetectionV2JobOutputResponse, DescribeEntitiesDetectionV2JobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEntitiesDetectionV2JobOutputResponse, DescribeEntitiesDetectionV2JobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEntitiesDetectionV2JobOutputResponse, DescribeEntitiesDetectionV2JobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -244,6 +249,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutputResponse, DescribeICD10CMInferenceJobOutputError>(id: "describeICD10CMInferenceJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutputResponse, DescribeICD10CMInferenceJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutputResponse>())
@@ -259,8 +265,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeICD10CMInferenceJobOutputResponse, DescribeICD10CMInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeICD10CMInferenceJobOutputResponse, DescribeICD10CMInferenceJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeICD10CMInferenceJobOutputResponse, DescribeICD10CMInferenceJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -280,6 +290,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutputResponse, DescribePHIDetectionJobOutputError>(id: "describePHIDetectionJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutputResponse, DescribePHIDetectionJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutputResponse>())
@@ -295,8 +306,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePHIDetectionJobOutputResponse, DescribePHIDetectionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePHIDetectionJobOutputResponse, DescribePHIDetectionJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePHIDetectionJobOutputResponse, DescribePHIDetectionJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -316,6 +331,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutputResponse, DescribeRxNormInferenceJobOutputError>(id: "describeRxNormInferenceJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutputResponse, DescribeRxNormInferenceJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutputResponse>())
@@ -331,8 +347,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRxNormInferenceJobOutputResponse, DescribeRxNormInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRxNormInferenceJobOutputResponse, DescribeRxNormInferenceJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRxNormInferenceJobOutputResponse, DescribeRxNormInferenceJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -352,6 +372,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutputResponse, DescribeSNOMEDCTInferenceJobOutputError>(id: "describeSNOMEDCTInferenceJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutputResponse, DescribeSNOMEDCTInferenceJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutputResponse>())
@@ -367,8 +388,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSNOMEDCTInferenceJobOutputResponse, DescribeSNOMEDCTInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSNOMEDCTInferenceJobOutputResponse, DescribeSNOMEDCTInferenceJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSNOMEDCTInferenceJobOutputResponse, DescribeSNOMEDCTInferenceJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -389,6 +414,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetectEntitiesInput, DetectEntitiesOutputResponse, DetectEntitiesOutputError>(id: "detectEntities")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectEntitiesInput, DetectEntitiesOutputResponse, DetectEntitiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectEntitiesInput, DetectEntitiesOutputResponse>())
@@ -404,8 +430,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetectEntitiesOutputResponse, DetectEntitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectEntitiesOutputResponse, DetectEntitiesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectEntitiesOutputResponse, DetectEntitiesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -425,6 +455,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetectEntitiesV2Input, DetectEntitiesV2OutputResponse, DetectEntitiesV2OutputError>(id: "detectEntitiesV2")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectEntitiesV2Input, DetectEntitiesV2OutputResponse, DetectEntitiesV2OutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectEntitiesV2Input, DetectEntitiesV2OutputResponse>())
@@ -440,8 +471,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetectEntitiesV2OutputResponse, DetectEntitiesV2OutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectEntitiesV2OutputResponse, DetectEntitiesV2OutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectEntitiesV2OutputResponse, DetectEntitiesV2OutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -461,6 +496,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetectPHIInput, DetectPHIOutputResponse, DetectPHIOutputError>(id: "detectPHI")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectPHIInput, DetectPHIOutputResponse, DetectPHIOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectPHIInput, DetectPHIOutputResponse>())
@@ -476,8 +512,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetectPHIOutputResponse, DetectPHIOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectPHIOutputResponse, DetectPHIOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectPHIOutputResponse, DetectPHIOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -497,6 +537,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<InferICD10CMInput, InferICD10CMOutputResponse, InferICD10CMOutputError>(id: "inferICD10CM")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InferICD10CMInput, InferICD10CMOutputResponse, InferICD10CMOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InferICD10CMInput, InferICD10CMOutputResponse>())
@@ -512,8 +553,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InferICD10CMOutputResponse, InferICD10CMOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InferICD10CMOutputResponse, InferICD10CMOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InferICD10CMOutputResponse, InferICD10CMOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -533,6 +578,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<InferRxNormInput, InferRxNormOutputResponse, InferRxNormOutputError>(id: "inferRxNorm")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InferRxNormInput, InferRxNormOutputResponse, InferRxNormOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InferRxNormInput, InferRxNormOutputResponse>())
@@ -548,8 +594,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InferRxNormOutputResponse, InferRxNormOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InferRxNormOutputResponse, InferRxNormOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InferRxNormOutputResponse, InferRxNormOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -569,6 +619,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<InferSNOMEDCTInput, InferSNOMEDCTOutputResponse, InferSNOMEDCTOutputError>(id: "inferSNOMEDCT")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutputResponse, InferSNOMEDCTOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutputResponse>())
@@ -584,8 +635,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InferSNOMEDCTOutputResponse, InferSNOMEDCTOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InferSNOMEDCTOutputResponse, InferSNOMEDCTOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InferSNOMEDCTOutputResponse, InferSNOMEDCTOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -605,6 +660,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutputResponse, ListEntitiesDetectionV2JobsOutputError>(id: "listEntitiesDetectionV2Jobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutputResponse, ListEntitiesDetectionV2JobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutputResponse>())
@@ -620,8 +676,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEntitiesDetectionV2JobsOutputResponse, ListEntitiesDetectionV2JobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEntitiesDetectionV2JobsOutputResponse, ListEntitiesDetectionV2JobsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEntitiesDetectionV2JobsOutputResponse, ListEntitiesDetectionV2JobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -641,6 +701,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutputResponse, ListICD10CMInferenceJobsOutputError>(id: "listICD10CMInferenceJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutputResponse, ListICD10CMInferenceJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutputResponse>())
@@ -656,8 +717,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListICD10CMInferenceJobsOutputResponse, ListICD10CMInferenceJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListICD10CMInferenceJobsOutputResponse, ListICD10CMInferenceJobsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListICD10CMInferenceJobsOutputResponse, ListICD10CMInferenceJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -677,6 +742,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutputResponse, ListPHIDetectionJobsOutputError>(id: "listPHIDetectionJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutputResponse, ListPHIDetectionJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutputResponse>())
@@ -692,8 +758,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPHIDetectionJobsOutputResponse, ListPHIDetectionJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPHIDetectionJobsOutputResponse, ListPHIDetectionJobsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPHIDetectionJobsOutputResponse, ListPHIDetectionJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -713,6 +783,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutputResponse, ListRxNormInferenceJobsOutputError>(id: "listRxNormInferenceJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutputResponse, ListRxNormInferenceJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutputResponse>())
@@ -728,8 +799,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRxNormInferenceJobsOutputResponse, ListRxNormInferenceJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRxNormInferenceJobsOutputResponse, ListRxNormInferenceJobsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRxNormInferenceJobsOutputResponse, ListRxNormInferenceJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -749,6 +824,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutputResponse, ListSNOMEDCTInferenceJobsOutputError>(id: "listSNOMEDCTInferenceJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutputResponse, ListSNOMEDCTInferenceJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutputResponse>())
@@ -764,8 +840,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSNOMEDCTInferenceJobsOutputResponse, ListSNOMEDCTInferenceJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSNOMEDCTInferenceJobsOutputResponse, ListSNOMEDCTInferenceJobsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSNOMEDCTInferenceJobsOutputResponse, ListSNOMEDCTInferenceJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -785,6 +865,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutputResponse, StartEntitiesDetectionV2JobOutputError>(id: "startEntitiesDetectionV2Job")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartEntitiesDetectionV2JobOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -808,8 +889,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartEntitiesDetectionV2JobOutputResponse, StartEntitiesDetectionV2JobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartEntitiesDetectionV2JobOutputResponse, StartEntitiesDetectionV2JobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartEntitiesDetectionV2JobOutputResponse, StartEntitiesDetectionV2JobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -829,6 +914,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutputResponse, StartICD10CMInferenceJobOutputError>(id: "startICD10CMInferenceJob")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartICD10CMInferenceJobOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -852,8 +938,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartICD10CMInferenceJobOutputResponse, StartICD10CMInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartICD10CMInferenceJobOutputResponse, StartICD10CMInferenceJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartICD10CMInferenceJobOutputResponse, StartICD10CMInferenceJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -873,6 +963,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartPHIDetectionJobInput, StartPHIDetectionJobOutputResponse, StartPHIDetectionJobOutputError>(id: "startPHIDetectionJob")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartPHIDetectionJobOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -896,8 +987,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartPHIDetectionJobOutputResponse, StartPHIDetectionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartPHIDetectionJobOutputResponse, StartPHIDetectionJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartPHIDetectionJobOutputResponse, StartPHIDetectionJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -917,6 +1012,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutputResponse, StartRxNormInferenceJobOutputError>(id: "startRxNormInferenceJob")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartRxNormInferenceJobOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -940,8 +1036,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartRxNormInferenceJobOutputResponse, StartRxNormInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartRxNormInferenceJobOutputResponse, StartRxNormInferenceJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartRxNormInferenceJobOutputResponse, StartRxNormInferenceJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -961,6 +1061,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutputResponse, StartSNOMEDCTInferenceJobOutputError>(id: "startSNOMEDCTInferenceJob")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartSNOMEDCTInferenceJobOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -984,8 +1085,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSNOMEDCTInferenceJobOutputResponse, StartSNOMEDCTInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSNOMEDCTInferenceJobOutputResponse, StartSNOMEDCTInferenceJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSNOMEDCTInferenceJobOutputResponse, StartSNOMEDCTInferenceJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1005,6 +1110,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutputResponse, StopEntitiesDetectionV2JobOutputError>(id: "stopEntitiesDetectionV2Job")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutputResponse, StopEntitiesDetectionV2JobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutputResponse>())
@@ -1020,8 +1126,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopEntitiesDetectionV2JobOutputResponse, StopEntitiesDetectionV2JobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopEntitiesDetectionV2JobOutputResponse, StopEntitiesDetectionV2JobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopEntitiesDetectionV2JobOutputResponse, StopEntitiesDetectionV2JobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1041,6 +1151,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutputResponse, StopICD10CMInferenceJobOutputError>(id: "stopICD10CMInferenceJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutputResponse, StopICD10CMInferenceJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutputResponse>())
@@ -1056,8 +1167,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopICD10CMInferenceJobOutputResponse, StopICD10CMInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopICD10CMInferenceJobOutputResponse, StopICD10CMInferenceJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopICD10CMInferenceJobOutputResponse, StopICD10CMInferenceJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1077,6 +1192,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopPHIDetectionJobInput, StopPHIDetectionJobOutputResponse, StopPHIDetectionJobOutputError>(id: "stopPHIDetectionJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutputResponse, StopPHIDetectionJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutputResponse>())
@@ -1092,8 +1208,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopPHIDetectionJobOutputResponse, StopPHIDetectionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopPHIDetectionJobOutputResponse, StopPHIDetectionJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopPHIDetectionJobOutputResponse, StopPHIDetectionJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1113,6 +1233,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutputResponse, StopRxNormInferenceJobOutputError>(id: "stopRxNormInferenceJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutputResponse, StopRxNormInferenceJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutputResponse>())
@@ -1128,8 +1249,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopRxNormInferenceJobOutputResponse, StopRxNormInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopRxNormInferenceJobOutputResponse, StopRxNormInferenceJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopRxNormInferenceJobOutputResponse, StopRxNormInferenceJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1149,6 +1274,7 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "comprehendmedical")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutputResponse, StopSNOMEDCTInferenceJobOutputError>(id: "stopSNOMEDCTInferenceJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutputResponse, StopSNOMEDCTInferenceJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutputResponse>())
@@ -1164,8 +1290,12 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopSNOMEDCTInferenceJobOutputResponse, StopSNOMEDCTInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopSNOMEDCTInferenceJobOutputResponse, StopSNOMEDCTInferenceJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopSNOMEDCTInferenceJobOutputResponse, StopSNOMEDCTInferenceJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
