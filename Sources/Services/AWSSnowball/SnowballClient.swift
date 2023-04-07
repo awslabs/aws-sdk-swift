@@ -146,6 +146,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelClusterInput, CancelClusterOutputResponse, CancelClusterOutputError>(id: "cancelCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelClusterInput, CancelClusterOutputResponse, CancelClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelClusterInput, CancelClusterOutputResponse>())
@@ -161,8 +162,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelClusterOutputResponse, CancelClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelClusterOutputResponse, CancelClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelClusterOutputResponse, CancelClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -182,6 +187,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelJobInput, CancelJobOutputResponse, CancelJobOutputError>(id: "cancelJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelJobInput, CancelJobOutputResponse, CancelJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelJobInput, CancelJobOutputResponse>())
@@ -197,8 +203,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelJobOutputResponse, CancelJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelJobOutputResponse, CancelJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelJobOutputResponse, CancelJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -218,6 +228,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAddressInput, CreateAddressOutputResponse, CreateAddressOutputError>(id: "createAddress")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAddressInput, CreateAddressOutputResponse, CreateAddressOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAddressInput, CreateAddressOutputResponse>())
@@ -233,8 +244,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAddressOutputResponse, CreateAddressOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAddressOutputResponse, CreateAddressOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAddressOutputResponse, CreateAddressOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -254,6 +269,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateClusterInput, CreateClusterOutputResponse, CreateClusterOutputError>(id: "createCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateClusterInput, CreateClusterOutputResponse, CreateClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateClusterInput, CreateClusterOutputResponse>())
@@ -269,8 +285,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateClusterOutputResponse, CreateClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateClusterOutputResponse, CreateClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateClusterOutputResponse, CreateClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -359,6 +379,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateJobInput, CreateJobOutputResponse, CreateJobOutputError>(id: "createJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateJobInput, CreateJobOutputResponse, CreateJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateJobInput, CreateJobOutputResponse>())
@@ -374,8 +395,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateJobOutputResponse, CreateJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateJobOutputResponse, CreateJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateJobOutputResponse, CreateJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -395,6 +420,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLongTermPricingInput, CreateLongTermPricingOutputResponse, CreateLongTermPricingOutputError>(id: "createLongTermPricing")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLongTermPricingInput, CreateLongTermPricingOutputResponse, CreateLongTermPricingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLongTermPricingInput, CreateLongTermPricingOutputResponse>())
@@ -410,8 +436,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLongTermPricingOutputResponse, CreateLongTermPricingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLongTermPricingOutputResponse, CreateLongTermPricingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLongTermPricingOutputResponse, CreateLongTermPricingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -431,6 +461,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateReturnShippingLabelInput, CreateReturnShippingLabelOutputResponse, CreateReturnShippingLabelOutputError>(id: "createReturnShippingLabel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateReturnShippingLabelInput, CreateReturnShippingLabelOutputResponse, CreateReturnShippingLabelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateReturnShippingLabelInput, CreateReturnShippingLabelOutputResponse>())
@@ -446,8 +477,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateReturnShippingLabelOutputResponse, CreateReturnShippingLabelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReturnShippingLabelOutputResponse, CreateReturnShippingLabelOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateReturnShippingLabelOutputResponse, CreateReturnShippingLabelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -467,6 +502,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAddressInput, DescribeAddressOutputResponse, DescribeAddressOutputError>(id: "describeAddress")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAddressInput, DescribeAddressOutputResponse, DescribeAddressOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAddressInput, DescribeAddressOutputResponse>())
@@ -482,8 +518,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAddressOutputResponse, DescribeAddressOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAddressOutputResponse, DescribeAddressOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAddressOutputResponse, DescribeAddressOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -503,6 +543,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAddressesInput, DescribeAddressesOutputResponse, DescribeAddressesOutputError>(id: "describeAddresses")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAddressesInput, DescribeAddressesOutputResponse, DescribeAddressesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAddressesInput, DescribeAddressesOutputResponse>())
@@ -518,8 +559,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAddressesOutputResponse, DescribeAddressesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAddressesOutputResponse, DescribeAddressesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAddressesOutputResponse, DescribeAddressesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -539,6 +584,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeClusterInput, DescribeClusterOutputResponse, DescribeClusterOutputError>(id: "describeCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClusterInput, DescribeClusterOutputResponse, DescribeClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClusterInput, DescribeClusterOutputResponse>())
@@ -554,8 +600,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeClusterOutputResponse, DescribeClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeClusterOutputResponse, DescribeClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeClusterOutputResponse, DescribeClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -575,6 +625,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeJobInput, DescribeJobOutputResponse, DescribeJobOutputError>(id: "describeJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeJobInput, DescribeJobOutputResponse, DescribeJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeJobInput, DescribeJobOutputResponse>())
@@ -590,8 +641,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeJobOutputResponse, DescribeJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeJobOutputResponse, DescribeJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeJobOutputResponse, DescribeJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -611,6 +666,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReturnShippingLabelInput, DescribeReturnShippingLabelOutputResponse, DescribeReturnShippingLabelOutputError>(id: "describeReturnShippingLabel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReturnShippingLabelInput, DescribeReturnShippingLabelOutputResponse, DescribeReturnShippingLabelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReturnShippingLabelInput, DescribeReturnShippingLabelOutputResponse>())
@@ -626,8 +682,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReturnShippingLabelOutputResponse, DescribeReturnShippingLabelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReturnShippingLabelOutputResponse, DescribeReturnShippingLabelOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReturnShippingLabelOutputResponse, DescribeReturnShippingLabelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -647,6 +707,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetJobManifestInput, GetJobManifestOutputResponse, GetJobManifestOutputError>(id: "getJobManifest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetJobManifestInput, GetJobManifestOutputResponse, GetJobManifestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetJobManifestInput, GetJobManifestOutputResponse>())
@@ -662,8 +723,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetJobManifestOutputResponse, GetJobManifestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetJobManifestOutputResponse, GetJobManifestOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetJobManifestOutputResponse, GetJobManifestOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -683,6 +748,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetJobUnlockCodeInput, GetJobUnlockCodeOutputResponse, GetJobUnlockCodeOutputError>(id: "getJobUnlockCode")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetJobUnlockCodeInput, GetJobUnlockCodeOutputResponse, GetJobUnlockCodeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetJobUnlockCodeInput, GetJobUnlockCodeOutputResponse>())
@@ -698,8 +764,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetJobUnlockCodeOutputResponse, GetJobUnlockCodeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetJobUnlockCodeOutputResponse, GetJobUnlockCodeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetJobUnlockCodeOutputResponse, GetJobUnlockCodeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -719,6 +789,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSnowballUsageInput, GetSnowballUsageOutputResponse, GetSnowballUsageOutputError>(id: "getSnowballUsage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSnowballUsageInput, GetSnowballUsageOutputResponse, GetSnowballUsageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSnowballUsageInput, GetSnowballUsageOutputResponse>())
@@ -734,8 +805,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSnowballUsageOutputResponse, GetSnowballUsageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSnowballUsageOutputResponse, GetSnowballUsageOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSnowballUsageOutputResponse, GetSnowballUsageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -755,6 +830,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSoftwareUpdatesInput, GetSoftwareUpdatesOutputResponse, GetSoftwareUpdatesOutputError>(id: "getSoftwareUpdates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSoftwareUpdatesInput, GetSoftwareUpdatesOutputResponse, GetSoftwareUpdatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSoftwareUpdatesInput, GetSoftwareUpdatesOutputResponse>())
@@ -770,8 +846,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSoftwareUpdatesOutputResponse, GetSoftwareUpdatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSoftwareUpdatesOutputResponse, GetSoftwareUpdatesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSoftwareUpdatesOutputResponse, GetSoftwareUpdatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -791,6 +871,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListClusterJobsInput, ListClusterJobsOutputResponse, ListClusterJobsOutputError>(id: "listClusterJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListClusterJobsInput, ListClusterJobsOutputResponse, ListClusterJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListClusterJobsInput, ListClusterJobsOutputResponse>())
@@ -806,8 +887,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListClusterJobsOutputResponse, ListClusterJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListClusterJobsOutputResponse, ListClusterJobsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListClusterJobsOutputResponse, ListClusterJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -827,6 +912,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListClustersInput, ListClustersOutputResponse, ListClustersOutputError>(id: "listClusters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListClustersInput, ListClustersOutputResponse, ListClustersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListClustersInput, ListClustersOutputResponse>())
@@ -842,8 +928,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListClustersOutputResponse, ListClustersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListClustersOutputResponse, ListClustersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListClustersOutputResponse, ListClustersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -863,6 +953,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCompatibleImagesInput, ListCompatibleImagesOutputResponse, ListCompatibleImagesOutputError>(id: "listCompatibleImages")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCompatibleImagesInput, ListCompatibleImagesOutputResponse, ListCompatibleImagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCompatibleImagesInput, ListCompatibleImagesOutputResponse>())
@@ -878,8 +969,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCompatibleImagesOutputResponse, ListCompatibleImagesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCompatibleImagesOutputResponse, ListCompatibleImagesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCompatibleImagesOutputResponse, ListCompatibleImagesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -899,6 +994,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListJobsInput, ListJobsOutputResponse, ListJobsOutputError>(id: "listJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListJobsInput, ListJobsOutputResponse, ListJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListJobsInput, ListJobsOutputResponse>())
@@ -914,8 +1010,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListJobsOutputResponse, ListJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListJobsOutputResponse, ListJobsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListJobsOutputResponse, ListJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -935,6 +1035,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListLongTermPricingInput, ListLongTermPricingOutputResponse, ListLongTermPricingOutputError>(id: "listLongTermPricing")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLongTermPricingInput, ListLongTermPricingOutputResponse, ListLongTermPricingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLongTermPricingInput, ListLongTermPricingOutputResponse>())
@@ -950,8 +1051,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLongTermPricingOutputResponse, ListLongTermPricingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLongTermPricingOutputResponse, ListLongTermPricingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLongTermPricingOutputResponse, ListLongTermPricingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -971,6 +1076,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListServiceVersionsInput, ListServiceVersionsOutputResponse, ListServiceVersionsOutputError>(id: "listServiceVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServiceVersionsInput, ListServiceVersionsOutputResponse, ListServiceVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServiceVersionsInput, ListServiceVersionsOutputResponse>())
@@ -986,8 +1092,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServiceVersionsOutputResponse, ListServiceVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServiceVersionsOutputResponse, ListServiceVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServiceVersionsOutputResponse, ListServiceVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1007,6 +1117,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateClusterInput, UpdateClusterOutputResponse, UpdateClusterOutputError>(id: "updateCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateClusterInput, UpdateClusterOutputResponse, UpdateClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateClusterInput, UpdateClusterOutputResponse>())
@@ -1022,8 +1133,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateClusterOutputResponse, UpdateClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateClusterOutputResponse, UpdateClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateClusterOutputResponse, UpdateClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1043,6 +1158,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateJobInput, UpdateJobOutputResponse, UpdateJobOutputError>(id: "updateJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateJobInput, UpdateJobOutputResponse, UpdateJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateJobInput, UpdateJobOutputResponse>())
@@ -1058,8 +1174,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateJobOutputResponse, UpdateJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateJobOutputResponse, UpdateJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateJobOutputResponse, UpdateJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1079,6 +1199,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateJobShipmentStateInput, UpdateJobShipmentStateOutputResponse, UpdateJobShipmentStateOutputError>(id: "updateJobShipmentState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateJobShipmentStateInput, UpdateJobShipmentStateOutputResponse, UpdateJobShipmentStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateJobShipmentStateInput, UpdateJobShipmentStateOutputResponse>())
@@ -1094,8 +1215,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateJobShipmentStateOutputResponse, UpdateJobShipmentStateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateJobShipmentStateOutputResponse, UpdateJobShipmentStateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateJobShipmentStateOutputResponse, UpdateJobShipmentStateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1115,6 +1240,7 @@ extension SnowballClient: SnowballClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "snowball")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateLongTermPricingInput, UpdateLongTermPricingOutputResponse, UpdateLongTermPricingOutputError>(id: "updateLongTermPricing")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLongTermPricingInput, UpdateLongTermPricingOutputResponse, UpdateLongTermPricingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLongTermPricingInput, UpdateLongTermPricingOutputResponse>())
@@ -1130,8 +1256,12 @@ extension SnowballClient: SnowballClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLongTermPricingOutputResponse, UpdateLongTermPricingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLongTermPricingOutputResponse, UpdateLongTermPricingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLongTermPricingOutputResponse, UpdateLongTermPricingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

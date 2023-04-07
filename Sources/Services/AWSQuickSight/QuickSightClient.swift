@@ -146,6 +146,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelIngestionInput, CancelIngestionOutputResponse, CancelIngestionOutputError>(id: "cancelIngestion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelIngestionInput, CancelIngestionOutputResponse, CancelIngestionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelIngestionInput, CancelIngestionOutputResponse>())
@@ -157,8 +158,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelIngestionOutputResponse, CancelIngestionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelIngestionOutputResponse, CancelIngestionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelIngestionOutputResponse, CancelIngestionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -178,6 +183,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAccountCustomizationInput, CreateAccountCustomizationOutputResponse, CreateAccountCustomizationOutputError>(id: "createAccountCustomization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccountCustomizationInput, CreateAccountCustomizationOutputResponse, CreateAccountCustomizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccountCustomizationInput, CreateAccountCustomizationOutputResponse>())
@@ -193,8 +199,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccountCustomizationOutputResponse, CreateAccountCustomizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccountCustomizationOutputResponse, CreateAccountCustomizationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccountCustomizationOutputResponse, CreateAccountCustomizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -214,6 +224,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAccountSubscriptionInput, CreateAccountSubscriptionOutputResponse, CreateAccountSubscriptionOutputError>(id: "createAccountSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccountSubscriptionInput, CreateAccountSubscriptionOutputResponse, CreateAccountSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccountSubscriptionInput, CreateAccountSubscriptionOutputResponse>())
@@ -228,8 +239,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccountSubscriptionOutputResponse, CreateAccountSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccountSubscriptionOutputResponse, CreateAccountSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccountSubscriptionOutputResponse, CreateAccountSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -249,6 +264,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAnalysisInput, CreateAnalysisOutputResponse, CreateAnalysisOutputError>(id: "createAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAnalysisInput, CreateAnalysisOutputResponse, CreateAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAnalysisInput, CreateAnalysisOutputResponse>())
@@ -263,8 +279,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAnalysisOutputResponse, CreateAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAnalysisOutputResponse, CreateAnalysisOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAnalysisOutputResponse, CreateAnalysisOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -284,6 +304,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDashboardInput, CreateDashboardOutputResponse, CreateDashboardOutputError>(id: "createDashboard")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDashboardInput, CreateDashboardOutputResponse, CreateDashboardOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDashboardInput, CreateDashboardOutputResponse>())
@@ -298,8 +319,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDashboardOutputResponse, CreateDashboardOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDashboardOutputResponse, CreateDashboardOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDashboardOutputResponse, CreateDashboardOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -319,6 +344,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDataSetInput, CreateDataSetOutputResponse, CreateDataSetOutputError>(id: "createDataSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDataSetInput, CreateDataSetOutputResponse, CreateDataSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDataSetInput, CreateDataSetOutputResponse>())
@@ -333,8 +359,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDataSetOutputResponse, CreateDataSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDataSetOutputResponse, CreateDataSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDataSetOutputResponse, CreateDataSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -354,6 +384,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDataSourceInput, CreateDataSourceOutputResponse, CreateDataSourceOutputError>(id: "createDataSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDataSourceInput, CreateDataSourceOutputResponse, CreateDataSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDataSourceInput, CreateDataSourceOutputResponse>())
@@ -368,8 +399,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDataSourceOutputResponse, CreateDataSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDataSourceOutputResponse, CreateDataSourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDataSourceOutputResponse, CreateDataSourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -389,6 +424,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFolderInput, CreateFolderOutputResponse, CreateFolderOutputError>(id: "createFolder")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFolderInput, CreateFolderOutputResponse, CreateFolderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFolderInput, CreateFolderOutputResponse>())
@@ -403,8 +439,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFolderOutputResponse, CreateFolderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFolderOutputResponse, CreateFolderOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFolderOutputResponse, CreateFolderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -424,6 +464,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFolderMembershipInput, CreateFolderMembershipOutputResponse, CreateFolderMembershipOutputError>(id: "createFolderMembership")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFolderMembershipInput, CreateFolderMembershipOutputResponse, CreateFolderMembershipOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFolderMembershipInput, CreateFolderMembershipOutputResponse>())
@@ -435,8 +476,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFolderMembershipOutputResponse, CreateFolderMembershipOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFolderMembershipOutputResponse, CreateFolderMembershipOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFolderMembershipOutputResponse, CreateFolderMembershipOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -456,6 +501,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateGroupInput, CreateGroupOutputResponse, CreateGroupOutputError>(id: "createGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGroupInput, CreateGroupOutputResponse, CreateGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGroupInput, CreateGroupOutputResponse>())
@@ -470,8 +516,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGroupOutputResponse, CreateGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGroupOutputResponse, CreateGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGroupOutputResponse, CreateGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -491,6 +541,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateGroupMembershipInput, CreateGroupMembershipOutputResponse, CreateGroupMembershipOutputError>(id: "createGroupMembership")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGroupMembershipInput, CreateGroupMembershipOutputResponse, CreateGroupMembershipOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGroupMembershipInput, CreateGroupMembershipOutputResponse>())
@@ -502,8 +553,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGroupMembershipOutputResponse, CreateGroupMembershipOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGroupMembershipOutputResponse, CreateGroupMembershipOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGroupMembershipOutputResponse, CreateGroupMembershipOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -523,6 +578,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateIAMPolicyAssignmentInput, CreateIAMPolicyAssignmentOutputResponse, CreateIAMPolicyAssignmentOutputError>(id: "createIAMPolicyAssignment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIAMPolicyAssignmentInput, CreateIAMPolicyAssignmentOutputResponse, CreateIAMPolicyAssignmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateIAMPolicyAssignmentInput, CreateIAMPolicyAssignmentOutputResponse>())
@@ -537,8 +593,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateIAMPolicyAssignmentOutputResponse, CreateIAMPolicyAssignmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIAMPolicyAssignmentOutputResponse, CreateIAMPolicyAssignmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateIAMPolicyAssignmentOutputResponse, CreateIAMPolicyAssignmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -558,6 +618,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateIngestionInput, CreateIngestionOutputResponse, CreateIngestionOutputError>(id: "createIngestion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIngestionInput, CreateIngestionOutputResponse, CreateIngestionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateIngestionInput, CreateIngestionOutputResponse>())
@@ -572,8 +633,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateIngestionOutputResponse, CreateIngestionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIngestionOutputResponse, CreateIngestionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateIngestionOutputResponse, CreateIngestionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -593,6 +658,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateNamespaceInput, CreateNamespaceOutputResponse, CreateNamespaceOutputError>(id: "createNamespace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNamespaceInput, CreateNamespaceOutputResponse, CreateNamespaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNamespaceInput, CreateNamespaceOutputResponse>())
@@ -607,8 +673,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNamespaceOutputResponse, CreateNamespaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNamespaceOutputResponse, CreateNamespaceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNamespaceOutputResponse, CreateNamespaceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -628,6 +698,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTemplateInput, CreateTemplateOutputResponse, CreateTemplateOutputError>(id: "createTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTemplateInput, CreateTemplateOutputResponse, CreateTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTemplateInput, CreateTemplateOutputResponse>())
@@ -642,8 +713,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTemplateOutputResponse, CreateTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTemplateOutputResponse, CreateTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTemplateOutputResponse, CreateTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -663,6 +738,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTemplateAliasInput, CreateTemplateAliasOutputResponse, CreateTemplateAliasOutputError>(id: "createTemplateAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTemplateAliasInput, CreateTemplateAliasOutputResponse, CreateTemplateAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTemplateAliasInput, CreateTemplateAliasOutputResponse>())
@@ -677,8 +753,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTemplateAliasOutputResponse, CreateTemplateAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTemplateAliasOutputResponse, CreateTemplateAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTemplateAliasOutputResponse, CreateTemplateAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -698,6 +778,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateThemeInput, CreateThemeOutputResponse, CreateThemeOutputError>(id: "createTheme")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateThemeInput, CreateThemeOutputResponse, CreateThemeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateThemeInput, CreateThemeOutputResponse>())
@@ -712,8 +793,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateThemeOutputResponse, CreateThemeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateThemeOutputResponse, CreateThemeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateThemeOutputResponse, CreateThemeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -733,6 +818,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateThemeAliasInput, CreateThemeAliasOutputResponse, CreateThemeAliasOutputError>(id: "createThemeAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateThemeAliasInput, CreateThemeAliasOutputResponse, CreateThemeAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateThemeAliasInput, CreateThemeAliasOutputResponse>())
@@ -747,8 +833,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateThemeAliasOutputResponse, CreateThemeAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateThemeAliasOutputResponse, CreateThemeAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateThemeAliasOutputResponse, CreateThemeAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -768,6 +858,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAccountCustomizationInput, DeleteAccountCustomizationOutputResponse, DeleteAccountCustomizationOutputError>(id: "deleteAccountCustomization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccountCustomizationInput, DeleteAccountCustomizationOutputResponse, DeleteAccountCustomizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccountCustomizationInput, DeleteAccountCustomizationOutputResponse>())
@@ -780,8 +871,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccountCustomizationOutputResponse, DeleteAccountCustomizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountCustomizationOutputResponse, DeleteAccountCustomizationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccountCustomizationOutputResponse, DeleteAccountCustomizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -801,6 +896,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAccountSubscriptionInput, DeleteAccountSubscriptionOutputResponse, DeleteAccountSubscriptionOutputError>(id: "deleteAccountSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccountSubscriptionInput, DeleteAccountSubscriptionOutputResponse, DeleteAccountSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccountSubscriptionInput, DeleteAccountSubscriptionOutputResponse>())
@@ -812,8 +908,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccountSubscriptionOutputResponse, DeleteAccountSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountSubscriptionOutputResponse, DeleteAccountSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccountSubscriptionOutputResponse, DeleteAccountSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -833,6 +933,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAnalysisInput, DeleteAnalysisOutputResponse, DeleteAnalysisOutputError>(id: "deleteAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAnalysisInput, DeleteAnalysisOutputResponse, DeleteAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAnalysisInput, DeleteAnalysisOutputResponse>())
@@ -845,8 +946,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAnalysisOutputResponse, DeleteAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAnalysisOutputResponse, DeleteAnalysisOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAnalysisOutputResponse, DeleteAnalysisOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -866,6 +971,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDashboardInput, DeleteDashboardOutputResponse, DeleteDashboardOutputError>(id: "deleteDashboard")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDashboardInput, DeleteDashboardOutputResponse, DeleteDashboardOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDashboardInput, DeleteDashboardOutputResponse>())
@@ -878,8 +984,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDashboardOutputResponse, DeleteDashboardOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDashboardOutputResponse, DeleteDashboardOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDashboardOutputResponse, DeleteDashboardOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -899,6 +1009,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDataSetInput, DeleteDataSetOutputResponse, DeleteDataSetOutputError>(id: "deleteDataSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDataSetInput, DeleteDataSetOutputResponse, DeleteDataSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDataSetInput, DeleteDataSetOutputResponse>())
@@ -910,8 +1021,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDataSetOutputResponse, DeleteDataSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDataSetOutputResponse, DeleteDataSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDataSetOutputResponse, DeleteDataSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -931,6 +1046,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDataSourceInput, DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>(id: "deleteDataSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDataSourceInput, DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDataSourceInput, DeleteDataSourceOutputResponse>())
@@ -942,8 +1058,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -963,6 +1083,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFolderInput, DeleteFolderOutputResponse, DeleteFolderOutputError>(id: "deleteFolder")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFolderInput, DeleteFolderOutputResponse, DeleteFolderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFolderInput, DeleteFolderOutputResponse>())
@@ -974,8 +1095,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFolderOutputResponse, DeleteFolderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFolderOutputResponse, DeleteFolderOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFolderOutputResponse, DeleteFolderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -995,6 +1120,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFolderMembershipInput, DeleteFolderMembershipOutputResponse, DeleteFolderMembershipOutputError>(id: "deleteFolderMembership")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFolderMembershipInput, DeleteFolderMembershipOutputResponse, DeleteFolderMembershipOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFolderMembershipInput, DeleteFolderMembershipOutputResponse>())
@@ -1006,8 +1132,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFolderMembershipOutputResponse, DeleteFolderMembershipOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFolderMembershipOutputResponse, DeleteFolderMembershipOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFolderMembershipOutputResponse, DeleteFolderMembershipOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1027,6 +1157,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteGroupInput, DeleteGroupOutputResponse, DeleteGroupOutputError>(id: "deleteGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGroupInput, DeleteGroupOutputResponse, DeleteGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGroupInput, DeleteGroupOutputResponse>())
@@ -1038,8 +1169,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGroupOutputResponse, DeleteGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGroupOutputResponse, DeleteGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGroupOutputResponse, DeleteGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1059,6 +1194,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteGroupMembershipInput, DeleteGroupMembershipOutputResponse, DeleteGroupMembershipOutputError>(id: "deleteGroupMembership")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGroupMembershipInput, DeleteGroupMembershipOutputResponse, DeleteGroupMembershipOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGroupMembershipInput, DeleteGroupMembershipOutputResponse>())
@@ -1070,8 +1206,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGroupMembershipOutputResponse, DeleteGroupMembershipOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGroupMembershipOutputResponse, DeleteGroupMembershipOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGroupMembershipOutputResponse, DeleteGroupMembershipOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1091,6 +1231,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteIAMPolicyAssignmentInput, DeleteIAMPolicyAssignmentOutputResponse, DeleteIAMPolicyAssignmentOutputError>(id: "deleteIAMPolicyAssignment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIAMPolicyAssignmentInput, DeleteIAMPolicyAssignmentOutputResponse, DeleteIAMPolicyAssignmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIAMPolicyAssignmentInput, DeleteIAMPolicyAssignmentOutputResponse>())
@@ -1102,8 +1243,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIAMPolicyAssignmentOutputResponse, DeleteIAMPolicyAssignmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIAMPolicyAssignmentOutputResponse, DeleteIAMPolicyAssignmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIAMPolicyAssignmentOutputResponse, DeleteIAMPolicyAssignmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1123,6 +1268,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteNamespaceInput, DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>(id: "deleteNamespace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNamespaceInput, DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNamespaceInput, DeleteNamespaceOutputResponse>())
@@ -1134,8 +1280,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1155,6 +1305,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTemplateInput, DeleteTemplateOutputResponse, DeleteTemplateOutputError>(id: "deleteTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTemplateInput, DeleteTemplateOutputResponse, DeleteTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTemplateInput, DeleteTemplateOutputResponse>())
@@ -1167,8 +1318,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTemplateOutputResponse, DeleteTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTemplateOutputResponse, DeleteTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTemplateOutputResponse, DeleteTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1188,6 +1343,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTemplateAliasInput, DeleteTemplateAliasOutputResponse, DeleteTemplateAliasOutputError>(id: "deleteTemplateAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTemplateAliasInput, DeleteTemplateAliasOutputResponse, DeleteTemplateAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTemplateAliasInput, DeleteTemplateAliasOutputResponse>())
@@ -1199,8 +1355,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTemplateAliasOutputResponse, DeleteTemplateAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTemplateAliasOutputResponse, DeleteTemplateAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTemplateAliasOutputResponse, DeleteTemplateAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1220,6 +1380,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteThemeInput, DeleteThemeOutputResponse, DeleteThemeOutputError>(id: "deleteTheme")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteThemeInput, DeleteThemeOutputResponse, DeleteThemeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteThemeInput, DeleteThemeOutputResponse>())
@@ -1232,8 +1393,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteThemeOutputResponse, DeleteThemeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteThemeOutputResponse, DeleteThemeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteThemeOutputResponse, DeleteThemeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1253,6 +1418,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteThemeAliasInput, DeleteThemeAliasOutputResponse, DeleteThemeAliasOutputError>(id: "deleteThemeAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteThemeAliasInput, DeleteThemeAliasOutputResponse, DeleteThemeAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteThemeAliasInput, DeleteThemeAliasOutputResponse>())
@@ -1264,8 +1430,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteThemeAliasOutputResponse, DeleteThemeAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteThemeAliasOutputResponse, DeleteThemeAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteThemeAliasOutputResponse, DeleteThemeAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1285,6 +1455,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteUserInput, DeleteUserOutputResponse, DeleteUserOutputError>(id: "deleteUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserInput, DeleteUserOutputResponse, DeleteUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutputResponse>())
@@ -1296,8 +1467,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserOutputResponse, DeleteUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1317,6 +1492,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteUserByPrincipalIdInput, DeleteUserByPrincipalIdOutputResponse, DeleteUserByPrincipalIdOutputError>(id: "deleteUserByPrincipalId")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserByPrincipalIdInput, DeleteUserByPrincipalIdOutputResponse, DeleteUserByPrincipalIdOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserByPrincipalIdInput, DeleteUserByPrincipalIdOutputResponse>())
@@ -1328,8 +1504,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserByPrincipalIdOutputResponse, DeleteUserByPrincipalIdOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserByPrincipalIdOutputResponse, DeleteUserByPrincipalIdOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserByPrincipalIdOutputResponse, DeleteUserByPrincipalIdOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1366,6 +1546,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAccountCustomizationInput, DescribeAccountCustomizationOutputResponse, DescribeAccountCustomizationOutputError>(id: "describeAccountCustomization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountCustomizationInput, DescribeAccountCustomizationOutputResponse, DescribeAccountCustomizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountCustomizationInput, DescribeAccountCustomizationOutputResponse>())
@@ -1378,8 +1559,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountCustomizationOutputResponse, DescribeAccountCustomizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountCustomizationOutputResponse, DescribeAccountCustomizationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountCustomizationOutputResponse, DescribeAccountCustomizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1399,6 +1584,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAccountSettingsInput, DescribeAccountSettingsOutputResponse, DescribeAccountSettingsOutputError>(id: "describeAccountSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutputResponse, DescribeAccountSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutputResponse>())
@@ -1410,8 +1596,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountSettingsOutputResponse, DescribeAccountSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountSettingsOutputResponse, DescribeAccountSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountSettingsOutputResponse, DescribeAccountSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1431,6 +1621,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAccountSubscriptionInput, DescribeAccountSubscriptionOutputResponse, DescribeAccountSubscriptionOutputError>(id: "describeAccountSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountSubscriptionInput, DescribeAccountSubscriptionOutputResponse, DescribeAccountSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountSubscriptionInput, DescribeAccountSubscriptionOutputResponse>())
@@ -1442,8 +1633,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountSubscriptionOutputResponse, DescribeAccountSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountSubscriptionOutputResponse, DescribeAccountSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountSubscriptionOutputResponse, DescribeAccountSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1463,6 +1658,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAnalysisInput, DescribeAnalysisOutputResponse, DescribeAnalysisOutputError>(id: "describeAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAnalysisInput, DescribeAnalysisOutputResponse, DescribeAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAnalysisInput, DescribeAnalysisOutputResponse>())
@@ -1474,8 +1670,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAnalysisOutputResponse, DescribeAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAnalysisOutputResponse, DescribeAnalysisOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAnalysisOutputResponse, DescribeAnalysisOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1495,6 +1695,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAnalysisDefinitionInput, DescribeAnalysisDefinitionOutputResponse, DescribeAnalysisDefinitionOutputError>(id: "describeAnalysisDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAnalysisDefinitionInput, DescribeAnalysisDefinitionOutputResponse, DescribeAnalysisDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAnalysisDefinitionInput, DescribeAnalysisDefinitionOutputResponse>())
@@ -1506,8 +1707,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAnalysisDefinitionOutputResponse, DescribeAnalysisDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAnalysisDefinitionOutputResponse, DescribeAnalysisDefinitionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAnalysisDefinitionOutputResponse, DescribeAnalysisDefinitionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1527,6 +1732,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAnalysisPermissionsInput, DescribeAnalysisPermissionsOutputResponse, DescribeAnalysisPermissionsOutputError>(id: "describeAnalysisPermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAnalysisPermissionsInput, DescribeAnalysisPermissionsOutputResponse, DescribeAnalysisPermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAnalysisPermissionsInput, DescribeAnalysisPermissionsOutputResponse>())
@@ -1538,8 +1744,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAnalysisPermissionsOutputResponse, DescribeAnalysisPermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAnalysisPermissionsOutputResponse, DescribeAnalysisPermissionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAnalysisPermissionsOutputResponse, DescribeAnalysisPermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1559,6 +1769,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDashboardInput, DescribeDashboardOutputResponse, DescribeDashboardOutputError>(id: "describeDashboard")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDashboardInput, DescribeDashboardOutputResponse, DescribeDashboardOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDashboardInput, DescribeDashboardOutputResponse>())
@@ -1571,8 +1782,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDashboardOutputResponse, DescribeDashboardOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDashboardOutputResponse, DescribeDashboardOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDashboardOutputResponse, DescribeDashboardOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1592,6 +1807,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDashboardDefinitionInput, DescribeDashboardDefinitionOutputResponse, DescribeDashboardDefinitionOutputError>(id: "describeDashboardDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDashboardDefinitionInput, DescribeDashboardDefinitionOutputResponse, DescribeDashboardDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDashboardDefinitionInput, DescribeDashboardDefinitionOutputResponse>())
@@ -1604,8 +1820,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDashboardDefinitionOutputResponse, DescribeDashboardDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDashboardDefinitionOutputResponse, DescribeDashboardDefinitionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDashboardDefinitionOutputResponse, DescribeDashboardDefinitionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1625,6 +1845,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDashboardPermissionsInput, DescribeDashboardPermissionsOutputResponse, DescribeDashboardPermissionsOutputError>(id: "describeDashboardPermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDashboardPermissionsInput, DescribeDashboardPermissionsOutputResponse, DescribeDashboardPermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDashboardPermissionsInput, DescribeDashboardPermissionsOutputResponse>())
@@ -1636,8 +1857,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDashboardPermissionsOutputResponse, DescribeDashboardPermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDashboardPermissionsOutputResponse, DescribeDashboardPermissionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDashboardPermissionsOutputResponse, DescribeDashboardPermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1657,6 +1882,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDataSetInput, DescribeDataSetOutputResponse, DescribeDataSetOutputError>(id: "describeDataSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDataSetInput, DescribeDataSetOutputResponse, DescribeDataSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDataSetInput, DescribeDataSetOutputResponse>())
@@ -1668,8 +1894,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDataSetOutputResponse, DescribeDataSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDataSetOutputResponse, DescribeDataSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDataSetOutputResponse, DescribeDataSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1689,6 +1919,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDataSetPermissionsInput, DescribeDataSetPermissionsOutputResponse, DescribeDataSetPermissionsOutputError>(id: "describeDataSetPermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDataSetPermissionsInput, DescribeDataSetPermissionsOutputResponse, DescribeDataSetPermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDataSetPermissionsInput, DescribeDataSetPermissionsOutputResponse>())
@@ -1700,8 +1931,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDataSetPermissionsOutputResponse, DescribeDataSetPermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDataSetPermissionsOutputResponse, DescribeDataSetPermissionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDataSetPermissionsOutputResponse, DescribeDataSetPermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1721,6 +1956,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDataSourceInput, DescribeDataSourceOutputResponse, DescribeDataSourceOutputError>(id: "describeDataSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDataSourceInput, DescribeDataSourceOutputResponse, DescribeDataSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDataSourceInput, DescribeDataSourceOutputResponse>())
@@ -1732,8 +1968,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDataSourceOutputResponse, DescribeDataSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDataSourceOutputResponse, DescribeDataSourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDataSourceOutputResponse, DescribeDataSourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1753,6 +1993,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDataSourcePermissionsInput, DescribeDataSourcePermissionsOutputResponse, DescribeDataSourcePermissionsOutputError>(id: "describeDataSourcePermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDataSourcePermissionsInput, DescribeDataSourcePermissionsOutputResponse, DescribeDataSourcePermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDataSourcePermissionsInput, DescribeDataSourcePermissionsOutputResponse>())
@@ -1764,8 +2005,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDataSourcePermissionsOutputResponse, DescribeDataSourcePermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDataSourcePermissionsOutputResponse, DescribeDataSourcePermissionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDataSourcePermissionsOutputResponse, DescribeDataSourcePermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1785,6 +2030,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFolderInput, DescribeFolderOutputResponse, DescribeFolderOutputError>(id: "describeFolder")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFolderInput, DescribeFolderOutputResponse, DescribeFolderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFolderInput, DescribeFolderOutputResponse>())
@@ -1796,8 +2042,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFolderOutputResponse, DescribeFolderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFolderOutputResponse, DescribeFolderOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFolderOutputResponse, DescribeFolderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1817,6 +2067,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFolderPermissionsInput, DescribeFolderPermissionsOutputResponse, DescribeFolderPermissionsOutputError>(id: "describeFolderPermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFolderPermissionsInput, DescribeFolderPermissionsOutputResponse, DescribeFolderPermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFolderPermissionsInput, DescribeFolderPermissionsOutputResponse>())
@@ -1828,8 +2079,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFolderPermissionsOutputResponse, DescribeFolderPermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFolderPermissionsOutputResponse, DescribeFolderPermissionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFolderPermissionsOutputResponse, DescribeFolderPermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1849,6 +2104,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFolderResolvedPermissionsInput, DescribeFolderResolvedPermissionsOutputResponse, DescribeFolderResolvedPermissionsOutputError>(id: "describeFolderResolvedPermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFolderResolvedPermissionsInput, DescribeFolderResolvedPermissionsOutputResponse, DescribeFolderResolvedPermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFolderResolvedPermissionsInput, DescribeFolderResolvedPermissionsOutputResponse>())
@@ -1860,8 +2116,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFolderResolvedPermissionsOutputResponse, DescribeFolderResolvedPermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFolderResolvedPermissionsOutputResponse, DescribeFolderResolvedPermissionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFolderResolvedPermissionsOutputResponse, DescribeFolderResolvedPermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1881,6 +2141,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeGroupInput, DescribeGroupOutputResponse, DescribeGroupOutputError>(id: "describeGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGroupInput, DescribeGroupOutputResponse, DescribeGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeGroupInput, DescribeGroupOutputResponse>())
@@ -1892,8 +2153,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGroupOutputResponse, DescribeGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGroupOutputResponse, DescribeGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeGroupOutputResponse, DescribeGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1913,6 +2178,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeGroupMembershipInput, DescribeGroupMembershipOutputResponse, DescribeGroupMembershipOutputError>(id: "describeGroupMembership")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGroupMembershipInput, DescribeGroupMembershipOutputResponse, DescribeGroupMembershipOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeGroupMembershipInput, DescribeGroupMembershipOutputResponse>())
@@ -1924,8 +2190,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGroupMembershipOutputResponse, DescribeGroupMembershipOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGroupMembershipOutputResponse, DescribeGroupMembershipOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeGroupMembershipOutputResponse, DescribeGroupMembershipOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1945,6 +2215,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeIAMPolicyAssignmentInput, DescribeIAMPolicyAssignmentOutputResponse, DescribeIAMPolicyAssignmentOutputError>(id: "describeIAMPolicyAssignment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeIAMPolicyAssignmentInput, DescribeIAMPolicyAssignmentOutputResponse, DescribeIAMPolicyAssignmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeIAMPolicyAssignmentInput, DescribeIAMPolicyAssignmentOutputResponse>())
@@ -1956,8 +2227,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeIAMPolicyAssignmentOutputResponse, DescribeIAMPolicyAssignmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeIAMPolicyAssignmentOutputResponse, DescribeIAMPolicyAssignmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeIAMPolicyAssignmentOutputResponse, DescribeIAMPolicyAssignmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1977,6 +2252,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeIngestionInput, DescribeIngestionOutputResponse, DescribeIngestionOutputError>(id: "describeIngestion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeIngestionInput, DescribeIngestionOutputResponse, DescribeIngestionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeIngestionInput, DescribeIngestionOutputResponse>())
@@ -1988,8 +2264,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeIngestionOutputResponse, DescribeIngestionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeIngestionOutputResponse, DescribeIngestionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeIngestionOutputResponse, DescribeIngestionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2009,6 +2289,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeIpRestrictionInput, DescribeIpRestrictionOutputResponse, DescribeIpRestrictionOutputError>(id: "describeIpRestriction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeIpRestrictionInput, DescribeIpRestrictionOutputResponse, DescribeIpRestrictionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeIpRestrictionInput, DescribeIpRestrictionOutputResponse>())
@@ -2020,8 +2301,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeIpRestrictionOutputResponse, DescribeIpRestrictionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeIpRestrictionOutputResponse, DescribeIpRestrictionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeIpRestrictionOutputResponse, DescribeIpRestrictionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2041,6 +2326,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeNamespaceInput, DescribeNamespaceOutputResponse, DescribeNamespaceOutputError>(id: "describeNamespace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeNamespaceInput, DescribeNamespaceOutputResponse, DescribeNamespaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeNamespaceInput, DescribeNamespaceOutputResponse>())
@@ -2052,8 +2338,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeNamespaceOutputResponse, DescribeNamespaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeNamespaceOutputResponse, DescribeNamespaceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeNamespaceOutputResponse, DescribeNamespaceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2073,6 +2363,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTemplateInput, DescribeTemplateOutputResponse, DescribeTemplateOutputError>(id: "describeTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTemplateInput, DescribeTemplateOutputResponse, DescribeTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTemplateInput, DescribeTemplateOutputResponse>())
@@ -2085,8 +2376,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTemplateOutputResponse, DescribeTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTemplateOutputResponse, DescribeTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTemplateOutputResponse, DescribeTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2106,6 +2401,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTemplateAliasInput, DescribeTemplateAliasOutputResponse, DescribeTemplateAliasOutputError>(id: "describeTemplateAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTemplateAliasInput, DescribeTemplateAliasOutputResponse, DescribeTemplateAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTemplateAliasInput, DescribeTemplateAliasOutputResponse>())
@@ -2117,8 +2413,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTemplateAliasOutputResponse, DescribeTemplateAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTemplateAliasOutputResponse, DescribeTemplateAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTemplateAliasOutputResponse, DescribeTemplateAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2138,6 +2438,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTemplateDefinitionInput, DescribeTemplateDefinitionOutputResponse, DescribeTemplateDefinitionOutputError>(id: "describeTemplateDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTemplateDefinitionInput, DescribeTemplateDefinitionOutputResponse, DescribeTemplateDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTemplateDefinitionInput, DescribeTemplateDefinitionOutputResponse>())
@@ -2150,8 +2451,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTemplateDefinitionOutputResponse, DescribeTemplateDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTemplateDefinitionOutputResponse, DescribeTemplateDefinitionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTemplateDefinitionOutputResponse, DescribeTemplateDefinitionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2171,6 +2476,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTemplatePermissionsInput, DescribeTemplatePermissionsOutputResponse, DescribeTemplatePermissionsOutputError>(id: "describeTemplatePermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTemplatePermissionsInput, DescribeTemplatePermissionsOutputResponse, DescribeTemplatePermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTemplatePermissionsInput, DescribeTemplatePermissionsOutputResponse>())
@@ -2182,8 +2488,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTemplatePermissionsOutputResponse, DescribeTemplatePermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTemplatePermissionsOutputResponse, DescribeTemplatePermissionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTemplatePermissionsOutputResponse, DescribeTemplatePermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2203,6 +2513,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeThemeInput, DescribeThemeOutputResponse, DescribeThemeOutputError>(id: "describeTheme")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeThemeInput, DescribeThemeOutputResponse, DescribeThemeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeThemeInput, DescribeThemeOutputResponse>())
@@ -2215,8 +2526,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeThemeOutputResponse, DescribeThemeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeThemeOutputResponse, DescribeThemeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeThemeOutputResponse, DescribeThemeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2236,6 +2551,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeThemeAliasInput, DescribeThemeAliasOutputResponse, DescribeThemeAliasOutputError>(id: "describeThemeAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeThemeAliasInput, DescribeThemeAliasOutputResponse, DescribeThemeAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeThemeAliasInput, DescribeThemeAliasOutputResponse>())
@@ -2247,8 +2563,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeThemeAliasOutputResponse, DescribeThemeAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeThemeAliasOutputResponse, DescribeThemeAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeThemeAliasOutputResponse, DescribeThemeAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2268,6 +2588,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeThemePermissionsInput, DescribeThemePermissionsOutputResponse, DescribeThemePermissionsOutputError>(id: "describeThemePermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeThemePermissionsInput, DescribeThemePermissionsOutputResponse, DescribeThemePermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeThemePermissionsInput, DescribeThemePermissionsOutputResponse>())
@@ -2279,8 +2600,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeThemePermissionsOutputResponse, DescribeThemePermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeThemePermissionsOutputResponse, DescribeThemePermissionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeThemePermissionsOutputResponse, DescribeThemePermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2300,6 +2625,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeUserInput, DescribeUserOutputResponse, DescribeUserOutputError>(id: "describeUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUserInput, DescribeUserOutputResponse, DescribeUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUserInput, DescribeUserOutputResponse>())
@@ -2311,8 +2637,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUserOutputResponse, DescribeUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUserOutputResponse, DescribeUserOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUserOutputResponse, DescribeUserOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2341,6 +2671,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GenerateEmbedUrlForAnonymousUserInput, GenerateEmbedUrlForAnonymousUserOutputResponse, GenerateEmbedUrlForAnonymousUserOutputError>(id: "generateEmbedUrlForAnonymousUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateEmbedUrlForAnonymousUserInput, GenerateEmbedUrlForAnonymousUserOutputResponse, GenerateEmbedUrlForAnonymousUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateEmbedUrlForAnonymousUserInput, GenerateEmbedUrlForAnonymousUserOutputResponse>())
@@ -2355,8 +2686,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateEmbedUrlForAnonymousUserOutputResponse, GenerateEmbedUrlForAnonymousUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateEmbedUrlForAnonymousUserOutputResponse, GenerateEmbedUrlForAnonymousUserOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateEmbedUrlForAnonymousUserOutputResponse, GenerateEmbedUrlForAnonymousUserOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2385,6 +2720,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GenerateEmbedUrlForRegisteredUserInput, GenerateEmbedUrlForRegisteredUserOutputResponse, GenerateEmbedUrlForRegisteredUserOutputError>(id: "generateEmbedUrlForRegisteredUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateEmbedUrlForRegisteredUserInput, GenerateEmbedUrlForRegisteredUserOutputResponse, GenerateEmbedUrlForRegisteredUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateEmbedUrlForRegisteredUserInput, GenerateEmbedUrlForRegisteredUserOutputResponse>())
@@ -2399,8 +2735,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateEmbedUrlForRegisteredUserOutputResponse, GenerateEmbedUrlForRegisteredUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateEmbedUrlForRegisteredUserOutputResponse, GenerateEmbedUrlForRegisteredUserOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateEmbedUrlForRegisteredUserOutputResponse, GenerateEmbedUrlForRegisteredUserOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2433,6 +2773,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDashboardEmbedUrlInput, GetDashboardEmbedUrlOutputResponse, GetDashboardEmbedUrlOutputError>(id: "getDashboardEmbedUrl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDashboardEmbedUrlInput, GetDashboardEmbedUrlOutputResponse, GetDashboardEmbedUrlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDashboardEmbedUrlInput, GetDashboardEmbedUrlOutputResponse>())
@@ -2445,8 +2786,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDashboardEmbedUrlOutputResponse, GetDashboardEmbedUrlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDashboardEmbedUrlOutputResponse, GetDashboardEmbedUrlOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDashboardEmbedUrlOutputResponse, GetDashboardEmbedUrlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2470,6 +2815,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSessionEmbedUrlInput, GetSessionEmbedUrlOutputResponse, GetSessionEmbedUrlOutputError>(id: "getSessionEmbedUrl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSessionEmbedUrlInput, GetSessionEmbedUrlOutputResponse, GetSessionEmbedUrlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSessionEmbedUrlInput, GetSessionEmbedUrlOutputResponse>())
@@ -2482,8 +2828,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSessionEmbedUrlOutputResponse, GetSessionEmbedUrlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSessionEmbedUrlOutputResponse, GetSessionEmbedUrlOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSessionEmbedUrlOutputResponse, GetSessionEmbedUrlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2503,6 +2853,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAnalysesInput, ListAnalysesOutputResponse, ListAnalysesOutputError>(id: "listAnalyses")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAnalysesInput, ListAnalysesOutputResponse, ListAnalysesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAnalysesInput, ListAnalysesOutputResponse>())
@@ -2515,8 +2866,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAnalysesOutputResponse, ListAnalysesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAnalysesOutputResponse, ListAnalysesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAnalysesOutputResponse, ListAnalysesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2536,6 +2891,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDashboardVersionsInput, ListDashboardVersionsOutputResponse, ListDashboardVersionsOutputError>(id: "listDashboardVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDashboardVersionsInput, ListDashboardVersionsOutputResponse, ListDashboardVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDashboardVersionsInput, ListDashboardVersionsOutputResponse>())
@@ -2548,8 +2904,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDashboardVersionsOutputResponse, ListDashboardVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDashboardVersionsOutputResponse, ListDashboardVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDashboardVersionsOutputResponse, ListDashboardVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2569,6 +2929,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDashboardsInput, ListDashboardsOutputResponse, ListDashboardsOutputError>(id: "listDashboards")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDashboardsInput, ListDashboardsOutputResponse, ListDashboardsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDashboardsInput, ListDashboardsOutputResponse>())
@@ -2581,8 +2942,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDashboardsOutputResponse, ListDashboardsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDashboardsOutputResponse, ListDashboardsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDashboardsOutputResponse, ListDashboardsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2602,6 +2967,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDataSetsInput, ListDataSetsOutputResponse, ListDataSetsOutputError>(id: "listDataSets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDataSetsInput, ListDataSetsOutputResponse, ListDataSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDataSetsInput, ListDataSetsOutputResponse>())
@@ -2614,8 +2980,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDataSetsOutputResponse, ListDataSetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDataSetsOutputResponse, ListDataSetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDataSetsOutputResponse, ListDataSetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2635,6 +3005,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDataSourcesInput, ListDataSourcesOutputResponse, ListDataSourcesOutputError>(id: "listDataSources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDataSourcesInput, ListDataSourcesOutputResponse, ListDataSourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDataSourcesInput, ListDataSourcesOutputResponse>())
@@ -2647,8 +3018,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDataSourcesOutputResponse, ListDataSourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDataSourcesOutputResponse, ListDataSourcesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDataSourcesOutputResponse, ListDataSourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2668,6 +3043,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFolderMembersInput, ListFolderMembersOutputResponse, ListFolderMembersOutputError>(id: "listFolderMembers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFolderMembersInput, ListFolderMembersOutputResponse, ListFolderMembersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFolderMembersInput, ListFolderMembersOutputResponse>())
@@ -2680,8 +3056,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFolderMembersOutputResponse, ListFolderMembersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFolderMembersOutputResponse, ListFolderMembersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFolderMembersOutputResponse, ListFolderMembersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2701,6 +3081,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFoldersInput, ListFoldersOutputResponse, ListFoldersOutputError>(id: "listFolders")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFoldersInput, ListFoldersOutputResponse, ListFoldersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFoldersInput, ListFoldersOutputResponse>())
@@ -2713,8 +3094,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFoldersOutputResponse, ListFoldersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFoldersOutputResponse, ListFoldersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFoldersOutputResponse, ListFoldersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2734,6 +3119,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGroupMembershipsInput, ListGroupMembershipsOutputResponse, ListGroupMembershipsOutputError>(id: "listGroupMemberships")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupMembershipsInput, ListGroupMembershipsOutputResponse, ListGroupMembershipsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupMembershipsInput, ListGroupMembershipsOutputResponse>())
@@ -2746,8 +3132,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupMembershipsOutputResponse, ListGroupMembershipsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupMembershipsOutputResponse, ListGroupMembershipsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupMembershipsOutputResponse, ListGroupMembershipsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2767,6 +3157,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGroupsInput, ListGroupsOutputResponse, ListGroupsOutputError>(id: "listGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupsInput, ListGroupsOutputResponse, ListGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupsInput, ListGroupsOutputResponse>())
@@ -2779,8 +3170,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupsOutputResponse, ListGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupsOutputResponse, ListGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupsOutputResponse, ListGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2800,6 +3195,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListIAMPolicyAssignmentsInput, ListIAMPolicyAssignmentsOutputResponse, ListIAMPolicyAssignmentsOutputError>(id: "listIAMPolicyAssignments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIAMPolicyAssignmentsInput, ListIAMPolicyAssignmentsOutputResponse, ListIAMPolicyAssignmentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIAMPolicyAssignmentsInput, ListIAMPolicyAssignmentsOutputResponse>())
@@ -2815,8 +3211,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIAMPolicyAssignmentsOutputResponse, ListIAMPolicyAssignmentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIAMPolicyAssignmentsOutputResponse, ListIAMPolicyAssignmentsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIAMPolicyAssignmentsOutputResponse, ListIAMPolicyAssignmentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2836,6 +3236,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListIAMPolicyAssignmentsForUserInput, ListIAMPolicyAssignmentsForUserOutputResponse, ListIAMPolicyAssignmentsForUserOutputError>(id: "listIAMPolicyAssignmentsForUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIAMPolicyAssignmentsForUserInput, ListIAMPolicyAssignmentsForUserOutputResponse, ListIAMPolicyAssignmentsForUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIAMPolicyAssignmentsForUserInput, ListIAMPolicyAssignmentsForUserOutputResponse>())
@@ -2848,8 +3249,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIAMPolicyAssignmentsForUserOutputResponse, ListIAMPolicyAssignmentsForUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIAMPolicyAssignmentsForUserOutputResponse, ListIAMPolicyAssignmentsForUserOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIAMPolicyAssignmentsForUserOutputResponse, ListIAMPolicyAssignmentsForUserOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2869,6 +3274,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListIngestionsInput, ListIngestionsOutputResponse, ListIngestionsOutputError>(id: "listIngestions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIngestionsInput, ListIngestionsOutputResponse, ListIngestionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIngestionsInput, ListIngestionsOutputResponse>())
@@ -2881,8 +3287,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIngestionsOutputResponse, ListIngestionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIngestionsOutputResponse, ListIngestionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIngestionsOutputResponse, ListIngestionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2902,6 +3312,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListNamespacesInput, ListNamespacesOutputResponse, ListNamespacesOutputError>(id: "listNamespaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNamespacesInput, ListNamespacesOutputResponse, ListNamespacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNamespacesInput, ListNamespacesOutputResponse>())
@@ -2914,8 +3325,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNamespacesOutputResponse, ListNamespacesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNamespacesOutputResponse, ListNamespacesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNamespacesOutputResponse, ListNamespacesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2935,6 +3350,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -2946,8 +3362,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2967,6 +3387,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTemplateAliasesInput, ListTemplateAliasesOutputResponse, ListTemplateAliasesOutputError>(id: "listTemplateAliases")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTemplateAliasesInput, ListTemplateAliasesOutputResponse, ListTemplateAliasesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTemplateAliasesInput, ListTemplateAliasesOutputResponse>())
@@ -2979,8 +3400,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTemplateAliasesOutputResponse, ListTemplateAliasesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTemplateAliasesOutputResponse, ListTemplateAliasesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTemplateAliasesOutputResponse, ListTemplateAliasesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3000,6 +3425,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTemplateVersionsInput, ListTemplateVersionsOutputResponse, ListTemplateVersionsOutputError>(id: "listTemplateVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTemplateVersionsInput, ListTemplateVersionsOutputResponse, ListTemplateVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTemplateVersionsInput, ListTemplateVersionsOutputResponse>())
@@ -3012,8 +3438,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTemplateVersionsOutputResponse, ListTemplateVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTemplateVersionsOutputResponse, ListTemplateVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTemplateVersionsOutputResponse, ListTemplateVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3033,6 +3463,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTemplatesInput, ListTemplatesOutputResponse, ListTemplatesOutputError>(id: "listTemplates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTemplatesInput, ListTemplatesOutputResponse, ListTemplatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTemplatesInput, ListTemplatesOutputResponse>())
@@ -3045,8 +3476,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTemplatesOutputResponse, ListTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTemplatesOutputResponse, ListTemplatesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTemplatesOutputResponse, ListTemplatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3066,6 +3501,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListThemeAliasesInput, ListThemeAliasesOutputResponse, ListThemeAliasesOutputError>(id: "listThemeAliases")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListThemeAliasesInput, ListThemeAliasesOutputResponse, ListThemeAliasesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListThemeAliasesInput, ListThemeAliasesOutputResponse>())
@@ -3078,8 +3514,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListThemeAliasesOutputResponse, ListThemeAliasesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListThemeAliasesOutputResponse, ListThemeAliasesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListThemeAliasesOutputResponse, ListThemeAliasesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3099,6 +3539,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListThemeVersionsInput, ListThemeVersionsOutputResponse, ListThemeVersionsOutputError>(id: "listThemeVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListThemeVersionsInput, ListThemeVersionsOutputResponse, ListThemeVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListThemeVersionsInput, ListThemeVersionsOutputResponse>())
@@ -3111,8 +3552,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListThemeVersionsOutputResponse, ListThemeVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListThemeVersionsOutputResponse, ListThemeVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListThemeVersionsOutputResponse, ListThemeVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3132,6 +3577,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListThemesInput, ListThemesOutputResponse, ListThemesOutputError>(id: "listThemes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListThemesInput, ListThemesOutputResponse, ListThemesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListThemesInput, ListThemesOutputResponse>())
@@ -3144,8 +3590,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListThemesOutputResponse, ListThemesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListThemesOutputResponse, ListThemesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListThemesOutputResponse, ListThemesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3165,6 +3615,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListUserGroupsInput, ListUserGroupsOutputResponse, ListUserGroupsOutputError>(id: "listUserGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserGroupsInput, ListUserGroupsOutputResponse, ListUserGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserGroupsInput, ListUserGroupsOutputResponse>())
@@ -3177,8 +3628,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserGroupsOutputResponse, ListUserGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserGroupsOutputResponse, ListUserGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserGroupsOutputResponse, ListUserGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3198,6 +3653,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListUsersInput, ListUsersOutputResponse, ListUsersOutputError>(id: "listUsers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUsersInput, ListUsersOutputResponse, ListUsersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUsersInput, ListUsersOutputResponse>())
@@ -3210,8 +3666,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUsersOutputResponse, ListUsersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUsersOutputResponse, ListUsersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUsersOutputResponse, ListUsersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3231,6 +3691,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterUserInput, RegisterUserOutputResponse, RegisterUserOutputError>(id: "registerUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterUserInput, RegisterUserOutputResponse, RegisterUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterUserInput, RegisterUserOutputResponse>())
@@ -3245,8 +3706,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterUserOutputResponse, RegisterUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterUserOutputResponse, RegisterUserOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterUserOutputResponse, RegisterUserOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3266,6 +3731,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RestoreAnalysisInput, RestoreAnalysisOutputResponse, RestoreAnalysisOutputError>(id: "restoreAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreAnalysisInput, RestoreAnalysisOutputResponse, RestoreAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreAnalysisInput, RestoreAnalysisOutputResponse>())
@@ -3277,8 +3743,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreAnalysisOutputResponse, RestoreAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreAnalysisOutputResponse, RestoreAnalysisOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreAnalysisOutputResponse, RestoreAnalysisOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3298,6 +3768,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchAnalysesInput, SearchAnalysesOutputResponse, SearchAnalysesOutputError>(id: "searchAnalyses")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchAnalysesInput, SearchAnalysesOutputResponse, SearchAnalysesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchAnalysesInput, SearchAnalysesOutputResponse>())
@@ -3312,8 +3783,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchAnalysesOutputResponse, SearchAnalysesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchAnalysesOutputResponse, SearchAnalysesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchAnalysesOutputResponse, SearchAnalysesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3333,6 +3808,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchDashboardsInput, SearchDashboardsOutputResponse, SearchDashboardsOutputError>(id: "searchDashboards")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchDashboardsInput, SearchDashboardsOutputResponse, SearchDashboardsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchDashboardsInput, SearchDashboardsOutputResponse>())
@@ -3347,8 +3823,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchDashboardsOutputResponse, SearchDashboardsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchDashboardsOutputResponse, SearchDashboardsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchDashboardsOutputResponse, SearchDashboardsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3368,6 +3848,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchDataSetsInput, SearchDataSetsOutputResponse, SearchDataSetsOutputError>(id: "searchDataSets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchDataSetsInput, SearchDataSetsOutputResponse, SearchDataSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchDataSetsInput, SearchDataSetsOutputResponse>())
@@ -3382,8 +3863,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchDataSetsOutputResponse, SearchDataSetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchDataSetsOutputResponse, SearchDataSetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchDataSetsOutputResponse, SearchDataSetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3403,6 +3888,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchDataSourcesInput, SearchDataSourcesOutputResponse, SearchDataSourcesOutputError>(id: "searchDataSources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchDataSourcesInput, SearchDataSourcesOutputResponse, SearchDataSourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchDataSourcesInput, SearchDataSourcesOutputResponse>())
@@ -3417,8 +3903,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchDataSourcesOutputResponse, SearchDataSourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchDataSourcesOutputResponse, SearchDataSourcesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchDataSourcesOutputResponse, SearchDataSourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3438,6 +3928,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchFoldersInput, SearchFoldersOutputResponse, SearchFoldersOutputError>(id: "searchFolders")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchFoldersInput, SearchFoldersOutputResponse, SearchFoldersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchFoldersInput, SearchFoldersOutputResponse>())
@@ -3452,8 +3943,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchFoldersOutputResponse, SearchFoldersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchFoldersOutputResponse, SearchFoldersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchFoldersOutputResponse, SearchFoldersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3473,6 +3968,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchGroupsInput, SearchGroupsOutputResponse, SearchGroupsOutputError>(id: "searchGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchGroupsInput, SearchGroupsOutputResponse, SearchGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchGroupsInput, SearchGroupsOutputResponse>())
@@ -3488,8 +3984,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchGroupsOutputResponse, SearchGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchGroupsOutputResponse, SearchGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchGroupsOutputResponse, SearchGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3513,6 +4013,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -3527,8 +4028,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3548,6 +4053,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -3560,8 +4066,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3581,6 +4091,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAccountCustomizationInput, UpdateAccountCustomizationOutputResponse, UpdateAccountCustomizationOutputError>(id: "updateAccountCustomization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccountCustomizationInput, UpdateAccountCustomizationOutputResponse, UpdateAccountCustomizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAccountCustomizationInput, UpdateAccountCustomizationOutputResponse>())
@@ -3596,8 +4107,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccountCustomizationOutputResponse, UpdateAccountCustomizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccountCustomizationOutputResponse, UpdateAccountCustomizationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAccountCustomizationOutputResponse, UpdateAccountCustomizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3617,6 +4132,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAccountSettingsInput, UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>(id: "updateAccountSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutputResponse>())
@@ -3631,8 +4147,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3652,6 +4172,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAnalysisInput, UpdateAnalysisOutputResponse, UpdateAnalysisOutputError>(id: "updateAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAnalysisInput, UpdateAnalysisOutputResponse, UpdateAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAnalysisInput, UpdateAnalysisOutputResponse>())
@@ -3666,8 +4187,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAnalysisOutputResponse, UpdateAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAnalysisOutputResponse, UpdateAnalysisOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAnalysisOutputResponse, UpdateAnalysisOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3687,6 +4212,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAnalysisPermissionsInput, UpdateAnalysisPermissionsOutputResponse, UpdateAnalysisPermissionsOutputError>(id: "updateAnalysisPermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAnalysisPermissionsInput, UpdateAnalysisPermissionsOutputResponse, UpdateAnalysisPermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAnalysisPermissionsInput, UpdateAnalysisPermissionsOutputResponse>())
@@ -3701,8 +4227,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAnalysisPermissionsOutputResponse, UpdateAnalysisPermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAnalysisPermissionsOutputResponse, UpdateAnalysisPermissionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAnalysisPermissionsOutputResponse, UpdateAnalysisPermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3722,6 +4252,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDashboardInput, UpdateDashboardOutputResponse, UpdateDashboardOutputError>(id: "updateDashboard")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDashboardInput, UpdateDashboardOutputResponse, UpdateDashboardOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDashboardInput, UpdateDashboardOutputResponse>())
@@ -3736,8 +4267,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDashboardOutputResponse, UpdateDashboardOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDashboardOutputResponse, UpdateDashboardOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDashboardOutputResponse, UpdateDashboardOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3757,6 +4292,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDashboardPermissionsInput, UpdateDashboardPermissionsOutputResponse, UpdateDashboardPermissionsOutputError>(id: "updateDashboardPermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDashboardPermissionsInput, UpdateDashboardPermissionsOutputResponse, UpdateDashboardPermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDashboardPermissionsInput, UpdateDashboardPermissionsOutputResponse>())
@@ -3771,8 +4307,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDashboardPermissionsOutputResponse, UpdateDashboardPermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDashboardPermissionsOutputResponse, UpdateDashboardPermissionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDashboardPermissionsOutputResponse, UpdateDashboardPermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3792,6 +4332,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDashboardPublishedVersionInput, UpdateDashboardPublishedVersionOutputResponse, UpdateDashboardPublishedVersionOutputError>(id: "updateDashboardPublishedVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDashboardPublishedVersionInput, UpdateDashboardPublishedVersionOutputResponse, UpdateDashboardPublishedVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDashboardPublishedVersionInput, UpdateDashboardPublishedVersionOutputResponse>())
@@ -3803,8 +4344,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDashboardPublishedVersionOutputResponse, UpdateDashboardPublishedVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDashboardPublishedVersionOutputResponse, UpdateDashboardPublishedVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDashboardPublishedVersionOutputResponse, UpdateDashboardPublishedVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3824,6 +4369,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDataSetInput, UpdateDataSetOutputResponse, UpdateDataSetOutputError>(id: "updateDataSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDataSetInput, UpdateDataSetOutputResponse, UpdateDataSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDataSetInput, UpdateDataSetOutputResponse>())
@@ -3838,8 +4384,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDataSetOutputResponse, UpdateDataSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDataSetOutputResponse, UpdateDataSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDataSetOutputResponse, UpdateDataSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3859,6 +4409,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDataSetPermissionsInput, UpdateDataSetPermissionsOutputResponse, UpdateDataSetPermissionsOutputError>(id: "updateDataSetPermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDataSetPermissionsInput, UpdateDataSetPermissionsOutputResponse, UpdateDataSetPermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDataSetPermissionsInput, UpdateDataSetPermissionsOutputResponse>())
@@ -3873,8 +4424,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDataSetPermissionsOutputResponse, UpdateDataSetPermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDataSetPermissionsOutputResponse, UpdateDataSetPermissionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDataSetPermissionsOutputResponse, UpdateDataSetPermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3894,6 +4449,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDataSourceInput, UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>(id: "updateDataSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDataSourceInput, UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDataSourceInput, UpdateDataSourceOutputResponse>())
@@ -3908,8 +4464,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3929,6 +4489,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDataSourcePermissionsInput, UpdateDataSourcePermissionsOutputResponse, UpdateDataSourcePermissionsOutputError>(id: "updateDataSourcePermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDataSourcePermissionsInput, UpdateDataSourcePermissionsOutputResponse, UpdateDataSourcePermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDataSourcePermissionsInput, UpdateDataSourcePermissionsOutputResponse>())
@@ -3943,8 +4504,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDataSourcePermissionsOutputResponse, UpdateDataSourcePermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDataSourcePermissionsOutputResponse, UpdateDataSourcePermissionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDataSourcePermissionsOutputResponse, UpdateDataSourcePermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3964,6 +4529,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFolderInput, UpdateFolderOutputResponse, UpdateFolderOutputError>(id: "updateFolder")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFolderInput, UpdateFolderOutputResponse, UpdateFolderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFolderInput, UpdateFolderOutputResponse>())
@@ -3978,8 +4544,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFolderOutputResponse, UpdateFolderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFolderOutputResponse, UpdateFolderOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFolderOutputResponse, UpdateFolderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3999,6 +4569,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFolderPermissionsInput, UpdateFolderPermissionsOutputResponse, UpdateFolderPermissionsOutputError>(id: "updateFolderPermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFolderPermissionsInput, UpdateFolderPermissionsOutputResponse, UpdateFolderPermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFolderPermissionsInput, UpdateFolderPermissionsOutputResponse>())
@@ -4013,8 +4584,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFolderPermissionsOutputResponse, UpdateFolderPermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFolderPermissionsOutputResponse, UpdateFolderPermissionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFolderPermissionsOutputResponse, UpdateFolderPermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4034,6 +4609,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateGroupInput, UpdateGroupOutputResponse, UpdateGroupOutputError>(id: "updateGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGroupInput, UpdateGroupOutputResponse, UpdateGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGroupInput, UpdateGroupOutputResponse>())
@@ -4048,8 +4624,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGroupOutputResponse, UpdateGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGroupOutputResponse, UpdateGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGroupOutputResponse, UpdateGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4069,6 +4649,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateIAMPolicyAssignmentInput, UpdateIAMPolicyAssignmentOutputResponse, UpdateIAMPolicyAssignmentOutputError>(id: "updateIAMPolicyAssignment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIAMPolicyAssignmentInput, UpdateIAMPolicyAssignmentOutputResponse, UpdateIAMPolicyAssignmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIAMPolicyAssignmentInput, UpdateIAMPolicyAssignmentOutputResponse>())
@@ -4083,8 +4664,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIAMPolicyAssignmentOutputResponse, UpdateIAMPolicyAssignmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIAMPolicyAssignmentOutputResponse, UpdateIAMPolicyAssignmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIAMPolicyAssignmentOutputResponse, UpdateIAMPolicyAssignmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4104,6 +4689,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateIpRestrictionInput, UpdateIpRestrictionOutputResponse, UpdateIpRestrictionOutputError>(id: "updateIpRestriction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIpRestrictionInput, UpdateIpRestrictionOutputResponse, UpdateIpRestrictionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIpRestrictionInput, UpdateIpRestrictionOutputResponse>())
@@ -4118,8 +4704,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIpRestrictionOutputResponse, UpdateIpRestrictionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIpRestrictionOutputResponse, UpdateIpRestrictionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIpRestrictionOutputResponse, UpdateIpRestrictionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4139,6 +4729,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePublicSharingSettingsInput, UpdatePublicSharingSettingsOutputResponse, UpdatePublicSharingSettingsOutputError>(id: "updatePublicSharingSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePublicSharingSettingsInput, UpdatePublicSharingSettingsOutputResponse, UpdatePublicSharingSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePublicSharingSettingsInput, UpdatePublicSharingSettingsOutputResponse>())
@@ -4153,8 +4744,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePublicSharingSettingsOutputResponse, UpdatePublicSharingSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePublicSharingSettingsOutputResponse, UpdatePublicSharingSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePublicSharingSettingsOutputResponse, UpdatePublicSharingSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4174,6 +4769,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTemplateInput, UpdateTemplateOutputResponse, UpdateTemplateOutputError>(id: "updateTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTemplateInput, UpdateTemplateOutputResponse, UpdateTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTemplateInput, UpdateTemplateOutputResponse>())
@@ -4188,8 +4784,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTemplateOutputResponse, UpdateTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTemplateOutputResponse, UpdateTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTemplateOutputResponse, UpdateTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4209,6 +4809,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTemplateAliasInput, UpdateTemplateAliasOutputResponse, UpdateTemplateAliasOutputError>(id: "updateTemplateAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTemplateAliasInput, UpdateTemplateAliasOutputResponse, UpdateTemplateAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTemplateAliasInput, UpdateTemplateAliasOutputResponse>())
@@ -4223,8 +4824,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTemplateAliasOutputResponse, UpdateTemplateAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTemplateAliasOutputResponse, UpdateTemplateAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTemplateAliasOutputResponse, UpdateTemplateAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4244,6 +4849,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTemplatePermissionsInput, UpdateTemplatePermissionsOutputResponse, UpdateTemplatePermissionsOutputError>(id: "updateTemplatePermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTemplatePermissionsInput, UpdateTemplatePermissionsOutputResponse, UpdateTemplatePermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTemplatePermissionsInput, UpdateTemplatePermissionsOutputResponse>())
@@ -4258,8 +4864,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTemplatePermissionsOutputResponse, UpdateTemplatePermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTemplatePermissionsOutputResponse, UpdateTemplatePermissionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTemplatePermissionsOutputResponse, UpdateTemplatePermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4279,6 +4889,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateThemeInput, UpdateThemeOutputResponse, UpdateThemeOutputError>(id: "updateTheme")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateThemeInput, UpdateThemeOutputResponse, UpdateThemeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateThemeInput, UpdateThemeOutputResponse>())
@@ -4293,8 +4904,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateThemeOutputResponse, UpdateThemeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateThemeOutputResponse, UpdateThemeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateThemeOutputResponse, UpdateThemeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4314,6 +4929,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateThemeAliasInput, UpdateThemeAliasOutputResponse, UpdateThemeAliasOutputError>(id: "updateThemeAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateThemeAliasInput, UpdateThemeAliasOutputResponse, UpdateThemeAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateThemeAliasInput, UpdateThemeAliasOutputResponse>())
@@ -4328,8 +4944,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateThemeAliasOutputResponse, UpdateThemeAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateThemeAliasOutputResponse, UpdateThemeAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateThemeAliasOutputResponse, UpdateThemeAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4391,6 +5011,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateThemePermissionsInput, UpdateThemePermissionsOutputResponse, UpdateThemePermissionsOutputError>(id: "updateThemePermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateThemePermissionsInput, UpdateThemePermissionsOutputResponse, UpdateThemePermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateThemePermissionsInput, UpdateThemePermissionsOutputResponse>())
@@ -4405,8 +5026,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateThemePermissionsOutputResponse, UpdateThemePermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateThemePermissionsOutputResponse, UpdateThemePermissionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateThemePermissionsOutputResponse, UpdateThemePermissionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -4426,6 +5051,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateUserInput, UpdateUserOutputResponse, UpdateUserOutputError>(id: "updateUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserInput, UpdateUserOutputResponse, UpdateUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserInput, UpdateUserOutputResponse>())
@@ -4440,8 +5066,12 @@ extension QuickSightClient: QuickSightClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserOutputResponse, UpdateUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserOutputResponse, UpdateUserOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserOutputResponse, UpdateUserOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

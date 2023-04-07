@@ -164,6 +164,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CountClosedWorkflowExecutionsInput, CountClosedWorkflowExecutionsOutputResponse, CountClosedWorkflowExecutionsOutputError>(id: "countClosedWorkflowExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CountClosedWorkflowExecutionsInput, CountClosedWorkflowExecutionsOutputResponse, CountClosedWorkflowExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CountClosedWorkflowExecutionsInput, CountClosedWorkflowExecutionsOutputResponse>())
@@ -179,8 +180,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CountClosedWorkflowExecutionsOutputResponse, CountClosedWorkflowExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CountClosedWorkflowExecutionsOutputResponse, CountClosedWorkflowExecutionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CountClosedWorkflowExecutionsOutputResponse, CountClosedWorkflowExecutionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -218,6 +223,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CountOpenWorkflowExecutionsInput, CountOpenWorkflowExecutionsOutputResponse, CountOpenWorkflowExecutionsOutputError>(id: "countOpenWorkflowExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CountOpenWorkflowExecutionsInput, CountOpenWorkflowExecutionsOutputResponse, CountOpenWorkflowExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CountOpenWorkflowExecutionsInput, CountOpenWorkflowExecutionsOutputResponse>())
@@ -233,8 +239,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CountOpenWorkflowExecutionsOutputResponse, CountOpenWorkflowExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CountOpenWorkflowExecutionsOutputResponse, CountOpenWorkflowExecutionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CountOpenWorkflowExecutionsOutputResponse, CountOpenWorkflowExecutionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -263,6 +273,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CountPendingActivityTasksInput, CountPendingActivityTasksOutputResponse, CountPendingActivityTasksOutputError>(id: "countPendingActivityTasks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CountPendingActivityTasksInput, CountPendingActivityTasksOutputResponse, CountPendingActivityTasksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CountPendingActivityTasksInput, CountPendingActivityTasksOutputResponse>())
@@ -278,8 +289,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CountPendingActivityTasksOutputResponse, CountPendingActivityTasksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CountPendingActivityTasksOutputResponse, CountPendingActivityTasksOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CountPendingActivityTasksOutputResponse, CountPendingActivityTasksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -308,6 +323,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CountPendingDecisionTasksInput, CountPendingDecisionTasksOutputResponse, CountPendingDecisionTasksOutputError>(id: "countPendingDecisionTasks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CountPendingDecisionTasksInput, CountPendingDecisionTasksOutputResponse, CountPendingDecisionTasksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CountPendingDecisionTasksInput, CountPendingDecisionTasksOutputResponse>())
@@ -323,8 +339,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CountPendingDecisionTasksOutputResponse, CountPendingDecisionTasksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CountPendingDecisionTasksOutputResponse, CountPendingDecisionTasksOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CountPendingDecisionTasksOutputResponse, CountPendingDecisionTasksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -360,6 +380,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeprecateActivityTypeInput, DeprecateActivityTypeOutputResponse, DeprecateActivityTypeOutputError>(id: "deprecateActivityType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeprecateActivityTypeInput, DeprecateActivityTypeOutputResponse, DeprecateActivityTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeprecateActivityTypeInput, DeprecateActivityTypeOutputResponse>())
@@ -375,8 +396,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeprecateActivityTypeOutputResponse, DeprecateActivityTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeprecateActivityTypeOutputResponse, DeprecateActivityTypeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeprecateActivityTypeOutputResponse, DeprecateActivityTypeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -405,6 +430,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeprecateDomainInput, DeprecateDomainOutputResponse, DeprecateDomainOutputError>(id: "deprecateDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeprecateDomainInput, DeprecateDomainOutputResponse, DeprecateDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeprecateDomainInput, DeprecateDomainOutputResponse>())
@@ -420,8 +446,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeprecateDomainOutputResponse, DeprecateDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeprecateDomainOutputResponse, DeprecateDomainOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeprecateDomainOutputResponse, DeprecateDomainOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -457,6 +487,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeprecateWorkflowTypeInput, DeprecateWorkflowTypeOutputResponse, DeprecateWorkflowTypeOutputError>(id: "deprecateWorkflowType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeprecateWorkflowTypeInput, DeprecateWorkflowTypeOutputResponse, DeprecateWorkflowTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeprecateWorkflowTypeInput, DeprecateWorkflowTypeOutputResponse>())
@@ -472,8 +503,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeprecateWorkflowTypeOutputResponse, DeprecateWorkflowTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeprecateWorkflowTypeOutputResponse, DeprecateWorkflowTypeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeprecateWorkflowTypeOutputResponse, DeprecateWorkflowTypeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -509,6 +544,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeActivityTypeInput, DescribeActivityTypeOutputResponse, DescribeActivityTypeOutputError>(id: "describeActivityType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeActivityTypeInput, DescribeActivityTypeOutputResponse, DescribeActivityTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeActivityTypeInput, DescribeActivityTypeOutputResponse>())
@@ -524,8 +560,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeActivityTypeOutputResponse, DescribeActivityTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeActivityTypeOutputResponse, DescribeActivityTypeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeActivityTypeOutputResponse, DescribeActivityTypeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -554,6 +594,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDomainInput, DescribeDomainOutputResponse, DescribeDomainOutputError>(id: "describeDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDomainInput, DescribeDomainOutputResponse, DescribeDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDomainInput, DescribeDomainOutputResponse>())
@@ -569,8 +610,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDomainOutputResponse, DescribeDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDomainOutputResponse, DescribeDomainOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDomainOutputResponse, DescribeDomainOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -599,6 +644,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeWorkflowExecutionInput, DescribeWorkflowExecutionOutputResponse, DescribeWorkflowExecutionOutputError>(id: "describeWorkflowExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorkflowExecutionInput, DescribeWorkflowExecutionOutputResponse, DescribeWorkflowExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorkflowExecutionInput, DescribeWorkflowExecutionOutputResponse>())
@@ -614,8 +660,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWorkflowExecutionOutputResponse, DescribeWorkflowExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorkflowExecutionOutputResponse, DescribeWorkflowExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeWorkflowExecutionOutputResponse, DescribeWorkflowExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -651,6 +701,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeWorkflowTypeInput, DescribeWorkflowTypeOutputResponse, DescribeWorkflowTypeOutputError>(id: "describeWorkflowType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorkflowTypeInput, DescribeWorkflowTypeOutputResponse, DescribeWorkflowTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorkflowTypeInput, DescribeWorkflowTypeOutputResponse>())
@@ -666,8 +717,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWorkflowTypeOutputResponse, DescribeWorkflowTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorkflowTypeOutputResponse, DescribeWorkflowTypeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeWorkflowTypeOutputResponse, DescribeWorkflowTypeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -696,6 +751,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutputResponse, GetWorkflowExecutionHistoryOutputError>(id: "getWorkflowExecutionHistory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutputResponse, GetWorkflowExecutionHistoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutputResponse>())
@@ -711,8 +767,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWorkflowExecutionHistoryOutputResponse, GetWorkflowExecutionHistoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWorkflowExecutionHistoryOutputResponse, GetWorkflowExecutionHistoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWorkflowExecutionHistoryOutputResponse, GetWorkflowExecutionHistoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -741,6 +801,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListActivityTypesInput, ListActivityTypesOutputResponse, ListActivityTypesOutputError>(id: "listActivityTypes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListActivityTypesInput, ListActivityTypesOutputResponse, ListActivityTypesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListActivityTypesInput, ListActivityTypesOutputResponse>())
@@ -756,8 +817,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListActivityTypesOutputResponse, ListActivityTypesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListActivityTypesOutputResponse, ListActivityTypesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListActivityTypesOutputResponse, ListActivityTypesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -795,6 +860,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutputResponse, ListClosedWorkflowExecutionsOutputError>(id: "listClosedWorkflowExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutputResponse, ListClosedWorkflowExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutputResponse>())
@@ -810,8 +876,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListClosedWorkflowExecutionsOutputResponse, ListClosedWorkflowExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListClosedWorkflowExecutionsOutputResponse, ListClosedWorkflowExecutionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListClosedWorkflowExecutionsOutputResponse, ListClosedWorkflowExecutionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -840,6 +910,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDomainsInput, ListDomainsOutputResponse, ListDomainsOutputError>(id: "listDomains")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDomainsInput, ListDomainsOutputResponse, ListDomainsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDomainsInput, ListDomainsOutputResponse>())
@@ -855,8 +926,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDomainsOutputResponse, ListDomainsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDomainsOutputResponse, ListDomainsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDomainsOutputResponse, ListDomainsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -894,6 +969,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutputResponse, ListOpenWorkflowExecutionsOutputError>(id: "listOpenWorkflowExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutputResponse, ListOpenWorkflowExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutputResponse>())
@@ -909,8 +985,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOpenWorkflowExecutionsOutputResponse, ListOpenWorkflowExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOpenWorkflowExecutionsOutputResponse, ListOpenWorkflowExecutionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOpenWorkflowExecutionsOutputResponse, ListOpenWorkflowExecutionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -930,6 +1010,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -945,8 +1026,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -975,6 +1060,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWorkflowTypesInput, ListWorkflowTypesOutputResponse, ListWorkflowTypesOutputError>(id: "listWorkflowTypes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorkflowTypesInput, ListWorkflowTypesOutputResponse, ListWorkflowTypesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorkflowTypesInput, ListWorkflowTypesOutputResponse>())
@@ -990,8 +1076,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorkflowTypesOutputResponse, ListWorkflowTypesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorkflowTypesOutputResponse, ListWorkflowTypesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWorkflowTypesOutputResponse, ListWorkflowTypesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1020,6 +1110,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PollForActivityTaskInput, PollForActivityTaskOutputResponse, PollForActivityTaskOutputError>(id: "pollForActivityTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PollForActivityTaskInput, PollForActivityTaskOutputResponse, PollForActivityTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PollForActivityTaskInput, PollForActivityTaskOutputResponse>())
@@ -1035,8 +1126,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PollForActivityTaskOutputResponse, PollForActivityTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PollForActivityTaskOutputResponse, PollForActivityTaskOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PollForActivityTaskOutputResponse, PollForActivityTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1065,6 +1160,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PollForDecisionTaskInput, PollForDecisionTaskOutputResponse, PollForDecisionTaskOutputError>(id: "pollForDecisionTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PollForDecisionTaskInput, PollForDecisionTaskOutputResponse, PollForDecisionTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PollForDecisionTaskInput, PollForDecisionTaskOutputResponse>())
@@ -1080,8 +1176,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PollForDecisionTaskOutputResponse, PollForDecisionTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PollForDecisionTaskOutputResponse, PollForDecisionTaskOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PollForDecisionTaskOutputResponse, PollForDecisionTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1110,6 +1210,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RecordActivityTaskHeartbeatInput, RecordActivityTaskHeartbeatOutputResponse, RecordActivityTaskHeartbeatOutputError>(id: "recordActivityTaskHeartbeat")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RecordActivityTaskHeartbeatInput, RecordActivityTaskHeartbeatOutputResponse, RecordActivityTaskHeartbeatOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RecordActivityTaskHeartbeatInput, RecordActivityTaskHeartbeatOutputResponse>())
@@ -1125,8 +1226,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RecordActivityTaskHeartbeatOutputResponse, RecordActivityTaskHeartbeatOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RecordActivityTaskHeartbeatOutputResponse, RecordActivityTaskHeartbeatOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RecordActivityTaskHeartbeatOutputResponse, RecordActivityTaskHeartbeatOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1164,6 +1269,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterActivityTypeInput, RegisterActivityTypeOutputResponse, RegisterActivityTypeOutputError>(id: "registerActivityType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterActivityTypeInput, RegisterActivityTypeOutputResponse, RegisterActivityTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterActivityTypeInput, RegisterActivityTypeOutputResponse>())
@@ -1179,8 +1285,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterActivityTypeOutputResponse, RegisterActivityTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterActivityTypeOutputResponse, RegisterActivityTypeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterActivityTypeOutputResponse, RegisterActivityTypeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1209,6 +1319,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterDomainInput, RegisterDomainOutputResponse, RegisterDomainOutputError>(id: "registerDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterDomainInput, RegisterDomainOutputResponse, RegisterDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterDomainInput, RegisterDomainOutputResponse>())
@@ -1224,8 +1335,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterDomainOutputResponse, RegisterDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterDomainOutputResponse, RegisterDomainOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterDomainOutputResponse, RegisterDomainOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1263,6 +1378,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterWorkflowTypeInput, RegisterWorkflowTypeOutputResponse, RegisterWorkflowTypeOutputError>(id: "registerWorkflowType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterWorkflowTypeInput, RegisterWorkflowTypeOutputResponse, RegisterWorkflowTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterWorkflowTypeInput, RegisterWorkflowTypeOutputResponse>())
@@ -1278,8 +1394,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterWorkflowTypeOutputResponse, RegisterWorkflowTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterWorkflowTypeOutputResponse, RegisterWorkflowTypeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterWorkflowTypeOutputResponse, RegisterWorkflowTypeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1308,6 +1428,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RequestCancelWorkflowExecutionInput, RequestCancelWorkflowExecutionOutputResponse, RequestCancelWorkflowExecutionOutputError>(id: "requestCancelWorkflowExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RequestCancelWorkflowExecutionInput, RequestCancelWorkflowExecutionOutputResponse, RequestCancelWorkflowExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RequestCancelWorkflowExecutionInput, RequestCancelWorkflowExecutionOutputResponse>())
@@ -1323,8 +1444,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RequestCancelWorkflowExecutionOutputResponse, RequestCancelWorkflowExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RequestCancelWorkflowExecutionOutputResponse, RequestCancelWorkflowExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RequestCancelWorkflowExecutionOutputResponse, RequestCancelWorkflowExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1353,6 +1478,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RespondActivityTaskCanceledInput, RespondActivityTaskCanceledOutputResponse, RespondActivityTaskCanceledOutputError>(id: "respondActivityTaskCanceled")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RespondActivityTaskCanceledInput, RespondActivityTaskCanceledOutputResponse, RespondActivityTaskCanceledOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RespondActivityTaskCanceledInput, RespondActivityTaskCanceledOutputResponse>())
@@ -1368,8 +1494,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RespondActivityTaskCanceledOutputResponse, RespondActivityTaskCanceledOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RespondActivityTaskCanceledOutputResponse, RespondActivityTaskCanceledOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RespondActivityTaskCanceledOutputResponse, RespondActivityTaskCanceledOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1398,6 +1528,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RespondActivityTaskCompletedInput, RespondActivityTaskCompletedOutputResponse, RespondActivityTaskCompletedOutputError>(id: "respondActivityTaskCompleted")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RespondActivityTaskCompletedInput, RespondActivityTaskCompletedOutputResponse, RespondActivityTaskCompletedOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RespondActivityTaskCompletedInput, RespondActivityTaskCompletedOutputResponse>())
@@ -1413,8 +1544,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RespondActivityTaskCompletedOutputResponse, RespondActivityTaskCompletedOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RespondActivityTaskCompletedOutputResponse, RespondActivityTaskCompletedOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RespondActivityTaskCompletedOutputResponse, RespondActivityTaskCompletedOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1443,6 +1578,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RespondActivityTaskFailedInput, RespondActivityTaskFailedOutputResponse, RespondActivityTaskFailedOutputError>(id: "respondActivityTaskFailed")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RespondActivityTaskFailedInput, RespondActivityTaskFailedOutputResponse, RespondActivityTaskFailedOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RespondActivityTaskFailedInput, RespondActivityTaskFailedOutputResponse>())
@@ -1458,8 +1594,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RespondActivityTaskFailedOutputResponse, RespondActivityTaskFailedOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RespondActivityTaskFailedOutputResponse, RespondActivityTaskFailedOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RespondActivityTaskFailedOutputResponse, RespondActivityTaskFailedOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1479,6 +1619,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RespondDecisionTaskCompletedInput, RespondDecisionTaskCompletedOutputResponse, RespondDecisionTaskCompletedOutputError>(id: "respondDecisionTaskCompleted")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RespondDecisionTaskCompletedInput, RespondDecisionTaskCompletedOutputResponse, RespondDecisionTaskCompletedOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RespondDecisionTaskCompletedInput, RespondDecisionTaskCompletedOutputResponse>())
@@ -1494,8 +1635,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RespondDecisionTaskCompletedOutputResponse, RespondDecisionTaskCompletedOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RespondDecisionTaskCompletedOutputResponse, RespondDecisionTaskCompletedOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RespondDecisionTaskCompletedOutputResponse, RespondDecisionTaskCompletedOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1524,6 +1669,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SignalWorkflowExecutionInput, SignalWorkflowExecutionOutputResponse, SignalWorkflowExecutionOutputError>(id: "signalWorkflowExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SignalWorkflowExecutionInput, SignalWorkflowExecutionOutputResponse, SignalWorkflowExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SignalWorkflowExecutionInput, SignalWorkflowExecutionOutputResponse>())
@@ -1539,8 +1685,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SignalWorkflowExecutionOutputResponse, SignalWorkflowExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SignalWorkflowExecutionOutputResponse, SignalWorkflowExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SignalWorkflowExecutionOutputResponse, SignalWorkflowExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1588,6 +1738,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartWorkflowExecutionInput, StartWorkflowExecutionOutputResponse, StartWorkflowExecutionOutputError>(id: "startWorkflowExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartWorkflowExecutionInput, StartWorkflowExecutionOutputResponse, StartWorkflowExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartWorkflowExecutionInput, StartWorkflowExecutionOutputResponse>())
@@ -1603,8 +1754,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartWorkflowExecutionOutputResponse, StartWorkflowExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartWorkflowExecutionOutputResponse, StartWorkflowExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartWorkflowExecutionOutputResponse, StartWorkflowExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1624,6 +1779,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1639,8 +1795,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1669,6 +1829,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TerminateWorkflowExecutionInput, TerminateWorkflowExecutionOutputResponse, TerminateWorkflowExecutionOutputError>(id: "terminateWorkflowExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TerminateWorkflowExecutionInput, TerminateWorkflowExecutionOutputResponse, TerminateWorkflowExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TerminateWorkflowExecutionInput, TerminateWorkflowExecutionOutputResponse>())
@@ -1684,8 +1845,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TerminateWorkflowExecutionOutputResponse, TerminateWorkflowExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TerminateWorkflowExecutionOutputResponse, TerminateWorkflowExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TerminateWorkflowExecutionOutputResponse, TerminateWorkflowExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1721,6 +1886,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UndeprecateActivityTypeInput, UndeprecateActivityTypeOutputResponse, UndeprecateActivityTypeOutputError>(id: "undeprecateActivityType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UndeprecateActivityTypeInput, UndeprecateActivityTypeOutputResponse, UndeprecateActivityTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UndeprecateActivityTypeInput, UndeprecateActivityTypeOutputResponse>())
@@ -1736,8 +1902,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UndeprecateActivityTypeOutputResponse, UndeprecateActivityTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UndeprecateActivityTypeOutputResponse, UndeprecateActivityTypeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UndeprecateActivityTypeOutputResponse, UndeprecateActivityTypeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1766,6 +1936,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UndeprecateDomainInput, UndeprecateDomainOutputResponse, UndeprecateDomainOutputError>(id: "undeprecateDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UndeprecateDomainInput, UndeprecateDomainOutputResponse, UndeprecateDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UndeprecateDomainInput, UndeprecateDomainOutputResponse>())
@@ -1781,8 +1952,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UndeprecateDomainOutputResponse, UndeprecateDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UndeprecateDomainOutputResponse, UndeprecateDomainOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UndeprecateDomainOutputResponse, UndeprecateDomainOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1818,6 +1993,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UndeprecateWorkflowTypeInput, UndeprecateWorkflowTypeOutputResponse, UndeprecateWorkflowTypeOutputError>(id: "undeprecateWorkflowType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UndeprecateWorkflowTypeInput, UndeprecateWorkflowTypeOutputResponse, UndeprecateWorkflowTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UndeprecateWorkflowTypeInput, UndeprecateWorkflowTypeOutputResponse>())
@@ -1833,8 +2009,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UndeprecateWorkflowTypeOutputResponse, UndeprecateWorkflowTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UndeprecateWorkflowTypeOutputResponse, UndeprecateWorkflowTypeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UndeprecateWorkflowTypeOutputResponse, UndeprecateWorkflowTypeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1854,6 +2034,7 @@ extension SWFClient: SWFClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "swf")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1869,8 +2050,12 @@ extension SWFClient: SWFClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

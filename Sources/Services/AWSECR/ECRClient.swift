@@ -146,6 +146,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutputResponse, BatchCheckLayerAvailabilityOutputError>(id: "batchCheckLayerAvailability")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutputResponse, BatchCheckLayerAvailabilityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutputResponse>())
@@ -161,8 +162,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchCheckLayerAvailabilityOutputResponse, BatchCheckLayerAvailabilityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchCheckLayerAvailabilityOutputResponse, BatchCheckLayerAvailabilityOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchCheckLayerAvailabilityOutputResponse, BatchCheckLayerAvailabilityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -182,6 +187,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDeleteImageInput, BatchDeleteImageOutputResponse, BatchDeleteImageOutputError>(id: "batchDeleteImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteImageInput, BatchDeleteImageOutputResponse, BatchDeleteImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteImageInput, BatchDeleteImageOutputResponse>())
@@ -197,8 +203,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeleteImageOutputResponse, BatchDeleteImageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteImageOutputResponse, BatchDeleteImageOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteImageOutputResponse, BatchDeleteImageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -218,6 +228,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchGetImageInput, BatchGetImageOutputResponse, BatchGetImageOutputError>(id: "batchGetImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetImageInput, BatchGetImageOutputResponse, BatchGetImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetImageInput, BatchGetImageOutputResponse>())
@@ -233,8 +244,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetImageOutputResponse, BatchGetImageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetImageOutputResponse, BatchGetImageOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetImageOutputResponse, BatchGetImageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -254,6 +269,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchGetRepositoryScanningConfigurationInput, BatchGetRepositoryScanningConfigurationOutputResponse, BatchGetRepositoryScanningConfigurationOutputError>(id: "batchGetRepositoryScanningConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetRepositoryScanningConfigurationInput, BatchGetRepositoryScanningConfigurationOutputResponse, BatchGetRepositoryScanningConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetRepositoryScanningConfigurationInput, BatchGetRepositoryScanningConfigurationOutputResponse>())
@@ -269,8 +285,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetRepositoryScanningConfigurationOutputResponse, BatchGetRepositoryScanningConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetRepositoryScanningConfigurationOutputResponse, BatchGetRepositoryScanningConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetRepositoryScanningConfigurationOutputResponse, BatchGetRepositoryScanningConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -290,6 +310,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CompleteLayerUploadInput, CompleteLayerUploadOutputResponse, CompleteLayerUploadOutputError>(id: "completeLayerUpload")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CompleteLayerUploadInput, CompleteLayerUploadOutputResponse, CompleteLayerUploadOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CompleteLayerUploadInput, CompleteLayerUploadOutputResponse>())
@@ -305,8 +326,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CompleteLayerUploadOutputResponse, CompleteLayerUploadOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CompleteLayerUploadOutputResponse, CompleteLayerUploadOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CompleteLayerUploadOutputResponse, CompleteLayerUploadOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -326,6 +351,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePullThroughCacheRuleInput, CreatePullThroughCacheRuleOutputResponse, CreatePullThroughCacheRuleOutputError>(id: "createPullThroughCacheRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePullThroughCacheRuleInput, CreatePullThroughCacheRuleOutputResponse, CreatePullThroughCacheRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePullThroughCacheRuleInput, CreatePullThroughCacheRuleOutputResponse>())
@@ -341,8 +367,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePullThroughCacheRuleOutputResponse, CreatePullThroughCacheRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePullThroughCacheRuleOutputResponse, CreatePullThroughCacheRuleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePullThroughCacheRuleOutputResponse, CreatePullThroughCacheRuleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -362,6 +392,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRepositoryInput, CreateRepositoryOutputResponse, CreateRepositoryOutputError>(id: "createRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRepositoryInput, CreateRepositoryOutputResponse, CreateRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRepositoryInput, CreateRepositoryOutputResponse>())
@@ -377,8 +408,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRepositoryOutputResponse, CreateRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRepositoryOutputResponse, CreateRepositoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRepositoryOutputResponse, CreateRepositoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -398,6 +433,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutputResponse, DeleteLifecyclePolicyOutputError>(id: "deleteLifecyclePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutputResponse, DeleteLifecyclePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutputResponse>())
@@ -413,8 +449,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLifecyclePolicyOutputResponse, DeleteLifecyclePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLifecyclePolicyOutputResponse, DeleteLifecyclePolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLifecyclePolicyOutputResponse, DeleteLifecyclePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -434,6 +474,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePullThroughCacheRuleInput, DeletePullThroughCacheRuleOutputResponse, DeletePullThroughCacheRuleOutputError>(id: "deletePullThroughCacheRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePullThroughCacheRuleInput, DeletePullThroughCacheRuleOutputResponse, DeletePullThroughCacheRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePullThroughCacheRuleInput, DeletePullThroughCacheRuleOutputResponse>())
@@ -449,8 +490,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePullThroughCacheRuleOutputResponse, DeletePullThroughCacheRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePullThroughCacheRuleOutputResponse, DeletePullThroughCacheRuleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePullThroughCacheRuleOutputResponse, DeletePullThroughCacheRuleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -470,6 +515,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRegistryPolicyInput, DeleteRegistryPolicyOutputResponse, DeleteRegistryPolicyOutputError>(id: "deleteRegistryPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRegistryPolicyInput, DeleteRegistryPolicyOutputResponse, DeleteRegistryPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRegistryPolicyInput, DeleteRegistryPolicyOutputResponse>())
@@ -485,8 +531,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRegistryPolicyOutputResponse, DeleteRegistryPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRegistryPolicyOutputResponse, DeleteRegistryPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRegistryPolicyOutputResponse, DeleteRegistryPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -506,6 +556,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRepositoryInput, DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>(id: "deleteRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRepositoryInput, DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRepositoryInput, DeleteRepositoryOutputResponse>())
@@ -521,8 +572,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -542,6 +597,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutputResponse, DeleteRepositoryPolicyOutputError>(id: "deleteRepositoryPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutputResponse, DeleteRepositoryPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutputResponse>())
@@ -557,8 +613,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRepositoryPolicyOutputResponse, DeleteRepositoryPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRepositoryPolicyOutputResponse, DeleteRepositoryPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRepositoryPolicyOutputResponse, DeleteRepositoryPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -578,6 +638,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeImageReplicationStatusInput, DescribeImageReplicationStatusOutputResponse, DescribeImageReplicationStatusOutputError>(id: "describeImageReplicationStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeImageReplicationStatusInput, DescribeImageReplicationStatusOutputResponse, DescribeImageReplicationStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeImageReplicationStatusInput, DescribeImageReplicationStatusOutputResponse>())
@@ -593,8 +654,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeImageReplicationStatusOutputResponse, DescribeImageReplicationStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeImageReplicationStatusOutputResponse, DescribeImageReplicationStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeImageReplicationStatusOutputResponse, DescribeImageReplicationStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -614,6 +679,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutputResponse, DescribeImageScanFindingsOutputError>(id: "describeImageScanFindings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutputResponse, DescribeImageScanFindingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeImageScanFindingsInput, DescribeImageScanFindingsOutputResponse>())
@@ -629,8 +695,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeImageScanFindingsOutputResponse, DescribeImageScanFindingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeImageScanFindingsOutputResponse, DescribeImageScanFindingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeImageScanFindingsOutputResponse, DescribeImageScanFindingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -650,6 +720,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeImagesInput, DescribeImagesOutputResponse, DescribeImagesOutputError>(id: "describeImages")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeImagesInput, DescribeImagesOutputResponse, DescribeImagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeImagesInput, DescribeImagesOutputResponse>())
@@ -665,8 +736,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeImagesOutputResponse, DescribeImagesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeImagesOutputResponse, DescribeImagesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeImagesOutputResponse, DescribeImagesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -686,6 +761,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePullThroughCacheRulesInput, DescribePullThroughCacheRulesOutputResponse, DescribePullThroughCacheRulesOutputError>(id: "describePullThroughCacheRules")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePullThroughCacheRulesInput, DescribePullThroughCacheRulesOutputResponse, DescribePullThroughCacheRulesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePullThroughCacheRulesInput, DescribePullThroughCacheRulesOutputResponse>())
@@ -701,8 +777,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePullThroughCacheRulesOutputResponse, DescribePullThroughCacheRulesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePullThroughCacheRulesOutputResponse, DescribePullThroughCacheRulesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePullThroughCacheRulesOutputResponse, DescribePullThroughCacheRulesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -722,6 +802,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeRegistryInput, DescribeRegistryOutputResponse, DescribeRegistryOutputError>(id: "describeRegistry")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRegistryInput, DescribeRegistryOutputResponse, DescribeRegistryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRegistryInput, DescribeRegistryOutputResponse>())
@@ -737,8 +818,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRegistryOutputResponse, DescribeRegistryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRegistryOutputResponse, DescribeRegistryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRegistryOutputResponse, DescribeRegistryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -758,6 +843,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeRepositoriesInput, DescribeRepositoriesOutputResponse, DescribeRepositoriesOutputError>(id: "describeRepositories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRepositoriesInput, DescribeRepositoriesOutputResponse, DescribeRepositoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRepositoriesInput, DescribeRepositoriesOutputResponse>())
@@ -773,8 +859,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRepositoriesOutputResponse, DescribeRepositoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRepositoriesOutputResponse, DescribeRepositoriesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRepositoriesOutputResponse, DescribeRepositoriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -794,6 +884,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAuthorizationTokenInput, GetAuthorizationTokenOutputResponse, GetAuthorizationTokenOutputError>(id: "getAuthorizationToken")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutputResponse, GetAuthorizationTokenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutputResponse>())
@@ -809,8 +900,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAuthorizationTokenOutputResponse, GetAuthorizationTokenOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAuthorizationTokenOutputResponse, GetAuthorizationTokenOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAuthorizationTokenOutputResponse, GetAuthorizationTokenOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -830,6 +925,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDownloadUrlForLayerInput, GetDownloadUrlForLayerOutputResponse, GetDownloadUrlForLayerOutputError>(id: "getDownloadUrlForLayer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDownloadUrlForLayerInput, GetDownloadUrlForLayerOutputResponse, GetDownloadUrlForLayerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDownloadUrlForLayerInput, GetDownloadUrlForLayerOutputResponse>())
@@ -845,8 +941,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDownloadUrlForLayerOutputResponse, GetDownloadUrlForLayerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDownloadUrlForLayerOutputResponse, GetDownloadUrlForLayerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDownloadUrlForLayerOutputResponse, GetDownloadUrlForLayerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -866,6 +966,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLifecyclePolicyInput, GetLifecyclePolicyOutputResponse, GetLifecyclePolicyOutputError>(id: "getLifecyclePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutputResponse, GetLifecyclePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutputResponse>())
@@ -881,8 +982,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLifecyclePolicyOutputResponse, GetLifecyclePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLifecyclePolicyOutputResponse, GetLifecyclePolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLifecyclePolicyOutputResponse, GetLifecyclePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -902,6 +1007,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutputResponse, GetLifecyclePolicyPreviewOutputError>(id: "getLifecyclePolicyPreview")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutputResponse, GetLifecyclePolicyPreviewOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLifecyclePolicyPreviewInput, GetLifecyclePolicyPreviewOutputResponse>())
@@ -917,8 +1023,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLifecyclePolicyPreviewOutputResponse, GetLifecyclePolicyPreviewOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLifecyclePolicyPreviewOutputResponse, GetLifecyclePolicyPreviewOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLifecyclePolicyPreviewOutputResponse, GetLifecyclePolicyPreviewOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -938,6 +1048,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRegistryPolicyInput, GetRegistryPolicyOutputResponse, GetRegistryPolicyOutputError>(id: "getRegistryPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRegistryPolicyInput, GetRegistryPolicyOutputResponse, GetRegistryPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRegistryPolicyInput, GetRegistryPolicyOutputResponse>())
@@ -953,8 +1064,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRegistryPolicyOutputResponse, GetRegistryPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRegistryPolicyOutputResponse, GetRegistryPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRegistryPolicyOutputResponse, GetRegistryPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -974,6 +1089,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRegistryScanningConfigurationInput, GetRegistryScanningConfigurationOutputResponse, GetRegistryScanningConfigurationOutputError>(id: "getRegistryScanningConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRegistryScanningConfigurationInput, GetRegistryScanningConfigurationOutputResponse, GetRegistryScanningConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRegistryScanningConfigurationInput, GetRegistryScanningConfigurationOutputResponse>())
@@ -989,8 +1105,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRegistryScanningConfigurationOutputResponse, GetRegistryScanningConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRegistryScanningConfigurationOutputResponse, GetRegistryScanningConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRegistryScanningConfigurationOutputResponse, GetRegistryScanningConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1010,6 +1130,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRepositoryPolicyInput, GetRepositoryPolicyOutputResponse, GetRepositoryPolicyOutputError>(id: "getRepositoryPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRepositoryPolicyInput, GetRepositoryPolicyOutputResponse, GetRepositoryPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRepositoryPolicyInput, GetRepositoryPolicyOutputResponse>())
@@ -1025,8 +1146,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRepositoryPolicyOutputResponse, GetRepositoryPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRepositoryPolicyOutputResponse, GetRepositoryPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRepositoryPolicyOutputResponse, GetRepositoryPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1046,6 +1171,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<InitiateLayerUploadInput, InitiateLayerUploadOutputResponse, InitiateLayerUploadOutputError>(id: "initiateLayerUpload")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InitiateLayerUploadInput, InitiateLayerUploadOutputResponse, InitiateLayerUploadOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InitiateLayerUploadInput, InitiateLayerUploadOutputResponse>())
@@ -1061,8 +1187,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InitiateLayerUploadOutputResponse, InitiateLayerUploadOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InitiateLayerUploadOutputResponse, InitiateLayerUploadOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InitiateLayerUploadOutputResponse, InitiateLayerUploadOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1082,6 +1212,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListImagesInput, ListImagesOutputResponse, ListImagesOutputError>(id: "listImages")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListImagesInput, ListImagesOutputResponse, ListImagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListImagesInput, ListImagesOutputResponse>())
@@ -1097,8 +1228,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListImagesOutputResponse, ListImagesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListImagesOutputResponse, ListImagesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListImagesOutputResponse, ListImagesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1118,6 +1253,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1133,8 +1269,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1154,6 +1294,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutImageInput, PutImageOutputResponse, PutImageOutputError>(id: "putImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutImageInput, PutImageOutputResponse, PutImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutImageInput, PutImageOutputResponse>())
@@ -1169,8 +1310,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutImageOutputResponse, PutImageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutImageOutputResponse, PutImageOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutImageOutputResponse, PutImageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1190,6 +1335,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutImageScanningConfigurationInput, PutImageScanningConfigurationOutputResponse, PutImageScanningConfigurationOutputError>(id: "putImageScanningConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutImageScanningConfigurationInput, PutImageScanningConfigurationOutputResponse, PutImageScanningConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutImageScanningConfigurationInput, PutImageScanningConfigurationOutputResponse>())
@@ -1205,8 +1351,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutImageScanningConfigurationOutputResponse, PutImageScanningConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutImageScanningConfigurationOutputResponse, PutImageScanningConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutImageScanningConfigurationOutputResponse, PutImageScanningConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1226,6 +1376,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutImageTagMutabilityInput, PutImageTagMutabilityOutputResponse, PutImageTagMutabilityOutputError>(id: "putImageTagMutability")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutImageTagMutabilityInput, PutImageTagMutabilityOutputResponse, PutImageTagMutabilityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutImageTagMutabilityInput, PutImageTagMutabilityOutputResponse>())
@@ -1241,8 +1392,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutImageTagMutabilityOutputResponse, PutImageTagMutabilityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutImageTagMutabilityOutputResponse, PutImageTagMutabilityOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutImageTagMutabilityOutputResponse, PutImageTagMutabilityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1262,6 +1417,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutLifecyclePolicyInput, PutLifecyclePolicyOutputResponse, PutLifecyclePolicyOutputError>(id: "putLifecyclePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutputResponse, PutLifecyclePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutputResponse>())
@@ -1277,8 +1433,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutLifecyclePolicyOutputResponse, PutLifecyclePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutLifecyclePolicyOutputResponse, PutLifecyclePolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutLifecyclePolicyOutputResponse, PutLifecyclePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1298,6 +1458,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutRegistryPolicyInput, PutRegistryPolicyOutputResponse, PutRegistryPolicyOutputError>(id: "putRegistryPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRegistryPolicyInput, PutRegistryPolicyOutputResponse, PutRegistryPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRegistryPolicyInput, PutRegistryPolicyOutputResponse>())
@@ -1313,8 +1474,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRegistryPolicyOutputResponse, PutRegistryPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRegistryPolicyOutputResponse, PutRegistryPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRegistryPolicyOutputResponse, PutRegistryPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1334,6 +1499,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutRegistryScanningConfigurationInput, PutRegistryScanningConfigurationOutputResponse, PutRegistryScanningConfigurationOutputError>(id: "putRegistryScanningConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRegistryScanningConfigurationInput, PutRegistryScanningConfigurationOutputResponse, PutRegistryScanningConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRegistryScanningConfigurationInput, PutRegistryScanningConfigurationOutputResponse>())
@@ -1349,8 +1515,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRegistryScanningConfigurationOutputResponse, PutRegistryScanningConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRegistryScanningConfigurationOutputResponse, PutRegistryScanningConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRegistryScanningConfigurationOutputResponse, PutRegistryScanningConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1370,6 +1540,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutReplicationConfigurationInput, PutReplicationConfigurationOutputResponse, PutReplicationConfigurationOutputError>(id: "putReplicationConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutReplicationConfigurationInput, PutReplicationConfigurationOutputResponse, PutReplicationConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutReplicationConfigurationInput, PutReplicationConfigurationOutputResponse>())
@@ -1385,8 +1556,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutReplicationConfigurationOutputResponse, PutReplicationConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutReplicationConfigurationOutputResponse, PutReplicationConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutReplicationConfigurationOutputResponse, PutReplicationConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1406,6 +1581,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetRepositoryPolicyInput, SetRepositoryPolicyOutputResponse, SetRepositoryPolicyOutputError>(id: "setRepositoryPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetRepositoryPolicyInput, SetRepositoryPolicyOutputResponse, SetRepositoryPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetRepositoryPolicyInput, SetRepositoryPolicyOutputResponse>())
@@ -1421,8 +1597,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetRepositoryPolicyOutputResponse, SetRepositoryPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetRepositoryPolicyOutputResponse, SetRepositoryPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetRepositoryPolicyOutputResponse, SetRepositoryPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1442,6 +1622,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartImageScanInput, StartImageScanOutputResponse, StartImageScanOutputError>(id: "startImageScan")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartImageScanInput, StartImageScanOutputResponse, StartImageScanOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartImageScanInput, StartImageScanOutputResponse>())
@@ -1457,8 +1638,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartImageScanOutputResponse, StartImageScanOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartImageScanOutputResponse, StartImageScanOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartImageScanOutputResponse, StartImageScanOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1478,6 +1663,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartLifecyclePolicyPreviewInput, StartLifecyclePolicyPreviewOutputResponse, StartLifecyclePolicyPreviewOutputError>(id: "startLifecyclePolicyPreview")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartLifecyclePolicyPreviewInput, StartLifecyclePolicyPreviewOutputResponse, StartLifecyclePolicyPreviewOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartLifecyclePolicyPreviewInput, StartLifecyclePolicyPreviewOutputResponse>())
@@ -1493,8 +1679,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartLifecyclePolicyPreviewOutputResponse, StartLifecyclePolicyPreviewOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartLifecyclePolicyPreviewOutputResponse, StartLifecyclePolicyPreviewOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartLifecyclePolicyPreviewOutputResponse, StartLifecyclePolicyPreviewOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1514,6 +1704,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1529,8 +1720,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1550,6 +1745,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1565,8 +1761,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1586,6 +1786,7 @@ extension ECRClient: ECRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UploadLayerPartInput, UploadLayerPartOutputResponse, UploadLayerPartOutputError>(id: "uploadLayerPart")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadLayerPartInput, UploadLayerPartOutputResponse, UploadLayerPartOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadLayerPartInput, UploadLayerPartOutputResponse>())
@@ -1601,8 +1802,12 @@ extension ECRClient: ECRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadLayerPartOutputResponse, UploadLayerPartOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadLayerPartOutputResponse, UploadLayerPartOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadLayerPartOutputResponse, UploadLayerPartOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

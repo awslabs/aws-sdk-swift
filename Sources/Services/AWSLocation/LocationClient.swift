@@ -146,6 +146,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateTrackerConsumerInput, AssociateTrackerConsumerOutputResponse, AssociateTrackerConsumerOutputError>(id: "associateTrackerConsumer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateTrackerConsumerInput, AssociateTrackerConsumerOutputResponse, AssociateTrackerConsumerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateTrackerConsumerInput, AssociateTrackerConsumerOutputResponse>(hostPrefix: "tracking."))
@@ -160,8 +161,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateTrackerConsumerOutputResponse, AssociateTrackerConsumerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateTrackerConsumerOutputResponse, AssociateTrackerConsumerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateTrackerConsumerOutputResponse, AssociateTrackerConsumerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -181,6 +186,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDeleteDevicePositionHistoryInput, BatchDeleteDevicePositionHistoryOutputResponse, BatchDeleteDevicePositionHistoryOutputError>(id: "batchDeleteDevicePositionHistory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteDevicePositionHistoryInput, BatchDeleteDevicePositionHistoryOutputResponse, BatchDeleteDevicePositionHistoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteDevicePositionHistoryInput, BatchDeleteDevicePositionHistoryOutputResponse>(hostPrefix: "tracking."))
@@ -195,8 +201,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeleteDevicePositionHistoryOutputResponse, BatchDeleteDevicePositionHistoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteDevicePositionHistoryOutputResponse, BatchDeleteDevicePositionHistoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteDevicePositionHistoryOutputResponse, BatchDeleteDevicePositionHistoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -216,6 +226,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDeleteGeofenceInput, BatchDeleteGeofenceOutputResponse, BatchDeleteGeofenceOutputError>(id: "batchDeleteGeofence")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteGeofenceInput, BatchDeleteGeofenceOutputResponse, BatchDeleteGeofenceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteGeofenceInput, BatchDeleteGeofenceOutputResponse>(hostPrefix: "geofencing."))
@@ -230,8 +241,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeleteGeofenceOutputResponse, BatchDeleteGeofenceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteGeofenceOutputResponse, BatchDeleteGeofenceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteGeofenceOutputResponse, BatchDeleteGeofenceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -258,6 +273,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchEvaluateGeofencesInput, BatchEvaluateGeofencesOutputResponse, BatchEvaluateGeofencesOutputError>(id: "batchEvaluateGeofences")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchEvaluateGeofencesInput, BatchEvaluateGeofencesOutputResponse, BatchEvaluateGeofencesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchEvaluateGeofencesInput, BatchEvaluateGeofencesOutputResponse>(hostPrefix: "geofencing."))
@@ -272,8 +288,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchEvaluateGeofencesOutputResponse, BatchEvaluateGeofencesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchEvaluateGeofencesOutputResponse, BatchEvaluateGeofencesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchEvaluateGeofencesOutputResponse, BatchEvaluateGeofencesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -293,6 +313,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchGetDevicePositionInput, BatchGetDevicePositionOutputResponse, BatchGetDevicePositionOutputError>(id: "batchGetDevicePosition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetDevicePositionInput, BatchGetDevicePositionOutputResponse, BatchGetDevicePositionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetDevicePositionInput, BatchGetDevicePositionOutputResponse>(hostPrefix: "tracking."))
@@ -307,8 +328,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetDevicePositionOutputResponse, BatchGetDevicePositionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetDevicePositionOutputResponse, BatchGetDevicePositionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetDevicePositionOutputResponse, BatchGetDevicePositionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -328,6 +353,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchPutGeofenceInput, BatchPutGeofenceOutputResponse, BatchPutGeofenceOutputError>(id: "batchPutGeofence")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchPutGeofenceInput, BatchPutGeofenceOutputResponse, BatchPutGeofenceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchPutGeofenceInput, BatchPutGeofenceOutputResponse>(hostPrefix: "geofencing."))
@@ -342,8 +368,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchPutGeofenceOutputResponse, BatchPutGeofenceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchPutGeofenceOutputResponse, BatchPutGeofenceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchPutGeofenceOutputResponse, BatchPutGeofenceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -363,6 +393,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchUpdateDevicePositionInput, BatchUpdateDevicePositionOutputResponse, BatchUpdateDevicePositionOutputError>(id: "batchUpdateDevicePosition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateDevicePositionInput, BatchUpdateDevicePositionOutputResponse, BatchUpdateDevicePositionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUpdateDevicePositionInput, BatchUpdateDevicePositionOutputResponse>(hostPrefix: "tracking."))
@@ -377,8 +408,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUpdateDevicePositionOutputResponse, BatchUpdateDevicePositionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdateDevicePositionOutputResponse, BatchUpdateDevicePositionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchUpdateDevicePositionOutputResponse, BatchUpdateDevicePositionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -402,6 +437,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CalculateRouteInput, CalculateRouteOutputResponse, CalculateRouteOutputError>(id: "calculateRoute")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CalculateRouteInput, CalculateRouteOutputResponse, CalculateRouteOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CalculateRouteInput, CalculateRouteOutputResponse>(hostPrefix: "routes."))
@@ -416,8 +452,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CalculateRouteOutputResponse, CalculateRouteOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CalculateRouteOutputResponse, CalculateRouteOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CalculateRouteOutputResponse, CalculateRouteOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -441,6 +481,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CalculateRouteMatrixInput, CalculateRouteMatrixOutputResponse, CalculateRouteMatrixOutputError>(id: "calculateRouteMatrix")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CalculateRouteMatrixInput, CalculateRouteMatrixOutputResponse, CalculateRouteMatrixOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CalculateRouteMatrixInput, CalculateRouteMatrixOutputResponse>(hostPrefix: "routes."))
@@ -455,8 +496,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CalculateRouteMatrixOutputResponse, CalculateRouteMatrixOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CalculateRouteMatrixOutputResponse, CalculateRouteMatrixOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CalculateRouteMatrixOutputResponse, CalculateRouteMatrixOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -476,6 +521,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateGeofenceCollectionInput, CreateGeofenceCollectionOutputResponse, CreateGeofenceCollectionOutputError>(id: "createGeofenceCollection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGeofenceCollectionInput, CreateGeofenceCollectionOutputResponse, CreateGeofenceCollectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGeofenceCollectionInput, CreateGeofenceCollectionOutputResponse>(hostPrefix: "geofencing."))
@@ -490,8 +536,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGeofenceCollectionOutputResponse, CreateGeofenceCollectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGeofenceCollectionOutputResponse, CreateGeofenceCollectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGeofenceCollectionOutputResponse, CreateGeofenceCollectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -546,6 +596,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMapInput, CreateMapOutputResponse, CreateMapOutputError>(id: "createMap")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMapInput, CreateMapOutputResponse, CreateMapOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMapInput, CreateMapOutputResponse>(hostPrefix: "maps."))
@@ -560,8 +611,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMapOutputResponse, CreateMapOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMapOutputResponse, CreateMapOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMapOutputResponse, CreateMapOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -581,6 +636,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePlaceIndexInput, CreatePlaceIndexOutputResponse, CreatePlaceIndexOutputError>(id: "createPlaceIndex")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePlaceIndexInput, CreatePlaceIndexOutputResponse, CreatePlaceIndexOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePlaceIndexInput, CreatePlaceIndexOutputResponse>(hostPrefix: "places."))
@@ -595,8 +651,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePlaceIndexOutputResponse, CreatePlaceIndexOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePlaceIndexOutputResponse, CreatePlaceIndexOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePlaceIndexOutputResponse, CreatePlaceIndexOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -616,6 +676,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRouteCalculatorInput, CreateRouteCalculatorOutputResponse, CreateRouteCalculatorOutputError>(id: "createRouteCalculator")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRouteCalculatorInput, CreateRouteCalculatorOutputResponse, CreateRouteCalculatorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRouteCalculatorInput, CreateRouteCalculatorOutputResponse>(hostPrefix: "routes."))
@@ -630,8 +691,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRouteCalculatorOutputResponse, CreateRouteCalculatorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRouteCalculatorOutputResponse, CreateRouteCalculatorOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRouteCalculatorOutputResponse, CreateRouteCalculatorOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -651,6 +716,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTrackerInput, CreateTrackerOutputResponse, CreateTrackerOutputError>(id: "createTracker")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTrackerInput, CreateTrackerOutputResponse, CreateTrackerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTrackerInput, CreateTrackerOutputResponse>(hostPrefix: "tracking."))
@@ -665,8 +731,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrackerOutputResponse, CreateTrackerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrackerOutputResponse, CreateTrackerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTrackerOutputResponse, CreateTrackerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -686,6 +756,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteGeofenceCollectionInput, DeleteGeofenceCollectionOutputResponse, DeleteGeofenceCollectionOutputError>(id: "deleteGeofenceCollection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGeofenceCollectionInput, DeleteGeofenceCollectionOutputResponse, DeleteGeofenceCollectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGeofenceCollectionInput, DeleteGeofenceCollectionOutputResponse>(hostPrefix: "geofencing."))
@@ -697,8 +768,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGeofenceCollectionOutputResponse, DeleteGeofenceCollectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGeofenceCollectionOutputResponse, DeleteGeofenceCollectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGeofenceCollectionOutputResponse, DeleteGeofenceCollectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -750,6 +825,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteMapInput, DeleteMapOutputResponse, DeleteMapOutputError>(id: "deleteMap")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMapInput, DeleteMapOutputResponse, DeleteMapOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMapInput, DeleteMapOutputResponse>(hostPrefix: "maps."))
@@ -761,8 +837,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMapOutputResponse, DeleteMapOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMapOutputResponse, DeleteMapOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMapOutputResponse, DeleteMapOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -782,6 +862,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePlaceIndexInput, DeletePlaceIndexOutputResponse, DeletePlaceIndexOutputError>(id: "deletePlaceIndex")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePlaceIndexInput, DeletePlaceIndexOutputResponse, DeletePlaceIndexOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePlaceIndexInput, DeletePlaceIndexOutputResponse>(hostPrefix: "places."))
@@ -793,8 +874,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePlaceIndexOutputResponse, DeletePlaceIndexOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePlaceIndexOutputResponse, DeletePlaceIndexOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePlaceIndexOutputResponse, DeletePlaceIndexOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -814,6 +899,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRouteCalculatorInput, DeleteRouteCalculatorOutputResponse, DeleteRouteCalculatorOutputError>(id: "deleteRouteCalculator")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRouteCalculatorInput, DeleteRouteCalculatorOutputResponse, DeleteRouteCalculatorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRouteCalculatorInput, DeleteRouteCalculatorOutputResponse>(hostPrefix: "routes."))
@@ -825,8 +911,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRouteCalculatorOutputResponse, DeleteRouteCalculatorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRouteCalculatorOutputResponse, DeleteRouteCalculatorOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRouteCalculatorOutputResponse, DeleteRouteCalculatorOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -846,6 +936,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTrackerInput, DeleteTrackerOutputResponse, DeleteTrackerOutputError>(id: "deleteTracker")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTrackerInput, DeleteTrackerOutputResponse, DeleteTrackerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTrackerInput, DeleteTrackerOutputResponse>(hostPrefix: "tracking."))
@@ -857,8 +948,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTrackerOutputResponse, DeleteTrackerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrackerOutputResponse, DeleteTrackerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTrackerOutputResponse, DeleteTrackerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -878,6 +973,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeGeofenceCollectionInput, DescribeGeofenceCollectionOutputResponse, DescribeGeofenceCollectionOutputError>(id: "describeGeofenceCollection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGeofenceCollectionInput, DescribeGeofenceCollectionOutputResponse, DescribeGeofenceCollectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeGeofenceCollectionInput, DescribeGeofenceCollectionOutputResponse>(hostPrefix: "geofencing."))
@@ -889,6 +985,7 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGeofenceCollectionOutputResponse, DescribeGeofenceCollectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGeofenceCollectionOutputResponse, DescribeGeofenceCollectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeGeofenceCollectionOutputResponse, DescribeGeofenceCollectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
@@ -923,6 +1020,9 @@ extension LocationClient: LocationClientProtocol {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeKeyOutputResponse, DescribeKeyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeKeyOutputResponse, DescribeKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -942,6 +1042,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMapInput, DescribeMapOutputResponse, DescribeMapOutputError>(id: "describeMap")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMapInput, DescribeMapOutputResponse, DescribeMapOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMapInput, DescribeMapOutputResponse>(hostPrefix: "maps."))
@@ -953,8 +1054,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMapOutputResponse, DescribeMapOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMapOutputResponse, DescribeMapOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMapOutputResponse, DescribeMapOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -974,6 +1079,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePlaceIndexInput, DescribePlaceIndexOutputResponse, DescribePlaceIndexOutputError>(id: "describePlaceIndex")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePlaceIndexInput, DescribePlaceIndexOutputResponse, DescribePlaceIndexOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePlaceIndexInput, DescribePlaceIndexOutputResponse>(hostPrefix: "places."))
@@ -985,8 +1091,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePlaceIndexOutputResponse, DescribePlaceIndexOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePlaceIndexOutputResponse, DescribePlaceIndexOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePlaceIndexOutputResponse, DescribePlaceIndexOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1006,6 +1116,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeRouteCalculatorInput, DescribeRouteCalculatorOutputResponse, DescribeRouteCalculatorOutputError>(id: "describeRouteCalculator")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRouteCalculatorInput, DescribeRouteCalculatorOutputResponse, DescribeRouteCalculatorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRouteCalculatorInput, DescribeRouteCalculatorOutputResponse>(hostPrefix: "routes."))
@@ -1017,8 +1128,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRouteCalculatorOutputResponse, DescribeRouteCalculatorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRouteCalculatorOutputResponse, DescribeRouteCalculatorOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRouteCalculatorOutputResponse, DescribeRouteCalculatorOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1038,6 +1153,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTrackerInput, DescribeTrackerOutputResponse, DescribeTrackerOutputError>(id: "describeTracker")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrackerInput, DescribeTrackerOutputResponse, DescribeTrackerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrackerInput, DescribeTrackerOutputResponse>(hostPrefix: "tracking."))
@@ -1049,8 +1165,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrackerOutputResponse, DescribeTrackerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrackerOutputResponse, DescribeTrackerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTrackerOutputResponse, DescribeTrackerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1070,6 +1190,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateTrackerConsumerInput, DisassociateTrackerConsumerOutputResponse, DisassociateTrackerConsumerOutputError>(id: "disassociateTrackerConsumer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateTrackerConsumerInput, DisassociateTrackerConsumerOutputResponse, DisassociateTrackerConsumerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateTrackerConsumerInput, DisassociateTrackerConsumerOutputResponse>(hostPrefix: "tracking."))
@@ -1081,8 +1202,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateTrackerConsumerOutputResponse, DisassociateTrackerConsumerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateTrackerConsumerOutputResponse, DisassociateTrackerConsumerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateTrackerConsumerOutputResponse, DisassociateTrackerConsumerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1102,6 +1227,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDevicePositionInput, GetDevicePositionOutputResponse, GetDevicePositionOutputError>(id: "getDevicePosition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDevicePositionInput, GetDevicePositionOutputResponse, GetDevicePositionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDevicePositionInput, GetDevicePositionOutputResponse>(hostPrefix: "tracking."))
@@ -1113,8 +1239,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDevicePositionOutputResponse, GetDevicePositionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDevicePositionOutputResponse, GetDevicePositionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDevicePositionOutputResponse, GetDevicePositionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1134,6 +1264,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDevicePositionHistoryInput, GetDevicePositionHistoryOutputResponse, GetDevicePositionHistoryOutputError>(id: "getDevicePositionHistory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDevicePositionHistoryInput, GetDevicePositionHistoryOutputResponse, GetDevicePositionHistoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDevicePositionHistoryInput, GetDevicePositionHistoryOutputResponse>(hostPrefix: "tracking."))
@@ -1148,8 +1279,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDevicePositionHistoryOutputResponse, GetDevicePositionHistoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDevicePositionHistoryOutputResponse, GetDevicePositionHistoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDevicePositionHistoryOutputResponse, GetDevicePositionHistoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1169,6 +1304,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetGeofenceInput, GetGeofenceOutputResponse, GetGeofenceOutputError>(id: "getGeofence")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGeofenceInput, GetGeofenceOutputResponse, GetGeofenceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGeofenceInput, GetGeofenceOutputResponse>(hostPrefix: "geofencing."))
@@ -1180,8 +1316,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGeofenceOutputResponse, GetGeofenceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGeofenceOutputResponse, GetGeofenceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGeofenceOutputResponse, GetGeofenceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1201,6 +1341,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMapGlyphsInput, GetMapGlyphsOutputResponse, GetMapGlyphsOutputError>(id: "getMapGlyphs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMapGlyphsInput, GetMapGlyphsOutputResponse, GetMapGlyphsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMapGlyphsInput, GetMapGlyphsOutputResponse>(hostPrefix: "maps."))
@@ -1213,8 +1354,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMapGlyphsOutputResponse, GetMapGlyphsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMapGlyphsOutputResponse, GetMapGlyphsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMapGlyphsOutputResponse, GetMapGlyphsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1234,6 +1379,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMapSpritesInput, GetMapSpritesOutputResponse, GetMapSpritesOutputError>(id: "getMapSprites")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMapSpritesInput, GetMapSpritesOutputResponse, GetMapSpritesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMapSpritesInput, GetMapSpritesOutputResponse>(hostPrefix: "maps."))
@@ -1246,8 +1392,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMapSpritesOutputResponse, GetMapSpritesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMapSpritesOutputResponse, GetMapSpritesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMapSpritesOutputResponse, GetMapSpritesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1267,6 +1417,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMapStyleDescriptorInput, GetMapStyleDescriptorOutputResponse, GetMapStyleDescriptorOutputError>(id: "getMapStyleDescriptor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMapStyleDescriptorInput, GetMapStyleDescriptorOutputResponse, GetMapStyleDescriptorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMapStyleDescriptorInput, GetMapStyleDescriptorOutputResponse>(hostPrefix: "maps."))
@@ -1279,8 +1430,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMapStyleDescriptorOutputResponse, GetMapStyleDescriptorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMapStyleDescriptorOutputResponse, GetMapStyleDescriptorOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMapStyleDescriptorOutputResponse, GetMapStyleDescriptorOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1300,6 +1455,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMapTileInput, GetMapTileOutputResponse, GetMapTileOutputError>(id: "getMapTile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMapTileInput, GetMapTileOutputResponse, GetMapTileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMapTileInput, GetMapTileOutputResponse>(hostPrefix: "maps."))
@@ -1312,8 +1468,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMapTileOutputResponse, GetMapTileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMapTileOutputResponse, GetMapTileOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMapTileOutputResponse, GetMapTileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1339,6 +1499,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPlaceInput, GetPlaceOutputResponse, GetPlaceOutputError>(id: "getPlace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPlaceInput, GetPlaceOutputResponse, GetPlaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPlaceInput, GetPlaceOutputResponse>(hostPrefix: "places."))
@@ -1351,8 +1512,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPlaceOutputResponse, GetPlaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPlaceOutputResponse, GetPlaceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPlaceOutputResponse, GetPlaceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1372,6 +1537,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDevicePositionsInput, ListDevicePositionsOutputResponse, ListDevicePositionsOutputError>(id: "listDevicePositions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevicePositionsInput, ListDevicePositionsOutputResponse, ListDevicePositionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevicePositionsInput, ListDevicePositionsOutputResponse>(hostPrefix: "tracking."))
@@ -1386,8 +1552,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDevicePositionsOutputResponse, ListDevicePositionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevicePositionsOutputResponse, ListDevicePositionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDevicePositionsOutputResponse, ListDevicePositionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1407,6 +1577,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGeofenceCollectionsInput, ListGeofenceCollectionsOutputResponse, ListGeofenceCollectionsOutputError>(id: "listGeofenceCollections")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGeofenceCollectionsInput, ListGeofenceCollectionsOutputResponse, ListGeofenceCollectionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGeofenceCollectionsInput, ListGeofenceCollectionsOutputResponse>(hostPrefix: "geofencing."))
@@ -1421,8 +1592,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGeofenceCollectionsOutputResponse, ListGeofenceCollectionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGeofenceCollectionsOutputResponse, ListGeofenceCollectionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGeofenceCollectionsOutputResponse, ListGeofenceCollectionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1442,6 +1617,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGeofencesInput, ListGeofencesOutputResponse, ListGeofencesOutputError>(id: "listGeofences")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGeofencesInput, ListGeofencesOutputResponse, ListGeofencesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGeofencesInput, ListGeofencesOutputResponse>(hostPrefix: "geofencing."))
@@ -1456,8 +1632,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGeofencesOutputResponse, ListGeofencesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGeofencesOutputResponse, ListGeofencesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGeofencesOutputResponse, ListGeofencesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1512,6 +1692,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMapsInput, ListMapsOutputResponse, ListMapsOutputError>(id: "listMaps")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMapsInput, ListMapsOutputResponse, ListMapsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMapsInput, ListMapsOutputResponse>(hostPrefix: "maps."))
@@ -1526,8 +1707,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMapsOutputResponse, ListMapsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMapsOutputResponse, ListMapsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMapsOutputResponse, ListMapsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1547,6 +1732,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPlaceIndexesInput, ListPlaceIndexesOutputResponse, ListPlaceIndexesOutputError>(id: "listPlaceIndexes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPlaceIndexesInput, ListPlaceIndexesOutputResponse, ListPlaceIndexesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPlaceIndexesInput, ListPlaceIndexesOutputResponse>(hostPrefix: "places."))
@@ -1561,8 +1747,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPlaceIndexesOutputResponse, ListPlaceIndexesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPlaceIndexesOutputResponse, ListPlaceIndexesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPlaceIndexesOutputResponse, ListPlaceIndexesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1582,6 +1772,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRouteCalculatorsInput, ListRouteCalculatorsOutputResponse, ListRouteCalculatorsOutputError>(id: "listRouteCalculators")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRouteCalculatorsInput, ListRouteCalculatorsOutputResponse, ListRouteCalculatorsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRouteCalculatorsInput, ListRouteCalculatorsOutputResponse>(hostPrefix: "routes."))
@@ -1596,8 +1787,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRouteCalculatorsOutputResponse, ListRouteCalculatorsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRouteCalculatorsOutputResponse, ListRouteCalculatorsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRouteCalculatorsOutputResponse, ListRouteCalculatorsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1617,6 +1812,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(hostPrefix: "metadata."))
@@ -1628,8 +1824,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1649,6 +1849,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTrackerConsumersInput, ListTrackerConsumersOutputResponse, ListTrackerConsumersOutputError>(id: "listTrackerConsumers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrackerConsumersInput, ListTrackerConsumersOutputResponse, ListTrackerConsumersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrackerConsumersInput, ListTrackerConsumersOutputResponse>(hostPrefix: "tracking."))
@@ -1663,8 +1864,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrackerConsumersOutputResponse, ListTrackerConsumersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrackerConsumersOutputResponse, ListTrackerConsumersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrackerConsumersOutputResponse, ListTrackerConsumersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1684,6 +1889,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTrackersInput, ListTrackersOutputResponse, ListTrackersOutputError>(id: "listTrackers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrackersInput, ListTrackersOutputResponse, ListTrackersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrackersInput, ListTrackersOutputResponse>(hostPrefix: "tracking."))
@@ -1698,8 +1904,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrackersOutputResponse, ListTrackersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrackersOutputResponse, ListTrackersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrackersOutputResponse, ListTrackersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1719,6 +1929,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutGeofenceInput, PutGeofenceOutputResponse, PutGeofenceOutputError>(id: "putGeofence")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutGeofenceInput, PutGeofenceOutputResponse, PutGeofenceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutGeofenceInput, PutGeofenceOutputResponse>(hostPrefix: "geofencing."))
@@ -1733,8 +1944,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutGeofenceOutputResponse, PutGeofenceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutGeofenceOutputResponse, PutGeofenceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutGeofenceOutputResponse, PutGeofenceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1754,6 +1969,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchPlaceIndexForPositionInput, SearchPlaceIndexForPositionOutputResponse, SearchPlaceIndexForPositionOutputError>(id: "searchPlaceIndexForPosition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchPlaceIndexForPositionInput, SearchPlaceIndexForPositionOutputResponse, SearchPlaceIndexForPositionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchPlaceIndexForPositionInput, SearchPlaceIndexForPositionOutputResponse>(hostPrefix: "places."))
@@ -1768,8 +1984,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchPlaceIndexForPositionOutputResponse, SearchPlaceIndexForPositionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchPlaceIndexForPositionOutputResponse, SearchPlaceIndexForPositionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchPlaceIndexForPositionOutputResponse, SearchPlaceIndexForPositionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1789,6 +2009,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchPlaceIndexForSuggestionsInput, SearchPlaceIndexForSuggestionsOutputResponse, SearchPlaceIndexForSuggestionsOutputError>(id: "searchPlaceIndexForSuggestions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchPlaceIndexForSuggestionsInput, SearchPlaceIndexForSuggestionsOutputResponse, SearchPlaceIndexForSuggestionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchPlaceIndexForSuggestionsInput, SearchPlaceIndexForSuggestionsOutputResponse>(hostPrefix: "places."))
@@ -1803,8 +2024,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchPlaceIndexForSuggestionsOutputResponse, SearchPlaceIndexForSuggestionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchPlaceIndexForSuggestionsOutputResponse, SearchPlaceIndexForSuggestionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchPlaceIndexForSuggestionsOutputResponse, SearchPlaceIndexForSuggestionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1824,6 +2049,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchPlaceIndexForTextInput, SearchPlaceIndexForTextOutputResponse, SearchPlaceIndexForTextOutputError>(id: "searchPlaceIndexForText")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchPlaceIndexForTextInput, SearchPlaceIndexForTextOutputResponse, SearchPlaceIndexForTextOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchPlaceIndexForTextInput, SearchPlaceIndexForTextOutputResponse>(hostPrefix: "places."))
@@ -1838,8 +2064,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchPlaceIndexForTextOutputResponse, SearchPlaceIndexForTextOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchPlaceIndexForTextOutputResponse, SearchPlaceIndexForTextOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchPlaceIndexForTextOutputResponse, SearchPlaceIndexForTextOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1859,6 +2089,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>(hostPrefix: "metadata."))
@@ -1873,8 +2104,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1894,6 +2129,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>(hostPrefix: "metadata."))
@@ -1906,8 +2142,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1927,6 +2167,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateGeofenceCollectionInput, UpdateGeofenceCollectionOutputResponse, UpdateGeofenceCollectionOutputError>(id: "updateGeofenceCollection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGeofenceCollectionInput, UpdateGeofenceCollectionOutputResponse, UpdateGeofenceCollectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGeofenceCollectionInput, UpdateGeofenceCollectionOutputResponse>(hostPrefix: "geofencing."))
@@ -1941,6 +2182,7 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGeofenceCollectionOutputResponse, UpdateGeofenceCollectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGeofenceCollectionOutputResponse, UpdateGeofenceCollectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGeofenceCollectionOutputResponse, UpdateGeofenceCollectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
@@ -1978,6 +2220,9 @@ extension LocationClient: LocationClientProtocol {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateKeyOutputResponse, UpdateKeyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateKeyOutputResponse, UpdateKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1997,6 +2242,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateMapInput, UpdateMapOutputResponse, UpdateMapOutputError>(id: "updateMap")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMapInput, UpdateMapOutputResponse, UpdateMapOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMapInput, UpdateMapOutputResponse>(hostPrefix: "maps."))
@@ -2011,8 +2257,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMapOutputResponse, UpdateMapOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMapOutputResponse, UpdateMapOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMapOutputResponse, UpdateMapOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2032,6 +2282,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePlaceIndexInput, UpdatePlaceIndexOutputResponse, UpdatePlaceIndexOutputError>(id: "updatePlaceIndex")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePlaceIndexInput, UpdatePlaceIndexOutputResponse, UpdatePlaceIndexOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePlaceIndexInput, UpdatePlaceIndexOutputResponse>(hostPrefix: "places."))
@@ -2046,8 +2297,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePlaceIndexOutputResponse, UpdatePlaceIndexOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePlaceIndexOutputResponse, UpdatePlaceIndexOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePlaceIndexOutputResponse, UpdatePlaceIndexOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2067,6 +2322,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateRouteCalculatorInput, UpdateRouteCalculatorOutputResponse, UpdateRouteCalculatorOutputError>(id: "updateRouteCalculator")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRouteCalculatorInput, UpdateRouteCalculatorOutputResponse, UpdateRouteCalculatorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRouteCalculatorInput, UpdateRouteCalculatorOutputResponse>(hostPrefix: "routes."))
@@ -2081,8 +2337,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRouteCalculatorOutputResponse, UpdateRouteCalculatorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRouteCalculatorOutputResponse, UpdateRouteCalculatorOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRouteCalculatorOutputResponse, UpdateRouteCalculatorOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2102,6 +2362,7 @@ extension LocationClient: LocationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "geo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTrackerInput, UpdateTrackerOutputResponse, UpdateTrackerOutputError>(id: "updateTracker")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTrackerInput, UpdateTrackerOutputResponse, UpdateTrackerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTrackerInput, UpdateTrackerOutputResponse>(hostPrefix: "tracking."))
@@ -2116,8 +2377,12 @@ extension LocationClient: LocationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTrackerOutputResponse, UpdateTrackerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrackerOutputResponse, UpdateTrackerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTrackerOutputResponse, UpdateTrackerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

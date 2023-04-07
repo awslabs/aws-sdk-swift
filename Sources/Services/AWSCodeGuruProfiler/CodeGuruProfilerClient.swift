@@ -146,6 +146,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddNotificationChannelsInput, AddNotificationChannelsOutputResponse, AddNotificationChannelsOutputError>(id: "addNotificationChannels")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddNotificationChannelsInput, AddNotificationChannelsOutputResponse, AddNotificationChannelsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddNotificationChannelsInput, AddNotificationChannelsOutputResponse>())
@@ -160,8 +161,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddNotificationChannelsOutputResponse, AddNotificationChannelsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddNotificationChannelsOutputResponse, AddNotificationChannelsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddNotificationChannelsOutputResponse, AddNotificationChannelsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -181,6 +186,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchGetFrameMetricDataInput, BatchGetFrameMetricDataOutputResponse, BatchGetFrameMetricDataOutputError>(id: "batchGetFrameMetricData")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetFrameMetricDataInput, BatchGetFrameMetricDataOutputResponse, BatchGetFrameMetricDataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetFrameMetricDataInput, BatchGetFrameMetricDataOutputResponse>())
@@ -196,8 +202,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetFrameMetricDataOutputResponse, BatchGetFrameMetricDataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetFrameMetricDataOutputResponse, BatchGetFrameMetricDataOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetFrameMetricDataOutputResponse, BatchGetFrameMetricDataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -217,6 +227,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ConfigureAgentInput, ConfigureAgentOutputResponse, ConfigureAgentOutputError>(id: "configureAgent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConfigureAgentInput, ConfigureAgentOutputResponse, ConfigureAgentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConfigureAgentInput, ConfigureAgentOutputResponse>())
@@ -231,8 +242,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ConfigureAgentOutputResponse, ConfigureAgentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConfigureAgentOutputResponse, ConfigureAgentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ConfigureAgentOutputResponse, ConfigureAgentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -252,6 +267,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateProfilingGroupInput, CreateProfilingGroupOutputResponse, CreateProfilingGroupOutputError>(id: "createProfilingGroup")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateProfilingGroupOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -275,8 +291,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProfilingGroupOutputResponse, CreateProfilingGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProfilingGroupOutputResponse, CreateProfilingGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProfilingGroupOutputResponse, CreateProfilingGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -296,6 +316,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteProfilingGroupInput, DeleteProfilingGroupOutputResponse, DeleteProfilingGroupOutputError>(id: "deleteProfilingGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProfilingGroupInput, DeleteProfilingGroupOutputResponse, DeleteProfilingGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProfilingGroupInput, DeleteProfilingGroupOutputResponse>())
@@ -307,8 +328,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProfilingGroupOutputResponse, DeleteProfilingGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProfilingGroupOutputResponse, DeleteProfilingGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProfilingGroupOutputResponse, DeleteProfilingGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -328,6 +353,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeProfilingGroupInput, DescribeProfilingGroupOutputResponse, DescribeProfilingGroupOutputError>(id: "describeProfilingGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProfilingGroupInput, DescribeProfilingGroupOutputResponse, DescribeProfilingGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProfilingGroupInput, DescribeProfilingGroupOutputResponse>())
@@ -339,8 +365,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProfilingGroupOutputResponse, DescribeProfilingGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProfilingGroupOutputResponse, DescribeProfilingGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProfilingGroupOutputResponse, DescribeProfilingGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -360,6 +390,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFindingsReportAccountSummaryInput, GetFindingsReportAccountSummaryOutputResponse, GetFindingsReportAccountSummaryOutputError>(id: "getFindingsReportAccountSummary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFindingsReportAccountSummaryInput, GetFindingsReportAccountSummaryOutputResponse, GetFindingsReportAccountSummaryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFindingsReportAccountSummaryInput, GetFindingsReportAccountSummaryOutputResponse>())
@@ -372,8 +403,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFindingsReportAccountSummaryOutputResponse, GetFindingsReportAccountSummaryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFindingsReportAccountSummaryOutputResponse, GetFindingsReportAccountSummaryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFindingsReportAccountSummaryOutputResponse, GetFindingsReportAccountSummaryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -393,6 +428,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetNotificationConfigurationInput, GetNotificationConfigurationOutputResponse, GetNotificationConfigurationOutputError>(id: "getNotificationConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNotificationConfigurationInput, GetNotificationConfigurationOutputResponse, GetNotificationConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNotificationConfigurationInput, GetNotificationConfigurationOutputResponse>())
@@ -404,8 +440,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNotificationConfigurationOutputResponse, GetNotificationConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNotificationConfigurationOutputResponse, GetNotificationConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNotificationConfigurationOutputResponse, GetNotificationConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -425,6 +465,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPolicyInput, GetPolicyOutputResponse, GetPolicyOutputError>(id: "getPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPolicyInput, GetPolicyOutputResponse, GetPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPolicyInput, GetPolicyOutputResponse>())
@@ -436,8 +477,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPolicyOutputResponse, GetPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyOutputResponse, GetPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPolicyOutputResponse, GetPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -473,6 +518,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetProfileInput, GetProfileOutputResponse, GetProfileOutputError>(id: "getProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProfileInput, GetProfileOutputResponse, GetProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProfileInput, GetProfileOutputResponse>())
@@ -486,8 +532,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProfileOutputResponse, GetProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProfileOutputResponse, GetProfileOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProfileOutputResponse, GetProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -507,6 +557,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRecommendationsInput, GetRecommendationsOutputResponse, GetRecommendationsOutputError>(id: "getRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRecommendationsInput, GetRecommendationsOutputResponse, GetRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRecommendationsInput, GetRecommendationsOutputResponse>())
@@ -519,8 +570,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRecommendationsOutputResponse, GetRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRecommendationsOutputResponse, GetRecommendationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRecommendationsOutputResponse, GetRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -540,6 +595,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFindingsReportsInput, ListFindingsReportsOutputResponse, ListFindingsReportsOutputError>(id: "listFindingsReports")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFindingsReportsInput, ListFindingsReportsOutputResponse, ListFindingsReportsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFindingsReportsInput, ListFindingsReportsOutputResponse>())
@@ -552,8 +608,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFindingsReportsOutputResponse, ListFindingsReportsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFindingsReportsOutputResponse, ListFindingsReportsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFindingsReportsOutputResponse, ListFindingsReportsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -573,6 +633,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListProfileTimesInput, ListProfileTimesOutputResponse, ListProfileTimesOutputError>(id: "listProfileTimes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProfileTimesInput, ListProfileTimesOutputResponse, ListProfileTimesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProfileTimesInput, ListProfileTimesOutputResponse>())
@@ -585,8 +646,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProfileTimesOutputResponse, ListProfileTimesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProfileTimesOutputResponse, ListProfileTimesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProfileTimesOutputResponse, ListProfileTimesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -606,6 +671,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListProfilingGroupsInput, ListProfilingGroupsOutputResponse, ListProfilingGroupsOutputError>(id: "listProfilingGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProfilingGroupsInput, ListProfilingGroupsOutputResponse, ListProfilingGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProfilingGroupsInput, ListProfilingGroupsOutputResponse>())
@@ -618,8 +684,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProfilingGroupsOutputResponse, ListProfilingGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProfilingGroupsOutputResponse, ListProfilingGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProfilingGroupsOutputResponse, ListProfilingGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -639,6 +709,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -650,8 +721,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -671,6 +746,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PostAgentProfileInput, PostAgentProfileOutputResponse, PostAgentProfileOutputError>(id: "postAgentProfile")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PostAgentProfileOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -695,8 +771,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PostAgentProfileOutputResponse, PostAgentProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PostAgentProfileOutputResponse, PostAgentProfileOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PostAgentProfileOutputResponse, PostAgentProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -716,6 +796,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutPermissionInput, PutPermissionOutputResponse, PutPermissionOutputError>(id: "putPermission")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutPermissionInput, PutPermissionOutputResponse, PutPermissionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutPermissionInput, PutPermissionOutputResponse>())
@@ -730,8 +811,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutPermissionOutputResponse, PutPermissionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutPermissionOutputResponse, PutPermissionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutPermissionOutputResponse, PutPermissionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -751,6 +836,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveNotificationChannelInput, RemoveNotificationChannelOutputResponse, RemoveNotificationChannelOutputError>(id: "removeNotificationChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveNotificationChannelInput, RemoveNotificationChannelOutputResponse, RemoveNotificationChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveNotificationChannelInput, RemoveNotificationChannelOutputResponse>())
@@ -762,8 +848,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveNotificationChannelOutputResponse, RemoveNotificationChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveNotificationChannelOutputResponse, RemoveNotificationChannelOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveNotificationChannelOutputResponse, RemoveNotificationChannelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -783,6 +873,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemovePermissionInput, RemovePermissionOutputResponse, RemovePermissionOutputError>(id: "removePermission")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemovePermissionInput, RemovePermissionOutputResponse, RemovePermissionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemovePermissionInput, RemovePermissionOutputResponse>())
@@ -795,8 +886,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemovePermissionOutputResponse, RemovePermissionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemovePermissionOutputResponse, RemovePermissionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemovePermissionOutputResponse, RemovePermissionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -816,6 +911,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SubmitFeedbackInput, SubmitFeedbackOutputResponse, SubmitFeedbackOutputError>(id: "submitFeedback")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SubmitFeedbackInput, SubmitFeedbackOutputResponse, SubmitFeedbackOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SubmitFeedbackInput, SubmitFeedbackOutputResponse>())
@@ -830,8 +926,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SubmitFeedbackOutputResponse, SubmitFeedbackOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SubmitFeedbackOutputResponse, SubmitFeedbackOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SubmitFeedbackOutputResponse, SubmitFeedbackOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -851,6 +951,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -865,8 +966,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -886,6 +991,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -898,8 +1004,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -919,6 +1029,7 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateProfilingGroupInput, UpdateProfilingGroupOutputResponse, UpdateProfilingGroupOutputError>(id: "updateProfilingGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProfilingGroupInput, UpdateProfilingGroupOutputResponse, UpdateProfilingGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProfilingGroupInput, UpdateProfilingGroupOutputResponse>())
@@ -933,8 +1044,12 @@ extension CodeGuruProfilerClient: CodeGuruProfilerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProfilingGroupOutputResponse, UpdateProfilingGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProfilingGroupOutputResponse, UpdateProfilingGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProfilingGroupOutputResponse, UpdateProfilingGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

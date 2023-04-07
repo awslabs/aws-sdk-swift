@@ -146,6 +146,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateConfigurationSetInput, CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>(id: "createConfigurationSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutputResponse>())
@@ -160,8 +161,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -181,6 +186,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateConfigurationSetEventDestinationInput, CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>(id: "createConfigurationSetEventDestination")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConfigurationSetEventDestinationInput, CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConfigurationSetEventDestinationInput, CreateConfigurationSetEventDestinationOutputResponse>())
@@ -195,8 +201,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -216,6 +226,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDedicatedIpPoolInput, CreateDedicatedIpPoolOutputResponse, CreateDedicatedIpPoolOutputError>(id: "createDedicatedIpPool")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDedicatedIpPoolInput, CreateDedicatedIpPoolOutputResponse, CreateDedicatedIpPoolOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDedicatedIpPoolInput, CreateDedicatedIpPoolOutputResponse>())
@@ -230,8 +241,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDedicatedIpPoolOutputResponse, CreateDedicatedIpPoolOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDedicatedIpPoolOutputResponse, CreateDedicatedIpPoolOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDedicatedIpPoolOutputResponse, CreateDedicatedIpPoolOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -251,6 +266,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDeliverabilityTestReportInput, CreateDeliverabilityTestReportOutputResponse, CreateDeliverabilityTestReportOutputError>(id: "createDeliverabilityTestReport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDeliverabilityTestReportInput, CreateDeliverabilityTestReportOutputResponse, CreateDeliverabilityTestReportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDeliverabilityTestReportInput, CreateDeliverabilityTestReportOutputResponse>())
@@ -265,8 +281,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDeliverabilityTestReportOutputResponse, CreateDeliverabilityTestReportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDeliverabilityTestReportOutputResponse, CreateDeliverabilityTestReportOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDeliverabilityTestReportOutputResponse, CreateDeliverabilityTestReportOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -286,6 +306,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEmailIdentityInput, CreateEmailIdentityOutputResponse, CreateEmailIdentityOutputError>(id: "createEmailIdentity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEmailIdentityInput, CreateEmailIdentityOutputResponse, CreateEmailIdentityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEmailIdentityInput, CreateEmailIdentityOutputResponse>())
@@ -300,8 +321,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEmailIdentityOutputResponse, CreateEmailIdentityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEmailIdentityOutputResponse, CreateEmailIdentityOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEmailIdentityOutputResponse, CreateEmailIdentityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -321,6 +346,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteConfigurationSetInput, DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>(id: "deleteConfigurationSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutputResponse>())
@@ -332,8 +358,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -353,6 +383,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteConfigurationSetEventDestinationInput, DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>(id: "deleteConfigurationSetEventDestination")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfigurationSetEventDestinationInput, DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfigurationSetEventDestinationInput, DeleteConfigurationSetEventDestinationOutputResponse>())
@@ -364,8 +395,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -385,6 +420,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDedicatedIpPoolInput, DeleteDedicatedIpPoolOutputResponse, DeleteDedicatedIpPoolOutputError>(id: "deleteDedicatedIpPool")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDedicatedIpPoolInput, DeleteDedicatedIpPoolOutputResponse, DeleteDedicatedIpPoolOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDedicatedIpPoolInput, DeleteDedicatedIpPoolOutputResponse>())
@@ -396,8 +432,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDedicatedIpPoolOutputResponse, DeleteDedicatedIpPoolOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDedicatedIpPoolOutputResponse, DeleteDedicatedIpPoolOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDedicatedIpPoolOutputResponse, DeleteDedicatedIpPoolOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -417,6 +457,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEmailIdentityInput, DeleteEmailIdentityOutputResponse, DeleteEmailIdentityOutputError>(id: "deleteEmailIdentity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEmailIdentityInput, DeleteEmailIdentityOutputResponse, DeleteEmailIdentityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEmailIdentityInput, DeleteEmailIdentityOutputResponse>())
@@ -428,8 +469,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEmailIdentityOutputResponse, DeleteEmailIdentityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEmailIdentityOutputResponse, DeleteEmailIdentityOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEmailIdentityOutputResponse, DeleteEmailIdentityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -449,6 +494,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccountInput, GetAccountOutputResponse, GetAccountOutputError>(id: "getAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountInput, GetAccountOutputResponse, GetAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountInput, GetAccountOutputResponse>())
@@ -460,8 +506,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountOutputResponse, GetAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountOutputResponse, GetAccountOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountOutputResponse, GetAccountOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -481,6 +531,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBlacklistReportsInput, GetBlacklistReportsOutputResponse, GetBlacklistReportsOutputError>(id: "getBlacklistReports")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBlacklistReportsInput, GetBlacklistReportsOutputResponse, GetBlacklistReportsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBlacklistReportsInput, GetBlacklistReportsOutputResponse>())
@@ -493,8 +544,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBlacklistReportsOutputResponse, GetBlacklistReportsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBlacklistReportsOutputResponse, GetBlacklistReportsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBlacklistReportsOutputResponse, GetBlacklistReportsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -514,6 +569,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetConfigurationSetInput, GetConfigurationSetOutputResponse, GetConfigurationSetOutputError>(id: "getConfigurationSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConfigurationSetInput, GetConfigurationSetOutputResponse, GetConfigurationSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConfigurationSetInput, GetConfigurationSetOutputResponse>())
@@ -525,8 +581,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConfigurationSetOutputResponse, GetConfigurationSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConfigurationSetOutputResponse, GetConfigurationSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConfigurationSetOutputResponse, GetConfigurationSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -546,6 +606,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetConfigurationSetEventDestinationsInput, GetConfigurationSetEventDestinationsOutputResponse, GetConfigurationSetEventDestinationsOutputError>(id: "getConfigurationSetEventDestinations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConfigurationSetEventDestinationsInput, GetConfigurationSetEventDestinationsOutputResponse, GetConfigurationSetEventDestinationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConfigurationSetEventDestinationsInput, GetConfigurationSetEventDestinationsOutputResponse>())
@@ -557,8 +618,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConfigurationSetEventDestinationsOutputResponse, GetConfigurationSetEventDestinationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConfigurationSetEventDestinationsOutputResponse, GetConfigurationSetEventDestinationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConfigurationSetEventDestinationsOutputResponse, GetConfigurationSetEventDestinationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -578,6 +643,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDedicatedIpInput, GetDedicatedIpOutputResponse, GetDedicatedIpOutputError>(id: "getDedicatedIp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDedicatedIpInput, GetDedicatedIpOutputResponse, GetDedicatedIpOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDedicatedIpInput, GetDedicatedIpOutputResponse>())
@@ -589,8 +655,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDedicatedIpOutputResponse, GetDedicatedIpOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDedicatedIpOutputResponse, GetDedicatedIpOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDedicatedIpOutputResponse, GetDedicatedIpOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -610,6 +680,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDedicatedIpsInput, GetDedicatedIpsOutputResponse, GetDedicatedIpsOutputError>(id: "getDedicatedIps")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDedicatedIpsInput, GetDedicatedIpsOutputResponse, GetDedicatedIpsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDedicatedIpsInput, GetDedicatedIpsOutputResponse>())
@@ -622,8 +693,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDedicatedIpsOutputResponse, GetDedicatedIpsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDedicatedIpsOutputResponse, GetDedicatedIpsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDedicatedIpsOutputResponse, GetDedicatedIpsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -643,6 +718,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDeliverabilityDashboardOptionsInput, GetDeliverabilityDashboardOptionsOutputResponse, GetDeliverabilityDashboardOptionsOutputError>(id: "getDeliverabilityDashboardOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeliverabilityDashboardOptionsInput, GetDeliverabilityDashboardOptionsOutputResponse, GetDeliverabilityDashboardOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeliverabilityDashboardOptionsInput, GetDeliverabilityDashboardOptionsOutputResponse>())
@@ -654,8 +730,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeliverabilityDashboardOptionsOutputResponse, GetDeliverabilityDashboardOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeliverabilityDashboardOptionsOutputResponse, GetDeliverabilityDashboardOptionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeliverabilityDashboardOptionsOutputResponse, GetDeliverabilityDashboardOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -675,6 +755,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDeliverabilityTestReportInput, GetDeliverabilityTestReportOutputResponse, GetDeliverabilityTestReportOutputError>(id: "getDeliverabilityTestReport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeliverabilityTestReportInput, GetDeliverabilityTestReportOutputResponse, GetDeliverabilityTestReportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeliverabilityTestReportInput, GetDeliverabilityTestReportOutputResponse>())
@@ -686,8 +767,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeliverabilityTestReportOutputResponse, GetDeliverabilityTestReportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeliverabilityTestReportOutputResponse, GetDeliverabilityTestReportOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeliverabilityTestReportOutputResponse, GetDeliverabilityTestReportOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -707,6 +792,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDomainDeliverabilityCampaignInput, GetDomainDeliverabilityCampaignOutputResponse, GetDomainDeliverabilityCampaignOutputError>(id: "getDomainDeliverabilityCampaign")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDomainDeliverabilityCampaignInput, GetDomainDeliverabilityCampaignOutputResponse, GetDomainDeliverabilityCampaignOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDomainDeliverabilityCampaignInput, GetDomainDeliverabilityCampaignOutputResponse>())
@@ -718,8 +804,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDomainDeliverabilityCampaignOutputResponse, GetDomainDeliverabilityCampaignOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDomainDeliverabilityCampaignOutputResponse, GetDomainDeliverabilityCampaignOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDomainDeliverabilityCampaignOutputResponse, GetDomainDeliverabilityCampaignOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -739,6 +829,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDomainStatisticsReportInput, GetDomainStatisticsReportOutputResponse, GetDomainStatisticsReportOutputError>(id: "getDomainStatisticsReport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDomainStatisticsReportInput, GetDomainStatisticsReportOutputResponse, GetDomainStatisticsReportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDomainStatisticsReportInput, GetDomainStatisticsReportOutputResponse>())
@@ -751,8 +842,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDomainStatisticsReportOutputResponse, GetDomainStatisticsReportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDomainStatisticsReportOutputResponse, GetDomainStatisticsReportOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDomainStatisticsReportOutputResponse, GetDomainStatisticsReportOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -772,6 +867,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEmailIdentityInput, GetEmailIdentityOutputResponse, GetEmailIdentityOutputError>(id: "getEmailIdentity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEmailIdentityInput, GetEmailIdentityOutputResponse, GetEmailIdentityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEmailIdentityInput, GetEmailIdentityOutputResponse>())
@@ -783,8 +879,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEmailIdentityOutputResponse, GetEmailIdentityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEmailIdentityOutputResponse, GetEmailIdentityOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEmailIdentityOutputResponse, GetEmailIdentityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -804,6 +904,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListConfigurationSetsInput, ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>(id: "listConfigurationSets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConfigurationSetsInput, ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConfigurationSetsInput, ListConfigurationSetsOutputResponse>())
@@ -816,8 +917,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -837,6 +942,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDedicatedIpPoolsInput, ListDedicatedIpPoolsOutputResponse, ListDedicatedIpPoolsOutputError>(id: "listDedicatedIpPools")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDedicatedIpPoolsInput, ListDedicatedIpPoolsOutputResponse, ListDedicatedIpPoolsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDedicatedIpPoolsInput, ListDedicatedIpPoolsOutputResponse>())
@@ -849,8 +955,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDedicatedIpPoolsOutputResponse, ListDedicatedIpPoolsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDedicatedIpPoolsOutputResponse, ListDedicatedIpPoolsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDedicatedIpPoolsOutputResponse, ListDedicatedIpPoolsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -870,6 +980,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDeliverabilityTestReportsInput, ListDeliverabilityTestReportsOutputResponse, ListDeliverabilityTestReportsOutputError>(id: "listDeliverabilityTestReports")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeliverabilityTestReportsInput, ListDeliverabilityTestReportsOutputResponse, ListDeliverabilityTestReportsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeliverabilityTestReportsInput, ListDeliverabilityTestReportsOutputResponse>())
@@ -882,8 +993,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeliverabilityTestReportsOutputResponse, ListDeliverabilityTestReportsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeliverabilityTestReportsOutputResponse, ListDeliverabilityTestReportsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeliverabilityTestReportsOutputResponse, ListDeliverabilityTestReportsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -903,6 +1018,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDomainDeliverabilityCampaignsInput, ListDomainDeliverabilityCampaignsOutputResponse, ListDomainDeliverabilityCampaignsOutputError>(id: "listDomainDeliverabilityCampaigns")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDomainDeliverabilityCampaignsInput, ListDomainDeliverabilityCampaignsOutputResponse, ListDomainDeliverabilityCampaignsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDomainDeliverabilityCampaignsInput, ListDomainDeliverabilityCampaignsOutputResponse>())
@@ -915,8 +1031,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDomainDeliverabilityCampaignsOutputResponse, ListDomainDeliverabilityCampaignsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDomainDeliverabilityCampaignsOutputResponse, ListDomainDeliverabilityCampaignsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDomainDeliverabilityCampaignsOutputResponse, ListDomainDeliverabilityCampaignsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -936,6 +1056,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEmailIdentitiesInput, ListEmailIdentitiesOutputResponse, ListEmailIdentitiesOutputError>(id: "listEmailIdentities")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEmailIdentitiesInput, ListEmailIdentitiesOutputResponse, ListEmailIdentitiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEmailIdentitiesInput, ListEmailIdentitiesOutputResponse>())
@@ -948,8 +1069,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEmailIdentitiesOutputResponse, ListEmailIdentitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEmailIdentitiesOutputResponse, ListEmailIdentitiesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEmailIdentitiesOutputResponse, ListEmailIdentitiesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -969,6 +1094,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -981,8 +1107,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1002,6 +1132,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutAccountDedicatedIpWarmupAttributesInput, PutAccountDedicatedIpWarmupAttributesOutputResponse, PutAccountDedicatedIpWarmupAttributesOutputError>(id: "putAccountDedicatedIpWarmupAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAccountDedicatedIpWarmupAttributesInput, PutAccountDedicatedIpWarmupAttributesOutputResponse, PutAccountDedicatedIpWarmupAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAccountDedicatedIpWarmupAttributesInput, PutAccountDedicatedIpWarmupAttributesOutputResponse>())
@@ -1016,8 +1147,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAccountDedicatedIpWarmupAttributesOutputResponse, PutAccountDedicatedIpWarmupAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAccountDedicatedIpWarmupAttributesOutputResponse, PutAccountDedicatedIpWarmupAttributesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutAccountDedicatedIpWarmupAttributesOutputResponse, PutAccountDedicatedIpWarmupAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1037,6 +1172,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutAccountSendingAttributesInput, PutAccountSendingAttributesOutputResponse, PutAccountSendingAttributesOutputError>(id: "putAccountSendingAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAccountSendingAttributesInput, PutAccountSendingAttributesOutputResponse, PutAccountSendingAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAccountSendingAttributesInput, PutAccountSendingAttributesOutputResponse>())
@@ -1051,8 +1187,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAccountSendingAttributesOutputResponse, PutAccountSendingAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAccountSendingAttributesOutputResponse, PutAccountSendingAttributesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutAccountSendingAttributesOutputResponse, PutAccountSendingAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1072,6 +1212,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutConfigurationSetDeliveryOptionsInput, PutConfigurationSetDeliveryOptionsOutputResponse, PutConfigurationSetDeliveryOptionsOutputError>(id: "putConfigurationSetDeliveryOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConfigurationSetDeliveryOptionsInput, PutConfigurationSetDeliveryOptionsOutputResponse, PutConfigurationSetDeliveryOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConfigurationSetDeliveryOptionsInput, PutConfigurationSetDeliveryOptionsOutputResponse>())
@@ -1086,8 +1227,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConfigurationSetDeliveryOptionsOutputResponse, PutConfigurationSetDeliveryOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConfigurationSetDeliveryOptionsOutputResponse, PutConfigurationSetDeliveryOptionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutConfigurationSetDeliveryOptionsOutputResponse, PutConfigurationSetDeliveryOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1107,6 +1252,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutConfigurationSetReputationOptionsInput, PutConfigurationSetReputationOptionsOutputResponse, PutConfigurationSetReputationOptionsOutputError>(id: "putConfigurationSetReputationOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConfigurationSetReputationOptionsInput, PutConfigurationSetReputationOptionsOutputResponse, PutConfigurationSetReputationOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConfigurationSetReputationOptionsInput, PutConfigurationSetReputationOptionsOutputResponse>())
@@ -1121,8 +1267,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConfigurationSetReputationOptionsOutputResponse, PutConfigurationSetReputationOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConfigurationSetReputationOptionsOutputResponse, PutConfigurationSetReputationOptionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutConfigurationSetReputationOptionsOutputResponse, PutConfigurationSetReputationOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1142,6 +1292,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutConfigurationSetSendingOptionsInput, PutConfigurationSetSendingOptionsOutputResponse, PutConfigurationSetSendingOptionsOutputError>(id: "putConfigurationSetSendingOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConfigurationSetSendingOptionsInput, PutConfigurationSetSendingOptionsOutputResponse, PutConfigurationSetSendingOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConfigurationSetSendingOptionsInput, PutConfigurationSetSendingOptionsOutputResponse>())
@@ -1156,8 +1307,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConfigurationSetSendingOptionsOutputResponse, PutConfigurationSetSendingOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConfigurationSetSendingOptionsOutputResponse, PutConfigurationSetSendingOptionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutConfigurationSetSendingOptionsOutputResponse, PutConfigurationSetSendingOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1177,6 +1332,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutConfigurationSetTrackingOptionsInput, PutConfigurationSetTrackingOptionsOutputResponse, PutConfigurationSetTrackingOptionsOutputError>(id: "putConfigurationSetTrackingOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConfigurationSetTrackingOptionsInput, PutConfigurationSetTrackingOptionsOutputResponse, PutConfigurationSetTrackingOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConfigurationSetTrackingOptionsInput, PutConfigurationSetTrackingOptionsOutputResponse>())
@@ -1191,8 +1347,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConfigurationSetTrackingOptionsOutputResponse, PutConfigurationSetTrackingOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConfigurationSetTrackingOptionsOutputResponse, PutConfigurationSetTrackingOptionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutConfigurationSetTrackingOptionsOutputResponse, PutConfigurationSetTrackingOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1212,6 +1372,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutDedicatedIpInPoolInput, PutDedicatedIpInPoolOutputResponse, PutDedicatedIpInPoolOutputError>(id: "putDedicatedIpInPool")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutDedicatedIpInPoolInput, PutDedicatedIpInPoolOutputResponse, PutDedicatedIpInPoolOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutDedicatedIpInPoolInput, PutDedicatedIpInPoolOutputResponse>())
@@ -1226,8 +1387,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutDedicatedIpInPoolOutputResponse, PutDedicatedIpInPoolOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutDedicatedIpInPoolOutputResponse, PutDedicatedIpInPoolOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutDedicatedIpInPoolOutputResponse, PutDedicatedIpInPoolOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1247,6 +1412,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutDedicatedIpWarmupAttributesInput, PutDedicatedIpWarmupAttributesOutputResponse, PutDedicatedIpWarmupAttributesOutputError>(id: "putDedicatedIpWarmupAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutDedicatedIpWarmupAttributesInput, PutDedicatedIpWarmupAttributesOutputResponse, PutDedicatedIpWarmupAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutDedicatedIpWarmupAttributesInput, PutDedicatedIpWarmupAttributesOutputResponse>())
@@ -1261,8 +1427,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutDedicatedIpWarmupAttributesOutputResponse, PutDedicatedIpWarmupAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutDedicatedIpWarmupAttributesOutputResponse, PutDedicatedIpWarmupAttributesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutDedicatedIpWarmupAttributesOutputResponse, PutDedicatedIpWarmupAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1282,6 +1452,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutDeliverabilityDashboardOptionInput, PutDeliverabilityDashboardOptionOutputResponse, PutDeliverabilityDashboardOptionOutputError>(id: "putDeliverabilityDashboardOption")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutDeliverabilityDashboardOptionInput, PutDeliverabilityDashboardOptionOutputResponse, PutDeliverabilityDashboardOptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutDeliverabilityDashboardOptionInput, PutDeliverabilityDashboardOptionOutputResponse>())
@@ -1296,8 +1467,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutDeliverabilityDashboardOptionOutputResponse, PutDeliverabilityDashboardOptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutDeliverabilityDashboardOptionOutputResponse, PutDeliverabilityDashboardOptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutDeliverabilityDashboardOptionOutputResponse, PutDeliverabilityDashboardOptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1317,6 +1492,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutEmailIdentityDkimAttributesInput, PutEmailIdentityDkimAttributesOutputResponse, PutEmailIdentityDkimAttributesOutputError>(id: "putEmailIdentityDkimAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutEmailIdentityDkimAttributesInput, PutEmailIdentityDkimAttributesOutputResponse, PutEmailIdentityDkimAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutEmailIdentityDkimAttributesInput, PutEmailIdentityDkimAttributesOutputResponse>())
@@ -1331,8 +1507,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutEmailIdentityDkimAttributesOutputResponse, PutEmailIdentityDkimAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutEmailIdentityDkimAttributesOutputResponse, PutEmailIdentityDkimAttributesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutEmailIdentityDkimAttributesOutputResponse, PutEmailIdentityDkimAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1352,6 +1532,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutEmailIdentityFeedbackAttributesInput, PutEmailIdentityFeedbackAttributesOutputResponse, PutEmailIdentityFeedbackAttributesOutputError>(id: "putEmailIdentityFeedbackAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutEmailIdentityFeedbackAttributesInput, PutEmailIdentityFeedbackAttributesOutputResponse, PutEmailIdentityFeedbackAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutEmailIdentityFeedbackAttributesInput, PutEmailIdentityFeedbackAttributesOutputResponse>())
@@ -1366,8 +1547,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutEmailIdentityFeedbackAttributesOutputResponse, PutEmailIdentityFeedbackAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutEmailIdentityFeedbackAttributesOutputResponse, PutEmailIdentityFeedbackAttributesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutEmailIdentityFeedbackAttributesOutputResponse, PutEmailIdentityFeedbackAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1387,6 +1572,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutEmailIdentityMailFromAttributesInput, PutEmailIdentityMailFromAttributesOutputResponse, PutEmailIdentityMailFromAttributesOutputError>(id: "putEmailIdentityMailFromAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutEmailIdentityMailFromAttributesInput, PutEmailIdentityMailFromAttributesOutputResponse, PutEmailIdentityMailFromAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutEmailIdentityMailFromAttributesInput, PutEmailIdentityMailFromAttributesOutputResponse>())
@@ -1401,8 +1587,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutEmailIdentityMailFromAttributesOutputResponse, PutEmailIdentityMailFromAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutEmailIdentityMailFromAttributesOutputResponse, PutEmailIdentityMailFromAttributesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutEmailIdentityMailFromAttributesOutputResponse, PutEmailIdentityMailFromAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1426,6 +1616,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendEmailInput, SendEmailOutputResponse, SendEmailOutputError>(id: "sendEmail")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendEmailInput, SendEmailOutputResponse, SendEmailOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendEmailInput, SendEmailOutputResponse>())
@@ -1440,8 +1631,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendEmailOutputResponse, SendEmailOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendEmailOutputResponse, SendEmailOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendEmailOutputResponse, SendEmailOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1461,6 +1656,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1475,8 +1671,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1496,6 +1696,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1508,8 +1709,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1529,6 +1734,7 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateConfigurationSetEventDestinationInput, UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>(id: "updateConfigurationSetEventDestination")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConfigurationSetEventDestinationInput, UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConfigurationSetEventDestinationInput, UpdateConfigurationSetEventDestinationOutputResponse>())
@@ -1543,8 +1749,12 @@ extension PinpointEmailClient: PinpointEmailClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

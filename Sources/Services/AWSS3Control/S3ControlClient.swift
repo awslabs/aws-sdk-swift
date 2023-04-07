@@ -157,6 +157,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAccessPointInput, CreateAccessPointOutputResponse, CreateAccessPointOutputError>(id: "createAccessPoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccessPointInput, CreateAccessPointOutputResponse, CreateAccessPointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccessPointInput, CreateAccessPointOutputResponse>())
@@ -172,8 +173,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccessPointOutputResponse, CreateAccessPointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessPointOutputResponse, CreateAccessPointOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccessPointOutputResponse, CreateAccessPointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -199,6 +204,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAccessPointForObjectLambdaInput, CreateAccessPointForObjectLambdaOutputResponse, CreateAccessPointForObjectLambdaOutputError>(id: "createAccessPointForObjectLambda")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccessPointForObjectLambdaInput, CreateAccessPointForObjectLambdaOutputResponse, CreateAccessPointForObjectLambdaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccessPointForObjectLambdaInput, CreateAccessPointForObjectLambdaOutputResponse>())
@@ -214,8 +220,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccessPointForObjectLambdaOutputResponse, CreateAccessPointForObjectLambdaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessPointForObjectLambdaOutputResponse, CreateAccessPointForObjectLambdaOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccessPointForObjectLambdaOutputResponse, CreateAccessPointForObjectLambdaOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -252,6 +262,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateBucketInput, CreateBucketOutputResponse, CreateBucketOutputError>(id: "createBucket")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBucketInput, CreateBucketOutputResponse, CreateBucketOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBucketInput, CreateBucketOutputResponse>())
@@ -268,8 +279,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBucketOutputResponse, CreateBucketOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBucketOutputResponse, CreateBucketOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBucketOutputResponse, CreateBucketOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -299,6 +314,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateJobInput, CreateJobOutputResponse, CreateJobOutputError>(id: "createJob")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateJobOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -322,8 +338,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateJobOutputResponse, CreateJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateJobOutputResponse, CreateJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateJobOutputResponse, CreateJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -351,6 +371,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMultiRegionAccessPointInput, CreateMultiRegionAccessPointOutputResponse, CreateMultiRegionAccessPointOutputError>(id: "createMultiRegionAccessPoint")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateMultiRegionAccessPointOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -375,8 +396,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMultiRegionAccessPointOutputResponse, CreateMultiRegionAccessPointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMultiRegionAccessPointOutputResponse, CreateMultiRegionAccessPointOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMultiRegionAccessPointOutputResponse, CreateMultiRegionAccessPointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -402,6 +427,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAccessPointInput, DeleteAccessPointOutputResponse, DeleteAccessPointOutputError>(id: "deleteAccessPoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccessPointInput, DeleteAccessPointOutputResponse, DeleteAccessPointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccessPointInput, DeleteAccessPointOutputResponse>())
@@ -414,8 +440,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccessPointOutputResponse, DeleteAccessPointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessPointOutputResponse, DeleteAccessPointOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessPointOutputResponse, DeleteAccessPointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -441,6 +471,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAccessPointForObjectLambdaInput, DeleteAccessPointForObjectLambdaOutputResponse, DeleteAccessPointForObjectLambdaOutputError>(id: "deleteAccessPointForObjectLambda")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccessPointForObjectLambdaInput, DeleteAccessPointForObjectLambdaOutputResponse, DeleteAccessPointForObjectLambdaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccessPointForObjectLambdaInput, DeleteAccessPointForObjectLambdaOutputResponse>())
@@ -453,8 +484,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccessPointForObjectLambdaOutputResponse, DeleteAccessPointForObjectLambdaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessPointForObjectLambdaOutputResponse, DeleteAccessPointForObjectLambdaOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessPointForObjectLambdaOutputResponse, DeleteAccessPointForObjectLambdaOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -478,6 +513,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAccessPointPolicyInput, DeleteAccessPointPolicyOutputResponse, DeleteAccessPointPolicyOutputError>(id: "deleteAccessPointPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccessPointPolicyInput, DeleteAccessPointPolicyOutputResponse, DeleteAccessPointPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccessPointPolicyInput, DeleteAccessPointPolicyOutputResponse>())
@@ -490,8 +526,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccessPointPolicyOutputResponse, DeleteAccessPointPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessPointPolicyOutputResponse, DeleteAccessPointPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessPointPolicyOutputResponse, DeleteAccessPointPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -515,6 +555,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAccessPointPolicyForObjectLambdaInput, DeleteAccessPointPolicyForObjectLambdaOutputResponse, DeleteAccessPointPolicyForObjectLambdaOutputError>(id: "deleteAccessPointPolicyForObjectLambda")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccessPointPolicyForObjectLambdaInput, DeleteAccessPointPolicyForObjectLambdaOutputResponse, DeleteAccessPointPolicyForObjectLambdaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccessPointPolicyForObjectLambdaInput, DeleteAccessPointPolicyForObjectLambdaOutputResponse>())
@@ -527,8 +568,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccessPointPolicyForObjectLambdaOutputResponse, DeleteAccessPointPolicyForObjectLambdaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessPointPolicyForObjectLambdaOutputResponse, DeleteAccessPointPolicyForObjectLambdaOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessPointPolicyForObjectLambdaOutputResponse, DeleteAccessPointPolicyForObjectLambdaOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -554,6 +599,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBucketInput, DeleteBucketOutputResponse, DeleteBucketOutputError>(id: "deleteBucket")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketInput, DeleteBucketOutputResponse, DeleteBucketOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketInput, DeleteBucketOutputResponse>())
@@ -566,8 +612,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketOutputResponse, DeleteBucketOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketOutputResponse, DeleteBucketOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketOutputResponse, DeleteBucketOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -591,6 +641,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBucketLifecycleConfigurationInput, DeleteBucketLifecycleConfigurationOutputResponse, DeleteBucketLifecycleConfigurationOutputError>(id: "deleteBucketLifecycleConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketLifecycleConfigurationInput, DeleteBucketLifecycleConfigurationOutputResponse, DeleteBucketLifecycleConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketLifecycleConfigurationInput, DeleteBucketLifecycleConfigurationOutputResponse>())
@@ -603,8 +654,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketLifecycleConfigurationOutputResponse, DeleteBucketLifecycleConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketLifecycleConfigurationOutputResponse, DeleteBucketLifecycleConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketLifecycleConfigurationOutputResponse, DeleteBucketLifecycleConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -628,6 +683,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBucketPolicyInput, DeleteBucketPolicyOutputResponse, DeleteBucketPolicyOutputError>(id: "deleteBucketPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutputResponse, DeleteBucketPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutputResponse>())
@@ -640,6 +696,7 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketPolicyOutputResponse, DeleteBucketPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketPolicyOutputResponse, DeleteBucketPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketPolicyOutputResponse, DeleteBucketPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
@@ -679,6 +736,9 @@ extension S3ControlClient: S3ControlClientProtocol {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketReplicationOutputResponse, DeleteBucketReplicationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketReplicationOutputResponse, DeleteBucketReplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -702,6 +762,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBucketTaggingInput, DeleteBucketTaggingOutputResponse, DeleteBucketTaggingOutputError>(id: "deleteBucketTagging")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutputResponse, DeleteBucketTaggingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutputResponse>())
@@ -714,8 +775,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketTaggingOutputResponse, DeleteBucketTaggingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketTaggingOutputResponse, DeleteBucketTaggingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketTaggingOutputResponse, DeleteBucketTaggingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -741,6 +806,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteJobTaggingInput, DeleteJobTaggingOutputResponse, DeleteJobTaggingOutputError>(id: "deleteJobTagging")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteJobTaggingInput, DeleteJobTaggingOutputResponse, DeleteJobTaggingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteJobTaggingInput, DeleteJobTaggingOutputResponse>())
@@ -753,8 +819,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteJobTaggingOutputResponse, DeleteJobTaggingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteJobTaggingOutputResponse, DeleteJobTaggingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteJobTaggingOutputResponse, DeleteJobTaggingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -782,6 +852,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteMultiRegionAccessPointInput, DeleteMultiRegionAccessPointOutputResponse, DeleteMultiRegionAccessPointOutputError>(id: "deleteMultiRegionAccessPoint")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteMultiRegionAccessPointOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -806,8 +877,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMultiRegionAccessPointOutputResponse, DeleteMultiRegionAccessPointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMultiRegionAccessPointOutputResponse, DeleteMultiRegionAccessPointOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMultiRegionAccessPointOutputResponse, DeleteMultiRegionAccessPointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -831,6 +906,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutputResponse, DeletePublicAccessBlockOutputError>(id: "deletePublicAccessBlock")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutputResponse, DeletePublicAccessBlockOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutputResponse>())
@@ -843,8 +919,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePublicAccessBlockOutputResponse, DeletePublicAccessBlockOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePublicAccessBlockOutputResponse, DeletePublicAccessBlockOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePublicAccessBlockOutputResponse, DeletePublicAccessBlockOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -864,6 +944,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteStorageLensConfigurationInput, DeleteStorageLensConfigurationOutputResponse, DeleteStorageLensConfigurationOutputError>(id: "deleteStorageLensConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStorageLensConfigurationInput, DeleteStorageLensConfigurationOutputResponse, DeleteStorageLensConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStorageLensConfigurationInput, DeleteStorageLensConfigurationOutputResponse>())
@@ -876,8 +957,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStorageLensConfigurationOutputResponse, DeleteStorageLensConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStorageLensConfigurationOutputResponse, DeleteStorageLensConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStorageLensConfigurationOutputResponse, DeleteStorageLensConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -897,6 +982,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteStorageLensConfigurationTaggingInput, DeleteStorageLensConfigurationTaggingOutputResponse, DeleteStorageLensConfigurationTaggingOutputError>(id: "deleteStorageLensConfigurationTagging")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStorageLensConfigurationTaggingInput, DeleteStorageLensConfigurationTaggingOutputResponse, DeleteStorageLensConfigurationTaggingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStorageLensConfigurationTaggingInput, DeleteStorageLensConfigurationTaggingOutputResponse>())
@@ -909,8 +995,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStorageLensConfigurationTaggingOutputResponse, DeleteStorageLensConfigurationTaggingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStorageLensConfigurationTaggingOutputResponse, DeleteStorageLensConfigurationTaggingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStorageLensConfigurationTaggingOutputResponse, DeleteStorageLensConfigurationTaggingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -938,6 +1028,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeJobInput, DescribeJobOutputResponse, DescribeJobOutputError>(id: "describeJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeJobInput, DescribeJobOutputResponse, DescribeJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeJobInput, DescribeJobOutputResponse>())
@@ -950,8 +1041,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeJobOutputResponse, DescribeJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeJobOutputResponse, DescribeJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeJobOutputResponse, DescribeJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -979,6 +1074,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMultiRegionAccessPointOperationInput, DescribeMultiRegionAccessPointOperationOutputResponse, DescribeMultiRegionAccessPointOperationOutputError>(id: "describeMultiRegionAccessPointOperation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMultiRegionAccessPointOperationInput, DescribeMultiRegionAccessPointOperationOutputResponse, DescribeMultiRegionAccessPointOperationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMultiRegionAccessPointOperationInput, DescribeMultiRegionAccessPointOperationOutputResponse>())
@@ -992,8 +1088,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMultiRegionAccessPointOperationOutputResponse, DescribeMultiRegionAccessPointOperationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMultiRegionAccessPointOperationOutputResponse, DescribeMultiRegionAccessPointOperationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMultiRegionAccessPointOperationOutputResponse, DescribeMultiRegionAccessPointOperationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1019,6 +1119,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccessPointInput, GetAccessPointOutputResponse, GetAccessPointOutputError>(id: "getAccessPoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccessPointInput, GetAccessPointOutputResponse, GetAccessPointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccessPointInput, GetAccessPointOutputResponse>())
@@ -1031,8 +1132,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccessPointOutputResponse, GetAccessPointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccessPointOutputResponse, GetAccessPointOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccessPointOutputResponse, GetAccessPointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1054,6 +1159,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccessPointConfigurationForObjectLambdaInput, GetAccessPointConfigurationForObjectLambdaOutputResponse, GetAccessPointConfigurationForObjectLambdaOutputError>(id: "getAccessPointConfigurationForObjectLambda")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccessPointConfigurationForObjectLambdaInput, GetAccessPointConfigurationForObjectLambdaOutputResponse, GetAccessPointConfigurationForObjectLambdaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccessPointConfigurationForObjectLambdaInput, GetAccessPointConfigurationForObjectLambdaOutputResponse>())
@@ -1066,8 +1172,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccessPointConfigurationForObjectLambdaOutputResponse, GetAccessPointConfigurationForObjectLambdaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccessPointConfigurationForObjectLambdaOutputResponse, GetAccessPointConfigurationForObjectLambdaOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccessPointConfigurationForObjectLambdaOutputResponse, GetAccessPointConfigurationForObjectLambdaOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1093,6 +1203,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccessPointForObjectLambdaInput, GetAccessPointForObjectLambdaOutputResponse, GetAccessPointForObjectLambdaOutputError>(id: "getAccessPointForObjectLambda")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccessPointForObjectLambdaInput, GetAccessPointForObjectLambdaOutputResponse, GetAccessPointForObjectLambdaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccessPointForObjectLambdaInput, GetAccessPointForObjectLambdaOutputResponse>())
@@ -1105,8 +1216,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccessPointForObjectLambdaOutputResponse, GetAccessPointForObjectLambdaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccessPointForObjectLambdaOutputResponse, GetAccessPointForObjectLambdaOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccessPointForObjectLambdaOutputResponse, GetAccessPointForObjectLambdaOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1130,6 +1245,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccessPointPolicyInput, GetAccessPointPolicyOutputResponse, GetAccessPointPolicyOutputError>(id: "getAccessPointPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccessPointPolicyInput, GetAccessPointPolicyOutputResponse, GetAccessPointPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccessPointPolicyInput, GetAccessPointPolicyOutputResponse>())
@@ -1142,8 +1258,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccessPointPolicyOutputResponse, GetAccessPointPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccessPointPolicyOutputResponse, GetAccessPointPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccessPointPolicyOutputResponse, GetAccessPointPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1167,6 +1287,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccessPointPolicyForObjectLambdaInput, GetAccessPointPolicyForObjectLambdaOutputResponse, GetAccessPointPolicyForObjectLambdaOutputError>(id: "getAccessPointPolicyForObjectLambda")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccessPointPolicyForObjectLambdaInput, GetAccessPointPolicyForObjectLambdaOutputResponse, GetAccessPointPolicyForObjectLambdaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccessPointPolicyForObjectLambdaInput, GetAccessPointPolicyForObjectLambdaOutputResponse>())
@@ -1179,8 +1300,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccessPointPolicyForObjectLambdaOutputResponse, GetAccessPointPolicyForObjectLambdaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccessPointPolicyForObjectLambdaOutputResponse, GetAccessPointPolicyForObjectLambdaOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccessPointPolicyForObjectLambdaOutputResponse, GetAccessPointPolicyForObjectLambdaOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1200,6 +1325,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccessPointPolicyStatusInput, GetAccessPointPolicyStatusOutputResponse, GetAccessPointPolicyStatusOutputError>(id: "getAccessPointPolicyStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccessPointPolicyStatusInput, GetAccessPointPolicyStatusOutputResponse, GetAccessPointPolicyStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccessPointPolicyStatusInput, GetAccessPointPolicyStatusOutputResponse>())
@@ -1212,8 +1338,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccessPointPolicyStatusOutputResponse, GetAccessPointPolicyStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccessPointPolicyStatusOutputResponse, GetAccessPointPolicyStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccessPointPolicyStatusOutputResponse, GetAccessPointPolicyStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1233,6 +1363,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccessPointPolicyStatusForObjectLambdaInput, GetAccessPointPolicyStatusForObjectLambdaOutputResponse, GetAccessPointPolicyStatusForObjectLambdaOutputError>(id: "getAccessPointPolicyStatusForObjectLambda")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccessPointPolicyStatusForObjectLambdaInput, GetAccessPointPolicyStatusForObjectLambdaOutputResponse, GetAccessPointPolicyStatusForObjectLambdaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccessPointPolicyStatusForObjectLambdaInput, GetAccessPointPolicyStatusForObjectLambdaOutputResponse>())
@@ -1245,8 +1376,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccessPointPolicyStatusForObjectLambdaOutputResponse, GetAccessPointPolicyStatusForObjectLambdaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccessPointPolicyStatusForObjectLambdaOutputResponse, GetAccessPointPolicyStatusForObjectLambdaOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccessPointPolicyStatusForObjectLambdaOutputResponse, GetAccessPointPolicyStatusForObjectLambdaOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1272,6 +1407,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBucketInput, GetBucketOutputResponse, GetBucketOutputError>(id: "getBucket")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketInput, GetBucketOutputResponse, GetBucketOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketInput, GetBucketOutputResponse>())
@@ -1284,8 +1420,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketOutputResponse, GetBucketOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketOutputResponse, GetBucketOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketOutputResponse, GetBucketOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1323,6 +1463,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutputResponse, GetBucketLifecycleConfigurationOutputError>(id: "getBucketLifecycleConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutputResponse, GetBucketLifecycleConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutputResponse>())
@@ -1335,8 +1476,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketLifecycleConfigurationOutputResponse, GetBucketLifecycleConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketLifecycleConfigurationOutputResponse, GetBucketLifecycleConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketLifecycleConfigurationOutputResponse, GetBucketLifecycleConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1362,6 +1507,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBucketPolicyInput, GetBucketPolicyOutputResponse, GetBucketPolicyOutputError>(id: "getBucketPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketPolicyInput, GetBucketPolicyOutputResponse, GetBucketPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketPolicyInput, GetBucketPolicyOutputResponse>())
@@ -1374,6 +1520,7 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketPolicyOutputResponse, GetBucketPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketPolicyOutputResponse, GetBucketPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketPolicyOutputResponse, GetBucketPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
@@ -1413,6 +1560,9 @@ extension S3ControlClient: S3ControlClientProtocol {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketReplicationOutputResponse, GetBucketReplicationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketReplicationOutputResponse, GetBucketReplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1446,6 +1596,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBucketTaggingInput, GetBucketTaggingOutputResponse, GetBucketTaggingOutputError>(id: "getBucketTagging")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketTaggingInput, GetBucketTaggingOutputResponse, GetBucketTaggingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketTaggingInput, GetBucketTaggingOutputResponse>())
@@ -1458,8 +1609,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketTaggingOutputResponse, GetBucketTaggingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketTaggingOutputResponse, GetBucketTaggingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketTaggingOutputResponse, GetBucketTaggingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1485,6 +1640,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBucketVersioningInput, GetBucketVersioningOutputResponse, GetBucketVersioningOutputError>(id: "getBucketVersioning")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketVersioningInput, GetBucketVersioningOutputResponse, GetBucketVersioningOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketVersioningInput, GetBucketVersioningOutputResponse>())
@@ -1497,8 +1653,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketVersioningOutputResponse, GetBucketVersioningOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketVersioningOutputResponse, GetBucketVersioningOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBucketVersioningOutputResponse, GetBucketVersioningOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1524,6 +1684,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetJobTaggingInput, GetJobTaggingOutputResponse, GetJobTaggingOutputError>(id: "getJobTagging")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetJobTaggingInput, GetJobTaggingOutputResponse, GetJobTaggingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetJobTaggingInput, GetJobTaggingOutputResponse>())
@@ -1536,8 +1697,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetJobTaggingOutputResponse, GetJobTaggingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetJobTaggingOutputResponse, GetJobTaggingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetJobTaggingOutputResponse, GetJobTaggingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1565,6 +1730,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMultiRegionAccessPointInput, GetMultiRegionAccessPointOutputResponse, GetMultiRegionAccessPointOutputError>(id: "getMultiRegionAccessPoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMultiRegionAccessPointInput, GetMultiRegionAccessPointOutputResponse, GetMultiRegionAccessPointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMultiRegionAccessPointInput, GetMultiRegionAccessPointOutputResponse>())
@@ -1578,8 +1744,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMultiRegionAccessPointOutputResponse, GetMultiRegionAccessPointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMultiRegionAccessPointOutputResponse, GetMultiRegionAccessPointOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMultiRegionAccessPointOutputResponse, GetMultiRegionAccessPointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1603,6 +1773,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMultiRegionAccessPointPolicyInput, GetMultiRegionAccessPointPolicyOutputResponse, GetMultiRegionAccessPointPolicyOutputError>(id: "getMultiRegionAccessPointPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMultiRegionAccessPointPolicyInput, GetMultiRegionAccessPointPolicyOutputResponse, GetMultiRegionAccessPointPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMultiRegionAccessPointPolicyInput, GetMultiRegionAccessPointPolicyOutputResponse>())
@@ -1616,8 +1787,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMultiRegionAccessPointPolicyOutputResponse, GetMultiRegionAccessPointPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMultiRegionAccessPointPolicyOutputResponse, GetMultiRegionAccessPointPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMultiRegionAccessPointPolicyOutputResponse, GetMultiRegionAccessPointPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1641,6 +1816,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMultiRegionAccessPointPolicyStatusInput, GetMultiRegionAccessPointPolicyStatusOutputResponse, GetMultiRegionAccessPointPolicyStatusOutputError>(id: "getMultiRegionAccessPointPolicyStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMultiRegionAccessPointPolicyStatusInput, GetMultiRegionAccessPointPolicyStatusOutputResponse, GetMultiRegionAccessPointPolicyStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMultiRegionAccessPointPolicyStatusInput, GetMultiRegionAccessPointPolicyStatusOutputResponse>())
@@ -1654,8 +1830,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMultiRegionAccessPointPolicyStatusOutputResponse, GetMultiRegionAccessPointPolicyStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMultiRegionAccessPointPolicyStatusOutputResponse, GetMultiRegionAccessPointPolicyStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMultiRegionAccessPointPolicyStatusOutputResponse, GetMultiRegionAccessPointPolicyStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1688,6 +1868,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMultiRegionAccessPointRoutesInput, GetMultiRegionAccessPointRoutesOutputResponse, GetMultiRegionAccessPointRoutesOutputError>(id: "getMultiRegionAccessPointRoutes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMultiRegionAccessPointRoutesInput, GetMultiRegionAccessPointRoutesOutputResponse, GetMultiRegionAccessPointRoutesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMultiRegionAccessPointRoutesInput, GetMultiRegionAccessPointRoutesOutputResponse>())
@@ -1701,8 +1882,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMultiRegionAccessPointRoutesOutputResponse, GetMultiRegionAccessPointRoutesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMultiRegionAccessPointRoutesOutputResponse, GetMultiRegionAccessPointRoutesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMultiRegionAccessPointRoutesOutputResponse, GetMultiRegionAccessPointRoutesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1726,6 +1911,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPublicAccessBlockInput, GetPublicAccessBlockOutputResponse, GetPublicAccessBlockOutputError>(id: "getPublicAccessBlock")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutputResponse, GetPublicAccessBlockOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutputResponse>())
@@ -1738,8 +1924,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPublicAccessBlockOutputResponse, GetPublicAccessBlockOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPublicAccessBlockOutputResponse, GetPublicAccessBlockOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPublicAccessBlockOutputResponse, GetPublicAccessBlockOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1759,6 +1949,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetStorageLensConfigurationInput, GetStorageLensConfigurationOutputResponse, GetStorageLensConfigurationOutputError>(id: "getStorageLensConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStorageLensConfigurationInput, GetStorageLensConfigurationOutputResponse, GetStorageLensConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetStorageLensConfigurationInput, GetStorageLensConfigurationOutputResponse>())
@@ -1771,8 +1962,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetStorageLensConfigurationOutputResponse, GetStorageLensConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetStorageLensConfigurationOutputResponse, GetStorageLensConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetStorageLensConfigurationOutputResponse, GetStorageLensConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1792,6 +1987,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetStorageLensConfigurationTaggingInput, GetStorageLensConfigurationTaggingOutputResponse, GetStorageLensConfigurationTaggingOutputError>(id: "getStorageLensConfigurationTagging")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStorageLensConfigurationTaggingInput, GetStorageLensConfigurationTaggingOutputResponse, GetStorageLensConfigurationTaggingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetStorageLensConfigurationTaggingInput, GetStorageLensConfigurationTaggingOutputResponse>())
@@ -1804,8 +2000,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetStorageLensConfigurationTaggingOutputResponse, GetStorageLensConfigurationTaggingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetStorageLensConfigurationTaggingOutputResponse, GetStorageLensConfigurationTaggingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetStorageLensConfigurationTaggingOutputResponse, GetStorageLensConfigurationTaggingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1831,6 +2031,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAccessPointsInput, ListAccessPointsOutputResponse, ListAccessPointsOutputError>(id: "listAccessPoints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccessPointsInput, ListAccessPointsOutputResponse, ListAccessPointsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccessPointsInput, ListAccessPointsOutputResponse>())
@@ -1844,8 +2045,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccessPointsOutputResponse, ListAccessPointsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccessPointsOutputResponse, ListAccessPointsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccessPointsOutputResponse, ListAccessPointsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1871,6 +2076,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAccessPointsForObjectLambdaInput, ListAccessPointsForObjectLambdaOutputResponse, ListAccessPointsForObjectLambdaOutputError>(id: "listAccessPointsForObjectLambda")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccessPointsForObjectLambdaInput, ListAccessPointsForObjectLambdaOutputResponse, ListAccessPointsForObjectLambdaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccessPointsForObjectLambdaInput, ListAccessPointsForObjectLambdaOutputResponse>())
@@ -1884,8 +2090,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccessPointsForObjectLambdaOutputResponse, ListAccessPointsForObjectLambdaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccessPointsForObjectLambdaOutputResponse, ListAccessPointsForObjectLambdaOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccessPointsForObjectLambdaOutputResponse, ListAccessPointsForObjectLambdaOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1913,6 +2123,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListJobsInput, ListJobsOutputResponse, ListJobsOutputError>(id: "listJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListJobsInput, ListJobsOutputResponse, ListJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListJobsInput, ListJobsOutputResponse>())
@@ -1926,8 +2137,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListJobsOutputResponse, ListJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListJobsOutputResponse, ListJobsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListJobsOutputResponse, ListJobsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1955,6 +2170,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMultiRegionAccessPointsInput, ListMultiRegionAccessPointsOutputResponse, ListMultiRegionAccessPointsOutputError>(id: "listMultiRegionAccessPoints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMultiRegionAccessPointsInput, ListMultiRegionAccessPointsOutputResponse, ListMultiRegionAccessPointsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMultiRegionAccessPointsInput, ListMultiRegionAccessPointsOutputResponse>())
@@ -1969,8 +2185,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMultiRegionAccessPointsOutputResponse, ListMultiRegionAccessPointsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMultiRegionAccessPointsOutputResponse, ListMultiRegionAccessPointsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMultiRegionAccessPointsOutputResponse, ListMultiRegionAccessPointsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1990,6 +2210,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRegionalBucketsInput, ListRegionalBucketsOutputResponse, ListRegionalBucketsOutputError>(id: "listRegionalBuckets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRegionalBucketsInput, ListRegionalBucketsOutputResponse, ListRegionalBucketsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRegionalBucketsInput, ListRegionalBucketsOutputResponse>())
@@ -2003,8 +2224,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRegionalBucketsOutputResponse, ListRegionalBucketsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRegionalBucketsOutputResponse, ListRegionalBucketsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRegionalBucketsOutputResponse, ListRegionalBucketsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2024,6 +2249,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListStorageLensConfigurationsInput, ListStorageLensConfigurationsOutputResponse, ListStorageLensConfigurationsOutputError>(id: "listStorageLensConfigurations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStorageLensConfigurationsInput, ListStorageLensConfigurationsOutputResponse, ListStorageLensConfigurationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStorageLensConfigurationsInput, ListStorageLensConfigurationsOutputResponse>())
@@ -2037,8 +2263,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStorageLensConfigurationsOutputResponse, ListStorageLensConfigurationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStorageLensConfigurationsOutputResponse, ListStorageLensConfigurationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStorageLensConfigurationsOutputResponse, ListStorageLensConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2060,6 +2290,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutAccessPointConfigurationForObjectLambdaInput, PutAccessPointConfigurationForObjectLambdaOutputResponse, PutAccessPointConfigurationForObjectLambdaOutputError>(id: "putAccessPointConfigurationForObjectLambda")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAccessPointConfigurationForObjectLambdaInput, PutAccessPointConfigurationForObjectLambdaOutputResponse, PutAccessPointConfigurationForObjectLambdaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAccessPointConfigurationForObjectLambdaInput, PutAccessPointConfigurationForObjectLambdaOutputResponse>())
@@ -2075,8 +2306,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAccessPointConfigurationForObjectLambdaOutputResponse, PutAccessPointConfigurationForObjectLambdaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAccessPointConfigurationForObjectLambdaOutputResponse, PutAccessPointConfigurationForObjectLambdaOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutAccessPointConfigurationForObjectLambdaOutputResponse, PutAccessPointConfigurationForObjectLambdaOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2100,6 +2335,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutAccessPointPolicyInput, PutAccessPointPolicyOutputResponse, PutAccessPointPolicyOutputError>(id: "putAccessPointPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAccessPointPolicyInput, PutAccessPointPolicyOutputResponse, PutAccessPointPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAccessPointPolicyInput, PutAccessPointPolicyOutputResponse>())
@@ -2115,8 +2351,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAccessPointPolicyOutputResponse, PutAccessPointPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAccessPointPolicyOutputResponse, PutAccessPointPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutAccessPointPolicyOutputResponse, PutAccessPointPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2140,6 +2380,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutAccessPointPolicyForObjectLambdaInput, PutAccessPointPolicyForObjectLambdaOutputResponse, PutAccessPointPolicyForObjectLambdaOutputError>(id: "putAccessPointPolicyForObjectLambda")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAccessPointPolicyForObjectLambdaInput, PutAccessPointPolicyForObjectLambdaOutputResponse, PutAccessPointPolicyForObjectLambdaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAccessPointPolicyForObjectLambdaInput, PutAccessPointPolicyForObjectLambdaOutputResponse>())
@@ -2155,8 +2396,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAccessPointPolicyForObjectLambdaOutputResponse, PutAccessPointPolicyForObjectLambdaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAccessPointPolicyForObjectLambdaOutputResponse, PutAccessPointPolicyForObjectLambdaOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutAccessPointPolicyForObjectLambdaOutputResponse, PutAccessPointPolicyForObjectLambdaOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2180,6 +2425,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutputResponse, PutBucketLifecycleConfigurationOutputError>(id: "putBucketLifecycleConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutputResponse, PutBucketLifecycleConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutputResponse>())
@@ -2196,8 +2442,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketLifecycleConfigurationOutputResponse, PutBucketLifecycleConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketLifecycleConfigurationOutputResponse, PutBucketLifecycleConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketLifecycleConfigurationOutputResponse, PutBucketLifecycleConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2221,6 +2471,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutBucketPolicyInput, PutBucketPolicyOutputResponse, PutBucketPolicyOutputError>(id: "putBucketPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketPolicyInput, PutBucketPolicyOutputResponse, PutBucketPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketPolicyInput, PutBucketPolicyOutputResponse>())
@@ -2237,6 +2488,7 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketPolicyOutputResponse, PutBucketPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketPolicyOutputResponse, PutBucketPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketPolicyOutputResponse, PutBucketPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
@@ -2289,6 +2541,9 @@ extension S3ControlClient: S3ControlClientProtocol {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketReplicationOutputResponse, PutBucketReplicationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketReplicationOutputResponse, PutBucketReplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2343,6 +2598,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutBucketTaggingInput, PutBucketTaggingOutputResponse, PutBucketTaggingOutputError>(id: "putBucketTagging")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketTaggingInput, PutBucketTaggingOutputResponse, PutBucketTaggingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketTaggingInput, PutBucketTaggingOutputResponse>())
@@ -2359,8 +2615,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketTaggingOutputResponse, PutBucketTaggingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketTaggingOutputResponse, PutBucketTaggingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketTaggingOutputResponse, PutBucketTaggingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2393,6 +2653,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutBucketVersioningInput, PutBucketVersioningOutputResponse, PutBucketVersioningOutputError>(id: "putBucketVersioning")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBucketVersioningInput, PutBucketVersioningOutputResponse, PutBucketVersioningOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBucketVersioningInput, PutBucketVersioningOutputResponse>())
@@ -2409,8 +2670,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBucketVersioningOutputResponse, PutBucketVersioningOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBucketVersioningOutputResponse, PutBucketVersioningOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBucketVersioningOutputResponse, PutBucketVersioningOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2458,6 +2723,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutJobTaggingInput, PutJobTaggingOutputResponse, PutJobTaggingOutputError>(id: "putJobTagging")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutJobTaggingInput, PutJobTaggingOutputResponse, PutJobTaggingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutJobTaggingInput, PutJobTaggingOutputResponse>())
@@ -2473,8 +2739,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutJobTaggingOutputResponse, PutJobTaggingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutJobTaggingOutputResponse, PutJobTaggingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutJobTaggingOutputResponse, PutJobTaggingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2498,6 +2768,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutMultiRegionAccessPointPolicyInput, PutMultiRegionAccessPointPolicyOutputResponse, PutMultiRegionAccessPointPolicyOutputError>(id: "putMultiRegionAccessPointPolicy")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutMultiRegionAccessPointPolicyOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -2522,8 +2793,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutMultiRegionAccessPointPolicyOutputResponse, PutMultiRegionAccessPointPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutMultiRegionAccessPointPolicyOutputResponse, PutMultiRegionAccessPointPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutMultiRegionAccessPointPolicyOutputResponse, PutMultiRegionAccessPointPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2547,6 +2822,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutPublicAccessBlockInput, PutPublicAccessBlockOutputResponse, PutPublicAccessBlockOutputError>(id: "putPublicAccessBlock")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutputResponse, PutPublicAccessBlockOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutputResponse>())
@@ -2562,8 +2838,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutPublicAccessBlockOutputResponse, PutPublicAccessBlockOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutPublicAccessBlockOutputResponse, PutPublicAccessBlockOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutPublicAccessBlockOutputResponse, PutPublicAccessBlockOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2583,6 +2863,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutStorageLensConfigurationInput, PutStorageLensConfigurationOutputResponse, PutStorageLensConfigurationOutputError>(id: "putStorageLensConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutStorageLensConfigurationInput, PutStorageLensConfigurationOutputResponse, PutStorageLensConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutStorageLensConfigurationInput, PutStorageLensConfigurationOutputResponse>())
@@ -2598,8 +2879,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutStorageLensConfigurationOutputResponse, PutStorageLensConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutStorageLensConfigurationOutputResponse, PutStorageLensConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutStorageLensConfigurationOutputResponse, PutStorageLensConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2619,6 +2904,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutStorageLensConfigurationTaggingInput, PutStorageLensConfigurationTaggingOutputResponse, PutStorageLensConfigurationTaggingOutputError>(id: "putStorageLensConfigurationTagging")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutStorageLensConfigurationTaggingInput, PutStorageLensConfigurationTaggingOutputResponse, PutStorageLensConfigurationTaggingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutStorageLensConfigurationTaggingInput, PutStorageLensConfigurationTaggingOutputResponse>())
@@ -2634,8 +2920,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutStorageLensConfigurationTaggingOutputResponse, PutStorageLensConfigurationTaggingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutStorageLensConfigurationTaggingOutputResponse, PutStorageLensConfigurationTaggingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutStorageLensConfigurationTaggingOutputResponse, PutStorageLensConfigurationTaggingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2668,6 +2958,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SubmitMultiRegionAccessPointRoutesInput, SubmitMultiRegionAccessPointRoutesOutputResponse, SubmitMultiRegionAccessPointRoutesOutputError>(id: "submitMultiRegionAccessPointRoutes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SubmitMultiRegionAccessPointRoutesInput, SubmitMultiRegionAccessPointRoutesOutputResponse, SubmitMultiRegionAccessPointRoutesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SubmitMultiRegionAccessPointRoutesInput, SubmitMultiRegionAccessPointRoutesOutputResponse>())
@@ -2684,8 +2975,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SubmitMultiRegionAccessPointRoutesOutputResponse, SubmitMultiRegionAccessPointRoutesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SubmitMultiRegionAccessPointRoutesOutputResponse, SubmitMultiRegionAccessPointRoutesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SubmitMultiRegionAccessPointRoutesOutputResponse, SubmitMultiRegionAccessPointRoutesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2713,6 +3008,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateJobPriorityInput, UpdateJobPriorityOutputResponse, UpdateJobPriorityOutputError>(id: "updateJobPriority")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateJobPriorityInput, UpdateJobPriorityOutputResponse, UpdateJobPriorityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateJobPriorityInput, UpdateJobPriorityOutputResponse>())
@@ -2726,8 +3022,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateJobPriorityOutputResponse, UpdateJobPriorityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateJobPriorityOutputResponse, UpdateJobPriorityOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateJobPriorityOutputResponse, UpdateJobPriorityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2755,6 +3055,7 @@ extension S3ControlClient: S3ControlClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateJobStatusInput, UpdateJobStatusOutputResponse, UpdateJobStatusOutputError>(id: "updateJobStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateJobStatusInput, UpdateJobStatusOutputResponse, UpdateJobStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateJobStatusInput, UpdateJobStatusOutputResponse>())
@@ -2768,8 +3069,12 @@ extension S3ControlClient: S3ControlClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateJobStatusOutputResponse, UpdateJobStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateJobStatusOutputResponse, UpdateJobStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateJobStatusOutputResponse, UpdateJobStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

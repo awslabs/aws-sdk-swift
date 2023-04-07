@@ -888,7 +888,7 @@ extension BucketAlreadyExists {
 }
 
 /// The requested bucket name is not available. The bucket namespace is shared by all users of the system. Select a different name and try again.
-public struct BucketAlreadyExists: AWSClientRuntime.S3HttpServiceError, Swift.Equatable {
+public struct BucketAlreadyExists: AWSClientRuntime.S3HttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -912,7 +912,7 @@ extension BucketAlreadyOwnedByYou {
 }
 
 /// The bucket you tried to create already exists, and you own it. Amazon S3 returns this error in all Amazon Web Services Regions except in the North Virginia Region. For legacy compatibility, if you re-create an existing bucket that you already own in the North Virginia Region, Amazon S3 returns 200 OK and resets the bucket access control lists (ACLs).
-public struct BucketAlreadyOwnedByYou: AWSClientRuntime.S3HttpServiceError, Swift.Equatable {
+public struct BucketAlreadyOwnedByYou: AWSClientRuntime.S3HttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11419,6 +11419,7 @@ extension GetObjectInput {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetObjectInput, GetObjectOutputResponse, GetObjectOutputError>(id: "getObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutputResponse, GetObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutputResponse>())
@@ -11429,8 +11430,12 @@ extension GetObjectInput {
         let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, unsignedBody: true, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectOutputResponse, GetObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectOutputResponse, GetObjectOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectOutputResponse, GetObjectOutputError>(clientLogMode: config.clientLogMode))
         let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
+=======
+        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         guard let builtRequest = presignedRequestBuilder?.build(), let presignedURL = builtRequest.endpoint.url else {
             return nil
         }
@@ -11463,6 +11468,7 @@ extension GetObjectInput {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetObjectInput, GetObjectOutputResponse, GetObjectOutputError>(id: "getObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutputResponse, GetObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutputResponse>())
@@ -11476,8 +11482,12 @@ extension GetObjectInput {
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectOutputResponse, GetObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectOutputResponse, GetObjectOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetObjectOutputResponse, GetObjectOutputError>(clientLogMode: config.clientLogMode))
         let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
+=======
+        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         guard let builtRequest = presignedRequestBuilder?.build() else {
             return nil
         }
@@ -14375,7 +14385,7 @@ extension InvalidObjectState {
 }
 
 /// Object is archived and inaccessible until restored.
-public struct InvalidObjectState: AWSClientRuntime.S3HttpServiceError, Swift.Equatable {
+public struct InvalidObjectState: AWSClientRuntime.S3HttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -18785,7 +18795,7 @@ extension NoSuchBucket {
 }
 
 /// The specified bucket does not exist.
-public struct NoSuchBucket: AWSClientRuntime.S3HttpServiceError, Swift.Equatable {
+public struct NoSuchBucket: AWSClientRuntime.S3HttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -18809,7 +18819,7 @@ extension NoSuchKey {
 }
 
 /// The specified key does not exist.
-public struct NoSuchKey: AWSClientRuntime.S3HttpServiceError, Swift.Equatable {
+public struct NoSuchKey: AWSClientRuntime.S3HttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -18833,7 +18843,7 @@ extension NoSuchUpload {
 }
 
 /// The specified multipart upload does not exist.
-public struct NoSuchUpload: AWSClientRuntime.S3HttpServiceError, Swift.Equatable {
+public struct NoSuchUpload: AWSClientRuntime.S3HttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -18991,7 +19001,7 @@ extension NotFound {
 }
 
 /// The specified content does not exist.
-public struct NotFound: AWSClientRuntime.S3HttpServiceError, Swift.Equatable {
+public struct NotFound: AWSClientRuntime.S3HttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -19363,7 +19373,7 @@ extension ObjectAlreadyInActiveTierError {
 }
 
 /// This action is not allowed against this storage tier.
-public struct ObjectAlreadyInActiveTierError: AWSClientRuntime.S3HttpServiceError, Swift.Equatable {
+public struct ObjectAlreadyInActiveTierError: AWSClientRuntime.S3HttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -19891,7 +19901,7 @@ extension ObjectNotInActiveTierError {
 }
 
 /// The source object of the COPY action is not in the active tier and is only stored in Amazon S3 Glacier.
-public struct ObjectNotInActiveTierError: AWSClientRuntime.S3HttpServiceError, Swift.Equatable {
+public struct ObjectNotInActiveTierError: AWSClientRuntime.S3HttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -24872,6 +24882,7 @@ extension PutObjectInput {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>(id: "putObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutputResponse>())
@@ -24882,8 +24893,12 @@ extension PutObjectInput {
         let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, unsignedBody: true, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutputResponse, PutObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutputResponse, PutObjectOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutputResponse, PutObjectOutputError>(clientLogMode: config.clientLogMode))
         let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
+=======
+        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         guard let builtRequest = presignedRequestBuilder?.build(), let presignedURL = builtRequest.endpoint.url else {
             return nil
         }
@@ -24916,6 +24931,7 @@ extension PutObjectInput {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>(id: "putObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutputResponse>())
@@ -24932,8 +24948,12 @@ extension PutObjectInput {
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutputResponse, PutObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutputResponse, PutObjectOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutputResponse, PutObjectOutputError>(clientLogMode: config.clientLogMode))
         let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
+=======
+        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         guard let builtRequest = presignedRequestBuilder?.build() else {
             return nil
         }
@@ -28361,56 +28381,9 @@ extension S3ClientTypes {
 
 }
 
-extension S3ClientTypes.SelectObjectContentEventStream: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cont = "Cont"
-        case end = "End"
-        case progress = "Progress"
-        case records = "Records"
-        case stats = "Stats"
-        case sdkUnknown
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        switch self {
-            case let .cont(cont):
-                try container.encode(cont, forKey: ClientRuntime.Key("Cont"))
-            case let .end(end):
-                try container.encode(end, forKey: ClientRuntime.Key("End"))
-            case let .progress(progress):
-                try container.encode(progress, forKey: ClientRuntime.Key("Progress"))
-            case let .records(records):
-                try container.encode(records, forKey: ClientRuntime.Key("Records"))
-            case let .stats(stats):
-                try container.encode(stats, forKey: ClientRuntime.Key("Stats"))
-            case let .sdkUnknown(sdkUnknown):
-                try container.encode(sdkUnknown, forKey: ClientRuntime.Key("sdkUnknown"))
-        }
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let key = containerValues.allKeys.first
-        switch key {
-            case .records:
-                let recordsDecoded = try containerValues.decode(S3ClientTypes.RecordsEvent.self, forKey: .records)
-                self = .records(recordsDecoded)
-            case .stats:
-                let statsDecoded = try containerValues.decode(S3ClientTypes.StatsEvent.self, forKey: .stats)
-                self = .stats(statsDecoded)
-            case .progress:
-                let progressDecoded = try containerValues.decode(S3ClientTypes.ProgressEvent.self, forKey: .progress)
-                self = .progress(progressDecoded)
-            case .cont:
-                let contDecoded = try containerValues.decode(S3ClientTypes.ContinuationEvent.self, forKey: .cont)
-                self = .cont(contDecoded)
-            case .end:
-                let endDecoded = try containerValues.decode(S3ClientTypes.EndEvent.self, forKey: .end)
-                self = .end(endDecoded)
-            default:
-                self = .sdkUnknown("")
-        }
+extension S3ClientTypes.SelectObjectContentEventStream: ClientRuntime.MessageUnmarshallable {
+    public init(message: ClientRuntime.EventStream.Message, decoder: ClientRuntime.ResponseDecoder) throws {
+        fatalError("Not implemented")
     }
 }
 
@@ -28660,9 +28633,10 @@ public enum SelectObjectContentOutputError: Swift.Error, Swift.Equatable {
 
 extension SelectObjectContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
-            let output: S3ClientTypes.SelectObjectContentEventStream = try responseDecoder.decode(responseBody: data)
-            self.payload = output
+        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
+            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<S3ClientTypes.SelectObjectContentEventStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
+            self.payload = decoderStream.toAsyncStream()
         } else {
             self.payload = nil
         }
@@ -28671,29 +28645,13 @@ extension SelectObjectContentOutputResponse: ClientRuntime.HttpResponseBinding {
 
 public struct SelectObjectContentOutputResponse: Swift.Equatable {
     /// The array of results.
-    public var payload: S3ClientTypes.SelectObjectContentEventStream?
+    public var payload: AsyncThrowingStream<S3ClientTypes.SelectObjectContentEventStream, Swift.Error>?
 
     public init (
-        payload: S3ClientTypes.SelectObjectContentEventStream? = nil
+        payload: AsyncThrowingStream<S3ClientTypes.SelectObjectContentEventStream, Swift.Error>? = nil
     )
     {
         self.payload = payload
-    }
-}
-
-struct SelectObjectContentOutputResponseBody: Swift.Equatable {
-    let payload: S3ClientTypes.SelectObjectContentEventStream?
-}
-
-extension SelectObjectContentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case payload = "Payload"
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let payloadDecoded = try containerValues.decodeIfPresent(S3ClientTypes.SelectObjectContentEventStream.self, forKey: .payload)
-        payload = payloadDecoded
     }
 }
 
@@ -30544,6 +30502,7 @@ extension UploadPartInput {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UploadPartInput, UploadPartOutputResponse, UploadPartOutputError>(id: "uploadPart")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadPartInput, UploadPartOutputResponse, UploadPartOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadPartInput, UploadPartOutputResponse>())
@@ -30560,8 +30519,12 @@ extension UploadPartInput {
         let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadPartOutputResponse, UploadPartOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadPartOutputResponse, UploadPartOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadPartOutputResponse, UploadPartOutputError>(clientLogMode: config.clientLogMode))
         let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
+=======
+        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         guard let builtRequest = presignedRequestBuilder?.build() else {
             return nil
         }

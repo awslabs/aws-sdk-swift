@@ -146,6 +146,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AcceptSharedDirectoryInput, AcceptSharedDirectoryOutputResponse, AcceptSharedDirectoryOutputError>(id: "acceptSharedDirectory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptSharedDirectoryInput, AcceptSharedDirectoryOutputResponse, AcceptSharedDirectoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptSharedDirectoryInput, AcceptSharedDirectoryOutputResponse>())
@@ -161,8 +162,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptSharedDirectoryOutputResponse, AcceptSharedDirectoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptSharedDirectoryOutputResponse, AcceptSharedDirectoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcceptSharedDirectoryOutputResponse, AcceptSharedDirectoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -182,6 +187,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddIpRoutesInput, AddIpRoutesOutputResponse, AddIpRoutesOutputError>(id: "addIpRoutes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddIpRoutesInput, AddIpRoutesOutputResponse, AddIpRoutesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddIpRoutesInput, AddIpRoutesOutputResponse>())
@@ -197,8 +203,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddIpRoutesOutputResponse, AddIpRoutesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddIpRoutesOutputResponse, AddIpRoutesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddIpRoutesOutputResponse, AddIpRoutesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -218,6 +228,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddRegionInput, AddRegionOutputResponse, AddRegionOutputError>(id: "addRegion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddRegionInput, AddRegionOutputResponse, AddRegionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddRegionInput, AddRegionOutputResponse>())
@@ -233,8 +244,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddRegionOutputResponse, AddRegionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddRegionOutputResponse, AddRegionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddRegionOutputResponse, AddRegionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -254,6 +269,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddTagsToResourceInput, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(id: "addTagsToResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse>())
@@ -269,8 +285,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -290,6 +310,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelSchemaExtensionInput, CancelSchemaExtensionOutputResponse, CancelSchemaExtensionOutputError>(id: "cancelSchemaExtension")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelSchemaExtensionInput, CancelSchemaExtensionOutputResponse, CancelSchemaExtensionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelSchemaExtensionInput, CancelSchemaExtensionOutputResponse>())
@@ -305,8 +326,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelSchemaExtensionOutputResponse, CancelSchemaExtensionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelSchemaExtensionOutputResponse, CancelSchemaExtensionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelSchemaExtensionOutputResponse, CancelSchemaExtensionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -326,6 +351,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ConnectDirectoryInput, ConnectDirectoryOutputResponse, ConnectDirectoryOutputError>(id: "connectDirectory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConnectDirectoryInput, ConnectDirectoryOutputResponse, ConnectDirectoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConnectDirectoryInput, ConnectDirectoryOutputResponse>())
@@ -341,8 +367,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ConnectDirectoryOutputResponse, ConnectDirectoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConnectDirectoryOutputResponse, ConnectDirectoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ConnectDirectoryOutputResponse, ConnectDirectoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -362,6 +392,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAliasInput, CreateAliasOutputResponse, CreateAliasOutputError>(id: "createAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAliasInput, CreateAliasOutputResponse, CreateAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAliasInput, CreateAliasOutputResponse>())
@@ -377,8 +408,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAliasOutputResponse, CreateAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAliasOutputResponse, CreateAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAliasOutputResponse, CreateAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -398,6 +433,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateComputerInput, CreateComputerOutputResponse, CreateComputerOutputError>(id: "createComputer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateComputerInput, CreateComputerOutputResponse, CreateComputerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateComputerInput, CreateComputerOutputResponse>())
@@ -413,8 +449,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateComputerOutputResponse, CreateComputerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateComputerOutputResponse, CreateComputerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateComputerOutputResponse, CreateComputerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -434,6 +474,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateConditionalForwarderInput, CreateConditionalForwarderOutputResponse, CreateConditionalForwarderOutputError>(id: "createConditionalForwarder")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConditionalForwarderInput, CreateConditionalForwarderOutputResponse, CreateConditionalForwarderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConditionalForwarderInput, CreateConditionalForwarderOutputResponse>())
@@ -449,8 +490,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConditionalForwarderOutputResponse, CreateConditionalForwarderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConditionalForwarderOutputResponse, CreateConditionalForwarderOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConditionalForwarderOutputResponse, CreateConditionalForwarderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -470,6 +515,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDirectoryInput, CreateDirectoryOutputResponse, CreateDirectoryOutputError>(id: "createDirectory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDirectoryInput, CreateDirectoryOutputResponse, CreateDirectoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDirectoryInput, CreateDirectoryOutputResponse>())
@@ -485,8 +531,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDirectoryOutputResponse, CreateDirectoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDirectoryOutputResponse, CreateDirectoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDirectoryOutputResponse, CreateDirectoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -506,6 +556,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLogSubscriptionInput, CreateLogSubscriptionOutputResponse, CreateLogSubscriptionOutputError>(id: "createLogSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLogSubscriptionInput, CreateLogSubscriptionOutputResponse, CreateLogSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLogSubscriptionInput, CreateLogSubscriptionOutputResponse>())
@@ -521,8 +572,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLogSubscriptionOutputResponse, CreateLogSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLogSubscriptionOutputResponse, CreateLogSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLogSubscriptionOutputResponse, CreateLogSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -542,6 +597,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMicrosoftADInput, CreateMicrosoftADOutputResponse, CreateMicrosoftADOutputError>(id: "createMicrosoftAD")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMicrosoftADInput, CreateMicrosoftADOutputResponse, CreateMicrosoftADOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMicrosoftADInput, CreateMicrosoftADOutputResponse>())
@@ -557,8 +613,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMicrosoftADOutputResponse, CreateMicrosoftADOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMicrosoftADOutputResponse, CreateMicrosoftADOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMicrosoftADOutputResponse, CreateMicrosoftADOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -578,6 +638,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSnapshotInput, CreateSnapshotOutputResponse, CreateSnapshotOutputError>(id: "createSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSnapshotInput, CreateSnapshotOutputResponse, CreateSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSnapshotInput, CreateSnapshotOutputResponse>())
@@ -593,8 +654,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -614,6 +679,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTrustInput, CreateTrustOutputResponse, CreateTrustOutputError>(id: "createTrust")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTrustInput, CreateTrustOutputResponse, CreateTrustOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTrustInput, CreateTrustOutputResponse>())
@@ -629,8 +695,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrustOutputResponse, CreateTrustOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrustOutputResponse, CreateTrustOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTrustOutputResponse, CreateTrustOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -650,6 +720,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteConditionalForwarderInput, DeleteConditionalForwarderOutputResponse, DeleteConditionalForwarderOutputError>(id: "deleteConditionalForwarder")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConditionalForwarderInput, DeleteConditionalForwarderOutputResponse, DeleteConditionalForwarderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConditionalForwarderInput, DeleteConditionalForwarderOutputResponse>())
@@ -665,8 +736,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConditionalForwarderOutputResponse, DeleteConditionalForwarderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConditionalForwarderOutputResponse, DeleteConditionalForwarderOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConditionalForwarderOutputResponse, DeleteConditionalForwarderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -686,6 +761,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDirectoryInput, DeleteDirectoryOutputResponse, DeleteDirectoryOutputError>(id: "deleteDirectory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDirectoryInput, DeleteDirectoryOutputResponse, DeleteDirectoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDirectoryInput, DeleteDirectoryOutputResponse>())
@@ -701,8 +777,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDirectoryOutputResponse, DeleteDirectoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDirectoryOutputResponse, DeleteDirectoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDirectoryOutputResponse, DeleteDirectoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -722,6 +802,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLogSubscriptionInput, DeleteLogSubscriptionOutputResponse, DeleteLogSubscriptionOutputError>(id: "deleteLogSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLogSubscriptionInput, DeleteLogSubscriptionOutputResponse, DeleteLogSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLogSubscriptionInput, DeleteLogSubscriptionOutputResponse>())
@@ -737,8 +818,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLogSubscriptionOutputResponse, DeleteLogSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLogSubscriptionOutputResponse, DeleteLogSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLogSubscriptionOutputResponse, DeleteLogSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -758,6 +843,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSnapshotInput, DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(id: "deleteSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSnapshotInput, DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSnapshotInput, DeleteSnapshotOutputResponse>())
@@ -773,8 +859,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -794,6 +884,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTrustInput, DeleteTrustOutputResponse, DeleteTrustOutputError>(id: "deleteTrust")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTrustInput, DeleteTrustOutputResponse, DeleteTrustOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTrustInput, DeleteTrustOutputResponse>())
@@ -809,8 +900,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTrustOutputResponse, DeleteTrustOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrustOutputResponse, DeleteTrustOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTrustOutputResponse, DeleteTrustOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -830,6 +925,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterCertificateInput, DeregisterCertificateOutputResponse, DeregisterCertificateOutputError>(id: "deregisterCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterCertificateInput, DeregisterCertificateOutputResponse, DeregisterCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterCertificateInput, DeregisterCertificateOutputResponse>())
@@ -845,8 +941,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterCertificateOutputResponse, DeregisterCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterCertificateOutputResponse, DeregisterCertificateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterCertificateOutputResponse, DeregisterCertificateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -866,6 +966,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterEventTopicInput, DeregisterEventTopicOutputResponse, DeregisterEventTopicOutputError>(id: "deregisterEventTopic")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterEventTopicInput, DeregisterEventTopicOutputResponse, DeregisterEventTopicOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterEventTopicInput, DeregisterEventTopicOutputResponse>())
@@ -881,8 +982,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterEventTopicOutputResponse, DeregisterEventTopicOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterEventTopicOutputResponse, DeregisterEventTopicOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterEventTopicOutputResponse, DeregisterEventTopicOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -902,6 +1007,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCertificateInput, DescribeCertificateOutputResponse, DescribeCertificateOutputError>(id: "describeCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCertificateInput, DescribeCertificateOutputResponse, DescribeCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCertificateInput, DescribeCertificateOutputResponse>())
@@ -917,8 +1023,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCertificateOutputResponse, DescribeCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCertificateOutputResponse, DescribeCertificateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCertificateOutputResponse, DescribeCertificateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -938,6 +1048,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutputResponse, DescribeClientAuthenticationSettingsOutputError>(id: "describeClientAuthenticationSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutputResponse, DescribeClientAuthenticationSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutputResponse>())
@@ -953,8 +1064,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeClientAuthenticationSettingsOutputResponse, DescribeClientAuthenticationSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeClientAuthenticationSettingsOutputResponse, DescribeClientAuthenticationSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeClientAuthenticationSettingsOutputResponse, DescribeClientAuthenticationSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -974,6 +1089,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeConditionalForwardersInput, DescribeConditionalForwardersOutputResponse, DescribeConditionalForwardersOutputError>(id: "describeConditionalForwarders")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConditionalForwardersInput, DescribeConditionalForwardersOutputResponse, DescribeConditionalForwardersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConditionalForwardersInput, DescribeConditionalForwardersOutputResponse>())
@@ -989,8 +1105,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConditionalForwardersOutputResponse, DescribeConditionalForwardersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConditionalForwardersOutputResponse, DescribeConditionalForwardersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConditionalForwardersOutputResponse, DescribeConditionalForwardersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1010,6 +1130,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDirectoriesInput, DescribeDirectoriesOutputResponse, DescribeDirectoriesOutputError>(id: "describeDirectories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDirectoriesInput, DescribeDirectoriesOutputResponse, DescribeDirectoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDirectoriesInput, DescribeDirectoriesOutputResponse>())
@@ -1025,8 +1146,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDirectoriesOutputResponse, DescribeDirectoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDirectoriesOutputResponse, DescribeDirectoriesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDirectoriesOutputResponse, DescribeDirectoriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1046,6 +1171,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDomainControllersInput, DescribeDomainControllersOutputResponse, DescribeDomainControllersOutputError>(id: "describeDomainControllers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDomainControllersInput, DescribeDomainControllersOutputResponse, DescribeDomainControllersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDomainControllersInput, DescribeDomainControllersOutputResponse>())
@@ -1061,8 +1187,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDomainControllersOutputResponse, DescribeDomainControllersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDomainControllersOutputResponse, DescribeDomainControllersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDomainControllersOutputResponse, DescribeDomainControllersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1082,6 +1212,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventTopicsInput, DescribeEventTopicsOutputResponse, DescribeEventTopicsOutputError>(id: "describeEventTopics")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventTopicsInput, DescribeEventTopicsOutputResponse, DescribeEventTopicsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventTopicsInput, DescribeEventTopicsOutputResponse>())
@@ -1097,8 +1228,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventTopicsOutputResponse, DescribeEventTopicsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventTopicsOutputResponse, DescribeEventTopicsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventTopicsOutputResponse, DescribeEventTopicsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1118,6 +1253,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutputResponse, DescribeLDAPSSettingsOutputError>(id: "describeLDAPSSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutputResponse, DescribeLDAPSSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutputResponse>())
@@ -1133,8 +1269,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLDAPSSettingsOutputResponse, DescribeLDAPSSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLDAPSSettingsOutputResponse, DescribeLDAPSSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLDAPSSettingsOutputResponse, DescribeLDAPSSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1154,6 +1294,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeRegionsInput, DescribeRegionsOutputResponse, DescribeRegionsOutputError>(id: "describeRegions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRegionsInput, DescribeRegionsOutputResponse, DescribeRegionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRegionsInput, DescribeRegionsOutputResponse>())
@@ -1169,8 +1310,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRegionsOutputResponse, DescribeRegionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRegionsOutputResponse, DescribeRegionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRegionsOutputResponse, DescribeRegionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1190,6 +1335,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSettingsInput, DescribeSettingsOutputResponse, DescribeSettingsOutputError>(id: "describeSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSettingsInput, DescribeSettingsOutputResponse, DescribeSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSettingsInput, DescribeSettingsOutputResponse>())
@@ -1205,8 +1351,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSettingsOutputResponse, DescribeSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSettingsOutputResponse, DescribeSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSettingsOutputResponse, DescribeSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1226,6 +1376,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutputResponse, DescribeSharedDirectoriesOutputError>(id: "describeSharedDirectories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutputResponse, DescribeSharedDirectoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutputResponse>())
@@ -1241,8 +1392,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSharedDirectoriesOutputResponse, DescribeSharedDirectoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSharedDirectoriesOutputResponse, DescribeSharedDirectoriesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSharedDirectoriesOutputResponse, DescribeSharedDirectoriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1262,6 +1417,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(id: "describeSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse>())
@@ -1277,8 +1433,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1298,6 +1458,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTrustsInput, DescribeTrustsOutputResponse, DescribeTrustsOutputError>(id: "describeTrusts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrustsInput, DescribeTrustsOutputResponse, DescribeTrustsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrustsInput, DescribeTrustsOutputResponse>())
@@ -1313,8 +1474,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrustsOutputResponse, DescribeTrustsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrustsOutputResponse, DescribeTrustsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTrustsOutputResponse, DescribeTrustsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1334,6 +1499,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutputResponse, DescribeUpdateDirectoryOutputError>(id: "describeUpdateDirectory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutputResponse, DescribeUpdateDirectoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutputResponse>())
@@ -1349,8 +1515,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUpdateDirectoryOutputResponse, DescribeUpdateDirectoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUpdateDirectoryOutputResponse, DescribeUpdateDirectoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUpdateDirectoryOutputResponse, DescribeUpdateDirectoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1370,6 +1540,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisableClientAuthenticationInput, DisableClientAuthenticationOutputResponse, DisableClientAuthenticationOutputError>(id: "disableClientAuthentication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableClientAuthenticationInput, DisableClientAuthenticationOutputResponse, DisableClientAuthenticationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableClientAuthenticationInput, DisableClientAuthenticationOutputResponse>())
@@ -1385,8 +1556,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableClientAuthenticationOutputResponse, DisableClientAuthenticationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableClientAuthenticationOutputResponse, DisableClientAuthenticationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableClientAuthenticationOutputResponse, DisableClientAuthenticationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1406,6 +1581,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisableLDAPSInput, DisableLDAPSOutputResponse, DisableLDAPSOutputError>(id: "disableLDAPS")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableLDAPSInput, DisableLDAPSOutputResponse, DisableLDAPSOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableLDAPSInput, DisableLDAPSOutputResponse>())
@@ -1421,8 +1597,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableLDAPSOutputResponse, DisableLDAPSOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableLDAPSOutputResponse, DisableLDAPSOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableLDAPSOutputResponse, DisableLDAPSOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1442,6 +1622,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisableRadiusInput, DisableRadiusOutputResponse, DisableRadiusOutputError>(id: "disableRadius")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableRadiusInput, DisableRadiusOutputResponse, DisableRadiusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableRadiusInput, DisableRadiusOutputResponse>())
@@ -1457,8 +1638,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableRadiusOutputResponse, DisableRadiusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableRadiusOutputResponse, DisableRadiusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableRadiusOutputResponse, DisableRadiusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1478,6 +1663,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisableSsoInput, DisableSsoOutputResponse, DisableSsoOutputError>(id: "disableSso")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableSsoInput, DisableSsoOutputResponse, DisableSsoOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableSsoInput, DisableSsoOutputResponse>())
@@ -1493,8 +1679,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableSsoOutputResponse, DisableSsoOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableSsoOutputResponse, DisableSsoOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableSsoOutputResponse, DisableSsoOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1514,6 +1704,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableClientAuthenticationInput, EnableClientAuthenticationOutputResponse, EnableClientAuthenticationOutputError>(id: "enableClientAuthentication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableClientAuthenticationInput, EnableClientAuthenticationOutputResponse, EnableClientAuthenticationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableClientAuthenticationInput, EnableClientAuthenticationOutputResponse>())
@@ -1529,8 +1720,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableClientAuthenticationOutputResponse, EnableClientAuthenticationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableClientAuthenticationOutputResponse, EnableClientAuthenticationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableClientAuthenticationOutputResponse, EnableClientAuthenticationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1550,6 +1745,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableLDAPSInput, EnableLDAPSOutputResponse, EnableLDAPSOutputError>(id: "enableLDAPS")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableLDAPSInput, EnableLDAPSOutputResponse, EnableLDAPSOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableLDAPSInput, EnableLDAPSOutputResponse>())
@@ -1565,8 +1761,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableLDAPSOutputResponse, EnableLDAPSOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableLDAPSOutputResponse, EnableLDAPSOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableLDAPSOutputResponse, EnableLDAPSOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1586,6 +1786,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableRadiusInput, EnableRadiusOutputResponse, EnableRadiusOutputError>(id: "enableRadius")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableRadiusInput, EnableRadiusOutputResponse, EnableRadiusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableRadiusInput, EnableRadiusOutputResponse>())
@@ -1601,8 +1802,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableRadiusOutputResponse, EnableRadiusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableRadiusOutputResponse, EnableRadiusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableRadiusOutputResponse, EnableRadiusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1622,6 +1827,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableSsoInput, EnableSsoOutputResponse, EnableSsoOutputError>(id: "enableSso")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableSsoInput, EnableSsoOutputResponse, EnableSsoOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableSsoInput, EnableSsoOutputResponse>())
@@ -1637,8 +1843,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableSsoOutputResponse, EnableSsoOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableSsoOutputResponse, EnableSsoOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableSsoOutputResponse, EnableSsoOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1658,6 +1868,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDirectoryLimitsInput, GetDirectoryLimitsOutputResponse, GetDirectoryLimitsOutputError>(id: "getDirectoryLimits")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDirectoryLimitsInput, GetDirectoryLimitsOutputResponse, GetDirectoryLimitsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDirectoryLimitsInput, GetDirectoryLimitsOutputResponse>())
@@ -1673,8 +1884,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDirectoryLimitsOutputResponse, GetDirectoryLimitsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDirectoryLimitsOutputResponse, GetDirectoryLimitsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDirectoryLimitsOutputResponse, GetDirectoryLimitsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1694,6 +1909,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSnapshotLimitsInput, GetSnapshotLimitsOutputResponse, GetSnapshotLimitsOutputError>(id: "getSnapshotLimits")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSnapshotLimitsInput, GetSnapshotLimitsOutputResponse, GetSnapshotLimitsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSnapshotLimitsInput, GetSnapshotLimitsOutputResponse>())
@@ -1709,8 +1925,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSnapshotLimitsOutputResponse, GetSnapshotLimitsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSnapshotLimitsOutputResponse, GetSnapshotLimitsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSnapshotLimitsOutputResponse, GetSnapshotLimitsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1730,6 +1950,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCertificatesInput, ListCertificatesOutputResponse, ListCertificatesOutputError>(id: "listCertificates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCertificatesInput, ListCertificatesOutputResponse, ListCertificatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCertificatesInput, ListCertificatesOutputResponse>())
@@ -1745,8 +1966,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCertificatesOutputResponse, ListCertificatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCertificatesOutputResponse, ListCertificatesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCertificatesOutputResponse, ListCertificatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1766,6 +1991,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListIpRoutesInput, ListIpRoutesOutputResponse, ListIpRoutesOutputError>(id: "listIpRoutes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIpRoutesInput, ListIpRoutesOutputResponse, ListIpRoutesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIpRoutesInput, ListIpRoutesOutputResponse>())
@@ -1781,8 +2007,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIpRoutesOutputResponse, ListIpRoutesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIpRoutesOutputResponse, ListIpRoutesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIpRoutesOutputResponse, ListIpRoutesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1802,6 +2032,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListLogSubscriptionsInput, ListLogSubscriptionsOutputResponse, ListLogSubscriptionsOutputError>(id: "listLogSubscriptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLogSubscriptionsInput, ListLogSubscriptionsOutputResponse, ListLogSubscriptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLogSubscriptionsInput, ListLogSubscriptionsOutputResponse>())
@@ -1817,8 +2048,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLogSubscriptionsOutputResponse, ListLogSubscriptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLogSubscriptionsOutputResponse, ListLogSubscriptionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLogSubscriptionsOutputResponse, ListLogSubscriptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1838,6 +2073,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSchemaExtensionsInput, ListSchemaExtensionsOutputResponse, ListSchemaExtensionsOutputError>(id: "listSchemaExtensions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSchemaExtensionsInput, ListSchemaExtensionsOutputResponse, ListSchemaExtensionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSchemaExtensionsInput, ListSchemaExtensionsOutputResponse>())
@@ -1853,8 +2089,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSchemaExtensionsOutputResponse, ListSchemaExtensionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSchemaExtensionsOutputResponse, ListSchemaExtensionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSchemaExtensionsOutputResponse, ListSchemaExtensionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1874,6 +2114,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1889,8 +2130,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1910,6 +2155,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterCertificateInput, RegisterCertificateOutputResponse, RegisterCertificateOutputError>(id: "registerCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterCertificateInput, RegisterCertificateOutputResponse, RegisterCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterCertificateInput, RegisterCertificateOutputResponse>())
@@ -1925,8 +2171,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterCertificateOutputResponse, RegisterCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterCertificateOutputResponse, RegisterCertificateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterCertificateOutputResponse, RegisterCertificateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1946,6 +2196,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterEventTopicInput, RegisterEventTopicOutputResponse, RegisterEventTopicOutputError>(id: "registerEventTopic")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterEventTopicInput, RegisterEventTopicOutputResponse, RegisterEventTopicOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterEventTopicInput, RegisterEventTopicOutputResponse>())
@@ -1961,8 +2212,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterEventTopicOutputResponse, RegisterEventTopicOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterEventTopicOutputResponse, RegisterEventTopicOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterEventTopicOutputResponse, RegisterEventTopicOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1982,6 +2237,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RejectSharedDirectoryInput, RejectSharedDirectoryOutputResponse, RejectSharedDirectoryOutputError>(id: "rejectSharedDirectory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RejectSharedDirectoryInput, RejectSharedDirectoryOutputResponse, RejectSharedDirectoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RejectSharedDirectoryInput, RejectSharedDirectoryOutputResponse>())
@@ -1997,8 +2253,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RejectSharedDirectoryOutputResponse, RejectSharedDirectoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RejectSharedDirectoryOutputResponse, RejectSharedDirectoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RejectSharedDirectoryOutputResponse, RejectSharedDirectoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2018,6 +2278,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveIpRoutesInput, RemoveIpRoutesOutputResponse, RemoveIpRoutesOutputError>(id: "removeIpRoutes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveIpRoutesInput, RemoveIpRoutesOutputResponse, RemoveIpRoutesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveIpRoutesInput, RemoveIpRoutesOutputResponse>())
@@ -2033,8 +2294,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveIpRoutesOutputResponse, RemoveIpRoutesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveIpRoutesOutputResponse, RemoveIpRoutesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveIpRoutesOutputResponse, RemoveIpRoutesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2054,6 +2319,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveRegionInput, RemoveRegionOutputResponse, RemoveRegionOutputError>(id: "removeRegion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveRegionInput, RemoveRegionOutputResponse, RemoveRegionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveRegionInput, RemoveRegionOutputResponse>())
@@ -2069,8 +2335,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveRegionOutputResponse, RemoveRegionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveRegionOutputResponse, RemoveRegionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveRegionOutputResponse, RemoveRegionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2090,6 +2360,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(id: "removeTagsFromResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse>())
@@ -2105,8 +2376,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2130,6 +2405,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResetUserPasswordInput, ResetUserPasswordOutputResponse, ResetUserPasswordOutputError>(id: "resetUserPassword")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetUserPasswordInput, ResetUserPasswordOutputResponse, ResetUserPasswordOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetUserPasswordInput, ResetUserPasswordOutputResponse>())
@@ -2145,8 +2421,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetUserPasswordOutputResponse, ResetUserPasswordOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetUserPasswordOutputResponse, ResetUserPasswordOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetUserPasswordOutputResponse, ResetUserPasswordOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2166,6 +2446,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RestoreFromSnapshotInput, RestoreFromSnapshotOutputResponse, RestoreFromSnapshotOutputError>(id: "restoreFromSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreFromSnapshotInput, RestoreFromSnapshotOutputResponse, RestoreFromSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreFromSnapshotInput, RestoreFromSnapshotOutputResponse>())
@@ -2181,8 +2462,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreFromSnapshotOutputResponse, RestoreFromSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreFromSnapshotOutputResponse, RestoreFromSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreFromSnapshotOutputResponse, RestoreFromSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2202,6 +2487,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ShareDirectoryInput, ShareDirectoryOutputResponse, ShareDirectoryOutputError>(id: "shareDirectory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ShareDirectoryInput, ShareDirectoryOutputResponse, ShareDirectoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ShareDirectoryInput, ShareDirectoryOutputResponse>())
@@ -2217,8 +2503,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ShareDirectoryOutputResponse, ShareDirectoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ShareDirectoryOutputResponse, ShareDirectoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ShareDirectoryOutputResponse, ShareDirectoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2238,6 +2528,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartSchemaExtensionInput, StartSchemaExtensionOutputResponse, StartSchemaExtensionOutputError>(id: "startSchemaExtension")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSchemaExtensionInput, StartSchemaExtensionOutputResponse, StartSchemaExtensionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSchemaExtensionInput, StartSchemaExtensionOutputResponse>())
@@ -2253,8 +2544,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSchemaExtensionOutputResponse, StartSchemaExtensionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSchemaExtensionOutputResponse, StartSchemaExtensionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSchemaExtensionOutputResponse, StartSchemaExtensionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2274,6 +2569,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UnshareDirectoryInput, UnshareDirectoryOutputResponse, UnshareDirectoryOutputError>(id: "unshareDirectory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UnshareDirectoryInput, UnshareDirectoryOutputResponse, UnshareDirectoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UnshareDirectoryInput, UnshareDirectoryOutputResponse>())
@@ -2289,8 +2585,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UnshareDirectoryOutputResponse, UnshareDirectoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UnshareDirectoryOutputResponse, UnshareDirectoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UnshareDirectoryOutputResponse, UnshareDirectoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2310,6 +2610,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateConditionalForwarderInput, UpdateConditionalForwarderOutputResponse, UpdateConditionalForwarderOutputError>(id: "updateConditionalForwarder")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConditionalForwarderInput, UpdateConditionalForwarderOutputResponse, UpdateConditionalForwarderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConditionalForwarderInput, UpdateConditionalForwarderOutputResponse>())
@@ -2325,8 +2626,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConditionalForwarderOutputResponse, UpdateConditionalForwarderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConditionalForwarderOutputResponse, UpdateConditionalForwarderOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConditionalForwarderOutputResponse, UpdateConditionalForwarderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2346,6 +2651,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDirectorySetupInput, UpdateDirectorySetupOutputResponse, UpdateDirectorySetupOutputError>(id: "updateDirectorySetup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDirectorySetupInput, UpdateDirectorySetupOutputResponse, UpdateDirectorySetupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDirectorySetupInput, UpdateDirectorySetupOutputResponse>())
@@ -2361,8 +2667,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDirectorySetupOutputResponse, UpdateDirectorySetupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDirectorySetupOutputResponse, UpdateDirectorySetupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDirectorySetupOutputResponse, UpdateDirectorySetupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2382,6 +2692,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateNumberOfDomainControllersInput, UpdateNumberOfDomainControllersOutputResponse, UpdateNumberOfDomainControllersOutputError>(id: "updateNumberOfDomainControllers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNumberOfDomainControllersInput, UpdateNumberOfDomainControllersOutputResponse, UpdateNumberOfDomainControllersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNumberOfDomainControllersInput, UpdateNumberOfDomainControllersOutputResponse>())
@@ -2397,8 +2708,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNumberOfDomainControllersOutputResponse, UpdateNumberOfDomainControllersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNumberOfDomainControllersOutputResponse, UpdateNumberOfDomainControllersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNumberOfDomainControllersOutputResponse, UpdateNumberOfDomainControllersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2418,6 +2733,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateRadiusInput, UpdateRadiusOutputResponse, UpdateRadiusOutputError>(id: "updateRadius")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRadiusInput, UpdateRadiusOutputResponse, UpdateRadiusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRadiusInput, UpdateRadiusOutputResponse>())
@@ -2433,8 +2749,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRadiusOutputResponse, UpdateRadiusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRadiusOutputResponse, UpdateRadiusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRadiusOutputResponse, UpdateRadiusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2454,6 +2774,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSettingsInput, UpdateSettingsOutputResponse, UpdateSettingsOutputError>(id: "updateSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSettingsInput, UpdateSettingsOutputResponse, UpdateSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSettingsInput, UpdateSettingsOutputResponse>())
@@ -2469,8 +2790,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSettingsOutputResponse, UpdateSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSettingsOutputResponse, UpdateSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSettingsOutputResponse, UpdateSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2490,6 +2815,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTrustInput, UpdateTrustOutputResponse, UpdateTrustOutputError>(id: "updateTrust")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTrustInput, UpdateTrustOutputResponse, UpdateTrustOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTrustInput, UpdateTrustOutputResponse>())
@@ -2505,8 +2831,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTrustOutputResponse, UpdateTrustOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrustOutputResponse, UpdateTrustOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTrustOutputResponse, UpdateTrustOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2526,6 +2856,7 @@ extension DirectoryClient: DirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<VerifyTrustInput, VerifyTrustOutputResponse, VerifyTrustOutputError>(id: "verifyTrust")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifyTrustInput, VerifyTrustOutputResponse, VerifyTrustOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifyTrustInput, VerifyTrustOutputResponse>())
@@ -2541,8 +2872,12 @@ extension DirectoryClient: DirectoryClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VerifyTrustOutputResponse, VerifyTrustOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifyTrustOutputResponse, VerifyTrustOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifyTrustOutputResponse, VerifyTrustOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

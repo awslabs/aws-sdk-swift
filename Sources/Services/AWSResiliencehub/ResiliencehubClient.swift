@@ -146,6 +146,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddDraftAppVersionResourceMappingsInput, AddDraftAppVersionResourceMappingsOutputResponse, AddDraftAppVersionResourceMappingsOutputError>(id: "addDraftAppVersionResourceMappings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddDraftAppVersionResourceMappingsInput, AddDraftAppVersionResourceMappingsOutputResponse, AddDraftAppVersionResourceMappingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddDraftAppVersionResourceMappingsInput, AddDraftAppVersionResourceMappingsOutputResponse>())
@@ -160,8 +161,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddDraftAppVersionResourceMappingsOutputResponse, AddDraftAppVersionResourceMappingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddDraftAppVersionResourceMappingsOutputResponse, AddDraftAppVersionResourceMappingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddDraftAppVersionResourceMappingsOutputResponse, AddDraftAppVersionResourceMappingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -181,6 +186,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAppInput, CreateAppOutputResponse, CreateAppOutputError>(id: "createApp")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateAppOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -203,8 +209,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppOutputResponse, CreateAppOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppOutputResponse, CreateAppOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppOutputResponse, CreateAppOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -316,6 +326,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRecommendationTemplateInput, CreateRecommendationTemplateOutputResponse, CreateRecommendationTemplateOutputError>(id: "createRecommendationTemplate")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateRecommendationTemplateOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -338,8 +349,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRecommendationTemplateOutputResponse, CreateRecommendationTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRecommendationTemplateOutputResponse, CreateRecommendationTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRecommendationTemplateOutputResponse, CreateRecommendationTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -359,6 +374,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateResiliencyPolicyInput, CreateResiliencyPolicyOutputResponse, CreateResiliencyPolicyOutputError>(id: "createResiliencyPolicy")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateResiliencyPolicyOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -381,8 +397,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateResiliencyPolicyOutputResponse, CreateResiliencyPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateResiliencyPolicyOutputResponse, CreateResiliencyPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateResiliencyPolicyOutputResponse, CreateResiliencyPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -402,6 +422,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAppInput, DeleteAppOutputResponse, DeleteAppOutputError>(id: "deleteApp")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteAppOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -424,8 +445,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppOutputResponse, DeleteAppOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppOutputResponse, DeleteAppOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppOutputResponse, DeleteAppOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -445,6 +470,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAppAssessmentInput, DeleteAppAssessmentOutputResponse, DeleteAppAssessmentOutputError>(id: "deleteAppAssessment")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteAppAssessmentOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -467,6 +493,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppAssessmentOutputResponse, DeleteAppAssessmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppAssessmentOutputResponse, DeleteAppAssessmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppAssessmentOutputResponse, DeleteAppAssessmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
@@ -608,6 +635,9 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppVersionResourceOutputResponse, DeleteAppVersionResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppVersionResourceOutputResponse, DeleteAppVersionResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -627,6 +657,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRecommendationTemplateInput, DeleteRecommendationTemplateOutputResponse, DeleteRecommendationTemplateOutputError>(id: "deleteRecommendationTemplate")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteRecommendationTemplateOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -649,8 +680,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRecommendationTemplateOutputResponse, DeleteRecommendationTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRecommendationTemplateOutputResponse, DeleteRecommendationTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRecommendationTemplateOutputResponse, DeleteRecommendationTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -670,6 +705,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteResiliencyPolicyInput, DeleteResiliencyPolicyOutputResponse, DeleteResiliencyPolicyOutputError>(id: "deleteResiliencyPolicy")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteResiliencyPolicyOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -692,8 +728,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResiliencyPolicyOutputResponse, DeleteResiliencyPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResiliencyPolicyOutputResponse, DeleteResiliencyPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResiliencyPolicyOutputResponse, DeleteResiliencyPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -713,6 +753,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAppInput, DescribeAppOutputResponse, DescribeAppOutputError>(id: "describeApp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppInput, DescribeAppOutputResponse, DescribeAppOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppInput, DescribeAppOutputResponse>())
@@ -727,8 +768,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppOutputResponse, DescribeAppOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppOutputResponse, DescribeAppOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppOutputResponse, DescribeAppOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -748,6 +793,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAppAssessmentInput, DescribeAppAssessmentOutputResponse, DescribeAppAssessmentOutputError>(id: "describeAppAssessment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppAssessmentInput, DescribeAppAssessmentOutputResponse, DescribeAppAssessmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppAssessmentInput, DescribeAppAssessmentOutputResponse>())
@@ -762,6 +808,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppAssessmentOutputResponse, DescribeAppAssessmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppAssessmentOutputResponse, DescribeAppAssessmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppAssessmentOutputResponse, DescribeAppAssessmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
@@ -875,6 +922,9 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppVersionResourceOutputResponse, DescribeAppVersionResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionResourceOutputResponse, DescribeAppVersionResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -894,6 +944,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAppVersionResourcesResolutionStatusInput, DescribeAppVersionResourcesResolutionStatusOutputResponse, DescribeAppVersionResourcesResolutionStatusOutputError>(id: "describeAppVersionResourcesResolutionStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppVersionResourcesResolutionStatusInput, DescribeAppVersionResourcesResolutionStatusOutputResponse, DescribeAppVersionResourcesResolutionStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppVersionResourcesResolutionStatusInput, DescribeAppVersionResourcesResolutionStatusOutputResponse>())
@@ -908,8 +959,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppVersionResourcesResolutionStatusOutputResponse, DescribeAppVersionResourcesResolutionStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppVersionResourcesResolutionStatusOutputResponse, DescribeAppVersionResourcesResolutionStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionResourcesResolutionStatusOutputResponse, DescribeAppVersionResourcesResolutionStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -929,6 +984,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAppVersionTemplateInput, DescribeAppVersionTemplateOutputResponse, DescribeAppVersionTemplateOutputError>(id: "describeAppVersionTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppVersionTemplateInput, DescribeAppVersionTemplateOutputResponse, DescribeAppVersionTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppVersionTemplateInput, DescribeAppVersionTemplateOutputResponse>())
@@ -943,8 +999,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppVersionTemplateOutputResponse, DescribeAppVersionTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppVersionTemplateOutputResponse, DescribeAppVersionTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionTemplateOutputResponse, DescribeAppVersionTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -964,6 +1024,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDraftAppVersionResourcesImportStatusInput, DescribeDraftAppVersionResourcesImportStatusOutputResponse, DescribeDraftAppVersionResourcesImportStatusOutputError>(id: "describeDraftAppVersionResourcesImportStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDraftAppVersionResourcesImportStatusInput, DescribeDraftAppVersionResourcesImportStatusOutputResponse, DescribeDraftAppVersionResourcesImportStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDraftAppVersionResourcesImportStatusInput, DescribeDraftAppVersionResourcesImportStatusOutputResponse>())
@@ -978,8 +1039,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDraftAppVersionResourcesImportStatusOutputResponse, DescribeDraftAppVersionResourcesImportStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDraftAppVersionResourcesImportStatusOutputResponse, DescribeDraftAppVersionResourcesImportStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDraftAppVersionResourcesImportStatusOutputResponse, DescribeDraftAppVersionResourcesImportStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -999,6 +1064,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeResiliencyPolicyInput, DescribeResiliencyPolicyOutputResponse, DescribeResiliencyPolicyOutputError>(id: "describeResiliencyPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeResiliencyPolicyInput, DescribeResiliencyPolicyOutputResponse, DescribeResiliencyPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeResiliencyPolicyInput, DescribeResiliencyPolicyOutputResponse>())
@@ -1013,8 +1079,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeResiliencyPolicyOutputResponse, DescribeResiliencyPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeResiliencyPolicyOutputResponse, DescribeResiliencyPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeResiliencyPolicyOutputResponse, DescribeResiliencyPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1034,6 +1104,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ImportResourcesToDraftAppVersionInput, ImportResourcesToDraftAppVersionOutputResponse, ImportResourcesToDraftAppVersionOutputError>(id: "importResourcesToDraftAppVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportResourcesToDraftAppVersionInput, ImportResourcesToDraftAppVersionOutputResponse, ImportResourcesToDraftAppVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportResourcesToDraftAppVersionInput, ImportResourcesToDraftAppVersionOutputResponse>())
@@ -1048,8 +1119,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportResourcesToDraftAppVersionOutputResponse, ImportResourcesToDraftAppVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportResourcesToDraftAppVersionOutputResponse, ImportResourcesToDraftAppVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportResourcesToDraftAppVersionOutputResponse, ImportResourcesToDraftAppVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1069,6 +1144,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutputResponse, ListAlarmRecommendationsOutputError>(id: "listAlarmRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutputResponse, ListAlarmRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutputResponse>())
@@ -1083,8 +1159,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAlarmRecommendationsOutputResponse, ListAlarmRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAlarmRecommendationsOutputResponse, ListAlarmRecommendationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAlarmRecommendationsOutputResponse, ListAlarmRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1104,6 +1184,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAppAssessmentsInput, ListAppAssessmentsOutputResponse, ListAppAssessmentsOutputError>(id: "listAppAssessments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppAssessmentsInput, ListAppAssessmentsOutputResponse, ListAppAssessmentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppAssessmentsInput, ListAppAssessmentsOutputResponse>())
@@ -1116,8 +1197,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppAssessmentsOutputResponse, ListAppAssessmentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppAssessmentsOutputResponse, ListAppAssessmentsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppAssessmentsOutputResponse, ListAppAssessmentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1137,6 +1222,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutputResponse, ListAppComponentCompliancesOutputError>(id: "listAppComponentCompliances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutputResponse, ListAppComponentCompliancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutputResponse>())
@@ -1151,8 +1237,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppComponentCompliancesOutputResponse, ListAppComponentCompliancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppComponentCompliancesOutputResponse, ListAppComponentCompliancesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppComponentCompliancesOutputResponse, ListAppComponentCompliancesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1172,6 +1262,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutputResponse, ListAppComponentRecommendationsOutputError>(id: "listAppComponentRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutputResponse, ListAppComponentRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutputResponse>())
@@ -1186,6 +1277,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppComponentRecommendationsOutputResponse, ListAppComponentRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppComponentRecommendationsOutputResponse, ListAppComponentRecommendationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppComponentRecommendationsOutputResponse, ListAppComponentRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
@@ -1258,6 +1350,9 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppVersionAppComponentsOutputResponse, ListAppVersionAppComponentsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppVersionAppComponentsOutputResponse, ListAppVersionAppComponentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1277,6 +1372,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutputResponse, ListAppVersionResourceMappingsOutputError>(id: "listAppVersionResourceMappings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutputResponse, ListAppVersionResourceMappingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutputResponse>())
@@ -1291,8 +1387,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppVersionResourceMappingsOutputResponse, ListAppVersionResourceMappingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppVersionResourceMappingsOutputResponse, ListAppVersionResourceMappingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppVersionResourceMappingsOutputResponse, ListAppVersionResourceMappingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1312,6 +1412,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAppVersionResourcesInput, ListAppVersionResourcesOutputResponse, ListAppVersionResourcesOutputError>(id: "listAppVersionResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppVersionResourcesInput, ListAppVersionResourcesOutputResponse, ListAppVersionResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppVersionResourcesInput, ListAppVersionResourcesOutputResponse>())
@@ -1326,8 +1427,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppVersionResourcesOutputResponse, ListAppVersionResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppVersionResourcesOutputResponse, ListAppVersionResourcesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppVersionResourcesOutputResponse, ListAppVersionResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1347,6 +1452,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAppVersionsInput, ListAppVersionsOutputResponse, ListAppVersionsOutputError>(id: "listAppVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppVersionsInput, ListAppVersionsOutputResponse, ListAppVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppVersionsInput, ListAppVersionsOutputResponse>())
@@ -1361,8 +1467,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppVersionsOutputResponse, ListAppVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppVersionsOutputResponse, ListAppVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppVersionsOutputResponse, ListAppVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1382,6 +1492,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAppsInput, ListAppsOutputResponse, ListAppsOutputError>(id: "listApps")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppsInput, ListAppsOutputResponse, ListAppsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppsInput, ListAppsOutputResponse>())
@@ -1394,8 +1505,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppsOutputResponse, ListAppsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppsOutputResponse, ListAppsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppsOutputResponse, ListAppsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1415,6 +1530,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRecommendationTemplatesInput, ListRecommendationTemplatesOutputResponse, ListRecommendationTemplatesOutputError>(id: "listRecommendationTemplates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRecommendationTemplatesInput, ListRecommendationTemplatesOutputResponse, ListRecommendationTemplatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRecommendationTemplatesInput, ListRecommendationTemplatesOutputResponse>())
@@ -1427,8 +1543,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRecommendationTemplatesOutputResponse, ListRecommendationTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRecommendationTemplatesOutputResponse, ListRecommendationTemplatesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRecommendationTemplatesOutputResponse, ListRecommendationTemplatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1448,6 +1568,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListResiliencyPoliciesInput, ListResiliencyPoliciesOutputResponse, ListResiliencyPoliciesOutputError>(id: "listResiliencyPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResiliencyPoliciesInput, ListResiliencyPoliciesOutputResponse, ListResiliencyPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResiliencyPoliciesInput, ListResiliencyPoliciesOutputResponse>())
@@ -1460,8 +1581,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResiliencyPoliciesOutputResponse, ListResiliencyPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResiliencyPoliciesOutputResponse, ListResiliencyPoliciesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResiliencyPoliciesOutputResponse, ListResiliencyPoliciesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1481,6 +1606,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSopRecommendationsInput, ListSopRecommendationsOutputResponse, ListSopRecommendationsOutputError>(id: "listSopRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSopRecommendationsInput, ListSopRecommendationsOutputResponse, ListSopRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSopRecommendationsInput, ListSopRecommendationsOutputResponse>())
@@ -1495,8 +1621,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSopRecommendationsOutputResponse, ListSopRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSopRecommendationsOutputResponse, ListSopRecommendationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSopRecommendationsOutputResponse, ListSopRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1516,6 +1646,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSuggestedResiliencyPoliciesInput, ListSuggestedResiliencyPoliciesOutputResponse, ListSuggestedResiliencyPoliciesOutputError>(id: "listSuggestedResiliencyPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSuggestedResiliencyPoliciesInput, ListSuggestedResiliencyPoliciesOutputResponse, ListSuggestedResiliencyPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSuggestedResiliencyPoliciesInput, ListSuggestedResiliencyPoliciesOutputResponse>())
@@ -1528,8 +1659,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSuggestedResiliencyPoliciesOutputResponse, ListSuggestedResiliencyPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSuggestedResiliencyPoliciesOutputResponse, ListSuggestedResiliencyPoliciesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSuggestedResiliencyPoliciesOutputResponse, ListSuggestedResiliencyPoliciesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1549,6 +1684,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1560,8 +1696,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1581,6 +1721,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTestRecommendationsInput, ListTestRecommendationsOutputResponse, ListTestRecommendationsOutputError>(id: "listTestRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTestRecommendationsInput, ListTestRecommendationsOutputResponse, ListTestRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTestRecommendationsInput, ListTestRecommendationsOutputResponse>())
@@ -1595,8 +1736,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTestRecommendationsOutputResponse, ListTestRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTestRecommendationsOutputResponse, ListTestRecommendationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTestRecommendationsOutputResponse, ListTestRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1616,6 +1761,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutputResponse, ListUnsupportedAppVersionResourcesOutputError>(id: "listUnsupportedAppVersionResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutputResponse, ListUnsupportedAppVersionResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutputResponse>())
@@ -1630,8 +1776,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUnsupportedAppVersionResourcesOutputResponse, ListUnsupportedAppVersionResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUnsupportedAppVersionResourcesOutputResponse, ListUnsupportedAppVersionResourcesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUnsupportedAppVersionResourcesOutputResponse, ListUnsupportedAppVersionResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1651,6 +1801,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PublishAppVersionInput, PublishAppVersionOutputResponse, PublishAppVersionOutputError>(id: "publishAppVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishAppVersionInput, PublishAppVersionOutputResponse, PublishAppVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishAppVersionInput, PublishAppVersionOutputResponse>())
@@ -1665,8 +1816,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishAppVersionOutputResponse, PublishAppVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishAppVersionOutputResponse, PublishAppVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PublishAppVersionOutputResponse, PublishAppVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1686,6 +1841,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutDraftAppVersionTemplateInput, PutDraftAppVersionTemplateOutputResponse, PutDraftAppVersionTemplateOutputError>(id: "putDraftAppVersionTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutDraftAppVersionTemplateInput, PutDraftAppVersionTemplateOutputResponse, PutDraftAppVersionTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutDraftAppVersionTemplateInput, PutDraftAppVersionTemplateOutputResponse>())
@@ -1700,8 +1856,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutDraftAppVersionTemplateOutputResponse, PutDraftAppVersionTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutDraftAppVersionTemplateOutputResponse, PutDraftAppVersionTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutDraftAppVersionTemplateOutputResponse, PutDraftAppVersionTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1721,6 +1881,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveDraftAppVersionResourceMappingsInput, RemoveDraftAppVersionResourceMappingsOutputResponse, RemoveDraftAppVersionResourceMappingsOutputError>(id: "removeDraftAppVersionResourceMappings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveDraftAppVersionResourceMappingsInput, RemoveDraftAppVersionResourceMappingsOutputResponse, RemoveDraftAppVersionResourceMappingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveDraftAppVersionResourceMappingsInput, RemoveDraftAppVersionResourceMappingsOutputResponse>())
@@ -1735,8 +1896,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveDraftAppVersionResourceMappingsOutputResponse, RemoveDraftAppVersionResourceMappingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveDraftAppVersionResourceMappingsOutputResponse, RemoveDraftAppVersionResourceMappingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveDraftAppVersionResourceMappingsOutputResponse, RemoveDraftAppVersionResourceMappingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1756,6 +1921,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResolveAppVersionResourcesInput, ResolveAppVersionResourcesOutputResponse, ResolveAppVersionResourcesOutputError>(id: "resolveAppVersionResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResolveAppVersionResourcesInput, ResolveAppVersionResourcesOutputResponse, ResolveAppVersionResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResolveAppVersionResourcesInput, ResolveAppVersionResourcesOutputResponse>())
@@ -1770,8 +1936,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResolveAppVersionResourcesOutputResponse, ResolveAppVersionResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResolveAppVersionResourcesOutputResponse, ResolveAppVersionResourcesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResolveAppVersionResourcesOutputResponse, ResolveAppVersionResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1791,6 +1961,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartAppAssessmentInput, StartAppAssessmentOutputResponse, StartAppAssessmentOutputError>(id: "startAppAssessment")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartAppAssessmentOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1813,8 +1984,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartAppAssessmentOutputResponse, StartAppAssessmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartAppAssessmentOutputResponse, StartAppAssessmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartAppAssessmentOutputResponse, StartAppAssessmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1834,6 +2009,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1848,8 +2024,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1869,6 +2049,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1881,8 +2062,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1902,6 +2087,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAppInput, UpdateAppOutputResponse, UpdateAppOutputError>(id: "updateApp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAppInput, UpdateAppOutputResponse, UpdateAppOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAppInput, UpdateAppOutputResponse>())
@@ -1916,6 +2102,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppOutputResponse, UpdateAppOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppOutputResponse, UpdateAppOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAppOutputResponse, UpdateAppOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
@@ -2029,6 +2216,9 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppVersionResourceOutputResponse, UpdateAppVersionResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAppVersionResourceOutputResponse, UpdateAppVersionResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2048,6 +2238,7 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateResiliencyPolicyInput, UpdateResiliencyPolicyOutputResponse, UpdateResiliencyPolicyOutputError>(id: "updateResiliencyPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateResiliencyPolicyInput, UpdateResiliencyPolicyOutputResponse, UpdateResiliencyPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateResiliencyPolicyInput, UpdateResiliencyPolicyOutputResponse>())
@@ -2062,8 +2253,12 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResiliencyPolicyOutputResponse, UpdateResiliencyPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResiliencyPolicyOutputResponse, UpdateResiliencyPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateResiliencyPolicyOutputResponse, UpdateResiliencyPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

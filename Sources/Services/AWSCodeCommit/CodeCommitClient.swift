@@ -146,6 +146,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateApprovalRuleTemplateWithRepositoryInput, AssociateApprovalRuleTemplateWithRepositoryOutputResponse, AssociateApprovalRuleTemplateWithRepositoryOutputError>(id: "associateApprovalRuleTemplateWithRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateApprovalRuleTemplateWithRepositoryInput, AssociateApprovalRuleTemplateWithRepositoryOutputResponse, AssociateApprovalRuleTemplateWithRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateApprovalRuleTemplateWithRepositoryInput, AssociateApprovalRuleTemplateWithRepositoryOutputResponse>())
@@ -161,8 +162,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateApprovalRuleTemplateWithRepositoryOutputResponse, AssociateApprovalRuleTemplateWithRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateApprovalRuleTemplateWithRepositoryOutputResponse, AssociateApprovalRuleTemplateWithRepositoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateApprovalRuleTemplateWithRepositoryOutputResponse, AssociateApprovalRuleTemplateWithRepositoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -182,6 +187,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchAssociateApprovalRuleTemplateWithRepositoriesInput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse, BatchAssociateApprovalRuleTemplateWithRepositoriesOutputError>(id: "batchAssociateApprovalRuleTemplateWithRepositories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesInput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse, BatchAssociateApprovalRuleTemplateWithRepositoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesInput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse>())
@@ -197,8 +203,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse, BatchAssociateApprovalRuleTemplateWithRepositoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse, BatchAssociateApprovalRuleTemplateWithRepositoriesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse, BatchAssociateApprovalRuleTemplateWithRepositoriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -218,6 +228,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDescribeMergeConflictsInput, BatchDescribeMergeConflictsOutputResponse, BatchDescribeMergeConflictsOutputError>(id: "batchDescribeMergeConflicts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDescribeMergeConflictsInput, BatchDescribeMergeConflictsOutputResponse, BatchDescribeMergeConflictsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDescribeMergeConflictsInput, BatchDescribeMergeConflictsOutputResponse>())
@@ -233,8 +244,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDescribeMergeConflictsOutputResponse, BatchDescribeMergeConflictsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDescribeMergeConflictsOutputResponse, BatchDescribeMergeConflictsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDescribeMergeConflictsOutputResponse, BatchDescribeMergeConflictsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -254,6 +269,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponse, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputError>(id: "batchDisassociateApprovalRuleTemplateFromRepositories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponse, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponse>())
@@ -269,8 +285,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponse, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponse, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponse, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -290,6 +310,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchGetCommitsInput, BatchGetCommitsOutputResponse, BatchGetCommitsOutputError>(id: "batchGetCommits")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetCommitsInput, BatchGetCommitsOutputResponse, BatchGetCommitsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetCommitsInput, BatchGetCommitsOutputResponse>())
@@ -305,8 +326,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetCommitsOutputResponse, BatchGetCommitsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetCommitsOutputResponse, BatchGetCommitsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetCommitsOutputResponse, BatchGetCommitsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -326,6 +351,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchGetRepositoriesInput, BatchGetRepositoriesOutputResponse, BatchGetRepositoriesOutputError>(id: "batchGetRepositories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetRepositoriesInput, BatchGetRepositoriesOutputResponse, BatchGetRepositoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetRepositoriesInput, BatchGetRepositoriesOutputResponse>())
@@ -341,8 +367,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetRepositoriesOutputResponse, BatchGetRepositoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetRepositoriesOutputResponse, BatchGetRepositoriesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetRepositoriesOutputResponse, BatchGetRepositoriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -362,6 +392,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateApprovalRuleTemplateInput, CreateApprovalRuleTemplateOutputResponse, CreateApprovalRuleTemplateOutputError>(id: "createApprovalRuleTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateApprovalRuleTemplateInput, CreateApprovalRuleTemplateOutputResponse, CreateApprovalRuleTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateApprovalRuleTemplateInput, CreateApprovalRuleTemplateOutputResponse>())
@@ -377,8 +408,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateApprovalRuleTemplateOutputResponse, CreateApprovalRuleTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateApprovalRuleTemplateOutputResponse, CreateApprovalRuleTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateApprovalRuleTemplateOutputResponse, CreateApprovalRuleTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -398,6 +433,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateBranchInput, CreateBranchOutputResponse, CreateBranchOutputError>(id: "createBranch")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBranchInput, CreateBranchOutputResponse, CreateBranchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBranchInput, CreateBranchOutputResponse>())
@@ -413,8 +449,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBranchOutputResponse, CreateBranchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBranchOutputResponse, CreateBranchOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBranchOutputResponse, CreateBranchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -434,6 +474,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCommitInput, CreateCommitOutputResponse, CreateCommitOutputError>(id: "createCommit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCommitInput, CreateCommitOutputResponse, CreateCommitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCommitInput, CreateCommitOutputResponse>())
@@ -449,8 +490,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCommitOutputResponse, CreateCommitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCommitOutputResponse, CreateCommitOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCommitOutputResponse, CreateCommitOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -470,6 +515,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePullRequestInput, CreatePullRequestOutputResponse, CreatePullRequestOutputError>(id: "createPullRequest")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreatePullRequestOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -493,8 +539,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePullRequestOutputResponse, CreatePullRequestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePullRequestOutputResponse, CreatePullRequestOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePullRequestOutputResponse, CreatePullRequestOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -514,6 +564,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePullRequestApprovalRuleInput, CreatePullRequestApprovalRuleOutputResponse, CreatePullRequestApprovalRuleOutputError>(id: "createPullRequestApprovalRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePullRequestApprovalRuleInput, CreatePullRequestApprovalRuleOutputResponse, CreatePullRequestApprovalRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePullRequestApprovalRuleInput, CreatePullRequestApprovalRuleOutputResponse>())
@@ -529,8 +580,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePullRequestApprovalRuleOutputResponse, CreatePullRequestApprovalRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePullRequestApprovalRuleOutputResponse, CreatePullRequestApprovalRuleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePullRequestApprovalRuleOutputResponse, CreatePullRequestApprovalRuleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -550,6 +605,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRepositoryInput, CreateRepositoryOutputResponse, CreateRepositoryOutputError>(id: "createRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRepositoryInput, CreateRepositoryOutputResponse, CreateRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRepositoryInput, CreateRepositoryOutputResponse>())
@@ -565,8 +621,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRepositoryOutputResponse, CreateRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRepositoryOutputResponse, CreateRepositoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRepositoryOutputResponse, CreateRepositoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -586,6 +646,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateUnreferencedMergeCommitInput, CreateUnreferencedMergeCommitOutputResponse, CreateUnreferencedMergeCommitOutputError>(id: "createUnreferencedMergeCommit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUnreferencedMergeCommitInput, CreateUnreferencedMergeCommitOutputResponse, CreateUnreferencedMergeCommitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUnreferencedMergeCommitInput, CreateUnreferencedMergeCommitOutputResponse>())
@@ -601,8 +662,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUnreferencedMergeCommitOutputResponse, CreateUnreferencedMergeCommitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUnreferencedMergeCommitOutputResponse, CreateUnreferencedMergeCommitOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUnreferencedMergeCommitOutputResponse, CreateUnreferencedMergeCommitOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -622,6 +687,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteApprovalRuleTemplateInput, DeleteApprovalRuleTemplateOutputResponse, DeleteApprovalRuleTemplateOutputError>(id: "deleteApprovalRuleTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteApprovalRuleTemplateInput, DeleteApprovalRuleTemplateOutputResponse, DeleteApprovalRuleTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteApprovalRuleTemplateInput, DeleteApprovalRuleTemplateOutputResponse>())
@@ -637,8 +703,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteApprovalRuleTemplateOutputResponse, DeleteApprovalRuleTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteApprovalRuleTemplateOutputResponse, DeleteApprovalRuleTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteApprovalRuleTemplateOutputResponse, DeleteApprovalRuleTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -658,6 +728,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBranchInput, DeleteBranchOutputResponse, DeleteBranchOutputError>(id: "deleteBranch")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBranchInput, DeleteBranchOutputResponse, DeleteBranchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBranchInput, DeleteBranchOutputResponse>())
@@ -673,8 +744,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBranchOutputResponse, DeleteBranchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBranchOutputResponse, DeleteBranchOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBranchOutputResponse, DeleteBranchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -694,6 +769,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCommentContentInput, DeleteCommentContentOutputResponse, DeleteCommentContentOutputError>(id: "deleteCommentContent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCommentContentInput, DeleteCommentContentOutputResponse, DeleteCommentContentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCommentContentInput, DeleteCommentContentOutputResponse>())
@@ -709,8 +785,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCommentContentOutputResponse, DeleteCommentContentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCommentContentOutputResponse, DeleteCommentContentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCommentContentOutputResponse, DeleteCommentContentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -730,6 +810,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFileInput, DeleteFileOutputResponse, DeleteFileOutputError>(id: "deleteFile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFileInput, DeleteFileOutputResponse, DeleteFileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFileInput, DeleteFileOutputResponse>())
@@ -745,8 +826,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFileOutputResponse, DeleteFileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFileOutputResponse, DeleteFileOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFileOutputResponse, DeleteFileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -766,6 +851,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePullRequestApprovalRuleInput, DeletePullRequestApprovalRuleOutputResponse, DeletePullRequestApprovalRuleOutputError>(id: "deletePullRequestApprovalRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePullRequestApprovalRuleInput, DeletePullRequestApprovalRuleOutputResponse, DeletePullRequestApprovalRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePullRequestApprovalRuleInput, DeletePullRequestApprovalRuleOutputResponse>())
@@ -781,8 +867,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePullRequestApprovalRuleOutputResponse, DeletePullRequestApprovalRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePullRequestApprovalRuleOutputResponse, DeletePullRequestApprovalRuleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePullRequestApprovalRuleOutputResponse, DeletePullRequestApprovalRuleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -802,6 +892,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRepositoryInput, DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>(id: "deleteRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRepositoryInput, DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRepositoryInput, DeleteRepositoryOutputResponse>())
@@ -817,8 +908,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -838,6 +933,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMergeConflictsInput, DescribeMergeConflictsOutputResponse, DescribeMergeConflictsOutputError>(id: "describeMergeConflicts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMergeConflictsInput, DescribeMergeConflictsOutputResponse, DescribeMergeConflictsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMergeConflictsInput, DescribeMergeConflictsOutputResponse>())
@@ -853,8 +949,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMergeConflictsOutputResponse, DescribeMergeConflictsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMergeConflictsOutputResponse, DescribeMergeConflictsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMergeConflictsOutputResponse, DescribeMergeConflictsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -874,6 +974,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePullRequestEventsInput, DescribePullRequestEventsOutputResponse, DescribePullRequestEventsOutputError>(id: "describePullRequestEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePullRequestEventsInput, DescribePullRequestEventsOutputResponse, DescribePullRequestEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePullRequestEventsInput, DescribePullRequestEventsOutputResponse>())
@@ -889,8 +990,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePullRequestEventsOutputResponse, DescribePullRequestEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePullRequestEventsOutputResponse, DescribePullRequestEventsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePullRequestEventsOutputResponse, DescribePullRequestEventsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -910,6 +1015,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateApprovalRuleTemplateFromRepositoryInput, DisassociateApprovalRuleTemplateFromRepositoryOutputResponse, DisassociateApprovalRuleTemplateFromRepositoryOutputError>(id: "disassociateApprovalRuleTemplateFromRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateApprovalRuleTemplateFromRepositoryInput, DisassociateApprovalRuleTemplateFromRepositoryOutputResponse, DisassociateApprovalRuleTemplateFromRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateApprovalRuleTemplateFromRepositoryInput, DisassociateApprovalRuleTemplateFromRepositoryOutputResponse>())
@@ -925,8 +1031,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateApprovalRuleTemplateFromRepositoryOutputResponse, DisassociateApprovalRuleTemplateFromRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateApprovalRuleTemplateFromRepositoryOutputResponse, DisassociateApprovalRuleTemplateFromRepositoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateApprovalRuleTemplateFromRepositoryOutputResponse, DisassociateApprovalRuleTemplateFromRepositoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -946,6 +1056,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EvaluatePullRequestApprovalRulesInput, EvaluatePullRequestApprovalRulesOutputResponse, EvaluatePullRequestApprovalRulesOutputError>(id: "evaluatePullRequestApprovalRules")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EvaluatePullRequestApprovalRulesInput, EvaluatePullRequestApprovalRulesOutputResponse, EvaluatePullRequestApprovalRulesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EvaluatePullRequestApprovalRulesInput, EvaluatePullRequestApprovalRulesOutputResponse>())
@@ -961,8 +1072,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EvaluatePullRequestApprovalRulesOutputResponse, EvaluatePullRequestApprovalRulesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EvaluatePullRequestApprovalRulesOutputResponse, EvaluatePullRequestApprovalRulesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EvaluatePullRequestApprovalRulesOutputResponse, EvaluatePullRequestApprovalRulesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -982,6 +1097,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetApprovalRuleTemplateInput, GetApprovalRuleTemplateOutputResponse, GetApprovalRuleTemplateOutputError>(id: "getApprovalRuleTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetApprovalRuleTemplateInput, GetApprovalRuleTemplateOutputResponse, GetApprovalRuleTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetApprovalRuleTemplateInput, GetApprovalRuleTemplateOutputResponse>())
@@ -997,8 +1113,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetApprovalRuleTemplateOutputResponse, GetApprovalRuleTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetApprovalRuleTemplateOutputResponse, GetApprovalRuleTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetApprovalRuleTemplateOutputResponse, GetApprovalRuleTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1018,6 +1138,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBlobInput, GetBlobOutputResponse, GetBlobOutputError>(id: "getBlob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBlobInput, GetBlobOutputResponse, GetBlobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBlobInput, GetBlobOutputResponse>())
@@ -1033,8 +1154,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBlobOutputResponse, GetBlobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBlobOutputResponse, GetBlobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBlobOutputResponse, GetBlobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1054,6 +1179,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBranchInput, GetBranchOutputResponse, GetBranchOutputError>(id: "getBranch")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBranchInput, GetBranchOutputResponse, GetBranchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBranchInput, GetBranchOutputResponse>())
@@ -1069,8 +1195,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBranchOutputResponse, GetBranchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBranchOutputResponse, GetBranchOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBranchOutputResponse, GetBranchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1090,6 +1220,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCommentInput, GetCommentOutputResponse, GetCommentOutputError>(id: "getComment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCommentInput, GetCommentOutputResponse, GetCommentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommentInput, GetCommentOutputResponse>())
@@ -1105,8 +1236,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCommentOutputResponse, GetCommentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCommentOutputResponse, GetCommentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCommentOutputResponse, GetCommentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1126,6 +1261,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCommentReactionsInput, GetCommentReactionsOutputResponse, GetCommentReactionsOutputError>(id: "getCommentReactions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCommentReactionsInput, GetCommentReactionsOutputResponse, GetCommentReactionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommentReactionsInput, GetCommentReactionsOutputResponse>())
@@ -1141,8 +1277,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCommentReactionsOutputResponse, GetCommentReactionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCommentReactionsOutputResponse, GetCommentReactionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCommentReactionsOutputResponse, GetCommentReactionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1162,6 +1302,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutputResponse, GetCommentsForComparedCommitOutputError>(id: "getCommentsForComparedCommit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutputResponse, GetCommentsForComparedCommitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutputResponse>())
@@ -1177,8 +1318,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCommentsForComparedCommitOutputResponse, GetCommentsForComparedCommitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCommentsForComparedCommitOutputResponse, GetCommentsForComparedCommitOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCommentsForComparedCommitOutputResponse, GetCommentsForComparedCommitOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1198,6 +1343,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutputResponse, GetCommentsForPullRequestOutputError>(id: "getCommentsForPullRequest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutputResponse, GetCommentsForPullRequestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutputResponse>())
@@ -1213,8 +1359,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCommentsForPullRequestOutputResponse, GetCommentsForPullRequestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCommentsForPullRequestOutputResponse, GetCommentsForPullRequestOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCommentsForPullRequestOutputResponse, GetCommentsForPullRequestOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1234,6 +1384,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCommitInput, GetCommitOutputResponse, GetCommitOutputError>(id: "getCommit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCommitInput, GetCommitOutputResponse, GetCommitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommitInput, GetCommitOutputResponse>())
@@ -1249,8 +1400,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCommitOutputResponse, GetCommitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCommitOutputResponse, GetCommitOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCommitOutputResponse, GetCommitOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1270,6 +1425,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDifferencesInput, GetDifferencesOutputResponse, GetDifferencesOutputError>(id: "getDifferences")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDifferencesInput, GetDifferencesOutputResponse, GetDifferencesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDifferencesInput, GetDifferencesOutputResponse>())
@@ -1285,8 +1441,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDifferencesOutputResponse, GetDifferencesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDifferencesOutputResponse, GetDifferencesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDifferencesOutputResponse, GetDifferencesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1306,6 +1466,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFileInput, GetFileOutputResponse, GetFileOutputError>(id: "getFile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFileInput, GetFileOutputResponse, GetFileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFileInput, GetFileOutputResponse>())
@@ -1321,8 +1482,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFileOutputResponse, GetFileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFileOutputResponse, GetFileOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFileOutputResponse, GetFileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1342,6 +1507,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFolderInput, GetFolderOutputResponse, GetFolderOutputError>(id: "getFolder")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFolderInput, GetFolderOutputResponse, GetFolderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFolderInput, GetFolderOutputResponse>())
@@ -1357,8 +1523,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFolderOutputResponse, GetFolderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFolderOutputResponse, GetFolderOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFolderOutputResponse, GetFolderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1378,6 +1548,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMergeCommitInput, GetMergeCommitOutputResponse, GetMergeCommitOutputError>(id: "getMergeCommit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMergeCommitInput, GetMergeCommitOutputResponse, GetMergeCommitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMergeCommitInput, GetMergeCommitOutputResponse>())
@@ -1393,8 +1564,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMergeCommitOutputResponse, GetMergeCommitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMergeCommitOutputResponse, GetMergeCommitOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMergeCommitOutputResponse, GetMergeCommitOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1414,6 +1589,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMergeConflictsInput, GetMergeConflictsOutputResponse, GetMergeConflictsOutputError>(id: "getMergeConflicts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMergeConflictsInput, GetMergeConflictsOutputResponse, GetMergeConflictsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMergeConflictsInput, GetMergeConflictsOutputResponse>())
@@ -1429,8 +1605,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMergeConflictsOutputResponse, GetMergeConflictsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMergeConflictsOutputResponse, GetMergeConflictsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMergeConflictsOutputResponse, GetMergeConflictsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1450,6 +1630,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMergeOptionsInput, GetMergeOptionsOutputResponse, GetMergeOptionsOutputError>(id: "getMergeOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMergeOptionsInput, GetMergeOptionsOutputResponse, GetMergeOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMergeOptionsInput, GetMergeOptionsOutputResponse>())
@@ -1465,8 +1646,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMergeOptionsOutputResponse, GetMergeOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMergeOptionsOutputResponse, GetMergeOptionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMergeOptionsOutputResponse, GetMergeOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1486,6 +1671,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPullRequestInput, GetPullRequestOutputResponse, GetPullRequestOutputError>(id: "getPullRequest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPullRequestInput, GetPullRequestOutputResponse, GetPullRequestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPullRequestInput, GetPullRequestOutputResponse>())
@@ -1501,8 +1687,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPullRequestOutputResponse, GetPullRequestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPullRequestOutputResponse, GetPullRequestOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPullRequestOutputResponse, GetPullRequestOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1522,6 +1712,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPullRequestApprovalStatesInput, GetPullRequestApprovalStatesOutputResponse, GetPullRequestApprovalStatesOutputError>(id: "getPullRequestApprovalStates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPullRequestApprovalStatesInput, GetPullRequestApprovalStatesOutputResponse, GetPullRequestApprovalStatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPullRequestApprovalStatesInput, GetPullRequestApprovalStatesOutputResponse>())
@@ -1537,8 +1728,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPullRequestApprovalStatesOutputResponse, GetPullRequestApprovalStatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPullRequestApprovalStatesOutputResponse, GetPullRequestApprovalStatesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPullRequestApprovalStatesOutputResponse, GetPullRequestApprovalStatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1558,6 +1753,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPullRequestOverrideStateInput, GetPullRequestOverrideStateOutputResponse, GetPullRequestOverrideStateOutputError>(id: "getPullRequestOverrideState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPullRequestOverrideStateInput, GetPullRequestOverrideStateOutputResponse, GetPullRequestOverrideStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPullRequestOverrideStateInput, GetPullRequestOverrideStateOutputResponse>())
@@ -1573,8 +1769,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPullRequestOverrideStateOutputResponse, GetPullRequestOverrideStateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPullRequestOverrideStateOutputResponse, GetPullRequestOverrideStateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPullRequestOverrideStateOutputResponse, GetPullRequestOverrideStateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1594,6 +1794,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRepositoryInput, GetRepositoryOutputResponse, GetRepositoryOutputError>(id: "getRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRepositoryInput, GetRepositoryOutputResponse, GetRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRepositoryInput, GetRepositoryOutputResponse>())
@@ -1609,8 +1810,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRepositoryOutputResponse, GetRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRepositoryOutputResponse, GetRepositoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRepositoryOutputResponse, GetRepositoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1630,6 +1835,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRepositoryTriggersInput, GetRepositoryTriggersOutputResponse, GetRepositoryTriggersOutputError>(id: "getRepositoryTriggers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRepositoryTriggersInput, GetRepositoryTriggersOutputResponse, GetRepositoryTriggersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRepositoryTriggersInput, GetRepositoryTriggersOutputResponse>())
@@ -1645,8 +1851,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRepositoryTriggersOutputResponse, GetRepositoryTriggersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRepositoryTriggersOutputResponse, GetRepositoryTriggersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRepositoryTriggersOutputResponse, GetRepositoryTriggersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1666,6 +1876,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutputResponse, ListApprovalRuleTemplatesOutputError>(id: "listApprovalRuleTemplates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutputResponse, ListApprovalRuleTemplatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutputResponse>())
@@ -1681,8 +1892,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListApprovalRuleTemplatesOutputResponse, ListApprovalRuleTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApprovalRuleTemplatesOutputResponse, ListApprovalRuleTemplatesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListApprovalRuleTemplatesOutputResponse, ListApprovalRuleTemplatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1702,6 +1917,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse, ListAssociatedApprovalRuleTemplatesForRepositoryOutputError>(id: "listAssociatedApprovalRuleTemplatesForRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse, ListAssociatedApprovalRuleTemplatesForRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse>())
@@ -1717,8 +1933,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse, ListAssociatedApprovalRuleTemplatesForRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse, ListAssociatedApprovalRuleTemplatesForRepositoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse, ListAssociatedApprovalRuleTemplatesForRepositoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1738,6 +1958,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListBranchesInput, ListBranchesOutputResponse, ListBranchesOutputError>(id: "listBranches")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBranchesInput, ListBranchesOutputResponse, ListBranchesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBranchesInput, ListBranchesOutputResponse>())
@@ -1753,8 +1974,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBranchesOutputResponse, ListBranchesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBranchesOutputResponse, ListBranchesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBranchesOutputResponse, ListBranchesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1774,6 +1999,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPullRequestsInput, ListPullRequestsOutputResponse, ListPullRequestsOutputError>(id: "listPullRequests")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPullRequestsInput, ListPullRequestsOutputResponse, ListPullRequestsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPullRequestsInput, ListPullRequestsOutputResponse>())
@@ -1789,8 +2015,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPullRequestsOutputResponse, ListPullRequestsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPullRequestsOutputResponse, ListPullRequestsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPullRequestsOutputResponse, ListPullRequestsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1810,6 +2040,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRepositoriesInput, ListRepositoriesOutputResponse, ListRepositoriesOutputError>(id: "listRepositories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRepositoriesInput, ListRepositoriesOutputResponse, ListRepositoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRepositoriesInput, ListRepositoriesOutputResponse>())
@@ -1825,8 +2056,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRepositoriesOutputResponse, ListRepositoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRepositoriesOutputResponse, ListRepositoriesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRepositoriesOutputResponse, ListRepositoriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1846,6 +2081,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutputResponse, ListRepositoriesForApprovalRuleTemplateOutputError>(id: "listRepositoriesForApprovalRuleTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutputResponse, ListRepositoriesForApprovalRuleTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutputResponse>())
@@ -1861,8 +2097,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRepositoriesForApprovalRuleTemplateOutputResponse, ListRepositoriesForApprovalRuleTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRepositoriesForApprovalRuleTemplateOutputResponse, ListRepositoriesForApprovalRuleTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRepositoriesForApprovalRuleTemplateOutputResponse, ListRepositoriesForApprovalRuleTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1882,6 +2122,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1897,8 +2138,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1918,6 +2163,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<MergeBranchesByFastForwardInput, MergeBranchesByFastForwardOutputResponse, MergeBranchesByFastForwardOutputError>(id: "mergeBranchesByFastForward")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergeBranchesByFastForwardInput, MergeBranchesByFastForwardOutputResponse, MergeBranchesByFastForwardOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergeBranchesByFastForwardInput, MergeBranchesByFastForwardOutputResponse>())
@@ -1933,8 +2179,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergeBranchesByFastForwardOutputResponse, MergeBranchesByFastForwardOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergeBranchesByFastForwardOutputResponse, MergeBranchesByFastForwardOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergeBranchesByFastForwardOutputResponse, MergeBranchesByFastForwardOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1954,6 +2204,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<MergeBranchesBySquashInput, MergeBranchesBySquashOutputResponse, MergeBranchesBySquashOutputError>(id: "mergeBranchesBySquash")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergeBranchesBySquashInput, MergeBranchesBySquashOutputResponse, MergeBranchesBySquashOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergeBranchesBySquashInput, MergeBranchesBySquashOutputResponse>())
@@ -1969,8 +2220,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergeBranchesBySquashOutputResponse, MergeBranchesBySquashOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergeBranchesBySquashOutputResponse, MergeBranchesBySquashOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergeBranchesBySquashOutputResponse, MergeBranchesBySquashOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1990,6 +2245,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<MergeBranchesByThreeWayInput, MergeBranchesByThreeWayOutputResponse, MergeBranchesByThreeWayOutputError>(id: "mergeBranchesByThreeWay")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergeBranchesByThreeWayInput, MergeBranchesByThreeWayOutputResponse, MergeBranchesByThreeWayOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergeBranchesByThreeWayInput, MergeBranchesByThreeWayOutputResponse>())
@@ -2005,8 +2261,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergeBranchesByThreeWayOutputResponse, MergeBranchesByThreeWayOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergeBranchesByThreeWayOutputResponse, MergeBranchesByThreeWayOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergeBranchesByThreeWayOutputResponse, MergeBranchesByThreeWayOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2026,6 +2286,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<MergePullRequestByFastForwardInput, MergePullRequestByFastForwardOutputResponse, MergePullRequestByFastForwardOutputError>(id: "mergePullRequestByFastForward")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergePullRequestByFastForwardInput, MergePullRequestByFastForwardOutputResponse, MergePullRequestByFastForwardOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergePullRequestByFastForwardInput, MergePullRequestByFastForwardOutputResponse>())
@@ -2041,8 +2302,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergePullRequestByFastForwardOutputResponse, MergePullRequestByFastForwardOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergePullRequestByFastForwardOutputResponse, MergePullRequestByFastForwardOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergePullRequestByFastForwardOutputResponse, MergePullRequestByFastForwardOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2062,6 +2327,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<MergePullRequestBySquashInput, MergePullRequestBySquashOutputResponse, MergePullRequestBySquashOutputError>(id: "mergePullRequestBySquash")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergePullRequestBySquashInput, MergePullRequestBySquashOutputResponse, MergePullRequestBySquashOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergePullRequestBySquashInput, MergePullRequestBySquashOutputResponse>())
@@ -2077,8 +2343,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergePullRequestBySquashOutputResponse, MergePullRequestBySquashOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergePullRequestBySquashOutputResponse, MergePullRequestBySquashOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergePullRequestBySquashOutputResponse, MergePullRequestBySquashOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2098,6 +2368,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<MergePullRequestByThreeWayInput, MergePullRequestByThreeWayOutputResponse, MergePullRequestByThreeWayOutputError>(id: "mergePullRequestByThreeWay")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergePullRequestByThreeWayInput, MergePullRequestByThreeWayOutputResponse, MergePullRequestByThreeWayOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergePullRequestByThreeWayInput, MergePullRequestByThreeWayOutputResponse>())
@@ -2113,8 +2384,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergePullRequestByThreeWayOutputResponse, MergePullRequestByThreeWayOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergePullRequestByThreeWayOutputResponse, MergePullRequestByThreeWayOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<MergePullRequestByThreeWayOutputResponse, MergePullRequestByThreeWayOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2134,6 +2409,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<OverridePullRequestApprovalRulesInput, OverridePullRequestApprovalRulesOutputResponse, OverridePullRequestApprovalRulesOutputError>(id: "overridePullRequestApprovalRules")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<OverridePullRequestApprovalRulesInput, OverridePullRequestApprovalRulesOutputResponse, OverridePullRequestApprovalRulesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<OverridePullRequestApprovalRulesInput, OverridePullRequestApprovalRulesOutputResponse>())
@@ -2149,8 +2425,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<OverridePullRequestApprovalRulesOutputResponse, OverridePullRequestApprovalRulesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<OverridePullRequestApprovalRulesOutputResponse, OverridePullRequestApprovalRulesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<OverridePullRequestApprovalRulesOutputResponse, OverridePullRequestApprovalRulesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2170,6 +2450,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PostCommentForComparedCommitInput, PostCommentForComparedCommitOutputResponse, PostCommentForComparedCommitOutputError>(id: "postCommentForComparedCommit")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PostCommentForComparedCommitOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -2193,8 +2474,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PostCommentForComparedCommitOutputResponse, PostCommentForComparedCommitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PostCommentForComparedCommitOutputResponse, PostCommentForComparedCommitOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PostCommentForComparedCommitOutputResponse, PostCommentForComparedCommitOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2214,6 +2499,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PostCommentForPullRequestInput, PostCommentForPullRequestOutputResponse, PostCommentForPullRequestOutputError>(id: "postCommentForPullRequest")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PostCommentForPullRequestOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -2237,8 +2523,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PostCommentForPullRequestOutputResponse, PostCommentForPullRequestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PostCommentForPullRequestOutputResponse, PostCommentForPullRequestOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PostCommentForPullRequestOutputResponse, PostCommentForPullRequestOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2258,6 +2548,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PostCommentReplyInput, PostCommentReplyOutputResponse, PostCommentReplyOutputError>(id: "postCommentReply")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PostCommentReplyOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -2281,8 +2572,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PostCommentReplyOutputResponse, PostCommentReplyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PostCommentReplyOutputResponse, PostCommentReplyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PostCommentReplyOutputResponse, PostCommentReplyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2302,6 +2597,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutCommentReactionInput, PutCommentReactionOutputResponse, PutCommentReactionOutputError>(id: "putCommentReaction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutCommentReactionInput, PutCommentReactionOutputResponse, PutCommentReactionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutCommentReactionInput, PutCommentReactionOutputResponse>())
@@ -2317,8 +2613,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutCommentReactionOutputResponse, PutCommentReactionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutCommentReactionOutputResponse, PutCommentReactionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutCommentReactionOutputResponse, PutCommentReactionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2338,6 +2638,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutFileInput, PutFileOutputResponse, PutFileOutputError>(id: "putFile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutFileInput, PutFileOutputResponse, PutFileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutFileInput, PutFileOutputResponse>())
@@ -2353,8 +2654,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFileOutputResponse, PutFileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFileOutputResponse, PutFileOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutFileOutputResponse, PutFileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2374,6 +2679,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutRepositoryTriggersInput, PutRepositoryTriggersOutputResponse, PutRepositoryTriggersOutputError>(id: "putRepositoryTriggers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRepositoryTriggersInput, PutRepositoryTriggersOutputResponse, PutRepositoryTriggersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRepositoryTriggersInput, PutRepositoryTriggersOutputResponse>())
@@ -2389,8 +2695,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRepositoryTriggersOutputResponse, PutRepositoryTriggersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRepositoryTriggersOutputResponse, PutRepositoryTriggersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRepositoryTriggersOutputResponse, PutRepositoryTriggersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2410,6 +2720,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -2425,8 +2736,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2446,6 +2761,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TestRepositoryTriggersInput, TestRepositoryTriggersOutputResponse, TestRepositoryTriggersOutputError>(id: "testRepositoryTriggers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestRepositoryTriggersInput, TestRepositoryTriggersOutputResponse, TestRepositoryTriggersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestRepositoryTriggersInput, TestRepositoryTriggersOutputResponse>())
@@ -2461,8 +2777,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestRepositoryTriggersOutputResponse, TestRepositoryTriggersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestRepositoryTriggersOutputResponse, TestRepositoryTriggersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestRepositoryTriggersOutputResponse, TestRepositoryTriggersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2482,6 +2802,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -2497,8 +2818,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2518,6 +2843,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateApprovalRuleTemplateContentInput, UpdateApprovalRuleTemplateContentOutputResponse, UpdateApprovalRuleTemplateContentOutputError>(id: "updateApprovalRuleTemplateContent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApprovalRuleTemplateContentInput, UpdateApprovalRuleTemplateContentOutputResponse, UpdateApprovalRuleTemplateContentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApprovalRuleTemplateContentInput, UpdateApprovalRuleTemplateContentOutputResponse>())
@@ -2533,8 +2859,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateApprovalRuleTemplateContentOutputResponse, UpdateApprovalRuleTemplateContentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApprovalRuleTemplateContentOutputResponse, UpdateApprovalRuleTemplateContentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApprovalRuleTemplateContentOutputResponse, UpdateApprovalRuleTemplateContentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2554,6 +2884,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateApprovalRuleTemplateDescriptionInput, UpdateApprovalRuleTemplateDescriptionOutputResponse, UpdateApprovalRuleTemplateDescriptionOutputError>(id: "updateApprovalRuleTemplateDescription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApprovalRuleTemplateDescriptionInput, UpdateApprovalRuleTemplateDescriptionOutputResponse, UpdateApprovalRuleTemplateDescriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApprovalRuleTemplateDescriptionInput, UpdateApprovalRuleTemplateDescriptionOutputResponse>())
@@ -2569,8 +2900,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateApprovalRuleTemplateDescriptionOutputResponse, UpdateApprovalRuleTemplateDescriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApprovalRuleTemplateDescriptionOutputResponse, UpdateApprovalRuleTemplateDescriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApprovalRuleTemplateDescriptionOutputResponse, UpdateApprovalRuleTemplateDescriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2590,6 +2925,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateApprovalRuleTemplateNameInput, UpdateApprovalRuleTemplateNameOutputResponse, UpdateApprovalRuleTemplateNameOutputError>(id: "updateApprovalRuleTemplateName")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApprovalRuleTemplateNameInput, UpdateApprovalRuleTemplateNameOutputResponse, UpdateApprovalRuleTemplateNameOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApprovalRuleTemplateNameInput, UpdateApprovalRuleTemplateNameOutputResponse>())
@@ -2605,8 +2941,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateApprovalRuleTemplateNameOutputResponse, UpdateApprovalRuleTemplateNameOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApprovalRuleTemplateNameOutputResponse, UpdateApprovalRuleTemplateNameOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApprovalRuleTemplateNameOutputResponse, UpdateApprovalRuleTemplateNameOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2626,6 +2966,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateCommentInput, UpdateCommentOutputResponse, UpdateCommentOutputError>(id: "updateComment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCommentInput, UpdateCommentOutputResponse, UpdateCommentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCommentInput, UpdateCommentOutputResponse>())
@@ -2641,8 +2982,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCommentOutputResponse, UpdateCommentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCommentOutputResponse, UpdateCommentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCommentOutputResponse, UpdateCommentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2662,6 +3007,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDefaultBranchInput, UpdateDefaultBranchOutputResponse, UpdateDefaultBranchOutputError>(id: "updateDefaultBranch")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDefaultBranchInput, UpdateDefaultBranchOutputResponse, UpdateDefaultBranchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDefaultBranchInput, UpdateDefaultBranchOutputResponse>())
@@ -2677,8 +3023,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDefaultBranchOutputResponse, UpdateDefaultBranchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDefaultBranchOutputResponse, UpdateDefaultBranchOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDefaultBranchOutputResponse, UpdateDefaultBranchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2698,6 +3048,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePullRequestApprovalRuleContentInput, UpdatePullRequestApprovalRuleContentOutputResponse, UpdatePullRequestApprovalRuleContentOutputError>(id: "updatePullRequestApprovalRuleContent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePullRequestApprovalRuleContentInput, UpdatePullRequestApprovalRuleContentOutputResponse, UpdatePullRequestApprovalRuleContentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePullRequestApprovalRuleContentInput, UpdatePullRequestApprovalRuleContentOutputResponse>())
@@ -2713,8 +3064,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePullRequestApprovalRuleContentOutputResponse, UpdatePullRequestApprovalRuleContentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePullRequestApprovalRuleContentOutputResponse, UpdatePullRequestApprovalRuleContentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePullRequestApprovalRuleContentOutputResponse, UpdatePullRequestApprovalRuleContentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2734,6 +3089,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePullRequestApprovalStateInput, UpdatePullRequestApprovalStateOutputResponse, UpdatePullRequestApprovalStateOutputError>(id: "updatePullRequestApprovalState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePullRequestApprovalStateInput, UpdatePullRequestApprovalStateOutputResponse, UpdatePullRequestApprovalStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePullRequestApprovalStateInput, UpdatePullRequestApprovalStateOutputResponse>())
@@ -2749,8 +3105,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePullRequestApprovalStateOutputResponse, UpdatePullRequestApprovalStateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePullRequestApprovalStateOutputResponse, UpdatePullRequestApprovalStateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePullRequestApprovalStateOutputResponse, UpdatePullRequestApprovalStateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2770,6 +3130,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePullRequestDescriptionInput, UpdatePullRequestDescriptionOutputResponse, UpdatePullRequestDescriptionOutputError>(id: "updatePullRequestDescription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePullRequestDescriptionInput, UpdatePullRequestDescriptionOutputResponse, UpdatePullRequestDescriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePullRequestDescriptionInput, UpdatePullRequestDescriptionOutputResponse>())
@@ -2785,8 +3146,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePullRequestDescriptionOutputResponse, UpdatePullRequestDescriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePullRequestDescriptionOutputResponse, UpdatePullRequestDescriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePullRequestDescriptionOutputResponse, UpdatePullRequestDescriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2806,6 +3171,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePullRequestStatusInput, UpdatePullRequestStatusOutputResponse, UpdatePullRequestStatusOutputError>(id: "updatePullRequestStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePullRequestStatusInput, UpdatePullRequestStatusOutputResponse, UpdatePullRequestStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePullRequestStatusInput, UpdatePullRequestStatusOutputResponse>())
@@ -2821,8 +3187,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePullRequestStatusOutputResponse, UpdatePullRequestStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePullRequestStatusOutputResponse, UpdatePullRequestStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePullRequestStatusOutputResponse, UpdatePullRequestStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2842,6 +3212,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePullRequestTitleInput, UpdatePullRequestTitleOutputResponse, UpdatePullRequestTitleOutputError>(id: "updatePullRequestTitle")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePullRequestTitleInput, UpdatePullRequestTitleOutputResponse, UpdatePullRequestTitleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePullRequestTitleInput, UpdatePullRequestTitleOutputResponse>())
@@ -2857,8 +3228,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePullRequestTitleOutputResponse, UpdatePullRequestTitleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePullRequestTitleOutputResponse, UpdatePullRequestTitleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePullRequestTitleOutputResponse, UpdatePullRequestTitleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2878,6 +3253,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateRepositoryDescriptionInput, UpdateRepositoryDescriptionOutputResponse, UpdateRepositoryDescriptionOutputError>(id: "updateRepositoryDescription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRepositoryDescriptionInput, UpdateRepositoryDescriptionOutputResponse, UpdateRepositoryDescriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRepositoryDescriptionInput, UpdateRepositoryDescriptionOutputResponse>())
@@ -2893,8 +3269,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRepositoryDescriptionOutputResponse, UpdateRepositoryDescriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRepositoryDescriptionOutputResponse, UpdateRepositoryDescriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRepositoryDescriptionOutputResponse, UpdateRepositoryDescriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2914,6 +3294,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codecommit")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateRepositoryNameInput, UpdateRepositoryNameOutputResponse, UpdateRepositoryNameOutputError>(id: "updateRepositoryName")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRepositoryNameInput, UpdateRepositoryNameOutputResponse, UpdateRepositoryNameOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRepositoryNameInput, UpdateRepositoryNameOutputResponse>())
@@ -2929,8 +3310,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRepositoryNameOutputResponse, UpdateRepositoryNameOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRepositoryNameOutputResponse, UpdateRepositoryNameOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRepositoryNameOutputResponse, UpdateRepositoryNameOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

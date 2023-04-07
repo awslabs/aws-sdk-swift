@@ -146,6 +146,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateAttributeGroupInput, AssociateAttributeGroupOutputResponse, AssociateAttributeGroupOutputError>(id: "associateAttributeGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateAttributeGroupInput, AssociateAttributeGroupOutputResponse, AssociateAttributeGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateAttributeGroupInput, AssociateAttributeGroupOutputResponse>())
@@ -157,8 +158,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateAttributeGroupOutputResponse, AssociateAttributeGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateAttributeGroupOutputResponse, AssociateAttributeGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateAttributeGroupOutputResponse, AssociateAttributeGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -178,6 +183,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateResourceInput, AssociateResourceOutputResponse, AssociateResourceOutputError>(id: "associateResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateResourceInput, AssociateResourceOutputResponse, AssociateResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateResourceInput, AssociateResourceOutputResponse>())
@@ -189,8 +195,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateResourceOutputResponse, AssociateResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateResourceOutputResponse, AssociateResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateResourceOutputResponse, AssociateResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -210,6 +220,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateApplicationInput, CreateApplicationOutputResponse, CreateApplicationOutputError>(id: "createApplication")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateApplicationOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -232,8 +243,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateApplicationOutputResponse, CreateApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateApplicationOutputResponse, CreateApplicationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateApplicationOutputResponse, CreateApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -253,6 +268,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAttributeGroupInput, CreateAttributeGroupOutputResponse, CreateAttributeGroupOutputError>(id: "createAttributeGroup")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateAttributeGroupOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -275,8 +291,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAttributeGroupOutputResponse, CreateAttributeGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAttributeGroupOutputResponse, CreateAttributeGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAttributeGroupOutputResponse, CreateAttributeGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -296,6 +316,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteApplicationInput, DeleteApplicationOutputResponse, DeleteApplicationOutputError>(id: "deleteApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteApplicationInput, DeleteApplicationOutputResponse, DeleteApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteApplicationInput, DeleteApplicationOutputResponse>())
@@ -307,8 +328,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteApplicationOutputResponse, DeleteApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteApplicationOutputResponse, DeleteApplicationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteApplicationOutputResponse, DeleteApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -328,6 +353,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAttributeGroupInput, DeleteAttributeGroupOutputResponse, DeleteAttributeGroupOutputError>(id: "deleteAttributeGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAttributeGroupInput, DeleteAttributeGroupOutputResponse, DeleteAttributeGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAttributeGroupInput, DeleteAttributeGroupOutputResponse>())
@@ -339,8 +365,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAttributeGroupOutputResponse, DeleteAttributeGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAttributeGroupOutputResponse, DeleteAttributeGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAttributeGroupOutputResponse, DeleteAttributeGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -360,6 +390,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateAttributeGroupInput, DisassociateAttributeGroupOutputResponse, DisassociateAttributeGroupOutputError>(id: "disassociateAttributeGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateAttributeGroupInput, DisassociateAttributeGroupOutputResponse, DisassociateAttributeGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateAttributeGroupInput, DisassociateAttributeGroupOutputResponse>())
@@ -371,8 +402,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateAttributeGroupOutputResponse, DisassociateAttributeGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateAttributeGroupOutputResponse, DisassociateAttributeGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateAttributeGroupOutputResponse, DisassociateAttributeGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -392,6 +427,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateResourceInput, DisassociateResourceOutputResponse, DisassociateResourceOutputError>(id: "disassociateResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateResourceInput, DisassociateResourceOutputResponse, DisassociateResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateResourceInput, DisassociateResourceOutputResponse>())
@@ -403,8 +439,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateResourceOutputResponse, DisassociateResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateResourceOutputResponse, DisassociateResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateResourceOutputResponse, DisassociateResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -424,6 +464,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetApplicationInput, GetApplicationOutputResponse, GetApplicationOutputError>(id: "getApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetApplicationInput, GetApplicationOutputResponse, GetApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetApplicationInput, GetApplicationOutputResponse>())
@@ -435,8 +476,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetApplicationOutputResponse, GetApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetApplicationOutputResponse, GetApplicationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetApplicationOutputResponse, GetApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -456,6 +501,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAssociatedResourceInput, GetAssociatedResourceOutputResponse, GetAssociatedResourceOutputError>(id: "getAssociatedResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAssociatedResourceInput, GetAssociatedResourceOutputResponse, GetAssociatedResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAssociatedResourceInput, GetAssociatedResourceOutputResponse>())
@@ -467,8 +513,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAssociatedResourceOutputResponse, GetAssociatedResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAssociatedResourceOutputResponse, GetAssociatedResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAssociatedResourceOutputResponse, GetAssociatedResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -488,6 +538,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAttributeGroupInput, GetAttributeGroupOutputResponse, GetAttributeGroupOutputError>(id: "getAttributeGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAttributeGroupInput, GetAttributeGroupOutputResponse, GetAttributeGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAttributeGroupInput, GetAttributeGroupOutputResponse>())
@@ -499,8 +550,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAttributeGroupOutputResponse, GetAttributeGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAttributeGroupOutputResponse, GetAttributeGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAttributeGroupOutputResponse, GetAttributeGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -520,6 +575,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetConfigurationInput, GetConfigurationOutputResponse, GetConfigurationOutputError>(id: "getConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConfigurationInput, GetConfigurationOutputResponse, GetConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConfigurationInput, GetConfigurationOutputResponse>())
@@ -531,8 +587,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConfigurationOutputResponse, GetConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConfigurationOutputResponse, GetConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConfigurationOutputResponse, GetConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -552,6 +612,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListApplicationsInput, ListApplicationsOutputResponse, ListApplicationsOutputError>(id: "listApplications")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApplicationsInput, ListApplicationsOutputResponse, ListApplicationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApplicationsInput, ListApplicationsOutputResponse>())
@@ -564,8 +625,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListApplicationsOutputResponse, ListApplicationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApplicationsOutputResponse, ListApplicationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListApplicationsOutputResponse, ListApplicationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -585,6 +650,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAssociatedAttributeGroupsInput, ListAssociatedAttributeGroupsOutputResponse, ListAssociatedAttributeGroupsOutputError>(id: "listAssociatedAttributeGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAssociatedAttributeGroupsInput, ListAssociatedAttributeGroupsOutputResponse, ListAssociatedAttributeGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssociatedAttributeGroupsInput, ListAssociatedAttributeGroupsOutputResponse>())
@@ -597,8 +663,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAssociatedAttributeGroupsOutputResponse, ListAssociatedAttributeGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAssociatedAttributeGroupsOutputResponse, ListAssociatedAttributeGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAssociatedAttributeGroupsOutputResponse, ListAssociatedAttributeGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -618,6 +688,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAssociatedResourcesInput, ListAssociatedResourcesOutputResponse, ListAssociatedResourcesOutputError>(id: "listAssociatedResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAssociatedResourcesInput, ListAssociatedResourcesOutputResponse, ListAssociatedResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssociatedResourcesInput, ListAssociatedResourcesOutputResponse>())
@@ -630,8 +701,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAssociatedResourcesOutputResponse, ListAssociatedResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAssociatedResourcesOutputResponse, ListAssociatedResourcesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAssociatedResourcesOutputResponse, ListAssociatedResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -651,6 +726,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAttributeGroupsInput, ListAttributeGroupsOutputResponse, ListAttributeGroupsOutputError>(id: "listAttributeGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttributeGroupsInput, ListAttributeGroupsOutputResponse, ListAttributeGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAttributeGroupsInput, ListAttributeGroupsOutputResponse>())
@@ -663,8 +739,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttributeGroupsOutputResponse, ListAttributeGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttributeGroupsOutputResponse, ListAttributeGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAttributeGroupsOutputResponse, ListAttributeGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -684,6 +764,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAttributeGroupsForApplicationInput, ListAttributeGroupsForApplicationOutputResponse, ListAttributeGroupsForApplicationOutputError>(id: "listAttributeGroupsForApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttributeGroupsForApplicationInput, ListAttributeGroupsForApplicationOutputResponse, ListAttributeGroupsForApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAttributeGroupsForApplicationInput, ListAttributeGroupsForApplicationOutputResponse>())
@@ -696,8 +777,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttributeGroupsForApplicationOutputResponse, ListAttributeGroupsForApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttributeGroupsForApplicationOutputResponse, ListAttributeGroupsForApplicationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAttributeGroupsForApplicationOutputResponse, ListAttributeGroupsForApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -717,6 +802,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -728,8 +814,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -749,6 +839,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutConfigurationInput, PutConfigurationOutputResponse, PutConfigurationOutputError>(id: "putConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConfigurationInput, PutConfigurationOutputResponse, PutConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConfigurationInput, PutConfigurationOutputResponse>())
@@ -763,8 +854,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConfigurationOutputResponse, PutConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConfigurationOutputResponse, PutConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutConfigurationOutputResponse, PutConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -784,6 +879,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SyncResourceInput, SyncResourceOutputResponse, SyncResourceOutputError>(id: "syncResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SyncResourceInput, SyncResourceOutputResponse, SyncResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SyncResourceInput, SyncResourceOutputResponse>())
@@ -795,8 +891,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SyncResourceOutputResponse, SyncResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SyncResourceOutputResponse, SyncResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SyncResourceOutputResponse, SyncResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -816,6 +916,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -830,8 +931,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -851,6 +956,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -863,8 +969,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -884,6 +994,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateApplicationInput, UpdateApplicationOutputResponse, UpdateApplicationOutputError>(id: "updateApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApplicationInput, UpdateApplicationOutputResponse, UpdateApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApplicationInput, UpdateApplicationOutputResponse>())
@@ -898,8 +1009,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateApplicationOutputResponse, UpdateApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApplicationOutputResponse, UpdateApplicationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApplicationOutputResponse, UpdateApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -919,6 +1034,7 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicecatalog")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAttributeGroupInput, UpdateAttributeGroupOutputResponse, UpdateAttributeGroupOutputError>(id: "updateAttributeGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAttributeGroupInput, UpdateAttributeGroupOutputResponse, UpdateAttributeGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAttributeGroupInput, UpdateAttributeGroupOutputResponse>())
@@ -933,8 +1049,12 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAttributeGroupOutputResponse, UpdateAttributeGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAttributeGroupOutputResponse, UpdateAttributeGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAttributeGroupOutputResponse, UpdateAttributeGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

@@ -146,6 +146,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "application-autoscaling")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteScalingPolicyInput, DeleteScalingPolicyOutputResponse, DeleteScalingPolicyOutputError>(id: "deleteScalingPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutputResponse, DeleteScalingPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteScalingPolicyInput, DeleteScalingPolicyOutputResponse>())
@@ -161,8 +162,12 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteScalingPolicyOutputResponse, DeleteScalingPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteScalingPolicyOutputResponse, DeleteScalingPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteScalingPolicyOutputResponse, DeleteScalingPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -182,6 +187,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "application-autoscaling")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteScheduledActionInput, DeleteScheduledActionOutputResponse, DeleteScheduledActionOutputError>(id: "deleteScheduledAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteScheduledActionInput, DeleteScheduledActionOutputResponse, DeleteScheduledActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteScheduledActionInput, DeleteScheduledActionOutputResponse>())
@@ -197,8 +203,12 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteScheduledActionOutputResponse, DeleteScheduledActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteScheduledActionOutputResponse, DeleteScheduledActionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteScheduledActionOutputResponse, DeleteScheduledActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -218,6 +228,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "application-autoscaling")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterScalableTargetInput, DeregisterScalableTargetOutputResponse, DeregisterScalableTargetOutputError>(id: "deregisterScalableTarget")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterScalableTargetInput, DeregisterScalableTargetOutputResponse, DeregisterScalableTargetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterScalableTargetInput, DeregisterScalableTargetOutputResponse>())
@@ -233,8 +244,12 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterScalableTargetOutputResponse, DeregisterScalableTargetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterScalableTargetOutputResponse, DeregisterScalableTargetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterScalableTargetOutputResponse, DeregisterScalableTargetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -254,6 +269,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "application-autoscaling")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeScalableTargetsInput, DescribeScalableTargetsOutputResponse, DescribeScalableTargetsOutputError>(id: "describeScalableTargets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeScalableTargetsInput, DescribeScalableTargetsOutputResponse, DescribeScalableTargetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeScalableTargetsInput, DescribeScalableTargetsOutputResponse>())
@@ -269,8 +285,12 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeScalableTargetsOutputResponse, DescribeScalableTargetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeScalableTargetsOutputResponse, DescribeScalableTargetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeScalableTargetsOutputResponse, DescribeScalableTargetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -290,6 +310,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "application-autoscaling")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutputResponse, DescribeScalingActivitiesOutputError>(id: "describeScalingActivities")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutputResponse, DescribeScalingActivitiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutputResponse>())
@@ -305,8 +326,12 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeScalingActivitiesOutputResponse, DescribeScalingActivitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeScalingActivitiesOutputResponse, DescribeScalingActivitiesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeScalingActivitiesOutputResponse, DescribeScalingActivitiesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -326,6 +351,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "application-autoscaling")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutputResponse, DescribeScalingPoliciesOutputError>(id: "describeScalingPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutputResponse, DescribeScalingPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeScalingPoliciesInput, DescribeScalingPoliciesOutputResponse>())
@@ -341,8 +367,12 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeScalingPoliciesOutputResponse, DescribeScalingPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeScalingPoliciesOutputResponse, DescribeScalingPoliciesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeScalingPoliciesOutputResponse, DescribeScalingPoliciesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -362,6 +392,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "application-autoscaling")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeScheduledActionsInput, DescribeScheduledActionsOutputResponse, DescribeScheduledActionsOutputError>(id: "describeScheduledActions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeScheduledActionsInput, DescribeScheduledActionsOutputResponse, DescribeScheduledActionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeScheduledActionsInput, DescribeScheduledActionsOutputResponse>())
@@ -377,8 +408,12 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeScheduledActionsOutputResponse, DescribeScheduledActionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeScheduledActionsOutputResponse, DescribeScheduledActionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeScheduledActionsOutputResponse, DescribeScheduledActionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -434,6 +469,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "application-autoscaling")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutScalingPolicyInput, PutScalingPolicyOutputResponse, PutScalingPolicyOutputError>(id: "putScalingPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutScalingPolicyInput, PutScalingPolicyOutputResponse, PutScalingPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutScalingPolicyInput, PutScalingPolicyOutputResponse>())
@@ -449,8 +485,12 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutScalingPolicyOutputResponse, PutScalingPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutScalingPolicyOutputResponse, PutScalingPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutScalingPolicyOutputResponse, PutScalingPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -470,6 +510,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "application-autoscaling")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutScheduledActionInput, PutScheduledActionOutputResponse, PutScheduledActionOutputError>(id: "putScheduledAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutScheduledActionInput, PutScheduledActionOutputResponse, PutScheduledActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutScheduledActionInput, PutScheduledActionOutputResponse>())
@@ -485,8 +526,12 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutScheduledActionOutputResponse, PutScheduledActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutScheduledActionOutputResponse, PutScheduledActionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutScheduledActionOutputResponse, PutScheduledActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -506,6 +551,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "application-autoscaling")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterScalableTargetInput, RegisterScalableTargetOutputResponse, RegisterScalableTargetOutputError>(id: "registerScalableTarget")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterScalableTargetInput, RegisterScalableTargetOutputResponse, RegisterScalableTargetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterScalableTargetInput, RegisterScalableTargetOutputResponse>())
@@ -521,6 +567,7 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterScalableTargetOutputResponse, RegisterScalableTargetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterScalableTargetOutputResponse, RegisterScalableTargetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterScalableTargetOutputResponse, RegisterScalableTargetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
@@ -595,6 +642,9 @@ extension ApplicationAutoScalingClient: ApplicationAutoScalingClientProtocol {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

@@ -146,6 +146,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddTagsInput, AddTagsOutputResponse, AddTagsOutputError>(id: "addTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsInput, AddTagsOutputResponse, AddTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsInput, AddTagsOutputResponse>())
@@ -161,8 +162,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsOutputResponse, AddTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsOutputResponse, AddTagsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddTagsOutputResponse, AddTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -182,6 +187,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateBatchPredictionInput, CreateBatchPredictionOutputResponse, CreateBatchPredictionOutputError>(id: "createBatchPrediction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBatchPredictionInput, CreateBatchPredictionOutputResponse, CreateBatchPredictionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBatchPredictionInput, CreateBatchPredictionOutputResponse>())
@@ -197,8 +203,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBatchPredictionOutputResponse, CreateBatchPredictionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBatchPredictionOutputResponse, CreateBatchPredictionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBatchPredictionOutputResponse, CreateBatchPredictionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -218,6 +228,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDataSourceFromRDSInput, CreateDataSourceFromRDSOutputResponse, CreateDataSourceFromRDSOutputError>(id: "createDataSourceFromRDS")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDataSourceFromRDSInput, CreateDataSourceFromRDSOutputResponse, CreateDataSourceFromRDSOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDataSourceFromRDSInput, CreateDataSourceFromRDSOutputResponse>())
@@ -233,8 +244,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDataSourceFromRDSOutputResponse, CreateDataSourceFromRDSOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDataSourceFromRDSOutputResponse, CreateDataSourceFromRDSOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDataSourceFromRDSOutputResponse, CreateDataSourceFromRDSOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -254,6 +269,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDataSourceFromRedshiftInput, CreateDataSourceFromRedshiftOutputResponse, CreateDataSourceFromRedshiftOutputError>(id: "createDataSourceFromRedshift")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDataSourceFromRedshiftInput, CreateDataSourceFromRedshiftOutputResponse, CreateDataSourceFromRedshiftOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDataSourceFromRedshiftInput, CreateDataSourceFromRedshiftOutputResponse>())
@@ -269,8 +285,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDataSourceFromRedshiftOutputResponse, CreateDataSourceFromRedshiftOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDataSourceFromRedshiftOutputResponse, CreateDataSourceFromRedshiftOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDataSourceFromRedshiftOutputResponse, CreateDataSourceFromRedshiftOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -290,6 +310,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDataSourceFromS3Input, CreateDataSourceFromS3OutputResponse, CreateDataSourceFromS3OutputError>(id: "createDataSourceFromS3")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDataSourceFromS3Input, CreateDataSourceFromS3OutputResponse, CreateDataSourceFromS3OutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDataSourceFromS3Input, CreateDataSourceFromS3OutputResponse>())
@@ -305,8 +326,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDataSourceFromS3OutputResponse, CreateDataSourceFromS3OutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDataSourceFromS3OutputResponse, CreateDataSourceFromS3OutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDataSourceFromS3OutputResponse, CreateDataSourceFromS3OutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -326,6 +351,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEvaluationInput, CreateEvaluationOutputResponse, CreateEvaluationOutputError>(id: "createEvaluation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEvaluationInput, CreateEvaluationOutputResponse, CreateEvaluationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEvaluationInput, CreateEvaluationOutputResponse>())
@@ -341,8 +367,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEvaluationOutputResponse, CreateEvaluationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEvaluationOutputResponse, CreateEvaluationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEvaluationOutputResponse, CreateEvaluationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -362,6 +392,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMLModelInput, CreateMLModelOutputResponse, CreateMLModelOutputError>(id: "createMLModel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMLModelInput, CreateMLModelOutputResponse, CreateMLModelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMLModelInput, CreateMLModelOutputResponse>())
@@ -377,8 +408,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMLModelOutputResponse, CreateMLModelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMLModelOutputResponse, CreateMLModelOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMLModelOutputResponse, CreateMLModelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -398,6 +433,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRealtimeEndpointInput, CreateRealtimeEndpointOutputResponse, CreateRealtimeEndpointOutputError>(id: "createRealtimeEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRealtimeEndpointInput, CreateRealtimeEndpointOutputResponse, CreateRealtimeEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRealtimeEndpointInput, CreateRealtimeEndpointOutputResponse>())
@@ -413,8 +449,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRealtimeEndpointOutputResponse, CreateRealtimeEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRealtimeEndpointOutputResponse, CreateRealtimeEndpointOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRealtimeEndpointOutputResponse, CreateRealtimeEndpointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -434,6 +474,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBatchPredictionInput, DeleteBatchPredictionOutputResponse, DeleteBatchPredictionOutputError>(id: "deleteBatchPrediction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBatchPredictionInput, DeleteBatchPredictionOutputResponse, DeleteBatchPredictionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBatchPredictionInput, DeleteBatchPredictionOutputResponse>())
@@ -449,8 +490,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBatchPredictionOutputResponse, DeleteBatchPredictionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBatchPredictionOutputResponse, DeleteBatchPredictionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBatchPredictionOutputResponse, DeleteBatchPredictionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -470,6 +515,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDataSourceInput, DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>(id: "deleteDataSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDataSourceInput, DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDataSourceInput, DeleteDataSourceOutputResponse>())
@@ -485,8 +531,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -506,6 +556,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEvaluationInput, DeleteEvaluationOutputResponse, DeleteEvaluationOutputError>(id: "deleteEvaluation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEvaluationInput, DeleteEvaluationOutputResponse, DeleteEvaluationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEvaluationInput, DeleteEvaluationOutputResponse>())
@@ -521,8 +572,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEvaluationOutputResponse, DeleteEvaluationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEvaluationOutputResponse, DeleteEvaluationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEvaluationOutputResponse, DeleteEvaluationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -542,6 +597,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteMLModelInput, DeleteMLModelOutputResponse, DeleteMLModelOutputError>(id: "deleteMLModel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMLModelInput, DeleteMLModelOutputResponse, DeleteMLModelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMLModelInput, DeleteMLModelOutputResponse>())
@@ -557,8 +613,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMLModelOutputResponse, DeleteMLModelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMLModelOutputResponse, DeleteMLModelOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMLModelOutputResponse, DeleteMLModelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -578,6 +638,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRealtimeEndpointInput, DeleteRealtimeEndpointOutputResponse, DeleteRealtimeEndpointOutputError>(id: "deleteRealtimeEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRealtimeEndpointInput, DeleteRealtimeEndpointOutputResponse, DeleteRealtimeEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRealtimeEndpointInput, DeleteRealtimeEndpointOutputResponse>())
@@ -593,8 +654,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRealtimeEndpointOutputResponse, DeleteRealtimeEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRealtimeEndpointOutputResponse, DeleteRealtimeEndpointOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRealtimeEndpointOutputResponse, DeleteRealtimeEndpointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -614,6 +679,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTagsInput, DeleteTagsOutputResponse, DeleteTagsOutputError>(id: "deleteTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTagsInput, DeleteTagsOutputResponse, DeleteTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTagsInput, DeleteTagsOutputResponse>())
@@ -629,8 +695,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTagsOutputResponse, DeleteTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTagsOutputResponse, DeleteTagsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTagsOutputResponse, DeleteTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -650,6 +720,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeBatchPredictionsInput, DescribeBatchPredictionsOutputResponse, DescribeBatchPredictionsOutputError>(id: "describeBatchPredictions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeBatchPredictionsInput, DescribeBatchPredictionsOutputResponse, DescribeBatchPredictionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeBatchPredictionsInput, DescribeBatchPredictionsOutputResponse>())
@@ -665,8 +736,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeBatchPredictionsOutputResponse, DescribeBatchPredictionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeBatchPredictionsOutputResponse, DescribeBatchPredictionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeBatchPredictionsOutputResponse, DescribeBatchPredictionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -686,6 +761,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDataSourcesInput, DescribeDataSourcesOutputResponse, DescribeDataSourcesOutputError>(id: "describeDataSources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDataSourcesInput, DescribeDataSourcesOutputResponse, DescribeDataSourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDataSourcesInput, DescribeDataSourcesOutputResponse>())
@@ -701,8 +777,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDataSourcesOutputResponse, DescribeDataSourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDataSourcesOutputResponse, DescribeDataSourcesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDataSourcesOutputResponse, DescribeDataSourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -722,6 +802,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEvaluationsInput, DescribeEvaluationsOutputResponse, DescribeEvaluationsOutputError>(id: "describeEvaluations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEvaluationsInput, DescribeEvaluationsOutputResponse, DescribeEvaluationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEvaluationsInput, DescribeEvaluationsOutputResponse>())
@@ -737,8 +818,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEvaluationsOutputResponse, DescribeEvaluationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEvaluationsOutputResponse, DescribeEvaluationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEvaluationsOutputResponse, DescribeEvaluationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -758,6 +843,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMLModelsInput, DescribeMLModelsOutputResponse, DescribeMLModelsOutputError>(id: "describeMLModels")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMLModelsInput, DescribeMLModelsOutputResponse, DescribeMLModelsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMLModelsInput, DescribeMLModelsOutputResponse>())
@@ -773,8 +859,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMLModelsOutputResponse, DescribeMLModelsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMLModelsOutputResponse, DescribeMLModelsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMLModelsOutputResponse, DescribeMLModelsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -794,6 +884,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTagsInput, DescribeTagsOutputResponse, DescribeTagsOutputError>(id: "describeTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTagsInput, DescribeTagsOutputResponse, DescribeTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTagsInput, DescribeTagsOutputResponse>())
@@ -809,8 +900,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTagsOutputResponse, DescribeTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTagsOutputResponse, DescribeTagsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTagsOutputResponse, DescribeTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -830,6 +925,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBatchPredictionInput, GetBatchPredictionOutputResponse, GetBatchPredictionOutputError>(id: "getBatchPrediction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBatchPredictionInput, GetBatchPredictionOutputResponse, GetBatchPredictionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBatchPredictionInput, GetBatchPredictionOutputResponse>())
@@ -845,8 +941,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBatchPredictionOutputResponse, GetBatchPredictionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBatchPredictionOutputResponse, GetBatchPredictionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBatchPredictionOutputResponse, GetBatchPredictionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -866,6 +966,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDataSourceInput, GetDataSourceOutputResponse, GetDataSourceOutputError>(id: "getDataSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDataSourceInput, GetDataSourceOutputResponse, GetDataSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDataSourceInput, GetDataSourceOutputResponse>())
@@ -881,8 +982,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDataSourceOutputResponse, GetDataSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDataSourceOutputResponse, GetDataSourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDataSourceOutputResponse, GetDataSourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -902,6 +1007,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEvaluationInput, GetEvaluationOutputResponse, GetEvaluationOutputError>(id: "getEvaluation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEvaluationInput, GetEvaluationOutputResponse, GetEvaluationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEvaluationInput, GetEvaluationOutputResponse>())
@@ -917,8 +1023,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEvaluationOutputResponse, GetEvaluationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEvaluationOutputResponse, GetEvaluationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEvaluationOutputResponse, GetEvaluationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -938,6 +1048,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMLModelInput, GetMLModelOutputResponse, GetMLModelOutputError>(id: "getMLModel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMLModelInput, GetMLModelOutputResponse, GetMLModelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMLModelInput, GetMLModelOutputResponse>())
@@ -953,8 +1064,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMLModelOutputResponse, GetMLModelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMLModelOutputResponse, GetMLModelOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMLModelOutputResponse, GetMLModelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -974,6 +1089,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PredictInput, PredictOutputResponse, PredictOutputError>(id: "predict")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PredictInput, PredictOutputResponse, PredictOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: PredictInputEndpointURLHostMiddleware())
@@ -989,8 +1105,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PredictOutputResponse, PredictOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PredictOutputResponse, PredictOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PredictOutputResponse, PredictOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1010,6 +1130,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateBatchPredictionInput, UpdateBatchPredictionOutputResponse, UpdateBatchPredictionOutputError>(id: "updateBatchPrediction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBatchPredictionInput, UpdateBatchPredictionOutputResponse, UpdateBatchPredictionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBatchPredictionInput, UpdateBatchPredictionOutputResponse>())
@@ -1025,8 +1146,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBatchPredictionOutputResponse, UpdateBatchPredictionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBatchPredictionOutputResponse, UpdateBatchPredictionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBatchPredictionOutputResponse, UpdateBatchPredictionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1046,6 +1171,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDataSourceInput, UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>(id: "updateDataSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDataSourceInput, UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDataSourceInput, UpdateDataSourceOutputResponse>())
@@ -1061,8 +1187,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1082,6 +1212,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateEvaluationInput, UpdateEvaluationOutputResponse, UpdateEvaluationOutputError>(id: "updateEvaluation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEvaluationInput, UpdateEvaluationOutputResponse, UpdateEvaluationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEvaluationInput, UpdateEvaluationOutputResponse>())
@@ -1097,8 +1228,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEvaluationOutputResponse, UpdateEvaluationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEvaluationOutputResponse, UpdateEvaluationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEvaluationOutputResponse, UpdateEvaluationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1118,6 +1253,7 @@ extension MachineLearningClient: MachineLearningClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "machinelearning")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateMLModelInput, UpdateMLModelOutputResponse, UpdateMLModelOutputError>(id: "updateMLModel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMLModelInput, UpdateMLModelOutputResponse, UpdateMLModelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMLModelInput, UpdateMLModelOutputResponse>())
@@ -1133,8 +1269,12 @@ extension MachineLearningClient: MachineLearningClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMLModelOutputResponse, UpdateMLModelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMLModelOutputResponse, UpdateMLModelOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMLModelOutputResponse, UpdateMLModelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

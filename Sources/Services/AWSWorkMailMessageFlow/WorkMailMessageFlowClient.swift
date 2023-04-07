@@ -146,6 +146,7 @@ extension WorkMailMessageFlowClient: WorkMailMessageFlowClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workmailmessageflow")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRawMessageContentInput, GetRawMessageContentOutputResponse, GetRawMessageContentOutputError>(id: "getRawMessageContent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRawMessageContentInput, GetRawMessageContentOutputResponse, GetRawMessageContentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRawMessageContentInput, GetRawMessageContentOutputResponse>())
@@ -157,8 +158,12 @@ extension WorkMailMessageFlowClient: WorkMailMessageFlowClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRawMessageContentOutputResponse, GetRawMessageContentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRawMessageContentOutputResponse, GetRawMessageContentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRawMessageContentOutputResponse, GetRawMessageContentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -178,6 +183,7 @@ extension WorkMailMessageFlowClient: WorkMailMessageFlowClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "workmailmessageflow")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutRawMessageContentInput, PutRawMessageContentOutputResponse, PutRawMessageContentOutputError>(id: "putRawMessageContent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRawMessageContentInput, PutRawMessageContentOutputResponse, PutRawMessageContentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRawMessageContentInput, PutRawMessageContentOutputResponse>())
@@ -192,8 +198,12 @@ extension WorkMailMessageFlowClient: WorkMailMessageFlowClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRawMessageContentOutputResponse, PutRawMessageContentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRawMessageContentOutputResponse, PutRawMessageContentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRawMessageContentOutputResponse, PutRawMessageContentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

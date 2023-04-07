@@ -146,6 +146,7 @@ extension IoTJobsDataPlaneClient: IoTJobsDataPlaneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iot-jobs-data")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeJobExecutionInput, DescribeJobExecutionOutputResponse, DescribeJobExecutionOutputError>(id: "describeJobExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeJobExecutionInput, DescribeJobExecutionOutputResponse, DescribeJobExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeJobExecutionInput, DescribeJobExecutionOutputResponse>())
@@ -158,8 +159,12 @@ extension IoTJobsDataPlaneClient: IoTJobsDataPlaneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeJobExecutionOutputResponse, DescribeJobExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeJobExecutionOutputResponse, DescribeJobExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeJobExecutionOutputResponse, DescribeJobExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -179,6 +184,7 @@ extension IoTJobsDataPlaneClient: IoTJobsDataPlaneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iot-jobs-data")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPendingJobExecutionsInput, GetPendingJobExecutionsOutputResponse, GetPendingJobExecutionsOutputError>(id: "getPendingJobExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPendingJobExecutionsInput, GetPendingJobExecutionsOutputResponse, GetPendingJobExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPendingJobExecutionsInput, GetPendingJobExecutionsOutputResponse>())
@@ -190,8 +196,12 @@ extension IoTJobsDataPlaneClient: IoTJobsDataPlaneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPendingJobExecutionsOutputResponse, GetPendingJobExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPendingJobExecutionsOutputResponse, GetPendingJobExecutionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPendingJobExecutionsOutputResponse, GetPendingJobExecutionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -211,6 +221,7 @@ extension IoTJobsDataPlaneClient: IoTJobsDataPlaneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iot-jobs-data")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartNextPendingJobExecutionInput, StartNextPendingJobExecutionOutputResponse, StartNextPendingJobExecutionOutputError>(id: "startNextPendingJobExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartNextPendingJobExecutionInput, StartNextPendingJobExecutionOutputResponse, StartNextPendingJobExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartNextPendingJobExecutionInput, StartNextPendingJobExecutionOutputResponse>())
@@ -225,8 +236,12 @@ extension IoTJobsDataPlaneClient: IoTJobsDataPlaneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartNextPendingJobExecutionOutputResponse, StartNextPendingJobExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartNextPendingJobExecutionOutputResponse, StartNextPendingJobExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartNextPendingJobExecutionOutputResponse, StartNextPendingJobExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -246,6 +261,7 @@ extension IoTJobsDataPlaneClient: IoTJobsDataPlaneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iot-jobs-data")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateJobExecutionInput, UpdateJobExecutionOutputResponse, UpdateJobExecutionOutputError>(id: "updateJobExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateJobExecutionInput, UpdateJobExecutionOutputResponse, UpdateJobExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateJobExecutionInput, UpdateJobExecutionOutputResponse>())
@@ -260,8 +276,12 @@ extension IoTJobsDataPlaneClient: IoTJobsDataPlaneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateJobExecutionOutputResponse, UpdateJobExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateJobExecutionOutputResponse, UpdateJobExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateJobExecutionOutputResponse, UpdateJobExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

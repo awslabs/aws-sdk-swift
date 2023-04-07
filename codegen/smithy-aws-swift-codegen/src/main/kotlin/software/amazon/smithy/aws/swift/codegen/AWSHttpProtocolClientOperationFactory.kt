@@ -43,4 +43,11 @@ class AWSHttpProtocolNoopCustomizations : DefaultHttpProtocolCustomizations() {
         op: OperationShape
     ) {
     }
+
+    override fun renderEventStreamAttributes(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        op: OperationShape,
+    ) {
+    }
 }

@@ -146,6 +146,7 @@ extension PollyClient: PollyClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "polly")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLexiconInput, DeleteLexiconOutputResponse, DeleteLexiconOutputError>(id: "deleteLexicon")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLexiconInput, DeleteLexiconOutputResponse, DeleteLexiconOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLexiconInput, DeleteLexiconOutputResponse>())
@@ -157,8 +158,12 @@ extension PollyClient: PollyClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLexiconOutputResponse, DeleteLexiconOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLexiconOutputResponse, DeleteLexiconOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLexiconOutputResponse, DeleteLexiconOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -178,6 +183,7 @@ extension PollyClient: PollyClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "polly")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeVoicesInput, DescribeVoicesOutputResponse, DescribeVoicesOutputError>(id: "describeVoices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeVoicesInput, DescribeVoicesOutputResponse, DescribeVoicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeVoicesInput, DescribeVoicesOutputResponse>())
@@ -190,8 +196,12 @@ extension PollyClient: PollyClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeVoicesOutputResponse, DescribeVoicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeVoicesOutputResponse, DescribeVoicesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeVoicesOutputResponse, DescribeVoicesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -211,6 +221,7 @@ extension PollyClient: PollyClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "polly")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLexiconInput, GetLexiconOutputResponse, GetLexiconOutputError>(id: "getLexicon")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLexiconInput, GetLexiconOutputResponse, GetLexiconOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLexiconInput, GetLexiconOutputResponse>())
@@ -222,8 +233,12 @@ extension PollyClient: PollyClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLexiconOutputResponse, GetLexiconOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLexiconOutputResponse, GetLexiconOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLexiconOutputResponse, GetLexiconOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -243,6 +258,7 @@ extension PollyClient: PollyClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "polly")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSpeechSynthesisTaskInput, GetSpeechSynthesisTaskOutputResponse, GetSpeechSynthesisTaskOutputError>(id: "getSpeechSynthesisTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSpeechSynthesisTaskInput, GetSpeechSynthesisTaskOutputResponse, GetSpeechSynthesisTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSpeechSynthesisTaskInput, GetSpeechSynthesisTaskOutputResponse>())
@@ -254,8 +270,12 @@ extension PollyClient: PollyClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSpeechSynthesisTaskOutputResponse, GetSpeechSynthesisTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSpeechSynthesisTaskOutputResponse, GetSpeechSynthesisTaskOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSpeechSynthesisTaskOutputResponse, GetSpeechSynthesisTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -275,6 +295,7 @@ extension PollyClient: PollyClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "polly")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListLexiconsInput, ListLexiconsOutputResponse, ListLexiconsOutputError>(id: "listLexicons")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLexiconsInput, ListLexiconsOutputResponse, ListLexiconsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLexiconsInput, ListLexiconsOutputResponse>())
@@ -287,8 +308,12 @@ extension PollyClient: PollyClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLexiconsOutputResponse, ListLexiconsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLexiconsOutputResponse, ListLexiconsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLexiconsOutputResponse, ListLexiconsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -308,6 +333,7 @@ extension PollyClient: PollyClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "polly")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSpeechSynthesisTasksInput, ListSpeechSynthesisTasksOutputResponse, ListSpeechSynthesisTasksOutputError>(id: "listSpeechSynthesisTasks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSpeechSynthesisTasksInput, ListSpeechSynthesisTasksOutputResponse, ListSpeechSynthesisTasksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSpeechSynthesisTasksInput, ListSpeechSynthesisTasksOutputResponse>())
@@ -320,8 +346,12 @@ extension PollyClient: PollyClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSpeechSynthesisTasksOutputResponse, ListSpeechSynthesisTasksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSpeechSynthesisTasksOutputResponse, ListSpeechSynthesisTasksOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSpeechSynthesisTasksOutputResponse, ListSpeechSynthesisTasksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -341,6 +371,7 @@ extension PollyClient: PollyClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "polly")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutLexiconInput, PutLexiconOutputResponse, PutLexiconOutputError>(id: "putLexicon")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutLexiconInput, PutLexiconOutputResponse, PutLexiconOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutLexiconInput, PutLexiconOutputResponse>())
@@ -355,8 +386,12 @@ extension PollyClient: PollyClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutLexiconOutputResponse, PutLexiconOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutLexiconOutputResponse, PutLexiconOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutLexiconOutputResponse, PutLexiconOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -376,6 +411,7 @@ extension PollyClient: PollyClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "polly")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartSpeechSynthesisTaskInput, StartSpeechSynthesisTaskOutputResponse, StartSpeechSynthesisTaskOutputError>(id: "startSpeechSynthesisTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSpeechSynthesisTaskInput, StartSpeechSynthesisTaskOutputResponse, StartSpeechSynthesisTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSpeechSynthesisTaskInput, StartSpeechSynthesisTaskOutputResponse>())
@@ -390,8 +426,12 @@ extension PollyClient: PollyClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSpeechSynthesisTaskOutputResponse, StartSpeechSynthesisTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSpeechSynthesisTaskOutputResponse, StartSpeechSynthesisTaskOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSpeechSynthesisTaskOutputResponse, StartSpeechSynthesisTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -411,6 +451,7 @@ extension PollyClient: PollyClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "polly")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(id: "synthesizeSpeech")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse>())
@@ -425,8 +466,12 @@ extension PollyClient: PollyClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

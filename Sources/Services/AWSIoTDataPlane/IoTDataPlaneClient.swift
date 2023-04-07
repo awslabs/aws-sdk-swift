@@ -146,6 +146,7 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdata")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteThingShadowInput, DeleteThingShadowOutputResponse, DeleteThingShadowOutputError>(id: "deleteThingShadow")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteThingShadowInput, DeleteThingShadowOutputResponse, DeleteThingShadowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteThingShadowInput, DeleteThingShadowOutputResponse>())
@@ -158,8 +159,12 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteThingShadowOutputResponse, DeleteThingShadowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteThingShadowOutputResponse, DeleteThingShadowOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteThingShadowOutputResponse, DeleteThingShadowOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -179,6 +184,7 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdata")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRetainedMessageInput, GetRetainedMessageOutputResponse, GetRetainedMessageOutputError>(id: "getRetainedMessage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRetainedMessageInput, GetRetainedMessageOutputResponse, GetRetainedMessageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRetainedMessageInput, GetRetainedMessageOutputResponse>())
@@ -190,8 +196,12 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRetainedMessageOutputResponse, GetRetainedMessageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRetainedMessageOutputResponse, GetRetainedMessageOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRetainedMessageOutputResponse, GetRetainedMessageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -211,6 +221,7 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdata")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetThingShadowInput, GetThingShadowOutputResponse, GetThingShadowOutputError>(id: "getThingShadow")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetThingShadowInput, GetThingShadowOutputResponse, GetThingShadowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetThingShadowInput, GetThingShadowOutputResponse>())
@@ -223,8 +234,12 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetThingShadowOutputResponse, GetThingShadowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetThingShadowOutputResponse, GetThingShadowOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetThingShadowOutputResponse, GetThingShadowOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -244,6 +259,7 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdata")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListNamedShadowsForThingInput, ListNamedShadowsForThingOutputResponse, ListNamedShadowsForThingOutputError>(id: "listNamedShadowsForThing")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNamedShadowsForThingInput, ListNamedShadowsForThingOutputResponse, ListNamedShadowsForThingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNamedShadowsForThingInput, ListNamedShadowsForThingOutputResponse>())
@@ -256,8 +272,12 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNamedShadowsForThingOutputResponse, ListNamedShadowsForThingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNamedShadowsForThingOutputResponse, ListNamedShadowsForThingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNamedShadowsForThingOutputResponse, ListNamedShadowsForThingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -277,6 +297,7 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdata")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRetainedMessagesInput, ListRetainedMessagesOutputResponse, ListRetainedMessagesOutputError>(id: "listRetainedMessages")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRetainedMessagesInput, ListRetainedMessagesOutputResponse, ListRetainedMessagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRetainedMessagesInput, ListRetainedMessagesOutputResponse>())
@@ -289,8 +310,12 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRetainedMessagesOutputResponse, ListRetainedMessagesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRetainedMessagesOutputResponse, ListRetainedMessagesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRetainedMessagesOutputResponse, ListRetainedMessagesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -310,6 +335,7 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdata")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PublishInput, PublishOutputResponse, PublishOutputError>(id: "publish")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishInput, PublishOutputResponse, PublishOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishInput, PublishOutputResponse>())
@@ -326,8 +352,12 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishOutputResponse, PublishOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishOutputResponse, PublishOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PublishOutputResponse, PublishOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -347,6 +377,7 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdata")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateThingShadowInput, UpdateThingShadowOutputResponse, UpdateThingShadowOutputError>(id: "updateThingShadow")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateThingShadowInput, UpdateThingShadowOutputResponse, UpdateThingShadowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateThingShadowInput, UpdateThingShadowOutputResponse>())
@@ -362,8 +393,12 @@ extension IoTDataPlaneClient: IoTDataPlaneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateThingShadowOutputResponse, UpdateThingShadowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateThingShadowOutputResponse, UpdateThingShadowOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateThingShadowOutputResponse, UpdateThingShadowOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

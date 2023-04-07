@@ -142,6 +142,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddRoleToDBClusterInput, AddRoleToDBClusterOutputResponse, AddRoleToDBClusterOutputError>(id: "addRoleToDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddRoleToDBClusterInput, AddRoleToDBClusterOutputResponse, AddRoleToDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddRoleToDBClusterInput, AddRoleToDBClusterOutputResponse>())
@@ -156,8 +157,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddRoleToDBClusterOutputResponse, AddRoleToDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddRoleToDBClusterOutputResponse, AddRoleToDBClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddRoleToDBClusterOutputResponse, AddRoleToDBClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -177,6 +182,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddSourceIdentifierToSubscriptionInput, AddSourceIdentifierToSubscriptionOutputResponse, AddSourceIdentifierToSubscriptionOutputError>(id: "addSourceIdentifierToSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddSourceIdentifierToSubscriptionInput, AddSourceIdentifierToSubscriptionOutputResponse, AddSourceIdentifierToSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddSourceIdentifierToSubscriptionInput, AddSourceIdentifierToSubscriptionOutputResponse>())
@@ -191,8 +197,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddSourceIdentifierToSubscriptionOutputResponse, AddSourceIdentifierToSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddSourceIdentifierToSubscriptionOutputResponse, AddSourceIdentifierToSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddSourceIdentifierToSubscriptionOutputResponse, AddSourceIdentifierToSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -212,6 +222,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddTagsToResourceInput, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(id: "addTagsToResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse>())
@@ -226,8 +237,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -247,6 +262,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>(id: "applyPendingMaintenanceAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutputResponse>())
@@ -261,8 +277,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -282,6 +302,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CopyDBClusterParameterGroupInput, CopyDBClusterParameterGroupOutputResponse, CopyDBClusterParameterGroupOutputError>(id: "copyDBClusterParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyDBClusterParameterGroupInput, CopyDBClusterParameterGroupOutputResponse, CopyDBClusterParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyDBClusterParameterGroupInput, CopyDBClusterParameterGroupOutputResponse>())
@@ -296,8 +317,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopyDBClusterParameterGroupOutputResponse, CopyDBClusterParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyDBClusterParameterGroupOutputResponse, CopyDBClusterParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopyDBClusterParameterGroupOutputResponse, CopyDBClusterParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -317,6 +342,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CopyDBClusterSnapshotInput, CopyDBClusterSnapshotOutputResponse, CopyDBClusterSnapshotOutputError>(id: "copyDBClusterSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyDBClusterSnapshotInput, CopyDBClusterSnapshotOutputResponse, CopyDBClusterSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyDBClusterSnapshotInput, CopyDBClusterSnapshotOutputResponse>())
@@ -331,8 +357,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopyDBClusterSnapshotOutputResponse, CopyDBClusterSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyDBClusterSnapshotOutputResponse, CopyDBClusterSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopyDBClusterSnapshotOutputResponse, CopyDBClusterSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -352,6 +382,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CopyDBParameterGroupInput, CopyDBParameterGroupOutputResponse, CopyDBParameterGroupOutputError>(id: "copyDBParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyDBParameterGroupInput, CopyDBParameterGroupOutputResponse, CopyDBParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyDBParameterGroupInput, CopyDBParameterGroupOutputResponse>())
@@ -366,8 +397,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopyDBParameterGroupOutputResponse, CopyDBParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyDBParameterGroupOutputResponse, CopyDBParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopyDBParameterGroupOutputResponse, CopyDBParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -387,6 +422,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBClusterInput, CreateDBClusterOutputResponse, CreateDBClusterOutputError>(id: "createDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBClusterInput, CreateDBClusterOutputResponse, CreateDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBClusterInput, CreateDBClusterOutputResponse>())
@@ -401,8 +437,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBClusterOutputResponse, CreateDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBClusterOutputResponse, CreateDBClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDBClusterOutputResponse, CreateDBClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -422,6 +462,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBClusterEndpointInput, CreateDBClusterEndpointOutputResponse, CreateDBClusterEndpointOutputError>(id: "createDBClusterEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBClusterEndpointInput, CreateDBClusterEndpointOutputResponse, CreateDBClusterEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBClusterEndpointInput, CreateDBClusterEndpointOutputResponse>())
@@ -436,8 +477,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBClusterEndpointOutputResponse, CreateDBClusterEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBClusterEndpointOutputResponse, CreateDBClusterEndpointOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDBClusterEndpointOutputResponse, CreateDBClusterEndpointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -457,6 +502,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBClusterParameterGroupInput, CreateDBClusterParameterGroupOutputResponse, CreateDBClusterParameterGroupOutputError>(id: "createDBClusterParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBClusterParameterGroupInput, CreateDBClusterParameterGroupOutputResponse, CreateDBClusterParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBClusterParameterGroupInput, CreateDBClusterParameterGroupOutputResponse>())
@@ -471,8 +517,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBClusterParameterGroupOutputResponse, CreateDBClusterParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBClusterParameterGroupOutputResponse, CreateDBClusterParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDBClusterParameterGroupOutputResponse, CreateDBClusterParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -492,6 +542,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBClusterSnapshotInput, CreateDBClusterSnapshotOutputResponse, CreateDBClusterSnapshotOutputError>(id: "createDBClusterSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBClusterSnapshotInput, CreateDBClusterSnapshotOutputResponse, CreateDBClusterSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBClusterSnapshotInput, CreateDBClusterSnapshotOutputResponse>())
@@ -506,8 +557,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBClusterSnapshotOutputResponse, CreateDBClusterSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBClusterSnapshotOutputResponse, CreateDBClusterSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDBClusterSnapshotOutputResponse, CreateDBClusterSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -527,6 +582,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBInstanceInput, CreateDBInstanceOutputResponse, CreateDBInstanceOutputError>(id: "createDBInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBInstanceInput, CreateDBInstanceOutputResponse, CreateDBInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBInstanceInput, CreateDBInstanceOutputResponse>())
@@ -541,8 +597,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBInstanceOutputResponse, CreateDBInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBInstanceOutputResponse, CreateDBInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDBInstanceOutputResponse, CreateDBInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -562,6 +622,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBParameterGroupInput, CreateDBParameterGroupOutputResponse, CreateDBParameterGroupOutputError>(id: "createDBParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBParameterGroupInput, CreateDBParameterGroupOutputResponse, CreateDBParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBParameterGroupInput, CreateDBParameterGroupOutputResponse>())
@@ -576,8 +637,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBParameterGroupOutputResponse, CreateDBParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBParameterGroupOutputResponse, CreateDBParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDBParameterGroupOutputResponse, CreateDBParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -597,6 +662,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBSubnetGroupInput, CreateDBSubnetGroupOutputResponse, CreateDBSubnetGroupOutputError>(id: "createDBSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBSubnetGroupInput, CreateDBSubnetGroupOutputResponse, CreateDBSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBSubnetGroupInput, CreateDBSubnetGroupOutputResponse>())
@@ -611,8 +677,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBSubnetGroupOutputResponse, CreateDBSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBSubnetGroupOutputResponse, CreateDBSubnetGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDBSubnetGroupOutputResponse, CreateDBSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -632,6 +702,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEventSubscriptionInput, CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>(id: "createEventSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEventSubscriptionInput, CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEventSubscriptionInput, CreateEventSubscriptionOutputResponse>())
@@ -646,8 +717,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -667,6 +742,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateGlobalClusterInput, CreateGlobalClusterOutputResponse, CreateGlobalClusterOutputError>(id: "createGlobalCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGlobalClusterInput, CreateGlobalClusterOutputResponse, CreateGlobalClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGlobalClusterInput, CreateGlobalClusterOutputResponse>())
@@ -681,8 +757,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGlobalClusterOutputResponse, CreateGlobalClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGlobalClusterOutputResponse, CreateGlobalClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGlobalClusterOutputResponse, CreateGlobalClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -702,6 +782,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBClusterInput, DeleteDBClusterOutputResponse, DeleteDBClusterOutputError>(id: "deleteDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBClusterInput, DeleteDBClusterOutputResponse, DeleteDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBClusterInput, DeleteDBClusterOutputResponse>())
@@ -716,8 +797,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBClusterOutputResponse, DeleteDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBClusterOutputResponse, DeleteDBClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBClusterOutputResponse, DeleteDBClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -737,6 +822,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBClusterEndpointInput, DeleteDBClusterEndpointOutputResponse, DeleteDBClusterEndpointOutputError>(id: "deleteDBClusterEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBClusterEndpointInput, DeleteDBClusterEndpointOutputResponse, DeleteDBClusterEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBClusterEndpointInput, DeleteDBClusterEndpointOutputResponse>())
@@ -751,8 +837,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBClusterEndpointOutputResponse, DeleteDBClusterEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBClusterEndpointOutputResponse, DeleteDBClusterEndpointOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBClusterEndpointOutputResponse, DeleteDBClusterEndpointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -772,6 +862,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBClusterParameterGroupInput, DeleteDBClusterParameterGroupOutputResponse, DeleteDBClusterParameterGroupOutputError>(id: "deleteDBClusterParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBClusterParameterGroupInput, DeleteDBClusterParameterGroupOutputResponse, DeleteDBClusterParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBClusterParameterGroupInput, DeleteDBClusterParameterGroupOutputResponse>())
@@ -786,8 +877,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBClusterParameterGroupOutputResponse, DeleteDBClusterParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBClusterParameterGroupOutputResponse, DeleteDBClusterParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBClusterParameterGroupOutputResponse, DeleteDBClusterParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -807,6 +902,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBClusterSnapshotInput, DeleteDBClusterSnapshotOutputResponse, DeleteDBClusterSnapshotOutputError>(id: "deleteDBClusterSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBClusterSnapshotInput, DeleteDBClusterSnapshotOutputResponse, DeleteDBClusterSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBClusterSnapshotInput, DeleteDBClusterSnapshotOutputResponse>())
@@ -821,8 +917,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBClusterSnapshotOutputResponse, DeleteDBClusterSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBClusterSnapshotOutputResponse, DeleteDBClusterSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBClusterSnapshotOutputResponse, DeleteDBClusterSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -842,6 +942,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBInstanceInput, DeleteDBInstanceOutputResponse, DeleteDBInstanceOutputError>(id: "deleteDBInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBInstanceInput, DeleteDBInstanceOutputResponse, DeleteDBInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBInstanceInput, DeleteDBInstanceOutputResponse>())
@@ -856,8 +957,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBInstanceOutputResponse, DeleteDBInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBInstanceOutputResponse, DeleteDBInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBInstanceOutputResponse, DeleteDBInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -877,6 +982,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBParameterGroupInput, DeleteDBParameterGroupOutputResponse, DeleteDBParameterGroupOutputError>(id: "deleteDBParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBParameterGroupInput, DeleteDBParameterGroupOutputResponse, DeleteDBParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBParameterGroupInput, DeleteDBParameterGroupOutputResponse>())
@@ -891,8 +997,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBParameterGroupOutputResponse, DeleteDBParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBParameterGroupOutputResponse, DeleteDBParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBParameterGroupOutputResponse, DeleteDBParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -912,6 +1022,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBSubnetGroupInput, DeleteDBSubnetGroupOutputResponse, DeleteDBSubnetGroupOutputError>(id: "deleteDBSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBSubnetGroupInput, DeleteDBSubnetGroupOutputResponse, DeleteDBSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBSubnetGroupInput, DeleteDBSubnetGroupOutputResponse>())
@@ -926,8 +1037,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBSubnetGroupOutputResponse, DeleteDBSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBSubnetGroupOutputResponse, DeleteDBSubnetGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDBSubnetGroupOutputResponse, DeleteDBSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -947,6 +1062,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>(id: "deleteEventSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutputResponse>())
@@ -961,8 +1077,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -982,6 +1102,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteGlobalClusterInput, DeleteGlobalClusterOutputResponse, DeleteGlobalClusterOutputError>(id: "deleteGlobalCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGlobalClusterInput, DeleteGlobalClusterOutputResponse, DeleteGlobalClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGlobalClusterInput, DeleteGlobalClusterOutputResponse>())
@@ -996,8 +1117,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGlobalClusterOutputResponse, DeleteGlobalClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGlobalClusterOutputResponse, DeleteGlobalClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGlobalClusterOutputResponse, DeleteGlobalClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1017,6 +1142,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutputResponse, DescribeDBClusterEndpointsOutputError>(id: "describeDBClusterEndpoints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutputResponse, DescribeDBClusterEndpointsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutputResponse>())
@@ -1031,8 +1157,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBClusterEndpointsOutputResponse, DescribeDBClusterEndpointsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBClusterEndpointsOutputResponse, DescribeDBClusterEndpointsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBClusterEndpointsOutputResponse, DescribeDBClusterEndpointsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1052,6 +1182,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutputResponse, DescribeDBClusterParameterGroupsOutputError>(id: "describeDBClusterParameterGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutputResponse, DescribeDBClusterParameterGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutputResponse>())
@@ -1066,8 +1197,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBClusterParameterGroupsOutputResponse, DescribeDBClusterParameterGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBClusterParameterGroupsOutputResponse, DescribeDBClusterParameterGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBClusterParameterGroupsOutputResponse, DescribeDBClusterParameterGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1087,6 +1222,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutputResponse, DescribeDBClusterParametersOutputError>(id: "describeDBClusterParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutputResponse, DescribeDBClusterParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutputResponse>())
@@ -1101,8 +1237,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBClusterParametersOutputResponse, DescribeDBClusterParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBClusterParametersOutputResponse, DescribeDBClusterParametersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBClusterParametersOutputResponse, DescribeDBClusterParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1122,6 +1262,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBClusterSnapshotAttributesInput, DescribeDBClusterSnapshotAttributesOutputResponse, DescribeDBClusterSnapshotAttributesOutputError>(id: "describeDBClusterSnapshotAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBClusterSnapshotAttributesInput, DescribeDBClusterSnapshotAttributesOutputResponse, DescribeDBClusterSnapshotAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBClusterSnapshotAttributesInput, DescribeDBClusterSnapshotAttributesOutputResponse>())
@@ -1136,8 +1277,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBClusterSnapshotAttributesOutputResponse, DescribeDBClusterSnapshotAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBClusterSnapshotAttributesOutputResponse, DescribeDBClusterSnapshotAttributesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBClusterSnapshotAttributesOutputResponse, DescribeDBClusterSnapshotAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1157,6 +1302,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutputResponse, DescribeDBClusterSnapshotsOutputError>(id: "describeDBClusterSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutputResponse, DescribeDBClusterSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutputResponse>())
@@ -1171,8 +1317,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBClusterSnapshotsOutputResponse, DescribeDBClusterSnapshotsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBClusterSnapshotsOutputResponse, DescribeDBClusterSnapshotsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBClusterSnapshotsOutputResponse, DescribeDBClusterSnapshotsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1192,6 +1342,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBClustersInput, DescribeDBClustersOutputResponse, DescribeDBClustersOutputError>(id: "describeDBClusters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBClustersInput, DescribeDBClustersOutputResponse, DescribeDBClustersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBClustersInput, DescribeDBClustersOutputResponse>())
@@ -1206,8 +1357,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBClustersOutputResponse, DescribeDBClustersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBClustersOutputResponse, DescribeDBClustersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBClustersOutputResponse, DescribeDBClustersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1227,6 +1382,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutputResponse, DescribeDBEngineVersionsOutputError>(id: "describeDBEngineVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutputResponse, DescribeDBEngineVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutputResponse>())
@@ -1241,8 +1397,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBEngineVersionsOutputResponse, DescribeDBEngineVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBEngineVersionsOutputResponse, DescribeDBEngineVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBEngineVersionsOutputResponse, DescribeDBEngineVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1262,6 +1422,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBInstancesInput, DescribeDBInstancesOutputResponse, DescribeDBInstancesOutputError>(id: "describeDBInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBInstancesInput, DescribeDBInstancesOutputResponse, DescribeDBInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBInstancesInput, DescribeDBInstancesOutputResponse>())
@@ -1276,8 +1437,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBInstancesOutputResponse, DescribeDBInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBInstancesOutputResponse, DescribeDBInstancesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBInstancesOutputResponse, DescribeDBInstancesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1297,6 +1462,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutputResponse, DescribeDBParameterGroupsOutputError>(id: "describeDBParameterGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutputResponse, DescribeDBParameterGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutputResponse>())
@@ -1311,8 +1477,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBParameterGroupsOutputResponse, DescribeDBParameterGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBParameterGroupsOutputResponse, DescribeDBParameterGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBParameterGroupsOutputResponse, DescribeDBParameterGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1332,6 +1502,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBParametersInput, DescribeDBParametersOutputResponse, DescribeDBParametersOutputError>(id: "describeDBParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBParametersInput, DescribeDBParametersOutputResponse, DescribeDBParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBParametersInput, DescribeDBParametersOutputResponse>())
@@ -1346,8 +1517,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBParametersOutputResponse, DescribeDBParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBParametersOutputResponse, DescribeDBParametersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBParametersOutputResponse, DescribeDBParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1367,6 +1542,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutputResponse, DescribeDBSubnetGroupsOutputError>(id: "describeDBSubnetGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutputResponse, DescribeDBSubnetGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutputResponse>())
@@ -1381,8 +1557,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBSubnetGroupsOutputResponse, DescribeDBSubnetGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBSubnetGroupsOutputResponse, DescribeDBSubnetGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDBSubnetGroupsOutputResponse, DescribeDBSubnetGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1402,6 +1582,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEngineDefaultClusterParametersInput, DescribeEngineDefaultClusterParametersOutputResponse, DescribeEngineDefaultClusterParametersOutputError>(id: "describeEngineDefaultClusterParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEngineDefaultClusterParametersInput, DescribeEngineDefaultClusterParametersOutputResponse, DescribeEngineDefaultClusterParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEngineDefaultClusterParametersInput, DescribeEngineDefaultClusterParametersOutputResponse>())
@@ -1416,8 +1597,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEngineDefaultClusterParametersOutputResponse, DescribeEngineDefaultClusterParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEngineDefaultClusterParametersOutputResponse, DescribeEngineDefaultClusterParametersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEngineDefaultClusterParametersOutputResponse, DescribeEngineDefaultClusterParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1437,6 +1622,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>(id: "describeEngineDefaultParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutputResponse>())
@@ -1451,8 +1637,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEngineDefaultParametersOutputResponse, DescribeEngineDefaultParametersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1472,6 +1662,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventCategoriesInput, DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>(id: "describeEventCategories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventCategoriesInput, DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventCategoriesInput, DescribeEventCategoriesOutputResponse>())
@@ -1486,8 +1677,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1507,6 +1702,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>(id: "describeEventSubscriptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse>())
@@ -1521,8 +1717,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1542,6 +1742,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>(id: "describeEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventsInput, DescribeEventsOutputResponse>())
@@ -1556,8 +1757,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1577,6 +1782,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeGlobalClustersInput, DescribeGlobalClustersOutputResponse, DescribeGlobalClustersOutputError>(id: "describeGlobalClusters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGlobalClustersInput, DescribeGlobalClustersOutputResponse, DescribeGlobalClustersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeGlobalClustersInput, DescribeGlobalClustersOutputResponse>())
@@ -1591,8 +1797,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGlobalClustersOutputResponse, DescribeGlobalClustersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGlobalClustersOutputResponse, DescribeGlobalClustersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeGlobalClustersOutputResponse, DescribeGlobalClustersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1612,6 +1822,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutputResponse, DescribeOrderableDBInstanceOptionsOutputError>(id: "describeOrderableDBInstanceOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutputResponse, DescribeOrderableDBInstanceOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutputResponse>())
@@ -1626,8 +1837,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrderableDBInstanceOptionsOutputResponse, DescribeOrderableDBInstanceOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrderableDBInstanceOptionsOutputResponse, DescribeOrderableDBInstanceOptionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeOrderableDBInstanceOptionsOutputResponse, DescribeOrderableDBInstanceOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1647,6 +1862,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>(id: "describePendingMaintenanceActions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutputResponse>())
@@ -1661,8 +1877,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1682,6 +1902,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeValidDBInstanceModificationsInput, DescribeValidDBInstanceModificationsOutputResponse, DescribeValidDBInstanceModificationsOutputError>(id: "describeValidDBInstanceModifications")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeValidDBInstanceModificationsInput, DescribeValidDBInstanceModificationsOutputResponse, DescribeValidDBInstanceModificationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeValidDBInstanceModificationsInput, DescribeValidDBInstanceModificationsOutputResponse>())
@@ -1696,8 +1917,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeValidDBInstanceModificationsOutputResponse, DescribeValidDBInstanceModificationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeValidDBInstanceModificationsOutputResponse, DescribeValidDBInstanceModificationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeValidDBInstanceModificationsOutputResponse, DescribeValidDBInstanceModificationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1717,6 +1942,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<FailoverDBClusterInput, FailoverDBClusterOutputResponse, FailoverDBClusterOutputError>(id: "failoverDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<FailoverDBClusterInput, FailoverDBClusterOutputResponse, FailoverDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<FailoverDBClusterInput, FailoverDBClusterOutputResponse>())
@@ -1731,8 +1957,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<FailoverDBClusterOutputResponse, FailoverDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<FailoverDBClusterOutputResponse, FailoverDBClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<FailoverDBClusterOutputResponse, FailoverDBClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1752,6 +1982,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<FailoverGlobalClusterInput, FailoverGlobalClusterOutputResponse, FailoverGlobalClusterOutputError>(id: "failoverGlobalCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<FailoverGlobalClusterInput, FailoverGlobalClusterOutputResponse, FailoverGlobalClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<FailoverGlobalClusterInput, FailoverGlobalClusterOutputResponse>())
@@ -1766,8 +1997,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<FailoverGlobalClusterOutputResponse, FailoverGlobalClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<FailoverGlobalClusterOutputResponse, FailoverGlobalClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<FailoverGlobalClusterOutputResponse, FailoverGlobalClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1787,6 +2022,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1801,8 +2037,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1822,6 +2062,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBClusterInput, ModifyDBClusterOutputResponse, ModifyDBClusterOutputError>(id: "modifyDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBClusterInput, ModifyDBClusterOutputResponse, ModifyDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBClusterInput, ModifyDBClusterOutputResponse>())
@@ -1836,8 +2077,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBClusterOutputResponse, ModifyDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBClusterOutputResponse, ModifyDBClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyDBClusterOutputResponse, ModifyDBClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1857,6 +2102,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBClusterEndpointInput, ModifyDBClusterEndpointOutputResponse, ModifyDBClusterEndpointOutputError>(id: "modifyDBClusterEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBClusterEndpointInput, ModifyDBClusterEndpointOutputResponse, ModifyDBClusterEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBClusterEndpointInput, ModifyDBClusterEndpointOutputResponse>())
@@ -1871,8 +2117,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBClusterEndpointOutputResponse, ModifyDBClusterEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBClusterEndpointOutputResponse, ModifyDBClusterEndpointOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyDBClusterEndpointOutputResponse, ModifyDBClusterEndpointOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1892,6 +2142,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBClusterParameterGroupInput, ModifyDBClusterParameterGroupOutputResponse, ModifyDBClusterParameterGroupOutputError>(id: "modifyDBClusterParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBClusterParameterGroupInput, ModifyDBClusterParameterGroupOutputResponse, ModifyDBClusterParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBClusterParameterGroupInput, ModifyDBClusterParameterGroupOutputResponse>())
@@ -1906,8 +2157,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBClusterParameterGroupOutputResponse, ModifyDBClusterParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBClusterParameterGroupOutputResponse, ModifyDBClusterParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyDBClusterParameterGroupOutputResponse, ModifyDBClusterParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1927,6 +2182,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBClusterSnapshotAttributeInput, ModifyDBClusterSnapshotAttributeOutputResponse, ModifyDBClusterSnapshotAttributeOutputError>(id: "modifyDBClusterSnapshotAttribute")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBClusterSnapshotAttributeInput, ModifyDBClusterSnapshotAttributeOutputResponse, ModifyDBClusterSnapshotAttributeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBClusterSnapshotAttributeInput, ModifyDBClusterSnapshotAttributeOutputResponse>())
@@ -1941,8 +2197,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBClusterSnapshotAttributeOutputResponse, ModifyDBClusterSnapshotAttributeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBClusterSnapshotAttributeOutputResponse, ModifyDBClusterSnapshotAttributeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyDBClusterSnapshotAttributeOutputResponse, ModifyDBClusterSnapshotAttributeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1962,6 +2222,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBInstanceInput, ModifyDBInstanceOutputResponse, ModifyDBInstanceOutputError>(id: "modifyDBInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBInstanceInput, ModifyDBInstanceOutputResponse, ModifyDBInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBInstanceInput, ModifyDBInstanceOutputResponse>())
@@ -1976,8 +2237,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBInstanceOutputResponse, ModifyDBInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBInstanceOutputResponse, ModifyDBInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyDBInstanceOutputResponse, ModifyDBInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1997,6 +2262,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBParameterGroupInput, ModifyDBParameterGroupOutputResponse, ModifyDBParameterGroupOutputError>(id: "modifyDBParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBParameterGroupInput, ModifyDBParameterGroupOutputResponse, ModifyDBParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBParameterGroupInput, ModifyDBParameterGroupOutputResponse>())
@@ -2011,8 +2277,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBParameterGroupOutputResponse, ModifyDBParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBParameterGroupOutputResponse, ModifyDBParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyDBParameterGroupOutputResponse, ModifyDBParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2032,6 +2302,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBSubnetGroupInput, ModifyDBSubnetGroupOutputResponse, ModifyDBSubnetGroupOutputError>(id: "modifyDBSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBSubnetGroupInput, ModifyDBSubnetGroupOutputResponse, ModifyDBSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBSubnetGroupInput, ModifyDBSubnetGroupOutputResponse>())
@@ -2046,8 +2317,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBSubnetGroupOutputResponse, ModifyDBSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBSubnetGroupOutputResponse, ModifyDBSubnetGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyDBSubnetGroupOutputResponse, ModifyDBSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2067,6 +2342,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>(id: "modifyEventSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutputResponse>())
@@ -2081,8 +2357,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2102,6 +2382,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyGlobalClusterInput, ModifyGlobalClusterOutputResponse, ModifyGlobalClusterOutputError>(id: "modifyGlobalCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyGlobalClusterInput, ModifyGlobalClusterOutputResponse, ModifyGlobalClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyGlobalClusterInput, ModifyGlobalClusterOutputResponse>())
@@ -2116,8 +2397,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyGlobalClusterOutputResponse, ModifyGlobalClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyGlobalClusterOutputResponse, ModifyGlobalClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyGlobalClusterOutputResponse, ModifyGlobalClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2137,6 +2422,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PromoteReadReplicaDBClusterInput, PromoteReadReplicaDBClusterOutputResponse, PromoteReadReplicaDBClusterOutputError>(id: "promoteReadReplicaDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PromoteReadReplicaDBClusterInput, PromoteReadReplicaDBClusterOutputResponse, PromoteReadReplicaDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PromoteReadReplicaDBClusterInput, PromoteReadReplicaDBClusterOutputResponse>())
@@ -2151,8 +2437,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PromoteReadReplicaDBClusterOutputResponse, PromoteReadReplicaDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PromoteReadReplicaDBClusterOutputResponse, PromoteReadReplicaDBClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PromoteReadReplicaDBClusterOutputResponse, PromoteReadReplicaDBClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2172,6 +2462,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RebootDBInstanceInput, RebootDBInstanceOutputResponse, RebootDBInstanceOutputError>(id: "rebootDBInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebootDBInstanceInput, RebootDBInstanceOutputResponse, RebootDBInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebootDBInstanceInput, RebootDBInstanceOutputResponse>())
@@ -2186,8 +2477,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RebootDBInstanceOutputResponse, RebootDBInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RebootDBInstanceOutputResponse, RebootDBInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RebootDBInstanceOutputResponse, RebootDBInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2207,6 +2502,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveFromGlobalClusterInput, RemoveFromGlobalClusterOutputResponse, RemoveFromGlobalClusterOutputError>(id: "removeFromGlobalCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveFromGlobalClusterInput, RemoveFromGlobalClusterOutputResponse, RemoveFromGlobalClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveFromGlobalClusterInput, RemoveFromGlobalClusterOutputResponse>())
@@ -2221,8 +2517,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveFromGlobalClusterOutputResponse, RemoveFromGlobalClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveFromGlobalClusterOutputResponse, RemoveFromGlobalClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveFromGlobalClusterOutputResponse, RemoveFromGlobalClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2242,6 +2542,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveRoleFromDBClusterInput, RemoveRoleFromDBClusterOutputResponse, RemoveRoleFromDBClusterOutputError>(id: "removeRoleFromDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveRoleFromDBClusterInput, RemoveRoleFromDBClusterOutputResponse, RemoveRoleFromDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveRoleFromDBClusterInput, RemoveRoleFromDBClusterOutputResponse>())
@@ -2256,8 +2557,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveRoleFromDBClusterOutputResponse, RemoveRoleFromDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveRoleFromDBClusterOutputResponse, RemoveRoleFromDBClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveRoleFromDBClusterOutputResponse, RemoveRoleFromDBClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2277,6 +2582,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveSourceIdentifierFromSubscriptionInput, RemoveSourceIdentifierFromSubscriptionOutputResponse, RemoveSourceIdentifierFromSubscriptionOutputError>(id: "removeSourceIdentifierFromSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveSourceIdentifierFromSubscriptionInput, RemoveSourceIdentifierFromSubscriptionOutputResponse, RemoveSourceIdentifierFromSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveSourceIdentifierFromSubscriptionInput, RemoveSourceIdentifierFromSubscriptionOutputResponse>())
@@ -2291,8 +2597,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveSourceIdentifierFromSubscriptionOutputResponse, RemoveSourceIdentifierFromSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveSourceIdentifierFromSubscriptionOutputResponse, RemoveSourceIdentifierFromSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveSourceIdentifierFromSubscriptionOutputResponse, RemoveSourceIdentifierFromSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2312,6 +2622,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(id: "removeTagsFromResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse>())
@@ -2326,8 +2637,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2347,6 +2662,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResetDBClusterParameterGroupInput, ResetDBClusterParameterGroupOutputResponse, ResetDBClusterParameterGroupOutputError>(id: "resetDBClusterParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetDBClusterParameterGroupInput, ResetDBClusterParameterGroupOutputResponse, ResetDBClusterParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetDBClusterParameterGroupInput, ResetDBClusterParameterGroupOutputResponse>())
@@ -2361,8 +2677,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetDBClusterParameterGroupOutputResponse, ResetDBClusterParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetDBClusterParameterGroupOutputResponse, ResetDBClusterParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetDBClusterParameterGroupOutputResponse, ResetDBClusterParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2382,6 +2702,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResetDBParameterGroupInput, ResetDBParameterGroupOutputResponse, ResetDBParameterGroupOutputError>(id: "resetDBParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetDBParameterGroupInput, ResetDBParameterGroupOutputResponse, ResetDBParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetDBParameterGroupInput, ResetDBParameterGroupOutputResponse>())
@@ -2396,8 +2717,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetDBParameterGroupOutputResponse, ResetDBParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetDBParameterGroupOutputResponse, ResetDBParameterGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetDBParameterGroupOutputResponse, ResetDBParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2417,6 +2742,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RestoreDBClusterFromSnapshotInput, RestoreDBClusterFromSnapshotOutputResponse, RestoreDBClusterFromSnapshotOutputError>(id: "restoreDBClusterFromSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreDBClusterFromSnapshotInput, RestoreDBClusterFromSnapshotOutputResponse, RestoreDBClusterFromSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreDBClusterFromSnapshotInput, RestoreDBClusterFromSnapshotOutputResponse>())
@@ -2431,8 +2757,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreDBClusterFromSnapshotOutputResponse, RestoreDBClusterFromSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreDBClusterFromSnapshotOutputResponse, RestoreDBClusterFromSnapshotOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreDBClusterFromSnapshotOutputResponse, RestoreDBClusterFromSnapshotOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2452,6 +2782,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RestoreDBClusterToPointInTimeInput, RestoreDBClusterToPointInTimeOutputResponse, RestoreDBClusterToPointInTimeOutputError>(id: "restoreDBClusterToPointInTime")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreDBClusterToPointInTimeInput, RestoreDBClusterToPointInTimeOutputResponse, RestoreDBClusterToPointInTimeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreDBClusterToPointInTimeInput, RestoreDBClusterToPointInTimeOutputResponse>())
@@ -2466,8 +2797,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreDBClusterToPointInTimeOutputResponse, RestoreDBClusterToPointInTimeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreDBClusterToPointInTimeOutputResponse, RestoreDBClusterToPointInTimeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreDBClusterToPointInTimeOutputResponse, RestoreDBClusterToPointInTimeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2487,6 +2822,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartDBClusterInput, StartDBClusterOutputResponse, StartDBClusterOutputError>(id: "startDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDBClusterInput, StartDBClusterOutputResponse, StartDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDBClusterInput, StartDBClusterOutputResponse>())
@@ -2501,8 +2837,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDBClusterOutputResponse, StartDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDBClusterOutputResponse, StartDBClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDBClusterOutputResponse, StartDBClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2522,6 +2862,7 @@ extension NeptuneClient: NeptuneClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopDBClusterInput, StopDBClusterOutputResponse, StopDBClusterOutputError>(id: "stopDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDBClusterInput, StopDBClusterOutputResponse, StopDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopDBClusterInput, StopDBClusterOutputResponse>())
@@ -2536,8 +2877,12 @@ extension NeptuneClient: NeptuneClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopDBClusterOutputResponse, StopDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDBClusterOutputResponse, StopDBClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopDBClusterOutputResponse, StopDBClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

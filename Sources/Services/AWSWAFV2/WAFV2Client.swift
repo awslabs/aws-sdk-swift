@@ -146,6 +146,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateWebACLInput, AssociateWebACLOutputResponse, AssociateWebACLOutputError>(id: "associateWebACL")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateWebACLInput, AssociateWebACLOutputResponse, AssociateWebACLOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateWebACLInput, AssociateWebACLOutputResponse>())
@@ -161,8 +162,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateWebACLOutputResponse, AssociateWebACLOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateWebACLOutputResponse, AssociateWebACLOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateWebACLOutputResponse, AssociateWebACLOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -182,6 +187,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CheckCapacityInput, CheckCapacityOutputResponse, CheckCapacityOutputError>(id: "checkCapacity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CheckCapacityInput, CheckCapacityOutputResponse, CheckCapacityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CheckCapacityInput, CheckCapacityOutputResponse>())
@@ -197,8 +203,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CheckCapacityOutputResponse, CheckCapacityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CheckCapacityOutputResponse, CheckCapacityOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CheckCapacityOutputResponse, CheckCapacityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -218,6 +228,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateIPSetInput, CreateIPSetOutputResponse, CreateIPSetOutputError>(id: "createIPSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIPSetInput, CreateIPSetOutputResponse, CreateIPSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateIPSetInput, CreateIPSetOutputResponse>())
@@ -233,8 +244,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateIPSetOutputResponse, CreateIPSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIPSetOutputResponse, CreateIPSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateIPSetOutputResponse, CreateIPSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -254,6 +269,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRegexPatternSetInput, CreateRegexPatternSetOutputResponse, CreateRegexPatternSetOutputError>(id: "createRegexPatternSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRegexPatternSetInput, CreateRegexPatternSetOutputResponse, CreateRegexPatternSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRegexPatternSetInput, CreateRegexPatternSetOutputResponse>())
@@ -269,8 +285,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRegexPatternSetOutputResponse, CreateRegexPatternSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRegexPatternSetOutputResponse, CreateRegexPatternSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRegexPatternSetOutputResponse, CreateRegexPatternSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -290,6 +310,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRuleGroupInput, CreateRuleGroupOutputResponse, CreateRuleGroupOutputError>(id: "createRuleGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRuleGroupInput, CreateRuleGroupOutputResponse, CreateRuleGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRuleGroupInput, CreateRuleGroupOutputResponse>())
@@ -305,8 +326,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRuleGroupOutputResponse, CreateRuleGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRuleGroupOutputResponse, CreateRuleGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRuleGroupOutputResponse, CreateRuleGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -326,6 +351,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateWebACLInput, CreateWebACLOutputResponse, CreateWebACLOutputError>(id: "createWebACL")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWebACLInput, CreateWebACLOutputResponse, CreateWebACLOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWebACLInput, CreateWebACLOutputResponse>())
@@ -341,8 +367,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWebACLOutputResponse, CreateWebACLOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWebACLOutputResponse, CreateWebACLOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWebACLOutputResponse, CreateWebACLOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -362,6 +392,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFirewallManagerRuleGroupsInput, DeleteFirewallManagerRuleGroupsOutputResponse, DeleteFirewallManagerRuleGroupsOutputError>(id: "deleteFirewallManagerRuleGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFirewallManagerRuleGroupsInput, DeleteFirewallManagerRuleGroupsOutputResponse, DeleteFirewallManagerRuleGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFirewallManagerRuleGroupsInput, DeleteFirewallManagerRuleGroupsOutputResponse>())
@@ -377,8 +408,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFirewallManagerRuleGroupsOutputResponse, DeleteFirewallManagerRuleGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFirewallManagerRuleGroupsOutputResponse, DeleteFirewallManagerRuleGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFirewallManagerRuleGroupsOutputResponse, DeleteFirewallManagerRuleGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -398,6 +433,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteIPSetInput, DeleteIPSetOutputResponse, DeleteIPSetOutputError>(id: "deleteIPSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIPSetInput, DeleteIPSetOutputResponse, DeleteIPSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIPSetInput, DeleteIPSetOutputResponse>())
@@ -413,8 +449,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIPSetOutputResponse, DeleteIPSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIPSetOutputResponse, DeleteIPSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIPSetOutputResponse, DeleteIPSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -434,6 +474,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutputResponse, DeleteLoggingConfigurationOutputError>(id: "deleteLoggingConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutputResponse, DeleteLoggingConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutputResponse>())
@@ -449,8 +490,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLoggingConfigurationOutputResponse, DeleteLoggingConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLoggingConfigurationOutputResponse, DeleteLoggingConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLoggingConfigurationOutputResponse, DeleteLoggingConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -470,6 +515,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePermissionPolicyInput, DeletePermissionPolicyOutputResponse, DeletePermissionPolicyOutputError>(id: "deletePermissionPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePermissionPolicyInput, DeletePermissionPolicyOutputResponse, DeletePermissionPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePermissionPolicyInput, DeletePermissionPolicyOutputResponse>())
@@ -485,8 +531,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePermissionPolicyOutputResponse, DeletePermissionPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePermissionPolicyOutputResponse, DeletePermissionPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePermissionPolicyOutputResponse, DeletePermissionPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -506,6 +556,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRegexPatternSetInput, DeleteRegexPatternSetOutputResponse, DeleteRegexPatternSetOutputError>(id: "deleteRegexPatternSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRegexPatternSetInput, DeleteRegexPatternSetOutputResponse, DeleteRegexPatternSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRegexPatternSetInput, DeleteRegexPatternSetOutputResponse>())
@@ -521,8 +572,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRegexPatternSetOutputResponse, DeleteRegexPatternSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRegexPatternSetOutputResponse, DeleteRegexPatternSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRegexPatternSetOutputResponse, DeleteRegexPatternSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -542,6 +597,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRuleGroupInput, DeleteRuleGroupOutputResponse, DeleteRuleGroupOutputError>(id: "deleteRuleGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutputResponse, DeleteRuleGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutputResponse>())
@@ -557,8 +613,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRuleGroupOutputResponse, DeleteRuleGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRuleGroupOutputResponse, DeleteRuleGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRuleGroupOutputResponse, DeleteRuleGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -593,6 +653,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteWebACLInput, DeleteWebACLOutputResponse, DeleteWebACLOutputError>(id: "deleteWebACL")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWebACLInput, DeleteWebACLOutputResponse, DeleteWebACLOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWebACLInput, DeleteWebACLOutputResponse>())
@@ -608,8 +669,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWebACLOutputResponse, DeleteWebACLOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWebACLOutputResponse, DeleteWebACLOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWebACLOutputResponse, DeleteWebACLOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -629,6 +694,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeManagedRuleGroupInput, DescribeManagedRuleGroupOutputResponse, DescribeManagedRuleGroupOutputError>(id: "describeManagedRuleGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeManagedRuleGroupInput, DescribeManagedRuleGroupOutputResponse, DescribeManagedRuleGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeManagedRuleGroupInput, DescribeManagedRuleGroupOutputResponse>())
@@ -644,8 +710,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeManagedRuleGroupOutputResponse, DescribeManagedRuleGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeManagedRuleGroupOutputResponse, DescribeManagedRuleGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeManagedRuleGroupOutputResponse, DescribeManagedRuleGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -665,6 +735,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateWebACLInput, DisassociateWebACLOutputResponse, DisassociateWebACLOutputError>(id: "disassociateWebACL")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateWebACLInput, DisassociateWebACLOutputResponse, DisassociateWebACLOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateWebACLInput, DisassociateWebACLOutputResponse>())
@@ -680,8 +751,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateWebACLOutputResponse, DisassociateWebACLOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateWebACLOutputResponse, DisassociateWebACLOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateWebACLOutputResponse, DisassociateWebACLOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -701,6 +776,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GenerateMobileSdkReleaseUrlInput, GenerateMobileSdkReleaseUrlOutputResponse, GenerateMobileSdkReleaseUrlOutputError>(id: "generateMobileSdkReleaseUrl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateMobileSdkReleaseUrlInput, GenerateMobileSdkReleaseUrlOutputResponse, GenerateMobileSdkReleaseUrlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateMobileSdkReleaseUrlInput, GenerateMobileSdkReleaseUrlOutputResponse>())
@@ -716,8 +792,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateMobileSdkReleaseUrlOutputResponse, GenerateMobileSdkReleaseUrlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateMobileSdkReleaseUrlOutputResponse, GenerateMobileSdkReleaseUrlOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateMobileSdkReleaseUrlOutputResponse, GenerateMobileSdkReleaseUrlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -737,6 +817,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetIPSetInput, GetIPSetOutputResponse, GetIPSetOutputError>(id: "getIPSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIPSetInput, GetIPSetOutputResponse, GetIPSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIPSetInput, GetIPSetOutputResponse>())
@@ -752,8 +833,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIPSetOutputResponse, GetIPSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIPSetOutputResponse, GetIPSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIPSetOutputResponse, GetIPSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -773,6 +858,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLoggingConfigurationInput, GetLoggingConfigurationOutputResponse, GetLoggingConfigurationOutputError>(id: "getLoggingConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoggingConfigurationInput, GetLoggingConfigurationOutputResponse, GetLoggingConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLoggingConfigurationInput, GetLoggingConfigurationOutputResponse>())
@@ -788,8 +874,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLoggingConfigurationOutputResponse, GetLoggingConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLoggingConfigurationOutputResponse, GetLoggingConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLoggingConfigurationOutputResponse, GetLoggingConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -809,6 +899,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetManagedRuleSetInput, GetManagedRuleSetOutputResponse, GetManagedRuleSetOutputError>(id: "getManagedRuleSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetManagedRuleSetInput, GetManagedRuleSetOutputResponse, GetManagedRuleSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetManagedRuleSetInput, GetManagedRuleSetOutputResponse>())
@@ -824,8 +915,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetManagedRuleSetOutputResponse, GetManagedRuleSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetManagedRuleSetOutputResponse, GetManagedRuleSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetManagedRuleSetOutputResponse, GetManagedRuleSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -845,6 +940,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMobileSdkReleaseInput, GetMobileSdkReleaseOutputResponse, GetMobileSdkReleaseOutputError>(id: "getMobileSdkRelease")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMobileSdkReleaseInput, GetMobileSdkReleaseOutputResponse, GetMobileSdkReleaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMobileSdkReleaseInput, GetMobileSdkReleaseOutputResponse>())
@@ -860,8 +956,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMobileSdkReleaseOutputResponse, GetMobileSdkReleaseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMobileSdkReleaseOutputResponse, GetMobileSdkReleaseOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMobileSdkReleaseOutputResponse, GetMobileSdkReleaseOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -881,6 +981,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPermissionPolicyInput, GetPermissionPolicyOutputResponse, GetPermissionPolicyOutputError>(id: "getPermissionPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPermissionPolicyInput, GetPermissionPolicyOutputResponse, GetPermissionPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPermissionPolicyInput, GetPermissionPolicyOutputResponse>())
@@ -896,8 +997,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPermissionPolicyOutputResponse, GetPermissionPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPermissionPolicyOutputResponse, GetPermissionPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPermissionPolicyOutputResponse, GetPermissionPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -917,6 +1022,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRateBasedStatementManagedKeysInput, GetRateBasedStatementManagedKeysOutputResponse, GetRateBasedStatementManagedKeysOutputError>(id: "getRateBasedStatementManagedKeys")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRateBasedStatementManagedKeysInput, GetRateBasedStatementManagedKeysOutputResponse, GetRateBasedStatementManagedKeysOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRateBasedStatementManagedKeysInput, GetRateBasedStatementManagedKeysOutputResponse>())
@@ -932,8 +1038,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRateBasedStatementManagedKeysOutputResponse, GetRateBasedStatementManagedKeysOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRateBasedStatementManagedKeysOutputResponse, GetRateBasedStatementManagedKeysOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRateBasedStatementManagedKeysOutputResponse, GetRateBasedStatementManagedKeysOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -953,6 +1063,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRegexPatternSetInput, GetRegexPatternSetOutputResponse, GetRegexPatternSetOutputError>(id: "getRegexPatternSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRegexPatternSetInput, GetRegexPatternSetOutputResponse, GetRegexPatternSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRegexPatternSetInput, GetRegexPatternSetOutputResponse>())
@@ -968,8 +1079,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRegexPatternSetOutputResponse, GetRegexPatternSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRegexPatternSetOutputResponse, GetRegexPatternSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRegexPatternSetOutputResponse, GetRegexPatternSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -989,6 +1104,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRuleGroupInput, GetRuleGroupOutputResponse, GetRuleGroupOutputError>(id: "getRuleGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRuleGroupInput, GetRuleGroupOutputResponse, GetRuleGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRuleGroupInput, GetRuleGroupOutputResponse>())
@@ -1004,8 +1120,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRuleGroupOutputResponse, GetRuleGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRuleGroupOutputResponse, GetRuleGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRuleGroupOutputResponse, GetRuleGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1025,6 +1145,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSampledRequestsInput, GetSampledRequestsOutputResponse, GetSampledRequestsOutputError>(id: "getSampledRequests")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSampledRequestsInput, GetSampledRequestsOutputResponse, GetSampledRequestsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSampledRequestsInput, GetSampledRequestsOutputResponse>())
@@ -1040,8 +1161,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSampledRequestsOutputResponse, GetSampledRequestsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSampledRequestsOutputResponse, GetSampledRequestsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSampledRequestsOutputResponse, GetSampledRequestsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1061,6 +1186,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetWebACLInput, GetWebACLOutputResponse, GetWebACLOutputError>(id: "getWebACL")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWebACLInput, GetWebACLOutputResponse, GetWebACLOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWebACLInput, GetWebACLOutputResponse>())
@@ -1076,8 +1202,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWebACLOutputResponse, GetWebACLOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWebACLOutputResponse, GetWebACLOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWebACLOutputResponse, GetWebACLOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1097,6 +1227,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetWebACLForResourceInput, GetWebACLForResourceOutputResponse, GetWebACLForResourceOutputError>(id: "getWebACLForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWebACLForResourceInput, GetWebACLForResourceOutputResponse, GetWebACLForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWebACLForResourceInput, GetWebACLForResourceOutputResponse>())
@@ -1112,8 +1243,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWebACLForResourceOutputResponse, GetWebACLForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWebACLForResourceOutputResponse, GetWebACLForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWebACLForResourceOutputResponse, GetWebACLForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1133,6 +1268,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAvailableManagedRuleGroupVersionsInput, ListAvailableManagedRuleGroupVersionsOutputResponse, ListAvailableManagedRuleGroupVersionsOutputError>(id: "listAvailableManagedRuleGroupVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAvailableManagedRuleGroupVersionsInput, ListAvailableManagedRuleGroupVersionsOutputResponse, ListAvailableManagedRuleGroupVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAvailableManagedRuleGroupVersionsInput, ListAvailableManagedRuleGroupVersionsOutputResponse>())
@@ -1148,8 +1284,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAvailableManagedRuleGroupVersionsOutputResponse, ListAvailableManagedRuleGroupVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAvailableManagedRuleGroupVersionsOutputResponse, ListAvailableManagedRuleGroupVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAvailableManagedRuleGroupVersionsOutputResponse, ListAvailableManagedRuleGroupVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1169,6 +1309,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAvailableManagedRuleGroupsInput, ListAvailableManagedRuleGroupsOutputResponse, ListAvailableManagedRuleGroupsOutputError>(id: "listAvailableManagedRuleGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAvailableManagedRuleGroupsInput, ListAvailableManagedRuleGroupsOutputResponse, ListAvailableManagedRuleGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAvailableManagedRuleGroupsInput, ListAvailableManagedRuleGroupsOutputResponse>())
@@ -1184,8 +1325,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAvailableManagedRuleGroupsOutputResponse, ListAvailableManagedRuleGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAvailableManagedRuleGroupsOutputResponse, ListAvailableManagedRuleGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAvailableManagedRuleGroupsOutputResponse, ListAvailableManagedRuleGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1205,6 +1350,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListIPSetsInput, ListIPSetsOutputResponse, ListIPSetsOutputError>(id: "listIPSets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIPSetsInput, ListIPSetsOutputResponse, ListIPSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIPSetsInput, ListIPSetsOutputResponse>())
@@ -1220,8 +1366,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIPSetsOutputResponse, ListIPSetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIPSetsOutputResponse, ListIPSetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIPSetsOutputResponse, ListIPSetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1241,6 +1391,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutputResponse, ListLoggingConfigurationsOutputError>(id: "listLoggingConfigurations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutputResponse, ListLoggingConfigurationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutputResponse>())
@@ -1256,8 +1407,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLoggingConfigurationsOutputResponse, ListLoggingConfigurationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLoggingConfigurationsOutputResponse, ListLoggingConfigurationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLoggingConfigurationsOutputResponse, ListLoggingConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1277,6 +1432,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListManagedRuleSetsInput, ListManagedRuleSetsOutputResponse, ListManagedRuleSetsOutputError>(id: "listManagedRuleSets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListManagedRuleSetsInput, ListManagedRuleSetsOutputResponse, ListManagedRuleSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListManagedRuleSetsInput, ListManagedRuleSetsOutputResponse>())
@@ -1292,8 +1448,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListManagedRuleSetsOutputResponse, ListManagedRuleSetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListManagedRuleSetsOutputResponse, ListManagedRuleSetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListManagedRuleSetsOutputResponse, ListManagedRuleSetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1313,6 +1473,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMobileSdkReleasesInput, ListMobileSdkReleasesOutputResponse, ListMobileSdkReleasesOutputError>(id: "listMobileSdkReleases")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMobileSdkReleasesInput, ListMobileSdkReleasesOutputResponse, ListMobileSdkReleasesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMobileSdkReleasesInput, ListMobileSdkReleasesOutputResponse>())
@@ -1328,8 +1489,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMobileSdkReleasesOutputResponse, ListMobileSdkReleasesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMobileSdkReleasesOutputResponse, ListMobileSdkReleasesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMobileSdkReleasesOutputResponse, ListMobileSdkReleasesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1349,6 +1514,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRegexPatternSetsInput, ListRegexPatternSetsOutputResponse, ListRegexPatternSetsOutputError>(id: "listRegexPatternSets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRegexPatternSetsInput, ListRegexPatternSetsOutputResponse, ListRegexPatternSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRegexPatternSetsInput, ListRegexPatternSetsOutputResponse>())
@@ -1364,8 +1530,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRegexPatternSetsOutputResponse, ListRegexPatternSetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRegexPatternSetsOutputResponse, ListRegexPatternSetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRegexPatternSetsOutputResponse, ListRegexPatternSetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1385,6 +1555,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListResourcesForWebACLInput, ListResourcesForWebACLOutputResponse, ListResourcesForWebACLOutputError>(id: "listResourcesForWebACL")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourcesForWebACLInput, ListResourcesForWebACLOutputResponse, ListResourcesForWebACLOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourcesForWebACLInput, ListResourcesForWebACLOutputResponse>())
@@ -1400,8 +1571,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourcesForWebACLOutputResponse, ListResourcesForWebACLOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourcesForWebACLOutputResponse, ListResourcesForWebACLOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourcesForWebACLOutputResponse, ListResourcesForWebACLOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1421,6 +1596,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRuleGroupsInput, ListRuleGroupsOutputResponse, ListRuleGroupsOutputError>(id: "listRuleGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRuleGroupsInput, ListRuleGroupsOutputResponse, ListRuleGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRuleGroupsInput, ListRuleGroupsOutputResponse>())
@@ -1436,8 +1612,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRuleGroupsOutputResponse, ListRuleGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRuleGroupsOutputResponse, ListRuleGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRuleGroupsOutputResponse, ListRuleGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1457,6 +1637,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1472,8 +1653,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1493,6 +1678,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWebACLsInput, ListWebACLsOutputResponse, ListWebACLsOutputError>(id: "listWebACLs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWebACLsInput, ListWebACLsOutputResponse, ListWebACLsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWebACLsInput, ListWebACLsOutputResponse>())
@@ -1508,8 +1694,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWebACLsOutputResponse, ListWebACLsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWebACLsOutputResponse, ListWebACLsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWebACLsOutputResponse, ListWebACLsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1545,6 +1735,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutLoggingConfigurationInput, PutLoggingConfigurationOutputResponse, PutLoggingConfigurationOutputError>(id: "putLoggingConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutLoggingConfigurationInput, PutLoggingConfigurationOutputResponse, PutLoggingConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutLoggingConfigurationInput, PutLoggingConfigurationOutputResponse>())
@@ -1560,8 +1751,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutLoggingConfigurationOutputResponse, PutLoggingConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutLoggingConfigurationOutputResponse, PutLoggingConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutLoggingConfigurationOutputResponse, PutLoggingConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1581,6 +1776,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutManagedRuleSetVersionsInput, PutManagedRuleSetVersionsOutputResponse, PutManagedRuleSetVersionsOutputError>(id: "putManagedRuleSetVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutManagedRuleSetVersionsInput, PutManagedRuleSetVersionsOutputResponse, PutManagedRuleSetVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutManagedRuleSetVersionsInput, PutManagedRuleSetVersionsOutputResponse>())
@@ -1596,8 +1792,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutManagedRuleSetVersionsOutputResponse, PutManagedRuleSetVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutManagedRuleSetVersionsOutputResponse, PutManagedRuleSetVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutManagedRuleSetVersionsOutputResponse, PutManagedRuleSetVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1623,6 +1823,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutPermissionPolicyInput, PutPermissionPolicyOutputResponse, PutPermissionPolicyOutputError>(id: "putPermissionPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutPermissionPolicyInput, PutPermissionPolicyOutputResponse, PutPermissionPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutPermissionPolicyInput, PutPermissionPolicyOutputResponse>())
@@ -1638,8 +1839,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutPermissionPolicyOutputResponse, PutPermissionPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutPermissionPolicyOutputResponse, PutPermissionPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutPermissionPolicyOutputResponse, PutPermissionPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1659,6 +1864,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1674,8 +1880,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1695,6 +1905,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1710,8 +1921,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1740,6 +1955,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateIPSetInput, UpdateIPSetOutputResponse, UpdateIPSetOutputError>(id: "updateIPSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIPSetInput, UpdateIPSetOutputResponse, UpdateIPSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIPSetInput, UpdateIPSetOutputResponse>())
@@ -1755,8 +1971,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIPSetOutputResponse, UpdateIPSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIPSetOutputResponse, UpdateIPSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIPSetOutputResponse, UpdateIPSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1776,6 +1996,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateManagedRuleSetVersionExpiryDateInput, UpdateManagedRuleSetVersionExpiryDateOutputResponse, UpdateManagedRuleSetVersionExpiryDateOutputError>(id: "updateManagedRuleSetVersionExpiryDate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateManagedRuleSetVersionExpiryDateInput, UpdateManagedRuleSetVersionExpiryDateOutputResponse, UpdateManagedRuleSetVersionExpiryDateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateManagedRuleSetVersionExpiryDateInput, UpdateManagedRuleSetVersionExpiryDateOutputResponse>())
@@ -1791,8 +2012,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateManagedRuleSetVersionExpiryDateOutputResponse, UpdateManagedRuleSetVersionExpiryDateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateManagedRuleSetVersionExpiryDateOutputResponse, UpdateManagedRuleSetVersionExpiryDateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateManagedRuleSetVersionExpiryDateOutputResponse, UpdateManagedRuleSetVersionExpiryDateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1821,6 +2046,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateRegexPatternSetInput, UpdateRegexPatternSetOutputResponse, UpdateRegexPatternSetOutputError>(id: "updateRegexPatternSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRegexPatternSetInput, UpdateRegexPatternSetOutputResponse, UpdateRegexPatternSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRegexPatternSetInput, UpdateRegexPatternSetOutputResponse>())
@@ -1836,8 +2062,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRegexPatternSetOutputResponse, UpdateRegexPatternSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRegexPatternSetOutputResponse, UpdateRegexPatternSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRegexPatternSetOutputResponse, UpdateRegexPatternSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1866,6 +2096,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateRuleGroupInput, UpdateRuleGroupOutputResponse, UpdateRuleGroupOutputError>(id: "updateRuleGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutputResponse, UpdateRuleGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutputResponse>())
@@ -1881,8 +2112,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRuleGroupOutputResponse, UpdateRuleGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRuleGroupOutputResponse, UpdateRuleGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRuleGroupOutputResponse, UpdateRuleGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1911,6 +2146,7 @@ extension WAFV2Client: WAFV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wafv2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateWebACLInput, UpdateWebACLOutputResponse, UpdateWebACLOutputError>(id: "updateWebACL")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWebACLInput, UpdateWebACLOutputResponse, UpdateWebACLOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWebACLInput, UpdateWebACLOutputResponse>())
@@ -1926,8 +2162,12 @@ extension WAFV2Client: WAFV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWebACLOutputResponse, UpdateWebACLOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWebACLOutputResponse, UpdateWebACLOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateWebACLOutputResponse, UpdateWebACLOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

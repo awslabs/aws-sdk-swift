@@ -146,6 +146,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ApplyArchiveRuleInput, ApplyArchiveRuleOutputResponse, ApplyArchiveRuleOutputError>(id: "applyArchiveRule")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ApplyArchiveRuleOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -168,8 +169,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ApplyArchiveRuleOutputResponse, ApplyArchiveRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ApplyArchiveRuleOutputResponse, ApplyArchiveRuleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ApplyArchiveRuleOutputResponse, ApplyArchiveRuleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -189,6 +194,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelPolicyGenerationInput, CancelPolicyGenerationOutputResponse, CancelPolicyGenerationOutputError>(id: "cancelPolicyGeneration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelPolicyGenerationInput, CancelPolicyGenerationOutputResponse, CancelPolicyGenerationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelPolicyGenerationInput, CancelPolicyGenerationOutputResponse>())
@@ -200,8 +206,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelPolicyGenerationOutputResponse, CancelPolicyGenerationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelPolicyGenerationOutputResponse, CancelPolicyGenerationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelPolicyGenerationOutputResponse, CancelPolicyGenerationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -221,6 +231,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAccessPreviewInput, CreateAccessPreviewOutputResponse, CreateAccessPreviewOutputError>(id: "createAccessPreview")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateAccessPreviewOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -243,8 +254,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccessPreviewOutputResponse, CreateAccessPreviewOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessPreviewOutputResponse, CreateAccessPreviewOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccessPreviewOutputResponse, CreateAccessPreviewOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -264,6 +279,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAnalyzerInput, CreateAnalyzerOutputResponse, CreateAnalyzerOutputError>(id: "createAnalyzer")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateAnalyzerOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -286,8 +302,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAnalyzerOutputResponse, CreateAnalyzerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAnalyzerOutputResponse, CreateAnalyzerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAnalyzerOutputResponse, CreateAnalyzerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -307,6 +327,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateArchiveRuleInput, CreateArchiveRuleOutputResponse, CreateArchiveRuleOutputError>(id: "createArchiveRule")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateArchiveRuleOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -329,8 +350,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateArchiveRuleOutputResponse, CreateArchiveRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateArchiveRuleOutputResponse, CreateArchiveRuleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateArchiveRuleOutputResponse, CreateArchiveRuleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -350,6 +375,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAnalyzerInput, DeleteAnalyzerOutputResponse, DeleteAnalyzerOutputError>(id: "deleteAnalyzer")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteAnalyzerOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -370,8 +396,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAnalyzerOutputResponse, DeleteAnalyzerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAnalyzerOutputResponse, DeleteAnalyzerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAnalyzerOutputResponse, DeleteAnalyzerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -391,6 +421,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteArchiveRuleInput, DeleteArchiveRuleOutputResponse, DeleteArchiveRuleOutputError>(id: "deleteArchiveRule")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteArchiveRuleOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -411,8 +442,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteArchiveRuleOutputResponse, DeleteArchiveRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteArchiveRuleOutputResponse, DeleteArchiveRuleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteArchiveRuleOutputResponse, DeleteArchiveRuleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -432,6 +467,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccessPreviewInput, GetAccessPreviewOutputResponse, GetAccessPreviewOutputError>(id: "getAccessPreview")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccessPreviewInput, GetAccessPreviewOutputResponse, GetAccessPreviewOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccessPreviewInput, GetAccessPreviewOutputResponse>())
@@ -444,8 +480,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccessPreviewOutputResponse, GetAccessPreviewOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccessPreviewOutputResponse, GetAccessPreviewOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccessPreviewOutputResponse, GetAccessPreviewOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -465,6 +505,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAnalyzedResourceInput, GetAnalyzedResourceOutputResponse, GetAnalyzedResourceOutputError>(id: "getAnalyzedResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAnalyzedResourceInput, GetAnalyzedResourceOutputResponse, GetAnalyzedResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAnalyzedResourceInput, GetAnalyzedResourceOutputResponse>())
@@ -477,8 +518,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAnalyzedResourceOutputResponse, GetAnalyzedResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAnalyzedResourceOutputResponse, GetAnalyzedResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAnalyzedResourceOutputResponse, GetAnalyzedResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -498,6 +543,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAnalyzerInput, GetAnalyzerOutputResponse, GetAnalyzerOutputError>(id: "getAnalyzer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAnalyzerInput, GetAnalyzerOutputResponse, GetAnalyzerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAnalyzerInput, GetAnalyzerOutputResponse>())
@@ -509,8 +555,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAnalyzerOutputResponse, GetAnalyzerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAnalyzerOutputResponse, GetAnalyzerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAnalyzerOutputResponse, GetAnalyzerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -530,6 +580,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetArchiveRuleInput, GetArchiveRuleOutputResponse, GetArchiveRuleOutputError>(id: "getArchiveRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetArchiveRuleInput, GetArchiveRuleOutputResponse, GetArchiveRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetArchiveRuleInput, GetArchiveRuleOutputResponse>())
@@ -541,8 +592,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetArchiveRuleOutputResponse, GetArchiveRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetArchiveRuleOutputResponse, GetArchiveRuleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetArchiveRuleOutputResponse, GetArchiveRuleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -562,6 +617,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFindingInput, GetFindingOutputResponse, GetFindingOutputError>(id: "getFinding")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFindingInput, GetFindingOutputResponse, GetFindingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFindingInput, GetFindingOutputResponse>())
@@ -574,8 +630,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFindingOutputResponse, GetFindingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFindingOutputResponse, GetFindingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFindingOutputResponse, GetFindingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -595,6 +655,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetGeneratedPolicyInput, GetGeneratedPolicyOutputResponse, GetGeneratedPolicyOutputError>(id: "getGeneratedPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGeneratedPolicyInput, GetGeneratedPolicyOutputResponse, GetGeneratedPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGeneratedPolicyInput, GetGeneratedPolicyOutputResponse>())
@@ -607,8 +668,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGeneratedPolicyOutputResponse, GetGeneratedPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGeneratedPolicyOutputResponse, GetGeneratedPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGeneratedPolicyOutputResponse, GetGeneratedPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -628,6 +693,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAccessPreviewFindingsInput, ListAccessPreviewFindingsOutputResponse, ListAccessPreviewFindingsOutputError>(id: "listAccessPreviewFindings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccessPreviewFindingsInput, ListAccessPreviewFindingsOutputResponse, ListAccessPreviewFindingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccessPreviewFindingsInput, ListAccessPreviewFindingsOutputResponse>())
@@ -642,8 +708,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccessPreviewFindingsOutputResponse, ListAccessPreviewFindingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccessPreviewFindingsOutputResponse, ListAccessPreviewFindingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccessPreviewFindingsOutputResponse, ListAccessPreviewFindingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -663,6 +733,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAccessPreviewsInput, ListAccessPreviewsOutputResponse, ListAccessPreviewsOutputError>(id: "listAccessPreviews")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccessPreviewsInput, ListAccessPreviewsOutputResponse, ListAccessPreviewsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccessPreviewsInput, ListAccessPreviewsOutputResponse>())
@@ -675,8 +746,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccessPreviewsOutputResponse, ListAccessPreviewsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccessPreviewsOutputResponse, ListAccessPreviewsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccessPreviewsOutputResponse, ListAccessPreviewsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -696,6 +771,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAnalyzedResourcesInput, ListAnalyzedResourcesOutputResponse, ListAnalyzedResourcesOutputError>(id: "listAnalyzedResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAnalyzedResourcesInput, ListAnalyzedResourcesOutputResponse, ListAnalyzedResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAnalyzedResourcesInput, ListAnalyzedResourcesOutputResponse>())
@@ -710,8 +786,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAnalyzedResourcesOutputResponse, ListAnalyzedResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAnalyzedResourcesOutputResponse, ListAnalyzedResourcesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAnalyzedResourcesOutputResponse, ListAnalyzedResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -731,6 +811,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAnalyzersInput, ListAnalyzersOutputResponse, ListAnalyzersOutputError>(id: "listAnalyzers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAnalyzersInput, ListAnalyzersOutputResponse, ListAnalyzersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAnalyzersInput, ListAnalyzersOutputResponse>())
@@ -743,8 +824,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAnalyzersOutputResponse, ListAnalyzersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAnalyzersOutputResponse, ListAnalyzersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAnalyzersOutputResponse, ListAnalyzersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -764,6 +849,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListArchiveRulesInput, ListArchiveRulesOutputResponse, ListArchiveRulesOutputError>(id: "listArchiveRules")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListArchiveRulesInput, ListArchiveRulesOutputResponse, ListArchiveRulesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListArchiveRulesInput, ListArchiveRulesOutputResponse>())
@@ -776,8 +862,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListArchiveRulesOutputResponse, ListArchiveRulesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListArchiveRulesOutputResponse, ListArchiveRulesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListArchiveRulesOutputResponse, ListArchiveRulesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -797,6 +887,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFindingsInput, ListFindingsOutputResponse, ListFindingsOutputError>(id: "listFindings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFindingsInput, ListFindingsOutputResponse, ListFindingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFindingsInput, ListFindingsOutputResponse>())
@@ -811,8 +902,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFindingsOutputResponse, ListFindingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFindingsOutputResponse, ListFindingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFindingsOutputResponse, ListFindingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -832,6 +927,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPolicyGenerationsInput, ListPolicyGenerationsOutputResponse, ListPolicyGenerationsOutputError>(id: "listPolicyGenerations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPolicyGenerationsInput, ListPolicyGenerationsOutputResponse, ListPolicyGenerationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPolicyGenerationsInput, ListPolicyGenerationsOutputResponse>())
@@ -844,8 +940,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPolicyGenerationsOutputResponse, ListPolicyGenerationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPolicyGenerationsOutputResponse, ListPolicyGenerationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPolicyGenerationsOutputResponse, ListPolicyGenerationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -865,6 +965,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -876,8 +977,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -897,6 +1002,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartPolicyGenerationInput, StartPolicyGenerationOutputResponse, StartPolicyGenerationOutputError>(id: "startPolicyGeneration")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartPolicyGenerationOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -919,8 +1025,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartPolicyGenerationOutputResponse, StartPolicyGenerationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartPolicyGenerationOutputResponse, StartPolicyGenerationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartPolicyGenerationOutputResponse, StartPolicyGenerationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -940,6 +1050,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartResourceScanInput, StartResourceScanOutputResponse, StartResourceScanOutputError>(id: "startResourceScan")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartResourceScanInput, StartResourceScanOutputResponse, StartResourceScanOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartResourceScanInput, StartResourceScanOutputResponse>())
@@ -954,8 +1065,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartResourceScanOutputResponse, StartResourceScanOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartResourceScanOutputResponse, StartResourceScanOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartResourceScanOutputResponse, StartResourceScanOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -975,6 +1090,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -989,8 +1105,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1010,6 +1130,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1022,8 +1143,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1043,6 +1168,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateArchiveRuleInput, UpdateArchiveRuleOutputResponse, UpdateArchiveRuleOutputError>(id: "updateArchiveRule")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateArchiveRuleOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1065,8 +1191,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateArchiveRuleOutputResponse, UpdateArchiveRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateArchiveRuleOutputResponse, UpdateArchiveRuleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateArchiveRuleOutputResponse, UpdateArchiveRuleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1086,6 +1216,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFindingsInput, UpdateFindingsOutputResponse, UpdateFindingsOutputError>(id: "updateFindings")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateFindingsOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1108,8 +1239,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFindingsOutputResponse, UpdateFindingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFindingsOutputResponse, UpdateFindingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFindingsOutputResponse, UpdateFindingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1129,6 +1264,7 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "access-analyzer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ValidatePolicyInput, ValidatePolicyOutputResponse, ValidatePolicyOutputError>(id: "validatePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ValidatePolicyInput, ValidatePolicyOutputResponse, ValidatePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ValidatePolicyInput, ValidatePolicyOutputResponse>())
@@ -1144,8 +1280,12 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ValidatePolicyOutputResponse, ValidatePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ValidatePolicyOutputResponse, ValidatePolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ValidatePolicyOutputResponse, ValidatePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

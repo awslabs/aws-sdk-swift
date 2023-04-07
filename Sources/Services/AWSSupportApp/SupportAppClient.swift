@@ -153,6 +153,7 @@ extension SupportAppClient: SupportAppClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "supportapp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSlackChannelConfigurationInput, CreateSlackChannelConfigurationOutputResponse, CreateSlackChannelConfigurationOutputError>(id: "createSlackChannelConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSlackChannelConfigurationInput, CreateSlackChannelConfigurationOutputResponse, CreateSlackChannelConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSlackChannelConfigurationInput, CreateSlackChannelConfigurationOutputResponse>())
@@ -167,8 +168,12 @@ extension SupportAppClient: SupportAppClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSlackChannelConfigurationOutputResponse, CreateSlackChannelConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSlackChannelConfigurationOutputResponse, CreateSlackChannelConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSlackChannelConfigurationOutputResponse, CreateSlackChannelConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -188,6 +193,7 @@ extension SupportAppClient: SupportAppClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "supportapp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAccountAliasInput, DeleteAccountAliasOutputResponse, DeleteAccountAliasOutputError>(id: "deleteAccountAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccountAliasInput, DeleteAccountAliasOutputResponse, DeleteAccountAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccountAliasInput, DeleteAccountAliasOutputResponse>())
@@ -199,8 +205,12 @@ extension SupportAppClient: SupportAppClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccountAliasOutputResponse, DeleteAccountAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountAliasOutputResponse, DeleteAccountAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccountAliasOutputResponse, DeleteAccountAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -220,6 +230,7 @@ extension SupportAppClient: SupportAppClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "supportapp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSlackChannelConfigurationInput, DeleteSlackChannelConfigurationOutputResponse, DeleteSlackChannelConfigurationOutputError>(id: "deleteSlackChannelConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSlackChannelConfigurationInput, DeleteSlackChannelConfigurationOutputResponse, DeleteSlackChannelConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSlackChannelConfigurationInput, DeleteSlackChannelConfigurationOutputResponse>())
@@ -234,8 +245,12 @@ extension SupportAppClient: SupportAppClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSlackChannelConfigurationOutputResponse, DeleteSlackChannelConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSlackChannelConfigurationOutputResponse, DeleteSlackChannelConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSlackChannelConfigurationOutputResponse, DeleteSlackChannelConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -255,6 +270,7 @@ extension SupportAppClient: SupportAppClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "supportapp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSlackWorkspaceConfigurationInput, DeleteSlackWorkspaceConfigurationOutputResponse, DeleteSlackWorkspaceConfigurationOutputError>(id: "deleteSlackWorkspaceConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSlackWorkspaceConfigurationInput, DeleteSlackWorkspaceConfigurationOutputResponse, DeleteSlackWorkspaceConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSlackWorkspaceConfigurationInput, DeleteSlackWorkspaceConfigurationOutputResponse>())
@@ -269,8 +285,12 @@ extension SupportAppClient: SupportAppClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSlackWorkspaceConfigurationOutputResponse, DeleteSlackWorkspaceConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSlackWorkspaceConfigurationOutputResponse, DeleteSlackWorkspaceConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSlackWorkspaceConfigurationOutputResponse, DeleteSlackWorkspaceConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -290,6 +310,7 @@ extension SupportAppClient: SupportAppClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "supportapp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccountAliasInput, GetAccountAliasOutputResponse, GetAccountAliasOutputError>(id: "getAccountAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountAliasInput, GetAccountAliasOutputResponse, GetAccountAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountAliasInput, GetAccountAliasOutputResponse>())
@@ -301,8 +322,12 @@ extension SupportAppClient: SupportAppClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountAliasOutputResponse, GetAccountAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountAliasOutputResponse, GetAccountAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountAliasOutputResponse, GetAccountAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -322,6 +347,7 @@ extension SupportAppClient: SupportAppClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "supportapp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSlackChannelConfigurationsInput, ListSlackChannelConfigurationsOutputResponse, ListSlackChannelConfigurationsOutputError>(id: "listSlackChannelConfigurations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSlackChannelConfigurationsInput, ListSlackChannelConfigurationsOutputResponse, ListSlackChannelConfigurationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSlackChannelConfigurationsInput, ListSlackChannelConfigurationsOutputResponse>())
@@ -336,8 +362,12 @@ extension SupportAppClient: SupportAppClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSlackChannelConfigurationsOutputResponse, ListSlackChannelConfigurationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSlackChannelConfigurationsOutputResponse, ListSlackChannelConfigurationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSlackChannelConfigurationsOutputResponse, ListSlackChannelConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -357,6 +387,7 @@ extension SupportAppClient: SupportAppClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "supportapp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSlackWorkspaceConfigurationsInput, ListSlackWorkspaceConfigurationsOutputResponse, ListSlackWorkspaceConfigurationsOutputError>(id: "listSlackWorkspaceConfigurations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSlackWorkspaceConfigurationsInput, ListSlackWorkspaceConfigurationsOutputResponse, ListSlackWorkspaceConfigurationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSlackWorkspaceConfigurationsInput, ListSlackWorkspaceConfigurationsOutputResponse>())
@@ -371,8 +402,12 @@ extension SupportAppClient: SupportAppClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSlackWorkspaceConfigurationsOutputResponse, ListSlackWorkspaceConfigurationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSlackWorkspaceConfigurationsOutputResponse, ListSlackWorkspaceConfigurationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSlackWorkspaceConfigurationsOutputResponse, ListSlackWorkspaceConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -392,6 +427,7 @@ extension SupportAppClient: SupportAppClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "supportapp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutAccountAliasInput, PutAccountAliasOutputResponse, PutAccountAliasOutputError>(id: "putAccountAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAccountAliasInput, PutAccountAliasOutputResponse, PutAccountAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAccountAliasInput, PutAccountAliasOutputResponse>())
@@ -406,8 +442,12 @@ extension SupportAppClient: SupportAppClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAccountAliasOutputResponse, PutAccountAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAccountAliasOutputResponse, PutAccountAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutAccountAliasOutputResponse, PutAccountAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -438,6 +478,7 @@ extension SupportAppClient: SupportAppClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "supportapp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterSlackWorkspaceForOrganizationInput, RegisterSlackWorkspaceForOrganizationOutputResponse, RegisterSlackWorkspaceForOrganizationOutputError>(id: "registerSlackWorkspaceForOrganization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterSlackWorkspaceForOrganizationInput, RegisterSlackWorkspaceForOrganizationOutputResponse, RegisterSlackWorkspaceForOrganizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterSlackWorkspaceForOrganizationInput, RegisterSlackWorkspaceForOrganizationOutputResponse>())
@@ -452,8 +493,12 @@ extension SupportAppClient: SupportAppClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterSlackWorkspaceForOrganizationOutputResponse, RegisterSlackWorkspaceForOrganizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterSlackWorkspaceForOrganizationOutputResponse, RegisterSlackWorkspaceForOrganizationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterSlackWorkspaceForOrganizationOutputResponse, RegisterSlackWorkspaceForOrganizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -473,6 +518,7 @@ extension SupportAppClient: SupportAppClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "supportapp")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSlackChannelConfigurationInput, UpdateSlackChannelConfigurationOutputResponse, UpdateSlackChannelConfigurationOutputError>(id: "updateSlackChannelConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSlackChannelConfigurationInput, UpdateSlackChannelConfigurationOutputResponse, UpdateSlackChannelConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSlackChannelConfigurationInput, UpdateSlackChannelConfigurationOutputResponse>())
@@ -487,8 +533,12 @@ extension SupportAppClient: SupportAppClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSlackChannelConfigurationOutputResponse, UpdateSlackChannelConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSlackChannelConfigurationOutputResponse, UpdateSlackChannelConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSlackChannelConfigurationOutputResponse, UpdateSlackChannelConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

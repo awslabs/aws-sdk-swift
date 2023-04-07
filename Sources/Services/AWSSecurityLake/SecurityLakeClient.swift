@@ -146,6 +146,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAwsLogSourceInput, CreateAwsLogSourceOutputResponse, CreateAwsLogSourceOutputError>(id: "createAwsLogSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAwsLogSourceInput, CreateAwsLogSourceOutputResponse, CreateAwsLogSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAwsLogSourceInput, CreateAwsLogSourceOutputResponse>())
@@ -160,8 +161,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAwsLogSourceOutputResponse, CreateAwsLogSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAwsLogSourceOutputResponse, CreateAwsLogSourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAwsLogSourceOutputResponse, CreateAwsLogSourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -181,6 +186,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCustomLogSourceInput, CreateCustomLogSourceOutputResponse, CreateCustomLogSourceOutputError>(id: "createCustomLogSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCustomLogSourceInput, CreateCustomLogSourceOutputResponse, CreateCustomLogSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCustomLogSourceInput, CreateCustomLogSourceOutputResponse>())
@@ -195,8 +201,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCustomLogSourceOutputResponse, CreateCustomLogSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCustomLogSourceOutputResponse, CreateCustomLogSourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCustomLogSourceOutputResponse, CreateCustomLogSourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -216,6 +226,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDatalakeInput, CreateDatalakeOutputResponse, CreateDatalakeOutputError>(id: "createDatalake")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDatalakeInput, CreateDatalakeOutputResponse, CreateDatalakeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDatalakeInput, CreateDatalakeOutputResponse>())
@@ -230,8 +241,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDatalakeOutputResponse, CreateDatalakeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDatalakeOutputResponse, CreateDatalakeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDatalakeOutputResponse, CreateDatalakeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -251,6 +266,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDatalakeAutoEnableInput, CreateDatalakeAutoEnableOutputResponse, CreateDatalakeAutoEnableOutputError>(id: "createDatalakeAutoEnable")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDatalakeAutoEnableInput, CreateDatalakeAutoEnableOutputResponse, CreateDatalakeAutoEnableOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDatalakeAutoEnableInput, CreateDatalakeAutoEnableOutputResponse>())
@@ -265,8 +281,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDatalakeAutoEnableOutputResponse, CreateDatalakeAutoEnableOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDatalakeAutoEnableOutputResponse, CreateDatalakeAutoEnableOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDatalakeAutoEnableOutputResponse, CreateDatalakeAutoEnableOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -286,6 +306,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDatalakeDelegatedAdminInput, CreateDatalakeDelegatedAdminOutputResponse, CreateDatalakeDelegatedAdminOutputError>(id: "createDatalakeDelegatedAdmin")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDatalakeDelegatedAdminInput, CreateDatalakeDelegatedAdminOutputResponse, CreateDatalakeDelegatedAdminOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDatalakeDelegatedAdminInput, CreateDatalakeDelegatedAdminOutputResponse>())
@@ -300,8 +321,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDatalakeDelegatedAdminOutputResponse, CreateDatalakeDelegatedAdminOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDatalakeDelegatedAdminOutputResponse, CreateDatalakeDelegatedAdminOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDatalakeDelegatedAdminOutputResponse, CreateDatalakeDelegatedAdminOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -321,6 +346,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDatalakeExceptionsSubscriptionInput, CreateDatalakeExceptionsSubscriptionOutputResponse, CreateDatalakeExceptionsSubscriptionOutputError>(id: "createDatalakeExceptionsSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDatalakeExceptionsSubscriptionInput, CreateDatalakeExceptionsSubscriptionOutputResponse, CreateDatalakeExceptionsSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDatalakeExceptionsSubscriptionInput, CreateDatalakeExceptionsSubscriptionOutputResponse>())
@@ -335,8 +361,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDatalakeExceptionsSubscriptionOutputResponse, CreateDatalakeExceptionsSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDatalakeExceptionsSubscriptionOutputResponse, CreateDatalakeExceptionsSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDatalakeExceptionsSubscriptionOutputResponse, CreateDatalakeExceptionsSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -356,6 +386,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSubscriberInput, CreateSubscriberOutputResponse, CreateSubscriberOutputError>(id: "createSubscriber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSubscriberInput, CreateSubscriberOutputResponse, CreateSubscriberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSubscriberInput, CreateSubscriberOutputResponse>())
@@ -370,8 +401,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSubscriberOutputResponse, CreateSubscriberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSubscriberOutputResponse, CreateSubscriberOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSubscriberOutputResponse, CreateSubscriberOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -391,6 +426,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSubscriptionNotificationConfigurationInput, CreateSubscriptionNotificationConfigurationOutputResponse, CreateSubscriptionNotificationConfigurationOutputError>(id: "createSubscriptionNotificationConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSubscriptionNotificationConfigurationInput, CreateSubscriptionNotificationConfigurationOutputResponse, CreateSubscriptionNotificationConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSubscriptionNotificationConfigurationInput, CreateSubscriptionNotificationConfigurationOutputResponse>())
@@ -405,8 +441,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSubscriptionNotificationConfigurationOutputResponse, CreateSubscriptionNotificationConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSubscriptionNotificationConfigurationOutputResponse, CreateSubscriptionNotificationConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSubscriptionNotificationConfigurationOutputResponse, CreateSubscriptionNotificationConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -426,6 +466,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAwsLogSourceInput, DeleteAwsLogSourceOutputResponse, DeleteAwsLogSourceOutputError>(id: "deleteAwsLogSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAwsLogSourceInput, DeleteAwsLogSourceOutputResponse, DeleteAwsLogSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAwsLogSourceInput, DeleteAwsLogSourceOutputResponse>())
@@ -440,8 +481,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAwsLogSourceOutputResponse, DeleteAwsLogSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAwsLogSourceOutputResponse, DeleteAwsLogSourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAwsLogSourceOutputResponse, DeleteAwsLogSourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -461,6 +506,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCustomLogSourceInput, DeleteCustomLogSourceOutputResponse, DeleteCustomLogSourceOutputError>(id: "deleteCustomLogSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCustomLogSourceInput, DeleteCustomLogSourceOutputResponse, DeleteCustomLogSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCustomLogSourceInput, DeleteCustomLogSourceOutputResponse>())
@@ -473,8 +519,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCustomLogSourceOutputResponse, DeleteCustomLogSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCustomLogSourceOutputResponse, DeleteCustomLogSourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCustomLogSourceOutputResponse, DeleteCustomLogSourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -494,6 +544,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDatalakeInput, DeleteDatalakeOutputResponse, DeleteDatalakeOutputError>(id: "deleteDatalake")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDatalakeInput, DeleteDatalakeOutputResponse, DeleteDatalakeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDatalakeInput, DeleteDatalakeOutputResponse>())
@@ -505,8 +556,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDatalakeOutputResponse, DeleteDatalakeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDatalakeOutputResponse, DeleteDatalakeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDatalakeOutputResponse, DeleteDatalakeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -526,6 +581,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDatalakeAutoEnableInput, DeleteDatalakeAutoEnableOutputResponse, DeleteDatalakeAutoEnableOutputError>(id: "deleteDatalakeAutoEnable")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDatalakeAutoEnableInput, DeleteDatalakeAutoEnableOutputResponse, DeleteDatalakeAutoEnableOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDatalakeAutoEnableInput, DeleteDatalakeAutoEnableOutputResponse>())
@@ -540,8 +596,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDatalakeAutoEnableOutputResponse, DeleteDatalakeAutoEnableOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDatalakeAutoEnableOutputResponse, DeleteDatalakeAutoEnableOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDatalakeAutoEnableOutputResponse, DeleteDatalakeAutoEnableOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -561,6 +621,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDatalakeDelegatedAdminInput, DeleteDatalakeDelegatedAdminOutputResponse, DeleteDatalakeDelegatedAdminOutputError>(id: "deleteDatalakeDelegatedAdmin")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDatalakeDelegatedAdminInput, DeleteDatalakeDelegatedAdminOutputResponse, DeleteDatalakeDelegatedAdminOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDatalakeDelegatedAdminInput, DeleteDatalakeDelegatedAdminOutputResponse>())
@@ -572,8 +633,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDatalakeDelegatedAdminOutputResponse, DeleteDatalakeDelegatedAdminOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDatalakeDelegatedAdminOutputResponse, DeleteDatalakeDelegatedAdminOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDatalakeDelegatedAdminOutputResponse, DeleteDatalakeDelegatedAdminOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -593,6 +658,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDatalakeExceptionsSubscriptionInput, DeleteDatalakeExceptionsSubscriptionOutputResponse, DeleteDatalakeExceptionsSubscriptionOutputError>(id: "deleteDatalakeExceptionsSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDatalakeExceptionsSubscriptionInput, DeleteDatalakeExceptionsSubscriptionOutputResponse, DeleteDatalakeExceptionsSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDatalakeExceptionsSubscriptionInput, DeleteDatalakeExceptionsSubscriptionOutputResponse>())
@@ -604,8 +670,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDatalakeExceptionsSubscriptionOutputResponse, DeleteDatalakeExceptionsSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDatalakeExceptionsSubscriptionOutputResponse, DeleteDatalakeExceptionsSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDatalakeExceptionsSubscriptionOutputResponse, DeleteDatalakeExceptionsSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -625,6 +695,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSubscriberInput, DeleteSubscriberOutputResponse, DeleteSubscriberOutputError>(id: "deleteSubscriber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSubscriberInput, DeleteSubscriberOutputResponse, DeleteSubscriberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSubscriberInput, DeleteSubscriberOutputResponse>())
@@ -637,8 +708,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSubscriberOutputResponse, DeleteSubscriberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSubscriberOutputResponse, DeleteSubscriberOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSubscriberOutputResponse, DeleteSubscriberOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -658,6 +733,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSubscriptionNotificationConfigurationInput, DeleteSubscriptionNotificationConfigurationOutputResponse, DeleteSubscriptionNotificationConfigurationOutputError>(id: "deleteSubscriptionNotificationConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSubscriptionNotificationConfigurationInput, DeleteSubscriptionNotificationConfigurationOutputResponse, DeleteSubscriptionNotificationConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSubscriptionNotificationConfigurationInput, DeleteSubscriptionNotificationConfigurationOutputResponse>())
@@ -669,8 +745,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSubscriptionNotificationConfigurationOutputResponse, DeleteSubscriptionNotificationConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSubscriptionNotificationConfigurationOutputResponse, DeleteSubscriptionNotificationConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSubscriptionNotificationConfigurationOutputResponse, DeleteSubscriptionNotificationConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -690,6 +770,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDatalakeInput, GetDatalakeOutputResponse, GetDatalakeOutputError>(id: "getDatalake")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDatalakeInput, GetDatalakeOutputResponse, GetDatalakeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDatalakeInput, GetDatalakeOutputResponse>())
@@ -701,8 +782,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDatalakeOutputResponse, GetDatalakeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDatalakeOutputResponse, GetDatalakeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDatalakeOutputResponse, GetDatalakeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -722,6 +807,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDatalakeAutoEnableInput, GetDatalakeAutoEnableOutputResponse, GetDatalakeAutoEnableOutputError>(id: "getDatalakeAutoEnable")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDatalakeAutoEnableInput, GetDatalakeAutoEnableOutputResponse, GetDatalakeAutoEnableOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDatalakeAutoEnableInput, GetDatalakeAutoEnableOutputResponse>())
@@ -733,8 +819,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDatalakeAutoEnableOutputResponse, GetDatalakeAutoEnableOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDatalakeAutoEnableOutputResponse, GetDatalakeAutoEnableOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDatalakeAutoEnableOutputResponse, GetDatalakeAutoEnableOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -754,6 +844,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDatalakeExceptionsExpiryInput, GetDatalakeExceptionsExpiryOutputResponse, GetDatalakeExceptionsExpiryOutputError>(id: "getDatalakeExceptionsExpiry")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDatalakeExceptionsExpiryInput, GetDatalakeExceptionsExpiryOutputResponse, GetDatalakeExceptionsExpiryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDatalakeExceptionsExpiryInput, GetDatalakeExceptionsExpiryOutputResponse>())
@@ -765,8 +856,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDatalakeExceptionsExpiryOutputResponse, GetDatalakeExceptionsExpiryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDatalakeExceptionsExpiryOutputResponse, GetDatalakeExceptionsExpiryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDatalakeExceptionsExpiryOutputResponse, GetDatalakeExceptionsExpiryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -786,6 +881,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDatalakeExceptionsSubscriptionInput, GetDatalakeExceptionsSubscriptionOutputResponse, GetDatalakeExceptionsSubscriptionOutputError>(id: "getDatalakeExceptionsSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDatalakeExceptionsSubscriptionInput, GetDatalakeExceptionsSubscriptionOutputResponse, GetDatalakeExceptionsSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDatalakeExceptionsSubscriptionInput, GetDatalakeExceptionsSubscriptionOutputResponse>())
@@ -797,8 +893,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDatalakeExceptionsSubscriptionOutputResponse, GetDatalakeExceptionsSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDatalakeExceptionsSubscriptionOutputResponse, GetDatalakeExceptionsSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDatalakeExceptionsSubscriptionOutputResponse, GetDatalakeExceptionsSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -818,6 +918,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDatalakeStatusInput, GetDatalakeStatusOutputResponse, GetDatalakeStatusOutputError>(id: "getDatalakeStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDatalakeStatusInput, GetDatalakeStatusOutputResponse, GetDatalakeStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDatalakeStatusInput, GetDatalakeStatusOutputResponse>())
@@ -832,8 +933,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDatalakeStatusOutputResponse, GetDatalakeStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDatalakeStatusOutputResponse, GetDatalakeStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDatalakeStatusOutputResponse, GetDatalakeStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -853,6 +958,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSubscriberInput, GetSubscriberOutputResponse, GetSubscriberOutputError>(id: "getSubscriber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSubscriberInput, GetSubscriberOutputResponse, GetSubscriberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSubscriberInput, GetSubscriberOutputResponse>())
@@ -864,8 +970,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSubscriberOutputResponse, GetSubscriberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSubscriberOutputResponse, GetSubscriberOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSubscriberOutputResponse, GetSubscriberOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -885,6 +995,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDatalakeExceptionsInput, ListDatalakeExceptionsOutputResponse, ListDatalakeExceptionsOutputError>(id: "listDatalakeExceptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDatalakeExceptionsInput, ListDatalakeExceptionsOutputResponse, ListDatalakeExceptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDatalakeExceptionsInput, ListDatalakeExceptionsOutputResponse>())
@@ -899,8 +1010,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDatalakeExceptionsOutputResponse, ListDatalakeExceptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDatalakeExceptionsOutputResponse, ListDatalakeExceptionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDatalakeExceptionsOutputResponse, ListDatalakeExceptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -920,6 +1035,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListLogSourcesInput, ListLogSourcesOutputResponse, ListLogSourcesOutputError>(id: "listLogSources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLogSourcesInput, ListLogSourcesOutputResponse, ListLogSourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLogSourcesInput, ListLogSourcesOutputResponse>())
@@ -934,8 +1050,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLogSourcesOutputResponse, ListLogSourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLogSourcesOutputResponse, ListLogSourcesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLogSourcesOutputResponse, ListLogSourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -955,6 +1075,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSubscribersInput, ListSubscribersOutputResponse, ListSubscribersOutputError>(id: "listSubscribers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSubscribersInput, ListSubscribersOutputResponse, ListSubscribersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSubscribersInput, ListSubscribersOutputResponse>())
@@ -967,8 +1088,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSubscribersOutputResponse, ListSubscribersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSubscribersOutputResponse, ListSubscribersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSubscribersOutputResponse, ListSubscribersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -988,6 +1113,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDatalakeInput, UpdateDatalakeOutputResponse, UpdateDatalakeOutputError>(id: "updateDatalake")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDatalakeInput, UpdateDatalakeOutputResponse, UpdateDatalakeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDatalakeInput, UpdateDatalakeOutputResponse>())
@@ -1002,8 +1128,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDatalakeOutputResponse, UpdateDatalakeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDatalakeOutputResponse, UpdateDatalakeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDatalakeOutputResponse, UpdateDatalakeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1023,6 +1153,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDatalakeExceptionsExpiryInput, UpdateDatalakeExceptionsExpiryOutputResponse, UpdateDatalakeExceptionsExpiryOutputError>(id: "updateDatalakeExceptionsExpiry")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDatalakeExceptionsExpiryInput, UpdateDatalakeExceptionsExpiryOutputResponse, UpdateDatalakeExceptionsExpiryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDatalakeExceptionsExpiryInput, UpdateDatalakeExceptionsExpiryOutputResponse>())
@@ -1037,8 +1168,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDatalakeExceptionsExpiryOutputResponse, UpdateDatalakeExceptionsExpiryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDatalakeExceptionsExpiryOutputResponse, UpdateDatalakeExceptionsExpiryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDatalakeExceptionsExpiryOutputResponse, UpdateDatalakeExceptionsExpiryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1058,6 +1193,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDatalakeExceptionsSubscriptionInput, UpdateDatalakeExceptionsSubscriptionOutputResponse, UpdateDatalakeExceptionsSubscriptionOutputError>(id: "updateDatalakeExceptionsSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDatalakeExceptionsSubscriptionInput, UpdateDatalakeExceptionsSubscriptionOutputResponse, UpdateDatalakeExceptionsSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDatalakeExceptionsSubscriptionInput, UpdateDatalakeExceptionsSubscriptionOutputResponse>())
@@ -1072,8 +1208,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDatalakeExceptionsSubscriptionOutputResponse, UpdateDatalakeExceptionsSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDatalakeExceptionsSubscriptionOutputResponse, UpdateDatalakeExceptionsSubscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDatalakeExceptionsSubscriptionOutputResponse, UpdateDatalakeExceptionsSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1093,6 +1233,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSubscriberInput, UpdateSubscriberOutputResponse, UpdateSubscriberOutputError>(id: "updateSubscriber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSubscriberInput, UpdateSubscriberOutputResponse, UpdateSubscriberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSubscriberInput, UpdateSubscriberOutputResponse>())
@@ -1107,8 +1248,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSubscriberOutputResponse, UpdateSubscriberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSubscriberOutputResponse, UpdateSubscriberOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSubscriberOutputResponse, UpdateSubscriberOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1128,6 +1273,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "securitylake")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSubscriptionNotificationConfigurationInput, UpdateSubscriptionNotificationConfigurationOutputResponse, UpdateSubscriptionNotificationConfigurationOutputError>(id: "updateSubscriptionNotificationConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSubscriptionNotificationConfigurationInput, UpdateSubscriptionNotificationConfigurationOutputResponse, UpdateSubscriptionNotificationConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSubscriptionNotificationConfigurationInput, UpdateSubscriptionNotificationConfigurationOutputResponse>())
@@ -1142,8 +1288,12 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSubscriptionNotificationConfigurationOutputResponse, UpdateSubscriptionNotificationConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSubscriptionNotificationConfigurationOutputResponse, UpdateSubscriptionNotificationConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSubscriptionNotificationConfigurationOutputResponse, UpdateSubscriptionNotificationConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

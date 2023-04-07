@@ -146,6 +146,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateVehicleFleetInput, AssociateVehicleFleetOutputResponse, AssociateVehicleFleetOutputError>(id: "associateVehicleFleet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateVehicleFleetInput, AssociateVehicleFleetOutputResponse, AssociateVehicleFleetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateVehicleFleetInput, AssociateVehicleFleetOutputResponse>())
@@ -161,8 +162,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateVehicleFleetOutputResponse, AssociateVehicleFleetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateVehicleFleetOutputResponse, AssociateVehicleFleetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateVehicleFleetOutputResponse, AssociateVehicleFleetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -182,6 +187,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchCreateVehicleInput, BatchCreateVehicleOutputResponse, BatchCreateVehicleOutputError>(id: "batchCreateVehicle")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchCreateVehicleInput, BatchCreateVehicleOutputResponse, BatchCreateVehicleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchCreateVehicleInput, BatchCreateVehicleOutputResponse>())
@@ -197,8 +203,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchCreateVehicleOutputResponse, BatchCreateVehicleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchCreateVehicleOutputResponse, BatchCreateVehicleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchCreateVehicleOutputResponse, BatchCreateVehicleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -218,6 +228,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchUpdateVehicleInput, BatchUpdateVehicleOutputResponse, BatchUpdateVehicleOutputError>(id: "batchUpdateVehicle")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateVehicleInput, BatchUpdateVehicleOutputResponse, BatchUpdateVehicleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUpdateVehicleInput, BatchUpdateVehicleOutputResponse>())
@@ -233,8 +244,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUpdateVehicleOutputResponse, BatchUpdateVehicleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdateVehicleOutputResponse, BatchUpdateVehicleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchUpdateVehicleOutputResponse, BatchUpdateVehicleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -254,6 +269,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCampaignInput, CreateCampaignOutputResponse, CreateCampaignOutputError>(id: "createCampaign")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCampaignInput, CreateCampaignOutputResponse, CreateCampaignOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCampaignInput, CreateCampaignOutputResponse>())
@@ -269,8 +285,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCampaignOutputResponse, CreateCampaignOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCampaignOutputResponse, CreateCampaignOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCampaignOutputResponse, CreateCampaignOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -298,6 +318,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDecoderManifestInput, CreateDecoderManifestOutputResponse, CreateDecoderManifestOutputError>(id: "createDecoderManifest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDecoderManifestInput, CreateDecoderManifestOutputResponse, CreateDecoderManifestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDecoderManifestInput, CreateDecoderManifestOutputResponse>())
@@ -313,8 +334,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDecoderManifestOutputResponse, CreateDecoderManifestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDecoderManifestOutputResponse, CreateDecoderManifestOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDecoderManifestOutputResponse, CreateDecoderManifestOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -334,6 +359,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFleetInput, CreateFleetOutputResponse, CreateFleetOutputError>(id: "createFleet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFleetInput, CreateFleetOutputResponse, CreateFleetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFleetInput, CreateFleetOutputResponse>())
@@ -349,8 +375,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFleetOutputResponse, CreateFleetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFleetOutputResponse, CreateFleetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFleetOutputResponse, CreateFleetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -370,6 +400,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateModelManifestInput, CreateModelManifestOutputResponse, CreateModelManifestOutputError>(id: "createModelManifest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateModelManifestInput, CreateModelManifestOutputResponse, CreateModelManifestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateModelManifestInput, CreateModelManifestOutputResponse>())
@@ -385,8 +416,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateModelManifestOutputResponse, CreateModelManifestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateModelManifestOutputResponse, CreateModelManifestOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateModelManifestOutputResponse, CreateModelManifestOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -406,6 +441,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSignalCatalogInput, CreateSignalCatalogOutputResponse, CreateSignalCatalogOutputError>(id: "createSignalCatalog")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSignalCatalogInput, CreateSignalCatalogOutputResponse, CreateSignalCatalogOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSignalCatalogInput, CreateSignalCatalogOutputResponse>())
@@ -421,8 +457,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSignalCatalogOutputResponse, CreateSignalCatalogOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSignalCatalogOutputResponse, CreateSignalCatalogOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSignalCatalogOutputResponse, CreateSignalCatalogOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -442,6 +482,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateVehicleInput, CreateVehicleOutputResponse, CreateVehicleOutputError>(id: "createVehicle")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVehicleInput, CreateVehicleOutputResponse, CreateVehicleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVehicleInput, CreateVehicleOutputResponse>())
@@ -457,8 +498,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVehicleOutputResponse, CreateVehicleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVehicleOutputResponse, CreateVehicleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVehicleOutputResponse, CreateVehicleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -478,6 +523,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCampaignInput, DeleteCampaignOutputResponse, DeleteCampaignOutputError>(id: "deleteCampaign")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCampaignInput, DeleteCampaignOutputResponse, DeleteCampaignOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCampaignInput, DeleteCampaignOutputResponse>())
@@ -493,8 +539,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCampaignOutputResponse, DeleteCampaignOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCampaignOutputResponse, DeleteCampaignOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCampaignOutputResponse, DeleteCampaignOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -514,6 +564,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDecoderManifestInput, DeleteDecoderManifestOutputResponse, DeleteDecoderManifestOutputError>(id: "deleteDecoderManifest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDecoderManifestInput, DeleteDecoderManifestOutputResponse, DeleteDecoderManifestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDecoderManifestInput, DeleteDecoderManifestOutputResponse>())
@@ -529,8 +580,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDecoderManifestOutputResponse, DeleteDecoderManifestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDecoderManifestOutputResponse, DeleteDecoderManifestOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDecoderManifestOutputResponse, DeleteDecoderManifestOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -550,6 +605,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFleetInput, DeleteFleetOutputResponse, DeleteFleetOutputError>(id: "deleteFleet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFleetInput, DeleteFleetOutputResponse, DeleteFleetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFleetInput, DeleteFleetOutputResponse>())
@@ -565,8 +621,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFleetOutputResponse, DeleteFleetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFleetOutputResponse, DeleteFleetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFleetOutputResponse, DeleteFleetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -586,6 +646,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteModelManifestInput, DeleteModelManifestOutputResponse, DeleteModelManifestOutputError>(id: "deleteModelManifest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteModelManifestInput, DeleteModelManifestOutputResponse, DeleteModelManifestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteModelManifestInput, DeleteModelManifestOutputResponse>())
@@ -601,8 +662,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteModelManifestOutputResponse, DeleteModelManifestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteModelManifestOutputResponse, DeleteModelManifestOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteModelManifestOutputResponse, DeleteModelManifestOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -622,6 +687,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSignalCatalogInput, DeleteSignalCatalogOutputResponse, DeleteSignalCatalogOutputError>(id: "deleteSignalCatalog")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSignalCatalogInput, DeleteSignalCatalogOutputResponse, DeleteSignalCatalogOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSignalCatalogInput, DeleteSignalCatalogOutputResponse>())
@@ -637,8 +703,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSignalCatalogOutputResponse, DeleteSignalCatalogOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSignalCatalogOutputResponse, DeleteSignalCatalogOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSignalCatalogOutputResponse, DeleteSignalCatalogOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -658,6 +728,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVehicleInput, DeleteVehicleOutputResponse, DeleteVehicleOutputError>(id: "deleteVehicle")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVehicleInput, DeleteVehicleOutputResponse, DeleteVehicleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVehicleInput, DeleteVehicleOutputResponse>())
@@ -673,8 +744,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVehicleOutputResponse, DeleteVehicleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVehicleOutputResponse, DeleteVehicleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVehicleOutputResponse, DeleteVehicleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -694,6 +769,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateVehicleFleetInput, DisassociateVehicleFleetOutputResponse, DisassociateVehicleFleetOutputError>(id: "disassociateVehicleFleet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateVehicleFleetInput, DisassociateVehicleFleetOutputResponse, DisassociateVehicleFleetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateVehicleFleetInput, DisassociateVehicleFleetOutputResponse>())
@@ -709,8 +785,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateVehicleFleetOutputResponse, DisassociateVehicleFleetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateVehicleFleetOutputResponse, DisassociateVehicleFleetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateVehicleFleetOutputResponse, DisassociateVehicleFleetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -730,6 +810,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCampaignInput, GetCampaignOutputResponse, GetCampaignOutputError>(id: "getCampaign")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCampaignInput, GetCampaignOutputResponse, GetCampaignOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCampaignInput, GetCampaignOutputResponse>())
@@ -745,8 +826,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCampaignOutputResponse, GetCampaignOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCampaignOutputResponse, GetCampaignOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCampaignOutputResponse, GetCampaignOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -766,6 +851,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDecoderManifestInput, GetDecoderManifestOutputResponse, GetDecoderManifestOutputError>(id: "getDecoderManifest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDecoderManifestInput, GetDecoderManifestOutputResponse, GetDecoderManifestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDecoderManifestInput, GetDecoderManifestOutputResponse>())
@@ -781,8 +867,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDecoderManifestOutputResponse, GetDecoderManifestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDecoderManifestOutputResponse, GetDecoderManifestOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDecoderManifestOutputResponse, GetDecoderManifestOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -802,6 +892,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFleetInput, GetFleetOutputResponse, GetFleetOutputError>(id: "getFleet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFleetInput, GetFleetOutputResponse, GetFleetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFleetInput, GetFleetOutputResponse>())
@@ -817,8 +908,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFleetOutputResponse, GetFleetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFleetOutputResponse, GetFleetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFleetOutputResponse, GetFleetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -838,6 +933,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLoggingOptionsInput, GetLoggingOptionsOutputResponse, GetLoggingOptionsOutputError>(id: "getLoggingOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoggingOptionsInput, GetLoggingOptionsOutputResponse, GetLoggingOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLoggingOptionsInput, GetLoggingOptionsOutputResponse>())
@@ -853,8 +949,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLoggingOptionsOutputResponse, GetLoggingOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLoggingOptionsOutputResponse, GetLoggingOptionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLoggingOptionsOutputResponse, GetLoggingOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -874,6 +974,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetModelManifestInput, GetModelManifestOutputResponse, GetModelManifestOutputError>(id: "getModelManifest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetModelManifestInput, GetModelManifestOutputResponse, GetModelManifestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetModelManifestInput, GetModelManifestOutputResponse>())
@@ -889,8 +990,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetModelManifestOutputResponse, GetModelManifestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetModelManifestOutputResponse, GetModelManifestOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetModelManifestOutputResponse, GetModelManifestOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -910,6 +1015,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRegisterAccountStatusInput, GetRegisterAccountStatusOutputResponse, GetRegisterAccountStatusOutputError>(id: "getRegisterAccountStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRegisterAccountStatusInput, GetRegisterAccountStatusOutputResponse, GetRegisterAccountStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRegisterAccountStatusInput, GetRegisterAccountStatusOutputResponse>())
@@ -925,8 +1031,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRegisterAccountStatusOutputResponse, GetRegisterAccountStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRegisterAccountStatusOutputResponse, GetRegisterAccountStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRegisterAccountStatusOutputResponse, GetRegisterAccountStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -946,6 +1056,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSignalCatalogInput, GetSignalCatalogOutputResponse, GetSignalCatalogOutputError>(id: "getSignalCatalog")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSignalCatalogInput, GetSignalCatalogOutputResponse, GetSignalCatalogOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSignalCatalogInput, GetSignalCatalogOutputResponse>())
@@ -961,8 +1072,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSignalCatalogOutputResponse, GetSignalCatalogOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSignalCatalogOutputResponse, GetSignalCatalogOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSignalCatalogOutputResponse, GetSignalCatalogOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -982,6 +1097,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetVehicleInput, GetVehicleOutputResponse, GetVehicleOutputError>(id: "getVehicle")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVehicleInput, GetVehicleOutputResponse, GetVehicleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVehicleInput, GetVehicleOutputResponse>())
@@ -997,8 +1113,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVehicleOutputResponse, GetVehicleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVehicleOutputResponse, GetVehicleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVehicleOutputResponse, GetVehicleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1018,6 +1138,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetVehicleStatusInput, GetVehicleStatusOutputResponse, GetVehicleStatusOutputError>(id: "getVehicleStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVehicleStatusInput, GetVehicleStatusOutputResponse, GetVehicleStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVehicleStatusInput, GetVehicleStatusOutputResponse>())
@@ -1034,8 +1155,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVehicleStatusOutputResponse, GetVehicleStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVehicleStatusOutputResponse, GetVehicleStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVehicleStatusOutputResponse, GetVehicleStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1055,6 +1180,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ImportDecoderManifestInput, ImportDecoderManifestOutputResponse, ImportDecoderManifestOutputError>(id: "importDecoderManifest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportDecoderManifestInput, ImportDecoderManifestOutputResponse, ImportDecoderManifestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportDecoderManifestInput, ImportDecoderManifestOutputResponse>())
@@ -1070,8 +1196,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportDecoderManifestOutputResponse, ImportDecoderManifestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportDecoderManifestOutputResponse, ImportDecoderManifestOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportDecoderManifestOutputResponse, ImportDecoderManifestOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1091,6 +1221,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ImportSignalCatalogInput, ImportSignalCatalogOutputResponse, ImportSignalCatalogOutputError>(id: "importSignalCatalog")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportSignalCatalogInput, ImportSignalCatalogOutputResponse, ImportSignalCatalogOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportSignalCatalogInput, ImportSignalCatalogOutputResponse>())
@@ -1106,8 +1237,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportSignalCatalogOutputResponse, ImportSignalCatalogOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportSignalCatalogOutputResponse, ImportSignalCatalogOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportSignalCatalogOutputResponse, ImportSignalCatalogOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1127,6 +1262,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCampaignsInput, ListCampaignsOutputResponse, ListCampaignsOutputError>(id: "listCampaigns")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCampaignsInput, ListCampaignsOutputResponse, ListCampaignsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCampaignsInput, ListCampaignsOutputResponse>())
@@ -1143,8 +1279,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCampaignsOutputResponse, ListCampaignsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCampaignsOutputResponse, ListCampaignsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCampaignsOutputResponse, ListCampaignsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1164,6 +1304,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDecoderManifestNetworkInterfacesInput, ListDecoderManifestNetworkInterfacesOutputResponse, ListDecoderManifestNetworkInterfacesOutputError>(id: "listDecoderManifestNetworkInterfaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDecoderManifestNetworkInterfacesInput, ListDecoderManifestNetworkInterfacesOutputResponse, ListDecoderManifestNetworkInterfacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDecoderManifestNetworkInterfacesInput, ListDecoderManifestNetworkInterfacesOutputResponse>())
@@ -1180,8 +1321,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDecoderManifestNetworkInterfacesOutputResponse, ListDecoderManifestNetworkInterfacesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDecoderManifestNetworkInterfacesOutputResponse, ListDecoderManifestNetworkInterfacesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDecoderManifestNetworkInterfacesOutputResponse, ListDecoderManifestNetworkInterfacesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1201,6 +1346,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDecoderManifestSignalsInput, ListDecoderManifestSignalsOutputResponse, ListDecoderManifestSignalsOutputError>(id: "listDecoderManifestSignals")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDecoderManifestSignalsInput, ListDecoderManifestSignalsOutputResponse, ListDecoderManifestSignalsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDecoderManifestSignalsInput, ListDecoderManifestSignalsOutputResponse>())
@@ -1217,8 +1363,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDecoderManifestSignalsOutputResponse, ListDecoderManifestSignalsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDecoderManifestSignalsOutputResponse, ListDecoderManifestSignalsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDecoderManifestSignalsOutputResponse, ListDecoderManifestSignalsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1238,6 +1388,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDecoderManifestsInput, ListDecoderManifestsOutputResponse, ListDecoderManifestsOutputError>(id: "listDecoderManifests")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDecoderManifestsInput, ListDecoderManifestsOutputResponse, ListDecoderManifestsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDecoderManifestsInput, ListDecoderManifestsOutputResponse>())
@@ -1254,8 +1405,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDecoderManifestsOutputResponse, ListDecoderManifestsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDecoderManifestsOutputResponse, ListDecoderManifestsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDecoderManifestsOutputResponse, ListDecoderManifestsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1275,6 +1430,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFleetsInput, ListFleetsOutputResponse, ListFleetsOutputError>(id: "listFleets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFleetsInput, ListFleetsOutputResponse, ListFleetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFleetsInput, ListFleetsOutputResponse>())
@@ -1291,8 +1447,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFleetsOutputResponse, ListFleetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFleetsOutputResponse, ListFleetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFleetsOutputResponse, ListFleetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1312,6 +1472,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFleetsForVehicleInput, ListFleetsForVehicleOutputResponse, ListFleetsForVehicleOutputError>(id: "listFleetsForVehicle")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFleetsForVehicleInput, ListFleetsForVehicleOutputResponse, ListFleetsForVehicleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFleetsForVehicleInput, ListFleetsForVehicleOutputResponse>())
@@ -1328,8 +1489,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFleetsForVehicleOutputResponse, ListFleetsForVehicleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFleetsForVehicleOutputResponse, ListFleetsForVehicleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFleetsForVehicleOutputResponse, ListFleetsForVehicleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1349,6 +1514,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListModelManifestNodesInput, ListModelManifestNodesOutputResponse, ListModelManifestNodesOutputError>(id: "listModelManifestNodes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListModelManifestNodesInput, ListModelManifestNodesOutputResponse, ListModelManifestNodesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListModelManifestNodesInput, ListModelManifestNodesOutputResponse>())
@@ -1365,8 +1531,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListModelManifestNodesOutputResponse, ListModelManifestNodesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListModelManifestNodesOutputResponse, ListModelManifestNodesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListModelManifestNodesOutputResponse, ListModelManifestNodesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1386,6 +1556,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListModelManifestsInput, ListModelManifestsOutputResponse, ListModelManifestsOutputError>(id: "listModelManifests")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListModelManifestsInput, ListModelManifestsOutputResponse, ListModelManifestsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListModelManifestsInput, ListModelManifestsOutputResponse>())
@@ -1402,8 +1573,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListModelManifestsOutputResponse, ListModelManifestsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListModelManifestsOutputResponse, ListModelManifestsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListModelManifestsOutputResponse, ListModelManifestsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1423,6 +1598,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSignalCatalogNodesInput, ListSignalCatalogNodesOutputResponse, ListSignalCatalogNodesOutputError>(id: "listSignalCatalogNodes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSignalCatalogNodesInput, ListSignalCatalogNodesOutputResponse, ListSignalCatalogNodesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSignalCatalogNodesInput, ListSignalCatalogNodesOutputResponse>())
@@ -1439,8 +1615,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSignalCatalogNodesOutputResponse, ListSignalCatalogNodesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSignalCatalogNodesOutputResponse, ListSignalCatalogNodesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSignalCatalogNodesOutputResponse, ListSignalCatalogNodesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1460,6 +1640,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSignalCatalogsInput, ListSignalCatalogsOutputResponse, ListSignalCatalogsOutputError>(id: "listSignalCatalogs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSignalCatalogsInput, ListSignalCatalogsOutputResponse, ListSignalCatalogsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSignalCatalogsInput, ListSignalCatalogsOutputResponse>())
@@ -1476,8 +1657,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSignalCatalogsOutputResponse, ListSignalCatalogsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSignalCatalogsOutputResponse, ListSignalCatalogsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSignalCatalogsOutputResponse, ListSignalCatalogsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1497,6 +1682,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1513,8 +1699,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1534,6 +1724,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListVehiclesInput, ListVehiclesOutputResponse, ListVehiclesOutputError>(id: "listVehicles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVehiclesInput, ListVehiclesOutputResponse, ListVehiclesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVehiclesInput, ListVehiclesOutputResponse>())
@@ -1550,8 +1741,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVehiclesOutputResponse, ListVehiclesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVehiclesOutputResponse, ListVehiclesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVehiclesOutputResponse, ListVehiclesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1571,6 +1766,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListVehiclesInFleetInput, ListVehiclesInFleetOutputResponse, ListVehiclesInFleetOutputError>(id: "listVehiclesInFleet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVehiclesInFleetInput, ListVehiclesInFleetOutputResponse, ListVehiclesInFleetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVehiclesInFleetInput, ListVehiclesInFleetOutputResponse>())
@@ -1587,8 +1783,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVehiclesInFleetOutputResponse, ListVehiclesInFleetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVehiclesInFleetOutputResponse, ListVehiclesInFleetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVehiclesInFleetOutputResponse, ListVehiclesInFleetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1608,6 +1808,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutLoggingOptionsInput, PutLoggingOptionsOutputResponse, PutLoggingOptionsOutputError>(id: "putLoggingOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutLoggingOptionsInput, PutLoggingOptionsOutputResponse, PutLoggingOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutLoggingOptionsInput, PutLoggingOptionsOutputResponse>())
@@ -1623,8 +1824,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutLoggingOptionsOutputResponse, PutLoggingOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutLoggingOptionsOutputResponse, PutLoggingOptionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutLoggingOptionsOutputResponse, PutLoggingOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1644,6 +1849,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterAccountInput, RegisterAccountOutputResponse, RegisterAccountOutputError>(id: "registerAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterAccountInput, RegisterAccountOutputResponse, RegisterAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterAccountInput, RegisterAccountOutputResponse>())
@@ -1659,8 +1865,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterAccountOutputResponse, RegisterAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterAccountOutputResponse, RegisterAccountOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterAccountOutputResponse, RegisterAccountOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1680,6 +1890,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1696,8 +1907,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1717,6 +1932,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1733,8 +1949,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1754,6 +1974,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateCampaignInput, UpdateCampaignOutputResponse, UpdateCampaignOutputError>(id: "updateCampaign")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCampaignInput, UpdateCampaignOutputResponse, UpdateCampaignOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCampaignInput, UpdateCampaignOutputResponse>())
@@ -1769,8 +1990,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCampaignOutputResponse, UpdateCampaignOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCampaignOutputResponse, UpdateCampaignOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCampaignOutputResponse, UpdateCampaignOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1790,6 +2015,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDecoderManifestInput, UpdateDecoderManifestOutputResponse, UpdateDecoderManifestOutputError>(id: "updateDecoderManifest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDecoderManifestInput, UpdateDecoderManifestOutputResponse, UpdateDecoderManifestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDecoderManifestInput, UpdateDecoderManifestOutputResponse>())
@@ -1805,8 +2031,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDecoderManifestOutputResponse, UpdateDecoderManifestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDecoderManifestOutputResponse, UpdateDecoderManifestOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDecoderManifestOutputResponse, UpdateDecoderManifestOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1826,6 +2056,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFleetInput, UpdateFleetOutputResponse, UpdateFleetOutputError>(id: "updateFleet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFleetInput, UpdateFleetOutputResponse, UpdateFleetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFleetInput, UpdateFleetOutputResponse>())
@@ -1841,8 +2072,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFleetOutputResponse, UpdateFleetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFleetOutputResponse, UpdateFleetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFleetOutputResponse, UpdateFleetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1862,6 +2097,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateModelManifestInput, UpdateModelManifestOutputResponse, UpdateModelManifestOutputError>(id: "updateModelManifest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateModelManifestInput, UpdateModelManifestOutputResponse, UpdateModelManifestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateModelManifestInput, UpdateModelManifestOutputResponse>())
@@ -1877,8 +2113,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateModelManifestOutputResponse, UpdateModelManifestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateModelManifestOutputResponse, UpdateModelManifestOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateModelManifestOutputResponse, UpdateModelManifestOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1898,6 +2138,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSignalCatalogInput, UpdateSignalCatalogOutputResponse, UpdateSignalCatalogOutputError>(id: "updateSignalCatalog")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSignalCatalogInput, UpdateSignalCatalogOutputResponse, UpdateSignalCatalogOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSignalCatalogInput, UpdateSignalCatalogOutputResponse>())
@@ -1913,8 +2154,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSignalCatalogOutputResponse, UpdateSignalCatalogOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSignalCatalogOutputResponse, UpdateSignalCatalogOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSignalCatalogOutputResponse, UpdateSignalCatalogOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1934,6 +2179,7 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotfleetwise")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateVehicleInput, UpdateVehicleOutputResponse, UpdateVehicleOutputError>(id: "updateVehicle")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateVehicleInput, UpdateVehicleOutputResponse, UpdateVehicleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateVehicleInput, UpdateVehicleOutputResponse>())
@@ -1949,8 +2195,12 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateVehicleOutputResponse, UpdateVehicleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateVehicleOutputResponse, UpdateVehicleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateVehicleOutputResponse, UpdateVehicleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

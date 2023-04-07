@@ -150,6 +150,7 @@ extension SupportClient: SupportClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddAttachmentsToSetInput, AddAttachmentsToSetOutputResponse, AddAttachmentsToSetOutputError>(id: "addAttachmentsToSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutputResponse, AddAttachmentsToSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddAttachmentsToSetInput, AddAttachmentsToSetOutputResponse>())
@@ -165,8 +166,12 @@ extension SupportClient: SupportClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddAttachmentsToSetOutputResponse, AddAttachmentsToSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddAttachmentsToSetOutputResponse, AddAttachmentsToSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddAttachmentsToSetOutputResponse, AddAttachmentsToSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -190,6 +195,7 @@ extension SupportClient: SupportClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddCommunicationToCaseInput, AddCommunicationToCaseOutputResponse, AddCommunicationToCaseOutputError>(id: "addCommunicationToCase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutputResponse, AddCommunicationToCaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddCommunicationToCaseInput, AddCommunicationToCaseOutputResponse>())
@@ -205,8 +211,12 @@ extension SupportClient: SupportClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddCommunicationToCaseOutputResponse, AddCommunicationToCaseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddCommunicationToCaseOutputResponse, AddCommunicationToCaseOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddCommunicationToCaseOutputResponse, AddCommunicationToCaseOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -237,6 +247,7 @@ extension SupportClient: SupportClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCaseInput, CreateCaseOutputResponse, CreateCaseOutputError>(id: "createCase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCaseInput, CreateCaseOutputResponse, CreateCaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCaseInput, CreateCaseOutputResponse>())
@@ -252,8 +263,12 @@ extension SupportClient: SupportClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCaseOutputResponse, CreateCaseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCaseOutputResponse, CreateCaseOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCaseOutputResponse, CreateCaseOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -277,6 +292,7 @@ extension SupportClient: SupportClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAttachmentInput, DescribeAttachmentOutputResponse, DescribeAttachmentOutputError>(id: "describeAttachment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAttachmentInput, DescribeAttachmentOutputResponse, DescribeAttachmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAttachmentInput, DescribeAttachmentOutputResponse>())
@@ -292,8 +308,12 @@ extension SupportClient: SupportClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAttachmentOutputResponse, DescribeAttachmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAttachmentOutputResponse, DescribeAttachmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAttachmentOutputResponse, DescribeAttachmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -324,6 +344,7 @@ extension SupportClient: SupportClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCasesInput, DescribeCasesOutputResponse, DescribeCasesOutputError>(id: "describeCases")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCasesInput, DescribeCasesOutputResponse, DescribeCasesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCasesInput, DescribeCasesOutputResponse>())
@@ -339,8 +360,12 @@ extension SupportClient: SupportClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCasesOutputResponse, DescribeCasesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCasesOutputResponse, DescribeCasesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCasesOutputResponse, DescribeCasesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -364,6 +389,7 @@ extension SupportClient: SupportClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCommunicationsInput, DescribeCommunicationsOutputResponse, DescribeCommunicationsOutputError>(id: "describeCommunications")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutputResponse, DescribeCommunicationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCommunicationsInput, DescribeCommunicationsOutputResponse>())
@@ -379,8 +405,12 @@ extension SupportClient: SupportClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCommunicationsOutputResponse, DescribeCommunicationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCommunicationsOutputResponse, DescribeCommunicationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCommunicationsOutputResponse, DescribeCommunicationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -404,6 +434,7 @@ extension SupportClient: SupportClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeServicesInput, DescribeServicesOutputResponse, DescribeServicesOutputError>(id: "describeServices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeServicesInput, DescribeServicesOutputResponse, DescribeServicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeServicesInput, DescribeServicesOutputResponse>())
@@ -419,8 +450,12 @@ extension SupportClient: SupportClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeServicesOutputResponse, DescribeServicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeServicesOutputResponse, DescribeServicesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeServicesOutputResponse, DescribeServicesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -444,6 +479,7 @@ extension SupportClient: SupportClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutputResponse, DescribeSeverityLevelsOutputError>(id: "describeSeverityLevels")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutputResponse, DescribeSeverityLevelsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSeverityLevelsInput, DescribeSeverityLevelsOutputResponse>())
@@ -459,8 +495,12 @@ extension SupportClient: SupportClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSeverityLevelsOutputResponse, DescribeSeverityLevelsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSeverityLevelsOutputResponse, DescribeSeverityLevelsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSeverityLevelsOutputResponse, DescribeSeverityLevelsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -487,6 +527,7 @@ extension SupportClient: SupportClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>(id: "describeTrustedAdvisorCheckRefreshStatuses")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesInput, DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse>())
@@ -502,8 +543,12 @@ extension SupportClient: SupportClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse, DescribeTrustedAdvisorCheckRefreshStatusesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -548,6 +593,7 @@ extension SupportClient: SupportClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutputResponse, DescribeTrustedAdvisorCheckResultOutputError>(id: "describeTrustedAdvisorCheckResult")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutputResponse, DescribeTrustedAdvisorCheckResultOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrustedAdvisorCheckResultInput, DescribeTrustedAdvisorCheckResultOutputResponse>())
@@ -563,8 +609,12 @@ extension SupportClient: SupportClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrustedAdvisorCheckResultOutputResponse, DescribeTrustedAdvisorCheckResultOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrustedAdvisorCheckResultOutputResponse, DescribeTrustedAdvisorCheckResultOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTrustedAdvisorCheckResultOutputResponse, DescribeTrustedAdvisorCheckResultOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -591,6 +641,7 @@ extension SupportClient: SupportClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutputResponse, DescribeTrustedAdvisorCheckSummariesOutputError>(id: "describeTrustedAdvisorCheckSummaries")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutputResponse, DescribeTrustedAdvisorCheckSummariesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrustedAdvisorCheckSummariesInput, DescribeTrustedAdvisorCheckSummariesOutputResponse>())
@@ -606,8 +657,12 @@ extension SupportClient: SupportClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrustedAdvisorCheckSummariesOutputResponse, DescribeTrustedAdvisorCheckSummariesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrustedAdvisorCheckSummariesOutputResponse, DescribeTrustedAdvisorCheckSummariesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTrustedAdvisorCheckSummariesOutputResponse, DescribeTrustedAdvisorCheckSummariesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -636,6 +691,7 @@ extension SupportClient: SupportClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutputResponse, DescribeTrustedAdvisorChecksOutputError>(id: "describeTrustedAdvisorChecks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutputResponse, DescribeTrustedAdvisorChecksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrustedAdvisorChecksInput, DescribeTrustedAdvisorChecksOutputResponse>())
@@ -651,8 +707,12 @@ extension SupportClient: SupportClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrustedAdvisorChecksOutputResponse, DescribeTrustedAdvisorChecksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrustedAdvisorChecksOutputResponse, DescribeTrustedAdvisorChecksOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTrustedAdvisorChecksOutputResponse, DescribeTrustedAdvisorChecksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -679,6 +739,7 @@ extension SupportClient: SupportClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutputResponse, RefreshTrustedAdvisorCheckOutputError>(id: "refreshTrustedAdvisorCheck")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutputResponse, RefreshTrustedAdvisorCheckOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RefreshTrustedAdvisorCheckInput, RefreshTrustedAdvisorCheckOutputResponse>())
@@ -694,8 +755,12 @@ extension SupportClient: SupportClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RefreshTrustedAdvisorCheckOutputResponse, RefreshTrustedAdvisorCheckOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RefreshTrustedAdvisorCheckOutputResponse, RefreshTrustedAdvisorCheckOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RefreshTrustedAdvisorCheckOutputResponse, RefreshTrustedAdvisorCheckOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -719,6 +784,7 @@ extension SupportClient: SupportClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "support")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResolveCaseInput, ResolveCaseOutputResponse, ResolveCaseOutputError>(id: "resolveCase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResolveCaseInput, ResolveCaseOutputResponse, ResolveCaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResolveCaseInput, ResolveCaseOutputResponse>())
@@ -734,8 +800,12 @@ extension SupportClient: SupportClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResolveCaseOutputResponse, ResolveCaseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResolveCaseOutputResponse, ResolveCaseOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResolveCaseOutputResponse, ResolveCaseOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

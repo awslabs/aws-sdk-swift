@@ -148,6 +148,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutputResponse, ActivateKeySigningKeyOutputError>(id: "activateKeySigningKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutputResponse, ActivateKeySigningKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutputResponse>())
@@ -159,8 +160,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ActivateKeySigningKeyOutputResponse, ActivateKeySigningKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ActivateKeySigningKeyOutputResponse, ActivateKeySigningKeyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ActivateKeySigningKeyOutputResponse, ActivateKeySigningKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -189,6 +194,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutputResponse, AssociateVPCWithHostedZoneOutputError>(id: "associateVPCWithHostedZone")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutputResponse, AssociateVPCWithHostedZoneOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutputResponse>())
@@ -203,8 +209,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateVPCWithHostedZoneOutputResponse, AssociateVPCWithHostedZoneOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateVPCWithHostedZoneOutputResponse, AssociateVPCWithHostedZoneOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateVPCWithHostedZoneOutputResponse, AssociateVPCWithHostedZoneOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -228,6 +238,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ChangeCidrCollectionInput, ChangeCidrCollectionOutputResponse, ChangeCidrCollectionOutputError>(id: "changeCidrCollection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ChangeCidrCollectionInput, ChangeCidrCollectionOutputResponse, ChangeCidrCollectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ChangeCidrCollectionInput, ChangeCidrCollectionOutputResponse>())
@@ -242,8 +253,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ChangeCidrCollectionOutputResponse, ChangeCidrCollectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ChangeCidrCollectionOutputResponse, ChangeCidrCollectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ChangeCidrCollectionOutputResponse, ChangeCidrCollectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -272,6 +287,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutputResponse, ChangeResourceRecordSetsOutputError>(id: "changeResourceRecordSets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutputResponse, ChangeResourceRecordSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutputResponse>())
@@ -286,8 +302,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ChangeResourceRecordSetsOutputResponse, ChangeResourceRecordSetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ChangeResourceRecordSetsOutputResponse, ChangeResourceRecordSetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ChangeResourceRecordSetsOutputResponse, ChangeResourceRecordSetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -307,6 +327,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ChangeTagsForResourceInput, ChangeTagsForResourceOutputResponse, ChangeTagsForResourceOutputError>(id: "changeTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ChangeTagsForResourceInput, ChangeTagsForResourceOutputResponse, ChangeTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ChangeTagsForResourceInput, ChangeTagsForResourceOutputResponse>())
@@ -321,8 +342,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ChangeTagsForResourceOutputResponse, ChangeTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ChangeTagsForResourceOutputResponse, ChangeTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ChangeTagsForResourceOutputResponse, ChangeTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -342,6 +367,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCidrCollectionInput, CreateCidrCollectionOutputResponse, CreateCidrCollectionOutputError>(id: "createCidrCollection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCidrCollectionInput, CreateCidrCollectionOutputResponse, CreateCidrCollectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCidrCollectionInput, CreateCidrCollectionOutputResponse>())
@@ -356,8 +382,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCidrCollectionOutputResponse, CreateCidrCollectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCidrCollectionOutputResponse, CreateCidrCollectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCidrCollectionOutputResponse, CreateCidrCollectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -383,6 +413,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateHealthCheckInput, CreateHealthCheckOutputResponse, CreateHealthCheckOutputError>(id: "createHealthCheck")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateHealthCheckInput, CreateHealthCheckOutputResponse, CreateHealthCheckOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateHealthCheckInput, CreateHealthCheckOutputResponse>())
@@ -397,8 +428,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateHealthCheckOutputResponse, CreateHealthCheckOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateHealthCheckOutputResponse, CreateHealthCheckOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateHealthCheckOutputResponse, CreateHealthCheckOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -436,6 +471,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateHostedZoneInput, CreateHostedZoneOutputResponse, CreateHostedZoneOutputError>(id: "createHostedZone")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateHostedZoneInput, CreateHostedZoneOutputResponse, CreateHostedZoneOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateHostedZoneInput, CreateHostedZoneOutputResponse>())
@@ -450,8 +486,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateHostedZoneOutputResponse, CreateHostedZoneOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateHostedZoneOutputResponse, CreateHostedZoneOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateHostedZoneOutputResponse, CreateHostedZoneOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -471,6 +511,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateKeySigningKeyInput, CreateKeySigningKeyOutputResponse, CreateKeySigningKeyOutputError>(id: "createKeySigningKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateKeySigningKeyInput, CreateKeySigningKeyOutputResponse, CreateKeySigningKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateKeySigningKeyInput, CreateKeySigningKeyOutputResponse>())
@@ -485,8 +526,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateKeySigningKeyOutputResponse, CreateKeySigningKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateKeySigningKeyOutputResponse, CreateKeySigningKeyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateKeySigningKeyOutputResponse, CreateKeySigningKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -547,6 +592,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutputResponse, CreateQueryLoggingConfigOutputError>(id: "createQueryLoggingConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutputResponse, CreateQueryLoggingConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutputResponse>())
@@ -561,8 +607,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateQueryLoggingConfigOutputResponse, CreateQueryLoggingConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateQueryLoggingConfigOutputResponse, CreateQueryLoggingConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateQueryLoggingConfigOutputResponse, CreateQueryLoggingConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -603,6 +653,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutputResponse, CreateReusableDelegationSetOutputError>(id: "createReusableDelegationSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutputResponse, CreateReusableDelegationSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutputResponse>())
@@ -617,8 +668,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateReusableDelegationSetOutputResponse, CreateReusableDelegationSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReusableDelegationSetOutputResponse, CreateReusableDelegationSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateReusableDelegationSetOutputResponse, CreateReusableDelegationSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -638,6 +693,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTrafficPolicyInput, CreateTrafficPolicyOutputResponse, CreateTrafficPolicyOutputError>(id: "createTrafficPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutputResponse, CreateTrafficPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutputResponse>())
@@ -652,8 +708,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrafficPolicyOutputResponse, CreateTrafficPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrafficPolicyOutputResponse, CreateTrafficPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTrafficPolicyOutputResponse, CreateTrafficPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -673,6 +733,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutputResponse, CreateTrafficPolicyInstanceOutputError>(id: "createTrafficPolicyInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutputResponse, CreateTrafficPolicyInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutputResponse>())
@@ -687,8 +748,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrafficPolicyInstanceOutputResponse, CreateTrafficPolicyInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrafficPolicyInstanceOutputResponse, CreateTrafficPolicyInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTrafficPolicyInstanceOutputResponse, CreateTrafficPolicyInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -708,6 +773,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutputResponse, CreateTrafficPolicyVersionOutputError>(id: "createTrafficPolicyVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutputResponse, CreateTrafficPolicyVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutputResponse>())
@@ -722,8 +788,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrafficPolicyVersionOutputResponse, CreateTrafficPolicyVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrafficPolicyVersionOutputResponse, CreateTrafficPolicyVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTrafficPolicyVersionOutputResponse, CreateTrafficPolicyVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -743,6 +813,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutputResponse, CreateVPCAssociationAuthorizationOutputError>(id: "createVPCAssociationAuthorization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutputResponse, CreateVPCAssociationAuthorizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutputResponse>())
@@ -757,8 +828,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVPCAssociationAuthorizationOutputResponse, CreateVPCAssociationAuthorizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVPCAssociationAuthorizationOutputResponse, CreateVPCAssociationAuthorizationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVPCAssociationAuthorizationOutputResponse, CreateVPCAssociationAuthorizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -778,6 +853,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutputResponse, DeactivateKeySigningKeyOutputError>(id: "deactivateKeySigningKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutputResponse, DeactivateKeySigningKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutputResponse>())
@@ -789,8 +865,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeactivateKeySigningKeyOutputResponse, DeactivateKeySigningKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeactivateKeySigningKeyOutputResponse, DeactivateKeySigningKeyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeactivateKeySigningKeyOutputResponse, DeactivateKeySigningKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -810,6 +890,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCidrCollectionInput, DeleteCidrCollectionOutputResponse, DeleteCidrCollectionOutputError>(id: "deleteCidrCollection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCidrCollectionInput, DeleteCidrCollectionOutputResponse, DeleteCidrCollectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCidrCollectionInput, DeleteCidrCollectionOutputResponse>())
@@ -821,8 +902,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCidrCollectionOutputResponse, DeleteCidrCollectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCidrCollectionOutputResponse, DeleteCidrCollectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCidrCollectionOutputResponse, DeleteCidrCollectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -842,6 +927,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteHealthCheckInput, DeleteHealthCheckOutputResponse, DeleteHealthCheckOutputError>(id: "deleteHealthCheck")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteHealthCheckInput, DeleteHealthCheckOutputResponse, DeleteHealthCheckOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteHealthCheckInput, DeleteHealthCheckOutputResponse>())
@@ -853,8 +939,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteHealthCheckOutputResponse, DeleteHealthCheckOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteHealthCheckOutputResponse, DeleteHealthCheckOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteHealthCheckOutputResponse, DeleteHealthCheckOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -878,6 +968,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteHostedZoneInput, DeleteHostedZoneOutputResponse, DeleteHostedZoneOutputError>(id: "deleteHostedZone")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteHostedZoneInput, DeleteHostedZoneOutputResponse, DeleteHostedZoneOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteHostedZoneInput, DeleteHostedZoneOutputResponse>())
@@ -889,8 +980,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteHostedZoneOutputResponse, DeleteHostedZoneOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteHostedZoneOutputResponse, DeleteHostedZoneOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteHostedZoneOutputResponse, DeleteHostedZoneOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -910,6 +1005,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutputResponse, DeleteKeySigningKeyOutputError>(id: "deleteKeySigningKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutputResponse, DeleteKeySigningKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutputResponse>())
@@ -921,8 +1017,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteKeySigningKeyOutputResponse, DeleteKeySigningKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteKeySigningKeyOutputResponse, DeleteKeySigningKeyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteKeySigningKeyOutputResponse, DeleteKeySigningKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -942,6 +1042,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteQueryLoggingConfigInput, DeleteQueryLoggingConfigOutputResponse, DeleteQueryLoggingConfigOutputError>(id: "deleteQueryLoggingConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteQueryLoggingConfigInput, DeleteQueryLoggingConfigOutputResponse, DeleteQueryLoggingConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteQueryLoggingConfigInput, DeleteQueryLoggingConfigOutputResponse>())
@@ -953,8 +1054,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteQueryLoggingConfigOutputResponse, DeleteQueryLoggingConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteQueryLoggingConfigOutputResponse, DeleteQueryLoggingConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteQueryLoggingConfigOutputResponse, DeleteQueryLoggingConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -974,6 +1079,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteReusableDelegationSetInput, DeleteReusableDelegationSetOutputResponse, DeleteReusableDelegationSetOutputError>(id: "deleteReusableDelegationSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReusableDelegationSetInput, DeleteReusableDelegationSetOutputResponse, DeleteReusableDelegationSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReusableDelegationSetInput, DeleteReusableDelegationSetOutputResponse>())
@@ -985,8 +1091,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReusableDelegationSetOutputResponse, DeleteReusableDelegationSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReusableDelegationSetOutputResponse, DeleteReusableDelegationSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteReusableDelegationSetOutputResponse, DeleteReusableDelegationSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1012,6 +1122,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutputResponse, DeleteTrafficPolicyOutputError>(id: "deleteTrafficPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutputResponse, DeleteTrafficPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutputResponse>())
@@ -1023,8 +1134,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTrafficPolicyOutputResponse, DeleteTrafficPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrafficPolicyOutputResponse, DeleteTrafficPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTrafficPolicyOutputResponse, DeleteTrafficPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1044,6 +1159,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTrafficPolicyInstanceInput, DeleteTrafficPolicyInstanceOutputResponse, DeleteTrafficPolicyInstanceOutputError>(id: "deleteTrafficPolicyInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTrafficPolicyInstanceInput, DeleteTrafficPolicyInstanceOutputResponse, DeleteTrafficPolicyInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTrafficPolicyInstanceInput, DeleteTrafficPolicyInstanceOutputResponse>())
@@ -1055,8 +1171,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTrafficPolicyInstanceOutputResponse, DeleteTrafficPolicyInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrafficPolicyInstanceOutputResponse, DeleteTrafficPolicyInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTrafficPolicyInstanceOutputResponse, DeleteTrafficPolicyInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1076,6 +1196,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutputResponse, DeleteVPCAssociationAuthorizationOutputError>(id: "deleteVPCAssociationAuthorization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutputResponse, DeleteVPCAssociationAuthorizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutputResponse>())
@@ -1090,8 +1211,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVPCAssociationAuthorizationOutputResponse, DeleteVPCAssociationAuthorizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVPCAssociationAuthorizationOutputResponse, DeleteVPCAssociationAuthorizationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVPCAssociationAuthorizationOutputResponse, DeleteVPCAssociationAuthorizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1111,6 +1236,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutputResponse, DisableHostedZoneDNSSECOutputError>(id: "disableHostedZoneDNSSEC")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutputResponse, DisableHostedZoneDNSSECOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutputResponse>())
@@ -1122,8 +1248,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableHostedZoneDNSSECOutputResponse, DisableHostedZoneDNSSECOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableHostedZoneDNSSECOutputResponse, DisableHostedZoneDNSSECOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableHostedZoneDNSSECOutputResponse, DisableHostedZoneDNSSECOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1163,6 +1293,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutputResponse, DisassociateVPCFromHostedZoneOutputError>(id: "disassociateVPCFromHostedZone")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutputResponse, DisassociateVPCFromHostedZoneOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutputResponse>())
@@ -1177,8 +1308,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateVPCFromHostedZoneOutputResponse, DisassociateVPCFromHostedZoneOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateVPCFromHostedZoneOutputResponse, DisassociateVPCFromHostedZoneOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateVPCFromHostedZoneOutputResponse, DisassociateVPCFromHostedZoneOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1198,6 +1333,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutputResponse, EnableHostedZoneDNSSECOutputError>(id: "enableHostedZoneDNSSEC")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutputResponse, EnableHostedZoneDNSSECOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutputResponse>())
@@ -1209,8 +1345,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableHostedZoneDNSSECOutputResponse, EnableHostedZoneDNSSECOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableHostedZoneDNSSECOutputResponse, EnableHostedZoneDNSSECOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableHostedZoneDNSSECOutputResponse, EnableHostedZoneDNSSECOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1230,6 +1370,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccountLimitInput, GetAccountLimitOutputResponse, GetAccountLimitOutputError>(id: "getAccountLimit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountLimitInput, GetAccountLimitOutputResponse, GetAccountLimitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountLimitInput, GetAccountLimitOutputResponse>())
@@ -1241,8 +1382,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountLimitOutputResponse, GetAccountLimitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountLimitOutputResponse, GetAccountLimitOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountLimitOutputResponse, GetAccountLimitOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1266,6 +1411,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetChangeInput, GetChangeOutputResponse, GetChangeOutputError>(id: "getChange")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetChangeInput, GetChangeOutputResponse, GetChangeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetChangeInput, GetChangeOutputResponse>())
@@ -1277,8 +1423,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetChangeOutputResponse, GetChangeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetChangeOutputResponse, GetChangeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetChangeOutputResponse, GetChangeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1298,6 +1448,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCheckerIpRangesInput, GetCheckerIpRangesOutputResponse, GetCheckerIpRangesOutputError>(id: "getCheckerIpRanges")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCheckerIpRangesInput, GetCheckerIpRangesOutputResponse, GetCheckerIpRangesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCheckerIpRangesInput, GetCheckerIpRangesOutputResponse>())
@@ -1309,8 +1460,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCheckerIpRangesOutputResponse, GetCheckerIpRangesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCheckerIpRangesOutputResponse, GetCheckerIpRangesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCheckerIpRangesOutputResponse, GetCheckerIpRangesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1330,6 +1485,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDNSSECInput, GetDNSSECOutputResponse, GetDNSSECOutputError>(id: "getDNSSEC")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDNSSECInput, GetDNSSECOutputResponse, GetDNSSECOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDNSSECInput, GetDNSSECOutputResponse>())
@@ -1341,8 +1497,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDNSSECOutputResponse, GetDNSSECOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDNSSECOutputResponse, GetDNSSECOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDNSSECOutputResponse, GetDNSSECOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1362,6 +1522,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetGeoLocationInput, GetGeoLocationOutputResponse, GetGeoLocationOutputError>(id: "getGeoLocation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGeoLocationInput, GetGeoLocationOutputResponse, GetGeoLocationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGeoLocationInput, GetGeoLocationOutputResponse>())
@@ -1374,8 +1535,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGeoLocationOutputResponse, GetGeoLocationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGeoLocationOutputResponse, GetGeoLocationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGeoLocationOutputResponse, GetGeoLocationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1395,6 +1560,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetHealthCheckInput, GetHealthCheckOutputResponse, GetHealthCheckOutputError>(id: "getHealthCheck")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetHealthCheckInput, GetHealthCheckOutputResponse, GetHealthCheckOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetHealthCheckInput, GetHealthCheckOutputResponse>())
@@ -1406,8 +1572,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHealthCheckOutputResponse, GetHealthCheckOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHealthCheckOutputResponse, GetHealthCheckOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHealthCheckOutputResponse, GetHealthCheckOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1427,6 +1597,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetHealthCheckCountInput, GetHealthCheckCountOutputResponse, GetHealthCheckCountOutputError>(id: "getHealthCheckCount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetHealthCheckCountInput, GetHealthCheckCountOutputResponse, GetHealthCheckCountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetHealthCheckCountInput, GetHealthCheckCountOutputResponse>())
@@ -1438,8 +1609,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHealthCheckCountOutputResponse, GetHealthCheckCountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHealthCheckCountOutputResponse, GetHealthCheckCountOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHealthCheckCountOutputResponse, GetHealthCheckCountOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1459,6 +1634,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetHealthCheckLastFailureReasonInput, GetHealthCheckLastFailureReasonOutputResponse, GetHealthCheckLastFailureReasonOutputError>(id: "getHealthCheckLastFailureReason")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetHealthCheckLastFailureReasonInput, GetHealthCheckLastFailureReasonOutputResponse, GetHealthCheckLastFailureReasonOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetHealthCheckLastFailureReasonInput, GetHealthCheckLastFailureReasonOutputResponse>())
@@ -1470,8 +1646,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHealthCheckLastFailureReasonOutputResponse, GetHealthCheckLastFailureReasonOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHealthCheckLastFailureReasonOutputResponse, GetHealthCheckLastFailureReasonOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHealthCheckLastFailureReasonOutputResponse, GetHealthCheckLastFailureReasonOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1491,6 +1671,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetHealthCheckStatusInput, GetHealthCheckStatusOutputResponse, GetHealthCheckStatusOutputError>(id: "getHealthCheckStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetHealthCheckStatusInput, GetHealthCheckStatusOutputResponse, GetHealthCheckStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetHealthCheckStatusInput, GetHealthCheckStatusOutputResponse>())
@@ -1502,8 +1683,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHealthCheckStatusOutputResponse, GetHealthCheckStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHealthCheckStatusOutputResponse, GetHealthCheckStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHealthCheckStatusOutputResponse, GetHealthCheckStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1523,6 +1708,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetHostedZoneInput, GetHostedZoneOutputResponse, GetHostedZoneOutputError>(id: "getHostedZone")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetHostedZoneInput, GetHostedZoneOutputResponse, GetHostedZoneOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetHostedZoneInput, GetHostedZoneOutputResponse>())
@@ -1534,8 +1720,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHostedZoneOutputResponse, GetHostedZoneOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHostedZoneOutputResponse, GetHostedZoneOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHostedZoneOutputResponse, GetHostedZoneOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1555,6 +1745,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetHostedZoneCountInput, GetHostedZoneCountOutputResponse, GetHostedZoneCountOutputError>(id: "getHostedZoneCount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetHostedZoneCountInput, GetHostedZoneCountOutputResponse, GetHostedZoneCountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetHostedZoneCountInput, GetHostedZoneCountOutputResponse>())
@@ -1566,8 +1757,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHostedZoneCountOutputResponse, GetHostedZoneCountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHostedZoneCountOutputResponse, GetHostedZoneCountOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHostedZoneCountOutputResponse, GetHostedZoneCountOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1587,6 +1782,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetHostedZoneLimitInput, GetHostedZoneLimitOutputResponse, GetHostedZoneLimitOutputError>(id: "getHostedZoneLimit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetHostedZoneLimitInput, GetHostedZoneLimitOutputResponse, GetHostedZoneLimitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetHostedZoneLimitInput, GetHostedZoneLimitOutputResponse>())
@@ -1598,8 +1794,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHostedZoneLimitOutputResponse, GetHostedZoneLimitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHostedZoneLimitOutputResponse, GetHostedZoneLimitOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHostedZoneLimitOutputResponse, GetHostedZoneLimitOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1619,6 +1819,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetQueryLoggingConfigInput, GetQueryLoggingConfigOutputResponse, GetQueryLoggingConfigOutputError>(id: "getQueryLoggingConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQueryLoggingConfigInput, GetQueryLoggingConfigOutputResponse, GetQueryLoggingConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQueryLoggingConfigInput, GetQueryLoggingConfigOutputResponse>())
@@ -1630,8 +1831,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQueryLoggingConfigOutputResponse, GetQueryLoggingConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueryLoggingConfigOutputResponse, GetQueryLoggingConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQueryLoggingConfigOutputResponse, GetQueryLoggingConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1651,6 +1856,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetReusableDelegationSetInput, GetReusableDelegationSetOutputResponse, GetReusableDelegationSetOutputError>(id: "getReusableDelegationSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetReusableDelegationSetInput, GetReusableDelegationSetOutputResponse, GetReusableDelegationSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetReusableDelegationSetInput, GetReusableDelegationSetOutputResponse>())
@@ -1662,8 +1868,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetReusableDelegationSetOutputResponse, GetReusableDelegationSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetReusableDelegationSetOutputResponse, GetReusableDelegationSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetReusableDelegationSetOutputResponse, GetReusableDelegationSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1683,6 +1893,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetReusableDelegationSetLimitInput, GetReusableDelegationSetLimitOutputResponse, GetReusableDelegationSetLimitOutputError>(id: "getReusableDelegationSetLimit")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetReusableDelegationSetLimitInput, GetReusableDelegationSetLimitOutputResponse, GetReusableDelegationSetLimitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetReusableDelegationSetLimitInput, GetReusableDelegationSetLimitOutputResponse>())
@@ -1694,8 +1905,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetReusableDelegationSetLimitOutputResponse, GetReusableDelegationSetLimitOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetReusableDelegationSetLimitOutputResponse, GetReusableDelegationSetLimitOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetReusableDelegationSetLimitOutputResponse, GetReusableDelegationSetLimitOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1715,6 +1930,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTrafficPolicyInput, GetTrafficPolicyOutputResponse, GetTrafficPolicyOutputError>(id: "getTrafficPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutputResponse, GetTrafficPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutputResponse>())
@@ -1726,8 +1942,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrafficPolicyOutputResponse, GetTrafficPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrafficPolicyOutputResponse, GetTrafficPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrafficPolicyOutputResponse, GetTrafficPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1747,6 +1967,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTrafficPolicyInstanceInput, GetTrafficPolicyInstanceOutputResponse, GetTrafficPolicyInstanceOutputError>(id: "getTrafficPolicyInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTrafficPolicyInstanceInput, GetTrafficPolicyInstanceOutputResponse, GetTrafficPolicyInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrafficPolicyInstanceInput, GetTrafficPolicyInstanceOutputResponse>())
@@ -1758,8 +1979,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrafficPolicyInstanceOutputResponse, GetTrafficPolicyInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrafficPolicyInstanceOutputResponse, GetTrafficPolicyInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrafficPolicyInstanceOutputResponse, GetTrafficPolicyInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1779,6 +2004,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTrafficPolicyInstanceCountInput, GetTrafficPolicyInstanceCountOutputResponse, GetTrafficPolicyInstanceCountOutputError>(id: "getTrafficPolicyInstanceCount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTrafficPolicyInstanceCountInput, GetTrafficPolicyInstanceCountOutputResponse, GetTrafficPolicyInstanceCountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrafficPolicyInstanceCountInput, GetTrafficPolicyInstanceCountOutputResponse>())
@@ -1790,8 +2016,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTrafficPolicyInstanceCountOutputResponse, GetTrafficPolicyInstanceCountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTrafficPolicyInstanceCountOutputResponse, GetTrafficPolicyInstanceCountOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTrafficPolicyInstanceCountOutputResponse, GetTrafficPolicyInstanceCountOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1811,6 +2041,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCidrBlocksInput, ListCidrBlocksOutputResponse, ListCidrBlocksOutputError>(id: "listCidrBlocks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCidrBlocksInput, ListCidrBlocksOutputResponse, ListCidrBlocksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCidrBlocksInput, ListCidrBlocksOutputResponse>())
@@ -1823,8 +2054,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCidrBlocksOutputResponse, ListCidrBlocksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCidrBlocksOutputResponse, ListCidrBlocksOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCidrBlocksOutputResponse, ListCidrBlocksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1844,6 +2079,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCidrCollectionsInput, ListCidrCollectionsOutputResponse, ListCidrCollectionsOutputError>(id: "listCidrCollections")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCidrCollectionsInput, ListCidrCollectionsOutputResponse, ListCidrCollectionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCidrCollectionsInput, ListCidrCollectionsOutputResponse>())
@@ -1856,8 +2092,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCidrCollectionsOutputResponse, ListCidrCollectionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCidrCollectionsOutputResponse, ListCidrCollectionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCidrCollectionsOutputResponse, ListCidrCollectionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1877,6 +2117,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCidrLocationsInput, ListCidrLocationsOutputResponse, ListCidrLocationsOutputError>(id: "listCidrLocations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCidrLocationsInput, ListCidrLocationsOutputResponse, ListCidrLocationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCidrLocationsInput, ListCidrLocationsOutputResponse>())
@@ -1889,8 +2130,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCidrLocationsOutputResponse, ListCidrLocationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCidrLocationsOutputResponse, ListCidrLocationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCidrLocationsOutputResponse, ListCidrLocationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1910,6 +2155,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGeoLocationsInput, ListGeoLocationsOutputResponse, ListGeoLocationsOutputError>(id: "listGeoLocations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGeoLocationsInput, ListGeoLocationsOutputResponse, ListGeoLocationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGeoLocationsInput, ListGeoLocationsOutputResponse>())
@@ -1922,8 +2168,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGeoLocationsOutputResponse, ListGeoLocationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGeoLocationsOutputResponse, ListGeoLocationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGeoLocationsOutputResponse, ListGeoLocationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1943,6 +2193,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListHealthChecksInput, ListHealthChecksOutputResponse, ListHealthChecksOutputError>(id: "listHealthChecks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHealthChecksInput, ListHealthChecksOutputResponse, ListHealthChecksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHealthChecksInput, ListHealthChecksOutputResponse>())
@@ -1955,8 +2206,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHealthChecksOutputResponse, ListHealthChecksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHealthChecksOutputResponse, ListHealthChecksOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListHealthChecksOutputResponse, ListHealthChecksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1976,6 +2231,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListHostedZonesInput, ListHostedZonesOutputResponse, ListHostedZonesOutputError>(id: "listHostedZones")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHostedZonesInput, ListHostedZonesOutputResponse, ListHostedZonesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHostedZonesInput, ListHostedZonesOutputResponse>())
@@ -1988,8 +2244,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHostedZonesOutputResponse, ListHostedZonesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHostedZonesOutputResponse, ListHostedZonesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListHostedZonesOutputResponse, ListHostedZonesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2017,6 +2277,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListHostedZonesByNameInput, ListHostedZonesByNameOutputResponse, ListHostedZonesByNameOutputError>(id: "listHostedZonesByName")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHostedZonesByNameInput, ListHostedZonesByNameOutputResponse, ListHostedZonesByNameOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHostedZonesByNameInput, ListHostedZonesByNameOutputResponse>())
@@ -2029,8 +2290,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHostedZonesByNameOutputResponse, ListHostedZonesByNameOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHostedZonesByNameOutputResponse, ListHostedZonesByNameOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListHostedZonesByNameOutputResponse, ListHostedZonesByNameOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2066,6 +2331,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListHostedZonesByVPCInput, ListHostedZonesByVPCOutputResponse, ListHostedZonesByVPCOutputError>(id: "listHostedZonesByVPC")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHostedZonesByVPCInput, ListHostedZonesByVPCOutputResponse, ListHostedZonesByVPCOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHostedZonesByVPCInput, ListHostedZonesByVPCOutputResponse>())
@@ -2078,8 +2344,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHostedZonesByVPCOutputResponse, ListHostedZonesByVPCOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHostedZonesByVPCOutputResponse, ListHostedZonesByVPCOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListHostedZonesByVPCOutputResponse, ListHostedZonesByVPCOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2099,6 +2369,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutputResponse, ListQueryLoggingConfigsOutputError>(id: "listQueryLoggingConfigs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutputResponse, ListQueryLoggingConfigsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutputResponse>())
@@ -2111,8 +2382,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListQueryLoggingConfigsOutputResponse, ListQueryLoggingConfigsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListQueryLoggingConfigsOutputResponse, ListQueryLoggingConfigsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListQueryLoggingConfigsOutputResponse, ListQueryLoggingConfigsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2132,6 +2407,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListResourceRecordSetsInput, ListResourceRecordSetsOutputResponse, ListResourceRecordSetsOutputError>(id: "listResourceRecordSets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceRecordSetsInput, ListResourceRecordSetsOutputResponse, ListResourceRecordSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceRecordSetsInput, ListResourceRecordSetsOutputResponse>())
@@ -2144,8 +2420,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceRecordSetsOutputResponse, ListResourceRecordSetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceRecordSetsOutputResponse, ListResourceRecordSetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourceRecordSetsOutputResponse, ListResourceRecordSetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2165,6 +2445,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListReusableDelegationSetsInput, ListReusableDelegationSetsOutputResponse, ListReusableDelegationSetsOutputError>(id: "listReusableDelegationSets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListReusableDelegationSetsInput, ListReusableDelegationSetsOutputResponse, ListReusableDelegationSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListReusableDelegationSetsInput, ListReusableDelegationSetsOutputResponse>())
@@ -2177,8 +2458,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReusableDelegationSetsOutputResponse, ListReusableDelegationSetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReusableDelegationSetsOutputResponse, ListReusableDelegationSetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListReusableDelegationSetsOutputResponse, ListReusableDelegationSetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2198,6 +2483,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -2209,8 +2495,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2230,6 +2520,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourcesInput, ListTagsForResourcesOutputResponse, ListTagsForResourcesOutputError>(id: "listTagsForResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourcesInput, ListTagsForResourcesOutputResponse, ListTagsForResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourcesInput, ListTagsForResourcesOutputResponse>())
@@ -2244,8 +2535,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourcesOutputResponse, ListTagsForResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourcesOutputResponse, ListTagsForResourcesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourcesOutputResponse, ListTagsForResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2265,6 +2560,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTrafficPoliciesInput, ListTrafficPoliciesOutputResponse, ListTrafficPoliciesOutputError>(id: "listTrafficPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutputResponse, ListTrafficPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutputResponse>())
@@ -2277,8 +2573,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrafficPoliciesOutputResponse, ListTrafficPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrafficPoliciesOutputResponse, ListTrafficPoliciesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrafficPoliciesOutputResponse, ListTrafficPoliciesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2298,6 +2598,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTrafficPolicyInstancesInput, ListTrafficPolicyInstancesOutputResponse, ListTrafficPolicyInstancesOutputError>(id: "listTrafficPolicyInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrafficPolicyInstancesInput, ListTrafficPolicyInstancesOutputResponse, ListTrafficPolicyInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrafficPolicyInstancesInput, ListTrafficPolicyInstancesOutputResponse>())
@@ -2310,8 +2611,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrafficPolicyInstancesOutputResponse, ListTrafficPolicyInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrafficPolicyInstancesOutputResponse, ListTrafficPolicyInstancesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrafficPolicyInstancesOutputResponse, ListTrafficPolicyInstancesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2331,6 +2636,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTrafficPolicyInstancesByHostedZoneInput, ListTrafficPolicyInstancesByHostedZoneOutputResponse, ListTrafficPolicyInstancesByHostedZoneOutputError>(id: "listTrafficPolicyInstancesByHostedZone")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrafficPolicyInstancesByHostedZoneInput, ListTrafficPolicyInstancesByHostedZoneOutputResponse, ListTrafficPolicyInstancesByHostedZoneOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrafficPolicyInstancesByHostedZoneInput, ListTrafficPolicyInstancesByHostedZoneOutputResponse>())
@@ -2343,8 +2649,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrafficPolicyInstancesByHostedZoneOutputResponse, ListTrafficPolicyInstancesByHostedZoneOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrafficPolicyInstancesByHostedZoneOutputResponse, ListTrafficPolicyInstancesByHostedZoneOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrafficPolicyInstancesByHostedZoneOutputResponse, ListTrafficPolicyInstancesByHostedZoneOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2364,6 +2674,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTrafficPolicyInstancesByPolicyInput, ListTrafficPolicyInstancesByPolicyOutputResponse, ListTrafficPolicyInstancesByPolicyOutputError>(id: "listTrafficPolicyInstancesByPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrafficPolicyInstancesByPolicyInput, ListTrafficPolicyInstancesByPolicyOutputResponse, ListTrafficPolicyInstancesByPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrafficPolicyInstancesByPolicyInput, ListTrafficPolicyInstancesByPolicyOutputResponse>())
@@ -2376,8 +2687,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrafficPolicyInstancesByPolicyOutputResponse, ListTrafficPolicyInstancesByPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrafficPolicyInstancesByPolicyOutputResponse, ListTrafficPolicyInstancesByPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrafficPolicyInstancesByPolicyOutputResponse, ListTrafficPolicyInstancesByPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2397,6 +2712,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTrafficPolicyVersionsInput, ListTrafficPolicyVersionsOutputResponse, ListTrafficPolicyVersionsOutputError>(id: "listTrafficPolicyVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrafficPolicyVersionsInput, ListTrafficPolicyVersionsOutputResponse, ListTrafficPolicyVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrafficPolicyVersionsInput, ListTrafficPolicyVersionsOutputResponse>())
@@ -2409,8 +2725,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrafficPolicyVersionsOutputResponse, ListTrafficPolicyVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrafficPolicyVersionsOutputResponse, ListTrafficPolicyVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTrafficPolicyVersionsOutputResponse, ListTrafficPolicyVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2430,6 +2750,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutputResponse, ListVPCAssociationAuthorizationsOutputError>(id: "listVPCAssociationAuthorizations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutputResponse, ListVPCAssociationAuthorizationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutputResponse>())
@@ -2442,8 +2763,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVPCAssociationAuthorizationsOutputResponse, ListVPCAssociationAuthorizationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVPCAssociationAuthorizationsOutputResponse, ListVPCAssociationAuthorizationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVPCAssociationAuthorizationsOutputResponse, ListVPCAssociationAuthorizationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2463,6 +2788,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TestDNSAnswerInput, TestDNSAnswerOutputResponse, TestDNSAnswerOutputError>(id: "testDNSAnswer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestDNSAnswerInput, TestDNSAnswerOutputResponse, TestDNSAnswerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestDNSAnswerInput, TestDNSAnswerOutputResponse>())
@@ -2475,8 +2801,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestDNSAnswerOutputResponse, TestDNSAnswerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestDNSAnswerOutputResponse, TestDNSAnswerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestDNSAnswerOutputResponse, TestDNSAnswerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2496,6 +2826,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateHealthCheckInput, UpdateHealthCheckOutputResponse, UpdateHealthCheckOutputError>(id: "updateHealthCheck")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateHealthCheckInput, UpdateHealthCheckOutputResponse, UpdateHealthCheckOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateHealthCheckInput, UpdateHealthCheckOutputResponse>())
@@ -2510,8 +2841,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateHealthCheckOutputResponse, UpdateHealthCheckOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateHealthCheckOutputResponse, UpdateHealthCheckOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateHealthCheckOutputResponse, UpdateHealthCheckOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2531,6 +2866,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutputResponse, UpdateHostedZoneCommentOutputError>(id: "updateHostedZoneComment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutputResponse, UpdateHostedZoneCommentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutputResponse>())
@@ -2545,8 +2881,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateHostedZoneCommentOutputResponse, UpdateHostedZoneCommentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateHostedZoneCommentOutputResponse, UpdateHostedZoneCommentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateHostedZoneCommentOutputResponse, UpdateHostedZoneCommentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2566,6 +2906,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutputResponse, UpdateTrafficPolicyCommentOutputError>(id: "updateTrafficPolicyComment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutputResponse, UpdateTrafficPolicyCommentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutputResponse>())
@@ -2580,8 +2921,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTrafficPolicyCommentOutputResponse, UpdateTrafficPolicyCommentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrafficPolicyCommentOutputResponse, UpdateTrafficPolicyCommentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTrafficPolicyCommentOutputResponse, UpdateTrafficPolicyCommentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2607,6 +2952,7 @@ extension Route53Client: Route53ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutputResponse, UpdateTrafficPolicyInstanceOutputError>(id: "updateTrafficPolicyInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutputResponse, UpdateTrafficPolicyInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutputResponse>())
@@ -2621,8 +2967,12 @@ extension Route53Client: Route53ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTrafficPolicyInstanceOutputResponse, UpdateTrafficPolicyInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrafficPolicyInstanceOutputResponse, UpdateTrafficPolicyInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTrafficPolicyInstanceOutputResponse, UpdateTrafficPolicyInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

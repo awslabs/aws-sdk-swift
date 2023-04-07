@@ -146,6 +146,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelContactInput, CancelContactOutputResponse, CancelContactOutputError>(id: "cancelContact")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelContactInput, CancelContactOutputResponse, CancelContactOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelContactInput, CancelContactOutputResponse>())
@@ -157,8 +158,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelContactOutputResponse, CancelContactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelContactOutputResponse, CancelContactOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelContactOutputResponse, CancelContactOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -178,6 +183,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateConfigInput, CreateConfigOutputResponse, CreateConfigOutputError>(id: "createConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConfigInput, CreateConfigOutputResponse, CreateConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConfigInput, CreateConfigOutputResponse>())
@@ -192,8 +198,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConfigOutputResponse, CreateConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConfigOutputResponse, CreateConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConfigOutputResponse, CreateConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -213,6 +223,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDataflowEndpointGroupInput, CreateDataflowEndpointGroupOutputResponse, CreateDataflowEndpointGroupOutputError>(id: "createDataflowEndpointGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDataflowEndpointGroupInput, CreateDataflowEndpointGroupOutputResponse, CreateDataflowEndpointGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDataflowEndpointGroupInput, CreateDataflowEndpointGroupOutputResponse>())
@@ -227,8 +238,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDataflowEndpointGroupOutputResponse, CreateDataflowEndpointGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDataflowEndpointGroupOutputResponse, CreateDataflowEndpointGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDataflowEndpointGroupOutputResponse, CreateDataflowEndpointGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -248,6 +263,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEphemerisInput, CreateEphemerisOutputResponse, CreateEphemerisOutputError>(id: "createEphemeris")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEphemerisInput, CreateEphemerisOutputResponse, CreateEphemerisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEphemerisInput, CreateEphemerisOutputResponse>())
@@ -262,8 +278,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEphemerisOutputResponse, CreateEphemerisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEphemerisOutputResponse, CreateEphemerisOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEphemerisOutputResponse, CreateEphemerisOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -283,6 +303,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMissionProfileInput, CreateMissionProfileOutputResponse, CreateMissionProfileOutputError>(id: "createMissionProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMissionProfileInput, CreateMissionProfileOutputResponse, CreateMissionProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMissionProfileInput, CreateMissionProfileOutputResponse>())
@@ -297,8 +318,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMissionProfileOutputResponse, CreateMissionProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMissionProfileOutputResponse, CreateMissionProfileOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMissionProfileOutputResponse, CreateMissionProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -318,6 +343,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteConfigInput, DeleteConfigOutputResponse, DeleteConfigOutputError>(id: "deleteConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfigInput, DeleteConfigOutputResponse, DeleteConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfigInput, DeleteConfigOutputResponse>())
@@ -329,8 +355,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigOutputResponse, DeleteConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigOutputResponse, DeleteConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConfigOutputResponse, DeleteConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -350,6 +380,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDataflowEndpointGroupInput, DeleteDataflowEndpointGroupOutputResponse, DeleteDataflowEndpointGroupOutputError>(id: "deleteDataflowEndpointGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDataflowEndpointGroupInput, DeleteDataflowEndpointGroupOutputResponse, DeleteDataflowEndpointGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDataflowEndpointGroupInput, DeleteDataflowEndpointGroupOutputResponse>())
@@ -361,8 +392,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDataflowEndpointGroupOutputResponse, DeleteDataflowEndpointGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDataflowEndpointGroupOutputResponse, DeleteDataflowEndpointGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDataflowEndpointGroupOutputResponse, DeleteDataflowEndpointGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -382,6 +417,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEphemerisInput, DeleteEphemerisOutputResponse, DeleteEphemerisOutputError>(id: "deleteEphemeris")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEphemerisInput, DeleteEphemerisOutputResponse, DeleteEphemerisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEphemerisInput, DeleteEphemerisOutputResponse>())
@@ -393,8 +429,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEphemerisOutputResponse, DeleteEphemerisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEphemerisOutputResponse, DeleteEphemerisOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEphemerisOutputResponse, DeleteEphemerisOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -414,6 +454,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteMissionProfileInput, DeleteMissionProfileOutputResponse, DeleteMissionProfileOutputError>(id: "deleteMissionProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMissionProfileInput, DeleteMissionProfileOutputResponse, DeleteMissionProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMissionProfileInput, DeleteMissionProfileOutputResponse>())
@@ -425,8 +466,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMissionProfileOutputResponse, DeleteMissionProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMissionProfileOutputResponse, DeleteMissionProfileOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMissionProfileOutputResponse, DeleteMissionProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -446,6 +491,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeContactInput, DescribeContactOutputResponse, DescribeContactOutputError>(id: "describeContact")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeContactInput, DescribeContactOutputResponse, DescribeContactOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeContactInput, DescribeContactOutputResponse>())
@@ -457,8 +503,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeContactOutputResponse, DescribeContactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeContactOutputResponse, DescribeContactOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeContactOutputResponse, DescribeContactOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -478,6 +528,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEphemerisInput, DescribeEphemerisOutputResponse, DescribeEphemerisOutputError>(id: "describeEphemeris")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEphemerisInput, DescribeEphemerisOutputResponse, DescribeEphemerisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEphemerisInput, DescribeEphemerisOutputResponse>())
@@ -489,8 +540,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEphemerisOutputResponse, DescribeEphemerisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEphemerisOutputResponse, DescribeEphemerisOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEphemerisOutputResponse, DescribeEphemerisOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -510,6 +565,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAgentConfigurationInput, GetAgentConfigurationOutputResponse, GetAgentConfigurationOutputError>(id: "getAgentConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAgentConfigurationInput, GetAgentConfigurationOutputResponse, GetAgentConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAgentConfigurationInput, GetAgentConfigurationOutputResponse>())
@@ -521,8 +577,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAgentConfigurationOutputResponse, GetAgentConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAgentConfigurationOutputResponse, GetAgentConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAgentConfigurationOutputResponse, GetAgentConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -542,6 +602,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetConfigInput, GetConfigOutputResponse, GetConfigOutputError>(id: "getConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConfigInput, GetConfigOutputResponse, GetConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConfigInput, GetConfigOutputResponse>())
@@ -553,8 +614,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConfigOutputResponse, GetConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConfigOutputResponse, GetConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConfigOutputResponse, GetConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -574,6 +639,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDataflowEndpointGroupInput, GetDataflowEndpointGroupOutputResponse, GetDataflowEndpointGroupOutputError>(id: "getDataflowEndpointGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDataflowEndpointGroupInput, GetDataflowEndpointGroupOutputResponse, GetDataflowEndpointGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDataflowEndpointGroupInput, GetDataflowEndpointGroupOutputResponse>())
@@ -585,8 +651,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDataflowEndpointGroupOutputResponse, GetDataflowEndpointGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDataflowEndpointGroupOutputResponse, GetDataflowEndpointGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDataflowEndpointGroupOutputResponse, GetDataflowEndpointGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -606,6 +676,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMinuteUsageInput, GetMinuteUsageOutputResponse, GetMinuteUsageOutputError>(id: "getMinuteUsage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMinuteUsageInput, GetMinuteUsageOutputResponse, GetMinuteUsageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMinuteUsageInput, GetMinuteUsageOutputResponse>())
@@ -620,8 +691,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMinuteUsageOutputResponse, GetMinuteUsageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMinuteUsageOutputResponse, GetMinuteUsageOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMinuteUsageOutputResponse, GetMinuteUsageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -641,6 +716,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMissionProfileInput, GetMissionProfileOutputResponse, GetMissionProfileOutputError>(id: "getMissionProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMissionProfileInput, GetMissionProfileOutputResponse, GetMissionProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMissionProfileInput, GetMissionProfileOutputResponse>())
@@ -652,8 +728,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMissionProfileOutputResponse, GetMissionProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMissionProfileOutputResponse, GetMissionProfileOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMissionProfileOutputResponse, GetMissionProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -673,6 +753,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSatelliteInput, GetSatelliteOutputResponse, GetSatelliteOutputError>(id: "getSatellite")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSatelliteInput, GetSatelliteOutputResponse, GetSatelliteOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSatelliteInput, GetSatelliteOutputResponse>())
@@ -684,8 +765,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSatelliteOutputResponse, GetSatelliteOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSatelliteOutputResponse, GetSatelliteOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSatelliteOutputResponse, GetSatelliteOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -705,6 +790,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListConfigsInput, ListConfigsOutputResponse, ListConfigsOutputError>(id: "listConfigs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConfigsInput, ListConfigsOutputResponse, ListConfigsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConfigsInput, ListConfigsOutputResponse>())
@@ -717,8 +803,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConfigsOutputResponse, ListConfigsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConfigsOutputResponse, ListConfigsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListConfigsOutputResponse, ListConfigsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -738,6 +828,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListContactsInput, ListContactsOutputResponse, ListContactsOutputError>(id: "listContacts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListContactsInput, ListContactsOutputResponse, ListContactsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListContactsInput, ListContactsOutputResponse>())
@@ -752,8 +843,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListContactsOutputResponse, ListContactsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListContactsOutputResponse, ListContactsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListContactsOutputResponse, ListContactsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -773,6 +868,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDataflowEndpointGroupsInput, ListDataflowEndpointGroupsOutputResponse, ListDataflowEndpointGroupsOutputError>(id: "listDataflowEndpointGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDataflowEndpointGroupsInput, ListDataflowEndpointGroupsOutputResponse, ListDataflowEndpointGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDataflowEndpointGroupsInput, ListDataflowEndpointGroupsOutputResponse>())
@@ -785,8 +881,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDataflowEndpointGroupsOutputResponse, ListDataflowEndpointGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDataflowEndpointGroupsOutputResponse, ListDataflowEndpointGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDataflowEndpointGroupsOutputResponse, ListDataflowEndpointGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -806,6 +906,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEphemeridesInput, ListEphemeridesOutputResponse, ListEphemeridesOutputError>(id: "listEphemerides")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEphemeridesInput, ListEphemeridesOutputResponse, ListEphemeridesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEphemeridesInput, ListEphemeridesOutputResponse>())
@@ -821,8 +922,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEphemeridesOutputResponse, ListEphemeridesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEphemeridesOutputResponse, ListEphemeridesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEphemeridesOutputResponse, ListEphemeridesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -842,6 +947,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGroundStationsInput, ListGroundStationsOutputResponse, ListGroundStationsOutputError>(id: "listGroundStations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroundStationsInput, ListGroundStationsOutputResponse, ListGroundStationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroundStationsInput, ListGroundStationsOutputResponse>())
@@ -854,8 +960,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroundStationsOutputResponse, ListGroundStationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroundStationsOutputResponse, ListGroundStationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroundStationsOutputResponse, ListGroundStationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -875,6 +985,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMissionProfilesInput, ListMissionProfilesOutputResponse, ListMissionProfilesOutputError>(id: "listMissionProfiles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMissionProfilesInput, ListMissionProfilesOutputResponse, ListMissionProfilesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMissionProfilesInput, ListMissionProfilesOutputResponse>())
@@ -887,8 +998,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMissionProfilesOutputResponse, ListMissionProfilesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMissionProfilesOutputResponse, ListMissionProfilesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMissionProfilesOutputResponse, ListMissionProfilesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -908,6 +1023,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSatellitesInput, ListSatellitesOutputResponse, ListSatellitesOutputError>(id: "listSatellites")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSatellitesInput, ListSatellitesOutputResponse, ListSatellitesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSatellitesInput, ListSatellitesOutputResponse>())
@@ -920,8 +1036,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSatellitesOutputResponse, ListSatellitesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSatellitesOutputResponse, ListSatellitesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSatellitesOutputResponse, ListSatellitesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -941,6 +1061,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -952,8 +1073,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -973,6 +1098,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterAgentInput, RegisterAgentOutputResponse, RegisterAgentOutputError>(id: "registerAgent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterAgentInput, RegisterAgentOutputResponse, RegisterAgentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterAgentInput, RegisterAgentOutputResponse>())
@@ -987,8 +1113,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterAgentOutputResponse, RegisterAgentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterAgentOutputResponse, RegisterAgentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterAgentOutputResponse, RegisterAgentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1008,6 +1138,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ReserveContactInput, ReserveContactOutputResponse, ReserveContactOutputError>(id: "reserveContact")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReserveContactInput, ReserveContactOutputResponse, ReserveContactOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReserveContactInput, ReserveContactOutputResponse>())
@@ -1022,8 +1153,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReserveContactOutputResponse, ReserveContactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReserveContactOutputResponse, ReserveContactOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReserveContactOutputResponse, ReserveContactOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1043,6 +1178,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1057,8 +1193,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1078,6 +1218,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1090,8 +1231,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1111,6 +1256,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAgentStatusInput, UpdateAgentStatusOutputResponse, UpdateAgentStatusOutputError>(id: "updateAgentStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAgentStatusInput, UpdateAgentStatusOutputResponse, UpdateAgentStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAgentStatusInput, UpdateAgentStatusOutputResponse>())
@@ -1125,8 +1271,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAgentStatusOutputResponse, UpdateAgentStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAgentStatusOutputResponse, UpdateAgentStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAgentStatusOutputResponse, UpdateAgentStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1146,6 +1296,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateConfigInput, UpdateConfigOutputResponse, UpdateConfigOutputError>(id: "updateConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConfigInput, UpdateConfigOutputResponse, UpdateConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConfigInput, UpdateConfigOutputResponse>())
@@ -1160,8 +1311,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConfigOutputResponse, UpdateConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConfigOutputResponse, UpdateConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConfigOutputResponse, UpdateConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1181,6 +1336,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateEphemerisInput, UpdateEphemerisOutputResponse, UpdateEphemerisOutputError>(id: "updateEphemeris")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEphemerisInput, UpdateEphemerisOutputResponse, UpdateEphemerisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEphemerisInput, UpdateEphemerisOutputResponse>())
@@ -1195,8 +1351,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEphemerisOutputResponse, UpdateEphemerisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEphemerisOutputResponse, UpdateEphemerisOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEphemerisOutputResponse, UpdateEphemerisOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1216,6 +1376,7 @@ extension GroundStationClient: GroundStationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "groundstation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateMissionProfileInput, UpdateMissionProfileOutputResponse, UpdateMissionProfileOutputError>(id: "updateMissionProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMissionProfileInput, UpdateMissionProfileOutputResponse, UpdateMissionProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMissionProfileInput, UpdateMissionProfileOutputResponse>())
@@ -1230,8 +1391,12 @@ extension GroundStationClient: GroundStationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMissionProfileOutputResponse, UpdateMissionProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMissionProfileOutputResponse, UpdateMissionProfileOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMissionProfileOutputResponse, UpdateMissionProfileOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

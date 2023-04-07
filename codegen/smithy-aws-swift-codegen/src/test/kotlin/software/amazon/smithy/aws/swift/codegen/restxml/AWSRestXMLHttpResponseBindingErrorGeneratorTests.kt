@@ -96,7 +96,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """            
-            public struct ComplexXMLError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+            public struct ComplexXMLError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
                 public var _headers: ClientRuntime.Headers?
                 public var _statusCode: ClientRuntime.HttpStatusCode?
                 public var _message: Swift.String?

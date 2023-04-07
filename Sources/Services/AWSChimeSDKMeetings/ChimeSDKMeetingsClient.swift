@@ -146,6 +146,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchCreateAttendeeInput, BatchCreateAttendeeOutputResponse, BatchCreateAttendeeOutputError>(id: "batchCreateAttendee")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchCreateAttendeeInput, BatchCreateAttendeeOutputResponse, BatchCreateAttendeeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchCreateAttendeeInput, BatchCreateAttendeeOutputResponse>())
@@ -164,8 +165,12 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchCreateAttendeeOutputResponse, BatchCreateAttendeeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchCreateAttendeeOutputResponse, BatchCreateAttendeeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchCreateAttendeeOutputResponse, BatchCreateAttendeeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -191,6 +196,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchUpdateAttendeeCapabilitiesExceptInput, BatchUpdateAttendeeCapabilitiesExceptOutputResponse, BatchUpdateAttendeeCapabilitiesExceptOutputError>(id: "batchUpdateAttendeeCapabilitiesExcept")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateAttendeeCapabilitiesExceptInput, BatchUpdateAttendeeCapabilitiesExceptOutputResponse, BatchUpdateAttendeeCapabilitiesExceptOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUpdateAttendeeCapabilitiesExceptInput, BatchUpdateAttendeeCapabilitiesExceptOutputResponse>())
@@ -209,8 +215,12 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUpdateAttendeeCapabilitiesExceptOutputResponse, BatchUpdateAttendeeCapabilitiesExceptOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdateAttendeeCapabilitiesExceptOutputResponse, BatchUpdateAttendeeCapabilitiesExceptOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchUpdateAttendeeCapabilitiesExceptOutputResponse, BatchUpdateAttendeeCapabilitiesExceptOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -230,6 +240,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAttendeeInput, CreateAttendeeOutputResponse, CreateAttendeeOutputError>(id: "createAttendee")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAttendeeInput, CreateAttendeeOutputResponse, CreateAttendeeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAttendeeInput, CreateAttendeeOutputResponse>())
@@ -247,8 +258,12 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAttendeeOutputResponse, CreateAttendeeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAttendeeOutputResponse, CreateAttendeeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAttendeeOutputResponse, CreateAttendeeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -268,6 +283,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMeetingInput, CreateMeetingOutputResponse, CreateMeetingOutputError>(id: "createMeeting")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateMeetingOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -293,8 +309,12 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMeetingOutputResponse, CreateMeetingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMeetingOutputResponse, CreateMeetingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMeetingOutputResponse, CreateMeetingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -314,6 +334,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMeetingWithAttendeesInput, CreateMeetingWithAttendeesOutputResponse, CreateMeetingWithAttendeesOutputError>(id: "createMeetingWithAttendees")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateMeetingWithAttendeesOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -340,8 +361,12 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMeetingWithAttendeesOutputResponse, CreateMeetingWithAttendeesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMeetingWithAttendeesOutputResponse, CreateMeetingWithAttendeesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMeetingWithAttendeesOutputResponse, CreateMeetingWithAttendeesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -361,6 +386,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAttendeeInput, DeleteAttendeeOutputResponse, DeleteAttendeeOutputError>(id: "deleteAttendee")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAttendeeInput, DeleteAttendeeOutputResponse, DeleteAttendeeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAttendeeInput, DeleteAttendeeOutputResponse>())
@@ -375,8 +401,12 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAttendeeOutputResponse, DeleteAttendeeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAttendeeOutputResponse, DeleteAttendeeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAttendeeOutputResponse, DeleteAttendeeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -396,6 +426,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteMeetingInput, DeleteMeetingOutputResponse, DeleteMeetingOutputError>(id: "deleteMeeting")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMeetingInput, DeleteMeetingOutputResponse, DeleteMeetingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMeetingInput, DeleteMeetingOutputResponse>())
@@ -410,8 +441,12 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMeetingOutputResponse, DeleteMeetingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMeetingOutputResponse, DeleteMeetingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMeetingOutputResponse, DeleteMeetingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -431,6 +466,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAttendeeInput, GetAttendeeOutputResponse, GetAttendeeOutputError>(id: "getAttendee")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAttendeeInput, GetAttendeeOutputResponse, GetAttendeeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAttendeeInput, GetAttendeeOutputResponse>())
@@ -445,8 +481,12 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAttendeeOutputResponse, GetAttendeeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAttendeeOutputResponse, GetAttendeeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAttendeeOutputResponse, GetAttendeeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -466,6 +506,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMeetingInput, GetMeetingOutputResponse, GetMeetingOutputError>(id: "getMeeting")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMeetingInput, GetMeetingOutputResponse, GetMeetingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMeetingInput, GetMeetingOutputResponse>())
@@ -480,8 +521,12 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMeetingOutputResponse, GetMeetingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMeetingOutputResponse, GetMeetingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMeetingOutputResponse, GetMeetingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -501,6 +546,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAttendeesInput, ListAttendeesOutputResponse, ListAttendeesOutputError>(id: "listAttendees")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttendeesInput, ListAttendeesOutputResponse, ListAttendeesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAttendeesInput, ListAttendeesOutputResponse>())
@@ -516,8 +562,12 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttendeesOutputResponse, ListAttendeesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttendeesOutputResponse, ListAttendeesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAttendeesOutputResponse, ListAttendeesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -537,6 +587,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -552,8 +603,12 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -573,6 +628,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartMeetingTranscriptionInput, StartMeetingTranscriptionOutputResponse, StartMeetingTranscriptionOutputError>(id: "startMeetingTranscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMeetingTranscriptionInput, StartMeetingTranscriptionOutputResponse, StartMeetingTranscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMeetingTranscriptionInput, StartMeetingTranscriptionOutputResponse>())
@@ -591,8 +647,12 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMeetingTranscriptionOutputResponse, StartMeetingTranscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMeetingTranscriptionOutputResponse, StartMeetingTranscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMeetingTranscriptionOutputResponse, StartMeetingTranscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -612,6 +672,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopMeetingTranscriptionInput, StopMeetingTranscriptionOutputResponse, StopMeetingTranscriptionOutputError>(id: "stopMeetingTranscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopMeetingTranscriptionInput, StopMeetingTranscriptionOutputResponse, StopMeetingTranscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopMeetingTranscriptionInput, StopMeetingTranscriptionOutputResponse>())
@@ -627,8 +688,12 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopMeetingTranscriptionOutputResponse, StopMeetingTranscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopMeetingTranscriptionOutputResponse, StopMeetingTranscriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopMeetingTranscriptionOutputResponse, StopMeetingTranscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -648,6 +713,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -666,8 +732,12 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -695,6 +765,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -713,8 +784,12 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -740,6 +815,7 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAttendeeCapabilitiesInput, UpdateAttendeeCapabilitiesOutputResponse, UpdateAttendeeCapabilitiesOutputError>(id: "updateAttendeeCapabilities")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAttendeeCapabilitiesInput, UpdateAttendeeCapabilitiesOutputResponse, UpdateAttendeeCapabilitiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAttendeeCapabilitiesInput, UpdateAttendeeCapabilitiesOutputResponse>())
@@ -757,8 +833,12 @@ extension ChimeSDKMeetingsClient: ChimeSDKMeetingsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAttendeeCapabilitiesOutputResponse, UpdateAttendeeCapabilitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAttendeeCapabilitiesOutputResponse, UpdateAttendeeCapabilitiesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAttendeeCapabilitiesOutputResponse, UpdateAttendeeCapabilitiesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

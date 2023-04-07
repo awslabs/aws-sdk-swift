@@ -9,7 +9,7 @@ import AWSClientRuntime
 import ClientRuntime
 
 extension GreetingWithErrorsOutputError: HttpResponseBinding {
-    public init(httpResponse: HttpResponse, decoder: ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder?) throws {
         let errorDetails = try RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }

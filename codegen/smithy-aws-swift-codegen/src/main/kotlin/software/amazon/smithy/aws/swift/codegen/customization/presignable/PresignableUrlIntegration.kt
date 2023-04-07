@@ -126,7 +126,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                 val builtRequestName = "builtRequest"
                 val presignedURL = "presignedURL"
                 writer.write(
-                    "let $requestBuilderName = try await $operationStackName.presignedRequest(context: context.build(), input: input, next: \$N())",
+                    "let $requestBuilderName = try await $operationStackName.presignedRequest(context: context, input: input, next: \$N())",
                     ClientRuntimeTypes.Middleware.NoopHandler
                 )
                 writer.openBlock("guard let $builtRequestName = $requestBuilderName?.build(), let $presignedURL = $builtRequestName.endpoint.url else {", "}") {

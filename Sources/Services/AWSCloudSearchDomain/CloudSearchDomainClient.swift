@@ -157,6 +157,7 @@ extension CloudSearchDomainClient: CloudSearchDomainClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchInput, SearchOutputResponse, SearchOutputError>(id: "search")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchInput, SearchOutputResponse, SearchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchInput, SearchOutputResponse>())
@@ -169,8 +170,12 @@ extension CloudSearchDomainClient: CloudSearchDomainClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchOutputResponse, SearchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchOutputResponse, SearchOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchOutputResponse, SearchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -190,6 +195,7 @@ extension CloudSearchDomainClient: CloudSearchDomainClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SuggestInput, SuggestOutputResponse, SuggestOutputError>(id: "suggest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SuggestInput, SuggestOutputResponse, SuggestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SuggestInput, SuggestOutputResponse>())
@@ -202,8 +208,12 @@ extension CloudSearchDomainClient: CloudSearchDomainClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SuggestOutputResponse, SuggestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SuggestOutputResponse, SuggestOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SuggestOutputResponse, SuggestOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -223,6 +233,7 @@ extension CloudSearchDomainClient: CloudSearchDomainClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudsearch")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UploadDocumentsInput, UploadDocumentsOutputResponse, UploadDocumentsOutputError>(id: "uploadDocuments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadDocumentsInput, UploadDocumentsOutputResponse, UploadDocumentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadDocumentsInput, UploadDocumentsOutputResponse>())
@@ -239,8 +250,12 @@ extension CloudSearchDomainClient: CloudSearchDomainClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadDocumentsOutputResponse, UploadDocumentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadDocumentsOutputResponse, UploadDocumentsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadDocumentsOutputResponse, UploadDocumentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

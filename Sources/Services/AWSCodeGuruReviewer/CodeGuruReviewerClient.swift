@@ -146,6 +146,7 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-reviewer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateRepositoryInput, AssociateRepositoryOutputResponse, AssociateRepositoryOutputError>(id: "associateRepository")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<AssociateRepositoryOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -168,8 +169,12 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateRepositoryOutputResponse, AssociateRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateRepositoryOutputResponse, AssociateRepositoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateRepositoryOutputResponse, AssociateRepositoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -189,6 +194,7 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-reviewer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCodeReviewInput, CreateCodeReviewOutputResponse, CreateCodeReviewOutputError>(id: "createCodeReview")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateCodeReviewOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -211,8 +217,12 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCodeReviewOutputResponse, CreateCodeReviewOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCodeReviewOutputResponse, CreateCodeReviewOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCodeReviewOutputResponse, CreateCodeReviewOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -232,6 +242,7 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-reviewer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCodeReviewInput, DescribeCodeReviewOutputResponse, DescribeCodeReviewOutputError>(id: "describeCodeReview")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCodeReviewInput, DescribeCodeReviewOutputResponse, DescribeCodeReviewOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCodeReviewInput, DescribeCodeReviewOutputResponse>())
@@ -243,8 +254,12 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCodeReviewOutputResponse, DescribeCodeReviewOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCodeReviewOutputResponse, DescribeCodeReviewOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCodeReviewOutputResponse, DescribeCodeReviewOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -264,6 +279,7 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-reviewer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeRecommendationFeedbackInput, DescribeRecommendationFeedbackOutputResponse, DescribeRecommendationFeedbackOutputError>(id: "describeRecommendationFeedback")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRecommendationFeedbackInput, DescribeRecommendationFeedbackOutputResponse, DescribeRecommendationFeedbackOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRecommendationFeedbackInput, DescribeRecommendationFeedbackOutputResponse>())
@@ -276,8 +292,12 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRecommendationFeedbackOutputResponse, DescribeRecommendationFeedbackOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRecommendationFeedbackOutputResponse, DescribeRecommendationFeedbackOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRecommendationFeedbackOutputResponse, DescribeRecommendationFeedbackOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -297,6 +317,7 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-reviewer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeRepositoryAssociationInput, DescribeRepositoryAssociationOutputResponse, DescribeRepositoryAssociationOutputError>(id: "describeRepositoryAssociation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRepositoryAssociationInput, DescribeRepositoryAssociationOutputResponse, DescribeRepositoryAssociationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRepositoryAssociationInput, DescribeRepositoryAssociationOutputResponse>())
@@ -308,8 +329,12 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRepositoryAssociationOutputResponse, DescribeRepositoryAssociationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRepositoryAssociationOutputResponse, DescribeRepositoryAssociationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRepositoryAssociationOutputResponse, DescribeRepositoryAssociationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -329,6 +354,7 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-reviewer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateRepositoryInput, DisassociateRepositoryOutputResponse, DisassociateRepositoryOutputError>(id: "disassociateRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateRepositoryInput, DisassociateRepositoryOutputResponse, DisassociateRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateRepositoryInput, DisassociateRepositoryOutputResponse>())
@@ -340,8 +366,12 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateRepositoryOutputResponse, DisassociateRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateRepositoryOutputResponse, DisassociateRepositoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateRepositoryOutputResponse, DisassociateRepositoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -361,6 +391,7 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-reviewer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCodeReviewsInput, ListCodeReviewsOutputResponse, ListCodeReviewsOutputError>(id: "listCodeReviews")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCodeReviewsInput, ListCodeReviewsOutputResponse, ListCodeReviewsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCodeReviewsInput, ListCodeReviewsOutputResponse>())
@@ -373,8 +404,12 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCodeReviewsOutputResponse, ListCodeReviewsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCodeReviewsOutputResponse, ListCodeReviewsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCodeReviewsOutputResponse, ListCodeReviewsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -394,6 +429,7 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-reviewer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRecommendationFeedbackInput, ListRecommendationFeedbackOutputResponse, ListRecommendationFeedbackOutputError>(id: "listRecommendationFeedback")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRecommendationFeedbackInput, ListRecommendationFeedbackOutputResponse, ListRecommendationFeedbackOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRecommendationFeedbackInput, ListRecommendationFeedbackOutputResponse>())
@@ -406,8 +442,12 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRecommendationFeedbackOutputResponse, ListRecommendationFeedbackOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRecommendationFeedbackOutputResponse, ListRecommendationFeedbackOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRecommendationFeedbackOutputResponse, ListRecommendationFeedbackOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -427,6 +467,7 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-reviewer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRecommendationsInput, ListRecommendationsOutputResponse, ListRecommendationsOutputError>(id: "listRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRecommendationsInput, ListRecommendationsOutputResponse, ListRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRecommendationsInput, ListRecommendationsOutputResponse>())
@@ -439,8 +480,12 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRecommendationsOutputResponse, ListRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRecommendationsOutputResponse, ListRecommendationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRecommendationsOutputResponse, ListRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -460,6 +505,7 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-reviewer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRepositoryAssociationsInput, ListRepositoryAssociationsOutputResponse, ListRepositoryAssociationsOutputError>(id: "listRepositoryAssociations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRepositoryAssociationsInput, ListRepositoryAssociationsOutputResponse, ListRepositoryAssociationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRepositoryAssociationsInput, ListRepositoryAssociationsOutputResponse>())
@@ -472,8 +518,12 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRepositoryAssociationsOutputResponse, ListRepositoryAssociationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRepositoryAssociationsOutputResponse, ListRepositoryAssociationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRepositoryAssociationsOutputResponse, ListRepositoryAssociationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -493,6 +543,7 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-reviewer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -504,8 +555,12 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -525,6 +580,7 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-reviewer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutRecommendationFeedbackInput, PutRecommendationFeedbackOutputResponse, PutRecommendationFeedbackOutputError>(id: "putRecommendationFeedback")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRecommendationFeedbackInput, PutRecommendationFeedbackOutputResponse, PutRecommendationFeedbackOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRecommendationFeedbackInput, PutRecommendationFeedbackOutputResponse>())
@@ -539,8 +595,12 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRecommendationFeedbackOutputResponse, PutRecommendationFeedbackOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRecommendationFeedbackOutputResponse, PutRecommendationFeedbackOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRecommendationFeedbackOutputResponse, PutRecommendationFeedbackOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -560,6 +620,7 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-reviewer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -574,8 +635,12 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -595,6 +660,7 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codeguru-reviewer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -607,8 +673,12 @@ extension CodeGuruReviewerClient: CodeGuruReviewerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

@@ -146,6 +146,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCampaignInput, CreateCampaignOutputResponse, CreateCampaignOutputError>(id: "createCampaign")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCampaignInput, CreateCampaignOutputResponse, CreateCampaignOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCampaignInput, CreateCampaignOutputResponse>())
@@ -160,8 +161,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCampaignOutputResponse, CreateCampaignOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCampaignOutputResponse, CreateCampaignOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCampaignOutputResponse, CreateCampaignOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -181,6 +186,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCampaignInput, DeleteCampaignOutputResponse, DeleteCampaignOutputError>(id: "deleteCampaign")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCampaignInput, DeleteCampaignOutputResponse, DeleteCampaignOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCampaignInput, DeleteCampaignOutputResponse>())
@@ -192,8 +198,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCampaignOutputResponse, DeleteCampaignOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCampaignOutputResponse, DeleteCampaignOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCampaignOutputResponse, DeleteCampaignOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -213,6 +223,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteConnectInstanceConfigInput, DeleteConnectInstanceConfigOutputResponse, DeleteConnectInstanceConfigOutputError>(id: "deleteConnectInstanceConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConnectInstanceConfigInput, DeleteConnectInstanceConfigOutputResponse, DeleteConnectInstanceConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConnectInstanceConfigInput, DeleteConnectInstanceConfigOutputResponse>())
@@ -224,8 +235,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConnectInstanceConfigOutputResponse, DeleteConnectInstanceConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConnectInstanceConfigOutputResponse, DeleteConnectInstanceConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConnectInstanceConfigOutputResponse, DeleteConnectInstanceConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -245,6 +260,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteInstanceOnboardingJobInput, DeleteInstanceOnboardingJobOutputResponse, DeleteInstanceOnboardingJobOutputError>(id: "deleteInstanceOnboardingJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInstanceOnboardingJobInput, DeleteInstanceOnboardingJobOutputResponse, DeleteInstanceOnboardingJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInstanceOnboardingJobInput, DeleteInstanceOnboardingJobOutputResponse>())
@@ -256,8 +272,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInstanceOnboardingJobOutputResponse, DeleteInstanceOnboardingJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInstanceOnboardingJobOutputResponse, DeleteInstanceOnboardingJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInstanceOnboardingJobOutputResponse, DeleteInstanceOnboardingJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -277,6 +297,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCampaignInput, DescribeCampaignOutputResponse, DescribeCampaignOutputError>(id: "describeCampaign")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCampaignInput, DescribeCampaignOutputResponse, DescribeCampaignOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCampaignInput, DescribeCampaignOutputResponse>())
@@ -288,8 +309,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCampaignOutputResponse, DescribeCampaignOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCampaignOutputResponse, DescribeCampaignOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCampaignOutputResponse, DescribeCampaignOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -309,6 +334,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCampaignStateInput, GetCampaignStateOutputResponse, GetCampaignStateOutputError>(id: "getCampaignState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCampaignStateInput, GetCampaignStateOutputResponse, GetCampaignStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCampaignStateInput, GetCampaignStateOutputResponse>())
@@ -320,8 +346,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCampaignStateOutputResponse, GetCampaignStateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCampaignStateOutputResponse, GetCampaignStateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCampaignStateOutputResponse, GetCampaignStateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -341,6 +371,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCampaignStateBatchInput, GetCampaignStateBatchOutputResponse, GetCampaignStateBatchOutputError>(id: "getCampaignStateBatch")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCampaignStateBatchInput, GetCampaignStateBatchOutputResponse, GetCampaignStateBatchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCampaignStateBatchInput, GetCampaignStateBatchOutputResponse>())
@@ -355,8 +386,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCampaignStateBatchOutputResponse, GetCampaignStateBatchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCampaignStateBatchOutputResponse, GetCampaignStateBatchOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCampaignStateBatchOutputResponse, GetCampaignStateBatchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -376,6 +411,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetConnectInstanceConfigInput, GetConnectInstanceConfigOutputResponse, GetConnectInstanceConfigOutputError>(id: "getConnectInstanceConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConnectInstanceConfigInput, GetConnectInstanceConfigOutputResponse, GetConnectInstanceConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConnectInstanceConfigInput, GetConnectInstanceConfigOutputResponse>())
@@ -387,8 +423,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConnectInstanceConfigOutputResponse, GetConnectInstanceConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConnectInstanceConfigOutputResponse, GetConnectInstanceConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConnectInstanceConfigOutputResponse, GetConnectInstanceConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -408,6 +448,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInstanceOnboardingJobStatusInput, GetInstanceOnboardingJobStatusOutputResponse, GetInstanceOnboardingJobStatusOutputError>(id: "getInstanceOnboardingJobStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceOnboardingJobStatusInput, GetInstanceOnboardingJobStatusOutputResponse, GetInstanceOnboardingJobStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceOnboardingJobStatusInput, GetInstanceOnboardingJobStatusOutputResponse>())
@@ -419,8 +460,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInstanceOnboardingJobStatusOutputResponse, GetInstanceOnboardingJobStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstanceOnboardingJobStatusOutputResponse, GetInstanceOnboardingJobStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInstanceOnboardingJobStatusOutputResponse, GetInstanceOnboardingJobStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -440,6 +485,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCampaignsInput, ListCampaignsOutputResponse, ListCampaignsOutputError>(id: "listCampaigns")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCampaignsInput, ListCampaignsOutputResponse, ListCampaignsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCampaignsInput, ListCampaignsOutputResponse>())
@@ -454,8 +500,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCampaignsOutputResponse, ListCampaignsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCampaignsOutputResponse, ListCampaignsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCampaignsOutputResponse, ListCampaignsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -475,6 +525,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -486,8 +537,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -507,6 +562,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PauseCampaignInput, PauseCampaignOutputResponse, PauseCampaignOutputError>(id: "pauseCampaign")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PauseCampaignInput, PauseCampaignOutputResponse, PauseCampaignOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PauseCampaignInput, PauseCampaignOutputResponse>())
@@ -518,8 +574,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PauseCampaignOutputResponse, PauseCampaignOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PauseCampaignOutputResponse, PauseCampaignOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PauseCampaignOutputResponse, PauseCampaignOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -539,6 +599,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutDialRequestBatchInput, PutDialRequestBatchOutputResponse, PutDialRequestBatchOutputError>(id: "putDialRequestBatch")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutDialRequestBatchInput, PutDialRequestBatchOutputResponse, PutDialRequestBatchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutDialRequestBatchInput, PutDialRequestBatchOutputResponse>())
@@ -553,8 +614,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutDialRequestBatchOutputResponse, PutDialRequestBatchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutDialRequestBatchOutputResponse, PutDialRequestBatchOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutDialRequestBatchOutputResponse, PutDialRequestBatchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -574,6 +639,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResumeCampaignInput, ResumeCampaignOutputResponse, ResumeCampaignOutputError>(id: "resumeCampaign")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResumeCampaignInput, ResumeCampaignOutputResponse, ResumeCampaignOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResumeCampaignInput, ResumeCampaignOutputResponse>())
@@ -585,8 +651,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResumeCampaignOutputResponse, ResumeCampaignOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResumeCampaignOutputResponse, ResumeCampaignOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResumeCampaignOutputResponse, ResumeCampaignOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -606,6 +676,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartCampaignInput, StartCampaignOutputResponse, StartCampaignOutputError>(id: "startCampaign")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartCampaignInput, StartCampaignOutputResponse, StartCampaignOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartCampaignInput, StartCampaignOutputResponse>())
@@ -617,8 +688,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartCampaignOutputResponse, StartCampaignOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartCampaignOutputResponse, StartCampaignOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartCampaignOutputResponse, StartCampaignOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -638,6 +713,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartInstanceOnboardingJobInput, StartInstanceOnboardingJobOutputResponse, StartInstanceOnboardingJobOutputError>(id: "startInstanceOnboardingJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartInstanceOnboardingJobInput, StartInstanceOnboardingJobOutputResponse, StartInstanceOnboardingJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartInstanceOnboardingJobInput, StartInstanceOnboardingJobOutputResponse>())
@@ -652,8 +728,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartInstanceOnboardingJobOutputResponse, StartInstanceOnboardingJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartInstanceOnboardingJobOutputResponse, StartInstanceOnboardingJobOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartInstanceOnboardingJobOutputResponse, StartInstanceOnboardingJobOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -673,6 +753,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopCampaignInput, StopCampaignOutputResponse, StopCampaignOutputError>(id: "stopCampaign")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopCampaignInput, StopCampaignOutputResponse, StopCampaignOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopCampaignInput, StopCampaignOutputResponse>())
@@ -684,8 +765,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopCampaignOutputResponse, StopCampaignOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopCampaignOutputResponse, StopCampaignOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopCampaignOutputResponse, StopCampaignOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -705,6 +790,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -719,8 +805,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -740,6 +830,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -752,8 +843,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -773,6 +868,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateCampaignDialerConfigInput, UpdateCampaignDialerConfigOutputResponse, UpdateCampaignDialerConfigOutputError>(id: "updateCampaignDialerConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCampaignDialerConfigInput, UpdateCampaignDialerConfigOutputResponse, UpdateCampaignDialerConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCampaignDialerConfigInput, UpdateCampaignDialerConfigOutputResponse>())
@@ -787,8 +883,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCampaignDialerConfigOutputResponse, UpdateCampaignDialerConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCampaignDialerConfigOutputResponse, UpdateCampaignDialerConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCampaignDialerConfigOutputResponse, UpdateCampaignDialerConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -808,6 +908,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateCampaignNameInput, UpdateCampaignNameOutputResponse, UpdateCampaignNameOutputError>(id: "updateCampaignName")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCampaignNameInput, UpdateCampaignNameOutputResponse, UpdateCampaignNameOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCampaignNameInput, UpdateCampaignNameOutputResponse>())
@@ -822,8 +923,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCampaignNameOutputResponse, UpdateCampaignNameOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCampaignNameOutputResponse, UpdateCampaignNameOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCampaignNameOutputResponse, UpdateCampaignNameOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -843,6 +948,7 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "connect-campaigns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateCampaignOutboundCallConfigInput, UpdateCampaignOutboundCallConfigOutputResponse, UpdateCampaignOutboundCallConfigOutputError>(id: "updateCampaignOutboundCallConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCampaignOutboundCallConfigInput, UpdateCampaignOutboundCallConfigOutputResponse, UpdateCampaignOutboundCallConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCampaignOutboundCallConfigInput, UpdateCampaignOutboundCallConfigOutputResponse>())
@@ -857,8 +963,12 @@ extension ConnectCampaignsClient: ConnectCampaignsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCampaignOutboundCallConfigOutputResponse, UpdateCampaignOutboundCallConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCampaignOutboundCallConfigOutputResponse, UpdateCampaignOutboundCallConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCampaignOutboundCallConfigOutputResponse, UpdateCampaignOutboundCallConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

@@ -146,6 +146,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateLensesInput, AssociateLensesOutputResponse, AssociateLensesOutputError>(id: "associateLenses")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateLensesInput, AssociateLensesOutputResponse, AssociateLensesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateLensesInput, AssociateLensesOutputResponse>())
@@ -160,8 +161,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateLensesOutputResponse, AssociateLensesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateLensesOutputResponse, AssociateLensesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateLensesOutputResponse, AssociateLensesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -181,6 +186,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLensShareInput, CreateLensShareOutputResponse, CreateLensShareOutputError>(id: "createLensShare")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateLensShareOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -203,8 +209,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLensShareOutputResponse, CreateLensShareOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLensShareOutputResponse, CreateLensShareOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLensShareOutputResponse, CreateLensShareOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -224,6 +234,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLensVersionInput, CreateLensVersionOutputResponse, CreateLensVersionOutputError>(id: "createLensVersion")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateLensVersionOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -246,8 +257,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLensVersionOutputResponse, CreateLensVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLensVersionOutputResponse, CreateLensVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLensVersionOutputResponse, CreateLensVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -267,6 +282,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMilestoneInput, CreateMilestoneOutputResponse, CreateMilestoneOutputError>(id: "createMilestone")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateMilestoneOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -289,8 +305,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMilestoneOutputResponse, CreateMilestoneOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMilestoneOutputResponse, CreateMilestoneOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMilestoneOutputResponse, CreateMilestoneOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -310,6 +330,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateWorkloadInput, CreateWorkloadOutputResponse, CreateWorkloadOutputError>(id: "createWorkload")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateWorkloadOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -332,8 +353,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorkloadOutputResponse, CreateWorkloadOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorkloadOutputResponse, CreateWorkloadOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWorkloadOutputResponse, CreateWorkloadOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -353,6 +378,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateWorkloadShareInput, CreateWorkloadShareOutputResponse, CreateWorkloadShareOutputError>(id: "createWorkloadShare")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateWorkloadShareOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -375,8 +401,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorkloadShareOutputResponse, CreateWorkloadShareOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorkloadShareOutputResponse, CreateWorkloadShareOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWorkloadShareOutputResponse, CreateWorkloadShareOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -396,6 +426,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLensInput, DeleteLensOutputResponse, DeleteLensOutputError>(id: "deleteLens")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteLensOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -416,8 +447,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLensOutputResponse, DeleteLensOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLensOutputResponse, DeleteLensOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLensOutputResponse, DeleteLensOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -437,6 +472,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLensShareInput, DeleteLensShareOutputResponse, DeleteLensShareOutputError>(id: "deleteLensShare")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteLensShareOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -457,8 +493,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLensShareOutputResponse, DeleteLensShareOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLensShareOutputResponse, DeleteLensShareOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLensShareOutputResponse, DeleteLensShareOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -478,6 +518,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteWorkloadInput, DeleteWorkloadOutputResponse, DeleteWorkloadOutputError>(id: "deleteWorkload")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteWorkloadOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -498,8 +539,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWorkloadOutputResponse, DeleteWorkloadOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorkloadOutputResponse, DeleteWorkloadOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWorkloadOutputResponse, DeleteWorkloadOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -519,6 +564,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteWorkloadShareInput, DeleteWorkloadShareOutputResponse, DeleteWorkloadShareOutputError>(id: "deleteWorkloadShare")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteWorkloadShareOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -539,8 +585,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWorkloadShareOutputResponse, DeleteWorkloadShareOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorkloadShareOutputResponse, DeleteWorkloadShareOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWorkloadShareOutputResponse, DeleteWorkloadShareOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -560,6 +610,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateLensesInput, DisassociateLensesOutputResponse, DisassociateLensesOutputError>(id: "disassociateLenses")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateLensesInput, DisassociateLensesOutputResponse, DisassociateLensesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateLensesInput, DisassociateLensesOutputResponse>())
@@ -574,8 +625,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateLensesOutputResponse, DisassociateLensesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateLensesOutputResponse, DisassociateLensesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateLensesOutputResponse, DisassociateLensesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -595,6 +650,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExportLensInput, ExportLensOutputResponse, ExportLensOutputError>(id: "exportLens")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportLensInput, ExportLensOutputResponse, ExportLensOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportLensInput, ExportLensOutputResponse>())
@@ -607,8 +663,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportLensOutputResponse, ExportLensOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportLensOutputResponse, ExportLensOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExportLensOutputResponse, ExportLensOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -628,6 +688,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAnswerInput, GetAnswerOutputResponse, GetAnswerOutputError>(id: "getAnswer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAnswerInput, GetAnswerOutputResponse, GetAnswerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAnswerInput, GetAnswerOutputResponse>())
@@ -640,8 +701,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAnswerOutputResponse, GetAnswerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAnswerOutputResponse, GetAnswerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAnswerOutputResponse, GetAnswerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -661,6 +726,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLensInput, GetLensOutputResponse, GetLensOutputError>(id: "getLens")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLensInput, GetLensOutputResponse, GetLensOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLensInput, GetLensOutputResponse>())
@@ -673,8 +739,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLensOutputResponse, GetLensOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLensOutputResponse, GetLensOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLensOutputResponse, GetLensOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -694,6 +764,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLensReviewInput, GetLensReviewOutputResponse, GetLensReviewOutputError>(id: "getLensReview")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLensReviewInput, GetLensReviewOutputResponse, GetLensReviewOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLensReviewInput, GetLensReviewOutputResponse>())
@@ -706,8 +777,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLensReviewOutputResponse, GetLensReviewOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLensReviewOutputResponse, GetLensReviewOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLensReviewOutputResponse, GetLensReviewOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -727,6 +802,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLensReviewReportInput, GetLensReviewReportOutputResponse, GetLensReviewReportOutputError>(id: "getLensReviewReport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLensReviewReportInput, GetLensReviewReportOutputResponse, GetLensReviewReportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLensReviewReportInput, GetLensReviewReportOutputResponse>())
@@ -739,8 +815,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLensReviewReportOutputResponse, GetLensReviewReportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLensReviewReportOutputResponse, GetLensReviewReportOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLensReviewReportOutputResponse, GetLensReviewReportOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -760,6 +840,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLensVersionDifferenceInput, GetLensVersionDifferenceOutputResponse, GetLensVersionDifferenceOutputError>(id: "getLensVersionDifference")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLensVersionDifferenceInput, GetLensVersionDifferenceOutputResponse, GetLensVersionDifferenceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLensVersionDifferenceInput, GetLensVersionDifferenceOutputResponse>())
@@ -772,8 +853,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLensVersionDifferenceOutputResponse, GetLensVersionDifferenceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLensVersionDifferenceOutputResponse, GetLensVersionDifferenceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLensVersionDifferenceOutputResponse, GetLensVersionDifferenceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -793,6 +878,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMilestoneInput, GetMilestoneOutputResponse, GetMilestoneOutputError>(id: "getMilestone")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMilestoneInput, GetMilestoneOutputResponse, GetMilestoneOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMilestoneInput, GetMilestoneOutputResponse>())
@@ -804,8 +890,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMilestoneOutputResponse, GetMilestoneOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMilestoneOutputResponse, GetMilestoneOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMilestoneOutputResponse, GetMilestoneOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -825,6 +915,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetWorkloadInput, GetWorkloadOutputResponse, GetWorkloadOutputError>(id: "getWorkload")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWorkloadInput, GetWorkloadOutputResponse, GetWorkloadOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWorkloadInput, GetWorkloadOutputResponse>())
@@ -836,8 +927,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWorkloadOutputResponse, GetWorkloadOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWorkloadOutputResponse, GetWorkloadOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWorkloadOutputResponse, GetWorkloadOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -857,6 +952,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ImportLensInput, ImportLensOutputResponse, ImportLensOutputError>(id: "importLens")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ImportLensOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -879,8 +975,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportLensOutputResponse, ImportLensOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportLensOutputResponse, ImportLensOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportLensOutputResponse, ImportLensOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -900,6 +1000,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAnswersInput, ListAnswersOutputResponse, ListAnswersOutputError>(id: "listAnswers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAnswersInput, ListAnswersOutputResponse, ListAnswersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAnswersInput, ListAnswersOutputResponse>())
@@ -912,8 +1013,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAnswersOutputResponse, ListAnswersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAnswersOutputResponse, ListAnswersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAnswersOutputResponse, ListAnswersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -933,6 +1038,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCheckDetailsInput, ListCheckDetailsOutputResponse, ListCheckDetailsOutputError>(id: "listCheckDetails")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCheckDetailsInput, ListCheckDetailsOutputResponse, ListCheckDetailsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCheckDetailsInput, ListCheckDetailsOutputResponse>())
@@ -947,8 +1053,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCheckDetailsOutputResponse, ListCheckDetailsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCheckDetailsOutputResponse, ListCheckDetailsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCheckDetailsOutputResponse, ListCheckDetailsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -968,6 +1078,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCheckSummariesInput, ListCheckSummariesOutputResponse, ListCheckSummariesOutputError>(id: "listCheckSummaries")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCheckSummariesInput, ListCheckSummariesOutputResponse, ListCheckSummariesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCheckSummariesInput, ListCheckSummariesOutputResponse>())
@@ -982,8 +1093,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCheckSummariesOutputResponse, ListCheckSummariesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCheckSummariesOutputResponse, ListCheckSummariesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCheckSummariesOutputResponse, ListCheckSummariesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1003,6 +1118,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListLensReviewImprovementsInput, ListLensReviewImprovementsOutputResponse, ListLensReviewImprovementsOutputError>(id: "listLensReviewImprovements")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLensReviewImprovementsInput, ListLensReviewImprovementsOutputResponse, ListLensReviewImprovementsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLensReviewImprovementsInput, ListLensReviewImprovementsOutputResponse>())
@@ -1015,8 +1131,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLensReviewImprovementsOutputResponse, ListLensReviewImprovementsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLensReviewImprovementsOutputResponse, ListLensReviewImprovementsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLensReviewImprovementsOutputResponse, ListLensReviewImprovementsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1036,6 +1156,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListLensReviewsInput, ListLensReviewsOutputResponse, ListLensReviewsOutputError>(id: "listLensReviews")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLensReviewsInput, ListLensReviewsOutputResponse, ListLensReviewsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLensReviewsInput, ListLensReviewsOutputResponse>())
@@ -1048,8 +1169,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLensReviewsOutputResponse, ListLensReviewsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLensReviewsOutputResponse, ListLensReviewsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLensReviewsOutputResponse, ListLensReviewsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1069,6 +1194,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListLensSharesInput, ListLensSharesOutputResponse, ListLensSharesOutputError>(id: "listLensShares")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLensSharesInput, ListLensSharesOutputResponse, ListLensSharesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLensSharesInput, ListLensSharesOutputResponse>())
@@ -1081,8 +1207,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLensSharesOutputResponse, ListLensSharesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLensSharesOutputResponse, ListLensSharesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLensSharesOutputResponse, ListLensSharesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1102,6 +1232,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListLensesInput, ListLensesOutputResponse, ListLensesOutputError>(id: "listLenses")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLensesInput, ListLensesOutputResponse, ListLensesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLensesInput, ListLensesOutputResponse>())
@@ -1114,8 +1245,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLensesOutputResponse, ListLensesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLensesOutputResponse, ListLensesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLensesOutputResponse, ListLensesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1135,6 +1270,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMilestonesInput, ListMilestonesOutputResponse, ListMilestonesOutputError>(id: "listMilestones")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMilestonesInput, ListMilestonesOutputResponse, ListMilestonesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMilestonesInput, ListMilestonesOutputResponse>())
@@ -1149,8 +1285,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMilestonesOutputResponse, ListMilestonesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMilestonesOutputResponse, ListMilestonesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMilestonesOutputResponse, ListMilestonesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1170,6 +1310,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListNotificationsInput, ListNotificationsOutputResponse, ListNotificationsOutputError>(id: "listNotifications")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNotificationsInput, ListNotificationsOutputResponse, ListNotificationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNotificationsInput, ListNotificationsOutputResponse>())
@@ -1184,8 +1325,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNotificationsOutputResponse, ListNotificationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNotificationsOutputResponse, ListNotificationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNotificationsOutputResponse, ListNotificationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1205,6 +1350,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListShareInvitationsInput, ListShareInvitationsOutputResponse, ListShareInvitationsOutputError>(id: "listShareInvitations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListShareInvitationsInput, ListShareInvitationsOutputResponse, ListShareInvitationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListShareInvitationsInput, ListShareInvitationsOutputResponse>())
@@ -1217,8 +1363,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListShareInvitationsOutputResponse, ListShareInvitationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListShareInvitationsOutputResponse, ListShareInvitationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListShareInvitationsOutputResponse, ListShareInvitationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1238,6 +1388,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1249,8 +1400,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1270,6 +1425,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWorkloadSharesInput, ListWorkloadSharesOutputResponse, ListWorkloadSharesOutputError>(id: "listWorkloadShares")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorkloadSharesInput, ListWorkloadSharesOutputResponse, ListWorkloadSharesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorkloadSharesInput, ListWorkloadSharesOutputResponse>())
@@ -1282,8 +1438,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorkloadSharesOutputResponse, ListWorkloadSharesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorkloadSharesOutputResponse, ListWorkloadSharesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWorkloadSharesOutputResponse, ListWorkloadSharesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1303,6 +1463,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWorkloadsInput, ListWorkloadsOutputResponse, ListWorkloadsOutputError>(id: "listWorkloads")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorkloadsInput, ListWorkloadsOutputResponse, ListWorkloadsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorkloadsInput, ListWorkloadsOutputResponse>())
@@ -1317,8 +1478,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorkloadsOutputResponse, ListWorkloadsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorkloadsOutputResponse, ListWorkloadsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWorkloadsOutputResponse, ListWorkloadsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1338,6 +1503,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1352,8 +1518,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1373,6 +1543,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1385,8 +1556,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1406,6 +1581,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAnswerInput, UpdateAnswerOutputResponse, UpdateAnswerOutputError>(id: "updateAnswer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAnswerInput, UpdateAnswerOutputResponse, UpdateAnswerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAnswerInput, UpdateAnswerOutputResponse>())
@@ -1420,8 +1596,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAnswerOutputResponse, UpdateAnswerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAnswerOutputResponse, UpdateAnswerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAnswerOutputResponse, UpdateAnswerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1441,6 +1621,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutputResponse, UpdateGlobalSettingsOutputError>(id: "updateGlobalSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutputResponse, UpdateGlobalSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutputResponse>())
@@ -1455,8 +1636,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGlobalSettingsOutputResponse, UpdateGlobalSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGlobalSettingsOutputResponse, UpdateGlobalSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGlobalSettingsOutputResponse, UpdateGlobalSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1476,6 +1661,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateLensReviewInput, UpdateLensReviewOutputResponse, UpdateLensReviewOutputError>(id: "updateLensReview")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLensReviewInput, UpdateLensReviewOutputResponse, UpdateLensReviewOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLensReviewInput, UpdateLensReviewOutputResponse>())
@@ -1490,8 +1676,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLensReviewOutputResponse, UpdateLensReviewOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLensReviewOutputResponse, UpdateLensReviewOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLensReviewOutputResponse, UpdateLensReviewOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1511,6 +1701,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateShareInvitationInput, UpdateShareInvitationOutputResponse, UpdateShareInvitationOutputError>(id: "updateShareInvitation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateShareInvitationInput, UpdateShareInvitationOutputResponse, UpdateShareInvitationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateShareInvitationInput, UpdateShareInvitationOutputResponse>())
@@ -1525,8 +1716,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateShareInvitationOutputResponse, UpdateShareInvitationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateShareInvitationOutputResponse, UpdateShareInvitationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateShareInvitationOutputResponse, UpdateShareInvitationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1546,6 +1741,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateWorkloadInput, UpdateWorkloadOutputResponse, UpdateWorkloadOutputError>(id: "updateWorkload")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWorkloadInput, UpdateWorkloadOutputResponse, UpdateWorkloadOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWorkloadInput, UpdateWorkloadOutputResponse>())
@@ -1560,8 +1756,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWorkloadOutputResponse, UpdateWorkloadOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWorkloadOutputResponse, UpdateWorkloadOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateWorkloadOutputResponse, UpdateWorkloadOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1581,6 +1781,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateWorkloadShareInput, UpdateWorkloadShareOutputResponse, UpdateWorkloadShareOutputError>(id: "updateWorkloadShare")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWorkloadShareInput, UpdateWorkloadShareOutputResponse, UpdateWorkloadShareOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWorkloadShareInput, UpdateWorkloadShareOutputResponse>())
@@ -1595,8 +1796,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWorkloadShareOutputResponse, UpdateWorkloadShareOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWorkloadShareOutputResponse, UpdateWorkloadShareOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateWorkloadShareOutputResponse, UpdateWorkloadShareOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1616,6 +1821,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "wellarchitected")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpgradeLensReviewInput, UpgradeLensReviewOutputResponse, UpgradeLensReviewOutputError>(id: "upgradeLensReview")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpgradeLensReviewInput, UpgradeLensReviewOutputResponse, UpgradeLensReviewOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpgradeLensReviewInput, UpgradeLensReviewOutputResponse>())
@@ -1630,8 +1836,12 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpgradeLensReviewOutputResponse, UpgradeLensReviewOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpgradeLensReviewOutputResponse, UpgradeLensReviewOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpgradeLensReviewOutputResponse, UpgradeLensReviewOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

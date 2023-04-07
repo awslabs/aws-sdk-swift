@@ -146,6 +146,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddInstanceFleetInput, AddInstanceFleetOutputResponse, AddInstanceFleetOutputError>(id: "addInstanceFleet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddInstanceFleetInput, AddInstanceFleetOutputResponse, AddInstanceFleetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddInstanceFleetInput, AddInstanceFleetOutputResponse>())
@@ -161,8 +162,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddInstanceFleetOutputResponse, AddInstanceFleetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddInstanceFleetOutputResponse, AddInstanceFleetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddInstanceFleetOutputResponse, AddInstanceFleetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -182,6 +187,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddInstanceGroupsInput, AddInstanceGroupsOutputResponse, AddInstanceGroupsOutputError>(id: "addInstanceGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddInstanceGroupsInput, AddInstanceGroupsOutputResponse, AddInstanceGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddInstanceGroupsInput, AddInstanceGroupsOutputResponse>())
@@ -197,8 +203,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddInstanceGroupsOutputResponse, AddInstanceGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddInstanceGroupsOutputResponse, AddInstanceGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddInstanceGroupsOutputResponse, AddInstanceGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -218,6 +228,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddJobFlowStepsInput, AddJobFlowStepsOutputResponse, AddJobFlowStepsOutputError>(id: "addJobFlowSteps")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddJobFlowStepsInput, AddJobFlowStepsOutputResponse, AddJobFlowStepsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddJobFlowStepsInput, AddJobFlowStepsOutputResponse>())
@@ -233,8 +244,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddJobFlowStepsOutputResponse, AddJobFlowStepsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddJobFlowStepsOutputResponse, AddJobFlowStepsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddJobFlowStepsOutputResponse, AddJobFlowStepsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -254,6 +269,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddTagsInput, AddTagsOutputResponse, AddTagsOutputError>(id: "addTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsInput, AddTagsOutputResponse, AddTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsInput, AddTagsOutputResponse>())
@@ -269,8 +285,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsOutputResponse, AddTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsOutputResponse, AddTagsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddTagsOutputResponse, AddTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -290,6 +310,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelStepsInput, CancelStepsOutputResponse, CancelStepsOutputError>(id: "cancelSteps")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelStepsInput, CancelStepsOutputResponse, CancelStepsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelStepsInput, CancelStepsOutputResponse>())
@@ -305,8 +326,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelStepsOutputResponse, CancelStepsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelStepsOutputResponse, CancelStepsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelStepsOutputResponse, CancelStepsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -326,6 +351,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutputResponse, CreateSecurityConfigurationOutputError>(id: "createSecurityConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutputResponse, CreateSecurityConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutputResponse>())
@@ -341,8 +367,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSecurityConfigurationOutputResponse, CreateSecurityConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSecurityConfigurationOutputResponse, CreateSecurityConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSecurityConfigurationOutputResponse, CreateSecurityConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -362,6 +392,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateStudioInput, CreateStudioOutputResponse, CreateStudioOutputError>(id: "createStudio")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStudioInput, CreateStudioOutputResponse, CreateStudioOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStudioInput, CreateStudioOutputResponse>())
@@ -377,8 +408,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStudioOutputResponse, CreateStudioOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStudioOutputResponse, CreateStudioOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateStudioOutputResponse, CreateStudioOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -398,6 +433,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateStudioSessionMappingInput, CreateStudioSessionMappingOutputResponse, CreateStudioSessionMappingOutputError>(id: "createStudioSessionMapping")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStudioSessionMappingInput, CreateStudioSessionMappingOutputResponse, CreateStudioSessionMappingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStudioSessionMappingInput, CreateStudioSessionMappingOutputResponse>())
@@ -413,8 +449,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStudioSessionMappingOutputResponse, CreateStudioSessionMappingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStudioSessionMappingOutputResponse, CreateStudioSessionMappingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateStudioSessionMappingOutputResponse, CreateStudioSessionMappingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -434,6 +474,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutputResponse, DeleteSecurityConfigurationOutputError>(id: "deleteSecurityConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutputResponse, DeleteSecurityConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutputResponse>())
@@ -449,8 +490,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSecurityConfigurationOutputResponse, DeleteSecurityConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSecurityConfigurationOutputResponse, DeleteSecurityConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSecurityConfigurationOutputResponse, DeleteSecurityConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -470,6 +515,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteStudioInput, DeleteStudioOutputResponse, DeleteStudioOutputError>(id: "deleteStudio")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStudioInput, DeleteStudioOutputResponse, DeleteStudioOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStudioInput, DeleteStudioOutputResponse>())
@@ -485,8 +531,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStudioOutputResponse, DeleteStudioOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStudioOutputResponse, DeleteStudioOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStudioOutputResponse, DeleteStudioOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -506,6 +556,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteStudioSessionMappingInput, DeleteStudioSessionMappingOutputResponse, DeleteStudioSessionMappingOutputError>(id: "deleteStudioSessionMapping")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStudioSessionMappingInput, DeleteStudioSessionMappingOutputResponse, DeleteStudioSessionMappingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStudioSessionMappingInput, DeleteStudioSessionMappingOutputResponse>())
@@ -521,8 +572,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStudioSessionMappingOutputResponse, DeleteStudioSessionMappingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStudioSessionMappingOutputResponse, DeleteStudioSessionMappingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStudioSessionMappingOutputResponse, DeleteStudioSessionMappingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -542,6 +597,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeClusterInput, DescribeClusterOutputResponse, DescribeClusterOutputError>(id: "describeCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClusterInput, DescribeClusterOutputResponse, DescribeClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClusterInput, DescribeClusterOutputResponse>())
@@ -557,8 +613,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeClusterOutputResponse, DescribeClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeClusterOutputResponse, DescribeClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeClusterOutputResponse, DescribeClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -586,6 +646,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeJobFlowsInput, DescribeJobFlowsOutputResponse, DescribeJobFlowsOutputError>(id: "describeJobFlows")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeJobFlowsInput, DescribeJobFlowsOutputResponse, DescribeJobFlowsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeJobFlowsInput, DescribeJobFlowsOutputResponse>())
@@ -601,8 +662,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeJobFlowsOutputResponse, DescribeJobFlowsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeJobFlowsOutputResponse, DescribeJobFlowsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeJobFlowsOutputResponse, DescribeJobFlowsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -622,6 +687,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeNotebookExecutionInput, DescribeNotebookExecutionOutputResponse, DescribeNotebookExecutionOutputError>(id: "describeNotebookExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeNotebookExecutionInput, DescribeNotebookExecutionOutputResponse, DescribeNotebookExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeNotebookExecutionInput, DescribeNotebookExecutionOutputResponse>())
@@ -637,8 +703,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeNotebookExecutionOutputResponse, DescribeNotebookExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeNotebookExecutionOutputResponse, DescribeNotebookExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeNotebookExecutionOutputResponse, DescribeNotebookExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -658,6 +728,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReleaseLabelInput, DescribeReleaseLabelOutputResponse, DescribeReleaseLabelOutputError>(id: "describeReleaseLabel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReleaseLabelInput, DescribeReleaseLabelOutputResponse, DescribeReleaseLabelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReleaseLabelInput, DescribeReleaseLabelOutputResponse>())
@@ -673,8 +744,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReleaseLabelOutputResponse, DescribeReleaseLabelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReleaseLabelOutputResponse, DescribeReleaseLabelOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReleaseLabelOutputResponse, DescribeReleaseLabelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -694,6 +769,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSecurityConfigurationInput, DescribeSecurityConfigurationOutputResponse, DescribeSecurityConfigurationOutputError>(id: "describeSecurityConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSecurityConfigurationInput, DescribeSecurityConfigurationOutputResponse, DescribeSecurityConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSecurityConfigurationInput, DescribeSecurityConfigurationOutputResponse>())
@@ -709,8 +785,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSecurityConfigurationOutputResponse, DescribeSecurityConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSecurityConfigurationOutputResponse, DescribeSecurityConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSecurityConfigurationOutputResponse, DescribeSecurityConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -730,6 +810,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeStepInput, DescribeStepOutputResponse, DescribeStepOutputError>(id: "describeStep")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStepInput, DescribeStepOutputResponse, DescribeStepOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStepInput, DescribeStepOutputResponse>())
@@ -745,8 +826,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStepOutputResponse, DescribeStepOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStepOutputResponse, DescribeStepOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStepOutputResponse, DescribeStepOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -766,6 +851,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeStudioInput, DescribeStudioOutputResponse, DescribeStudioOutputError>(id: "describeStudio")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStudioInput, DescribeStudioOutputResponse, DescribeStudioOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStudioInput, DescribeStudioOutputResponse>())
@@ -781,8 +867,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStudioOutputResponse, DescribeStudioOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStudioOutputResponse, DescribeStudioOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStudioOutputResponse, DescribeStudioOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -802,6 +892,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAutoTerminationPolicyInput, GetAutoTerminationPolicyOutputResponse, GetAutoTerminationPolicyOutputError>(id: "getAutoTerminationPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAutoTerminationPolicyInput, GetAutoTerminationPolicyOutputResponse, GetAutoTerminationPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAutoTerminationPolicyInput, GetAutoTerminationPolicyOutputResponse>())
@@ -817,8 +908,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAutoTerminationPolicyOutputResponse, GetAutoTerminationPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAutoTerminationPolicyOutputResponse, GetAutoTerminationPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAutoTerminationPolicyOutputResponse, GetAutoTerminationPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -838,6 +933,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBlockPublicAccessConfigurationInput, GetBlockPublicAccessConfigurationOutputResponse, GetBlockPublicAccessConfigurationOutputError>(id: "getBlockPublicAccessConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBlockPublicAccessConfigurationInput, GetBlockPublicAccessConfigurationOutputResponse, GetBlockPublicAccessConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBlockPublicAccessConfigurationInput, GetBlockPublicAccessConfigurationOutputResponse>())
@@ -853,8 +949,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBlockPublicAccessConfigurationOutputResponse, GetBlockPublicAccessConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBlockPublicAccessConfigurationOutputResponse, GetBlockPublicAccessConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBlockPublicAccessConfigurationOutputResponse, GetBlockPublicAccessConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -874,6 +974,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetClusterSessionCredentialsInput, GetClusterSessionCredentialsOutputResponse, GetClusterSessionCredentialsOutputError>(id: "getClusterSessionCredentials")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetClusterSessionCredentialsInput, GetClusterSessionCredentialsOutputResponse, GetClusterSessionCredentialsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetClusterSessionCredentialsInput, GetClusterSessionCredentialsOutputResponse>())
@@ -889,8 +990,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetClusterSessionCredentialsOutputResponse, GetClusterSessionCredentialsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetClusterSessionCredentialsOutputResponse, GetClusterSessionCredentialsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetClusterSessionCredentialsOutputResponse, GetClusterSessionCredentialsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -910,6 +1015,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetManagedScalingPolicyInput, GetManagedScalingPolicyOutputResponse, GetManagedScalingPolicyOutputError>(id: "getManagedScalingPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetManagedScalingPolicyInput, GetManagedScalingPolicyOutputResponse, GetManagedScalingPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetManagedScalingPolicyInput, GetManagedScalingPolicyOutputResponse>())
@@ -925,8 +1031,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetManagedScalingPolicyOutputResponse, GetManagedScalingPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetManagedScalingPolicyOutputResponse, GetManagedScalingPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetManagedScalingPolicyOutputResponse, GetManagedScalingPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -946,6 +1056,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetStudioSessionMappingInput, GetStudioSessionMappingOutputResponse, GetStudioSessionMappingOutputError>(id: "getStudioSessionMapping")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStudioSessionMappingInput, GetStudioSessionMappingOutputResponse, GetStudioSessionMappingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetStudioSessionMappingInput, GetStudioSessionMappingOutputResponse>())
@@ -961,8 +1072,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetStudioSessionMappingOutputResponse, GetStudioSessionMappingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetStudioSessionMappingOutputResponse, GetStudioSessionMappingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetStudioSessionMappingOutputResponse, GetStudioSessionMappingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -982,6 +1097,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListBootstrapActionsInput, ListBootstrapActionsOutputResponse, ListBootstrapActionsOutputError>(id: "listBootstrapActions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBootstrapActionsInput, ListBootstrapActionsOutputResponse, ListBootstrapActionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBootstrapActionsInput, ListBootstrapActionsOutputResponse>())
@@ -997,8 +1113,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBootstrapActionsOutputResponse, ListBootstrapActionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBootstrapActionsOutputResponse, ListBootstrapActionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBootstrapActionsOutputResponse, ListBootstrapActionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1018,6 +1138,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListClustersInput, ListClustersOutputResponse, ListClustersOutputError>(id: "listClusters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListClustersInput, ListClustersOutputResponse, ListClustersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListClustersInput, ListClustersOutputResponse>())
@@ -1033,8 +1154,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListClustersOutputResponse, ListClustersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListClustersOutputResponse, ListClustersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListClustersOutputResponse, ListClustersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1054,6 +1179,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListInstanceFleetsInput, ListInstanceFleetsOutputResponse, ListInstanceFleetsOutputError>(id: "listInstanceFleets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstanceFleetsInput, ListInstanceFleetsOutputResponse, ListInstanceFleetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstanceFleetsInput, ListInstanceFleetsOutputResponse>())
@@ -1069,8 +1195,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstanceFleetsOutputResponse, ListInstanceFleetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstanceFleetsOutputResponse, ListInstanceFleetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInstanceFleetsOutputResponse, ListInstanceFleetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1090,6 +1220,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListInstanceGroupsInput, ListInstanceGroupsOutputResponse, ListInstanceGroupsOutputError>(id: "listInstanceGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstanceGroupsInput, ListInstanceGroupsOutputResponse, ListInstanceGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstanceGroupsInput, ListInstanceGroupsOutputResponse>())
@@ -1105,8 +1236,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstanceGroupsOutputResponse, ListInstanceGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstanceGroupsOutputResponse, ListInstanceGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInstanceGroupsOutputResponse, ListInstanceGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1126,6 +1261,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListInstancesInput, ListInstancesOutputResponse, ListInstancesOutputError>(id: "listInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstancesInput, ListInstancesOutputResponse, ListInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstancesInput, ListInstancesOutputResponse>())
@@ -1141,8 +1277,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstancesOutputResponse, ListInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstancesOutputResponse, ListInstancesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInstancesOutputResponse, ListInstancesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1162,6 +1302,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListNotebookExecutionsInput, ListNotebookExecutionsOutputResponse, ListNotebookExecutionsOutputError>(id: "listNotebookExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNotebookExecutionsInput, ListNotebookExecutionsOutputResponse, ListNotebookExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNotebookExecutionsInput, ListNotebookExecutionsOutputResponse>())
@@ -1177,8 +1318,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNotebookExecutionsOutputResponse, ListNotebookExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNotebookExecutionsOutputResponse, ListNotebookExecutionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNotebookExecutionsOutputResponse, ListNotebookExecutionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1198,6 +1343,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListReleaseLabelsInput, ListReleaseLabelsOutputResponse, ListReleaseLabelsOutputError>(id: "listReleaseLabels")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListReleaseLabelsInput, ListReleaseLabelsOutputResponse, ListReleaseLabelsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListReleaseLabelsInput, ListReleaseLabelsOutputResponse>())
@@ -1213,8 +1359,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReleaseLabelsOutputResponse, ListReleaseLabelsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReleaseLabelsOutputResponse, ListReleaseLabelsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListReleaseLabelsOutputResponse, ListReleaseLabelsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1234,6 +1384,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutputResponse, ListSecurityConfigurationsOutputError>(id: "listSecurityConfigurations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutputResponse, ListSecurityConfigurationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutputResponse>())
@@ -1249,8 +1400,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSecurityConfigurationsOutputResponse, ListSecurityConfigurationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSecurityConfigurationsOutputResponse, ListSecurityConfigurationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSecurityConfigurationsOutputResponse, ListSecurityConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1270,6 +1425,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListStepsInput, ListStepsOutputResponse, ListStepsOutputError>(id: "listSteps")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStepsInput, ListStepsOutputResponse, ListStepsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStepsInput, ListStepsOutputResponse>())
@@ -1285,8 +1441,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStepsOutputResponse, ListStepsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStepsOutputResponse, ListStepsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStepsOutputResponse, ListStepsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1306,6 +1466,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListStudioSessionMappingsInput, ListStudioSessionMappingsOutputResponse, ListStudioSessionMappingsOutputError>(id: "listStudioSessionMappings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStudioSessionMappingsInput, ListStudioSessionMappingsOutputResponse, ListStudioSessionMappingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStudioSessionMappingsInput, ListStudioSessionMappingsOutputResponse>())
@@ -1321,8 +1482,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStudioSessionMappingsOutputResponse, ListStudioSessionMappingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStudioSessionMappingsOutputResponse, ListStudioSessionMappingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStudioSessionMappingsOutputResponse, ListStudioSessionMappingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1342,6 +1507,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListStudiosInput, ListStudiosOutputResponse, ListStudiosOutputError>(id: "listStudios")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStudiosInput, ListStudiosOutputResponse, ListStudiosOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStudiosInput, ListStudiosOutputResponse>())
@@ -1357,8 +1523,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStudiosOutputResponse, ListStudiosOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStudiosOutputResponse, ListStudiosOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStudiosOutputResponse, ListStudiosOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1378,6 +1548,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyClusterInput, ModifyClusterOutputResponse, ModifyClusterOutputError>(id: "modifyCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyClusterInput, ModifyClusterOutputResponse, ModifyClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyClusterInput, ModifyClusterOutputResponse>())
@@ -1393,8 +1564,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyClusterOutputResponse, ModifyClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyClusterOutputResponse, ModifyClusterOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyClusterOutputResponse, ModifyClusterOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1414,6 +1589,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyInstanceFleetInput, ModifyInstanceFleetOutputResponse, ModifyInstanceFleetOutputError>(id: "modifyInstanceFleet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyInstanceFleetInput, ModifyInstanceFleetOutputResponse, ModifyInstanceFleetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyInstanceFleetInput, ModifyInstanceFleetOutputResponse>())
@@ -1429,8 +1605,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyInstanceFleetOutputResponse, ModifyInstanceFleetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyInstanceFleetOutputResponse, ModifyInstanceFleetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyInstanceFleetOutputResponse, ModifyInstanceFleetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1450,6 +1630,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyInstanceGroupsInput, ModifyInstanceGroupsOutputResponse, ModifyInstanceGroupsOutputError>(id: "modifyInstanceGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyInstanceGroupsInput, ModifyInstanceGroupsOutputResponse, ModifyInstanceGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyInstanceGroupsInput, ModifyInstanceGroupsOutputResponse>())
@@ -1465,8 +1646,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyInstanceGroupsOutputResponse, ModifyInstanceGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyInstanceGroupsOutputResponse, ModifyInstanceGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyInstanceGroupsOutputResponse, ModifyInstanceGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1486,6 +1671,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutAutoScalingPolicyInput, PutAutoScalingPolicyOutputResponse, PutAutoScalingPolicyOutputError>(id: "putAutoScalingPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAutoScalingPolicyInput, PutAutoScalingPolicyOutputResponse, PutAutoScalingPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAutoScalingPolicyInput, PutAutoScalingPolicyOutputResponse>())
@@ -1501,8 +1687,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAutoScalingPolicyOutputResponse, PutAutoScalingPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAutoScalingPolicyOutputResponse, PutAutoScalingPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutAutoScalingPolicyOutputResponse, PutAutoScalingPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1522,6 +1712,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutAutoTerminationPolicyInput, PutAutoTerminationPolicyOutputResponse, PutAutoTerminationPolicyOutputError>(id: "putAutoTerminationPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAutoTerminationPolicyInput, PutAutoTerminationPolicyOutputResponse, PutAutoTerminationPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAutoTerminationPolicyInput, PutAutoTerminationPolicyOutputResponse>())
@@ -1537,8 +1728,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAutoTerminationPolicyOutputResponse, PutAutoTerminationPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAutoTerminationPolicyOutputResponse, PutAutoTerminationPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutAutoTerminationPolicyOutputResponse, PutAutoTerminationPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1558,6 +1753,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutBlockPublicAccessConfigurationInput, PutBlockPublicAccessConfigurationOutputResponse, PutBlockPublicAccessConfigurationOutputError>(id: "putBlockPublicAccessConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBlockPublicAccessConfigurationInput, PutBlockPublicAccessConfigurationOutputResponse, PutBlockPublicAccessConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBlockPublicAccessConfigurationInput, PutBlockPublicAccessConfigurationOutputResponse>())
@@ -1573,8 +1769,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBlockPublicAccessConfigurationOutputResponse, PutBlockPublicAccessConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBlockPublicAccessConfigurationOutputResponse, PutBlockPublicAccessConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBlockPublicAccessConfigurationOutputResponse, PutBlockPublicAccessConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1594,6 +1794,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutManagedScalingPolicyInput, PutManagedScalingPolicyOutputResponse, PutManagedScalingPolicyOutputError>(id: "putManagedScalingPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutManagedScalingPolicyInput, PutManagedScalingPolicyOutputResponse, PutManagedScalingPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutManagedScalingPolicyInput, PutManagedScalingPolicyOutputResponse>())
@@ -1609,8 +1810,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutManagedScalingPolicyOutputResponse, PutManagedScalingPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutManagedScalingPolicyOutputResponse, PutManagedScalingPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutManagedScalingPolicyOutputResponse, PutManagedScalingPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1630,6 +1835,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveAutoScalingPolicyInput, RemoveAutoScalingPolicyOutputResponse, RemoveAutoScalingPolicyOutputError>(id: "removeAutoScalingPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveAutoScalingPolicyInput, RemoveAutoScalingPolicyOutputResponse, RemoveAutoScalingPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveAutoScalingPolicyInput, RemoveAutoScalingPolicyOutputResponse>())
@@ -1645,8 +1851,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveAutoScalingPolicyOutputResponse, RemoveAutoScalingPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveAutoScalingPolicyOutputResponse, RemoveAutoScalingPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveAutoScalingPolicyOutputResponse, RemoveAutoScalingPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1666,6 +1876,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveAutoTerminationPolicyInput, RemoveAutoTerminationPolicyOutputResponse, RemoveAutoTerminationPolicyOutputError>(id: "removeAutoTerminationPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveAutoTerminationPolicyInput, RemoveAutoTerminationPolicyOutputResponse, RemoveAutoTerminationPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveAutoTerminationPolicyInput, RemoveAutoTerminationPolicyOutputResponse>())
@@ -1681,8 +1892,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveAutoTerminationPolicyOutputResponse, RemoveAutoTerminationPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveAutoTerminationPolicyOutputResponse, RemoveAutoTerminationPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveAutoTerminationPolicyOutputResponse, RemoveAutoTerminationPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1702,6 +1917,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveManagedScalingPolicyInput, RemoveManagedScalingPolicyOutputResponse, RemoveManagedScalingPolicyOutputError>(id: "removeManagedScalingPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveManagedScalingPolicyInput, RemoveManagedScalingPolicyOutputResponse, RemoveManagedScalingPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveManagedScalingPolicyInput, RemoveManagedScalingPolicyOutputResponse>())
@@ -1717,8 +1933,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveManagedScalingPolicyOutputResponse, RemoveManagedScalingPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveManagedScalingPolicyOutputResponse, RemoveManagedScalingPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveManagedScalingPolicyOutputResponse, RemoveManagedScalingPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1738,6 +1958,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveTagsInput, RemoveTagsOutputResponse, RemoveTagsOutputError>(id: "removeTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsInput, RemoveTagsOutputResponse, RemoveTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsInput, RemoveTagsOutputResponse>())
@@ -1753,8 +1974,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsOutputResponse, RemoveTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsOutputResponse, RemoveTagsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsOutputResponse, RemoveTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1774,6 +1999,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RunJobFlowInput, RunJobFlowOutputResponse, RunJobFlowOutputError>(id: "runJobFlow")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RunJobFlowInput, RunJobFlowOutputResponse, RunJobFlowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RunJobFlowInput, RunJobFlowOutputResponse>())
@@ -1789,8 +2015,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RunJobFlowOutputResponse, RunJobFlowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RunJobFlowOutputResponse, RunJobFlowOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RunJobFlowOutputResponse, RunJobFlowOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1810,6 +2040,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetTerminationProtectionInput, SetTerminationProtectionOutputResponse, SetTerminationProtectionOutputError>(id: "setTerminationProtection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetTerminationProtectionInput, SetTerminationProtectionOutputResponse, SetTerminationProtectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetTerminationProtectionInput, SetTerminationProtectionOutputResponse>())
@@ -1825,8 +2056,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetTerminationProtectionOutputResponse, SetTerminationProtectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetTerminationProtectionOutputResponse, SetTerminationProtectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetTerminationProtectionOutputResponse, SetTerminationProtectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1846,6 +2081,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetVisibleToAllUsersInput, SetVisibleToAllUsersOutputResponse, SetVisibleToAllUsersOutputError>(id: "setVisibleToAllUsers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetVisibleToAllUsersInput, SetVisibleToAllUsersOutputResponse, SetVisibleToAllUsersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetVisibleToAllUsersInput, SetVisibleToAllUsersOutputResponse>())
@@ -1861,8 +2097,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetVisibleToAllUsersOutputResponse, SetVisibleToAllUsersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetVisibleToAllUsersOutputResponse, SetVisibleToAllUsersOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetVisibleToAllUsersOutputResponse, SetVisibleToAllUsersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1882,6 +2122,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartNotebookExecutionInput, StartNotebookExecutionOutputResponse, StartNotebookExecutionOutputError>(id: "startNotebookExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartNotebookExecutionInput, StartNotebookExecutionOutputResponse, StartNotebookExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartNotebookExecutionInput, StartNotebookExecutionOutputResponse>())
@@ -1897,8 +2138,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartNotebookExecutionOutputResponse, StartNotebookExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartNotebookExecutionOutputResponse, StartNotebookExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartNotebookExecutionOutputResponse, StartNotebookExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1918,6 +2163,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopNotebookExecutionInput, StopNotebookExecutionOutputResponse, StopNotebookExecutionOutputError>(id: "stopNotebookExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopNotebookExecutionInput, StopNotebookExecutionOutputResponse, StopNotebookExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopNotebookExecutionInput, StopNotebookExecutionOutputResponse>())
@@ -1933,8 +2179,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopNotebookExecutionOutputResponse, StopNotebookExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopNotebookExecutionOutputResponse, StopNotebookExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopNotebookExecutionOutputResponse, StopNotebookExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1954,6 +2204,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TerminateJobFlowsInput, TerminateJobFlowsOutputResponse, TerminateJobFlowsOutputError>(id: "terminateJobFlows")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TerminateJobFlowsInput, TerminateJobFlowsOutputResponse, TerminateJobFlowsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TerminateJobFlowsInput, TerminateJobFlowsOutputResponse>())
@@ -1969,8 +2220,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TerminateJobFlowsOutputResponse, TerminateJobFlowsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TerminateJobFlowsOutputResponse, TerminateJobFlowsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TerminateJobFlowsOutputResponse, TerminateJobFlowsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1990,6 +2245,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateStudioInput, UpdateStudioOutputResponse, UpdateStudioOutputError>(id: "updateStudio")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStudioInput, UpdateStudioOutputResponse, UpdateStudioOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateStudioInput, UpdateStudioOutputResponse>())
@@ -2005,8 +2261,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateStudioOutputResponse, UpdateStudioOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStudioOutputResponse, UpdateStudioOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateStudioOutputResponse, UpdateStudioOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2026,6 +2286,7 @@ extension EMRClient: EMRClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticmapreduce")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateStudioSessionMappingInput, UpdateStudioSessionMappingOutputResponse, UpdateStudioSessionMappingOutputError>(id: "updateStudioSessionMapping")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStudioSessionMappingInput, UpdateStudioSessionMappingOutputResponse, UpdateStudioSessionMappingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateStudioSessionMappingInput, UpdateStudioSessionMappingOutputResponse>())
@@ -2041,8 +2302,12 @@ extension EMRClient: EMRClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateStudioSessionMappingOutputResponse, UpdateStudioSessionMappingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStudioSessionMappingOutputResponse, UpdateStudioSessionMappingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateStudioSessionMappingOutputResponse, UpdateStudioSessionMappingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

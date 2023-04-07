@@ -146,6 +146,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateAssessmentReportEvidenceFolderInput, AssociateAssessmentReportEvidenceFolderOutputResponse, AssociateAssessmentReportEvidenceFolderOutputError>(id: "associateAssessmentReportEvidenceFolder")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateAssessmentReportEvidenceFolderInput, AssociateAssessmentReportEvidenceFolderOutputResponse, AssociateAssessmentReportEvidenceFolderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateAssessmentReportEvidenceFolderInput, AssociateAssessmentReportEvidenceFolderOutputResponse>())
@@ -160,8 +161,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateAssessmentReportEvidenceFolderOutputResponse, AssociateAssessmentReportEvidenceFolderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateAssessmentReportEvidenceFolderOutputResponse, AssociateAssessmentReportEvidenceFolderOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateAssessmentReportEvidenceFolderOutputResponse, AssociateAssessmentReportEvidenceFolderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -181,6 +186,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchAssociateAssessmentReportEvidenceInput, BatchAssociateAssessmentReportEvidenceOutputResponse, BatchAssociateAssessmentReportEvidenceOutputError>(id: "batchAssociateAssessmentReportEvidence")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchAssociateAssessmentReportEvidenceInput, BatchAssociateAssessmentReportEvidenceOutputResponse, BatchAssociateAssessmentReportEvidenceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchAssociateAssessmentReportEvidenceInput, BatchAssociateAssessmentReportEvidenceOutputResponse>())
@@ -195,8 +201,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchAssociateAssessmentReportEvidenceOutputResponse, BatchAssociateAssessmentReportEvidenceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchAssociateAssessmentReportEvidenceOutputResponse, BatchAssociateAssessmentReportEvidenceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchAssociateAssessmentReportEvidenceOutputResponse, BatchAssociateAssessmentReportEvidenceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -216,6 +226,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchCreateDelegationByAssessmentInput, BatchCreateDelegationByAssessmentOutputResponse, BatchCreateDelegationByAssessmentOutputError>(id: "batchCreateDelegationByAssessment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchCreateDelegationByAssessmentInput, BatchCreateDelegationByAssessmentOutputResponse, BatchCreateDelegationByAssessmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchCreateDelegationByAssessmentInput, BatchCreateDelegationByAssessmentOutputResponse>())
@@ -230,8 +241,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchCreateDelegationByAssessmentOutputResponse, BatchCreateDelegationByAssessmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchCreateDelegationByAssessmentOutputResponse, BatchCreateDelegationByAssessmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchCreateDelegationByAssessmentOutputResponse, BatchCreateDelegationByAssessmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -251,6 +266,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDeleteDelegationByAssessmentInput, BatchDeleteDelegationByAssessmentOutputResponse, BatchDeleteDelegationByAssessmentOutputError>(id: "batchDeleteDelegationByAssessment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteDelegationByAssessmentInput, BatchDeleteDelegationByAssessmentOutputResponse, BatchDeleteDelegationByAssessmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteDelegationByAssessmentInput, BatchDeleteDelegationByAssessmentOutputResponse>())
@@ -265,8 +281,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeleteDelegationByAssessmentOutputResponse, BatchDeleteDelegationByAssessmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteDelegationByAssessmentOutputResponse, BatchDeleteDelegationByAssessmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteDelegationByAssessmentOutputResponse, BatchDeleteDelegationByAssessmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -286,6 +306,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDisassociateAssessmentReportEvidenceInput, BatchDisassociateAssessmentReportEvidenceOutputResponse, BatchDisassociateAssessmentReportEvidenceOutputError>(id: "batchDisassociateAssessmentReportEvidence")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDisassociateAssessmentReportEvidenceInput, BatchDisassociateAssessmentReportEvidenceOutputResponse, BatchDisassociateAssessmentReportEvidenceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDisassociateAssessmentReportEvidenceInput, BatchDisassociateAssessmentReportEvidenceOutputResponse>())
@@ -300,8 +321,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDisassociateAssessmentReportEvidenceOutputResponse, BatchDisassociateAssessmentReportEvidenceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDisassociateAssessmentReportEvidenceOutputResponse, BatchDisassociateAssessmentReportEvidenceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDisassociateAssessmentReportEvidenceOutputResponse, BatchDisassociateAssessmentReportEvidenceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -330,6 +355,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchImportEvidenceToAssessmentControlInput, BatchImportEvidenceToAssessmentControlOutputResponse, BatchImportEvidenceToAssessmentControlOutputError>(id: "batchImportEvidenceToAssessmentControl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchImportEvidenceToAssessmentControlInput, BatchImportEvidenceToAssessmentControlOutputResponse, BatchImportEvidenceToAssessmentControlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchImportEvidenceToAssessmentControlInput, BatchImportEvidenceToAssessmentControlOutputResponse>())
@@ -344,8 +370,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchImportEvidenceToAssessmentControlOutputResponse, BatchImportEvidenceToAssessmentControlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchImportEvidenceToAssessmentControlOutputResponse, BatchImportEvidenceToAssessmentControlOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchImportEvidenceToAssessmentControlOutputResponse, BatchImportEvidenceToAssessmentControlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -365,6 +395,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAssessmentInput, CreateAssessmentOutputResponse, CreateAssessmentOutputError>(id: "createAssessment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAssessmentInput, CreateAssessmentOutputResponse, CreateAssessmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAssessmentInput, CreateAssessmentOutputResponse>())
@@ -379,8 +410,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAssessmentOutputResponse, CreateAssessmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAssessmentOutputResponse, CreateAssessmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAssessmentOutputResponse, CreateAssessmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -400,6 +435,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAssessmentFrameworkInput, CreateAssessmentFrameworkOutputResponse, CreateAssessmentFrameworkOutputError>(id: "createAssessmentFramework")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAssessmentFrameworkInput, CreateAssessmentFrameworkOutputResponse, CreateAssessmentFrameworkOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAssessmentFrameworkInput, CreateAssessmentFrameworkOutputResponse>())
@@ -414,8 +450,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAssessmentFrameworkOutputResponse, CreateAssessmentFrameworkOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAssessmentFrameworkOutputResponse, CreateAssessmentFrameworkOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAssessmentFrameworkOutputResponse, CreateAssessmentFrameworkOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -435,6 +475,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAssessmentReportInput, CreateAssessmentReportOutputResponse, CreateAssessmentReportOutputError>(id: "createAssessmentReport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAssessmentReportInput, CreateAssessmentReportOutputResponse, CreateAssessmentReportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAssessmentReportInput, CreateAssessmentReportOutputResponse>())
@@ -449,8 +490,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAssessmentReportOutputResponse, CreateAssessmentReportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAssessmentReportOutputResponse, CreateAssessmentReportOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAssessmentReportOutputResponse, CreateAssessmentReportOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -470,6 +515,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateControlInput, CreateControlOutputResponse, CreateControlOutputError>(id: "createControl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateControlInput, CreateControlOutputResponse, CreateControlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateControlInput, CreateControlOutputResponse>())
@@ -484,8 +530,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateControlOutputResponse, CreateControlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateControlOutputResponse, CreateControlOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateControlOutputResponse, CreateControlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -505,6 +555,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAssessmentInput, DeleteAssessmentOutputResponse, DeleteAssessmentOutputError>(id: "deleteAssessment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAssessmentInput, DeleteAssessmentOutputResponse, DeleteAssessmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAssessmentInput, DeleteAssessmentOutputResponse>())
@@ -516,8 +567,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAssessmentOutputResponse, DeleteAssessmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAssessmentOutputResponse, DeleteAssessmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAssessmentOutputResponse, DeleteAssessmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -537,6 +592,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAssessmentFrameworkInput, DeleteAssessmentFrameworkOutputResponse, DeleteAssessmentFrameworkOutputError>(id: "deleteAssessmentFramework")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAssessmentFrameworkInput, DeleteAssessmentFrameworkOutputResponse, DeleteAssessmentFrameworkOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAssessmentFrameworkInput, DeleteAssessmentFrameworkOutputResponse>())
@@ -548,8 +604,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAssessmentFrameworkOutputResponse, DeleteAssessmentFrameworkOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAssessmentFrameworkOutputResponse, DeleteAssessmentFrameworkOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAssessmentFrameworkOutputResponse, DeleteAssessmentFrameworkOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -569,6 +629,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAssessmentFrameworkShareInput, DeleteAssessmentFrameworkShareOutputResponse, DeleteAssessmentFrameworkShareOutputError>(id: "deleteAssessmentFrameworkShare")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAssessmentFrameworkShareInput, DeleteAssessmentFrameworkShareOutputResponse, DeleteAssessmentFrameworkShareOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAssessmentFrameworkShareInput, DeleteAssessmentFrameworkShareOutputResponse>())
@@ -581,8 +642,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAssessmentFrameworkShareOutputResponse, DeleteAssessmentFrameworkShareOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAssessmentFrameworkShareOutputResponse, DeleteAssessmentFrameworkShareOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAssessmentFrameworkShareOutputResponse, DeleteAssessmentFrameworkShareOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -609,6 +674,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAssessmentReportInput, DeleteAssessmentReportOutputResponse, DeleteAssessmentReportOutputError>(id: "deleteAssessmentReport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAssessmentReportInput, DeleteAssessmentReportOutputResponse, DeleteAssessmentReportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAssessmentReportInput, DeleteAssessmentReportOutputResponse>())
@@ -620,8 +686,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAssessmentReportOutputResponse, DeleteAssessmentReportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAssessmentReportOutputResponse, DeleteAssessmentReportOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAssessmentReportOutputResponse, DeleteAssessmentReportOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -641,6 +711,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteControlInput, DeleteControlOutputResponse, DeleteControlOutputError>(id: "deleteControl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteControlInput, DeleteControlOutputResponse, DeleteControlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteControlInput, DeleteControlOutputResponse>())
@@ -652,8 +723,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteControlOutputResponse, DeleteControlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteControlOutputResponse, DeleteControlOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteControlOutputResponse, DeleteControlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -673,6 +748,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterAccountInput, DeregisterAccountOutputResponse, DeregisterAccountOutputError>(id: "deregisterAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterAccountInput, DeregisterAccountOutputResponse, DeregisterAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterAccountInput, DeregisterAccountOutputResponse>())
@@ -684,8 +760,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterAccountOutputResponse, DeregisterAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterAccountOutputResponse, DeregisterAccountOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterAccountOutputResponse, DeregisterAccountOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -718,6 +798,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterOrganizationAdminAccountInput, DeregisterOrganizationAdminAccountOutputResponse, DeregisterOrganizationAdminAccountOutputError>(id: "deregisterOrganizationAdminAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterOrganizationAdminAccountInput, DeregisterOrganizationAdminAccountOutputResponse, DeregisterOrganizationAdminAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterOrganizationAdminAccountInput, DeregisterOrganizationAdminAccountOutputResponse>())
@@ -732,8 +813,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterOrganizationAdminAccountOutputResponse, DeregisterOrganizationAdminAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterOrganizationAdminAccountOutputResponse, DeregisterOrganizationAdminAccountOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterOrganizationAdminAccountOutputResponse, DeregisterOrganizationAdminAccountOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -753,6 +838,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateAssessmentReportEvidenceFolderInput, DisassociateAssessmentReportEvidenceFolderOutputResponse, DisassociateAssessmentReportEvidenceFolderOutputError>(id: "disassociateAssessmentReportEvidenceFolder")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateAssessmentReportEvidenceFolderInput, DisassociateAssessmentReportEvidenceFolderOutputResponse, DisassociateAssessmentReportEvidenceFolderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateAssessmentReportEvidenceFolderInput, DisassociateAssessmentReportEvidenceFolderOutputResponse>())
@@ -767,8 +853,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateAssessmentReportEvidenceFolderOutputResponse, DisassociateAssessmentReportEvidenceFolderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateAssessmentReportEvidenceFolderOutputResponse, DisassociateAssessmentReportEvidenceFolderOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateAssessmentReportEvidenceFolderOutputResponse, DisassociateAssessmentReportEvidenceFolderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -788,6 +878,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccountStatusInput, GetAccountStatusOutputResponse, GetAccountStatusOutputError>(id: "getAccountStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountStatusInput, GetAccountStatusOutputResponse, GetAccountStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountStatusInput, GetAccountStatusOutputResponse>())
@@ -799,8 +890,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountStatusOutputResponse, GetAccountStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountStatusOutputResponse, GetAccountStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountStatusOutputResponse, GetAccountStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -820,6 +915,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAssessmentInput, GetAssessmentOutputResponse, GetAssessmentOutputError>(id: "getAssessment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAssessmentInput, GetAssessmentOutputResponse, GetAssessmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAssessmentInput, GetAssessmentOutputResponse>())
@@ -831,8 +927,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAssessmentOutputResponse, GetAssessmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAssessmentOutputResponse, GetAssessmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAssessmentOutputResponse, GetAssessmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -852,6 +952,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAssessmentFrameworkInput, GetAssessmentFrameworkOutputResponse, GetAssessmentFrameworkOutputError>(id: "getAssessmentFramework")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAssessmentFrameworkInput, GetAssessmentFrameworkOutputResponse, GetAssessmentFrameworkOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAssessmentFrameworkInput, GetAssessmentFrameworkOutputResponse>())
@@ -863,8 +964,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAssessmentFrameworkOutputResponse, GetAssessmentFrameworkOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAssessmentFrameworkOutputResponse, GetAssessmentFrameworkOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAssessmentFrameworkOutputResponse, GetAssessmentFrameworkOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -884,6 +989,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAssessmentReportUrlInput, GetAssessmentReportUrlOutputResponse, GetAssessmentReportUrlOutputError>(id: "getAssessmentReportUrl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAssessmentReportUrlInput, GetAssessmentReportUrlOutputResponse, GetAssessmentReportUrlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAssessmentReportUrlInput, GetAssessmentReportUrlOutputResponse>())
@@ -895,8 +1001,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAssessmentReportUrlOutputResponse, GetAssessmentReportUrlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAssessmentReportUrlOutputResponse, GetAssessmentReportUrlOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAssessmentReportUrlOutputResponse, GetAssessmentReportUrlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -916,6 +1026,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetChangeLogsInput, GetChangeLogsOutputResponse, GetChangeLogsOutputError>(id: "getChangeLogs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetChangeLogsInput, GetChangeLogsOutputResponse, GetChangeLogsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetChangeLogsInput, GetChangeLogsOutputResponse>())
@@ -928,8 +1039,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetChangeLogsOutputResponse, GetChangeLogsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetChangeLogsOutputResponse, GetChangeLogsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetChangeLogsOutputResponse, GetChangeLogsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -949,6 +1064,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetControlInput, GetControlOutputResponse, GetControlOutputError>(id: "getControl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetControlInput, GetControlOutputResponse, GetControlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetControlInput, GetControlOutputResponse>())
@@ -960,8 +1076,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetControlOutputResponse, GetControlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetControlOutputResponse, GetControlOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetControlOutputResponse, GetControlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -981,6 +1101,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDelegationsInput, GetDelegationsOutputResponse, GetDelegationsOutputError>(id: "getDelegations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDelegationsInput, GetDelegationsOutputResponse, GetDelegationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDelegationsInput, GetDelegationsOutputResponse>())
@@ -993,8 +1114,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDelegationsOutputResponse, GetDelegationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDelegationsOutputResponse, GetDelegationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDelegationsOutputResponse, GetDelegationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1014,6 +1139,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEvidenceInput, GetEvidenceOutputResponse, GetEvidenceOutputError>(id: "getEvidence")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEvidenceInput, GetEvidenceOutputResponse, GetEvidenceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEvidenceInput, GetEvidenceOutputResponse>())
@@ -1025,8 +1151,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEvidenceOutputResponse, GetEvidenceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEvidenceOutputResponse, GetEvidenceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEvidenceOutputResponse, GetEvidenceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1046,6 +1176,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEvidenceByEvidenceFolderInput, GetEvidenceByEvidenceFolderOutputResponse, GetEvidenceByEvidenceFolderOutputError>(id: "getEvidenceByEvidenceFolder")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEvidenceByEvidenceFolderInput, GetEvidenceByEvidenceFolderOutputResponse, GetEvidenceByEvidenceFolderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEvidenceByEvidenceFolderInput, GetEvidenceByEvidenceFolderOutputResponse>())
@@ -1058,8 +1189,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEvidenceByEvidenceFolderOutputResponse, GetEvidenceByEvidenceFolderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEvidenceByEvidenceFolderOutputResponse, GetEvidenceByEvidenceFolderOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEvidenceByEvidenceFolderOutputResponse, GetEvidenceByEvidenceFolderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1079,6 +1214,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEvidenceFolderInput, GetEvidenceFolderOutputResponse, GetEvidenceFolderOutputError>(id: "getEvidenceFolder")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEvidenceFolderInput, GetEvidenceFolderOutputResponse, GetEvidenceFolderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEvidenceFolderInput, GetEvidenceFolderOutputResponse>())
@@ -1090,8 +1226,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEvidenceFolderOutputResponse, GetEvidenceFolderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEvidenceFolderOutputResponse, GetEvidenceFolderOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEvidenceFolderOutputResponse, GetEvidenceFolderOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1111,6 +1251,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEvidenceFoldersByAssessmentInput, GetEvidenceFoldersByAssessmentOutputResponse, GetEvidenceFoldersByAssessmentOutputError>(id: "getEvidenceFoldersByAssessment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEvidenceFoldersByAssessmentInput, GetEvidenceFoldersByAssessmentOutputResponse, GetEvidenceFoldersByAssessmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEvidenceFoldersByAssessmentInput, GetEvidenceFoldersByAssessmentOutputResponse>())
@@ -1123,8 +1264,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEvidenceFoldersByAssessmentOutputResponse, GetEvidenceFoldersByAssessmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEvidenceFoldersByAssessmentOutputResponse, GetEvidenceFoldersByAssessmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEvidenceFoldersByAssessmentOutputResponse, GetEvidenceFoldersByAssessmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1144,6 +1289,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEvidenceFoldersByAssessmentControlInput, GetEvidenceFoldersByAssessmentControlOutputResponse, GetEvidenceFoldersByAssessmentControlOutputError>(id: "getEvidenceFoldersByAssessmentControl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEvidenceFoldersByAssessmentControlInput, GetEvidenceFoldersByAssessmentControlOutputResponse, GetEvidenceFoldersByAssessmentControlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEvidenceFoldersByAssessmentControlInput, GetEvidenceFoldersByAssessmentControlOutputResponse>())
@@ -1156,8 +1302,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEvidenceFoldersByAssessmentControlOutputResponse, GetEvidenceFoldersByAssessmentControlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEvidenceFoldersByAssessmentControlOutputResponse, GetEvidenceFoldersByAssessmentControlOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEvidenceFoldersByAssessmentControlOutputResponse, GetEvidenceFoldersByAssessmentControlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1177,6 +1327,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInsightsInput, GetInsightsOutputResponse, GetInsightsOutputError>(id: "getInsights")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInsightsInput, GetInsightsOutputResponse, GetInsightsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInsightsInput, GetInsightsOutputResponse>())
@@ -1188,8 +1339,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInsightsOutputResponse, GetInsightsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInsightsOutputResponse, GetInsightsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInsightsOutputResponse, GetInsightsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1209,6 +1364,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInsightsByAssessmentInput, GetInsightsByAssessmentOutputResponse, GetInsightsByAssessmentOutputError>(id: "getInsightsByAssessment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInsightsByAssessmentInput, GetInsightsByAssessmentOutputResponse, GetInsightsByAssessmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInsightsByAssessmentInput, GetInsightsByAssessmentOutputResponse>())
@@ -1220,8 +1376,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInsightsByAssessmentOutputResponse, GetInsightsByAssessmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInsightsByAssessmentOutputResponse, GetInsightsByAssessmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInsightsByAssessmentOutputResponse, GetInsightsByAssessmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1241,6 +1401,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetOrganizationAdminAccountInput, GetOrganizationAdminAccountOutputResponse, GetOrganizationAdminAccountOutputError>(id: "getOrganizationAdminAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOrganizationAdminAccountInput, GetOrganizationAdminAccountOutputResponse, GetOrganizationAdminAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOrganizationAdminAccountInput, GetOrganizationAdminAccountOutputResponse>())
@@ -1252,8 +1413,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOrganizationAdminAccountOutputResponse, GetOrganizationAdminAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOrganizationAdminAccountOutputResponse, GetOrganizationAdminAccountOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOrganizationAdminAccountOutputResponse, GetOrganizationAdminAccountOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1273,6 +1438,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetServicesInScopeInput, GetServicesInScopeOutputResponse, GetServicesInScopeOutputError>(id: "getServicesInScope")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServicesInScopeInput, GetServicesInScopeOutputResponse, GetServicesInScopeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServicesInScopeInput, GetServicesInScopeOutputResponse>())
@@ -1284,8 +1450,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServicesInScopeOutputResponse, GetServicesInScopeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServicesInScopeOutputResponse, GetServicesInScopeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServicesInScopeOutputResponse, GetServicesInScopeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1305,6 +1475,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSettingsInput, GetSettingsOutputResponse, GetSettingsOutputError>(id: "getSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSettingsInput, GetSettingsOutputResponse, GetSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSettingsInput, GetSettingsOutputResponse>())
@@ -1316,8 +1487,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSettingsOutputResponse, GetSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSettingsOutputResponse, GetSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSettingsOutputResponse, GetSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1337,6 +1512,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAssessmentControlInsightsByControlDomainInput, ListAssessmentControlInsightsByControlDomainOutputResponse, ListAssessmentControlInsightsByControlDomainOutputError>(id: "listAssessmentControlInsightsByControlDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAssessmentControlInsightsByControlDomainInput, ListAssessmentControlInsightsByControlDomainOutputResponse, ListAssessmentControlInsightsByControlDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssessmentControlInsightsByControlDomainInput, ListAssessmentControlInsightsByControlDomainOutputResponse>())
@@ -1349,8 +1525,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAssessmentControlInsightsByControlDomainOutputResponse, ListAssessmentControlInsightsByControlDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAssessmentControlInsightsByControlDomainOutputResponse, ListAssessmentControlInsightsByControlDomainOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAssessmentControlInsightsByControlDomainOutputResponse, ListAssessmentControlInsightsByControlDomainOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1370,6 +1550,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAssessmentFrameworkShareRequestsInput, ListAssessmentFrameworkShareRequestsOutputResponse, ListAssessmentFrameworkShareRequestsOutputError>(id: "listAssessmentFrameworkShareRequests")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAssessmentFrameworkShareRequestsInput, ListAssessmentFrameworkShareRequestsOutputResponse, ListAssessmentFrameworkShareRequestsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssessmentFrameworkShareRequestsInput, ListAssessmentFrameworkShareRequestsOutputResponse>())
@@ -1382,8 +1563,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAssessmentFrameworkShareRequestsOutputResponse, ListAssessmentFrameworkShareRequestsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAssessmentFrameworkShareRequestsOutputResponse, ListAssessmentFrameworkShareRequestsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAssessmentFrameworkShareRequestsOutputResponse, ListAssessmentFrameworkShareRequestsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1403,6 +1588,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAssessmentFrameworksInput, ListAssessmentFrameworksOutputResponse, ListAssessmentFrameworksOutputError>(id: "listAssessmentFrameworks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAssessmentFrameworksInput, ListAssessmentFrameworksOutputResponse, ListAssessmentFrameworksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssessmentFrameworksInput, ListAssessmentFrameworksOutputResponse>())
@@ -1415,8 +1601,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAssessmentFrameworksOutputResponse, ListAssessmentFrameworksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAssessmentFrameworksOutputResponse, ListAssessmentFrameworksOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAssessmentFrameworksOutputResponse, ListAssessmentFrameworksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1436,6 +1626,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAssessmentReportsInput, ListAssessmentReportsOutputResponse, ListAssessmentReportsOutputError>(id: "listAssessmentReports")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAssessmentReportsInput, ListAssessmentReportsOutputResponse, ListAssessmentReportsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssessmentReportsInput, ListAssessmentReportsOutputResponse>())
@@ -1448,8 +1639,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAssessmentReportsOutputResponse, ListAssessmentReportsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAssessmentReportsOutputResponse, ListAssessmentReportsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAssessmentReportsOutputResponse, ListAssessmentReportsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1469,6 +1664,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAssessmentsInput, ListAssessmentsOutputResponse, ListAssessmentsOutputError>(id: "listAssessments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAssessmentsInput, ListAssessmentsOutputResponse, ListAssessmentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssessmentsInput, ListAssessmentsOutputResponse>())
@@ -1481,8 +1677,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAssessmentsOutputResponse, ListAssessmentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAssessmentsOutputResponse, ListAssessmentsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAssessmentsOutputResponse, ListAssessmentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1502,6 +1702,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListControlDomainInsightsInput, ListControlDomainInsightsOutputResponse, ListControlDomainInsightsOutputError>(id: "listControlDomainInsights")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListControlDomainInsightsInput, ListControlDomainInsightsOutputResponse, ListControlDomainInsightsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListControlDomainInsightsInput, ListControlDomainInsightsOutputResponse>())
@@ -1514,8 +1715,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListControlDomainInsightsOutputResponse, ListControlDomainInsightsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListControlDomainInsightsOutputResponse, ListControlDomainInsightsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListControlDomainInsightsOutputResponse, ListControlDomainInsightsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1535,6 +1740,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListControlDomainInsightsByAssessmentInput, ListControlDomainInsightsByAssessmentOutputResponse, ListControlDomainInsightsByAssessmentOutputError>(id: "listControlDomainInsightsByAssessment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListControlDomainInsightsByAssessmentInput, ListControlDomainInsightsByAssessmentOutputResponse, ListControlDomainInsightsByAssessmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListControlDomainInsightsByAssessmentInput, ListControlDomainInsightsByAssessmentOutputResponse>())
@@ -1547,8 +1753,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListControlDomainInsightsByAssessmentOutputResponse, ListControlDomainInsightsByAssessmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListControlDomainInsightsByAssessmentOutputResponse, ListControlDomainInsightsByAssessmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListControlDomainInsightsByAssessmentOutputResponse, ListControlDomainInsightsByAssessmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1568,6 +1778,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListControlInsightsByControlDomainInput, ListControlInsightsByControlDomainOutputResponse, ListControlInsightsByControlDomainOutputError>(id: "listControlInsightsByControlDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListControlInsightsByControlDomainInput, ListControlInsightsByControlDomainOutputResponse, ListControlInsightsByControlDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListControlInsightsByControlDomainInput, ListControlInsightsByControlDomainOutputResponse>())
@@ -1580,8 +1791,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListControlInsightsByControlDomainOutputResponse, ListControlInsightsByControlDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListControlInsightsByControlDomainOutputResponse, ListControlInsightsByControlDomainOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListControlInsightsByControlDomainOutputResponse, ListControlInsightsByControlDomainOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1601,6 +1816,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListControlsInput, ListControlsOutputResponse, ListControlsOutputError>(id: "listControls")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListControlsInput, ListControlsOutputResponse, ListControlsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListControlsInput, ListControlsOutputResponse>())
@@ -1613,8 +1829,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListControlsOutputResponse, ListControlsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListControlsOutputResponse, ListControlsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListControlsOutputResponse, ListControlsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1634,6 +1854,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListKeywordsForDataSourceInput, ListKeywordsForDataSourceOutputResponse, ListKeywordsForDataSourceOutputError>(id: "listKeywordsForDataSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListKeywordsForDataSourceInput, ListKeywordsForDataSourceOutputResponse, ListKeywordsForDataSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListKeywordsForDataSourceInput, ListKeywordsForDataSourceOutputResponse>())
@@ -1646,8 +1867,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListKeywordsForDataSourceOutputResponse, ListKeywordsForDataSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListKeywordsForDataSourceOutputResponse, ListKeywordsForDataSourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListKeywordsForDataSourceOutputResponse, ListKeywordsForDataSourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1667,6 +1892,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListNotificationsInput, ListNotificationsOutputResponse, ListNotificationsOutputError>(id: "listNotifications")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNotificationsInput, ListNotificationsOutputResponse, ListNotificationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNotificationsInput, ListNotificationsOutputResponse>())
@@ -1679,8 +1905,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNotificationsOutputResponse, ListNotificationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNotificationsOutputResponse, ListNotificationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNotificationsOutputResponse, ListNotificationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1700,6 +1930,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1711,8 +1942,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1732,6 +1967,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterAccountInput, RegisterAccountOutputResponse, RegisterAccountOutputError>(id: "registerAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterAccountInput, RegisterAccountOutputResponse, RegisterAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterAccountInput, RegisterAccountOutputResponse>())
@@ -1746,8 +1982,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterAccountOutputResponse, RegisterAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterAccountOutputResponse, RegisterAccountOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterAccountOutputResponse, RegisterAccountOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1767,6 +2007,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterOrganizationAdminAccountInput, RegisterOrganizationAdminAccountOutputResponse, RegisterOrganizationAdminAccountOutputError>(id: "registerOrganizationAdminAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterOrganizationAdminAccountInput, RegisterOrganizationAdminAccountOutputResponse, RegisterOrganizationAdminAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterOrganizationAdminAccountInput, RegisterOrganizationAdminAccountOutputResponse>())
@@ -1781,8 +2022,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterOrganizationAdminAccountOutputResponse, RegisterOrganizationAdminAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterOrganizationAdminAccountOutputResponse, RegisterOrganizationAdminAccountOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterOrganizationAdminAccountOutputResponse, RegisterOrganizationAdminAccountOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1813,6 +2058,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartAssessmentFrameworkShareInput, StartAssessmentFrameworkShareOutputResponse, StartAssessmentFrameworkShareOutputError>(id: "startAssessmentFrameworkShare")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartAssessmentFrameworkShareInput, StartAssessmentFrameworkShareOutputResponse, StartAssessmentFrameworkShareOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartAssessmentFrameworkShareInput, StartAssessmentFrameworkShareOutputResponse>())
@@ -1827,8 +2073,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartAssessmentFrameworkShareOutputResponse, StartAssessmentFrameworkShareOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartAssessmentFrameworkShareOutputResponse, StartAssessmentFrameworkShareOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartAssessmentFrameworkShareOutputResponse, StartAssessmentFrameworkShareOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1848,6 +2098,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1862,8 +2113,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1883,6 +2138,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1895,8 +2151,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1916,6 +2176,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAssessmentInput, UpdateAssessmentOutputResponse, UpdateAssessmentOutputError>(id: "updateAssessment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAssessmentInput, UpdateAssessmentOutputResponse, UpdateAssessmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAssessmentInput, UpdateAssessmentOutputResponse>())
@@ -1930,8 +2191,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAssessmentOutputResponse, UpdateAssessmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAssessmentOutputResponse, UpdateAssessmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAssessmentOutputResponse, UpdateAssessmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1951,6 +2216,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAssessmentControlInput, UpdateAssessmentControlOutputResponse, UpdateAssessmentControlOutputError>(id: "updateAssessmentControl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAssessmentControlInput, UpdateAssessmentControlOutputResponse, UpdateAssessmentControlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAssessmentControlInput, UpdateAssessmentControlOutputResponse>())
@@ -1965,8 +2231,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAssessmentControlOutputResponse, UpdateAssessmentControlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAssessmentControlOutputResponse, UpdateAssessmentControlOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAssessmentControlOutputResponse, UpdateAssessmentControlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1986,6 +2256,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAssessmentControlSetStatusInput, UpdateAssessmentControlSetStatusOutputResponse, UpdateAssessmentControlSetStatusOutputError>(id: "updateAssessmentControlSetStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAssessmentControlSetStatusInput, UpdateAssessmentControlSetStatusOutputResponse, UpdateAssessmentControlSetStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAssessmentControlSetStatusInput, UpdateAssessmentControlSetStatusOutputResponse>())
@@ -2000,8 +2271,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAssessmentControlSetStatusOutputResponse, UpdateAssessmentControlSetStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAssessmentControlSetStatusOutputResponse, UpdateAssessmentControlSetStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAssessmentControlSetStatusOutputResponse, UpdateAssessmentControlSetStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2021,6 +2296,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAssessmentFrameworkInput, UpdateAssessmentFrameworkOutputResponse, UpdateAssessmentFrameworkOutputError>(id: "updateAssessmentFramework")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAssessmentFrameworkInput, UpdateAssessmentFrameworkOutputResponse, UpdateAssessmentFrameworkOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAssessmentFrameworkInput, UpdateAssessmentFrameworkOutputResponse>())
@@ -2035,8 +2311,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAssessmentFrameworkOutputResponse, UpdateAssessmentFrameworkOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAssessmentFrameworkOutputResponse, UpdateAssessmentFrameworkOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAssessmentFrameworkOutputResponse, UpdateAssessmentFrameworkOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2056,6 +2336,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAssessmentFrameworkShareInput, UpdateAssessmentFrameworkShareOutputResponse, UpdateAssessmentFrameworkShareOutputError>(id: "updateAssessmentFrameworkShare")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAssessmentFrameworkShareInput, UpdateAssessmentFrameworkShareOutputResponse, UpdateAssessmentFrameworkShareOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAssessmentFrameworkShareInput, UpdateAssessmentFrameworkShareOutputResponse>())
@@ -2070,8 +2351,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAssessmentFrameworkShareOutputResponse, UpdateAssessmentFrameworkShareOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAssessmentFrameworkShareOutputResponse, UpdateAssessmentFrameworkShareOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAssessmentFrameworkShareOutputResponse, UpdateAssessmentFrameworkShareOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2091,6 +2376,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAssessmentStatusInput, UpdateAssessmentStatusOutputResponse, UpdateAssessmentStatusOutputError>(id: "updateAssessmentStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAssessmentStatusInput, UpdateAssessmentStatusOutputResponse, UpdateAssessmentStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAssessmentStatusInput, UpdateAssessmentStatusOutputResponse>())
@@ -2105,8 +2391,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAssessmentStatusOutputResponse, UpdateAssessmentStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAssessmentStatusOutputResponse, UpdateAssessmentStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAssessmentStatusOutputResponse, UpdateAssessmentStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2126,6 +2416,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateControlInput, UpdateControlOutputResponse, UpdateControlOutputError>(id: "updateControl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateControlInput, UpdateControlOutputResponse, UpdateControlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateControlInput, UpdateControlOutputResponse>())
@@ -2140,8 +2431,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateControlOutputResponse, UpdateControlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateControlOutputResponse, UpdateControlOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateControlOutputResponse, UpdateControlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2161,6 +2456,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSettingsInput, UpdateSettingsOutputResponse, UpdateSettingsOutputError>(id: "updateSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSettingsInput, UpdateSettingsOutputResponse, UpdateSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSettingsInput, UpdateSettingsOutputResponse>())
@@ -2175,8 +2471,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSettingsOutputResponse, UpdateSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSettingsOutputResponse, UpdateSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSettingsOutputResponse, UpdateSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2196,6 +2496,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "auditmanager")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ValidateAssessmentReportIntegrityInput, ValidateAssessmentReportIntegrityOutputResponse, ValidateAssessmentReportIntegrityOutputError>(id: "validateAssessmentReportIntegrity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ValidateAssessmentReportIntegrityInput, ValidateAssessmentReportIntegrityOutputResponse, ValidateAssessmentReportIntegrityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ValidateAssessmentReportIntegrityInput, ValidateAssessmentReportIntegrityOutputResponse>())
@@ -2210,8 +2511,12 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ValidateAssessmentReportIntegrityOutputResponse, ValidateAssessmentReportIntegrityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ValidateAssessmentReportIntegrityOutputResponse, ValidateAssessmentReportIntegrityOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ValidateAssessmentReportIntegrityOutputResponse, ValidateAssessmentReportIntegrityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

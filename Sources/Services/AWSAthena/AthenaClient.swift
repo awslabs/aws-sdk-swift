@@ -146,6 +146,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchGetNamedQueryInput, BatchGetNamedQueryOutputResponse, BatchGetNamedQueryOutputError>(id: "batchGetNamedQuery")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetNamedQueryInput, BatchGetNamedQueryOutputResponse, BatchGetNamedQueryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetNamedQueryInput, BatchGetNamedQueryOutputResponse>())
@@ -161,8 +162,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetNamedQueryOutputResponse, BatchGetNamedQueryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetNamedQueryOutputResponse, BatchGetNamedQueryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetNamedQueryOutputResponse, BatchGetNamedQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -182,6 +187,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutputResponse, BatchGetPreparedStatementOutputError>(id: "batchGetPreparedStatement")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutputResponse, BatchGetPreparedStatementOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutputResponse>())
@@ -197,8 +203,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetPreparedStatementOutputResponse, BatchGetPreparedStatementOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetPreparedStatementOutputResponse, BatchGetPreparedStatementOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetPreparedStatementOutputResponse, BatchGetPreparedStatementOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -218,6 +228,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutputResponse, BatchGetQueryExecutionOutputError>(id: "batchGetQueryExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutputResponse, BatchGetQueryExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutputResponse>())
@@ -233,8 +244,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetQueryExecutionOutputResponse, BatchGetQueryExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetQueryExecutionOutputResponse, BatchGetQueryExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetQueryExecutionOutputResponse, BatchGetQueryExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -254,6 +269,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDataCatalogInput, CreateDataCatalogOutputResponse, CreateDataCatalogOutputError>(id: "createDataCatalog")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDataCatalogInput, CreateDataCatalogOutputResponse, CreateDataCatalogOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDataCatalogInput, CreateDataCatalogOutputResponse>())
@@ -269,8 +285,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDataCatalogOutputResponse, CreateDataCatalogOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDataCatalogOutputResponse, CreateDataCatalogOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDataCatalogOutputResponse, CreateDataCatalogOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -290,6 +310,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateNamedQueryInput, CreateNamedQueryOutputResponse, CreateNamedQueryOutputError>(id: "createNamedQuery")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateNamedQueryOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -313,8 +334,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNamedQueryOutputResponse, CreateNamedQueryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNamedQueryOutputResponse, CreateNamedQueryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNamedQueryOutputResponse, CreateNamedQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -334,6 +359,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateNotebookInput, CreateNotebookOutputResponse, CreateNotebookOutputError>(id: "createNotebook")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNotebookInput, CreateNotebookOutputResponse, CreateNotebookOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNotebookInput, CreateNotebookOutputResponse>())
@@ -349,8 +375,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNotebookOutputResponse, CreateNotebookOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNotebookOutputResponse, CreateNotebookOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNotebookOutputResponse, CreateNotebookOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -370,6 +400,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePreparedStatementInput, CreatePreparedStatementOutputResponse, CreatePreparedStatementOutputError>(id: "createPreparedStatement")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePreparedStatementInput, CreatePreparedStatementOutputResponse, CreatePreparedStatementOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePreparedStatementInput, CreatePreparedStatementOutputResponse>())
@@ -385,8 +416,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePreparedStatementOutputResponse, CreatePreparedStatementOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePreparedStatementOutputResponse, CreatePreparedStatementOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePreparedStatementOutputResponse, CreatePreparedStatementOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -406,6 +441,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutputResponse, CreatePresignedNotebookUrlOutputError>(id: "createPresignedNotebookUrl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutputResponse, CreatePresignedNotebookUrlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutputResponse>())
@@ -421,8 +457,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePresignedNotebookUrlOutputResponse, CreatePresignedNotebookUrlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePresignedNotebookUrlOutputResponse, CreatePresignedNotebookUrlOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePresignedNotebookUrlOutputResponse, CreatePresignedNotebookUrlOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -442,6 +482,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateWorkGroupInput, CreateWorkGroupOutputResponse, CreateWorkGroupOutputError>(id: "createWorkGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorkGroupInput, CreateWorkGroupOutputResponse, CreateWorkGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorkGroupInput, CreateWorkGroupOutputResponse>())
@@ -457,8 +498,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorkGroupOutputResponse, CreateWorkGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorkGroupOutputResponse, CreateWorkGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWorkGroupOutputResponse, CreateWorkGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -478,6 +523,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDataCatalogInput, DeleteDataCatalogOutputResponse, DeleteDataCatalogOutputError>(id: "deleteDataCatalog")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDataCatalogInput, DeleteDataCatalogOutputResponse, DeleteDataCatalogOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDataCatalogInput, DeleteDataCatalogOutputResponse>())
@@ -493,8 +539,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDataCatalogOutputResponse, DeleteDataCatalogOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDataCatalogOutputResponse, DeleteDataCatalogOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDataCatalogOutputResponse, DeleteDataCatalogOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -514,6 +564,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteNamedQueryInput, DeleteNamedQueryOutputResponse, DeleteNamedQueryOutputError>(id: "deleteNamedQuery")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteNamedQueryOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -537,8 +588,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNamedQueryOutputResponse, DeleteNamedQueryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNamedQueryOutputResponse, DeleteNamedQueryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNamedQueryOutputResponse, DeleteNamedQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -558,6 +613,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteNotebookInput, DeleteNotebookOutputResponse, DeleteNotebookOutputError>(id: "deleteNotebook")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNotebookInput, DeleteNotebookOutputResponse, DeleteNotebookOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNotebookInput, DeleteNotebookOutputResponse>())
@@ -573,8 +629,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNotebookOutputResponse, DeleteNotebookOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNotebookOutputResponse, DeleteNotebookOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNotebookOutputResponse, DeleteNotebookOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -594,6 +654,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePreparedStatementInput, DeletePreparedStatementOutputResponse, DeletePreparedStatementOutputError>(id: "deletePreparedStatement")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePreparedStatementInput, DeletePreparedStatementOutputResponse, DeletePreparedStatementOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePreparedStatementInput, DeletePreparedStatementOutputResponse>())
@@ -609,8 +670,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePreparedStatementOutputResponse, DeletePreparedStatementOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePreparedStatementOutputResponse, DeletePreparedStatementOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePreparedStatementOutputResponse, DeletePreparedStatementOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -630,6 +695,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteWorkGroupInput, DeleteWorkGroupOutputResponse, DeleteWorkGroupOutputError>(id: "deleteWorkGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWorkGroupInput, DeleteWorkGroupOutputResponse, DeleteWorkGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWorkGroupInput, DeleteWorkGroupOutputResponse>())
@@ -645,8 +711,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWorkGroupOutputResponse, DeleteWorkGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorkGroupOutputResponse, DeleteWorkGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWorkGroupOutputResponse, DeleteWorkGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -666,6 +736,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExportNotebookInput, ExportNotebookOutputResponse, ExportNotebookOutputError>(id: "exportNotebook")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportNotebookInput, ExportNotebookOutputResponse, ExportNotebookOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportNotebookInput, ExportNotebookOutputResponse>())
@@ -681,8 +752,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportNotebookOutputResponse, ExportNotebookOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportNotebookOutputResponse, ExportNotebookOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExportNotebookOutputResponse, ExportNotebookOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -702,6 +777,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCalculationExecutionInput, GetCalculationExecutionOutputResponse, GetCalculationExecutionOutputError>(id: "getCalculationExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCalculationExecutionInput, GetCalculationExecutionOutputResponse, GetCalculationExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCalculationExecutionInput, GetCalculationExecutionOutputResponse>())
@@ -717,8 +793,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCalculationExecutionOutputResponse, GetCalculationExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCalculationExecutionOutputResponse, GetCalculationExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCalculationExecutionOutputResponse, GetCalculationExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -738,6 +818,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutputResponse, GetCalculationExecutionCodeOutputError>(id: "getCalculationExecutionCode")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutputResponse, GetCalculationExecutionCodeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutputResponse>())
@@ -753,8 +834,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCalculationExecutionCodeOutputResponse, GetCalculationExecutionCodeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCalculationExecutionCodeOutputResponse, GetCalculationExecutionCodeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCalculationExecutionCodeOutputResponse, GetCalculationExecutionCodeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -774,6 +859,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutputResponse, GetCalculationExecutionStatusOutputError>(id: "getCalculationExecutionStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutputResponse, GetCalculationExecutionStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutputResponse>())
@@ -789,8 +875,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCalculationExecutionStatusOutputResponse, GetCalculationExecutionStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCalculationExecutionStatusOutputResponse, GetCalculationExecutionStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCalculationExecutionStatusOutputResponse, GetCalculationExecutionStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -810,6 +900,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDataCatalogInput, GetDataCatalogOutputResponse, GetDataCatalogOutputError>(id: "getDataCatalog")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDataCatalogInput, GetDataCatalogOutputResponse, GetDataCatalogOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDataCatalogInput, GetDataCatalogOutputResponse>())
@@ -825,8 +916,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDataCatalogOutputResponse, GetDataCatalogOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDataCatalogOutputResponse, GetDataCatalogOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDataCatalogOutputResponse, GetDataCatalogOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -846,6 +941,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDatabaseInput, GetDatabaseOutputResponse, GetDatabaseOutputError>(id: "getDatabase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDatabaseInput, GetDatabaseOutputResponse, GetDatabaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDatabaseInput, GetDatabaseOutputResponse>())
@@ -861,8 +957,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDatabaseOutputResponse, GetDatabaseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDatabaseOutputResponse, GetDatabaseOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDatabaseOutputResponse, GetDatabaseOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -882,6 +982,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetNamedQueryInput, GetNamedQueryOutputResponse, GetNamedQueryOutputError>(id: "getNamedQuery")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNamedQueryInput, GetNamedQueryOutputResponse, GetNamedQueryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNamedQueryInput, GetNamedQueryOutputResponse>())
@@ -897,8 +998,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNamedQueryOutputResponse, GetNamedQueryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNamedQueryOutputResponse, GetNamedQueryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNamedQueryOutputResponse, GetNamedQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -918,6 +1023,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetNotebookMetadataInput, GetNotebookMetadataOutputResponse, GetNotebookMetadataOutputError>(id: "getNotebookMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNotebookMetadataInput, GetNotebookMetadataOutputResponse, GetNotebookMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNotebookMetadataInput, GetNotebookMetadataOutputResponse>())
@@ -933,8 +1039,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNotebookMetadataOutputResponse, GetNotebookMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNotebookMetadataOutputResponse, GetNotebookMetadataOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNotebookMetadataOutputResponse, GetNotebookMetadataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -954,6 +1064,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPreparedStatementInput, GetPreparedStatementOutputResponse, GetPreparedStatementOutputError>(id: "getPreparedStatement")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPreparedStatementInput, GetPreparedStatementOutputResponse, GetPreparedStatementOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPreparedStatementInput, GetPreparedStatementOutputResponse>())
@@ -969,8 +1080,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPreparedStatementOutputResponse, GetPreparedStatementOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPreparedStatementOutputResponse, GetPreparedStatementOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPreparedStatementOutputResponse, GetPreparedStatementOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -990,6 +1105,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetQueryExecutionInput, GetQueryExecutionOutputResponse, GetQueryExecutionOutputError>(id: "getQueryExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQueryExecutionInput, GetQueryExecutionOutputResponse, GetQueryExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQueryExecutionInput, GetQueryExecutionOutputResponse>())
@@ -1005,8 +1121,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQueryExecutionOutputResponse, GetQueryExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueryExecutionOutputResponse, GetQueryExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQueryExecutionOutputResponse, GetQueryExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1026,6 +1146,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetQueryResultsInput, GetQueryResultsOutputResponse, GetQueryResultsOutputError>(id: "getQueryResults")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQueryResultsInput, GetQueryResultsOutputResponse, GetQueryResultsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQueryResultsInput, GetQueryResultsOutputResponse>())
@@ -1041,8 +1162,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQueryResultsOutputResponse, GetQueryResultsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueryResultsOutputResponse, GetQueryResultsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQueryResultsOutputResponse, GetQueryResultsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1062,6 +1187,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutputResponse, GetQueryRuntimeStatisticsOutputError>(id: "getQueryRuntimeStatistics")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutputResponse, GetQueryRuntimeStatisticsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutputResponse>())
@@ -1077,8 +1203,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQueryRuntimeStatisticsOutputResponse, GetQueryRuntimeStatisticsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQueryRuntimeStatisticsOutputResponse, GetQueryRuntimeStatisticsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetQueryRuntimeStatisticsOutputResponse, GetQueryRuntimeStatisticsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1098,6 +1228,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSessionInput, GetSessionOutputResponse, GetSessionOutputError>(id: "getSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSessionInput, GetSessionOutputResponse, GetSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSessionInput, GetSessionOutputResponse>())
@@ -1113,8 +1244,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSessionOutputResponse, GetSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSessionOutputResponse, GetSessionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSessionOutputResponse, GetSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1134,6 +1269,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSessionStatusInput, GetSessionStatusOutputResponse, GetSessionStatusOutputError>(id: "getSessionStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSessionStatusInput, GetSessionStatusOutputResponse, GetSessionStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSessionStatusInput, GetSessionStatusOutputResponse>())
@@ -1149,8 +1285,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSessionStatusOutputResponse, GetSessionStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSessionStatusOutputResponse, GetSessionStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSessionStatusOutputResponse, GetSessionStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1170,6 +1310,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTableMetadataInput, GetTableMetadataOutputResponse, GetTableMetadataOutputError>(id: "getTableMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTableMetadataInput, GetTableMetadataOutputResponse, GetTableMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTableMetadataInput, GetTableMetadataOutputResponse>())
@@ -1185,8 +1326,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTableMetadataOutputResponse, GetTableMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTableMetadataOutputResponse, GetTableMetadataOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTableMetadataOutputResponse, GetTableMetadataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1206,6 +1351,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetWorkGroupInput, GetWorkGroupOutputResponse, GetWorkGroupOutputError>(id: "getWorkGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWorkGroupInput, GetWorkGroupOutputResponse, GetWorkGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWorkGroupInput, GetWorkGroupOutputResponse>())
@@ -1221,8 +1367,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWorkGroupOutputResponse, GetWorkGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWorkGroupOutputResponse, GetWorkGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWorkGroupOutputResponse, GetWorkGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1242,6 +1392,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ImportNotebookInput, ImportNotebookOutputResponse, ImportNotebookOutputError>(id: "importNotebook")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportNotebookInput, ImportNotebookOutputResponse, ImportNotebookOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportNotebookInput, ImportNotebookOutputResponse>())
@@ -1257,8 +1408,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportNotebookOutputResponse, ImportNotebookOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportNotebookOutputResponse, ImportNotebookOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportNotebookOutputResponse, ImportNotebookOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1278,6 +1433,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutputResponse, ListApplicationDPUSizesOutputError>(id: "listApplicationDPUSizes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutputResponse, ListApplicationDPUSizesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutputResponse>())
@@ -1293,8 +1449,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListApplicationDPUSizesOutputResponse, ListApplicationDPUSizesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApplicationDPUSizesOutputResponse, ListApplicationDPUSizesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListApplicationDPUSizesOutputResponse, ListApplicationDPUSizesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1314,6 +1474,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCalculationExecutionsInput, ListCalculationExecutionsOutputResponse, ListCalculationExecutionsOutputError>(id: "listCalculationExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCalculationExecutionsInput, ListCalculationExecutionsOutputResponse, ListCalculationExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCalculationExecutionsInput, ListCalculationExecutionsOutputResponse>())
@@ -1329,8 +1490,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCalculationExecutionsOutputResponse, ListCalculationExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCalculationExecutionsOutputResponse, ListCalculationExecutionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCalculationExecutionsOutputResponse, ListCalculationExecutionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1350,6 +1515,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDataCatalogsInput, ListDataCatalogsOutputResponse, ListDataCatalogsOutputError>(id: "listDataCatalogs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDataCatalogsInput, ListDataCatalogsOutputResponse, ListDataCatalogsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDataCatalogsInput, ListDataCatalogsOutputResponse>())
@@ -1365,8 +1531,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDataCatalogsOutputResponse, ListDataCatalogsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDataCatalogsOutputResponse, ListDataCatalogsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDataCatalogsOutputResponse, ListDataCatalogsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1386,6 +1556,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDatabasesInput, ListDatabasesOutputResponse, ListDatabasesOutputError>(id: "listDatabases")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDatabasesInput, ListDatabasesOutputResponse, ListDatabasesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDatabasesInput, ListDatabasesOutputResponse>())
@@ -1401,8 +1572,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDatabasesOutputResponse, ListDatabasesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDatabasesOutputResponse, ListDatabasesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDatabasesOutputResponse, ListDatabasesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1422,6 +1597,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEngineVersionsInput, ListEngineVersionsOutputResponse, ListEngineVersionsOutputError>(id: "listEngineVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEngineVersionsInput, ListEngineVersionsOutputResponse, ListEngineVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEngineVersionsInput, ListEngineVersionsOutputResponse>())
@@ -1437,8 +1613,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEngineVersionsOutputResponse, ListEngineVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEngineVersionsOutputResponse, ListEngineVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEngineVersionsOutputResponse, ListEngineVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1458,6 +1638,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListExecutorsInput, ListExecutorsOutputResponse, ListExecutorsOutputError>(id: "listExecutors")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListExecutorsInput, ListExecutorsOutputResponse, ListExecutorsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListExecutorsInput, ListExecutorsOutputResponse>())
@@ -1473,8 +1654,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListExecutorsOutputResponse, ListExecutorsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListExecutorsOutputResponse, ListExecutorsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListExecutorsOutputResponse, ListExecutorsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1494,6 +1679,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListNamedQueriesInput, ListNamedQueriesOutputResponse, ListNamedQueriesOutputError>(id: "listNamedQueries")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNamedQueriesInput, ListNamedQueriesOutputResponse, ListNamedQueriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNamedQueriesInput, ListNamedQueriesOutputResponse>())
@@ -1509,8 +1695,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNamedQueriesOutputResponse, ListNamedQueriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNamedQueriesOutputResponse, ListNamedQueriesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNamedQueriesOutputResponse, ListNamedQueriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1530,6 +1720,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListNotebookMetadataInput, ListNotebookMetadataOutputResponse, ListNotebookMetadataOutputError>(id: "listNotebookMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNotebookMetadataInput, ListNotebookMetadataOutputResponse, ListNotebookMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNotebookMetadataInput, ListNotebookMetadataOutputResponse>())
@@ -1545,8 +1736,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNotebookMetadataOutputResponse, ListNotebookMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNotebookMetadataOutputResponse, ListNotebookMetadataOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNotebookMetadataOutputResponse, ListNotebookMetadataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1566,6 +1761,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListNotebookSessionsInput, ListNotebookSessionsOutputResponse, ListNotebookSessionsOutputError>(id: "listNotebookSessions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNotebookSessionsInput, ListNotebookSessionsOutputResponse, ListNotebookSessionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNotebookSessionsInput, ListNotebookSessionsOutputResponse>())
@@ -1581,8 +1777,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNotebookSessionsOutputResponse, ListNotebookSessionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNotebookSessionsOutputResponse, ListNotebookSessionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNotebookSessionsOutputResponse, ListNotebookSessionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1602,6 +1802,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPreparedStatementsInput, ListPreparedStatementsOutputResponse, ListPreparedStatementsOutputError>(id: "listPreparedStatements")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPreparedStatementsInput, ListPreparedStatementsOutputResponse, ListPreparedStatementsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPreparedStatementsInput, ListPreparedStatementsOutputResponse>())
@@ -1617,8 +1818,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPreparedStatementsOutputResponse, ListPreparedStatementsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPreparedStatementsOutputResponse, ListPreparedStatementsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPreparedStatementsOutputResponse, ListPreparedStatementsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1638,6 +1843,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListQueryExecutionsInput, ListQueryExecutionsOutputResponse, ListQueryExecutionsOutputError>(id: "listQueryExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListQueryExecutionsInput, ListQueryExecutionsOutputResponse, ListQueryExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListQueryExecutionsInput, ListQueryExecutionsOutputResponse>())
@@ -1653,8 +1859,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListQueryExecutionsOutputResponse, ListQueryExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListQueryExecutionsOutputResponse, ListQueryExecutionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListQueryExecutionsOutputResponse, ListQueryExecutionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1674,6 +1884,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSessionsInput, ListSessionsOutputResponse, ListSessionsOutputError>(id: "listSessions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSessionsInput, ListSessionsOutputResponse, ListSessionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSessionsInput, ListSessionsOutputResponse>())
@@ -1689,8 +1900,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSessionsOutputResponse, ListSessionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSessionsOutputResponse, ListSessionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSessionsOutputResponse, ListSessionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1710,6 +1925,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTableMetadataInput, ListTableMetadataOutputResponse, ListTableMetadataOutputError>(id: "listTableMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTableMetadataInput, ListTableMetadataOutputResponse, ListTableMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTableMetadataInput, ListTableMetadataOutputResponse>())
@@ -1725,8 +1941,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTableMetadataOutputResponse, ListTableMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTableMetadataOutputResponse, ListTableMetadataOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTableMetadataOutputResponse, ListTableMetadataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1746,6 +1966,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1761,8 +1982,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1782,6 +2007,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWorkGroupsInput, ListWorkGroupsOutputResponse, ListWorkGroupsOutputError>(id: "listWorkGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorkGroupsInput, ListWorkGroupsOutputResponse, ListWorkGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorkGroupsInput, ListWorkGroupsOutputResponse>())
@@ -1797,8 +2023,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorkGroupsOutputResponse, ListWorkGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorkGroupsOutputResponse, ListWorkGroupsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWorkGroupsOutputResponse, ListWorkGroupsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1818,6 +2048,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartCalculationExecutionInput, StartCalculationExecutionOutputResponse, StartCalculationExecutionOutputError>(id: "startCalculationExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartCalculationExecutionInput, StartCalculationExecutionOutputResponse, StartCalculationExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartCalculationExecutionInput, StartCalculationExecutionOutputResponse>())
@@ -1833,8 +2064,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartCalculationExecutionOutputResponse, StartCalculationExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartCalculationExecutionOutputResponse, StartCalculationExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartCalculationExecutionOutputResponse, StartCalculationExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1854,6 +2089,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartQueryExecutionInput, StartQueryExecutionOutputResponse, StartQueryExecutionOutputError>(id: "startQueryExecution")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartQueryExecutionOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1877,8 +2113,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartQueryExecutionOutputResponse, StartQueryExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartQueryExecutionOutputResponse, StartQueryExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartQueryExecutionOutputResponse, StartQueryExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1898,6 +2138,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartSessionInput, StartSessionOutputResponse, StartSessionOutputError>(id: "startSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSessionInput, StartSessionOutputResponse, StartSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSessionInput, StartSessionOutputResponse>())
@@ -1913,8 +2154,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSessionOutputResponse, StartSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSessionOutputResponse, StartSessionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSessionOutputResponse, StartSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1934,6 +2179,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopCalculationExecutionInput, StopCalculationExecutionOutputResponse, StopCalculationExecutionOutputError>(id: "stopCalculationExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopCalculationExecutionInput, StopCalculationExecutionOutputResponse, StopCalculationExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopCalculationExecutionInput, StopCalculationExecutionOutputResponse>())
@@ -1949,8 +2195,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopCalculationExecutionOutputResponse, StopCalculationExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopCalculationExecutionOutputResponse, StopCalculationExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopCalculationExecutionOutputResponse, StopCalculationExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1970,6 +2220,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopQueryExecutionInput, StopQueryExecutionOutputResponse, StopQueryExecutionOutputError>(id: "stopQueryExecution")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StopQueryExecutionOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1993,8 +2244,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopQueryExecutionOutputResponse, StopQueryExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopQueryExecutionOutputResponse, StopQueryExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopQueryExecutionOutputResponse, StopQueryExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2014,6 +2269,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -2029,8 +2285,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2050,6 +2310,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TerminateSessionInput, TerminateSessionOutputResponse, TerminateSessionOutputError>(id: "terminateSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TerminateSessionInput, TerminateSessionOutputResponse, TerminateSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TerminateSessionInput, TerminateSessionOutputResponse>())
@@ -2065,8 +2326,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TerminateSessionOutputResponse, TerminateSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TerminateSessionOutputResponse, TerminateSessionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TerminateSessionOutputResponse, TerminateSessionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2086,6 +2351,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -2101,8 +2367,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2122,6 +2392,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDataCatalogInput, UpdateDataCatalogOutputResponse, UpdateDataCatalogOutputError>(id: "updateDataCatalog")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDataCatalogInput, UpdateDataCatalogOutputResponse, UpdateDataCatalogOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDataCatalogInput, UpdateDataCatalogOutputResponse>())
@@ -2137,8 +2408,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDataCatalogOutputResponse, UpdateDataCatalogOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDataCatalogOutputResponse, UpdateDataCatalogOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDataCatalogOutputResponse, UpdateDataCatalogOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2158,6 +2433,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateNamedQueryInput, UpdateNamedQueryOutputResponse, UpdateNamedQueryOutputError>(id: "updateNamedQuery")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNamedQueryInput, UpdateNamedQueryOutputResponse, UpdateNamedQueryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNamedQueryInput, UpdateNamedQueryOutputResponse>())
@@ -2173,8 +2449,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNamedQueryOutputResponse, UpdateNamedQueryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNamedQueryOutputResponse, UpdateNamedQueryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNamedQueryOutputResponse, UpdateNamedQueryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2194,6 +2474,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateNotebookInput, UpdateNotebookOutputResponse, UpdateNotebookOutputError>(id: "updateNotebook")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNotebookInput, UpdateNotebookOutputResponse, UpdateNotebookOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNotebookInput, UpdateNotebookOutputResponse>())
@@ -2209,8 +2490,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNotebookOutputResponse, UpdateNotebookOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNotebookOutputResponse, UpdateNotebookOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNotebookOutputResponse, UpdateNotebookOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2230,6 +2515,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutputResponse, UpdateNotebookMetadataOutputError>(id: "updateNotebookMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutputResponse, UpdateNotebookMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutputResponse>())
@@ -2245,8 +2531,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNotebookMetadataOutputResponse, UpdateNotebookMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNotebookMetadataOutputResponse, UpdateNotebookMetadataOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNotebookMetadataOutputResponse, UpdateNotebookMetadataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2266,6 +2556,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePreparedStatementInput, UpdatePreparedStatementOutputResponse, UpdatePreparedStatementOutputError>(id: "updatePreparedStatement")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePreparedStatementInput, UpdatePreparedStatementOutputResponse, UpdatePreparedStatementOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePreparedStatementInput, UpdatePreparedStatementOutputResponse>())
@@ -2281,8 +2572,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePreparedStatementOutputResponse, UpdatePreparedStatementOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePreparedStatementOutputResponse, UpdatePreparedStatementOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePreparedStatementOutputResponse, UpdatePreparedStatementOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2302,6 +2597,7 @@ extension AthenaClient: AthenaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "athena")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateWorkGroupInput, UpdateWorkGroupOutputResponse, UpdateWorkGroupOutputError>(id: "updateWorkGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWorkGroupInput, UpdateWorkGroupOutputResponse, UpdateWorkGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWorkGroupInput, UpdateWorkGroupOutputResponse>())
@@ -2317,8 +2613,12 @@ extension AthenaClient: AthenaClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWorkGroupOutputResponse, UpdateWorkGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWorkGroupOutputResponse, UpdateWorkGroupOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateWorkGroupOutputResponse, UpdateWorkGroupOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

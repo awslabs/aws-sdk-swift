@@ -146,6 +146,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateGatewayToServerInput, AssociateGatewayToServerOutputResponse, AssociateGatewayToServerOutputError>(id: "associateGatewayToServer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutputResponse, AssociateGatewayToServerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutputResponse>())
@@ -161,8 +162,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateGatewayToServerOutputResponse, AssociateGatewayToServerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateGatewayToServerOutputResponse, AssociateGatewayToServerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateGatewayToServerOutputResponse, AssociateGatewayToServerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -182,6 +187,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateGatewayInput, CreateGatewayOutputResponse, CreateGatewayOutputError>(id: "createGateway")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGatewayInput, CreateGatewayOutputResponse, CreateGatewayOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGatewayInput, CreateGatewayOutputResponse>())
@@ -197,8 +203,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGatewayOutputResponse, CreateGatewayOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGatewayOutputResponse, CreateGatewayOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGatewayOutputResponse, CreateGatewayOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -218,6 +228,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteGatewayInput, DeleteGatewayOutputResponse, DeleteGatewayOutputError>(id: "deleteGateway")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGatewayInput, DeleteGatewayOutputResponse, DeleteGatewayOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGatewayInput, DeleteGatewayOutputResponse>())
@@ -233,8 +244,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGatewayOutputResponse, DeleteGatewayOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGatewayOutputResponse, DeleteGatewayOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGatewayOutputResponse, DeleteGatewayOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -254,6 +269,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteHypervisorInput, DeleteHypervisorOutputResponse, DeleteHypervisorOutputError>(id: "deleteHypervisor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteHypervisorInput, DeleteHypervisorOutputResponse, DeleteHypervisorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteHypervisorInput, DeleteHypervisorOutputResponse>())
@@ -269,8 +285,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteHypervisorOutputResponse, DeleteHypervisorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteHypervisorOutputResponse, DeleteHypervisorOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteHypervisorOutputResponse, DeleteHypervisorOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -290,6 +310,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutputResponse, DisassociateGatewayFromServerOutputError>(id: "disassociateGatewayFromServer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutputResponse, DisassociateGatewayFromServerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutputResponse>())
@@ -305,8 +326,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateGatewayFromServerOutputResponse, DisassociateGatewayFromServerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateGatewayFromServerOutputResponse, DisassociateGatewayFromServerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateGatewayFromServerOutputResponse, DisassociateGatewayFromServerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -326,6 +351,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutputResponse, GetBandwidthRateLimitScheduleOutputError>(id: "getBandwidthRateLimitSchedule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutputResponse, GetBandwidthRateLimitScheduleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutputResponse>())
@@ -341,8 +367,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBandwidthRateLimitScheduleOutputResponse, GetBandwidthRateLimitScheduleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBandwidthRateLimitScheduleOutputResponse, GetBandwidthRateLimitScheduleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBandwidthRateLimitScheduleOutputResponse, GetBandwidthRateLimitScheduleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -362,6 +392,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetGatewayInput, GetGatewayOutputResponse, GetGatewayOutputError>(id: "getGateway")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGatewayInput, GetGatewayOutputResponse, GetGatewayOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGatewayInput, GetGatewayOutputResponse>())
@@ -377,8 +408,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGatewayOutputResponse, GetGatewayOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGatewayOutputResponse, GetGatewayOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGatewayOutputResponse, GetGatewayOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -398,6 +433,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetHypervisorInput, GetHypervisorOutputResponse, GetHypervisorOutputError>(id: "getHypervisor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetHypervisorInput, GetHypervisorOutputResponse, GetHypervisorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetHypervisorInput, GetHypervisorOutputResponse>())
@@ -413,8 +449,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHypervisorOutputResponse, GetHypervisorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHypervisorOutputResponse, GetHypervisorOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHypervisorOutputResponse, GetHypervisorOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -434,6 +474,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutputResponse, GetHypervisorPropertyMappingsOutputError>(id: "getHypervisorPropertyMappings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutputResponse, GetHypervisorPropertyMappingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutputResponse>())
@@ -449,8 +490,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHypervisorPropertyMappingsOutputResponse, GetHypervisorPropertyMappingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHypervisorPropertyMappingsOutputResponse, GetHypervisorPropertyMappingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHypervisorPropertyMappingsOutputResponse, GetHypervisorPropertyMappingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -470,6 +515,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetVirtualMachineInput, GetVirtualMachineOutputResponse, GetVirtualMachineOutputError>(id: "getVirtualMachine")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVirtualMachineInput, GetVirtualMachineOutputResponse, GetVirtualMachineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVirtualMachineInput, GetVirtualMachineOutputResponse>())
@@ -485,8 +531,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVirtualMachineOutputResponse, GetVirtualMachineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVirtualMachineOutputResponse, GetVirtualMachineOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVirtualMachineOutputResponse, GetVirtualMachineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -506,6 +556,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutputResponse, ImportHypervisorConfigurationOutputError>(id: "importHypervisorConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutputResponse, ImportHypervisorConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutputResponse>())
@@ -521,8 +572,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportHypervisorConfigurationOutputResponse, ImportHypervisorConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportHypervisorConfigurationOutputResponse, ImportHypervisorConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportHypervisorConfigurationOutputResponse, ImportHypervisorConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -542,6 +597,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGatewaysInput, ListGatewaysOutputResponse, ListGatewaysOutputError>(id: "listGateways")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGatewaysInput, ListGatewaysOutputResponse, ListGatewaysOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGatewaysInput, ListGatewaysOutputResponse>())
@@ -557,8 +613,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGatewaysOutputResponse, ListGatewaysOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGatewaysOutputResponse, ListGatewaysOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGatewaysOutputResponse, ListGatewaysOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -578,6 +638,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListHypervisorsInput, ListHypervisorsOutputResponse, ListHypervisorsOutputError>(id: "listHypervisors")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHypervisorsInput, ListHypervisorsOutputResponse, ListHypervisorsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHypervisorsInput, ListHypervisorsOutputResponse>())
@@ -593,8 +654,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHypervisorsOutputResponse, ListHypervisorsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHypervisorsOutputResponse, ListHypervisorsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListHypervisorsOutputResponse, ListHypervisorsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -614,6 +679,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -629,8 +695,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -650,6 +720,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListVirtualMachinesInput, ListVirtualMachinesOutputResponse, ListVirtualMachinesOutputError>(id: "listVirtualMachines")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutputResponse, ListVirtualMachinesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutputResponse>())
@@ -665,8 +736,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVirtualMachinesOutputResponse, ListVirtualMachinesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVirtualMachinesOutputResponse, ListVirtualMachinesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVirtualMachinesOutputResponse, ListVirtualMachinesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -686,6 +761,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutputResponse, PutBandwidthRateLimitScheduleOutputError>(id: "putBandwidthRateLimitSchedule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutputResponse, PutBandwidthRateLimitScheduleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutputResponse>())
@@ -701,8 +777,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBandwidthRateLimitScheduleOutputResponse, PutBandwidthRateLimitScheduleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBandwidthRateLimitScheduleOutputResponse, PutBandwidthRateLimitScheduleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBandwidthRateLimitScheduleOutputResponse, PutBandwidthRateLimitScheduleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -722,6 +802,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutputResponse, PutHypervisorPropertyMappingsOutputError>(id: "putHypervisorPropertyMappings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutputResponse, PutHypervisorPropertyMappingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutputResponse>())
@@ -737,8 +818,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutHypervisorPropertyMappingsOutputResponse, PutHypervisorPropertyMappingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutHypervisorPropertyMappingsOutputResponse, PutHypervisorPropertyMappingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutHypervisorPropertyMappingsOutputResponse, PutHypervisorPropertyMappingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -758,6 +843,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutputResponse, PutMaintenanceStartTimeOutputError>(id: "putMaintenanceStartTime")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutputResponse, PutMaintenanceStartTimeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutputResponse>())
@@ -773,8 +859,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutMaintenanceStartTimeOutputResponse, PutMaintenanceStartTimeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutMaintenanceStartTimeOutputResponse, PutMaintenanceStartTimeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutMaintenanceStartTimeOutputResponse, PutMaintenanceStartTimeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -794,6 +884,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutputResponse, StartVirtualMachinesMetadataSyncOutputError>(id: "startVirtualMachinesMetadataSync")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutputResponse, StartVirtualMachinesMetadataSyncOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutputResponse>())
@@ -809,8 +900,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartVirtualMachinesMetadataSyncOutputResponse, StartVirtualMachinesMetadataSyncOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartVirtualMachinesMetadataSyncOutputResponse, StartVirtualMachinesMetadataSyncOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartVirtualMachinesMetadataSyncOutputResponse, StartVirtualMachinesMetadataSyncOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -830,6 +925,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -845,8 +941,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -866,6 +966,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutputResponse, TestHypervisorConfigurationOutputError>(id: "testHypervisorConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutputResponse, TestHypervisorConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutputResponse>())
@@ -881,8 +982,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestHypervisorConfigurationOutputResponse, TestHypervisorConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestHypervisorConfigurationOutputResponse, TestHypervisorConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestHypervisorConfigurationOutputResponse, TestHypervisorConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -902,6 +1007,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -917,8 +1023,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -938,6 +1048,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateGatewayInformationInput, UpdateGatewayInformationOutputResponse, UpdateGatewayInformationOutputError>(id: "updateGatewayInformation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutputResponse, UpdateGatewayInformationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutputResponse>())
@@ -953,8 +1064,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGatewayInformationOutputResponse, UpdateGatewayInformationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGatewayInformationOutputResponse, UpdateGatewayInformationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGatewayInformationOutputResponse, UpdateGatewayInformationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -974,6 +1089,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutputResponse, UpdateGatewaySoftwareNowOutputError>(id: "updateGatewaySoftwareNow")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutputResponse, UpdateGatewaySoftwareNowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutputResponse>())
@@ -989,8 +1105,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGatewaySoftwareNowOutputResponse, UpdateGatewaySoftwareNowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGatewaySoftwareNowOutputResponse, UpdateGatewaySoftwareNowOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGatewaySoftwareNowOutputResponse, UpdateGatewaySoftwareNowOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1010,6 +1130,7 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-gateway")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateHypervisorInput, UpdateHypervisorOutputResponse, UpdateHypervisorOutputError>(id: "updateHypervisor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateHypervisorInput, UpdateHypervisorOutputResponse, UpdateHypervisorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateHypervisorInput, UpdateHypervisorOutputResponse>())
@@ -1025,8 +1146,12 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateHypervisorOutputResponse, UpdateHypervisorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateHypervisorOutputResponse, UpdateHypervisorOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateHypervisorOutputResponse, UpdateHypervisorOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

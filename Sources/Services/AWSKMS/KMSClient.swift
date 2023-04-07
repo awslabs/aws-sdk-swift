@@ -146,6 +146,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelKeyDeletionInput, CancelKeyDeletionOutputResponse, CancelKeyDeletionOutputError>(id: "cancelKeyDeletion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelKeyDeletionInput, CancelKeyDeletionOutputResponse, CancelKeyDeletionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelKeyDeletionInput, CancelKeyDeletionOutputResponse>())
@@ -161,8 +162,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelKeyDeletionOutputResponse, CancelKeyDeletionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelKeyDeletionOutputResponse, CancelKeyDeletionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelKeyDeletionOutputResponse, CancelKeyDeletionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -192,6 +197,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ConnectCustomKeyStoreInput, ConnectCustomKeyStoreOutputResponse, ConnectCustomKeyStoreOutputError>(id: "connectCustomKeyStore")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConnectCustomKeyStoreInput, ConnectCustomKeyStoreOutputResponse, ConnectCustomKeyStoreOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConnectCustomKeyStoreInput, ConnectCustomKeyStoreOutputResponse>())
@@ -207,8 +213,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ConnectCustomKeyStoreOutputResponse, ConnectCustomKeyStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConnectCustomKeyStoreOutputResponse, ConnectCustomKeyStoreOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ConnectCustomKeyStoreOutputResponse, ConnectCustomKeyStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -241,6 +251,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAliasInput, CreateAliasOutputResponse, CreateAliasOutputError>(id: "createAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAliasInput, CreateAliasOutputResponse, CreateAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAliasInput, CreateAliasOutputResponse>())
@@ -256,8 +267,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAliasOutputResponse, CreateAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAliasOutputResponse, CreateAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAliasOutputResponse, CreateAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -294,6 +309,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCustomKeyStoreInput, CreateCustomKeyStoreOutputResponse, CreateCustomKeyStoreOutputError>(id: "createCustomKeyStore")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCustomKeyStoreInput, CreateCustomKeyStoreOutputResponse, CreateCustomKeyStoreOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCustomKeyStoreInput, CreateCustomKeyStoreOutputResponse>())
@@ -309,8 +325,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCustomKeyStoreOutputResponse, CreateCustomKeyStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCustomKeyStoreOutputResponse, CreateCustomKeyStoreOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCustomKeyStoreOutputResponse, CreateCustomKeyStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -345,6 +365,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateGrantInput, CreateGrantOutputResponse, CreateGrantOutputError>(id: "createGrant")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGrantInput, CreateGrantOutputResponse, CreateGrantOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGrantInput, CreateGrantOutputResponse>())
@@ -360,8 +381,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGrantOutputResponse, CreateGrantOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGrantOutputResponse, CreateGrantOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGrantOutputResponse, CreateGrantOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -387,6 +412,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateKeyInput, CreateKeyOutputResponse, CreateKeyOutputError>(id: "createKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateKeyInput, CreateKeyOutputResponse, CreateKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateKeyInput, CreateKeyOutputResponse>())
@@ -402,8 +428,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateKeyOutputResponse, CreateKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateKeyOutputResponse, CreateKeyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateKeyOutputResponse, CreateKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -444,6 +474,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DecryptInput, DecryptOutputResponse, DecryptOutputError>(id: "decrypt")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DecryptInput, DecryptOutputResponse, DecryptOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DecryptInput, DecryptOutputResponse>())
@@ -459,8 +490,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DecryptOutputResponse, DecryptOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DecryptOutputResponse, DecryptOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DecryptOutputResponse, DecryptOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -493,6 +528,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAliasInput, DeleteAliasOutputResponse, DeleteAliasOutputError>(id: "deleteAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAliasInput, DeleteAliasOutputResponse, DeleteAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAliasInput, DeleteAliasOutputResponse>())
@@ -508,8 +544,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAliasOutputResponse, DeleteAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAliasOutputResponse, DeleteAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAliasOutputResponse, DeleteAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -539,6 +579,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCustomKeyStoreInput, DeleteCustomKeyStoreOutputResponse, DeleteCustomKeyStoreOutputError>(id: "deleteCustomKeyStore")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCustomKeyStoreInput, DeleteCustomKeyStoreOutputResponse, DeleteCustomKeyStoreOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCustomKeyStoreInput, DeleteCustomKeyStoreOutputResponse>())
@@ -554,8 +595,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCustomKeyStoreOutputResponse, DeleteCustomKeyStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCustomKeyStoreOutputResponse, DeleteCustomKeyStoreOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCustomKeyStoreOutputResponse, DeleteCustomKeyStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -579,6 +624,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteImportedKeyMaterialInput, DeleteImportedKeyMaterialOutputResponse, DeleteImportedKeyMaterialOutputError>(id: "deleteImportedKeyMaterial")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteImportedKeyMaterialInput, DeleteImportedKeyMaterialOutputResponse, DeleteImportedKeyMaterialOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteImportedKeyMaterialInput, DeleteImportedKeyMaterialOutputResponse>())
@@ -594,8 +640,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteImportedKeyMaterialOutputResponse, DeleteImportedKeyMaterialOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteImportedKeyMaterialOutputResponse, DeleteImportedKeyMaterialOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteImportedKeyMaterialOutputResponse, DeleteImportedKeyMaterialOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -625,6 +675,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutputResponse, DescribeCustomKeyStoresOutputError>(id: "describeCustomKeyStores")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutputResponse, DescribeCustomKeyStoresOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutputResponse>())
@@ -640,8 +691,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCustomKeyStoresOutputResponse, DescribeCustomKeyStoresOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCustomKeyStoresOutputResponse, DescribeCustomKeyStoresOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCustomKeyStoresOutputResponse, DescribeCustomKeyStoresOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -686,6 +741,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeKeyInput, DescribeKeyOutputResponse, DescribeKeyOutputError>(id: "describeKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeKeyInput, DescribeKeyOutputResponse, DescribeKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeKeyInput, DescribeKeyOutputResponse>())
@@ -701,8 +757,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeKeyOutputResponse, DescribeKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeKeyOutputResponse, DescribeKeyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeKeyOutputResponse, DescribeKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -722,6 +782,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisableKeyInput, DisableKeyOutputResponse, DisableKeyOutputError>(id: "disableKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableKeyInput, DisableKeyOutputResponse, DisableKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableKeyInput, DisableKeyOutputResponse>())
@@ -737,8 +798,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableKeyOutputResponse, DisableKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableKeyOutputResponse, DisableKeyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableKeyOutputResponse, DisableKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -762,6 +827,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisableKeyRotationInput, DisableKeyRotationOutputResponse, DisableKeyRotationOutputError>(id: "disableKeyRotation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableKeyRotationInput, DisableKeyRotationOutputResponse, DisableKeyRotationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableKeyRotationInput, DisableKeyRotationOutputResponse>())
@@ -777,8 +843,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableKeyRotationOutputResponse, DisableKeyRotationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableKeyRotationOutputResponse, DisableKeyRotationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableKeyRotationOutputResponse, DisableKeyRotationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -808,6 +878,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisconnectCustomKeyStoreInput, DisconnectCustomKeyStoreOutputResponse, DisconnectCustomKeyStoreOutputError>(id: "disconnectCustomKeyStore")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisconnectCustomKeyStoreInput, DisconnectCustomKeyStoreOutputResponse, DisconnectCustomKeyStoreOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisconnectCustomKeyStoreInput, DisconnectCustomKeyStoreOutputResponse>())
@@ -823,8 +894,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisconnectCustomKeyStoreOutputResponse, DisconnectCustomKeyStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisconnectCustomKeyStoreOutputResponse, DisconnectCustomKeyStoreOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisconnectCustomKeyStoreOutputResponse, DisconnectCustomKeyStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -844,6 +919,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableKeyInput, EnableKeyOutputResponse, EnableKeyOutputError>(id: "enableKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableKeyInput, EnableKeyOutputResponse, EnableKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableKeyInput, EnableKeyOutputResponse>())
@@ -859,8 +935,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableKeyOutputResponse, EnableKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableKeyOutputResponse, EnableKeyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableKeyOutputResponse, EnableKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -884,6 +964,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableKeyRotationInput, EnableKeyRotationOutputResponse, EnableKeyRotationOutputError>(id: "enableKeyRotation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableKeyRotationInput, EnableKeyRotationOutputResponse, EnableKeyRotationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableKeyRotationInput, EnableKeyRotationOutputResponse>())
@@ -899,8 +980,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableKeyRotationOutputResponse, EnableKeyRotationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableKeyRotationOutputResponse, EnableKeyRotationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableKeyRotationOutputResponse, EnableKeyRotationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -965,6 +1050,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EncryptInput, EncryptOutputResponse, EncryptOutputError>(id: "encrypt")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EncryptInput, EncryptOutputResponse, EncryptOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EncryptInput, EncryptOutputResponse>())
@@ -980,8 +1066,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EncryptOutputResponse, EncryptOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EncryptOutputResponse, EncryptOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EncryptOutputResponse, EncryptOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1027,6 +1117,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GenerateDataKeyInput, GenerateDataKeyOutputResponse, GenerateDataKeyOutputError>(id: "generateDataKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateDataKeyInput, GenerateDataKeyOutputResponse, GenerateDataKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateDataKeyInput, GenerateDataKeyOutputResponse>())
@@ -1042,8 +1133,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateDataKeyOutputResponse, GenerateDataKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateDataKeyOutputResponse, GenerateDataKeyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateDataKeyOutputResponse, GenerateDataKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1073,6 +1168,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GenerateDataKeyPairInput, GenerateDataKeyPairOutputResponse, GenerateDataKeyPairOutputError>(id: "generateDataKeyPair")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateDataKeyPairInput, GenerateDataKeyPairOutputResponse, GenerateDataKeyPairOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateDataKeyPairInput, GenerateDataKeyPairOutputResponse>())
@@ -1088,8 +1184,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateDataKeyPairOutputResponse, GenerateDataKeyPairOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateDataKeyPairOutputResponse, GenerateDataKeyPairOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateDataKeyPairOutputResponse, GenerateDataKeyPairOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1119,6 +1219,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GenerateDataKeyPairWithoutPlaintextInput, GenerateDataKeyPairWithoutPlaintextOutputResponse, GenerateDataKeyPairWithoutPlaintextOutputError>(id: "generateDataKeyPairWithoutPlaintext")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateDataKeyPairWithoutPlaintextInput, GenerateDataKeyPairWithoutPlaintextOutputResponse, GenerateDataKeyPairWithoutPlaintextOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateDataKeyPairWithoutPlaintextInput, GenerateDataKeyPairWithoutPlaintextOutputResponse>())
@@ -1134,8 +1235,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateDataKeyPairWithoutPlaintextOutputResponse, GenerateDataKeyPairWithoutPlaintextOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateDataKeyPairWithoutPlaintextOutputResponse, GenerateDataKeyPairWithoutPlaintextOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateDataKeyPairWithoutPlaintextOutputResponse, GenerateDataKeyPairWithoutPlaintextOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1165,6 +1270,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GenerateDataKeyWithoutPlaintextInput, GenerateDataKeyWithoutPlaintextOutputResponse, GenerateDataKeyWithoutPlaintextOutputError>(id: "generateDataKeyWithoutPlaintext")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateDataKeyWithoutPlaintextInput, GenerateDataKeyWithoutPlaintextOutputResponse, GenerateDataKeyWithoutPlaintextOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateDataKeyWithoutPlaintextInput, GenerateDataKeyWithoutPlaintextOutputResponse>())
@@ -1180,8 +1286,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateDataKeyWithoutPlaintextOutputResponse, GenerateDataKeyWithoutPlaintextOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateDataKeyWithoutPlaintextOutputResponse, GenerateDataKeyWithoutPlaintextOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateDataKeyWithoutPlaintextOutputResponse, GenerateDataKeyWithoutPlaintextOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1201,6 +1311,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GenerateMacInput, GenerateMacOutputResponse, GenerateMacOutputError>(id: "generateMac")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateMacInput, GenerateMacOutputResponse, GenerateMacOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateMacInput, GenerateMacOutputResponse>())
@@ -1216,8 +1327,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateMacOutputResponse, GenerateMacOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateMacOutputResponse, GenerateMacOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateMacOutputResponse, GenerateMacOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1237,6 +1352,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GenerateRandomInput, GenerateRandomOutputResponse, GenerateRandomOutputError>(id: "generateRandom")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateRandomInput, GenerateRandomOutputResponse, GenerateRandomOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateRandomInput, GenerateRandomOutputResponse>())
@@ -1252,8 +1368,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateRandomOutputResponse, GenerateRandomOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateRandomOutputResponse, GenerateRandomOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateRandomOutputResponse, GenerateRandomOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1273,6 +1393,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetKeyPolicyInput, GetKeyPolicyOutputResponse, GetKeyPolicyOutputError>(id: "getKeyPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetKeyPolicyInput, GetKeyPolicyOutputResponse, GetKeyPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetKeyPolicyInput, GetKeyPolicyOutputResponse>())
@@ -1288,8 +1409,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetKeyPolicyOutputResponse, GetKeyPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetKeyPolicyOutputResponse, GetKeyPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetKeyPolicyOutputResponse, GetKeyPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1320,6 +1445,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetKeyRotationStatusInput, GetKeyRotationStatusOutputResponse, GetKeyRotationStatusOutputError>(id: "getKeyRotationStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetKeyRotationStatusInput, GetKeyRotationStatusOutputResponse, GetKeyRotationStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetKeyRotationStatusInput, GetKeyRotationStatusOutputResponse>())
@@ -1335,8 +1461,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetKeyRotationStatusOutputResponse, GetKeyRotationStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetKeyRotationStatusOutputResponse, GetKeyRotationStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetKeyRotationStatusOutputResponse, GetKeyRotationStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1360,6 +1490,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetParametersForImportInput, GetParametersForImportOutputResponse, GetParametersForImportOutputError>(id: "getParametersForImport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetParametersForImportInput, GetParametersForImportOutputResponse, GetParametersForImportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetParametersForImportInput, GetParametersForImportOutputResponse>())
@@ -1375,8 +1506,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetParametersForImportOutputResponse, GetParametersForImportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetParametersForImportOutputResponse, GetParametersForImportOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetParametersForImportOutputResponse, GetParametersForImportOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1405,6 +1540,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPublicKeyInput, GetPublicKeyOutputResponse, GetPublicKeyOutputError>(id: "getPublicKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPublicKeyInput, GetPublicKeyOutputResponse, GetPublicKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPublicKeyInput, GetPublicKeyOutputResponse>())
@@ -1420,8 +1556,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPublicKeyOutputResponse, GetPublicKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPublicKeyOutputResponse, GetPublicKeyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPublicKeyOutputResponse, GetPublicKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1456,6 +1596,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ImportKeyMaterialInput, ImportKeyMaterialOutputResponse, ImportKeyMaterialOutputError>(id: "importKeyMaterial")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportKeyMaterialInput, ImportKeyMaterialOutputResponse, ImportKeyMaterialOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportKeyMaterialInput, ImportKeyMaterialOutputResponse>())
@@ -1471,8 +1612,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportKeyMaterialOutputResponse, ImportKeyMaterialOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportKeyMaterialOutputResponse, ImportKeyMaterialOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportKeyMaterialOutputResponse, ImportKeyMaterialOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1498,6 +1643,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAliasesInput, ListAliasesOutputResponse, ListAliasesOutputError>(id: "listAliases")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAliasesInput, ListAliasesOutputResponse, ListAliasesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAliasesInput, ListAliasesOutputResponse>())
@@ -1513,8 +1659,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAliasesOutputResponse, ListAliasesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAliasesOutputResponse, ListAliasesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAliasesOutputResponse, ListAliasesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1542,6 +1692,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGrantsInput, ListGrantsOutputResponse, ListGrantsOutputError>(id: "listGrants")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGrantsInput, ListGrantsOutputResponse, ListGrantsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGrantsInput, ListGrantsOutputResponse>())
@@ -1557,8 +1708,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGrantsOutputResponse, ListGrantsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGrantsOutputResponse, ListGrantsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGrantsOutputResponse, ListGrantsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1582,6 +1737,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListKeyPoliciesInput, ListKeyPoliciesOutputResponse, ListKeyPoliciesOutputError>(id: "listKeyPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListKeyPoliciesInput, ListKeyPoliciesOutputResponse, ListKeyPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListKeyPoliciesInput, ListKeyPoliciesOutputResponse>())
@@ -1597,8 +1753,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListKeyPoliciesOutputResponse, ListKeyPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListKeyPoliciesOutputResponse, ListKeyPoliciesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListKeyPoliciesOutputResponse, ListKeyPoliciesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1626,6 +1786,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListKeysInput, ListKeysOutputResponse, ListKeysOutputError>(id: "listKeys")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListKeysInput, ListKeysOutputResponse, ListKeysOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListKeysInput, ListKeysOutputResponse>())
@@ -1641,8 +1802,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListKeysOutputResponse, ListKeysOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListKeysOutputResponse, ListKeysOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListKeysOutputResponse, ListKeysOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1670,6 +1835,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListResourceTagsInput, ListResourceTagsOutputResponse, ListResourceTagsOutputError>(id: "listResourceTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceTagsInput, ListResourceTagsOutputResponse, ListResourceTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceTagsInput, ListResourceTagsOutputResponse>())
@@ -1685,8 +1851,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceTagsOutputResponse, ListResourceTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceTagsOutputResponse, ListResourceTagsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResourceTagsOutputResponse, ListResourceTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1714,6 +1884,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRetirableGrantsInput, ListRetirableGrantsOutputResponse, ListRetirableGrantsOutputError>(id: "listRetirableGrants")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRetirableGrantsInput, ListRetirableGrantsOutputResponse, ListRetirableGrantsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRetirableGrantsInput, ListRetirableGrantsOutputResponse>())
@@ -1729,8 +1900,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRetirableGrantsOutputResponse, ListRetirableGrantsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRetirableGrantsOutputResponse, ListRetirableGrantsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRetirableGrantsOutputResponse, ListRetirableGrantsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1750,6 +1925,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutKeyPolicyInput, PutKeyPolicyOutputResponse, PutKeyPolicyOutputError>(id: "putKeyPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutKeyPolicyInput, PutKeyPolicyOutputResponse, PutKeyPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutKeyPolicyInput, PutKeyPolicyOutputResponse>())
@@ -1765,8 +1941,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutKeyPolicyOutputResponse, PutKeyPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutKeyPolicyOutputResponse, PutKeyPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutKeyPolicyOutputResponse, PutKeyPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1810,6 +1990,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ReEncryptInput, ReEncryptOutputResponse, ReEncryptOutputError>(id: "reEncrypt")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReEncryptInput, ReEncryptOutputResponse, ReEncryptOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReEncryptInput, ReEncryptOutputResponse>())
@@ -1825,8 +2006,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReEncryptOutputResponse, ReEncryptOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReEncryptOutputResponse, ReEncryptOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReEncryptOutputResponse, ReEncryptOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1859,6 +2044,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ReplicateKeyInput, ReplicateKeyOutputResponse, ReplicateKeyOutputError>(id: "replicateKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReplicateKeyInput, ReplicateKeyOutputResponse, ReplicateKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReplicateKeyInput, ReplicateKeyOutputResponse>())
@@ -1874,8 +2060,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReplicateKeyOutputResponse, ReplicateKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReplicateKeyOutputResponse, ReplicateKeyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReplicateKeyOutputResponse, ReplicateKeyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1903,6 +2093,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RetireGrantInput, RetireGrantOutputResponse, RetireGrantOutputError>(id: "retireGrant")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RetireGrantInput, RetireGrantOutputResponse, RetireGrantOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RetireGrantInput, RetireGrantOutputResponse>())
@@ -1918,8 +2109,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RetireGrantOutputResponse, RetireGrantOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RetireGrantOutputResponse, RetireGrantOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RetireGrantOutputResponse, RetireGrantOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1947,6 +2142,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RevokeGrantInput, RevokeGrantOutputResponse, RevokeGrantOutputError>(id: "revokeGrant")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeGrantInput, RevokeGrantOutputResponse, RevokeGrantOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeGrantInput, RevokeGrantOutputResponse>())
@@ -1962,8 +2158,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokeGrantOutputResponse, RevokeGrantOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeGrantOutputResponse, RevokeGrantOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RevokeGrantOutputResponse, RevokeGrantOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1987,6 +2187,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ScheduleKeyDeletionInput, ScheduleKeyDeletionOutputResponse, ScheduleKeyDeletionOutputError>(id: "scheduleKeyDeletion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ScheduleKeyDeletionInput, ScheduleKeyDeletionOutputResponse, ScheduleKeyDeletionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ScheduleKeyDeletionInput, ScheduleKeyDeletionOutputResponse>())
@@ -2002,8 +2203,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ScheduleKeyDeletionOutputResponse, ScheduleKeyDeletionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ScheduleKeyDeletionOutputResponse, ScheduleKeyDeletionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ScheduleKeyDeletionOutputResponse, ScheduleKeyDeletionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2032,6 +2237,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SignInput, SignOutputResponse, SignOutputError>(id: "sign")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SignInput, SignOutputResponse, SignOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SignInput, SignOutputResponse>())
@@ -2047,8 +2253,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SignOutputResponse, SignOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SignOutputResponse, SignOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SignOutputResponse, SignOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2076,6 +2286,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -2091,8 +2302,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2120,6 +2335,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -2135,8 +2351,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2171,6 +2391,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAliasInput, UpdateAliasOutputResponse, UpdateAliasOutputError>(id: "updateAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAliasInput, UpdateAliasOutputResponse, UpdateAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAliasInput, UpdateAliasOutputResponse>())
@@ -2186,8 +2407,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAliasOutputResponse, UpdateAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAliasOutputResponse, UpdateAliasOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAliasOutputResponse, UpdateAliasOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2217,6 +2442,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateCustomKeyStoreInput, UpdateCustomKeyStoreOutputResponse, UpdateCustomKeyStoreOutputError>(id: "updateCustomKeyStore")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCustomKeyStoreInput, UpdateCustomKeyStoreOutputResponse, UpdateCustomKeyStoreOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCustomKeyStoreInput, UpdateCustomKeyStoreOutputResponse>())
@@ -2232,8 +2458,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCustomKeyStoreOutputResponse, UpdateCustomKeyStoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCustomKeyStoreOutputResponse, UpdateCustomKeyStoreOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCustomKeyStoreOutputResponse, UpdateCustomKeyStoreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2257,6 +2487,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateKeyDescriptionInput, UpdateKeyDescriptionOutputResponse, UpdateKeyDescriptionOutputError>(id: "updateKeyDescription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateKeyDescriptionInput, UpdateKeyDescriptionOutputResponse, UpdateKeyDescriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateKeyDescriptionInput, UpdateKeyDescriptionOutputResponse>())
@@ -2272,8 +2503,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateKeyDescriptionOutputResponse, UpdateKeyDescriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateKeyDescriptionOutputResponse, UpdateKeyDescriptionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateKeyDescriptionOutputResponse, UpdateKeyDescriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2304,6 +2539,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePrimaryRegionInput, UpdatePrimaryRegionOutputResponse, UpdatePrimaryRegionOutputError>(id: "updatePrimaryRegion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePrimaryRegionInput, UpdatePrimaryRegionOutputResponse, UpdatePrimaryRegionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePrimaryRegionInput, UpdatePrimaryRegionOutputResponse>())
@@ -2319,8 +2555,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePrimaryRegionOutputResponse, UpdatePrimaryRegionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePrimaryRegionOutputResponse, UpdatePrimaryRegionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePrimaryRegionOutputResponse, UpdatePrimaryRegionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2340,6 +2580,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<VerifyInput, VerifyOutputResponse, VerifyOutputError>(id: "verify")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifyInput, VerifyOutputResponse, VerifyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifyInput, VerifyOutputResponse>())
@@ -2355,8 +2596,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VerifyOutputResponse, VerifyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifyOutputResponse, VerifyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifyOutputResponse, VerifyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2376,6 +2621,7 @@ extension KMSClient: KMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<VerifyMacInput, VerifyMacOutputResponse, VerifyMacOutputError>(id: "verifyMac")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifyMacInput, VerifyMacOutputResponse, VerifyMacOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifyMacInput, VerifyMacOutputResponse>())
@@ -2391,8 +2637,12 @@ extension KMSClient: KMSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VerifyMacOutputResponse, VerifyMacOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifyMacOutputResponse, VerifyMacOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifyMacOutputResponse, VerifyMacOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

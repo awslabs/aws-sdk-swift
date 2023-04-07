@@ -146,6 +146,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateBudgetInput, CreateBudgetOutputResponse, CreateBudgetOutputError>(id: "createBudget")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBudgetInput, CreateBudgetOutputResponse, CreateBudgetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBudgetInput, CreateBudgetOutputResponse>())
@@ -161,8 +162,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBudgetOutputResponse, CreateBudgetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBudgetOutputResponse, CreateBudgetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBudgetOutputResponse, CreateBudgetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -182,6 +187,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateBudgetActionInput, CreateBudgetActionOutputResponse, CreateBudgetActionOutputError>(id: "createBudgetAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBudgetActionInput, CreateBudgetActionOutputResponse, CreateBudgetActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBudgetActionInput, CreateBudgetActionOutputResponse>())
@@ -197,8 +203,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBudgetActionOutputResponse, CreateBudgetActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBudgetActionOutputResponse, CreateBudgetActionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBudgetActionOutputResponse, CreateBudgetActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -218,6 +228,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateNotificationInput, CreateNotificationOutputResponse, CreateNotificationOutputError>(id: "createNotification")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNotificationInput, CreateNotificationOutputResponse, CreateNotificationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNotificationInput, CreateNotificationOutputResponse>())
@@ -233,8 +244,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNotificationOutputResponse, CreateNotificationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNotificationOutputResponse, CreateNotificationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNotificationOutputResponse, CreateNotificationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -254,6 +269,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSubscriberInput, CreateSubscriberOutputResponse, CreateSubscriberOutputError>(id: "createSubscriber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSubscriberInput, CreateSubscriberOutputResponse, CreateSubscriberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSubscriberInput, CreateSubscriberOutputResponse>())
@@ -269,8 +285,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSubscriberOutputResponse, CreateSubscriberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSubscriberOutputResponse, CreateSubscriberOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSubscriberOutputResponse, CreateSubscriberOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -290,6 +310,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBudgetInput, DeleteBudgetOutputResponse, DeleteBudgetOutputError>(id: "deleteBudget")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBudgetInput, DeleteBudgetOutputResponse, DeleteBudgetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBudgetInput, DeleteBudgetOutputResponse>())
@@ -305,8 +326,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBudgetOutputResponse, DeleteBudgetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBudgetOutputResponse, DeleteBudgetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBudgetOutputResponse, DeleteBudgetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -326,6 +351,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBudgetActionInput, DeleteBudgetActionOutputResponse, DeleteBudgetActionOutputError>(id: "deleteBudgetAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBudgetActionInput, DeleteBudgetActionOutputResponse, DeleteBudgetActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBudgetActionInput, DeleteBudgetActionOutputResponse>())
@@ -341,8 +367,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBudgetActionOutputResponse, DeleteBudgetActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBudgetActionOutputResponse, DeleteBudgetActionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBudgetActionOutputResponse, DeleteBudgetActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -362,6 +392,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteNotificationInput, DeleteNotificationOutputResponse, DeleteNotificationOutputError>(id: "deleteNotification")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNotificationInput, DeleteNotificationOutputResponse, DeleteNotificationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNotificationInput, DeleteNotificationOutputResponse>())
@@ -377,8 +408,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNotificationOutputResponse, DeleteNotificationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNotificationOutputResponse, DeleteNotificationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNotificationOutputResponse, DeleteNotificationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -398,6 +433,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSubscriberInput, DeleteSubscriberOutputResponse, DeleteSubscriberOutputError>(id: "deleteSubscriber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSubscriberInput, DeleteSubscriberOutputResponse, DeleteSubscriberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSubscriberInput, DeleteSubscriberOutputResponse>())
@@ -413,8 +449,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSubscriberOutputResponse, DeleteSubscriberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSubscriberOutputResponse, DeleteSubscriberOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSubscriberOutputResponse, DeleteSubscriberOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -434,6 +474,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeBudgetInput, DescribeBudgetOutputResponse, DescribeBudgetOutputError>(id: "describeBudget")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeBudgetInput, DescribeBudgetOutputResponse, DescribeBudgetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeBudgetInput, DescribeBudgetOutputResponse>())
@@ -449,8 +490,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeBudgetOutputResponse, DescribeBudgetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeBudgetOutputResponse, DescribeBudgetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeBudgetOutputResponse, DescribeBudgetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -470,6 +515,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeBudgetActionInput, DescribeBudgetActionOutputResponse, DescribeBudgetActionOutputError>(id: "describeBudgetAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeBudgetActionInput, DescribeBudgetActionOutputResponse, DescribeBudgetActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeBudgetActionInput, DescribeBudgetActionOutputResponse>())
@@ -485,8 +531,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeBudgetActionOutputResponse, DescribeBudgetActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeBudgetActionOutputResponse, DescribeBudgetActionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeBudgetActionOutputResponse, DescribeBudgetActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -506,6 +556,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeBudgetActionHistoriesInput, DescribeBudgetActionHistoriesOutputResponse, DescribeBudgetActionHistoriesOutputError>(id: "describeBudgetActionHistories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeBudgetActionHistoriesInput, DescribeBudgetActionHistoriesOutputResponse, DescribeBudgetActionHistoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeBudgetActionHistoriesInput, DescribeBudgetActionHistoriesOutputResponse>())
@@ -521,8 +572,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeBudgetActionHistoriesOutputResponse, DescribeBudgetActionHistoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeBudgetActionHistoriesOutputResponse, DescribeBudgetActionHistoriesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeBudgetActionHistoriesOutputResponse, DescribeBudgetActionHistoriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -542,6 +597,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeBudgetActionsForAccountInput, DescribeBudgetActionsForAccountOutputResponse, DescribeBudgetActionsForAccountOutputError>(id: "describeBudgetActionsForAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeBudgetActionsForAccountInput, DescribeBudgetActionsForAccountOutputResponse, DescribeBudgetActionsForAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeBudgetActionsForAccountInput, DescribeBudgetActionsForAccountOutputResponse>())
@@ -557,8 +613,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeBudgetActionsForAccountOutputResponse, DescribeBudgetActionsForAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeBudgetActionsForAccountOutputResponse, DescribeBudgetActionsForAccountOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeBudgetActionsForAccountOutputResponse, DescribeBudgetActionsForAccountOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -578,6 +638,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeBudgetActionsForBudgetInput, DescribeBudgetActionsForBudgetOutputResponse, DescribeBudgetActionsForBudgetOutputError>(id: "describeBudgetActionsForBudget")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeBudgetActionsForBudgetInput, DescribeBudgetActionsForBudgetOutputResponse, DescribeBudgetActionsForBudgetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeBudgetActionsForBudgetInput, DescribeBudgetActionsForBudgetOutputResponse>())
@@ -593,8 +654,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeBudgetActionsForBudgetOutputResponse, DescribeBudgetActionsForBudgetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeBudgetActionsForBudgetOutputResponse, DescribeBudgetActionsForBudgetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeBudgetActionsForBudgetOutputResponse, DescribeBudgetActionsForBudgetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -614,6 +679,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeBudgetNotificationsForAccountInput, DescribeBudgetNotificationsForAccountOutputResponse, DescribeBudgetNotificationsForAccountOutputError>(id: "describeBudgetNotificationsForAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeBudgetNotificationsForAccountInput, DescribeBudgetNotificationsForAccountOutputResponse, DescribeBudgetNotificationsForAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeBudgetNotificationsForAccountInput, DescribeBudgetNotificationsForAccountOutputResponse>())
@@ -629,8 +695,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeBudgetNotificationsForAccountOutputResponse, DescribeBudgetNotificationsForAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeBudgetNotificationsForAccountOutputResponse, DescribeBudgetNotificationsForAccountOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeBudgetNotificationsForAccountOutputResponse, DescribeBudgetNotificationsForAccountOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -650,6 +720,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeBudgetPerformanceHistoryInput, DescribeBudgetPerformanceHistoryOutputResponse, DescribeBudgetPerformanceHistoryOutputError>(id: "describeBudgetPerformanceHistory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeBudgetPerformanceHistoryInput, DescribeBudgetPerformanceHistoryOutputResponse, DescribeBudgetPerformanceHistoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeBudgetPerformanceHistoryInput, DescribeBudgetPerformanceHistoryOutputResponse>())
@@ -665,8 +736,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeBudgetPerformanceHistoryOutputResponse, DescribeBudgetPerformanceHistoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeBudgetPerformanceHistoryOutputResponse, DescribeBudgetPerformanceHistoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeBudgetPerformanceHistoryOutputResponse, DescribeBudgetPerformanceHistoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -686,6 +761,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeBudgetsInput, DescribeBudgetsOutputResponse, DescribeBudgetsOutputError>(id: "describeBudgets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeBudgetsInput, DescribeBudgetsOutputResponse, DescribeBudgetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeBudgetsInput, DescribeBudgetsOutputResponse>())
@@ -701,8 +777,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeBudgetsOutputResponse, DescribeBudgetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeBudgetsOutputResponse, DescribeBudgetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeBudgetsOutputResponse, DescribeBudgetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -722,6 +802,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeNotificationsForBudgetInput, DescribeNotificationsForBudgetOutputResponse, DescribeNotificationsForBudgetOutputError>(id: "describeNotificationsForBudget")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeNotificationsForBudgetInput, DescribeNotificationsForBudgetOutputResponse, DescribeNotificationsForBudgetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeNotificationsForBudgetInput, DescribeNotificationsForBudgetOutputResponse>())
@@ -737,8 +818,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeNotificationsForBudgetOutputResponse, DescribeNotificationsForBudgetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeNotificationsForBudgetOutputResponse, DescribeNotificationsForBudgetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeNotificationsForBudgetOutputResponse, DescribeNotificationsForBudgetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -758,6 +843,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSubscribersForNotificationInput, DescribeSubscribersForNotificationOutputResponse, DescribeSubscribersForNotificationOutputError>(id: "describeSubscribersForNotification")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSubscribersForNotificationInput, DescribeSubscribersForNotificationOutputResponse, DescribeSubscribersForNotificationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSubscribersForNotificationInput, DescribeSubscribersForNotificationOutputResponse>())
@@ -773,8 +859,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSubscribersForNotificationOutputResponse, DescribeSubscribersForNotificationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSubscribersForNotificationOutputResponse, DescribeSubscribersForNotificationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSubscribersForNotificationOutputResponse, DescribeSubscribersForNotificationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -794,6 +884,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExecuteBudgetActionInput, ExecuteBudgetActionOutputResponse, ExecuteBudgetActionOutputError>(id: "executeBudgetAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteBudgetActionInput, ExecuteBudgetActionOutputResponse, ExecuteBudgetActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteBudgetActionInput, ExecuteBudgetActionOutputResponse>())
@@ -809,8 +900,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteBudgetActionOutputResponse, ExecuteBudgetActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteBudgetActionOutputResponse, ExecuteBudgetActionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteBudgetActionOutputResponse, ExecuteBudgetActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -830,6 +925,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateBudgetInput, UpdateBudgetOutputResponse, UpdateBudgetOutputError>(id: "updateBudget")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBudgetInput, UpdateBudgetOutputResponse, UpdateBudgetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBudgetInput, UpdateBudgetOutputResponse>())
@@ -845,8 +941,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBudgetOutputResponse, UpdateBudgetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBudgetOutputResponse, UpdateBudgetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBudgetOutputResponse, UpdateBudgetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -866,6 +966,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateBudgetActionInput, UpdateBudgetActionOutputResponse, UpdateBudgetActionOutputError>(id: "updateBudgetAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBudgetActionInput, UpdateBudgetActionOutputResponse, UpdateBudgetActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBudgetActionInput, UpdateBudgetActionOutputResponse>())
@@ -881,8 +982,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBudgetActionOutputResponse, UpdateBudgetActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBudgetActionOutputResponse, UpdateBudgetActionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBudgetActionOutputResponse, UpdateBudgetActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -902,6 +1007,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateNotificationInput, UpdateNotificationOutputResponse, UpdateNotificationOutputError>(id: "updateNotification")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNotificationInput, UpdateNotificationOutputResponse, UpdateNotificationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNotificationInput, UpdateNotificationOutputResponse>())
@@ -917,8 +1023,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNotificationOutputResponse, UpdateNotificationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNotificationOutputResponse, UpdateNotificationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNotificationOutputResponse, UpdateNotificationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -938,6 +1048,7 @@ extension BudgetsClient: BudgetsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "budgets")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSubscriberInput, UpdateSubscriberOutputResponse, UpdateSubscriberOutputError>(id: "updateSubscriber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSubscriberInput, UpdateSubscriberOutputResponse, UpdateSubscriberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSubscriberInput, UpdateSubscriberOutputResponse>())
@@ -953,8 +1064,12 @@ extension BudgetsClient: BudgetsClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSubscriberOutputResponse, UpdateSubscriberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSubscriberOutputResponse, UpdateSubscriberOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSubscriberOutputResponse, UpdateSubscriberOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

@@ -146,6 +146,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CompareFacesInput, CompareFacesOutputResponse, CompareFacesOutputError>(id: "compareFaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CompareFacesInput, CompareFacesOutputResponse, CompareFacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CompareFacesInput, CompareFacesOutputResponse>())
@@ -161,8 +162,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CompareFacesOutputResponse, CompareFacesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CompareFacesOutputResponse, CompareFacesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CompareFacesOutputResponse, CompareFacesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -182,6 +187,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CopyProjectVersionInput, CopyProjectVersionOutputResponse, CopyProjectVersionOutputError>(id: "copyProjectVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyProjectVersionInput, CopyProjectVersionOutputResponse, CopyProjectVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyProjectVersionInput, CopyProjectVersionOutputResponse>())
@@ -197,8 +203,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopyProjectVersionOutputResponse, CopyProjectVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyProjectVersionOutputResponse, CopyProjectVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopyProjectVersionOutputResponse, CopyProjectVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -218,6 +228,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCollectionInput, CreateCollectionOutputResponse, CreateCollectionOutputError>(id: "createCollection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCollectionInput, CreateCollectionOutputResponse, CreateCollectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCollectionInput, CreateCollectionOutputResponse>())
@@ -233,8 +244,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCollectionOutputResponse, CreateCollectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCollectionOutputResponse, CreateCollectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCollectionOutputResponse, CreateCollectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -254,6 +269,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDatasetInput, CreateDatasetOutputResponse, CreateDatasetOutputError>(id: "createDataset")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDatasetInput, CreateDatasetOutputResponse, CreateDatasetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDatasetInput, CreateDatasetOutputResponse>())
@@ -269,8 +285,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDatasetOutputResponse, CreateDatasetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDatasetOutputResponse, CreateDatasetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDatasetOutputResponse, CreateDatasetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -290,6 +310,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateProjectInput, CreateProjectOutputResponse, CreateProjectOutputError>(id: "createProject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProjectInput, CreateProjectOutputResponse, CreateProjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProjectInput, CreateProjectOutputResponse>())
@@ -305,8 +326,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProjectOutputResponse, CreateProjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProjectOutputResponse, CreateProjectOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProjectOutputResponse, CreateProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -326,6 +351,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateProjectVersionInput, CreateProjectVersionOutputResponse, CreateProjectVersionOutputError>(id: "createProjectVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProjectVersionInput, CreateProjectVersionOutputResponse, CreateProjectVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProjectVersionInput, CreateProjectVersionOutputResponse>())
@@ -341,8 +367,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProjectVersionOutputResponse, CreateProjectVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProjectVersionOutputResponse, CreateProjectVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProjectVersionOutputResponse, CreateProjectVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -369,6 +399,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateStreamProcessorInput, CreateStreamProcessorOutputResponse, CreateStreamProcessorOutputError>(id: "createStreamProcessor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutputResponse, CreateStreamProcessorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStreamProcessorInput, CreateStreamProcessorOutputResponse>())
@@ -384,8 +415,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStreamProcessorOutputResponse, CreateStreamProcessorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStreamProcessorOutputResponse, CreateStreamProcessorOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateStreamProcessorOutputResponse, CreateStreamProcessorOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -405,6 +440,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCollectionInput, DeleteCollectionOutputResponse, DeleteCollectionOutputError>(id: "deleteCollection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCollectionInput, DeleteCollectionOutputResponse, DeleteCollectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCollectionInput, DeleteCollectionOutputResponse>())
@@ -420,8 +456,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCollectionOutputResponse, DeleteCollectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCollectionOutputResponse, DeleteCollectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCollectionOutputResponse, DeleteCollectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -441,6 +481,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDatasetInput, DeleteDatasetOutputResponse, DeleteDatasetOutputError>(id: "deleteDataset")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDatasetInput, DeleteDatasetOutputResponse, DeleteDatasetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDatasetInput, DeleteDatasetOutputResponse>())
@@ -456,8 +497,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDatasetOutputResponse, DeleteDatasetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDatasetOutputResponse, DeleteDatasetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDatasetOutputResponse, DeleteDatasetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -477,6 +522,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFacesInput, DeleteFacesOutputResponse, DeleteFacesOutputError>(id: "deleteFaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFacesInput, DeleteFacesOutputResponse, DeleteFacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFacesInput, DeleteFacesOutputResponse>())
@@ -492,8 +538,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFacesOutputResponse, DeleteFacesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFacesOutputResponse, DeleteFacesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFacesOutputResponse, DeleteFacesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -513,6 +563,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteProjectInput, DeleteProjectOutputResponse, DeleteProjectOutputError>(id: "deleteProject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProjectInput, DeleteProjectOutputResponse, DeleteProjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProjectInput, DeleteProjectOutputResponse>())
@@ -528,8 +579,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProjectOutputResponse, DeleteProjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProjectOutputResponse, DeleteProjectOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProjectOutputResponse, DeleteProjectOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -549,6 +604,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteProjectPolicyInput, DeleteProjectPolicyOutputResponse, DeleteProjectPolicyOutputError>(id: "deleteProjectPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutputResponse, DeleteProjectPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProjectPolicyInput, DeleteProjectPolicyOutputResponse>())
@@ -564,8 +620,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProjectPolicyOutputResponse, DeleteProjectPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProjectPolicyOutputResponse, DeleteProjectPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProjectPolicyOutputResponse, DeleteProjectPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -585,6 +645,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteProjectVersionInput, DeleteProjectVersionOutputResponse, DeleteProjectVersionOutputError>(id: "deleteProjectVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutputResponse, DeleteProjectVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProjectVersionInput, DeleteProjectVersionOutputResponse>())
@@ -600,8 +661,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProjectVersionOutputResponse, DeleteProjectVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProjectVersionOutputResponse, DeleteProjectVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProjectVersionOutputResponse, DeleteProjectVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -621,6 +686,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteStreamProcessorInput, DeleteStreamProcessorOutputResponse, DeleteStreamProcessorOutputError>(id: "deleteStreamProcessor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutputResponse, DeleteStreamProcessorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStreamProcessorInput, DeleteStreamProcessorOutputResponse>())
@@ -636,8 +702,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStreamProcessorOutputResponse, DeleteStreamProcessorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStreamProcessorOutputResponse, DeleteStreamProcessorOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStreamProcessorOutputResponse, DeleteStreamProcessorOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -657,6 +727,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCollectionInput, DescribeCollectionOutputResponse, DescribeCollectionOutputError>(id: "describeCollection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCollectionInput, DescribeCollectionOutputResponse, DescribeCollectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCollectionInput, DescribeCollectionOutputResponse>())
@@ -672,8 +743,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCollectionOutputResponse, DescribeCollectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCollectionOutputResponse, DescribeCollectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeCollectionOutputResponse, DescribeCollectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -693,6 +768,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDatasetInput, DescribeDatasetOutputResponse, DescribeDatasetOutputError>(id: "describeDataset")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDatasetInput, DescribeDatasetOutputResponse, DescribeDatasetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDatasetInput, DescribeDatasetOutputResponse>())
@@ -708,8 +784,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDatasetOutputResponse, DescribeDatasetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDatasetOutputResponse, DescribeDatasetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDatasetOutputResponse, DescribeDatasetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -729,6 +809,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeProjectVersionsInput, DescribeProjectVersionsOutputResponse, DescribeProjectVersionsOutputError>(id: "describeProjectVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutputResponse, DescribeProjectVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProjectVersionsInput, DescribeProjectVersionsOutputResponse>())
@@ -744,8 +825,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProjectVersionsOutputResponse, DescribeProjectVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProjectVersionsOutputResponse, DescribeProjectVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProjectVersionsOutputResponse, DescribeProjectVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -765,6 +850,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeProjectsInput, DescribeProjectsOutputResponse, DescribeProjectsOutputError>(id: "describeProjects")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProjectsInput, DescribeProjectsOutputResponse, DescribeProjectsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProjectsInput, DescribeProjectsOutputResponse>())
@@ -780,8 +866,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProjectsOutputResponse, DescribeProjectsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProjectsOutputResponse, DescribeProjectsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeProjectsOutputResponse, DescribeProjectsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -801,6 +891,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeStreamProcessorInput, DescribeStreamProcessorOutputResponse, DescribeStreamProcessorOutputError>(id: "describeStreamProcessor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutputResponse, DescribeStreamProcessorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStreamProcessorInput, DescribeStreamProcessorOutputResponse>())
@@ -816,8 +907,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStreamProcessorOutputResponse, DescribeStreamProcessorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStreamProcessorOutputResponse, DescribeStreamProcessorOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStreamProcessorOutputResponse, DescribeStreamProcessorOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -837,6 +932,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetectCustomLabelsInput, DetectCustomLabelsOutputResponse, DetectCustomLabelsOutputError>(id: "detectCustomLabels")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutputResponse, DetectCustomLabelsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectCustomLabelsInput, DetectCustomLabelsOutputResponse>())
@@ -852,8 +948,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetectCustomLabelsOutputResponse, DetectCustomLabelsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectCustomLabelsOutputResponse, DetectCustomLabelsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectCustomLabelsOutputResponse, DetectCustomLabelsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -873,6 +973,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetectFacesInput, DetectFacesOutputResponse, DetectFacesOutputError>(id: "detectFaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectFacesInput, DetectFacesOutputResponse, DetectFacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectFacesInput, DetectFacesOutputResponse>())
@@ -888,8 +989,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetectFacesOutputResponse, DetectFacesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectFacesOutputResponse, DetectFacesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectFacesOutputResponse, DetectFacesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -941,6 +1046,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetectLabelsInput, DetectLabelsOutputResponse, DetectLabelsOutputError>(id: "detectLabels")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectLabelsInput, DetectLabelsOutputResponse, DetectLabelsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectLabelsInput, DetectLabelsOutputResponse>())
@@ -956,8 +1062,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetectLabelsOutputResponse, DetectLabelsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectLabelsOutputResponse, DetectLabelsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectLabelsOutputResponse, DetectLabelsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -977,6 +1087,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetectModerationLabelsInput, DetectModerationLabelsOutputResponse, DetectModerationLabelsOutputError>(id: "detectModerationLabels")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutputResponse, DetectModerationLabelsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectModerationLabelsInput, DetectModerationLabelsOutputResponse>())
@@ -992,8 +1103,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetectModerationLabelsOutputResponse, DetectModerationLabelsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectModerationLabelsOutputResponse, DetectModerationLabelsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectModerationLabelsOutputResponse, DetectModerationLabelsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1031,6 +1146,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutputResponse, DetectProtectiveEquipmentOutputError>(id: "detectProtectiveEquipment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutputResponse, DetectProtectiveEquipmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectProtectiveEquipmentInput, DetectProtectiveEquipmentOutputResponse>())
@@ -1046,8 +1162,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetectProtectiveEquipmentOutputResponse, DetectProtectiveEquipmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectProtectiveEquipmentOutputResponse, DetectProtectiveEquipmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectProtectiveEquipmentOutputResponse, DetectProtectiveEquipmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1067,6 +1187,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetectTextInput, DetectTextOutputResponse, DetectTextOutputError>(id: "detectText")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectTextInput, DetectTextOutputResponse, DetectTextOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectTextInput, DetectTextOutputResponse>())
@@ -1082,8 +1203,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetectTextOutputResponse, DetectTextOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectTextOutputResponse, DetectTextOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectTextOutputResponse, DetectTextOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1103,6 +1228,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutputResponse, DistributeDatasetEntriesOutputError>(id: "distributeDatasetEntries")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutputResponse, DistributeDatasetEntriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DistributeDatasetEntriesInput, DistributeDatasetEntriesOutputResponse>())
@@ -1118,8 +1244,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DistributeDatasetEntriesOutputResponse, DistributeDatasetEntriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DistributeDatasetEntriesOutputResponse, DistributeDatasetEntriesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DistributeDatasetEntriesOutputResponse, DistributeDatasetEntriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1139,6 +1269,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCelebrityInfoInput, GetCelebrityInfoOutputResponse, GetCelebrityInfoOutputError>(id: "getCelebrityInfo")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutputResponse, GetCelebrityInfoOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCelebrityInfoInput, GetCelebrityInfoOutputResponse>())
@@ -1154,8 +1285,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCelebrityInfoOutputResponse, GetCelebrityInfoOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCelebrityInfoOutputResponse, GetCelebrityInfoOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCelebrityInfoOutputResponse, GetCelebrityInfoOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1175,6 +1310,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutputResponse, GetCelebrityRecognitionOutputError>(id: "getCelebrityRecognition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutputResponse, GetCelebrityRecognitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCelebrityRecognitionInput, GetCelebrityRecognitionOutputResponse>())
@@ -1190,8 +1326,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCelebrityRecognitionOutputResponse, GetCelebrityRecognitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCelebrityRecognitionOutputResponse, GetCelebrityRecognitionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCelebrityRecognitionOutputResponse, GetCelebrityRecognitionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1211,6 +1351,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetContentModerationInput, GetContentModerationOutputResponse, GetContentModerationOutputError>(id: "getContentModeration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContentModerationInput, GetContentModerationOutputResponse, GetContentModerationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContentModerationInput, GetContentModerationOutputResponse>())
@@ -1226,8 +1367,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContentModerationOutputResponse, GetContentModerationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContentModerationOutputResponse, GetContentModerationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetContentModerationOutputResponse, GetContentModerationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1247,6 +1392,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFaceDetectionInput, GetFaceDetectionOutputResponse, GetFaceDetectionOutputError>(id: "getFaceDetection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFaceDetectionInput, GetFaceDetectionOutputResponse, GetFaceDetectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFaceDetectionInput, GetFaceDetectionOutputResponse>())
@@ -1262,8 +1408,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFaceDetectionOutputResponse, GetFaceDetectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFaceDetectionOutputResponse, GetFaceDetectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFaceDetectionOutputResponse, GetFaceDetectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1283,6 +1433,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFaceSearchInput, GetFaceSearchOutputResponse, GetFaceSearchOutputError>(id: "getFaceSearch")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFaceSearchInput, GetFaceSearchOutputResponse, GetFaceSearchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFaceSearchInput, GetFaceSearchOutputResponse>())
@@ -1298,8 +1449,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFaceSearchOutputResponse, GetFaceSearchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFaceSearchOutputResponse, GetFaceSearchOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFaceSearchOutputResponse, GetFaceSearchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1336,6 +1491,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLabelDetectionInput, GetLabelDetectionOutputResponse, GetLabelDetectionOutputError>(id: "getLabelDetection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLabelDetectionInput, GetLabelDetectionOutputResponse, GetLabelDetectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLabelDetectionInput, GetLabelDetectionOutputResponse>())
@@ -1351,8 +1507,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLabelDetectionOutputResponse, GetLabelDetectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLabelDetectionOutputResponse, GetLabelDetectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLabelDetectionOutputResponse, GetLabelDetectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1372,6 +1532,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPersonTrackingInput, GetPersonTrackingOutputResponse, GetPersonTrackingOutputError>(id: "getPersonTracking")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPersonTrackingInput, GetPersonTrackingOutputResponse, GetPersonTrackingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPersonTrackingInput, GetPersonTrackingOutputResponse>())
@@ -1387,8 +1548,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPersonTrackingOutputResponse, GetPersonTrackingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPersonTrackingOutputResponse, GetPersonTrackingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPersonTrackingOutputResponse, GetPersonTrackingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1408,6 +1573,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSegmentDetectionInput, GetSegmentDetectionOutputResponse, GetSegmentDetectionOutputError>(id: "getSegmentDetection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutputResponse, GetSegmentDetectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSegmentDetectionInput, GetSegmentDetectionOutputResponse>())
@@ -1423,8 +1589,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSegmentDetectionOutputResponse, GetSegmentDetectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSegmentDetectionOutputResponse, GetSegmentDetectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSegmentDetectionOutputResponse, GetSegmentDetectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1444,6 +1614,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTextDetectionInput, GetTextDetectionOutputResponse, GetTextDetectionOutputError>(id: "getTextDetection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTextDetectionInput, GetTextDetectionOutputResponse, GetTextDetectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTextDetectionInput, GetTextDetectionOutputResponse>())
@@ -1459,8 +1630,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTextDetectionOutputResponse, GetTextDetectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTextDetectionOutputResponse, GetTextDetectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTextDetectionOutputResponse, GetTextDetectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1506,6 +1681,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<IndexFacesInput, IndexFacesOutputResponse, IndexFacesOutputError>(id: "indexFaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<IndexFacesInput, IndexFacesOutputResponse, IndexFacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<IndexFacesInput, IndexFacesOutputResponse>())
@@ -1521,8 +1697,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<IndexFacesOutputResponse, IndexFacesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<IndexFacesOutputResponse, IndexFacesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<IndexFacesOutputResponse, IndexFacesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1542,6 +1722,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCollectionsInput, ListCollectionsOutputResponse, ListCollectionsOutputError>(id: "listCollections")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCollectionsInput, ListCollectionsOutputResponse, ListCollectionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCollectionsInput, ListCollectionsOutputResponse>())
@@ -1557,8 +1738,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCollectionsOutputResponse, ListCollectionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCollectionsOutputResponse, ListCollectionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCollectionsOutputResponse, ListCollectionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1578,6 +1763,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDatasetEntriesInput, ListDatasetEntriesOutputResponse, ListDatasetEntriesOutputError>(id: "listDatasetEntries")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutputResponse, ListDatasetEntriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDatasetEntriesInput, ListDatasetEntriesOutputResponse>())
@@ -1593,8 +1779,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDatasetEntriesOutputResponse, ListDatasetEntriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDatasetEntriesOutputResponse, ListDatasetEntriesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDatasetEntriesOutputResponse, ListDatasetEntriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1614,6 +1804,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDatasetLabelsInput, ListDatasetLabelsOutputResponse, ListDatasetLabelsOutputError>(id: "listDatasetLabels")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutputResponse, ListDatasetLabelsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDatasetLabelsInput, ListDatasetLabelsOutputResponse>())
@@ -1629,8 +1820,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDatasetLabelsOutputResponse, ListDatasetLabelsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDatasetLabelsOutputResponse, ListDatasetLabelsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDatasetLabelsOutputResponse, ListDatasetLabelsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1650,6 +1845,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFacesInput, ListFacesOutputResponse, ListFacesOutputError>(id: "listFaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFacesInput, ListFacesOutputResponse, ListFacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFacesInput, ListFacesOutputResponse>())
@@ -1665,8 +1861,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFacesOutputResponse, ListFacesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFacesOutputResponse, ListFacesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFacesOutputResponse, ListFacesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1686,6 +1886,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListProjectPoliciesInput, ListProjectPoliciesOutputResponse, ListProjectPoliciesOutputError>(id: "listProjectPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutputResponse, ListProjectPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProjectPoliciesInput, ListProjectPoliciesOutputResponse>())
@@ -1701,8 +1902,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProjectPoliciesOutputResponse, ListProjectPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProjectPoliciesOutputResponse, ListProjectPoliciesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProjectPoliciesOutputResponse, ListProjectPoliciesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1722,6 +1927,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListStreamProcessorsInput, ListStreamProcessorsOutputResponse, ListStreamProcessorsOutputError>(id: "listStreamProcessors")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutputResponse, ListStreamProcessorsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStreamProcessorsInput, ListStreamProcessorsOutputResponse>())
@@ -1737,8 +1943,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStreamProcessorsOutputResponse, ListStreamProcessorsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStreamProcessorsOutputResponse, ListStreamProcessorsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStreamProcessorsOutputResponse, ListStreamProcessorsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1758,6 +1968,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1773,8 +1984,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1794,6 +2009,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutProjectPolicyInput, PutProjectPolicyOutputResponse, PutProjectPolicyOutputError>(id: "putProjectPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutProjectPolicyInput, PutProjectPolicyOutputResponse, PutProjectPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutProjectPolicyInput, PutProjectPolicyOutputResponse>())
@@ -1809,8 +2025,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutProjectPolicyOutputResponse, PutProjectPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutProjectPolicyOutputResponse, PutProjectPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutProjectPolicyOutputResponse, PutProjectPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1830,6 +2050,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RecognizeCelebritiesInput, RecognizeCelebritiesOutputResponse, RecognizeCelebritiesOutputError>(id: "recognizeCelebrities")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutputResponse, RecognizeCelebritiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RecognizeCelebritiesInput, RecognizeCelebritiesOutputResponse>())
@@ -1845,8 +2066,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RecognizeCelebritiesOutputResponse, RecognizeCelebritiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RecognizeCelebritiesOutputResponse, RecognizeCelebritiesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RecognizeCelebritiesOutputResponse, RecognizeCelebritiesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1866,6 +2091,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchFacesInput, SearchFacesOutputResponse, SearchFacesOutputError>(id: "searchFaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchFacesInput, SearchFacesOutputResponse, SearchFacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchFacesInput, SearchFacesOutputResponse>())
@@ -1881,8 +2107,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchFacesOutputResponse, SearchFacesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchFacesOutputResponse, SearchFacesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchFacesOutputResponse, SearchFacesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1902,6 +2132,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchFacesByImageInput, SearchFacesByImageOutputResponse, SearchFacesByImageOutputError>(id: "searchFacesByImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchFacesByImageInput, SearchFacesByImageOutputResponse, SearchFacesByImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchFacesByImageInput, SearchFacesByImageOutputResponse>())
@@ -1917,8 +2148,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchFacesByImageOutputResponse, SearchFacesByImageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchFacesByImageOutputResponse, SearchFacesByImageOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchFacesByImageOutputResponse, SearchFacesByImageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1938,6 +2173,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutputResponse, StartCelebrityRecognitionOutputError>(id: "startCelebrityRecognition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutputResponse, StartCelebrityRecognitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartCelebrityRecognitionInput, StartCelebrityRecognitionOutputResponse>())
@@ -1953,8 +2189,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartCelebrityRecognitionOutputResponse, StartCelebrityRecognitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartCelebrityRecognitionOutputResponse, StartCelebrityRecognitionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartCelebrityRecognitionOutputResponse, StartCelebrityRecognitionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1974,6 +2214,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartContentModerationInput, StartContentModerationOutputResponse, StartContentModerationOutputError>(id: "startContentModeration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartContentModerationInput, StartContentModerationOutputResponse, StartContentModerationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartContentModerationInput, StartContentModerationOutputResponse>())
@@ -1989,8 +2230,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartContentModerationOutputResponse, StartContentModerationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartContentModerationOutputResponse, StartContentModerationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartContentModerationOutputResponse, StartContentModerationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2010,6 +2255,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartFaceDetectionInput, StartFaceDetectionOutputResponse, StartFaceDetectionOutputError>(id: "startFaceDetection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartFaceDetectionInput, StartFaceDetectionOutputResponse, StartFaceDetectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartFaceDetectionInput, StartFaceDetectionOutputResponse>())
@@ -2025,8 +2271,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartFaceDetectionOutputResponse, StartFaceDetectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartFaceDetectionOutputResponse, StartFaceDetectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartFaceDetectionOutputResponse, StartFaceDetectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2046,6 +2296,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartFaceSearchInput, StartFaceSearchOutputResponse, StartFaceSearchOutputError>(id: "startFaceSearch")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartFaceSearchInput, StartFaceSearchOutputResponse, StartFaceSearchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartFaceSearchInput, StartFaceSearchOutputResponse>())
@@ -2061,8 +2312,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartFaceSearchOutputResponse, StartFaceSearchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartFaceSearchOutputResponse, StartFaceSearchOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartFaceSearchOutputResponse, StartFaceSearchOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2082,6 +2337,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartLabelDetectionInput, StartLabelDetectionOutputResponse, StartLabelDetectionOutputError>(id: "startLabelDetection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartLabelDetectionInput, StartLabelDetectionOutputResponse, StartLabelDetectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartLabelDetectionInput, StartLabelDetectionOutputResponse>())
@@ -2097,8 +2353,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartLabelDetectionOutputResponse, StartLabelDetectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartLabelDetectionOutputResponse, StartLabelDetectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartLabelDetectionOutputResponse, StartLabelDetectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2118,6 +2378,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartPersonTrackingInput, StartPersonTrackingOutputResponse, StartPersonTrackingOutputError>(id: "startPersonTracking")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartPersonTrackingInput, StartPersonTrackingOutputResponse, StartPersonTrackingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartPersonTrackingInput, StartPersonTrackingOutputResponse>())
@@ -2133,8 +2394,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartPersonTrackingOutputResponse, StartPersonTrackingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartPersonTrackingOutputResponse, StartPersonTrackingOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartPersonTrackingOutputResponse, StartPersonTrackingOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2154,6 +2419,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartProjectVersionInput, StartProjectVersionOutputResponse, StartProjectVersionOutputError>(id: "startProjectVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartProjectVersionInput, StartProjectVersionOutputResponse, StartProjectVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartProjectVersionInput, StartProjectVersionOutputResponse>())
@@ -2169,8 +2435,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartProjectVersionOutputResponse, StartProjectVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartProjectVersionOutputResponse, StartProjectVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartProjectVersionOutputResponse, StartProjectVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2190,6 +2460,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartSegmentDetectionInput, StartSegmentDetectionOutputResponse, StartSegmentDetectionOutputError>(id: "startSegmentDetection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutputResponse, StartSegmentDetectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSegmentDetectionInput, StartSegmentDetectionOutputResponse>())
@@ -2205,8 +2476,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSegmentDetectionOutputResponse, StartSegmentDetectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSegmentDetectionOutputResponse, StartSegmentDetectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSegmentDetectionOutputResponse, StartSegmentDetectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2226,6 +2501,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartStreamProcessorInput, StartStreamProcessorOutputResponse, StartStreamProcessorOutputError>(id: "startStreamProcessor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartStreamProcessorInput, StartStreamProcessorOutputResponse, StartStreamProcessorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartStreamProcessorInput, StartStreamProcessorOutputResponse>())
@@ -2241,8 +2517,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartStreamProcessorOutputResponse, StartStreamProcessorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartStreamProcessorOutputResponse, StartStreamProcessorOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartStreamProcessorOutputResponse, StartStreamProcessorOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2262,6 +2542,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartTextDetectionInput, StartTextDetectionOutputResponse, StartTextDetectionOutputError>(id: "startTextDetection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartTextDetectionInput, StartTextDetectionOutputResponse, StartTextDetectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartTextDetectionInput, StartTextDetectionOutputResponse>())
@@ -2277,8 +2558,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartTextDetectionOutputResponse, StartTextDetectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartTextDetectionOutputResponse, StartTextDetectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartTextDetectionOutputResponse, StartTextDetectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2298,6 +2583,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopProjectVersionInput, StopProjectVersionOutputResponse, StopProjectVersionOutputError>(id: "stopProjectVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopProjectVersionInput, StopProjectVersionOutputResponse, StopProjectVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopProjectVersionInput, StopProjectVersionOutputResponse>())
@@ -2313,8 +2599,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopProjectVersionOutputResponse, StopProjectVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopProjectVersionOutputResponse, StopProjectVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopProjectVersionOutputResponse, StopProjectVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2334,6 +2624,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopStreamProcessorInput, StopStreamProcessorOutputResponse, StopStreamProcessorOutputError>(id: "stopStreamProcessor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopStreamProcessorInput, StopStreamProcessorOutputResponse, StopStreamProcessorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopStreamProcessorInput, StopStreamProcessorOutputResponse>())
@@ -2349,8 +2640,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopStreamProcessorOutputResponse, StopStreamProcessorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopStreamProcessorOutputResponse, StopStreamProcessorOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopStreamProcessorOutputResponse, StopStreamProcessorOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2370,6 +2665,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -2385,8 +2681,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2406,6 +2706,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -2421,8 +2722,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2442,6 +2747,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutputResponse, UpdateDatasetEntriesOutputError>(id: "updateDatasetEntries")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutputResponse, UpdateDatasetEntriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDatasetEntriesInput, UpdateDatasetEntriesOutputResponse>())
@@ -2457,8 +2763,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDatasetEntriesOutputResponse, UpdateDatasetEntriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDatasetEntriesOutputResponse, UpdateDatasetEntriesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDatasetEntriesOutputResponse, UpdateDatasetEntriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2478,6 +2788,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateStreamProcessorInput, UpdateStreamProcessorOutputResponse, UpdateStreamProcessorOutputError>(id: "updateStreamProcessor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutputResponse, UpdateStreamProcessorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateStreamProcessorInput, UpdateStreamProcessorOutputResponse>())
@@ -2493,8 +2804,12 @@ extension RekognitionClient: RekognitionClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateStreamProcessorOutputResponse, UpdateStreamProcessorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStreamProcessorOutputResponse, UpdateStreamProcessorOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateStreamProcessorOutputResponse, UpdateStreamProcessorOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

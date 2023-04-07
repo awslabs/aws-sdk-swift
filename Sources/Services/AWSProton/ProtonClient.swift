@@ -146,6 +146,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AcceptEnvironmentAccountConnectionInput, AcceptEnvironmentAccountConnectionOutputResponse, AcceptEnvironmentAccountConnectionOutputError>(id: "acceptEnvironmentAccountConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptEnvironmentAccountConnectionInput, AcceptEnvironmentAccountConnectionOutputResponse, AcceptEnvironmentAccountConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptEnvironmentAccountConnectionInput, AcceptEnvironmentAccountConnectionOutputResponse>())
@@ -161,8 +162,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptEnvironmentAccountConnectionOutputResponse, AcceptEnvironmentAccountConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptEnvironmentAccountConnectionOutputResponse, AcceptEnvironmentAccountConnectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcceptEnvironmentAccountConnectionOutputResponse, AcceptEnvironmentAccountConnectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -182,6 +187,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelComponentDeploymentInput, CancelComponentDeploymentOutputResponse, CancelComponentDeploymentOutputError>(id: "cancelComponentDeployment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelComponentDeploymentInput, CancelComponentDeploymentOutputResponse, CancelComponentDeploymentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelComponentDeploymentInput, CancelComponentDeploymentOutputResponse>())
@@ -197,8 +203,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelComponentDeploymentOutputResponse, CancelComponentDeploymentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelComponentDeploymentOutputResponse, CancelComponentDeploymentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelComponentDeploymentOutputResponse, CancelComponentDeploymentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -224,6 +234,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelEnvironmentDeploymentInput, CancelEnvironmentDeploymentOutputResponse, CancelEnvironmentDeploymentOutputError>(id: "cancelEnvironmentDeployment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelEnvironmentDeploymentInput, CancelEnvironmentDeploymentOutputResponse, CancelEnvironmentDeploymentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelEnvironmentDeploymentInput, CancelEnvironmentDeploymentOutputResponse>())
@@ -239,8 +250,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelEnvironmentDeploymentOutputResponse, CancelEnvironmentDeploymentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelEnvironmentDeploymentOutputResponse, CancelEnvironmentDeploymentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelEnvironmentDeploymentOutputResponse, CancelEnvironmentDeploymentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -266,6 +281,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelServiceInstanceDeploymentInput, CancelServiceInstanceDeploymentOutputResponse, CancelServiceInstanceDeploymentOutputError>(id: "cancelServiceInstanceDeployment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelServiceInstanceDeploymentInput, CancelServiceInstanceDeploymentOutputResponse, CancelServiceInstanceDeploymentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelServiceInstanceDeploymentInput, CancelServiceInstanceDeploymentOutputResponse>())
@@ -281,8 +297,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelServiceInstanceDeploymentOutputResponse, CancelServiceInstanceDeploymentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelServiceInstanceDeploymentOutputResponse, CancelServiceInstanceDeploymentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelServiceInstanceDeploymentOutputResponse, CancelServiceInstanceDeploymentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -308,6 +328,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelServicePipelineDeploymentInput, CancelServicePipelineDeploymentOutputResponse, CancelServicePipelineDeploymentOutputError>(id: "cancelServicePipelineDeployment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelServicePipelineDeploymentInput, CancelServicePipelineDeploymentOutputResponse, CancelServicePipelineDeploymentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelServicePipelineDeploymentInput, CancelServicePipelineDeploymentOutputResponse>())
@@ -323,8 +344,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelServicePipelineDeploymentOutputResponse, CancelServicePipelineDeploymentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelServicePipelineDeploymentOutputResponse, CancelServicePipelineDeploymentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelServicePipelineDeploymentOutputResponse, CancelServicePipelineDeploymentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -344,6 +369,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateComponentInput, CreateComponentOutputResponse, CreateComponentOutputError>(id: "createComponent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateComponentInput, CreateComponentOutputResponse, CreateComponentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateComponentInput, CreateComponentOutputResponse>())
@@ -359,8 +385,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateComponentOutputResponse, CreateComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateComponentOutputResponse, CreateComponentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateComponentOutputResponse, CreateComponentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -387,6 +417,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEnvironmentInput, CreateEnvironmentOutputResponse, CreateEnvironmentOutputError>(id: "createEnvironment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEnvironmentInput, CreateEnvironmentOutputResponse, CreateEnvironmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEnvironmentInput, CreateEnvironmentOutputResponse>())
@@ -402,8 +433,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEnvironmentOutputResponse, CreateEnvironmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEnvironmentOutputResponse, CreateEnvironmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEnvironmentOutputResponse, CreateEnvironmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -423,6 +458,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEnvironmentAccountConnectionInput, CreateEnvironmentAccountConnectionOutputResponse, CreateEnvironmentAccountConnectionOutputError>(id: "createEnvironmentAccountConnection")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateEnvironmentAccountConnectionOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -446,8 +482,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEnvironmentAccountConnectionOutputResponse, CreateEnvironmentAccountConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEnvironmentAccountConnectionOutputResponse, CreateEnvironmentAccountConnectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEnvironmentAccountConnectionOutputResponse, CreateEnvironmentAccountConnectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -471,6 +511,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEnvironmentTemplateInput, CreateEnvironmentTemplateOutputResponse, CreateEnvironmentTemplateOutputError>(id: "createEnvironmentTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEnvironmentTemplateInput, CreateEnvironmentTemplateOutputResponse, CreateEnvironmentTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEnvironmentTemplateInput, CreateEnvironmentTemplateOutputResponse>())
@@ -486,8 +527,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEnvironmentTemplateOutputResponse, CreateEnvironmentTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEnvironmentTemplateOutputResponse, CreateEnvironmentTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEnvironmentTemplateOutputResponse, CreateEnvironmentTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -507,6 +552,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEnvironmentTemplateVersionInput, CreateEnvironmentTemplateVersionOutputResponse, CreateEnvironmentTemplateVersionOutputError>(id: "createEnvironmentTemplateVersion")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateEnvironmentTemplateVersionOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -530,8 +576,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEnvironmentTemplateVersionOutputResponse, CreateEnvironmentTemplateVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEnvironmentTemplateVersionOutputResponse, CreateEnvironmentTemplateVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEnvironmentTemplateVersionOutputResponse, CreateEnvironmentTemplateVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -551,6 +601,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRepositoryInput, CreateRepositoryOutputResponse, CreateRepositoryOutputError>(id: "createRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRepositoryInput, CreateRepositoryOutputResponse, CreateRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRepositoryInput, CreateRepositoryOutputResponse>())
@@ -566,8 +617,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRepositoryOutputResponse, CreateRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRepositoryOutputResponse, CreateRepositoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRepositoryOutputResponse, CreateRepositoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -587,6 +642,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateServiceInput, CreateServiceOutputResponse, CreateServiceOutputError>(id: "createService")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateServiceInput, CreateServiceOutputResponse, CreateServiceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateServiceInput, CreateServiceOutputResponse>())
@@ -602,8 +658,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateServiceOutputResponse, CreateServiceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateServiceOutputResponse, CreateServiceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateServiceOutputResponse, CreateServiceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -623,6 +683,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateServiceTemplateInput, CreateServiceTemplateOutputResponse, CreateServiceTemplateOutputError>(id: "createServiceTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateServiceTemplateInput, CreateServiceTemplateOutputResponse, CreateServiceTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateServiceTemplateInput, CreateServiceTemplateOutputResponse>())
@@ -638,8 +699,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateServiceTemplateOutputResponse, CreateServiceTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateServiceTemplateOutputResponse, CreateServiceTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateServiceTemplateOutputResponse, CreateServiceTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -659,6 +724,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateServiceTemplateVersionInput, CreateServiceTemplateVersionOutputResponse, CreateServiceTemplateVersionOutputError>(id: "createServiceTemplateVersion")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateServiceTemplateVersionOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -682,8 +748,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateServiceTemplateVersionOutputResponse, CreateServiceTemplateVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateServiceTemplateVersionOutputResponse, CreateServiceTemplateVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateServiceTemplateVersionOutputResponse, CreateServiceTemplateVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -703,6 +773,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTemplateSyncConfigInput, CreateTemplateSyncConfigOutputResponse, CreateTemplateSyncConfigOutputError>(id: "createTemplateSyncConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTemplateSyncConfigInput, CreateTemplateSyncConfigOutputResponse, CreateTemplateSyncConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTemplateSyncConfigInput, CreateTemplateSyncConfigOutputResponse>())
@@ -718,8 +789,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTemplateSyncConfigOutputResponse, CreateTemplateSyncConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTemplateSyncConfigOutputResponse, CreateTemplateSyncConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTemplateSyncConfigOutputResponse, CreateTemplateSyncConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -739,6 +814,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteComponentInput, DeleteComponentOutputResponse, DeleteComponentOutputError>(id: "deleteComponent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteComponentInput, DeleteComponentOutputResponse, DeleteComponentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteComponentInput, DeleteComponentOutputResponse>())
@@ -754,8 +830,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteComponentOutputResponse, DeleteComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteComponentOutputResponse, DeleteComponentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteComponentOutputResponse, DeleteComponentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -775,6 +855,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEnvironmentInput, DeleteEnvironmentOutputResponse, DeleteEnvironmentOutputError>(id: "deleteEnvironment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutputResponse, DeleteEnvironmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutputResponse>())
@@ -790,8 +871,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEnvironmentOutputResponse, DeleteEnvironmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEnvironmentOutputResponse, DeleteEnvironmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEnvironmentOutputResponse, DeleteEnvironmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -811,6 +896,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEnvironmentAccountConnectionInput, DeleteEnvironmentAccountConnectionOutputResponse, DeleteEnvironmentAccountConnectionOutputError>(id: "deleteEnvironmentAccountConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEnvironmentAccountConnectionInput, DeleteEnvironmentAccountConnectionOutputResponse, DeleteEnvironmentAccountConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEnvironmentAccountConnectionInput, DeleteEnvironmentAccountConnectionOutputResponse>())
@@ -826,8 +912,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEnvironmentAccountConnectionOutputResponse, DeleteEnvironmentAccountConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEnvironmentAccountConnectionOutputResponse, DeleteEnvironmentAccountConnectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEnvironmentAccountConnectionOutputResponse, DeleteEnvironmentAccountConnectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -847,6 +937,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEnvironmentTemplateInput, DeleteEnvironmentTemplateOutputResponse, DeleteEnvironmentTemplateOutputError>(id: "deleteEnvironmentTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEnvironmentTemplateInput, DeleteEnvironmentTemplateOutputResponse, DeleteEnvironmentTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEnvironmentTemplateInput, DeleteEnvironmentTemplateOutputResponse>())
@@ -862,8 +953,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEnvironmentTemplateOutputResponse, DeleteEnvironmentTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEnvironmentTemplateOutputResponse, DeleteEnvironmentTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEnvironmentTemplateOutputResponse, DeleteEnvironmentTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -883,6 +978,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEnvironmentTemplateVersionInput, DeleteEnvironmentTemplateVersionOutputResponse, DeleteEnvironmentTemplateVersionOutputError>(id: "deleteEnvironmentTemplateVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEnvironmentTemplateVersionInput, DeleteEnvironmentTemplateVersionOutputResponse, DeleteEnvironmentTemplateVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEnvironmentTemplateVersionInput, DeleteEnvironmentTemplateVersionOutputResponse>())
@@ -898,8 +994,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEnvironmentTemplateVersionOutputResponse, DeleteEnvironmentTemplateVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEnvironmentTemplateVersionOutputResponse, DeleteEnvironmentTemplateVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEnvironmentTemplateVersionOutputResponse, DeleteEnvironmentTemplateVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -919,6 +1019,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRepositoryInput, DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>(id: "deleteRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRepositoryInput, DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRepositoryInput, DeleteRepositoryOutputResponse>())
@@ -934,8 +1035,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -955,6 +1060,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteServiceInput, DeleteServiceOutputResponse, DeleteServiceOutputError>(id: "deleteService")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteServiceInput, DeleteServiceOutputResponse, DeleteServiceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteServiceInput, DeleteServiceOutputResponse>())
@@ -970,8 +1076,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServiceOutputResponse, DeleteServiceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServiceOutputResponse, DeleteServiceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteServiceOutputResponse, DeleteServiceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -991,6 +1101,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteServiceTemplateInput, DeleteServiceTemplateOutputResponse, DeleteServiceTemplateOutputError>(id: "deleteServiceTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteServiceTemplateInput, DeleteServiceTemplateOutputResponse, DeleteServiceTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteServiceTemplateInput, DeleteServiceTemplateOutputResponse>())
@@ -1006,8 +1117,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServiceTemplateOutputResponse, DeleteServiceTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServiceTemplateOutputResponse, DeleteServiceTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteServiceTemplateOutputResponse, DeleteServiceTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1027,6 +1142,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteServiceTemplateVersionInput, DeleteServiceTemplateVersionOutputResponse, DeleteServiceTemplateVersionOutputError>(id: "deleteServiceTemplateVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteServiceTemplateVersionInput, DeleteServiceTemplateVersionOutputResponse, DeleteServiceTemplateVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteServiceTemplateVersionInput, DeleteServiceTemplateVersionOutputResponse>())
@@ -1042,8 +1158,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServiceTemplateVersionOutputResponse, DeleteServiceTemplateVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServiceTemplateVersionOutputResponse, DeleteServiceTemplateVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteServiceTemplateVersionOutputResponse, DeleteServiceTemplateVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1063,6 +1183,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTemplateSyncConfigInput, DeleteTemplateSyncConfigOutputResponse, DeleteTemplateSyncConfigOutputError>(id: "deleteTemplateSyncConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTemplateSyncConfigInput, DeleteTemplateSyncConfigOutputResponse, DeleteTemplateSyncConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTemplateSyncConfigInput, DeleteTemplateSyncConfigOutputResponse>())
@@ -1078,8 +1199,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTemplateSyncConfigOutputResponse, DeleteTemplateSyncConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTemplateSyncConfigOutputResponse, DeleteTemplateSyncConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTemplateSyncConfigOutputResponse, DeleteTemplateSyncConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1099,6 +1224,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccountSettingsInput, GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(id: "getAccountSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountSettingsInput, GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountSettingsInput, GetAccountSettingsOutputResponse>())
@@ -1114,8 +1240,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1135,6 +1265,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetComponentInput, GetComponentOutputResponse, GetComponentOutputError>(id: "getComponent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetComponentInput, GetComponentOutputResponse, GetComponentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetComponentInput, GetComponentOutputResponse>())
@@ -1150,8 +1281,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetComponentOutputResponse, GetComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetComponentOutputResponse, GetComponentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetComponentOutputResponse, GetComponentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1171,6 +1306,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEnvironmentInput, GetEnvironmentOutputResponse, GetEnvironmentOutputError>(id: "getEnvironment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEnvironmentInput, GetEnvironmentOutputResponse, GetEnvironmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEnvironmentInput, GetEnvironmentOutputResponse>())
@@ -1186,8 +1322,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEnvironmentOutputResponse, GetEnvironmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEnvironmentOutputResponse, GetEnvironmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEnvironmentOutputResponse, GetEnvironmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1207,6 +1347,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEnvironmentAccountConnectionInput, GetEnvironmentAccountConnectionOutputResponse, GetEnvironmentAccountConnectionOutputError>(id: "getEnvironmentAccountConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEnvironmentAccountConnectionInput, GetEnvironmentAccountConnectionOutputResponse, GetEnvironmentAccountConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEnvironmentAccountConnectionInput, GetEnvironmentAccountConnectionOutputResponse>())
@@ -1222,8 +1363,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEnvironmentAccountConnectionOutputResponse, GetEnvironmentAccountConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEnvironmentAccountConnectionOutputResponse, GetEnvironmentAccountConnectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEnvironmentAccountConnectionOutputResponse, GetEnvironmentAccountConnectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1243,6 +1388,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEnvironmentTemplateInput, GetEnvironmentTemplateOutputResponse, GetEnvironmentTemplateOutputError>(id: "getEnvironmentTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEnvironmentTemplateInput, GetEnvironmentTemplateOutputResponse, GetEnvironmentTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEnvironmentTemplateInput, GetEnvironmentTemplateOutputResponse>())
@@ -1258,8 +1404,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEnvironmentTemplateOutputResponse, GetEnvironmentTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEnvironmentTemplateOutputResponse, GetEnvironmentTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEnvironmentTemplateOutputResponse, GetEnvironmentTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1279,6 +1429,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEnvironmentTemplateVersionInput, GetEnvironmentTemplateVersionOutputResponse, GetEnvironmentTemplateVersionOutputError>(id: "getEnvironmentTemplateVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEnvironmentTemplateVersionInput, GetEnvironmentTemplateVersionOutputResponse, GetEnvironmentTemplateVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEnvironmentTemplateVersionInput, GetEnvironmentTemplateVersionOutputResponse>())
@@ -1294,8 +1445,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEnvironmentTemplateVersionOutputResponse, GetEnvironmentTemplateVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEnvironmentTemplateVersionOutputResponse, GetEnvironmentTemplateVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEnvironmentTemplateVersionOutputResponse, GetEnvironmentTemplateVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1315,6 +1470,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRepositoryInput, GetRepositoryOutputResponse, GetRepositoryOutputError>(id: "getRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRepositoryInput, GetRepositoryOutputResponse, GetRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRepositoryInput, GetRepositoryOutputResponse>())
@@ -1330,8 +1486,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRepositoryOutputResponse, GetRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRepositoryOutputResponse, GetRepositoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRepositoryOutputResponse, GetRepositoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1351,6 +1511,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRepositorySyncStatusInput, GetRepositorySyncStatusOutputResponse, GetRepositorySyncStatusOutputError>(id: "getRepositorySyncStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRepositorySyncStatusInput, GetRepositorySyncStatusOutputResponse, GetRepositorySyncStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRepositorySyncStatusInput, GetRepositorySyncStatusOutputResponse>())
@@ -1366,8 +1527,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRepositorySyncStatusOutputResponse, GetRepositorySyncStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRepositorySyncStatusOutputResponse, GetRepositorySyncStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRepositorySyncStatusOutputResponse, GetRepositorySyncStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1387,6 +1552,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetResourcesSummaryInput, GetResourcesSummaryOutputResponse, GetResourcesSummaryOutputError>(id: "getResourcesSummary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourcesSummaryInput, GetResourcesSummaryOutputResponse, GetResourcesSummaryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourcesSummaryInput, GetResourcesSummaryOutputResponse>())
@@ -1402,8 +1568,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourcesSummaryOutputResponse, GetResourcesSummaryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourcesSummaryOutputResponse, GetResourcesSummaryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourcesSummaryOutputResponse, GetResourcesSummaryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1423,6 +1593,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetServiceInput, GetServiceOutputResponse, GetServiceOutputError>(id: "getService")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceInput, GetServiceOutputResponse, GetServiceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServiceInput, GetServiceOutputResponse>())
@@ -1438,8 +1609,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceOutputResponse, GetServiceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceOutputResponse, GetServiceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceOutputResponse, GetServiceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1459,6 +1634,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetServiceInstanceInput, GetServiceInstanceOutputResponse, GetServiceInstanceOutputError>(id: "getServiceInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceInstanceInput, GetServiceInstanceOutputResponse, GetServiceInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServiceInstanceInput, GetServiceInstanceOutputResponse>())
@@ -1474,8 +1650,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceInstanceOutputResponse, GetServiceInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceInstanceOutputResponse, GetServiceInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceInstanceOutputResponse, GetServiceInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1495,6 +1675,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetServiceTemplateInput, GetServiceTemplateOutputResponse, GetServiceTemplateOutputError>(id: "getServiceTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceTemplateInput, GetServiceTemplateOutputResponse, GetServiceTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServiceTemplateInput, GetServiceTemplateOutputResponse>())
@@ -1510,8 +1691,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceTemplateOutputResponse, GetServiceTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceTemplateOutputResponse, GetServiceTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceTemplateOutputResponse, GetServiceTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1531,6 +1716,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetServiceTemplateVersionInput, GetServiceTemplateVersionOutputResponse, GetServiceTemplateVersionOutputError>(id: "getServiceTemplateVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceTemplateVersionInput, GetServiceTemplateVersionOutputResponse, GetServiceTemplateVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServiceTemplateVersionInput, GetServiceTemplateVersionOutputResponse>())
@@ -1546,8 +1732,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceTemplateVersionOutputResponse, GetServiceTemplateVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceTemplateVersionOutputResponse, GetServiceTemplateVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceTemplateVersionOutputResponse, GetServiceTemplateVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1567,6 +1757,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTemplateSyncConfigInput, GetTemplateSyncConfigOutputResponse, GetTemplateSyncConfigOutputError>(id: "getTemplateSyncConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTemplateSyncConfigInput, GetTemplateSyncConfigOutputResponse, GetTemplateSyncConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTemplateSyncConfigInput, GetTemplateSyncConfigOutputResponse>())
@@ -1582,8 +1773,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTemplateSyncConfigOutputResponse, GetTemplateSyncConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTemplateSyncConfigOutputResponse, GetTemplateSyncConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTemplateSyncConfigOutputResponse, GetTemplateSyncConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1603,6 +1798,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTemplateSyncStatusInput, GetTemplateSyncStatusOutputResponse, GetTemplateSyncStatusOutputError>(id: "getTemplateSyncStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTemplateSyncStatusInput, GetTemplateSyncStatusOutputResponse, GetTemplateSyncStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTemplateSyncStatusInput, GetTemplateSyncStatusOutputResponse>())
@@ -1618,8 +1814,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTemplateSyncStatusOutputResponse, GetTemplateSyncStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTemplateSyncStatusOutputResponse, GetTemplateSyncStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTemplateSyncStatusOutputResponse, GetTemplateSyncStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1639,6 +1839,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListComponentOutputsInput, ListComponentOutputsOutputResponse, ListComponentOutputsOutputError>(id: "listComponentOutputs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListComponentOutputsInput, ListComponentOutputsOutputResponse, ListComponentOutputsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListComponentOutputsInput, ListComponentOutputsOutputResponse>())
@@ -1654,8 +1855,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListComponentOutputsOutputResponse, ListComponentOutputsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListComponentOutputsOutputResponse, ListComponentOutputsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListComponentOutputsOutputResponse, ListComponentOutputsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1675,6 +1880,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListComponentProvisionedResourcesInput, ListComponentProvisionedResourcesOutputResponse, ListComponentProvisionedResourcesOutputError>(id: "listComponentProvisionedResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListComponentProvisionedResourcesInput, ListComponentProvisionedResourcesOutputResponse, ListComponentProvisionedResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListComponentProvisionedResourcesInput, ListComponentProvisionedResourcesOutputResponse>())
@@ -1690,8 +1896,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListComponentProvisionedResourcesOutputResponse, ListComponentProvisionedResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListComponentProvisionedResourcesOutputResponse, ListComponentProvisionedResourcesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListComponentProvisionedResourcesOutputResponse, ListComponentProvisionedResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1711,6 +1921,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListComponentsInput, ListComponentsOutputResponse, ListComponentsOutputError>(id: "listComponents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListComponentsInput, ListComponentsOutputResponse, ListComponentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListComponentsInput, ListComponentsOutputResponse>())
@@ -1726,8 +1937,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListComponentsOutputResponse, ListComponentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListComponentsOutputResponse, ListComponentsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListComponentsOutputResponse, ListComponentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1747,6 +1962,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEnvironmentAccountConnectionsInput, ListEnvironmentAccountConnectionsOutputResponse, ListEnvironmentAccountConnectionsOutputError>(id: "listEnvironmentAccountConnections")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEnvironmentAccountConnectionsInput, ListEnvironmentAccountConnectionsOutputResponse, ListEnvironmentAccountConnectionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEnvironmentAccountConnectionsInput, ListEnvironmentAccountConnectionsOutputResponse>())
@@ -1762,8 +1978,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEnvironmentAccountConnectionsOutputResponse, ListEnvironmentAccountConnectionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEnvironmentAccountConnectionsOutputResponse, ListEnvironmentAccountConnectionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEnvironmentAccountConnectionsOutputResponse, ListEnvironmentAccountConnectionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1783,6 +2003,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEnvironmentOutputsInput, ListEnvironmentOutputsOutputResponse, ListEnvironmentOutputsOutputError>(id: "listEnvironmentOutputs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEnvironmentOutputsInput, ListEnvironmentOutputsOutputResponse, ListEnvironmentOutputsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEnvironmentOutputsInput, ListEnvironmentOutputsOutputResponse>())
@@ -1798,8 +2019,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEnvironmentOutputsOutputResponse, ListEnvironmentOutputsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEnvironmentOutputsOutputResponse, ListEnvironmentOutputsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEnvironmentOutputsOutputResponse, ListEnvironmentOutputsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1819,6 +2044,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEnvironmentProvisionedResourcesInput, ListEnvironmentProvisionedResourcesOutputResponse, ListEnvironmentProvisionedResourcesOutputError>(id: "listEnvironmentProvisionedResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEnvironmentProvisionedResourcesInput, ListEnvironmentProvisionedResourcesOutputResponse, ListEnvironmentProvisionedResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEnvironmentProvisionedResourcesInput, ListEnvironmentProvisionedResourcesOutputResponse>())
@@ -1834,8 +2060,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEnvironmentProvisionedResourcesOutputResponse, ListEnvironmentProvisionedResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEnvironmentProvisionedResourcesOutputResponse, ListEnvironmentProvisionedResourcesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEnvironmentProvisionedResourcesOutputResponse, ListEnvironmentProvisionedResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1855,6 +2085,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEnvironmentTemplateVersionsInput, ListEnvironmentTemplateVersionsOutputResponse, ListEnvironmentTemplateVersionsOutputError>(id: "listEnvironmentTemplateVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEnvironmentTemplateVersionsInput, ListEnvironmentTemplateVersionsOutputResponse, ListEnvironmentTemplateVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEnvironmentTemplateVersionsInput, ListEnvironmentTemplateVersionsOutputResponse>())
@@ -1870,8 +2101,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEnvironmentTemplateVersionsOutputResponse, ListEnvironmentTemplateVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEnvironmentTemplateVersionsOutputResponse, ListEnvironmentTemplateVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEnvironmentTemplateVersionsOutputResponse, ListEnvironmentTemplateVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1891,6 +2126,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEnvironmentTemplatesInput, ListEnvironmentTemplatesOutputResponse, ListEnvironmentTemplatesOutputError>(id: "listEnvironmentTemplates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEnvironmentTemplatesInput, ListEnvironmentTemplatesOutputResponse, ListEnvironmentTemplatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEnvironmentTemplatesInput, ListEnvironmentTemplatesOutputResponse>())
@@ -1906,8 +2142,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEnvironmentTemplatesOutputResponse, ListEnvironmentTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEnvironmentTemplatesOutputResponse, ListEnvironmentTemplatesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEnvironmentTemplatesOutputResponse, ListEnvironmentTemplatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1927,6 +2167,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEnvironmentsInput, ListEnvironmentsOutputResponse, ListEnvironmentsOutputError>(id: "listEnvironments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEnvironmentsInput, ListEnvironmentsOutputResponse, ListEnvironmentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEnvironmentsInput, ListEnvironmentsOutputResponse>())
@@ -1942,8 +2183,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEnvironmentsOutputResponse, ListEnvironmentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEnvironmentsOutputResponse, ListEnvironmentsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEnvironmentsOutputResponse, ListEnvironmentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1963,6 +2208,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRepositoriesInput, ListRepositoriesOutputResponse, ListRepositoriesOutputError>(id: "listRepositories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRepositoriesInput, ListRepositoriesOutputResponse, ListRepositoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRepositoriesInput, ListRepositoriesOutputResponse>())
@@ -1978,8 +2224,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRepositoriesOutputResponse, ListRepositoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRepositoriesOutputResponse, ListRepositoriesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRepositoriesOutputResponse, ListRepositoriesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1999,6 +2249,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRepositorySyncDefinitionsInput, ListRepositorySyncDefinitionsOutputResponse, ListRepositorySyncDefinitionsOutputError>(id: "listRepositorySyncDefinitions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRepositorySyncDefinitionsInput, ListRepositorySyncDefinitionsOutputResponse, ListRepositorySyncDefinitionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRepositorySyncDefinitionsInput, ListRepositorySyncDefinitionsOutputResponse>())
@@ -2014,8 +2265,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRepositorySyncDefinitionsOutputResponse, ListRepositorySyncDefinitionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRepositorySyncDefinitionsOutputResponse, ListRepositorySyncDefinitionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRepositorySyncDefinitionsOutputResponse, ListRepositorySyncDefinitionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2035,6 +2290,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListServiceInstanceOutputsInput, ListServiceInstanceOutputsOutputResponse, ListServiceInstanceOutputsOutputError>(id: "listServiceInstanceOutputs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServiceInstanceOutputsInput, ListServiceInstanceOutputsOutputResponse, ListServiceInstanceOutputsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServiceInstanceOutputsInput, ListServiceInstanceOutputsOutputResponse>())
@@ -2050,8 +2306,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServiceInstanceOutputsOutputResponse, ListServiceInstanceOutputsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServiceInstanceOutputsOutputResponse, ListServiceInstanceOutputsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServiceInstanceOutputsOutputResponse, ListServiceInstanceOutputsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2071,6 +2331,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListServiceInstanceProvisionedResourcesInput, ListServiceInstanceProvisionedResourcesOutputResponse, ListServiceInstanceProvisionedResourcesOutputError>(id: "listServiceInstanceProvisionedResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServiceInstanceProvisionedResourcesInput, ListServiceInstanceProvisionedResourcesOutputResponse, ListServiceInstanceProvisionedResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServiceInstanceProvisionedResourcesInput, ListServiceInstanceProvisionedResourcesOutputResponse>())
@@ -2086,8 +2347,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServiceInstanceProvisionedResourcesOutputResponse, ListServiceInstanceProvisionedResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServiceInstanceProvisionedResourcesOutputResponse, ListServiceInstanceProvisionedResourcesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServiceInstanceProvisionedResourcesOutputResponse, ListServiceInstanceProvisionedResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2107,6 +2372,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListServiceInstancesInput, ListServiceInstancesOutputResponse, ListServiceInstancesOutputError>(id: "listServiceInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServiceInstancesInput, ListServiceInstancesOutputResponse, ListServiceInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServiceInstancesInput, ListServiceInstancesOutputResponse>())
@@ -2122,8 +2388,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServiceInstancesOutputResponse, ListServiceInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServiceInstancesOutputResponse, ListServiceInstancesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServiceInstancesOutputResponse, ListServiceInstancesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2143,6 +2413,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListServicePipelineOutputsInput, ListServicePipelineOutputsOutputResponse, ListServicePipelineOutputsOutputError>(id: "listServicePipelineOutputs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServicePipelineOutputsInput, ListServicePipelineOutputsOutputResponse, ListServicePipelineOutputsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServicePipelineOutputsInput, ListServicePipelineOutputsOutputResponse>())
@@ -2158,8 +2429,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServicePipelineOutputsOutputResponse, ListServicePipelineOutputsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServicePipelineOutputsOutputResponse, ListServicePipelineOutputsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServicePipelineOutputsOutputResponse, ListServicePipelineOutputsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2179,6 +2454,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListServicePipelineProvisionedResourcesInput, ListServicePipelineProvisionedResourcesOutputResponse, ListServicePipelineProvisionedResourcesOutputError>(id: "listServicePipelineProvisionedResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServicePipelineProvisionedResourcesInput, ListServicePipelineProvisionedResourcesOutputResponse, ListServicePipelineProvisionedResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServicePipelineProvisionedResourcesInput, ListServicePipelineProvisionedResourcesOutputResponse>())
@@ -2194,8 +2470,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServicePipelineProvisionedResourcesOutputResponse, ListServicePipelineProvisionedResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServicePipelineProvisionedResourcesOutputResponse, ListServicePipelineProvisionedResourcesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServicePipelineProvisionedResourcesOutputResponse, ListServicePipelineProvisionedResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2215,6 +2495,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListServiceTemplateVersionsInput, ListServiceTemplateVersionsOutputResponse, ListServiceTemplateVersionsOutputError>(id: "listServiceTemplateVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServiceTemplateVersionsInput, ListServiceTemplateVersionsOutputResponse, ListServiceTemplateVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServiceTemplateVersionsInput, ListServiceTemplateVersionsOutputResponse>())
@@ -2230,8 +2511,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServiceTemplateVersionsOutputResponse, ListServiceTemplateVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServiceTemplateVersionsOutputResponse, ListServiceTemplateVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServiceTemplateVersionsOutputResponse, ListServiceTemplateVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2251,6 +2536,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListServiceTemplatesInput, ListServiceTemplatesOutputResponse, ListServiceTemplatesOutputError>(id: "listServiceTemplates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServiceTemplatesInput, ListServiceTemplatesOutputResponse, ListServiceTemplatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServiceTemplatesInput, ListServiceTemplatesOutputResponse>())
@@ -2266,8 +2552,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServiceTemplatesOutputResponse, ListServiceTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServiceTemplatesOutputResponse, ListServiceTemplatesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServiceTemplatesOutputResponse, ListServiceTemplatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2287,6 +2577,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListServicesInput, ListServicesOutputResponse, ListServicesOutputError>(id: "listServices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServicesInput, ListServicesOutputResponse, ListServicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServicesInput, ListServicesOutputResponse>())
@@ -2302,8 +2593,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServicesOutputResponse, ListServicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServicesOutputResponse, ListServicesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServicesOutputResponse, ListServicesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2323,6 +2618,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -2338,8 +2634,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2359,6 +2659,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<NotifyResourceDeploymentStatusChangeInput, NotifyResourceDeploymentStatusChangeOutputResponse, NotifyResourceDeploymentStatusChangeOutputError>(id: "notifyResourceDeploymentStatusChange")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NotifyResourceDeploymentStatusChangeInput, NotifyResourceDeploymentStatusChangeOutputResponse, NotifyResourceDeploymentStatusChangeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<NotifyResourceDeploymentStatusChangeInput, NotifyResourceDeploymentStatusChangeOutputResponse>())
@@ -2374,8 +2675,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<NotifyResourceDeploymentStatusChangeOutputResponse, NotifyResourceDeploymentStatusChangeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<NotifyResourceDeploymentStatusChangeOutputResponse, NotifyResourceDeploymentStatusChangeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<NotifyResourceDeploymentStatusChangeOutputResponse, NotifyResourceDeploymentStatusChangeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2395,6 +2700,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RejectEnvironmentAccountConnectionInput, RejectEnvironmentAccountConnectionOutputResponse, RejectEnvironmentAccountConnectionOutputError>(id: "rejectEnvironmentAccountConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RejectEnvironmentAccountConnectionInput, RejectEnvironmentAccountConnectionOutputResponse, RejectEnvironmentAccountConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RejectEnvironmentAccountConnectionInput, RejectEnvironmentAccountConnectionOutputResponse>())
@@ -2410,8 +2716,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RejectEnvironmentAccountConnectionOutputResponse, RejectEnvironmentAccountConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RejectEnvironmentAccountConnectionOutputResponse, RejectEnvironmentAccountConnectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RejectEnvironmentAccountConnectionOutputResponse, RejectEnvironmentAccountConnectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2431,6 +2741,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -2446,8 +2757,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2467,6 +2782,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -2482,8 +2798,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2503,6 +2823,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAccountSettingsInput, UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>(id: "updateAccountSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutputResponse>())
@@ -2518,8 +2839,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2539,6 +2864,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateComponentInput, UpdateComponentOutputResponse, UpdateComponentOutputError>(id: "updateComponent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateComponentInput, UpdateComponentOutputResponse, UpdateComponentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateComponentInput, UpdateComponentOutputResponse>())
@@ -2554,8 +2880,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateComponentOutputResponse, UpdateComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateComponentOutputResponse, UpdateComponentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateComponentOutputResponse, UpdateComponentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2575,6 +2905,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateEnvironmentInput, UpdateEnvironmentOutputResponse, UpdateEnvironmentOutputError>(id: "updateEnvironment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutputResponse, UpdateEnvironmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutputResponse>())
@@ -2590,8 +2921,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEnvironmentOutputResponse, UpdateEnvironmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEnvironmentOutputResponse, UpdateEnvironmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEnvironmentOutputResponse, UpdateEnvironmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2611,6 +2946,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateEnvironmentAccountConnectionInput, UpdateEnvironmentAccountConnectionOutputResponse, UpdateEnvironmentAccountConnectionOutputError>(id: "updateEnvironmentAccountConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEnvironmentAccountConnectionInput, UpdateEnvironmentAccountConnectionOutputResponse, UpdateEnvironmentAccountConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEnvironmentAccountConnectionInput, UpdateEnvironmentAccountConnectionOutputResponse>())
@@ -2626,8 +2962,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEnvironmentAccountConnectionOutputResponse, UpdateEnvironmentAccountConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEnvironmentAccountConnectionOutputResponse, UpdateEnvironmentAccountConnectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEnvironmentAccountConnectionOutputResponse, UpdateEnvironmentAccountConnectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2647,6 +2987,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateEnvironmentTemplateInput, UpdateEnvironmentTemplateOutputResponse, UpdateEnvironmentTemplateOutputError>(id: "updateEnvironmentTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEnvironmentTemplateInput, UpdateEnvironmentTemplateOutputResponse, UpdateEnvironmentTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEnvironmentTemplateInput, UpdateEnvironmentTemplateOutputResponse>())
@@ -2662,8 +3003,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEnvironmentTemplateOutputResponse, UpdateEnvironmentTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEnvironmentTemplateOutputResponse, UpdateEnvironmentTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEnvironmentTemplateOutputResponse, UpdateEnvironmentTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2683,6 +3028,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateEnvironmentTemplateVersionInput, UpdateEnvironmentTemplateVersionOutputResponse, UpdateEnvironmentTemplateVersionOutputError>(id: "updateEnvironmentTemplateVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEnvironmentTemplateVersionInput, UpdateEnvironmentTemplateVersionOutputResponse, UpdateEnvironmentTemplateVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEnvironmentTemplateVersionInput, UpdateEnvironmentTemplateVersionOutputResponse>())
@@ -2698,8 +3044,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEnvironmentTemplateVersionOutputResponse, UpdateEnvironmentTemplateVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEnvironmentTemplateVersionOutputResponse, UpdateEnvironmentTemplateVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEnvironmentTemplateVersionOutputResponse, UpdateEnvironmentTemplateVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2719,6 +3069,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateServiceInput, UpdateServiceOutputResponse, UpdateServiceOutputError>(id: "updateService")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServiceInput, UpdateServiceOutputResponse, UpdateServiceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServiceInput, UpdateServiceOutputResponse>())
@@ -2734,8 +3085,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServiceOutputResponse, UpdateServiceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServiceOutputResponse, UpdateServiceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServiceOutputResponse, UpdateServiceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2755,6 +3110,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateServiceInstanceInput, UpdateServiceInstanceOutputResponse, UpdateServiceInstanceOutputError>(id: "updateServiceInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServiceInstanceInput, UpdateServiceInstanceOutputResponse, UpdateServiceInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServiceInstanceInput, UpdateServiceInstanceOutputResponse>())
@@ -2770,8 +3126,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServiceInstanceOutputResponse, UpdateServiceInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServiceInstanceOutputResponse, UpdateServiceInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServiceInstanceOutputResponse, UpdateServiceInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2791,6 +3151,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateServicePipelineInput, UpdateServicePipelineOutputResponse, UpdateServicePipelineOutputError>(id: "updateServicePipeline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServicePipelineInput, UpdateServicePipelineOutputResponse, UpdateServicePipelineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServicePipelineInput, UpdateServicePipelineOutputResponse>())
@@ -2806,8 +3167,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServicePipelineOutputResponse, UpdateServicePipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServicePipelineOutputResponse, UpdateServicePipelineOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServicePipelineOutputResponse, UpdateServicePipelineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2827,6 +3192,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateServiceTemplateInput, UpdateServiceTemplateOutputResponse, UpdateServiceTemplateOutputError>(id: "updateServiceTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServiceTemplateInput, UpdateServiceTemplateOutputResponse, UpdateServiceTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServiceTemplateInput, UpdateServiceTemplateOutputResponse>())
@@ -2842,8 +3208,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServiceTemplateOutputResponse, UpdateServiceTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServiceTemplateOutputResponse, UpdateServiceTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServiceTemplateOutputResponse, UpdateServiceTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2863,6 +3233,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateServiceTemplateVersionInput, UpdateServiceTemplateVersionOutputResponse, UpdateServiceTemplateVersionOutputError>(id: "updateServiceTemplateVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServiceTemplateVersionInput, UpdateServiceTemplateVersionOutputResponse, UpdateServiceTemplateVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServiceTemplateVersionInput, UpdateServiceTemplateVersionOutputResponse>())
@@ -2878,8 +3249,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServiceTemplateVersionOutputResponse, UpdateServiceTemplateVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServiceTemplateVersionOutputResponse, UpdateServiceTemplateVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServiceTemplateVersionOutputResponse, UpdateServiceTemplateVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2899,6 +3274,7 @@ extension ProtonClient: ProtonClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "proton")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTemplateSyncConfigInput, UpdateTemplateSyncConfigOutputResponse, UpdateTemplateSyncConfigOutputError>(id: "updateTemplateSyncConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTemplateSyncConfigInput, UpdateTemplateSyncConfigOutputResponse, UpdateTemplateSyncConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTemplateSyncConfigInput, UpdateTemplateSyncConfigOutputResponse>())
@@ -2914,8 +3290,12 @@ extension ProtonClient: ProtonClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTemplateSyncConfigOutputResponse, UpdateTemplateSyncConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTemplateSyncConfigOutputResponse, UpdateTemplateSyncConfigOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTemplateSyncConfigOutputResponse, UpdateTemplateSyncConfigOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

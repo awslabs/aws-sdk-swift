@@ -104,7 +104,7 @@ class Sigv4SigningTests: XCTestCase {
 
         XCTAssertEqual(":chunk-signature", result.output.headers[1].name)
         print(result.signature)
-        guard case let .data(actualSignatureBuffer) = result.output.headers[1].value else {
+        guard case let .byteArray(actualSignatureBuffer) = result.output.headers[1].value else {
             XCTFail()
             return
         }

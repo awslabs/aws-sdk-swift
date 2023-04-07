@@ -146,6 +146,7 @@ extension PIClient: PIClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "pi")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDimensionKeysInput, DescribeDimensionKeysOutputResponse, DescribeDimensionKeysOutputError>(id: "describeDimensionKeys")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDimensionKeysInput, DescribeDimensionKeysOutputResponse, DescribeDimensionKeysOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDimensionKeysInput, DescribeDimensionKeysOutputResponse>())
@@ -161,8 +162,12 @@ extension PIClient: PIClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDimensionKeysOutputResponse, DescribeDimensionKeysOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDimensionKeysOutputResponse, DescribeDimensionKeysOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDimensionKeysOutputResponse, DescribeDimensionKeysOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -182,6 +187,7 @@ extension PIClient: PIClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "pi")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDimensionKeyDetailsInput, GetDimensionKeyDetailsOutputResponse, GetDimensionKeyDetailsOutputError>(id: "getDimensionKeyDetails")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDimensionKeyDetailsInput, GetDimensionKeyDetailsOutputResponse, GetDimensionKeyDetailsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDimensionKeyDetailsInput, GetDimensionKeyDetailsOutputResponse>())
@@ -197,8 +203,12 @@ extension PIClient: PIClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDimensionKeyDetailsOutputResponse, GetDimensionKeyDetailsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDimensionKeyDetailsOutputResponse, GetDimensionKeyDetailsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDimensionKeyDetailsOutputResponse, GetDimensionKeyDetailsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -218,6 +228,7 @@ extension PIClient: PIClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "pi")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetResourceMetadataInput, GetResourceMetadataOutputResponse, GetResourceMetadataOutputError>(id: "getResourceMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceMetadataInput, GetResourceMetadataOutputResponse, GetResourceMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourceMetadataInput, GetResourceMetadataOutputResponse>())
@@ -233,8 +244,12 @@ extension PIClient: PIClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceMetadataOutputResponse, GetResourceMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceMetadataOutputResponse, GetResourceMetadataOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourceMetadataOutputResponse, GetResourceMetadataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -254,6 +269,7 @@ extension PIClient: PIClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "pi")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetResourceMetricsInput, GetResourceMetricsOutputResponse, GetResourceMetricsOutputError>(id: "getResourceMetrics")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceMetricsInput, GetResourceMetricsOutputResponse, GetResourceMetricsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourceMetricsInput, GetResourceMetricsOutputResponse>())
@@ -269,8 +285,12 @@ extension PIClient: PIClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceMetricsOutputResponse, GetResourceMetricsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceMetricsOutputResponse, GetResourceMetricsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourceMetricsOutputResponse, GetResourceMetricsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -290,6 +310,7 @@ extension PIClient: PIClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "pi")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAvailableResourceDimensionsInput, ListAvailableResourceDimensionsOutputResponse, ListAvailableResourceDimensionsOutputError>(id: "listAvailableResourceDimensions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAvailableResourceDimensionsInput, ListAvailableResourceDimensionsOutputResponse, ListAvailableResourceDimensionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAvailableResourceDimensionsInput, ListAvailableResourceDimensionsOutputResponse>())
@@ -305,8 +326,12 @@ extension PIClient: PIClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAvailableResourceDimensionsOutputResponse, ListAvailableResourceDimensionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAvailableResourceDimensionsOutputResponse, ListAvailableResourceDimensionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAvailableResourceDimensionsOutputResponse, ListAvailableResourceDimensionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -326,6 +351,7 @@ extension PIClient: PIClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "pi")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAvailableResourceMetricsInput, ListAvailableResourceMetricsOutputResponse, ListAvailableResourceMetricsOutputError>(id: "listAvailableResourceMetrics")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAvailableResourceMetricsInput, ListAvailableResourceMetricsOutputResponse, ListAvailableResourceMetricsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAvailableResourceMetricsInput, ListAvailableResourceMetricsOutputResponse>())
@@ -341,8 +367,12 @@ extension PIClient: PIClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAvailableResourceMetricsOutputResponse, ListAvailableResourceMetricsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAvailableResourceMetricsOutputResponse, ListAvailableResourceMetricsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAvailableResourceMetricsOutputResponse, ListAvailableResourceMetricsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

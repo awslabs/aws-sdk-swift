@@ -161,6 +161,7 @@ extension TextractClient: TextractClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AnalyzeDocumentInput, AnalyzeDocumentOutputResponse, AnalyzeDocumentOutputError>(id: "analyzeDocument")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AnalyzeDocumentInput, AnalyzeDocumentOutputResponse, AnalyzeDocumentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AnalyzeDocumentInput, AnalyzeDocumentOutputResponse>())
@@ -176,8 +177,12 @@ extension TextractClient: TextractClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AnalyzeDocumentOutputResponse, AnalyzeDocumentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AnalyzeDocumentOutputResponse, AnalyzeDocumentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AnalyzeDocumentOutputResponse, AnalyzeDocumentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -201,6 +206,7 @@ extension TextractClient: TextractClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AnalyzeExpenseInput, AnalyzeExpenseOutputResponse, AnalyzeExpenseOutputError>(id: "analyzeExpense")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AnalyzeExpenseInput, AnalyzeExpenseOutputResponse, AnalyzeExpenseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AnalyzeExpenseInput, AnalyzeExpenseOutputResponse>())
@@ -216,8 +222,12 @@ extension TextractClient: TextractClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AnalyzeExpenseOutputResponse, AnalyzeExpenseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AnalyzeExpenseOutputResponse, AnalyzeExpenseOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AnalyzeExpenseOutputResponse, AnalyzeExpenseOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -237,6 +247,7 @@ extension TextractClient: TextractClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AnalyzeIDInput, AnalyzeIDOutputResponse, AnalyzeIDOutputError>(id: "analyzeID")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AnalyzeIDInput, AnalyzeIDOutputResponse, AnalyzeIDOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AnalyzeIDInput, AnalyzeIDOutputResponse>())
@@ -252,8 +263,12 @@ extension TextractClient: TextractClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AnalyzeIDOutputResponse, AnalyzeIDOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AnalyzeIDOutputResponse, AnalyzeIDOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AnalyzeIDOutputResponse, AnalyzeIDOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -273,6 +288,7 @@ extension TextractClient: TextractClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetectDocumentTextInput, DetectDocumentTextOutputResponse, DetectDocumentTextOutputError>(id: "detectDocumentText")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectDocumentTextInput, DetectDocumentTextOutputResponse, DetectDocumentTextOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectDocumentTextInput, DetectDocumentTextOutputResponse>())
@@ -288,8 +304,12 @@ extension TextractClient: TextractClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetectDocumentTextOutputResponse, DetectDocumentTextOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectDocumentTextOutputResponse, DetectDocumentTextOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectDocumentTextOutputResponse, DetectDocumentTextOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -322,6 +342,7 @@ extension TextractClient: TextractClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDocumentAnalysisInput, GetDocumentAnalysisOutputResponse, GetDocumentAnalysisOutputError>(id: "getDocumentAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDocumentAnalysisInput, GetDocumentAnalysisOutputResponse, GetDocumentAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDocumentAnalysisInput, GetDocumentAnalysisOutputResponse>())
@@ -337,8 +358,12 @@ extension TextractClient: TextractClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDocumentAnalysisOutputResponse, GetDocumentAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDocumentAnalysisOutputResponse, GetDocumentAnalysisOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDocumentAnalysisOutputResponse, GetDocumentAnalysisOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -358,6 +383,7 @@ extension TextractClient: TextractClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDocumentTextDetectionInput, GetDocumentTextDetectionOutputResponse, GetDocumentTextDetectionOutputError>(id: "getDocumentTextDetection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDocumentTextDetectionInput, GetDocumentTextDetectionOutputResponse, GetDocumentTextDetectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDocumentTextDetectionInput, GetDocumentTextDetectionOutputResponse>())
@@ -373,8 +399,12 @@ extension TextractClient: TextractClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDocumentTextDetectionOutputResponse, GetDocumentTextDetectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDocumentTextDetectionOutputResponse, GetDocumentTextDetectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDocumentTextDetectionOutputResponse, GetDocumentTextDetectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -394,6 +424,7 @@ extension TextractClient: TextractClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetExpenseAnalysisInput, GetExpenseAnalysisOutputResponse, GetExpenseAnalysisOutputError>(id: "getExpenseAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetExpenseAnalysisInput, GetExpenseAnalysisOutputResponse, GetExpenseAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetExpenseAnalysisInput, GetExpenseAnalysisOutputResponse>())
@@ -409,8 +440,12 @@ extension TextractClient: TextractClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetExpenseAnalysisOutputResponse, GetExpenseAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetExpenseAnalysisOutputResponse, GetExpenseAnalysisOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetExpenseAnalysisOutputResponse, GetExpenseAnalysisOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -430,6 +465,7 @@ extension TextractClient: TextractClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLendingAnalysisInput, GetLendingAnalysisOutputResponse, GetLendingAnalysisOutputError>(id: "getLendingAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLendingAnalysisInput, GetLendingAnalysisOutputResponse, GetLendingAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLendingAnalysisInput, GetLendingAnalysisOutputResponse>())
@@ -445,8 +481,12 @@ extension TextractClient: TextractClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLendingAnalysisOutputResponse, GetLendingAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLendingAnalysisOutputResponse, GetLendingAnalysisOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLendingAnalysisOutputResponse, GetLendingAnalysisOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -466,6 +506,7 @@ extension TextractClient: TextractClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLendingAnalysisSummaryInput, GetLendingAnalysisSummaryOutputResponse, GetLendingAnalysisSummaryOutputError>(id: "getLendingAnalysisSummary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLendingAnalysisSummaryInput, GetLendingAnalysisSummaryOutputResponse, GetLendingAnalysisSummaryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLendingAnalysisSummaryInput, GetLendingAnalysisSummaryOutputResponse>())
@@ -481,8 +522,12 @@ extension TextractClient: TextractClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLendingAnalysisSummaryOutputResponse, GetLendingAnalysisSummaryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLendingAnalysisSummaryOutputResponse, GetLendingAnalysisSummaryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLendingAnalysisSummaryOutputResponse, GetLendingAnalysisSummaryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -502,6 +547,7 @@ extension TextractClient: TextractClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartDocumentAnalysisInput, StartDocumentAnalysisOutputResponse, StartDocumentAnalysisOutputError>(id: "startDocumentAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDocumentAnalysisInput, StartDocumentAnalysisOutputResponse, StartDocumentAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDocumentAnalysisInput, StartDocumentAnalysisOutputResponse>())
@@ -517,8 +563,12 @@ extension TextractClient: TextractClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDocumentAnalysisOutputResponse, StartDocumentAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDocumentAnalysisOutputResponse, StartDocumentAnalysisOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDocumentAnalysisOutputResponse, StartDocumentAnalysisOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -538,6 +588,7 @@ extension TextractClient: TextractClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartDocumentTextDetectionInput, StartDocumentTextDetectionOutputResponse, StartDocumentTextDetectionOutputError>(id: "startDocumentTextDetection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDocumentTextDetectionInput, StartDocumentTextDetectionOutputResponse, StartDocumentTextDetectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDocumentTextDetectionInput, StartDocumentTextDetectionOutputResponse>())
@@ -553,8 +604,12 @@ extension TextractClient: TextractClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDocumentTextDetectionOutputResponse, StartDocumentTextDetectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDocumentTextDetectionOutputResponse, StartDocumentTextDetectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDocumentTextDetectionOutputResponse, StartDocumentTextDetectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -574,6 +629,7 @@ extension TextractClient: TextractClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartExpenseAnalysisInput, StartExpenseAnalysisOutputResponse, StartExpenseAnalysisOutputError>(id: "startExpenseAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartExpenseAnalysisInput, StartExpenseAnalysisOutputResponse, StartExpenseAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartExpenseAnalysisInput, StartExpenseAnalysisOutputResponse>())
@@ -589,8 +645,12 @@ extension TextractClient: TextractClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartExpenseAnalysisOutputResponse, StartExpenseAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartExpenseAnalysisOutputResponse, StartExpenseAnalysisOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartExpenseAnalysisOutputResponse, StartExpenseAnalysisOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -616,6 +676,7 @@ extension TextractClient: TextractClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "textract")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartLendingAnalysisInput, StartLendingAnalysisOutputResponse, StartLendingAnalysisOutputError>(id: "startLendingAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartLendingAnalysisInput, StartLendingAnalysisOutputResponse, StartLendingAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartLendingAnalysisInput, StartLendingAnalysisOutputResponse>())
@@ -631,8 +692,12 @@ extension TextractClient: TextractClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartLendingAnalysisOutputResponse, StartLendingAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartLendingAnalysisOutputResponse, StartLendingAnalysisOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartLendingAnalysisOutputResponse, StartLendingAnalysisOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

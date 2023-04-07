@@ -146,6 +146,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelTaskExecutionInput, CancelTaskExecutionOutputResponse, CancelTaskExecutionOutputError>(id: "cancelTaskExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutputResponse, CancelTaskExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutputResponse>())
@@ -161,8 +162,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelTaskExecutionOutputResponse, CancelTaskExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelTaskExecutionOutputResponse, CancelTaskExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelTaskExecutionOutputResponse, CancelTaskExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -182,6 +187,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAgentInput, CreateAgentOutputResponse, CreateAgentOutputError>(id: "createAgent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAgentInput, CreateAgentOutputResponse, CreateAgentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAgentInput, CreateAgentOutputResponse>())
@@ -197,8 +203,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAgentOutputResponse, CreateAgentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAgentOutputResponse, CreateAgentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAgentOutputResponse, CreateAgentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -218,6 +228,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLocationEfsInput, CreateLocationEfsOutputResponse, CreateLocationEfsOutputError>(id: "createLocationEfs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationEfsInput, CreateLocationEfsOutputResponse, CreateLocationEfsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationEfsInput, CreateLocationEfsOutputResponse>())
@@ -233,8 +244,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationEfsOutputResponse, CreateLocationEfsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationEfsOutputResponse, CreateLocationEfsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationEfsOutputResponse, CreateLocationEfsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -254,6 +269,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutputResponse, CreateLocationFsxLustreOutputError>(id: "createLocationFsxLustre")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutputResponse, CreateLocationFsxLustreOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutputResponse>())
@@ -269,8 +285,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationFsxLustreOutputResponse, CreateLocationFsxLustreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationFsxLustreOutputResponse, CreateLocationFsxLustreOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationFsxLustreOutputResponse, CreateLocationFsxLustreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -290,6 +310,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutputResponse, CreateLocationFsxOntapOutputError>(id: "createLocationFsxOntap")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutputResponse, CreateLocationFsxOntapOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutputResponse>())
@@ -305,8 +326,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationFsxOntapOutputResponse, CreateLocationFsxOntapOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationFsxOntapOutputResponse, CreateLocationFsxOntapOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationFsxOntapOutputResponse, CreateLocationFsxOntapOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -326,6 +351,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutputResponse, CreateLocationFsxOpenZfsOutputError>(id: "createLocationFsxOpenZfs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutputResponse, CreateLocationFsxOpenZfsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutputResponse>())
@@ -341,8 +367,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationFsxOpenZfsOutputResponse, CreateLocationFsxOpenZfsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationFsxOpenZfsOutputResponse, CreateLocationFsxOpenZfsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationFsxOpenZfsOutputResponse, CreateLocationFsxOpenZfsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -362,6 +392,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutputResponse, CreateLocationFsxWindowsOutputError>(id: "createLocationFsxWindows")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutputResponse, CreateLocationFsxWindowsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutputResponse>())
@@ -377,8 +408,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationFsxWindowsOutputResponse, CreateLocationFsxWindowsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationFsxWindowsOutputResponse, CreateLocationFsxWindowsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationFsxWindowsOutputResponse, CreateLocationFsxWindowsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -398,6 +433,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLocationHdfsInput, CreateLocationHdfsOutputResponse, CreateLocationHdfsOutputError>(id: "createLocationHdfs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutputResponse, CreateLocationHdfsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutputResponse>())
@@ -413,8 +449,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationHdfsOutputResponse, CreateLocationHdfsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationHdfsOutputResponse, CreateLocationHdfsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationHdfsOutputResponse, CreateLocationHdfsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -434,6 +474,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLocationNfsInput, CreateLocationNfsOutputResponse, CreateLocationNfsOutputError>(id: "createLocationNfs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationNfsInput, CreateLocationNfsOutputResponse, CreateLocationNfsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationNfsInput, CreateLocationNfsOutputResponse>())
@@ -449,8 +490,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationNfsOutputResponse, CreateLocationNfsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationNfsOutputResponse, CreateLocationNfsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationNfsOutputResponse, CreateLocationNfsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -470,6 +515,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutputResponse, CreateLocationObjectStorageOutputError>(id: "createLocationObjectStorage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutputResponse, CreateLocationObjectStorageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutputResponse>())
@@ -485,8 +531,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationObjectStorageOutputResponse, CreateLocationObjectStorageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationObjectStorageOutputResponse, CreateLocationObjectStorageOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationObjectStorageOutputResponse, CreateLocationObjectStorageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -506,6 +556,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLocationS3Input, CreateLocationS3OutputResponse, CreateLocationS3OutputError>(id: "createLocationS3")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationS3Input, CreateLocationS3OutputResponse, CreateLocationS3OutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationS3Input, CreateLocationS3OutputResponse>())
@@ -521,8 +572,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationS3OutputResponse, CreateLocationS3OutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationS3OutputResponse, CreateLocationS3OutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationS3OutputResponse, CreateLocationS3OutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -542,6 +597,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLocationSmbInput, CreateLocationSmbOutputResponse, CreateLocationSmbOutputError>(id: "createLocationSmb")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationSmbInput, CreateLocationSmbOutputResponse, CreateLocationSmbOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationSmbInput, CreateLocationSmbOutputResponse>())
@@ -557,8 +613,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationSmbOutputResponse, CreateLocationSmbOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationSmbOutputResponse, CreateLocationSmbOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationSmbOutputResponse, CreateLocationSmbOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -578,6 +638,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTaskInput, CreateTaskOutputResponse, CreateTaskOutputError>(id: "createTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTaskInput, CreateTaskOutputResponse, CreateTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTaskInput, CreateTaskOutputResponse>())
@@ -593,8 +654,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTaskOutputResponse, CreateTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTaskOutputResponse, CreateTaskOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTaskOutputResponse, CreateTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -614,6 +679,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAgentInput, DeleteAgentOutputResponse, DeleteAgentOutputError>(id: "deleteAgent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAgentInput, DeleteAgentOutputResponse, DeleteAgentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAgentInput, DeleteAgentOutputResponse>())
@@ -629,8 +695,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAgentOutputResponse, DeleteAgentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAgentOutputResponse, DeleteAgentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAgentOutputResponse, DeleteAgentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -650,6 +720,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLocationInput, DeleteLocationOutputResponse, DeleteLocationOutputError>(id: "deleteLocation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLocationInput, DeleteLocationOutputResponse, DeleteLocationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLocationInput, DeleteLocationOutputResponse>())
@@ -665,8 +736,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLocationOutputResponse, DeleteLocationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLocationOutputResponse, DeleteLocationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLocationOutputResponse, DeleteLocationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -686,6 +761,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTaskInput, DeleteTaskOutputResponse, DeleteTaskOutputError>(id: "deleteTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTaskInput, DeleteTaskOutputResponse, DeleteTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTaskInput, DeleteTaskOutputResponse>())
@@ -701,8 +777,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTaskOutputResponse, DeleteTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTaskOutputResponse, DeleteTaskOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTaskOutputResponse, DeleteTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -722,6 +802,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAgentInput, DescribeAgentOutputResponse, DescribeAgentOutputError>(id: "describeAgent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAgentInput, DescribeAgentOutputResponse, DescribeAgentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAgentInput, DescribeAgentOutputResponse>())
@@ -737,8 +818,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAgentOutputResponse, DescribeAgentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAgentOutputResponse, DescribeAgentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAgentOutputResponse, DescribeAgentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -758,6 +843,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLocationEfsInput, DescribeLocationEfsOutputResponse, DescribeLocationEfsOutputError>(id: "describeLocationEfs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutputResponse, DescribeLocationEfsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutputResponse>())
@@ -773,8 +859,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationEfsOutputResponse, DescribeLocationEfsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationEfsOutputResponse, DescribeLocationEfsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationEfsOutputResponse, DescribeLocationEfsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -794,6 +884,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutputResponse, DescribeLocationFsxLustreOutputError>(id: "describeLocationFsxLustre")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutputResponse, DescribeLocationFsxLustreOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutputResponse>())
@@ -809,8 +900,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationFsxLustreOutputResponse, DescribeLocationFsxLustreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationFsxLustreOutputResponse, DescribeLocationFsxLustreOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationFsxLustreOutputResponse, DescribeLocationFsxLustreOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -830,6 +925,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutputResponse, DescribeLocationFsxOntapOutputError>(id: "describeLocationFsxOntap")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutputResponse, DescribeLocationFsxOntapOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutputResponse>())
@@ -845,8 +941,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationFsxOntapOutputResponse, DescribeLocationFsxOntapOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationFsxOntapOutputResponse, DescribeLocationFsxOntapOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationFsxOntapOutputResponse, DescribeLocationFsxOntapOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -866,6 +966,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutputResponse, DescribeLocationFsxOpenZfsOutputError>(id: "describeLocationFsxOpenZfs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutputResponse, DescribeLocationFsxOpenZfsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutputResponse>())
@@ -881,8 +982,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationFsxOpenZfsOutputResponse, DescribeLocationFsxOpenZfsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationFsxOpenZfsOutputResponse, DescribeLocationFsxOpenZfsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationFsxOpenZfsOutputResponse, DescribeLocationFsxOpenZfsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -902,6 +1007,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutputResponse, DescribeLocationFsxWindowsOutputError>(id: "describeLocationFsxWindows")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutputResponse, DescribeLocationFsxWindowsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutputResponse>())
@@ -917,8 +1023,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationFsxWindowsOutputResponse, DescribeLocationFsxWindowsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationFsxWindowsOutputResponse, DescribeLocationFsxWindowsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationFsxWindowsOutputResponse, DescribeLocationFsxWindowsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -938,6 +1048,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLocationHdfsInput, DescribeLocationHdfsOutputResponse, DescribeLocationHdfsOutputError>(id: "describeLocationHdfs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutputResponse, DescribeLocationHdfsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutputResponse>())
@@ -953,8 +1064,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationHdfsOutputResponse, DescribeLocationHdfsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationHdfsOutputResponse, DescribeLocationHdfsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationHdfsOutputResponse, DescribeLocationHdfsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -974,6 +1089,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLocationNfsInput, DescribeLocationNfsOutputResponse, DescribeLocationNfsOutputError>(id: "describeLocationNfs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutputResponse, DescribeLocationNfsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutputResponse>())
@@ -989,8 +1105,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationNfsOutputResponse, DescribeLocationNfsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationNfsOutputResponse, DescribeLocationNfsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationNfsOutputResponse, DescribeLocationNfsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1010,6 +1130,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutputResponse, DescribeLocationObjectStorageOutputError>(id: "describeLocationObjectStorage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutputResponse, DescribeLocationObjectStorageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutputResponse>())
@@ -1025,8 +1146,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationObjectStorageOutputResponse, DescribeLocationObjectStorageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationObjectStorageOutputResponse, DescribeLocationObjectStorageOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationObjectStorageOutputResponse, DescribeLocationObjectStorageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1046,6 +1171,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLocationS3Input, DescribeLocationS3OutputResponse, DescribeLocationS3OutputError>(id: "describeLocationS3")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationS3Input, DescribeLocationS3OutputResponse, DescribeLocationS3OutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationS3Input, DescribeLocationS3OutputResponse>())
@@ -1061,8 +1187,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationS3OutputResponse, DescribeLocationS3OutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationS3OutputResponse, DescribeLocationS3OutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationS3OutputResponse, DescribeLocationS3OutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1082,6 +1212,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLocationSmbInput, DescribeLocationSmbOutputResponse, DescribeLocationSmbOutputError>(id: "describeLocationSmb")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutputResponse, DescribeLocationSmbOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutputResponse>())
@@ -1097,8 +1228,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationSmbOutputResponse, DescribeLocationSmbOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationSmbOutputResponse, DescribeLocationSmbOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationSmbOutputResponse, DescribeLocationSmbOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1118,6 +1253,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTaskInput, DescribeTaskOutputResponse, DescribeTaskOutputError>(id: "describeTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTaskInput, DescribeTaskOutputResponse, DescribeTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTaskInput, DescribeTaskOutputResponse>())
@@ -1133,8 +1269,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTaskOutputResponse, DescribeTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTaskOutputResponse, DescribeTaskOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTaskOutputResponse, DescribeTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1154,6 +1294,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTaskExecutionInput, DescribeTaskExecutionOutputResponse, DescribeTaskExecutionOutputError>(id: "describeTaskExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutputResponse, DescribeTaskExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutputResponse>())
@@ -1169,8 +1310,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTaskExecutionOutputResponse, DescribeTaskExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTaskExecutionOutputResponse, DescribeTaskExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTaskExecutionOutputResponse, DescribeTaskExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1190,6 +1335,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAgentsInput, ListAgentsOutputResponse, ListAgentsOutputError>(id: "listAgents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAgentsInput, ListAgentsOutputResponse, ListAgentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAgentsInput, ListAgentsOutputResponse>())
@@ -1205,8 +1351,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAgentsOutputResponse, ListAgentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAgentsOutputResponse, ListAgentsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAgentsOutputResponse, ListAgentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1226,6 +1376,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListLocationsInput, ListLocationsOutputResponse, ListLocationsOutputError>(id: "listLocations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLocationsInput, ListLocationsOutputResponse, ListLocationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLocationsInput, ListLocationsOutputResponse>())
@@ -1241,8 +1392,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLocationsOutputResponse, ListLocationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLocationsOutputResponse, ListLocationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLocationsOutputResponse, ListLocationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1262,6 +1417,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1277,8 +1433,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1298,6 +1458,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTaskExecutionsInput, ListTaskExecutionsOutputResponse, ListTaskExecutionsOutputError>(id: "listTaskExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutputResponse, ListTaskExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutputResponse>())
@@ -1313,8 +1474,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTaskExecutionsOutputResponse, ListTaskExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTaskExecutionsOutputResponse, ListTaskExecutionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTaskExecutionsOutputResponse, ListTaskExecutionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1334,6 +1499,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTasksInput, ListTasksOutputResponse, ListTasksOutputError>(id: "listTasks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTasksInput, ListTasksOutputResponse, ListTasksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTasksInput, ListTasksOutputResponse>())
@@ -1349,8 +1515,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTasksOutputResponse, ListTasksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTasksOutputResponse, ListTasksOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTasksOutputResponse, ListTasksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1370,6 +1540,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartTaskExecutionInput, StartTaskExecutionOutputResponse, StartTaskExecutionOutputError>(id: "startTaskExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartTaskExecutionInput, StartTaskExecutionOutputResponse, StartTaskExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartTaskExecutionInput, StartTaskExecutionOutputResponse>())
@@ -1385,8 +1556,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartTaskExecutionOutputResponse, StartTaskExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartTaskExecutionOutputResponse, StartTaskExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartTaskExecutionOutputResponse, StartTaskExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1406,6 +1581,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1421,8 +1597,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1442,6 +1622,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1457,8 +1638,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1478,6 +1663,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAgentInput, UpdateAgentOutputResponse, UpdateAgentOutputError>(id: "updateAgent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAgentInput, UpdateAgentOutputResponse, UpdateAgentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAgentInput, UpdateAgentOutputResponse>())
@@ -1493,8 +1679,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAgentOutputResponse, UpdateAgentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAgentOutputResponse, UpdateAgentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAgentOutputResponse, UpdateAgentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1514,6 +1704,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateLocationHdfsInput, UpdateLocationHdfsOutputResponse, UpdateLocationHdfsOutputError>(id: "updateLocationHdfs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutputResponse, UpdateLocationHdfsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutputResponse>())
@@ -1529,8 +1720,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLocationHdfsOutputResponse, UpdateLocationHdfsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLocationHdfsOutputResponse, UpdateLocationHdfsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLocationHdfsOutputResponse, UpdateLocationHdfsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1550,6 +1745,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateLocationNfsInput, UpdateLocationNfsOutputResponse, UpdateLocationNfsOutputError>(id: "updateLocationNfs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutputResponse, UpdateLocationNfsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutputResponse>())
@@ -1565,8 +1761,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLocationNfsOutputResponse, UpdateLocationNfsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLocationNfsOutputResponse, UpdateLocationNfsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLocationNfsOutputResponse, UpdateLocationNfsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1586,6 +1786,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutputResponse, UpdateLocationObjectStorageOutputError>(id: "updateLocationObjectStorage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutputResponse, UpdateLocationObjectStorageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutputResponse>())
@@ -1601,8 +1802,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLocationObjectStorageOutputResponse, UpdateLocationObjectStorageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLocationObjectStorageOutputResponse, UpdateLocationObjectStorageOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLocationObjectStorageOutputResponse, UpdateLocationObjectStorageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1622,6 +1827,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateLocationSmbInput, UpdateLocationSmbOutputResponse, UpdateLocationSmbOutputError>(id: "updateLocationSmb")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutputResponse, UpdateLocationSmbOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutputResponse>())
@@ -1637,8 +1843,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLocationSmbOutputResponse, UpdateLocationSmbOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLocationSmbOutputResponse, UpdateLocationSmbOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLocationSmbOutputResponse, UpdateLocationSmbOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1658,6 +1868,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTaskInput, UpdateTaskOutputResponse, UpdateTaskOutputError>(id: "updateTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTaskInput, UpdateTaskOutputResponse, UpdateTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTaskInput, UpdateTaskOutputResponse>())
@@ -1673,8 +1884,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTaskOutputResponse, UpdateTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTaskOutputResponse, UpdateTaskOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTaskOutputResponse, UpdateTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1694,6 +1909,7 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTaskExecutionInput, UpdateTaskExecutionOutputResponse, UpdateTaskExecutionOutputError>(id: "updateTaskExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutputResponse, UpdateTaskExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutputResponse>())
@@ -1709,8 +1925,12 @@ extension DataSyncClient: DataSyncClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTaskExecutionOutputResponse, UpdateTaskExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTaskExecutionOutputResponse, UpdateTaskExecutionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTaskExecutionOutputResponse, UpdateTaskExecutionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

@@ -142,6 +142,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ActivateTypeInput, ActivateTypeOutputResponse, ActivateTypeOutputError>(id: "activateType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ActivateTypeInput, ActivateTypeOutputResponse, ActivateTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ActivateTypeInput, ActivateTypeOutputResponse>())
@@ -156,8 +157,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ActivateTypeOutputResponse, ActivateTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ActivateTypeOutputResponse, ActivateTypeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ActivateTypeOutputResponse, ActivateTypeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -177,6 +182,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDescribeTypeConfigurationsInput, BatchDescribeTypeConfigurationsOutputResponse, BatchDescribeTypeConfigurationsOutputError>(id: "batchDescribeTypeConfigurations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDescribeTypeConfigurationsInput, BatchDescribeTypeConfigurationsOutputResponse, BatchDescribeTypeConfigurationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDescribeTypeConfigurationsInput, BatchDescribeTypeConfigurationsOutputResponse>())
@@ -191,8 +197,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDescribeTypeConfigurationsOutputResponse, BatchDescribeTypeConfigurationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDescribeTypeConfigurationsOutputResponse, BatchDescribeTypeConfigurationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDescribeTypeConfigurationsOutputResponse, BatchDescribeTypeConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -212,6 +222,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelUpdateStackInput, CancelUpdateStackOutputResponse, CancelUpdateStackOutputError>(id: "cancelUpdateStack")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelUpdateStackInput, CancelUpdateStackOutputResponse, CancelUpdateStackOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelUpdateStackInput, CancelUpdateStackOutputResponse>())
@@ -226,8 +237,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelUpdateStackOutputResponse, CancelUpdateStackOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelUpdateStackOutputResponse, CancelUpdateStackOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelUpdateStackOutputResponse, CancelUpdateStackOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -247,6 +262,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ContinueUpdateRollbackInput, ContinueUpdateRollbackOutputResponse, ContinueUpdateRollbackOutputError>(id: "continueUpdateRollback")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ContinueUpdateRollbackInput, ContinueUpdateRollbackOutputResponse, ContinueUpdateRollbackOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ContinueUpdateRollbackInput, ContinueUpdateRollbackOutputResponse>())
@@ -261,8 +277,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ContinueUpdateRollbackOutputResponse, ContinueUpdateRollbackOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ContinueUpdateRollbackOutputResponse, ContinueUpdateRollbackOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ContinueUpdateRollbackOutputResponse, ContinueUpdateRollbackOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -282,6 +302,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateChangeSetInput, CreateChangeSetOutputResponse, CreateChangeSetOutputError>(id: "createChangeSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChangeSetInput, CreateChangeSetOutputResponse, CreateChangeSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateChangeSetInput, CreateChangeSetOutputResponse>())
@@ -296,8 +317,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChangeSetOutputResponse, CreateChangeSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChangeSetOutputResponse, CreateChangeSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateChangeSetOutputResponse, CreateChangeSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -317,6 +342,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateStackInput, CreateStackOutputResponse, CreateStackOutputError>(id: "createStack")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStackInput, CreateStackOutputResponse, CreateStackOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStackInput, CreateStackOutputResponse>())
@@ -331,8 +357,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStackOutputResponse, CreateStackOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStackOutputResponse, CreateStackOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateStackOutputResponse, CreateStackOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -352,6 +382,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateStackInstancesInput, CreateStackInstancesOutputResponse, CreateStackInstancesOutputError>(id: "createStackInstances")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateStackInstancesOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -374,8 +405,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStackInstancesOutputResponse, CreateStackInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStackInstancesOutputResponse, CreateStackInstancesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateStackInstancesOutputResponse, CreateStackInstancesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -395,6 +430,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateStackSetInput, CreateStackSetOutputResponse, CreateStackSetOutputError>(id: "createStackSet")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateStackSetOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -417,8 +453,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStackSetOutputResponse, CreateStackSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStackSetOutputResponse, CreateStackSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateStackSetOutputResponse, CreateStackSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -438,6 +478,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeactivateTypeInput, DeactivateTypeOutputResponse, DeactivateTypeOutputError>(id: "deactivateType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeactivateTypeInput, DeactivateTypeOutputResponse, DeactivateTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeactivateTypeInput, DeactivateTypeOutputResponse>())
@@ -452,8 +493,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeactivateTypeOutputResponse, DeactivateTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeactivateTypeOutputResponse, DeactivateTypeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeactivateTypeOutputResponse, DeactivateTypeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -473,6 +518,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteChangeSetInput, DeleteChangeSetOutputResponse, DeleteChangeSetOutputError>(id: "deleteChangeSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChangeSetInput, DeleteChangeSetOutputResponse, DeleteChangeSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChangeSetInput, DeleteChangeSetOutputResponse>())
@@ -487,8 +533,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChangeSetOutputResponse, DeleteChangeSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChangeSetOutputResponse, DeleteChangeSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChangeSetOutputResponse, DeleteChangeSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -508,6 +558,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteStackInput, DeleteStackOutputResponse, DeleteStackOutputError>(id: "deleteStack")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStackInput, DeleteStackOutputResponse, DeleteStackOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStackInput, DeleteStackOutputResponse>())
@@ -522,8 +573,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStackOutputResponse, DeleteStackOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStackOutputResponse, DeleteStackOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStackOutputResponse, DeleteStackOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -543,6 +598,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteStackInstancesInput, DeleteStackInstancesOutputResponse, DeleteStackInstancesOutputError>(id: "deleteStackInstances")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteStackInstancesOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -565,8 +621,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStackInstancesOutputResponse, DeleteStackInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStackInstancesOutputResponse, DeleteStackInstancesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStackInstancesOutputResponse, DeleteStackInstancesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -586,6 +646,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteStackSetInput, DeleteStackSetOutputResponse, DeleteStackSetOutputError>(id: "deleteStackSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStackSetInput, DeleteStackSetOutputResponse, DeleteStackSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStackSetInput, DeleteStackSetOutputResponse>())
@@ -600,8 +661,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStackSetOutputResponse, DeleteStackSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStackSetOutputResponse, DeleteStackSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStackSetOutputResponse, DeleteStackSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -621,6 +686,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterTypeInput, DeregisterTypeOutputResponse, DeregisterTypeOutputError>(id: "deregisterType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterTypeInput, DeregisterTypeOutputResponse, DeregisterTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterTypeInput, DeregisterTypeOutputResponse>())
@@ -635,8 +701,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterTypeOutputResponse, DeregisterTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterTypeOutputResponse, DeregisterTypeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterTypeOutputResponse, DeregisterTypeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -656,6 +726,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAccountLimitsInput, DescribeAccountLimitsOutputResponse, DescribeAccountLimitsOutputError>(id: "describeAccountLimits")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutputResponse, DescribeAccountLimitsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutputResponse>())
@@ -670,8 +741,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountLimitsOutputResponse, DescribeAccountLimitsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountLimitsOutputResponse, DescribeAccountLimitsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountLimitsOutputResponse, DescribeAccountLimitsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -691,6 +766,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeChangeSetInput, DescribeChangeSetOutputResponse, DescribeChangeSetOutputError>(id: "describeChangeSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChangeSetInput, DescribeChangeSetOutputResponse, DescribeChangeSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeChangeSetInput, DescribeChangeSetOutputResponse>())
@@ -705,8 +781,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChangeSetOutputResponse, DescribeChangeSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChangeSetOutputResponse, DescribeChangeSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeChangeSetOutputResponse, DescribeChangeSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -726,6 +806,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeChangeSetHooksInput, DescribeChangeSetHooksOutputResponse, DescribeChangeSetHooksOutputError>(id: "describeChangeSetHooks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChangeSetHooksInput, DescribeChangeSetHooksOutputResponse, DescribeChangeSetHooksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeChangeSetHooksInput, DescribeChangeSetHooksOutputResponse>())
@@ -740,8 +821,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChangeSetHooksOutputResponse, DescribeChangeSetHooksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChangeSetHooksOutputResponse, DescribeChangeSetHooksOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeChangeSetHooksOutputResponse, DescribeChangeSetHooksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -765,6 +850,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePublisherInput, DescribePublisherOutputResponse, DescribePublisherOutputError>(id: "describePublisher")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePublisherInput, DescribePublisherOutputResponse, DescribePublisherOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePublisherInput, DescribePublisherOutputResponse>())
@@ -779,8 +865,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePublisherOutputResponse, DescribePublisherOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePublisherOutputResponse, DescribePublisherOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePublisherOutputResponse, DescribePublisherOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -800,6 +890,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeStackDriftDetectionStatusInput, DescribeStackDriftDetectionStatusOutputResponse, DescribeStackDriftDetectionStatusOutputError>(id: "describeStackDriftDetectionStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStackDriftDetectionStatusInput, DescribeStackDriftDetectionStatusOutputResponse, DescribeStackDriftDetectionStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStackDriftDetectionStatusInput, DescribeStackDriftDetectionStatusOutputResponse>())
@@ -814,8 +905,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStackDriftDetectionStatusOutputResponse, DescribeStackDriftDetectionStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStackDriftDetectionStatusOutputResponse, DescribeStackDriftDetectionStatusOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStackDriftDetectionStatusOutputResponse, DescribeStackDriftDetectionStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -835,6 +930,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeStackEventsInput, DescribeStackEventsOutputResponse, DescribeStackEventsOutputError>(id: "describeStackEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStackEventsInput, DescribeStackEventsOutputResponse, DescribeStackEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStackEventsInput, DescribeStackEventsOutputResponse>())
@@ -849,8 +945,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStackEventsOutputResponse, DescribeStackEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStackEventsOutputResponse, DescribeStackEventsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStackEventsOutputResponse, DescribeStackEventsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -870,6 +970,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeStackInstanceInput, DescribeStackInstanceOutputResponse, DescribeStackInstanceOutputError>(id: "describeStackInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStackInstanceInput, DescribeStackInstanceOutputResponse, DescribeStackInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStackInstanceInput, DescribeStackInstanceOutputResponse>())
@@ -884,8 +985,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStackInstanceOutputResponse, DescribeStackInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStackInstanceOutputResponse, DescribeStackInstanceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStackInstanceOutputResponse, DescribeStackInstanceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -905,6 +1010,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeStackResourceInput, DescribeStackResourceOutputResponse, DescribeStackResourceOutputError>(id: "describeStackResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStackResourceInput, DescribeStackResourceOutputResponse, DescribeStackResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStackResourceInput, DescribeStackResourceOutputResponse>())
@@ -919,8 +1025,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStackResourceOutputResponse, DescribeStackResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStackResourceOutputResponse, DescribeStackResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStackResourceOutputResponse, DescribeStackResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -940,6 +1050,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeStackResourceDriftsInput, DescribeStackResourceDriftsOutputResponse, DescribeStackResourceDriftsOutputError>(id: "describeStackResourceDrifts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStackResourceDriftsInput, DescribeStackResourceDriftsOutputResponse, DescribeStackResourceDriftsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStackResourceDriftsInput, DescribeStackResourceDriftsOutputResponse>())
@@ -954,8 +1065,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStackResourceDriftsOutputResponse, DescribeStackResourceDriftsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStackResourceDriftsOutputResponse, DescribeStackResourceDriftsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStackResourceDriftsOutputResponse, DescribeStackResourceDriftsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -975,6 +1090,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeStackResourcesInput, DescribeStackResourcesOutputResponse, DescribeStackResourcesOutputError>(id: "describeStackResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStackResourcesInput, DescribeStackResourcesOutputResponse, DescribeStackResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStackResourcesInput, DescribeStackResourcesOutputResponse>())
@@ -989,8 +1105,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStackResourcesOutputResponse, DescribeStackResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStackResourcesOutputResponse, DescribeStackResourcesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStackResourcesOutputResponse, DescribeStackResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1010,6 +1130,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeStackSetInput, DescribeStackSetOutputResponse, DescribeStackSetOutputError>(id: "describeStackSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStackSetInput, DescribeStackSetOutputResponse, DescribeStackSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStackSetInput, DescribeStackSetOutputResponse>())
@@ -1024,8 +1145,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStackSetOutputResponse, DescribeStackSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStackSetOutputResponse, DescribeStackSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStackSetOutputResponse, DescribeStackSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1045,6 +1170,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeStackSetOperationInput, DescribeStackSetOperationOutputResponse, DescribeStackSetOperationOutputError>(id: "describeStackSetOperation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStackSetOperationInput, DescribeStackSetOperationOutputResponse, DescribeStackSetOperationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStackSetOperationInput, DescribeStackSetOperationOutputResponse>())
@@ -1059,8 +1185,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStackSetOperationOutputResponse, DescribeStackSetOperationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStackSetOperationOutputResponse, DescribeStackSetOperationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStackSetOperationOutputResponse, DescribeStackSetOperationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1080,6 +1210,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeStacksInput, DescribeStacksOutputResponse, DescribeStacksOutputError>(id: "describeStacks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStacksInput, DescribeStacksOutputResponse, DescribeStacksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStacksInput, DescribeStacksOutputResponse>())
@@ -1094,8 +1225,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStacksOutputResponse, DescribeStacksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStacksOutputResponse, DescribeStacksOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStacksOutputResponse, DescribeStacksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1115,6 +1250,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTypeInput, DescribeTypeOutputResponse, DescribeTypeOutputError>(id: "describeType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTypeInput, DescribeTypeOutputResponse, DescribeTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTypeInput, DescribeTypeOutputResponse>())
@@ -1129,8 +1265,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTypeOutputResponse, DescribeTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTypeOutputResponse, DescribeTypeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTypeOutputResponse, DescribeTypeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1150,6 +1290,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTypeRegistrationInput, DescribeTypeRegistrationOutputResponse, DescribeTypeRegistrationOutputError>(id: "describeTypeRegistration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTypeRegistrationInput, DescribeTypeRegistrationOutputResponse, DescribeTypeRegistrationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTypeRegistrationInput, DescribeTypeRegistrationOutputResponse>())
@@ -1164,8 +1305,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTypeRegistrationOutputResponse, DescribeTypeRegistrationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTypeRegistrationOutputResponse, DescribeTypeRegistrationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTypeRegistrationOutputResponse, DescribeTypeRegistrationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1185,6 +1330,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetectStackDriftInput, DetectStackDriftOutputResponse, DetectStackDriftOutputError>(id: "detectStackDrift")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectStackDriftInput, DetectStackDriftOutputResponse, DetectStackDriftOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectStackDriftInput, DetectStackDriftOutputResponse>())
@@ -1199,8 +1345,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetectStackDriftOutputResponse, DetectStackDriftOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectStackDriftOutputResponse, DetectStackDriftOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectStackDriftOutputResponse, DetectStackDriftOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1220,6 +1370,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetectStackResourceDriftInput, DetectStackResourceDriftOutputResponse, DetectStackResourceDriftOutputError>(id: "detectStackResourceDrift")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetectStackResourceDriftInput, DetectStackResourceDriftOutputResponse, DetectStackResourceDriftOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetectStackResourceDriftInput, DetectStackResourceDriftOutputResponse>())
@@ -1234,8 +1385,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetectStackResourceDriftOutputResponse, DetectStackResourceDriftOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectStackResourceDriftOutputResponse, DetectStackResourceDriftOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectStackResourceDriftOutputResponse, DetectStackResourceDriftOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1264,6 +1419,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetectStackSetDriftInput, DetectStackSetDriftOutputResponse, DetectStackSetDriftOutputError>(id: "detectStackSetDrift")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DetectStackSetDriftOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1286,8 +1442,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetectStackSetDriftOutputResponse, DetectStackSetDriftOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectStackSetDriftOutputResponse, DetectStackSetDriftOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectStackSetDriftOutputResponse, DetectStackSetDriftOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1307,6 +1467,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EstimateTemplateCostInput, EstimateTemplateCostOutputResponse, EstimateTemplateCostOutputError>(id: "estimateTemplateCost")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EstimateTemplateCostInput, EstimateTemplateCostOutputResponse, EstimateTemplateCostOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EstimateTemplateCostInput, EstimateTemplateCostOutputResponse>())
@@ -1321,8 +1482,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EstimateTemplateCostOutputResponse, EstimateTemplateCostOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EstimateTemplateCostOutputResponse, EstimateTemplateCostOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EstimateTemplateCostOutputResponse, EstimateTemplateCostOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1342,6 +1507,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExecuteChangeSetInput, ExecuteChangeSetOutputResponse, ExecuteChangeSetOutputError>(id: "executeChangeSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteChangeSetInput, ExecuteChangeSetOutputResponse, ExecuteChangeSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteChangeSetInput, ExecuteChangeSetOutputResponse>())
@@ -1356,8 +1522,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteChangeSetOutputResponse, ExecuteChangeSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteChangeSetOutputResponse, ExecuteChangeSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteChangeSetOutputResponse, ExecuteChangeSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1377,6 +1547,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetStackPolicyInput, GetStackPolicyOutputResponse, GetStackPolicyOutputError>(id: "getStackPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStackPolicyInput, GetStackPolicyOutputResponse, GetStackPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetStackPolicyInput, GetStackPolicyOutputResponse>())
@@ -1391,8 +1562,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetStackPolicyOutputResponse, GetStackPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetStackPolicyOutputResponse, GetStackPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetStackPolicyOutputResponse, GetStackPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1412,6 +1587,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTemplateInput, GetTemplateOutputResponse, GetTemplateOutputError>(id: "getTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTemplateInput, GetTemplateOutputResponse, GetTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTemplateInput, GetTemplateOutputResponse>())
@@ -1426,8 +1602,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTemplateOutputResponse, GetTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTemplateOutputResponse, GetTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTemplateOutputResponse, GetTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1447,6 +1627,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTemplateSummaryInput, GetTemplateSummaryOutputResponse, GetTemplateSummaryOutputError>(id: "getTemplateSummary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTemplateSummaryInput, GetTemplateSummaryOutputResponse, GetTemplateSummaryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTemplateSummaryInput, GetTemplateSummaryOutputResponse>())
@@ -1461,8 +1642,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTemplateSummaryOutputResponse, GetTemplateSummaryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTemplateSummaryOutputResponse, GetTemplateSummaryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTemplateSummaryOutputResponse, GetTemplateSummaryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1482,6 +1667,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ImportStacksToStackSetInput, ImportStacksToStackSetOutputResponse, ImportStacksToStackSetOutputError>(id: "importStacksToStackSet")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ImportStacksToStackSetOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1504,8 +1690,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportStacksToStackSetOutputResponse, ImportStacksToStackSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportStacksToStackSetOutputResponse, ImportStacksToStackSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportStacksToStackSetOutputResponse, ImportStacksToStackSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1525,6 +1715,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListChangeSetsInput, ListChangeSetsOutputResponse, ListChangeSetsOutputError>(id: "listChangeSets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChangeSetsInput, ListChangeSetsOutputResponse, ListChangeSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChangeSetsInput, ListChangeSetsOutputResponse>())
@@ -1539,8 +1730,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChangeSetsOutputResponse, ListChangeSetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChangeSetsOutputResponse, ListChangeSetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChangeSetsOutputResponse, ListChangeSetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1560,6 +1755,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListExportsInput, ListExportsOutputResponse, ListExportsOutputError>(id: "listExports")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListExportsInput, ListExportsOutputResponse, ListExportsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListExportsInput, ListExportsOutputResponse>())
@@ -1574,8 +1770,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListExportsOutputResponse, ListExportsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListExportsOutputResponse, ListExportsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListExportsOutputResponse, ListExportsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1595,6 +1795,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListImportsInput, ListImportsOutputResponse, ListImportsOutputError>(id: "listImports")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListImportsInput, ListImportsOutputResponse, ListImportsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListImportsInput, ListImportsOutputResponse>())
@@ -1609,8 +1810,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListImportsOutputResponse, ListImportsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListImportsOutputResponse, ListImportsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListImportsOutputResponse, ListImportsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1630,6 +1835,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListStackInstancesInput, ListStackInstancesOutputResponse, ListStackInstancesOutputError>(id: "listStackInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStackInstancesInput, ListStackInstancesOutputResponse, ListStackInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStackInstancesInput, ListStackInstancesOutputResponse>())
@@ -1644,8 +1850,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStackInstancesOutputResponse, ListStackInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStackInstancesOutputResponse, ListStackInstancesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStackInstancesOutputResponse, ListStackInstancesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1665,6 +1875,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListStackResourcesInput, ListStackResourcesOutputResponse, ListStackResourcesOutputError>(id: "listStackResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStackResourcesInput, ListStackResourcesOutputResponse, ListStackResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStackResourcesInput, ListStackResourcesOutputResponse>())
@@ -1679,8 +1890,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStackResourcesOutputResponse, ListStackResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStackResourcesOutputResponse, ListStackResourcesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStackResourcesOutputResponse, ListStackResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1700,6 +1915,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListStackSetOperationResultsInput, ListStackSetOperationResultsOutputResponse, ListStackSetOperationResultsOutputError>(id: "listStackSetOperationResults")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStackSetOperationResultsInput, ListStackSetOperationResultsOutputResponse, ListStackSetOperationResultsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStackSetOperationResultsInput, ListStackSetOperationResultsOutputResponse>())
@@ -1714,8 +1930,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStackSetOperationResultsOutputResponse, ListStackSetOperationResultsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStackSetOperationResultsOutputResponse, ListStackSetOperationResultsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStackSetOperationResultsOutputResponse, ListStackSetOperationResultsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1735,6 +1955,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListStackSetOperationsInput, ListStackSetOperationsOutputResponse, ListStackSetOperationsOutputError>(id: "listStackSetOperations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStackSetOperationsInput, ListStackSetOperationsOutputResponse, ListStackSetOperationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStackSetOperationsInput, ListStackSetOperationsOutputResponse>())
@@ -1749,8 +1970,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStackSetOperationsOutputResponse, ListStackSetOperationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStackSetOperationsOutputResponse, ListStackSetOperationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStackSetOperationsOutputResponse, ListStackSetOperationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1776,6 +2001,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListStackSetsInput, ListStackSetsOutputResponse, ListStackSetsOutputError>(id: "listStackSets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStackSetsInput, ListStackSetsOutputResponse, ListStackSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStackSetsInput, ListStackSetsOutputResponse>())
@@ -1790,8 +2016,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStackSetsOutputResponse, ListStackSetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStackSetsOutputResponse, ListStackSetsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStackSetsOutputResponse, ListStackSetsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1811,6 +2041,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListStacksInput, ListStacksOutputResponse, ListStacksOutputError>(id: "listStacks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStacksInput, ListStacksOutputResponse, ListStacksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStacksInput, ListStacksOutputResponse>())
@@ -1825,8 +2056,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStacksOutputResponse, ListStacksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStacksOutputResponse, ListStacksOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStacksOutputResponse, ListStacksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1846,6 +2081,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTypeRegistrationsInput, ListTypeRegistrationsOutputResponse, ListTypeRegistrationsOutputError>(id: "listTypeRegistrations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTypeRegistrationsInput, ListTypeRegistrationsOutputResponse, ListTypeRegistrationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTypeRegistrationsInput, ListTypeRegistrationsOutputResponse>())
@@ -1860,8 +2096,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTypeRegistrationsOutputResponse, ListTypeRegistrationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTypeRegistrationsOutputResponse, ListTypeRegistrationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTypeRegistrationsOutputResponse, ListTypeRegistrationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1881,6 +2121,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTypeVersionsInput, ListTypeVersionsOutputResponse, ListTypeVersionsOutputError>(id: "listTypeVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTypeVersionsInput, ListTypeVersionsOutputResponse, ListTypeVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTypeVersionsInput, ListTypeVersionsOutputResponse>())
@@ -1895,8 +2136,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTypeVersionsOutputResponse, ListTypeVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTypeVersionsOutputResponse, ListTypeVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTypeVersionsOutputResponse, ListTypeVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1916,6 +2161,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTypesInput, ListTypesOutputResponse, ListTypesOutputError>(id: "listTypes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTypesInput, ListTypesOutputResponse, ListTypesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTypesInput, ListTypesOutputResponse>())
@@ -1930,8 +2176,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTypesOutputResponse, ListTypesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTypesOutputResponse, ListTypesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTypesOutputResponse, ListTypesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1951,6 +2201,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PublishTypeInput, PublishTypeOutputResponse, PublishTypeOutputError>(id: "publishType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishTypeInput, PublishTypeOutputResponse, PublishTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishTypeInput, PublishTypeOutputResponse>())
@@ -1965,8 +2216,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishTypeOutputResponse, PublishTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishTypeOutputResponse, PublishTypeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PublishTypeOutputResponse, PublishTypeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1986,6 +2241,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RecordHandlerProgressInput, RecordHandlerProgressOutputResponse, RecordHandlerProgressOutputError>(id: "recordHandlerProgress")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RecordHandlerProgressInput, RecordHandlerProgressOutputResponse, RecordHandlerProgressOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RecordHandlerProgressInput, RecordHandlerProgressOutputResponse>())
@@ -2000,8 +2256,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RecordHandlerProgressOutputResponse, RecordHandlerProgressOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RecordHandlerProgressOutputResponse, RecordHandlerProgressOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RecordHandlerProgressOutputResponse, RecordHandlerProgressOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2021,6 +2281,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterPublisherInput, RegisterPublisherOutputResponse, RegisterPublisherOutputError>(id: "registerPublisher")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterPublisherInput, RegisterPublisherOutputResponse, RegisterPublisherOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterPublisherInput, RegisterPublisherOutputResponse>())
@@ -2035,8 +2296,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterPublisherOutputResponse, RegisterPublisherOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterPublisherOutputResponse, RegisterPublisherOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterPublisherOutputResponse, RegisterPublisherOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2065,6 +2330,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterTypeInput, RegisterTypeOutputResponse, RegisterTypeOutputError>(id: "registerType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterTypeInput, RegisterTypeOutputResponse, RegisterTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterTypeInput, RegisterTypeOutputResponse>())
@@ -2079,8 +2345,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterTypeOutputResponse, RegisterTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterTypeOutputResponse, RegisterTypeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterTypeOutputResponse, RegisterTypeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2110,6 +2380,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RollbackStackInput, RollbackStackOutputResponse, RollbackStackOutputError>(id: "rollbackStack")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RollbackStackInput, RollbackStackOutputResponse, RollbackStackOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RollbackStackInput, RollbackStackOutputResponse>())
@@ -2124,8 +2395,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RollbackStackOutputResponse, RollbackStackOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RollbackStackOutputResponse, RollbackStackOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RollbackStackOutputResponse, RollbackStackOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2145,6 +2420,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetStackPolicyInput, SetStackPolicyOutputResponse, SetStackPolicyOutputError>(id: "setStackPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetStackPolicyInput, SetStackPolicyOutputResponse, SetStackPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetStackPolicyInput, SetStackPolicyOutputResponse>())
@@ -2159,8 +2435,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetStackPolicyOutputResponse, SetStackPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetStackPolicyOutputResponse, SetStackPolicyOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetStackPolicyOutputResponse, SetStackPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2180,6 +2460,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetTypeConfigurationInput, SetTypeConfigurationOutputResponse, SetTypeConfigurationOutputError>(id: "setTypeConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetTypeConfigurationInput, SetTypeConfigurationOutputResponse, SetTypeConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetTypeConfigurationInput, SetTypeConfigurationOutputResponse>())
@@ -2194,8 +2475,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetTypeConfigurationOutputResponse, SetTypeConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetTypeConfigurationOutputResponse, SetTypeConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetTypeConfigurationOutputResponse, SetTypeConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2215,6 +2500,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetTypeDefaultVersionInput, SetTypeDefaultVersionOutputResponse, SetTypeDefaultVersionOutputError>(id: "setTypeDefaultVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetTypeDefaultVersionInput, SetTypeDefaultVersionOutputResponse, SetTypeDefaultVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetTypeDefaultVersionInput, SetTypeDefaultVersionOutputResponse>())
@@ -2229,8 +2515,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetTypeDefaultVersionOutputResponse, SetTypeDefaultVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetTypeDefaultVersionOutputResponse, SetTypeDefaultVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetTypeDefaultVersionOutputResponse, SetTypeDefaultVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2250,6 +2540,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SignalResourceInput, SignalResourceOutputResponse, SignalResourceOutputError>(id: "signalResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SignalResourceInput, SignalResourceOutputResponse, SignalResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SignalResourceInput, SignalResourceOutputResponse>())
@@ -2264,8 +2555,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SignalResourceOutputResponse, SignalResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SignalResourceOutputResponse, SignalResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SignalResourceOutputResponse, SignalResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2285,6 +2580,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopStackSetOperationInput, StopStackSetOperationOutputResponse, StopStackSetOperationOutputError>(id: "stopStackSetOperation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopStackSetOperationInput, StopStackSetOperationOutputResponse, StopStackSetOperationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopStackSetOperationInput, StopStackSetOperationOutputResponse>())
@@ -2299,8 +2595,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopStackSetOperationOutputResponse, StopStackSetOperationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopStackSetOperationOutputResponse, StopStackSetOperationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopStackSetOperationOutputResponse, StopStackSetOperationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2327,6 +2627,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TestTypeInput, TestTypeOutputResponse, TestTypeOutputError>(id: "testType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestTypeInput, TestTypeOutputResponse, TestTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestTypeInput, TestTypeOutputResponse>())
@@ -2341,8 +2642,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestTypeOutputResponse, TestTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestTypeOutputResponse, TestTypeOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestTypeOutputResponse, TestTypeOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2362,6 +2667,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateStackInput, UpdateStackOutputResponse, UpdateStackOutputError>(id: "updateStack")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStackInput, UpdateStackOutputResponse, UpdateStackOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateStackInput, UpdateStackOutputResponse>())
@@ -2376,8 +2682,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateStackOutputResponse, UpdateStackOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStackOutputResponse, UpdateStackOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateStackOutputResponse, UpdateStackOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2397,6 +2707,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateStackInstancesInput, UpdateStackInstancesOutputResponse, UpdateStackInstancesOutputError>(id: "updateStackInstances")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateStackInstancesOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -2419,8 +2730,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateStackInstancesOutputResponse, UpdateStackInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStackInstancesOutputResponse, UpdateStackInstancesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateStackInstancesOutputResponse, UpdateStackInstancesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2440,6 +2755,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateStackSetInput, UpdateStackSetOutputResponse, UpdateStackSetOutputError>(id: "updateStackSet")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateStackSetOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -2462,8 +2778,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateStackSetOutputResponse, UpdateStackSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStackSetOutputResponse, UpdateStackSetOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateStackSetOutputResponse, UpdateStackSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2483,6 +2803,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTerminationProtectionInput, UpdateTerminationProtectionOutputResponse, UpdateTerminationProtectionOutputError>(id: "updateTerminationProtection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTerminationProtectionInput, UpdateTerminationProtectionOutputResponse, UpdateTerminationProtectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTerminationProtectionInput, UpdateTerminationProtectionOutputResponse>())
@@ -2497,8 +2818,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTerminationProtectionOutputResponse, UpdateTerminationProtectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTerminationProtectionOutputResponse, UpdateTerminationProtectionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTerminationProtectionOutputResponse, UpdateTerminationProtectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2518,6 +2843,7 @@ extension CloudFormationClient: CloudFormationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cloudformation")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ValidateTemplateInput, ValidateTemplateOutputResponse, ValidateTemplateOutputError>(id: "validateTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ValidateTemplateInput, ValidateTemplateOutputResponse, ValidateTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ValidateTemplateInput, ValidateTemplateOutputResponse>())
@@ -2532,8 +2858,12 @@ extension CloudFormationClient: CloudFormationClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ValidateTemplateOutputResponse, ValidateTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ValidateTemplateOutputResponse, ValidateTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ValidateTemplateOutputResponse, ValidateTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

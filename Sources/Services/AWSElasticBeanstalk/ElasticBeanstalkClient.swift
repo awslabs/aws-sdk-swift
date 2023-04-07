@@ -142,6 +142,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutputResponse, AbortEnvironmentUpdateOutputError>(id: "abortEnvironmentUpdate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutputResponse, AbortEnvironmentUpdateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutputResponse>())
@@ -156,8 +157,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AbortEnvironmentUpdateOutputResponse, AbortEnvironmentUpdateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AbortEnvironmentUpdateOutputResponse, AbortEnvironmentUpdateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AbortEnvironmentUpdateOutputResponse, AbortEnvironmentUpdateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -177,6 +182,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutputResponse, ApplyEnvironmentManagedActionOutputError>(id: "applyEnvironmentManagedAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutputResponse, ApplyEnvironmentManagedActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutputResponse>())
@@ -191,8 +197,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ApplyEnvironmentManagedActionOutputResponse, ApplyEnvironmentManagedActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ApplyEnvironmentManagedActionOutputResponse, ApplyEnvironmentManagedActionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ApplyEnvironmentManagedActionOutputResponse, ApplyEnvironmentManagedActionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -212,6 +222,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutputResponse, AssociateEnvironmentOperationsRoleOutputError>(id: "associateEnvironmentOperationsRole")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutputResponse, AssociateEnvironmentOperationsRoleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutputResponse>())
@@ -226,8 +237,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateEnvironmentOperationsRoleOutputResponse, AssociateEnvironmentOperationsRoleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateEnvironmentOperationsRoleOutputResponse, AssociateEnvironmentOperationsRoleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateEnvironmentOperationsRoleOutputResponse, AssociateEnvironmentOperationsRoleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -247,6 +262,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutputResponse, CheckDNSAvailabilityOutputError>(id: "checkDNSAvailability")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutputResponse, CheckDNSAvailabilityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutputResponse>())
@@ -261,8 +277,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CheckDNSAvailabilityOutputResponse, CheckDNSAvailabilityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CheckDNSAvailabilityOutputResponse, CheckDNSAvailabilityOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CheckDNSAvailabilityOutputResponse, CheckDNSAvailabilityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -282,6 +302,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ComposeEnvironmentsInput, ComposeEnvironmentsOutputResponse, ComposeEnvironmentsOutputError>(id: "composeEnvironments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ComposeEnvironmentsInput, ComposeEnvironmentsOutputResponse, ComposeEnvironmentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ComposeEnvironmentsInput, ComposeEnvironmentsOutputResponse>())
@@ -296,8 +317,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ComposeEnvironmentsOutputResponse, ComposeEnvironmentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ComposeEnvironmentsOutputResponse, ComposeEnvironmentsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ComposeEnvironmentsOutputResponse, ComposeEnvironmentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -317,6 +342,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateApplicationInput, CreateApplicationOutputResponse, CreateApplicationOutputError>(id: "createApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateApplicationInput, CreateApplicationOutputResponse, CreateApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateApplicationInput, CreateApplicationOutputResponse>())
@@ -331,8 +357,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateApplicationOutputResponse, CreateApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateApplicationOutputResponse, CreateApplicationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateApplicationOutputResponse, CreateApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -352,6 +382,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateApplicationVersionInput, CreateApplicationVersionOutputResponse, CreateApplicationVersionOutputError>(id: "createApplicationVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutputResponse, CreateApplicationVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutputResponse>())
@@ -366,8 +397,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateApplicationVersionOutputResponse, CreateApplicationVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateApplicationVersionOutputResponse, CreateApplicationVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateApplicationVersionOutputResponse, CreateApplicationVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -393,6 +428,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutputResponse, CreateConfigurationTemplateOutputError>(id: "createConfigurationTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutputResponse, CreateConfigurationTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutputResponse>())
@@ -407,8 +443,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConfigurationTemplateOutputResponse, CreateConfigurationTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConfigurationTemplateOutputResponse, CreateConfigurationTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConfigurationTemplateOutputResponse, CreateConfigurationTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -428,6 +468,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEnvironmentInput, CreateEnvironmentOutputResponse, CreateEnvironmentOutputError>(id: "createEnvironment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEnvironmentInput, CreateEnvironmentOutputResponse, CreateEnvironmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEnvironmentInput, CreateEnvironmentOutputResponse>())
@@ -442,8 +483,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEnvironmentOutputResponse, CreateEnvironmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEnvironmentOutputResponse, CreateEnvironmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEnvironmentOutputResponse, CreateEnvironmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -463,6 +508,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePlatformVersionInput, CreatePlatformVersionOutputResponse, CreatePlatformVersionOutputError>(id: "createPlatformVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePlatformVersionInput, CreatePlatformVersionOutputResponse, CreatePlatformVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePlatformVersionInput, CreatePlatformVersionOutputResponse>())
@@ -477,8 +523,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePlatformVersionOutputResponse, CreatePlatformVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePlatformVersionOutputResponse, CreatePlatformVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePlatformVersionOutputResponse, CreatePlatformVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -498,6 +548,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateStorageLocationInput, CreateStorageLocationOutputResponse, CreateStorageLocationOutputError>(id: "createStorageLocation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStorageLocationInput, CreateStorageLocationOutputResponse, CreateStorageLocationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStorageLocationInput, CreateStorageLocationOutputResponse>())
@@ -512,8 +563,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStorageLocationOutputResponse, CreateStorageLocationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStorageLocationOutputResponse, CreateStorageLocationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateStorageLocationOutputResponse, CreateStorageLocationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -533,6 +588,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteApplicationInput, DeleteApplicationOutputResponse, DeleteApplicationOutputError>(id: "deleteApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteApplicationInput, DeleteApplicationOutputResponse, DeleteApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteApplicationInput, DeleteApplicationOutputResponse>())
@@ -547,8 +603,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteApplicationOutputResponse, DeleteApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteApplicationOutputResponse, DeleteApplicationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteApplicationOutputResponse, DeleteApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -568,6 +628,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteApplicationVersionInput, DeleteApplicationVersionOutputResponse, DeleteApplicationVersionOutputError>(id: "deleteApplicationVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteApplicationVersionInput, DeleteApplicationVersionOutputResponse, DeleteApplicationVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteApplicationVersionInput, DeleteApplicationVersionOutputResponse>())
@@ -582,8 +643,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteApplicationVersionOutputResponse, DeleteApplicationVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteApplicationVersionOutputResponse, DeleteApplicationVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteApplicationVersionOutputResponse, DeleteApplicationVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -603,6 +668,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutputResponse, DeleteConfigurationTemplateOutputError>(id: "deleteConfigurationTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutputResponse, DeleteConfigurationTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutputResponse>())
@@ -617,8 +683,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigurationTemplateOutputResponse, DeleteConfigurationTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigurationTemplateOutputResponse, DeleteConfigurationTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConfigurationTemplateOutputResponse, DeleteConfigurationTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -638,6 +708,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutputResponse, DeleteEnvironmentConfigurationOutputError>(id: "deleteEnvironmentConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutputResponse, DeleteEnvironmentConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutputResponse>())
@@ -652,8 +723,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEnvironmentConfigurationOutputResponse, DeleteEnvironmentConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEnvironmentConfigurationOutputResponse, DeleteEnvironmentConfigurationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEnvironmentConfigurationOutputResponse, DeleteEnvironmentConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -673,6 +748,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePlatformVersionInput, DeletePlatformVersionOutputResponse, DeletePlatformVersionOutputError>(id: "deletePlatformVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePlatformVersionInput, DeletePlatformVersionOutputResponse, DeletePlatformVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePlatformVersionInput, DeletePlatformVersionOutputResponse>())
@@ -687,8 +763,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePlatformVersionOutputResponse, DeletePlatformVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePlatformVersionOutputResponse, DeletePlatformVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePlatformVersionOutputResponse, DeletePlatformVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -708,6 +788,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAccountAttributesInput, DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>(id: "describeAccountAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutputResponse>())
@@ -722,8 +803,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -743,6 +828,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutputResponse, DescribeApplicationVersionsOutputError>(id: "describeApplicationVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutputResponse, DescribeApplicationVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutputResponse>())
@@ -757,8 +843,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeApplicationVersionsOutputResponse, DescribeApplicationVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeApplicationVersionsOutputResponse, DescribeApplicationVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeApplicationVersionsOutputResponse, DescribeApplicationVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -778,6 +868,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeApplicationsInput, DescribeApplicationsOutputResponse, DescribeApplicationsOutputError>(id: "describeApplications")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeApplicationsInput, DescribeApplicationsOutputResponse, DescribeApplicationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeApplicationsInput, DescribeApplicationsOutputResponse>())
@@ -792,8 +883,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeApplicationsOutputResponse, DescribeApplicationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeApplicationsOutputResponse, DescribeApplicationsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeApplicationsOutputResponse, DescribeApplicationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -813,6 +908,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutputResponse, DescribeConfigurationOptionsOutputError>(id: "describeConfigurationOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutputResponse, DescribeConfigurationOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutputResponse>())
@@ -827,8 +923,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConfigurationOptionsOutputResponse, DescribeConfigurationOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigurationOptionsOutputResponse, DescribeConfigurationOptionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigurationOptionsOutputResponse, DescribeConfigurationOptionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -850,6 +950,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutputResponse, DescribeConfigurationSettingsOutputError>(id: "describeConfigurationSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutputResponse, DescribeConfigurationSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutputResponse>())
@@ -864,8 +965,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConfigurationSettingsOutputResponse, DescribeConfigurationSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigurationSettingsOutputResponse, DescribeConfigurationSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigurationSettingsOutputResponse, DescribeConfigurationSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -885,6 +990,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutputResponse, DescribeEnvironmentHealthOutputError>(id: "describeEnvironmentHealth")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutputResponse, DescribeEnvironmentHealthOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutputResponse>())
@@ -899,8 +1005,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEnvironmentHealthOutputResponse, DescribeEnvironmentHealthOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEnvironmentHealthOutputResponse, DescribeEnvironmentHealthOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEnvironmentHealthOutputResponse, DescribeEnvironmentHealthOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -920,6 +1030,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutputResponse, DescribeEnvironmentManagedActionHistoryOutputError>(id: "describeEnvironmentManagedActionHistory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutputResponse, DescribeEnvironmentManagedActionHistoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutputResponse>())
@@ -934,8 +1045,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEnvironmentManagedActionHistoryOutputResponse, DescribeEnvironmentManagedActionHistoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEnvironmentManagedActionHistoryOutputResponse, DescribeEnvironmentManagedActionHistoryOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEnvironmentManagedActionHistoryOutputResponse, DescribeEnvironmentManagedActionHistoryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -955,6 +1070,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutputResponse, DescribeEnvironmentManagedActionsOutputError>(id: "describeEnvironmentManagedActions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutputResponse, DescribeEnvironmentManagedActionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutputResponse>())
@@ -969,8 +1085,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEnvironmentManagedActionsOutputResponse, DescribeEnvironmentManagedActionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEnvironmentManagedActionsOutputResponse, DescribeEnvironmentManagedActionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEnvironmentManagedActionsOutputResponse, DescribeEnvironmentManagedActionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -990,6 +1110,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutputResponse, DescribeEnvironmentResourcesOutputError>(id: "describeEnvironmentResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutputResponse, DescribeEnvironmentResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutputResponse>())
@@ -1004,8 +1125,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEnvironmentResourcesOutputResponse, DescribeEnvironmentResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEnvironmentResourcesOutputResponse, DescribeEnvironmentResourcesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEnvironmentResourcesOutputResponse, DescribeEnvironmentResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1025,6 +1150,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEnvironmentsInput, DescribeEnvironmentsOutputResponse, DescribeEnvironmentsOutputError>(id: "describeEnvironments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutputResponse, DescribeEnvironmentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutputResponse>())
@@ -1039,8 +1165,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEnvironmentsOutputResponse, DescribeEnvironmentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEnvironmentsOutputResponse, DescribeEnvironmentsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEnvironmentsOutputResponse, DescribeEnvironmentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1060,6 +1190,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>(id: "describeEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventsInput, DescribeEventsOutputResponse>())
@@ -1074,8 +1205,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1095,6 +1230,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeInstancesHealthInput, DescribeInstancesHealthOutputResponse, DescribeInstancesHealthOutputError>(id: "describeInstancesHealth")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInstancesHealthInput, DescribeInstancesHealthOutputResponse, DescribeInstancesHealthOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInstancesHealthInput, DescribeInstancesHealthOutputResponse>())
@@ -1109,8 +1245,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInstancesHealthOutputResponse, DescribeInstancesHealthOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInstancesHealthOutputResponse, DescribeInstancesHealthOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeInstancesHealthOutputResponse, DescribeInstancesHealthOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1130,6 +1270,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePlatformVersionInput, DescribePlatformVersionOutputResponse, DescribePlatformVersionOutputError>(id: "describePlatformVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePlatformVersionInput, DescribePlatformVersionOutputResponse, DescribePlatformVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePlatformVersionInput, DescribePlatformVersionOutputResponse>())
@@ -1144,8 +1285,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePlatformVersionOutputResponse, DescribePlatformVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePlatformVersionOutputResponse, DescribePlatformVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePlatformVersionOutputResponse, DescribePlatformVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1165,6 +1310,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutputResponse, DisassociateEnvironmentOperationsRoleOutputError>(id: "disassociateEnvironmentOperationsRole")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutputResponse, DisassociateEnvironmentOperationsRoleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutputResponse>())
@@ -1179,8 +1325,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateEnvironmentOperationsRoleOutputResponse, DisassociateEnvironmentOperationsRoleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateEnvironmentOperationsRoleOutputResponse, DisassociateEnvironmentOperationsRoleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateEnvironmentOperationsRoleOutputResponse, DisassociateEnvironmentOperationsRoleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1200,6 +1350,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutputResponse, ListAvailableSolutionStacksOutputError>(id: "listAvailableSolutionStacks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutputResponse, ListAvailableSolutionStacksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutputResponse>())
@@ -1214,8 +1365,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAvailableSolutionStacksOutputResponse, ListAvailableSolutionStacksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAvailableSolutionStacksOutputResponse, ListAvailableSolutionStacksOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAvailableSolutionStacksOutputResponse, ListAvailableSolutionStacksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1235,6 +1390,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPlatformBranchesInput, ListPlatformBranchesOutputResponse, ListPlatformBranchesOutputError>(id: "listPlatformBranches")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPlatformBranchesInput, ListPlatformBranchesOutputResponse, ListPlatformBranchesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPlatformBranchesInput, ListPlatformBranchesOutputResponse>())
@@ -1249,8 +1405,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPlatformBranchesOutputResponse, ListPlatformBranchesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPlatformBranchesOutputResponse, ListPlatformBranchesOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPlatformBranchesOutputResponse, ListPlatformBranchesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1270,6 +1430,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPlatformVersionsInput, ListPlatformVersionsOutputResponse, ListPlatformVersionsOutputError>(id: "listPlatformVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPlatformVersionsInput, ListPlatformVersionsOutputResponse, ListPlatformVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPlatformVersionsInput, ListPlatformVersionsOutputResponse>())
@@ -1284,8 +1445,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPlatformVersionsOutputResponse, ListPlatformVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPlatformVersionsOutputResponse, ListPlatformVersionsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPlatformVersionsOutputResponse, ListPlatformVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1305,6 +1470,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1319,8 +1485,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1340,6 +1510,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RebuildEnvironmentInput, RebuildEnvironmentOutputResponse, RebuildEnvironmentOutputError>(id: "rebuildEnvironment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebuildEnvironmentInput, RebuildEnvironmentOutputResponse, RebuildEnvironmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebuildEnvironmentInput, RebuildEnvironmentOutputResponse>())
@@ -1354,8 +1525,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RebuildEnvironmentOutputResponse, RebuildEnvironmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RebuildEnvironmentOutputResponse, RebuildEnvironmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RebuildEnvironmentOutputResponse, RebuildEnvironmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1377,6 +1552,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutputResponse, RequestEnvironmentInfoOutputError>(id: "requestEnvironmentInfo")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutputResponse, RequestEnvironmentInfoOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutputResponse>())
@@ -1391,8 +1567,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RequestEnvironmentInfoOutputResponse, RequestEnvironmentInfoOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RequestEnvironmentInfoOutputResponse, RequestEnvironmentInfoOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RequestEnvironmentInfoOutputResponse, RequestEnvironmentInfoOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1412,6 +1592,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RestartAppServerInput, RestartAppServerOutputResponse, RestartAppServerOutputError>(id: "restartAppServer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestartAppServerInput, RestartAppServerOutputResponse, RestartAppServerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestartAppServerInput, RestartAppServerOutputResponse>())
@@ -1426,8 +1607,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestartAppServerOutputResponse, RestartAppServerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestartAppServerOutputResponse, RestartAppServerOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestartAppServerOutputResponse, RestartAppServerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1449,6 +1634,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutputResponse, RetrieveEnvironmentInfoOutputError>(id: "retrieveEnvironmentInfo")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutputResponse, RetrieveEnvironmentInfoOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutputResponse>())
@@ -1463,8 +1649,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RetrieveEnvironmentInfoOutputResponse, RetrieveEnvironmentInfoOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RetrieveEnvironmentInfoOutputResponse, RetrieveEnvironmentInfoOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RetrieveEnvironmentInfoOutputResponse, RetrieveEnvironmentInfoOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1484,6 +1674,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutputResponse, SwapEnvironmentCNAMEsOutputError>(id: "swapEnvironmentCNAMEs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutputResponse, SwapEnvironmentCNAMEsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutputResponse>())
@@ -1498,8 +1689,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SwapEnvironmentCNAMEsOutputResponse, SwapEnvironmentCNAMEsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SwapEnvironmentCNAMEsOutputResponse, SwapEnvironmentCNAMEsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SwapEnvironmentCNAMEsOutputResponse, SwapEnvironmentCNAMEsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1519,6 +1714,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TerminateEnvironmentInput, TerminateEnvironmentOutputResponse, TerminateEnvironmentOutputError>(id: "terminateEnvironment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TerminateEnvironmentInput, TerminateEnvironmentOutputResponse, TerminateEnvironmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TerminateEnvironmentInput, TerminateEnvironmentOutputResponse>())
@@ -1533,8 +1729,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TerminateEnvironmentOutputResponse, TerminateEnvironmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TerminateEnvironmentOutputResponse, TerminateEnvironmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TerminateEnvironmentOutputResponse, TerminateEnvironmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1554,6 +1754,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateApplicationInput, UpdateApplicationOutputResponse, UpdateApplicationOutputError>(id: "updateApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApplicationInput, UpdateApplicationOutputResponse, UpdateApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApplicationInput, UpdateApplicationOutputResponse>())
@@ -1568,8 +1769,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateApplicationOutputResponse, UpdateApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApplicationOutputResponse, UpdateApplicationOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApplicationOutputResponse, UpdateApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1589,6 +1794,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutputResponse, UpdateApplicationResourceLifecycleOutputError>(id: "updateApplicationResourceLifecycle")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutputResponse, UpdateApplicationResourceLifecycleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutputResponse>())
@@ -1603,8 +1809,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateApplicationResourceLifecycleOutputResponse, UpdateApplicationResourceLifecycleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApplicationResourceLifecycleOutputResponse, UpdateApplicationResourceLifecycleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApplicationResourceLifecycleOutputResponse, UpdateApplicationResourceLifecycleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1624,6 +1834,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateApplicationVersionInput, UpdateApplicationVersionOutputResponse, UpdateApplicationVersionOutputError>(id: "updateApplicationVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateApplicationVersionInput, UpdateApplicationVersionOutputResponse, UpdateApplicationVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApplicationVersionInput, UpdateApplicationVersionOutputResponse>())
@@ -1638,8 +1849,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateApplicationVersionOutputResponse, UpdateApplicationVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApplicationVersionOutputResponse, UpdateApplicationVersionOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApplicationVersionOutputResponse, UpdateApplicationVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1661,6 +1876,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutputResponse, UpdateConfigurationTemplateOutputError>(id: "updateConfigurationTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutputResponse, UpdateConfigurationTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutputResponse>())
@@ -1675,8 +1891,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConfigurationTemplateOutputResponse, UpdateConfigurationTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConfigurationTemplateOutputResponse, UpdateConfigurationTemplateOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConfigurationTemplateOutputResponse, UpdateConfigurationTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1696,6 +1916,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateEnvironmentInput, UpdateEnvironmentOutputResponse, UpdateEnvironmentOutputError>(id: "updateEnvironment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutputResponse, UpdateEnvironmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutputResponse>())
@@ -1710,8 +1931,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEnvironmentOutputResponse, UpdateEnvironmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEnvironmentOutputResponse, UpdateEnvironmentOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEnvironmentOutputResponse, UpdateEnvironmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1731,6 +1956,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTagsForResourceInput, UpdateTagsForResourceOutputResponse, UpdateTagsForResourceOutputError>(id: "updateTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTagsForResourceInput, UpdateTagsForResourceOutputResponse, UpdateTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTagsForResourceInput, UpdateTagsForResourceOutputResponse>())
@@ -1745,8 +1971,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTagsForResourceOutputResponse, UpdateTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTagsForResourceOutputResponse, UpdateTagsForResourceOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTagsForResourceOutputResponse, UpdateTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1766,6 +1996,7 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticbeanstalk")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutputResponse, ValidateConfigurationSettingsOutputError>(id: "validateConfigurationSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutputResponse, ValidateConfigurationSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutputResponse>())
@@ -1780,8 +2011,12 @@ extension ElasticBeanstalkClient: ElasticBeanstalkClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ValidateConfigurationSettingsOutputResponse, ValidateConfigurationSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ValidateConfigurationSettingsOutputResponse, ValidateConfigurationSettingsOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ValidateConfigurationSettingsOutputResponse, ValidateConfigurationSettingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

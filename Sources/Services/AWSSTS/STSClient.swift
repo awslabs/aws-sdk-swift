@@ -152,6 +152,7 @@ extension STSClient: STSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssumeRoleInput, AssumeRoleOutputResponse, AssumeRoleOutputError>(id: "assumeRole")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssumeRoleInput, AssumeRoleOutputResponse, AssumeRoleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssumeRoleInput, AssumeRoleOutputResponse>())
@@ -166,8 +167,12 @@ extension STSClient: STSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssumeRoleOutputResponse, AssumeRoleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssumeRoleOutputResponse, AssumeRoleOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssumeRoleOutputResponse, AssumeRoleOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -193,6 +198,7 @@ extension STSClient: STSClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssumeRoleWithSAMLInput, AssumeRoleWithSAMLOutputResponse, AssumeRoleWithSAMLOutputError>(id: "assumeRoleWithSAML")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssumeRoleWithSAMLInput, AssumeRoleWithSAMLOutputResponse, AssumeRoleWithSAMLOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssumeRoleWithSAMLInput, AssumeRoleWithSAMLOutputResponse>())
@@ -205,8 +211,12 @@ extension STSClient: STSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<AssumeRoleWithSAMLOutputResponse, AssumeRoleWithSAMLOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssumeRoleWithSAMLOutputResponse, AssumeRoleWithSAMLOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssumeRoleWithSAMLOutputResponse, AssumeRoleWithSAMLOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -232,6 +242,7 @@ extension STSClient: STSClientProtocol {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssumeRoleWithWebIdentityInput, AssumeRoleWithWebIdentityOutputResponse, AssumeRoleWithWebIdentityOutputError>(id: "assumeRoleWithWebIdentity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssumeRoleWithWebIdentityInput, AssumeRoleWithWebIdentityOutputResponse, AssumeRoleWithWebIdentityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssumeRoleWithWebIdentityInput, AssumeRoleWithWebIdentityOutputResponse>())
@@ -244,8 +255,12 @@ extension STSClient: STSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<AssumeRoleWithWebIdentityOutputResponse, AssumeRoleWithWebIdentityOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssumeRoleWithWebIdentityOutputResponse, AssumeRoleWithWebIdentityOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssumeRoleWithWebIdentityOutputResponse, AssumeRoleWithWebIdentityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -275,6 +290,7 @@ extension STSClient: STSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DecodeAuthorizationMessageInput, DecodeAuthorizationMessageOutputResponse, DecodeAuthorizationMessageOutputError>(id: "decodeAuthorizationMessage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DecodeAuthorizationMessageInput, DecodeAuthorizationMessageOutputResponse, DecodeAuthorizationMessageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DecodeAuthorizationMessageInput, DecodeAuthorizationMessageOutputResponse>())
@@ -289,8 +305,12 @@ extension STSClient: STSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DecodeAuthorizationMessageOutputResponse, DecodeAuthorizationMessageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DecodeAuthorizationMessageOutputResponse, DecodeAuthorizationMessageOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DecodeAuthorizationMessageOutputResponse, DecodeAuthorizationMessageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -310,6 +330,7 @@ extension STSClient: STSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccessKeyInfoInput, GetAccessKeyInfoOutputResponse, GetAccessKeyInfoOutputError>(id: "getAccessKeyInfo")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccessKeyInfoInput, GetAccessKeyInfoOutputResponse, GetAccessKeyInfoOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccessKeyInfoInput, GetAccessKeyInfoOutputResponse>())
@@ -324,8 +345,12 @@ extension STSClient: STSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccessKeyInfoOutputResponse, GetAccessKeyInfoOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccessKeyInfoOutputResponse, GetAccessKeyInfoOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccessKeyInfoOutputResponse, GetAccessKeyInfoOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -345,6 +370,7 @@ extension STSClient: STSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCallerIdentityInput, GetCallerIdentityOutputResponse, GetCallerIdentityOutputError>(id: "getCallerIdentity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCallerIdentityInput, GetCallerIdentityOutputResponse, GetCallerIdentityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCallerIdentityInput, GetCallerIdentityOutputResponse>())
@@ -359,8 +385,12 @@ extension STSClient: STSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCallerIdentityOutputResponse, GetCallerIdentityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCallerIdentityOutputResponse, GetCallerIdentityOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCallerIdentityOutputResponse, GetCallerIdentityOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -387,6 +417,7 @@ extension STSClient: STSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFederationTokenInput, GetFederationTokenOutputResponse, GetFederationTokenOutputError>(id: "getFederationToken")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFederationTokenInput, GetFederationTokenOutputResponse, GetFederationTokenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFederationTokenInput, GetFederationTokenOutputResponse>())
@@ -401,8 +432,12 @@ extension STSClient: STSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFederationTokenOutputResponse, GetFederationTokenOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFederationTokenOutputResponse, GetFederationTokenOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFederationTokenOutputResponse, GetFederationTokenOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -429,6 +464,7 @@ extension STSClient: STSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSessionTokenInput, GetSessionTokenOutputResponse, GetSessionTokenOutputError>(id: "getSessionToken")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSessionTokenInput, GetSessionTokenOutputResponse, GetSessionTokenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSessionTokenInput, GetSessionTokenOutputResponse>())
@@ -443,8 +479,12 @@ extension STSClient: STSClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSessionTokenOutputResponse, GetSessionTokenOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSessionTokenOutputResponse, GetSessionTokenOutputError>())
+<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSessionTokenOutputResponse, GetSessionTokenOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+=======
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+>>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

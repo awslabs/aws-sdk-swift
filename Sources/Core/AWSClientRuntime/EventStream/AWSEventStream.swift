@@ -20,3 +20,10 @@ enum AWSEventStreamError: Error {
     /// This may be due to missing required headers
     case invalidMessage(String)
 }
+
+extension AsyncThrowingStream: Equatable where Element: Equatable {
+    public static func == (lhs: AsyncThrowingStream, rhs: AsyncThrowingStream) -> Bool {
+        // TODO: Remove as part of https://github.com/awslabs/aws-sdk-swift/issues/898
+        return false
+    }
+}
