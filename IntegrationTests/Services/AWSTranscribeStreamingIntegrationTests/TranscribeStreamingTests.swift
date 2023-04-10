@@ -17,7 +17,7 @@ final class TranscribeStreamingTests: XCTestCase {
         let chunkSize = 4096
         let audioDataSize = audioData.count
 
-        let client = try TranscribeStreamingClient(region: "us-west-2")
+        let client = try await TranscribeStreamingClient(region: "us-west-2")
 
         let audioStream = AsyncThrowingStream<TranscribeStreamingClientTypes.AudioStream, Error> { continuation in
             Task {

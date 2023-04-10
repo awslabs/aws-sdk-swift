@@ -9,21 +9,11 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 import XCTest
 
-@testable import AWSClientRuntime
+@testable @_spi(Internal) import AWSClientRuntime
 
 class Sigv4SigningTests: XCTestCase {
     override func setUp() {
         CommonRuntimeKit.initialize()
-    }
-
-    class MyCustomCredentialsProvider: AWSClientRuntime.CredentialsProvider {
-        func getCredentials() async throws -> AWSClientRuntime.AWSCredentials {
-            return AWSCredentials(
-                accessKey: "AKIDEXAMPLE",
-                secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",
-                expirationTimeout: .init(timeIntervalSinceNow: 30)
-            )
-        }
     }
 
     func testPresigner() async throws {
@@ -74,9 +64,10 @@ class Sigv4SigningTests: XCTestCase {
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         let epoch = formatter.date(from: "1973-11-29T21:33:09.000001234Z")!
         
-        let credentialsProvider = try! AWSCredentialsProvider.fromStatic(
-            AWSCredentialsProviderStaticConfig(accessKey: "fake access key", secret: "fake secret key")
+        var credentialsProvider = try! AWSCredentialsProvider.fromStatic(
+            credentials
         )
+        try! await credentialsProvider.configure(.init(fileBasedConfigurationStore: .init()))
         
         let context = HttpContextBuilder()
             .withSigningName(value: "testservice")
@@ -116,3 +107,26 @@ class Sigv4SigningTests: XCTestCase {
     }
 }
 
+class MyCustomCredentialsProvider: AWSClientRuntime.CredentialsProviding {
+    let credentials: AWSCredentials
+    
+    init(credentials: AWSCredentials) {
+        self.credentials = credentials
+    }
+    
+    convenience init() {
+        self.init(credentials: AWSCredentials(
+            accessKey: "AKIDEXAMPLE",
+            secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",
+            expirationTimeout: .init(timeIntervalSinceNow: 30)
+        ))
+    }
+    
+    func getCredentials() async throws -> AWSClientRuntime.AWSCredentials {
+        return AWSCredentials(
+            accessKey: "AKIDEXAMPLE",
+            secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",
+            expirationTimeout: .init(timeIntervalSinceNow: 30)
+        )
+    }
+}
