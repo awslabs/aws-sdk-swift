@@ -129,7 +129,7 @@ struct PrepareRelease {
             files = [
                 "Package.swift",
                 "Package.version",
-                "Core/Services",
+                "Sources/Services",
                 "Tests/Services"
             ]
         case .smithySwift:
