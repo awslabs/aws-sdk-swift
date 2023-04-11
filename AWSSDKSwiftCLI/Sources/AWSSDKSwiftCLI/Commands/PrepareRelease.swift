@@ -188,7 +188,7 @@ struct PrepareRelease {
         )
         
         let jsonData = try JSONEncoder().encode(manifest)
-        let savedReleaseManifest = FileManager.default.createFile(atPath: "release_manifest.json", contents: jsonData)
+        let savedReleaseManifest = FileManager.default.createFile(atPath: "release-manifest.json", contents: jsonData)
         
         guard savedReleaseManifest else {
             throw Error("Failed to save release manifest to release_manifest.json")
