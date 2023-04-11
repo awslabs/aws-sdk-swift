@@ -9,6 +9,7 @@ import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.ShapeType
 import software.amazon.smithy.rulesengine.traits.ClientContextParamsTrait
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ConfigField
@@ -133,10 +134,14 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
         }
 
         // Handle the runtime config properties
+        writer.addImport(SwiftDependency.CLIENT_RUNTIME.target, false, "RetryOptions")
         runtimeConfigs.forEach {
             when (it.memberName) {
                 "retryOptions" -> {
-                    writer.write("self.\$L = AWSRetryOptions(retryOptions: \$L.\$L)", it.memberName, RUNTIME_CONFIG_NAME, it.memberName)
+                    writer.write("var retryOptions = \$L.\$L", RUNTIME_CONFIG_NAME, it.memberName)
+                    writer.write("retryOptions.retryStrategy = try DefaultRetryStrategy(retryOptions: retryOptions)")
+                    writer.write("retryOptions.retryErrorClassifier = AWSRetryErrorClassifier()")
+                    writer.write("self.\$L = retryOptions", it.memberName)
                 }
                 else -> {
                     writer.write("self.\$L = \$L.\$L", it.memberName, RUNTIME_CONFIG_NAME, it.memberName)

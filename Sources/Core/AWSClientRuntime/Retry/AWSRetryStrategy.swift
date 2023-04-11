@@ -9,7 +9,7 @@ import Foundation
 import ClientRuntime
 import AwsCommonRuntimeKit
 
-class AWSRetryStrategy: ClientRuntime.RetryStrategy {
+public class AWSRetryStrategy: ClientRuntime.RetryStrategy {
     let crtRetryStrategy: AwsCommonRuntimeKit.RetryStrategy
     private let sharedDefaultIO = SDKDefaultIO.shared
 
@@ -18,6 +18,11 @@ class AWSRetryStrategy: ClientRuntime.RetryStrategy {
             retryStrategyOptions: retryStrategyOptions,
             eventLoopGroup: sharedDefaultIO.eventLoopGroup
         )
+    }
+
+    public convenience init(retryOptions: RetryOptions) throws {
+        let retryStrategyOptions = RetryStrategyOptions(retryMode: retryOptions.retryMode, maxRetriesBase: retryOptions.maxAttempts)
+        try self.init(retryStrategyOptions: retryStrategyOptions)
     }
 
     public func acquireInitialRetryToken(tokenScope: String) async throws -> ClientRuntime.RetryToken {

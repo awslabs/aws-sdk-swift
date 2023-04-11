@@ -8,9 +8,12 @@
 import Foundation
 import ClientRuntime
 
-struct AWSRetryErrorClassifier: RetryErrorClassifying {
+/// The AWS-specific implementation of `RetryErrorClassifier`.
+public struct AWSRetryErrorClassifier: RetryErrorClassifier {
 
-    func retryErrorInfo<T: ServiceErrorProviding>(error: SdkError<T>) -> RetryErrorInfo? {
+    public init() {}
+
+    public func retryErrorInfo<T: ServiceErrorProviding>(error: SdkError<T>) -> RetryErrorInfo? {
         // TODO: fill in & test
         return nil
     }
