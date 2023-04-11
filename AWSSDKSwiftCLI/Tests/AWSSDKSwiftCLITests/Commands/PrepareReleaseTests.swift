@@ -45,11 +45,12 @@ class PrepareReleaseTests: CLITestCase {
         XCTAssertEqual(releaseManifest.name, "\(newVersion)")
         XCTAssertEqual(releaseManifest.tagName, "\(newVersion)")
         
-        XCTAssertEqual(commands.count, 4)
+        XCTAssertEqual(commands.count, 5)
         XCTAssertTrue(commands[0].contains("git add"))
         XCTAssertTrue(commands[1].contains("git commit"))
         XCTAssertTrue(commands[2].contains("git tag"))
         XCTAssertTrue(commands[3].contains("git log"))
+        XCTAssertTrue(commands[4].contains("git status"))
     }
     
     func testRunBailsEarlyIfThereAreNoChanges() {

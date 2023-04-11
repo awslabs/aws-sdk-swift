@@ -76,6 +76,7 @@ struct PrepareRelease {
             previousVersion: previousVersion,
             sourceCodeArtifactId: sourceCodeArtifactId
         )
+        try gitStatus()
     }
     
     // MARK: - Helpers
@@ -142,7 +143,7 @@ struct PrepareRelease {
     ///
     /// - Parameter newVersion: The version to use in the commit message
     func commitChanges(_ newVersion: Version) throws {
-        try _run(Process.git.commit("Updates version to \(newVersion)"))
+        try _run(Process.git.commit("chore: Updates version to \(newVersion)"))
     }
     
     /// Tags the repository with the provided version
@@ -150,6 +151,11 @@ struct PrepareRelease {
     /// - Parameter newVersion: The version to use for the tag
     func tagVersion(_ newVersion: Version) throws {
         try _run(Process.git.tag(newVersion, "Release \(newVersion)"))
+    }
+    
+    /// Run git status
+    func gitStatus() throws {
+        try _run(Process.git.status())
     }
     
     /// Generates the release manifest and saves it to `release_manifest.json`
@@ -164,7 +170,7 @@ struct PrepareRelease {
         previousVersion: Version,
         sourceCodeArtifactId: String
     ) throws {
-        let commits = try Process.git.listOfCommitsBetween("\(newVersion)", "\(previousVersion)")
+        let commits = try Process.git.listOfCommitsBetween("HEAD", "\(previousVersion)")
         
         let releaseNotes = ReleaseNotesBuilder(
             previousVersion: previousVersion,
@@ -182,7 +188,7 @@ struct PrepareRelease {
         )
         
         let jsonData = try JSONEncoder().encode(manifest)
-        let savedReleaseManifest = FileManager.default.createFile(atPath: "release_manifest.json", contents: jsonData)
+        let savedReleaseManifest = FileManager.default.createFile(atPath: "release-manifest.json", contents: jsonData)
         
         guard savedReleaseManifest else {
             throw Error("Failed to save release manifest to release_manifest.json")

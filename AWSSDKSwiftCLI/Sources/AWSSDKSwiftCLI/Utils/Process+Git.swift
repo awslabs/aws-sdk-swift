@@ -16,6 +16,11 @@ extension Process {
             Process(["git"] + args)
         }
         
+        /// Returns a process for executing `git status`
+        func status() -> Process {
+            gitProcess(["status"])
+        }
+        
         /// Returns a process for executing `git diff <a>..<b> --quiet`
         /// This is used for determining if `<a>` is different from `<b>` and therefore
         func diff(_ a: String, _ b: String) -> Process {
@@ -68,7 +73,6 @@ extension Process.Git {
     func diffHasChanges(_ a: String, _ b: String) throws -> Bool {
         let task = diff(a, b)
         try _run(task)
-        task.waitUntilExit()
         return task.terminationStatus != 0
     }
     
@@ -76,11 +80,9 @@ extension Process.Git {
     func hasLocalChanges() throws -> Bool {
         let updateIndexTask = updateIndex()
         try _run(updateIndexTask)
-        updateIndexTask.waitUntilExit()
         
         let diffIndexTask = diffIndex()
         try _run(diffIndexTask)
-        diffIndexTask.waitUntilExit()
         return diffIndexTask.terminationStatus != 0
     }
     
