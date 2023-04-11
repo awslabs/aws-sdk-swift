@@ -60,7 +60,6 @@ struct TestAWSSDK {
             log("Testing Package.swift...")
             let task = Process.swift.test()
             try _run(task)
-            task.waitUntilExit()
             return
         }
 
@@ -142,7 +141,6 @@ struct TestAWSSDK {
         )
         let task = Process.swift.test()
         try _run(task)
-        task.waitUntilExit()
     
         // Move the file back when we are finished
         try FileManager.default.moveItem(
