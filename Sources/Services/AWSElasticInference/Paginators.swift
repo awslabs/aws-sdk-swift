@@ -25,3 +25,12 @@ extension DescribeAcceleratorsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where Input == DescribeAcceleratorsInput, Output == DescribeAcceleratorsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeAcceleratorsPaginated`
+    /// to access the nested member `[ElasticInferenceClientTypes.ElasticInferenceAccelerator]`
+    /// - Returns: `[ElasticInferenceClientTypes.ElasticInferenceAccelerator]`
+    public func acceleratorSet() async throws -> [ElasticInferenceClientTypes.ElasticInferenceAccelerator] {
+        return try await self.asyncCompactMap { item in item.acceleratorSet }
+    }
+}

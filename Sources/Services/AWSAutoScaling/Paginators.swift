@@ -258,3 +258,26 @@ extension PaginatorSequence where Input == DescribeTagsInput, Output == Describe
         return try await self.asyncCompactMap { item in item.tags }
     }
 }
+extension AutoScalingClient {
+    /// Paginate over `[DescribeTrafficSourcesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeTrafficSourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeTrafficSourcesOutputResponse`
+    public func describeTrafficSourcesPaginated(input: DescribeTrafficSourcesInput) -> ClientRuntime.PaginatorSequence<DescribeTrafficSourcesInput, DescribeTrafficSourcesOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeTrafficSourcesInput, DescribeTrafficSourcesOutputResponse>(input: input, inputKey: \DescribeTrafficSourcesInput.nextToken, outputKey: \DescribeTrafficSourcesOutputResponse.nextToken, paginationFunction: self.describeTrafficSources(input:))
+    }
+}
+
+extension DescribeTrafficSourcesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeTrafficSourcesInput {
+        return DescribeTrafficSourcesInput(
+            autoScalingGroupName: self.autoScalingGroupName,
+            maxRecords: self.maxRecords,
+            nextToken: token,
+            trafficSourceType: self.trafficSourceType
+        )}
+}

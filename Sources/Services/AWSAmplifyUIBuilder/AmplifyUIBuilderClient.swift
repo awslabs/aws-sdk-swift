@@ -719,7 +719,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         return result
     }
 
-    /// Stores the metadata information about a feature on a form or view.
+    /// Stores the metadata information about a feature on a form.
     public func putMetadataFlag(input: PutMetadataFlagInput) async throws -> PutMetadataFlagOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

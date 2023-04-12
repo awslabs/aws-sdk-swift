@@ -3261,6 +3261,22 @@ extension GreengrassV2ClientTypes {
     /// Contains information about a deployment job that IoT Greengrass sends to a Greengrass core device.
     public struct EffectiveDeployment: Swift.Equatable {
         /// The status of the deployment job on the Greengrass core device.
+        ///
+        /// * IN_PROGRESS – The deployment job is running.
+        ///
+        /// * QUEUED – The deployment job is in the job queue and waiting to run.
+        ///
+        /// * FAILED – The deployment failed. For more information, see the statusDetails field.
+        ///
+        /// * COMPLETED – The deployment to an IoT thing was completed successfully.
+        ///
+        /// * TIMED_OUT – The deployment didn't complete in the allotted time.
+        ///
+        /// * CANCELED – The deployment was canceled by the user.
+        ///
+        /// * REJECTED – The deployment was rejected. For more information, see the statusDetails field.
+        ///
+        /// * SUCCEEDED – The deployment to an IoT thing group was completed successfully.
         /// This member is required.
         public var coreDeviceExecutionStatus: GreengrassV2ClientTypes.EffectiveDeploymentExecutionStatus?
         /// The time at which the deployment was created, expressed in ISO 8601 format.
@@ -3327,6 +3343,7 @@ extension GreengrassV2ClientTypes {
         case inProgress
         case queued
         case rejected
+        case succeeded
         case timedOut
         case sdkUnknown(Swift.String)
 
@@ -3338,6 +3355,7 @@ extension GreengrassV2ClientTypes {
                 .inProgress,
                 .queued,
                 .rejected,
+                .succeeded,
                 .timedOut,
                 .sdkUnknown("")
             ]
@@ -3354,6 +3372,7 @@ extension GreengrassV2ClientTypes {
             case .inProgress: return "IN_PROGRESS"
             case .queued: return "QUEUED"
             case .rejected: return "REJECTED"
+            case .succeeded: return "SUCCEEDED"
             case .timedOut: return "TIMED_OUT"
             case let .sdkUnknown(s): return s
             }
@@ -4417,9 +4436,9 @@ extension GreengrassV2ClientTypes {
         public var componentVersion: Swift.String?
         /// Whether or not the component is a root component.
         public var isRoot: Swift.Bool
-        /// The most recent deployment source that brought the component to the Greengrass core device. For a thing group deployment or thing deployment, the source will be the The ID of the deployment. and for local deployments it will be LOCAL.
+        /// The most recent deployment source that brought the component to the Greengrass core device. For a thing group deployment or thing deployment, the source will be the The ID of the deployment. and for local deployments it will be LOCAL. Any deployment will attempt to reinstall currently broken components on the device, which will update the last installation source.
         public var lastInstallationSource: Swift.String?
-        /// The last time the Greengrass core device sent a message containing a certain component to the Amazon Web Services Cloud. A component does not need to see a state change for this field to update.
+        /// The last time the Greengrass core device sent a message containing a component's state to the Amazon Web Services Cloud. A component does not need to see a state change for this field to update.
         public var lastReportedTimestamp: ClientRuntime.Date?
         /// The status of how current the data is. This response is based off of component state changes. The status reflects component disruptions and deployments. If a component only sees a configuration update during a deployment, it might not undergo a state change and this status would not be updated.
         public var lastStatusChangeTimestamp: ClientRuntime.Date?

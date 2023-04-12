@@ -329,7 +329,7 @@ extension FSxClient: FSxClientProtocol {
         return result
     }
 
-    /// Creates an Amazon FSx for Lustre data repository association (DRA). A data repository association is a link between a directory on the file system and an Amazon S3 bucket or prefix. You can have a maximum of 8 data repository associations on a file system. Data repository associations are supported only for file systems with the Persistent_2 deployment type. Each data repository association must have a unique Amazon FSx file system directory and a unique S3 bucket or prefix associated with it. You can configure a data repository association for automatic import only, for automatic export only, or for both. To learn more about linking a data repository to your file system, see [Linking your file system to an S3 bucket](https://docs.aws.amazon.com/fsx/latest/LustreGuide/create-dra-linked-data-repo.html). CreateDataRepositoryAssociation isn't supported on Amazon File Cache resources. To create a DRA on Amazon File Cache, use the CreateFileCache operation.
+    /// Creates an Amazon FSx for Lustre data repository association (DRA). A data repository association is a link between a directory on the file system and an Amazon S3 bucket or prefix. You can have a maximum of 8 data repository associations on a file system. Data repository associations are supported for all file systems except for Scratch_1 deployment type. Each data repository association must have a unique Amazon FSx file system directory and a unique S3 bucket or prefix associated with it. You can configure a data repository association for automatic import only, for automatic export only, or for both. To learn more about linking a data repository to your file system, see [Linking your file system to an S3 bucket](https://docs.aws.amazon.com/fsx/latest/LustreGuide/create-dra-linked-data-repo.html). CreateDataRepositoryAssociation isn't supported on Amazon File Cache resources. To create a DRA on Amazon File Cache, use the CreateFileCache operation.
     public func createDataRepositoryAssociation(input: CreateDataRepositoryAssociationInput) async throws -> CreateDataRepositoryAssociationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -808,7 +808,7 @@ extension FSxClient: FSxClientProtocol {
         return result
     }
 
-    /// Deletes a data repository association on an Amazon FSx for Lustre file system. Deleting the data repository association unlinks the file system from the Amazon S3 bucket. When deleting a data repository association, you have the option of deleting the data in the file system that corresponds to the data repository association. Data repository associations are supported only for file systems with the Persistent_2 deployment type.
+    /// Deletes a data repository association on an Amazon FSx for Lustre file system. Deleting the data repository association unlinks the file system from the Amazon S3 bucket. When deleting a data repository association, you have the option of deleting the data in the file system that corresponds to the data repository association. Data repository associations are supported for all file systems except for Scratch_1 deployment type.
     public func deleteDataRepositoryAssociation(input: DeleteDataRepositoryAssociationInput) async throws -> DeleteDataRepositoryAssociationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1112,7 +1112,7 @@ extension FSxClient: FSxClientProtocol {
         return result
     }
 
-    /// Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data repository associations, if one or more AssociationIds values are provided in the request, or if filters are used in the request. Data repository associations are supported only for Amazon FSx for Lustre file systems with the Persistent_2 deployment type and for Amazon File Cache resources. You can use filters to narrow the response to include just data repository associations for specific file systems (use the file-system-id filter with the ID of the file system) or caches (use the file-cache-id filter with the ID of the cache), or data repository associations for a specific repository type (use the data-repository-type filter with a value of S3 or NFS). If you don't use filters, the response returns all data repository associations owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all data repository associations, you can paginate the response by using the optional MaxResults parameter to limit the number of data repository associations returned in a response. If more data repository associations remain, a NextToken value is returned in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response.
+    /// Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data repository associations, if one or more AssociationIds values are provided in the request, or if filters are used in the request. Data repository associations are supported on Amazon File Cache resources and all Amazon FSx for Lustre file systems excluding Scratch_1 deployment types. You can use filters to narrow the response to include just data repository associations for specific file systems (use the file-system-id filter with the ID of the file system) or caches (use the file-cache-id filter with the ID of the cache), or data repository associations for a specific repository type (use the data-repository-type filter with a value of S3 or NFS). If you don't use filters, the response returns all data repository associations owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all data repository associations, you can paginate the response by using the optional MaxResults parameter to limit the number of data repository associations returned in a response. If more data repository associations remain, a NextToken value is returned in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response.
     public func describeDataRepositoryAssociations(input: DescribeDataRepositoryAssociationsInput) async throws -> DescribeDataRepositoryAssociationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1664,7 +1664,7 @@ extension FSxClient: FSxClientProtocol {
         return result
     }
 
-    /// Updates the configuration of an existing data repository association on an Amazon FSx for Lustre file system. Data repository associations are supported only for file systems with the Persistent_2 deployment type.
+    /// Updates the configuration of an existing data repository association on an Amazon FSx for Lustre file system. Data repository associations are supported for all file systems except for Scratch_1 deployment type.
     public func updateDataRepositoryAssociation(input: UpdateDataRepositoryAssociationInput) async throws -> UpdateDataRepositoryAssociationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1752,7 +1752,7 @@ extension FSxClient: FSxClientProtocol {
         return result
     }
 
-    /// Use this operation to update the configuration of an existing Amazon FSx file system. You can update multiple properties in a single request. For Amazon FSx for Windows File Server file systems, you can update the following properties:
+    /// Use this operation to update the configuration of an existing Amazon FSx file system. You can update multiple properties in a single request. For FSx for Windows File Server file systems, you can update the following properties:
     ///
     /// * AuditLogConfiguration
     ///
@@ -1769,7 +1769,7 @@ extension FSxClient: FSxClientProtocol {
     /// * WeeklyMaintenanceStartTime
     ///
     ///
-    /// For Amazon FSx for Lustre file systems, you can update the following properties:
+    /// For FSx for Lustre file systems, you can update the following properties:
     ///
     /// * AutoImportPolicy
     ///
@@ -1786,7 +1786,9 @@ extension FSxClient: FSxClientProtocol {
     /// * WeeklyMaintenanceStartTime
     ///
     ///
-    /// For Amazon FSx for NetApp ONTAP file systems, you can update the following properties:
+    /// For FSx for ONTAP file systems, you can update the following properties:
+    ///
+    /// * AddRouteTableIds
     ///
     /// * AutomaticBackupRetentionDays
     ///
@@ -1796,6 +1798,8 @@ extension FSxClient: FSxClientProtocol {
     ///
     /// * FsxAdminPassword
     ///
+    /// * RemoveRouteTableIds
+    ///
     /// * StorageCapacity
     ///
     /// * ThroughputCapacity
@@ -1803,7 +1807,7 @@ extension FSxClient: FSxClientProtocol {
     /// * WeeklyMaintenanceStartTime
     ///
     ///
-    /// For the Amazon FSx for OpenZFS file systems, you can update the following properties:
+    /// For FSx for OpenZFS file systems, you can update the following properties:
     ///
     /// * AutomaticBackupRetentionDays
     ///
@@ -1812,6 +1816,10 @@ extension FSxClient: FSxClientProtocol {
     /// * CopyTagsToVolumes
     ///
     /// * DailyAutomaticBackupStartTime
+    ///
+    /// * DiskIopsConfiguration
+    ///
+    /// * StorageCapacity
     ///
     /// * ThroughputCapacity
     ///

@@ -1562,10 +1562,10 @@ extension DLMClientTypes.LifecyclePolicy: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dateCreated = self.dateCreated {
-            try encodeContainer.encodeTimestamp(dateCreated, format: .epochSeconds, forKey: .dateCreated)
+            try encodeContainer.encodeTimestamp(dateCreated, format: .dateTime, forKey: .dateCreated)
         }
         if let dateModified = self.dateModified {
-            try encodeContainer.encodeTimestamp(dateModified, format: .epochSeconds, forKey: .dateModified)
+            try encodeContainer.encodeTimestamp(dateModified, format: .dateTime, forKey: .dateModified)
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
@@ -1608,9 +1608,9 @@ extension DLMClientTypes.LifecyclePolicy: Swift.Codable {
         statusMessage = statusMessageDecoded
         let executionRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRoleArn)
         executionRoleArn = executionRoleArnDecoded
-        let dateCreatedDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .dateCreated)
+        let dateCreatedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .dateCreated)
         dateCreated = dateCreatedDecoded
-        let dateModifiedDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .dateModified)
+        let dateModifiedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .dateModified)
         dateModified = dateModifiedDecoded
         let policyDetailsDecoded = try containerValues.decodeIfPresent(DLMClientTypes.PolicyDetails.self, forKey: .policyDetails)
         policyDetails = policyDetailsDecoded

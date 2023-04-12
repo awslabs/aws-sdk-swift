@@ -227,6 +227,11 @@ public enum InvokeEndpointAsyncOutputError: Swift.Error, Swift.Equatable {
 
 extension InvokeEndpointAsyncOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let failureLocationHeaderValue = httpResponse.headers.value(for: "X-Amzn-SageMaker-FailureLocation") {
+            self.failureLocation = failureLocationHeaderValue
+        } else {
+            self.failureLocation = nil
+        }
         if let outputLocationHeaderValue = httpResponse.headers.value(for: "X-Amzn-SageMaker-OutputLocation") {
             self.outputLocation = outputLocationHeaderValue
         } else {
@@ -244,16 +249,20 @@ extension InvokeEndpointAsyncOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct InvokeEndpointAsyncOutputResponse: Swift.Equatable {
+    /// The Amazon S3 URI where the inference failure response payload is stored.
+    public var failureLocation: Swift.String?
     /// Identifier for an inference request. This will be the same as the InferenceId specified in the input. Amazon SageMaker will generate an identifier for you if you do not specify one.
     public var inferenceId: Swift.String?
     /// The Amazon S3 URI where the inference response payload is stored.
     public var outputLocation: Swift.String?
 
     public init (
+        failureLocation: Swift.String? = nil,
         inferenceId: Swift.String? = nil,
         outputLocation: Swift.String? = nil
     )
     {
+        self.failureLocation = failureLocation
         self.inferenceId = inferenceId
         self.outputLocation = outputLocation
     }

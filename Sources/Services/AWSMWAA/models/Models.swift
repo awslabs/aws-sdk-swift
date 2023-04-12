@@ -165,7 +165,7 @@ extension CreateCliTokenOutputResponseBody: Swift.Decodable {
 
 extension CreateEnvironmentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateEnvironmentInput(airflowVersion: \(Swift.String(describing: airflowVersion)), dagS3Path: \(Swift.String(describing: dagS3Path)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), kmsKey: \(Swift.String(describing: kmsKey)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), tags: \(Swift.String(describing: tags)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
+        "CreateEnvironmentInput(airflowVersion: \(Swift.String(describing: airflowVersion)), dagS3Path: \(Swift.String(describing: dagS3Path)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), kmsKey: \(Swift.String(describing: kmsKey)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), tags: \(Swift.String(describing: tags)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateEnvironmentInput: Swift.Encodable {
@@ -186,6 +186,8 @@ extension CreateEnvironmentInput: Swift.Encodable {
         case requirementsS3Path = "RequirementsS3Path"
         case schedulers = "Schedulers"
         case sourceBucketArn = "SourceBucketArn"
+        case startupScriptS3ObjectVersion = "StartupScriptS3ObjectVersion"
+        case startupScriptS3Path = "StartupScriptS3Path"
         case tags = "Tags"
         case webserverAccessMode = "WebserverAccessMode"
         case weeklyMaintenanceWindowStart = "WeeklyMaintenanceWindowStart"
@@ -244,6 +246,12 @@ extension CreateEnvironmentInput: Swift.Encodable {
         if let sourceBucketArn = self.sourceBucketArn {
             try encodeContainer.encode(sourceBucketArn, forKey: .sourceBucketArn)
         }
+        if let startupScriptS3ObjectVersion = self.startupScriptS3ObjectVersion {
+            try encodeContainer.encode(startupScriptS3ObjectVersion, forKey: .startupScriptS3ObjectVersion)
+        }
+        if let startupScriptS3Path = self.startupScriptS3Path {
+            try encodeContainer.encode(startupScriptS3Path, forKey: .startupScriptS3Path)
+        }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
             for (dictKey0, tagMap0) in tags {
@@ -270,19 +278,19 @@ extension CreateEnvironmentInput: ClientRuntime.URLPathProvider {
 
 /// This section contains the Amazon Managed Workflows for Apache Airflow (MWAA) API reference documentation to create an environment. For more information, see [Get started with Amazon Managed Workflows for Apache Airflow](https://docs.aws.amazon.com/mwaa/latest/userguide/get-started.html).
 public struct CreateEnvironmentInput: Swift.Equatable {
-    /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. To learn more, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
+    /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
     public var airflowConfigurationOptions: [Swift.String:Swift.String]?
     /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. Valid values: 1.10.12, 2.0.2, 2.2.2, and 2.4.3. For more information, see [Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (MWAA)](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html).
     public var airflowVersion: Swift.String?
-    /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. To learn more, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
+    /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
     /// This member is required.
     public var dagS3Path: Swift.String?
-    /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large. To learn more, see [Amazon MWAA environment class](https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html).
+    /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large. For more information, see [Amazon MWAA environment class](https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html).
     public var environmentClass: Swift.String?
-    /// The Amazon Resource Name (ARN) of the execution role for your environment. An execution role is an Amazon Web Services Identity and Access Management (IAM) role that grants MWAA permission to access Amazon Web Services services and resources used by your environment. For example, arn:aws:iam::123456789:role/my-execution-role. To learn more, see [Amazon MWAA Execution role](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-create-role.html).
+    /// The Amazon Resource Name (ARN) of the execution role for your environment. An execution role is an Amazon Web Services Identity and Access Management (IAM) role that grants MWAA permission to access Amazon Web Services services and resources used by your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, see [Amazon MWAA Execution role](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-create-role.html).
     /// This member is required.
     public var executionRoleArn: Swift.String?
-    /// The Amazon Web Services Key Management Service (KMS) key to encrypt the data in your environment. You can use an Amazon Web Services owned CMK, or a Customer managed CMK (advanced). To learn more, see [Create an Amazon MWAA environment](https://docs.aws.amazon.com/mwaa/latest/userguide/create-environment.html).
+    /// The Amazon Web Services Key Management Service (KMS) key to encrypt the data in your environment. You can use an Amazon Web Services owned CMK, or a Customer managed CMK (advanced). For more information, see [Create an Amazon MWAA environment](https://docs.aws.amazon.com/mwaa/latest/userguide/create-environment.html).
     public var kmsKey: Swift.String?
     /// Defines the Apache Airflow logs to send to CloudWatch Logs.
     public var loggingConfiguration: MWAAClientTypes.LoggingConfigurationInput?
@@ -293,16 +301,16 @@ public struct CreateEnvironmentInput: Swift.Equatable {
     /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
     /// This member is required.
     public var name: Swift.String?
-    /// The VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment. To learn more, see [About networking on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/networking-about.html).
+    /// The VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment. For more information, see [About networking on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/networking-about.html).
     /// This member is required.
     public var networkConfiguration: MWAAClientTypes.NetworkConfiguration?
-    /// The version of the plugins.zip file on your Amazon S3 bucket. A version must be specified each time a plugins.zip file is updated. To learn more, see [How S3 Versioning works](https://docs.aws.amazon.com/AmazonS3/latest/userguide/versioning-workflows.html).
+    /// The version of the plugins.zip file on your Amazon S3 bucket. You must specify a version each time a plugins.zip file is updated. For more information, see [How S3 Versioning works](https://docs.aws.amazon.com/AmazonS3/latest/userguide/versioning-workflows.html).
     public var pluginsS3ObjectVersion: Swift.String?
-    /// The relative path to the plugins.zip file on your Amazon S3 bucket. For example, plugins.zip. If specified, then the plugins.zip version is required. To learn more, see [Installing custom plugins](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-import-plugins.html).
+    /// The relative path to the plugins.zip file on your Amazon S3 bucket. For example, plugins.zip. If specified, then the plugins.zip version is required. For more information, see [Installing custom plugins](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-import-plugins.html).
     public var pluginsS3Path: Swift.String?
-    /// The version of the requirements.txt file on your Amazon S3 bucket. A version must be specified each time a requirements.txt file is updated. To learn more, see [How S3 Versioning works](https://docs.aws.amazon.com/AmazonS3/latest/userguide/versioning-workflows.html).
+    /// The version of the requirements.txt file on your Amazon S3 bucket. You must specify a version each time a requirements.txt file is updated. For more information, see [How S3 Versioning works](https://docs.aws.amazon.com/AmazonS3/latest/userguide/versioning-workflows.html).
     public var requirementsS3ObjectVersion: Swift.String?
-    /// The relative path to the requirements.txt file on your Amazon S3 bucket. For example, requirements.txt. If specified, then a file version is required. To learn more, see [Installing Python dependencies](https://docs.aws.amazon.com/mwaa/latest/userguide/working-dags-dependencies.html).
+    /// The relative path to the requirements.txt file on your Amazon S3 bucket. For example, requirements.txt. If specified, then a version is required. For more information, see [Installing Python dependencies](https://docs.aws.amazon.com/mwaa/latest/userguide/working-dags-dependencies.html).
     public var requirementsS3Path: Swift.String?
     /// The number of Apache Airflow schedulers to run in your environment. Valid values:
     ///
@@ -310,12 +318,16 @@ public struct CreateEnvironmentInput: Swift.Equatable {
     ///
     /// * v1 - Accepts 1.
     public var schedulers: Swift.Int?
-    /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG code and supporting files are stored. For example, arn:aws:s3:::my-airflow-bucket-unique-name. To learn more, see [Create an Amazon S3 bucket for Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-s3-bucket.html).
+    /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG code and supporting files are stored. For example, arn:aws:s3:::my-airflow-bucket-unique-name. For more information, see [Create an Amazon S3 bucket for Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-s3-bucket.html).
     /// This member is required.
     public var sourceBucketArn: Swift.String?
-    /// The key-value tag pairs you want to associate to your environment. For example, "Environment": "Staging". To learn more, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+    /// The version of the startup shell script in your Amazon S3 bucket. You must specify the [version ID](https://docs.aws.amazon.com/AmazonS3/latest/userguide/versioning-workflows.html) that Amazon S3 assigns to the file every time you update the script. Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example: 3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo For more information, see [Using a startup script](https://docs.aws.amazon.com/mwaa/latest/userguide/using-startup-script.html).
+    public var startupScriptS3ObjectVersion: Swift.String?
+    /// The relative path to the startup shell script in your Amazon S3 bucket. For example, s3://mwaa-environment/startup.sh. Amazon MWAA runs the script as your environment starts, and before running the Apache Airflow process. You can use this script to install dependencies, modify Apache Airflow configuration options, and set environment variables. For more information, see [Using a startup script](https://docs.aws.amazon.com/mwaa/latest/userguide/using-startup-script.html).
+    public var startupScriptS3Path: Swift.String?
+    /// The key-value tag pairs you want to associate to your environment. For example, "Environment": "Staging". For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
     public var tags: [Swift.String:Swift.String]?
-    /// The Apache Airflow Web server access mode. To learn more, see [Apache Airflow access modes](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-networking.html).
+    /// The Apache Airflow Web server access mode. For more information, see [Apache Airflow access modes](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-networking.html).
     public var webserverAccessMode: MWAAClientTypes.WebserverAccessMode?
     /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30 minute increments only.
     public var weeklyMaintenanceWindowStart: Swift.String?
@@ -338,6 +350,8 @@ public struct CreateEnvironmentInput: Swift.Equatable {
         requirementsS3Path: Swift.String? = nil,
         schedulers: Swift.Int? = nil,
         sourceBucketArn: Swift.String? = nil,
+        startupScriptS3ObjectVersion: Swift.String? = nil,
+        startupScriptS3Path: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         webserverAccessMode: MWAAClientTypes.WebserverAccessMode? = nil,
         weeklyMaintenanceWindowStart: Swift.String? = nil
@@ -360,6 +374,8 @@ public struct CreateEnvironmentInput: Swift.Equatable {
         self.requirementsS3Path = requirementsS3Path
         self.schedulers = schedulers
         self.sourceBucketArn = sourceBucketArn
+        self.startupScriptS3ObjectVersion = startupScriptS3ObjectVersion
+        self.startupScriptS3Path = startupScriptS3Path
         self.tags = tags
         self.webserverAccessMode = webserverAccessMode
         self.weeklyMaintenanceWindowStart = weeklyMaintenanceWindowStart
@@ -375,6 +391,8 @@ struct CreateEnvironmentInputBody: Swift.Equatable {
     let pluginsS3ObjectVersion: Swift.String?
     let requirementsS3Path: Swift.String?
     let requirementsS3ObjectVersion: Swift.String?
+    let startupScriptS3Path: Swift.String?
+    let startupScriptS3ObjectVersion: Swift.String?
     let airflowConfigurationOptions: [Swift.String:Swift.String]?
     let environmentClass: Swift.String?
     let maxWorkers: Swift.Int?
@@ -406,6 +424,8 @@ extension CreateEnvironmentInputBody: Swift.Decodable {
         case requirementsS3Path = "RequirementsS3Path"
         case schedulers = "Schedulers"
         case sourceBucketArn = "SourceBucketArn"
+        case startupScriptS3ObjectVersion = "StartupScriptS3ObjectVersion"
+        case startupScriptS3Path = "StartupScriptS3Path"
         case tags = "Tags"
         case webserverAccessMode = "WebserverAccessMode"
         case weeklyMaintenanceWindowStart = "WeeklyMaintenanceWindowStart"
@@ -429,6 +449,10 @@ extension CreateEnvironmentInputBody: Swift.Decodable {
         requirementsS3Path = requirementsS3PathDecoded
         let requirementsS3ObjectVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requirementsS3ObjectVersion)
         requirementsS3ObjectVersion = requirementsS3ObjectVersionDecoded
+        let startupScriptS3PathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startupScriptS3Path)
+        startupScriptS3Path = startupScriptS3PathDecoded
+        let startupScriptS3ObjectVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startupScriptS3ObjectVersion)
+        startupScriptS3ObjectVersion = startupScriptS3ObjectVersionDecoded
         let airflowConfigurationOptionsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .airflowConfigurationOptions)
         var airflowConfigurationOptionsDecoded0: [Swift.String:Swift.String]? = nil
         if let airflowConfigurationOptionsContainer = airflowConfigurationOptionsContainer {
@@ -789,6 +813,8 @@ extension MWAAClientTypes.Environment: Swift.Codable {
         case schedulers = "Schedulers"
         case serviceRoleArn = "ServiceRoleArn"
         case sourceBucketArn = "SourceBucketArn"
+        case startupScriptS3ObjectVersion = "StartupScriptS3ObjectVersion"
+        case startupScriptS3Path = "StartupScriptS3Path"
         case status = "Status"
         case tags = "Tags"
         case webserverAccessMode = "WebserverAccessMode"
@@ -864,6 +890,12 @@ extension MWAAClientTypes.Environment: Swift.Codable {
         if let sourceBucketArn = self.sourceBucketArn {
             try encodeContainer.encode(sourceBucketArn, forKey: .sourceBucketArn)
         }
+        if let startupScriptS3ObjectVersion = self.startupScriptS3ObjectVersion {
+            try encodeContainer.encode(startupScriptS3ObjectVersion, forKey: .startupScriptS3ObjectVersion)
+        }
+        if let startupScriptS3Path = self.startupScriptS3Path {
+            try encodeContainer.encode(startupScriptS3Path, forKey: .startupScriptS3Path)
+        }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
         }
@@ -916,6 +948,10 @@ extension MWAAClientTypes.Environment: Swift.Codable {
         requirementsS3Path = requirementsS3PathDecoded
         let requirementsS3ObjectVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requirementsS3ObjectVersion)
         requirementsS3ObjectVersion = requirementsS3ObjectVersionDecoded
+        let startupScriptS3PathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startupScriptS3Path)
+        startupScriptS3Path = startupScriptS3PathDecoded
+        let startupScriptS3ObjectVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startupScriptS3ObjectVersion)
+        startupScriptS3ObjectVersion = startupScriptS3ObjectVersionDecoded
         let airflowConfigurationOptionsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .airflowConfigurationOptions)
         var airflowConfigurationOptionsDecoded0: [Swift.String:Swift.String]? = nil
         if let airflowConfigurationOptionsContainer = airflowConfigurationOptionsContainer {
@@ -961,13 +997,13 @@ extension MWAAClientTypes.Environment: Swift.Codable {
 
 extension MWAAClientTypes.Environment: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Environment(airflowVersion: \(Swift.String(describing: airflowVersion)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), dagS3Path: \(Swift.String(describing: dagS3Path)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), kmsKey: \(Swift.String(describing: kmsKey)), lastUpdate: \(Swift.String(describing: lastUpdate)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), serviceRoleArn: \(Swift.String(describing: serviceRoleArn)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), webserverUrl: \(Swift.String(describing: webserverUrl)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
+        "Environment(airflowVersion: \(Swift.String(describing: airflowVersion)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), dagS3Path: \(Swift.String(describing: dagS3Path)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), kmsKey: \(Swift.String(describing: kmsKey)), lastUpdate: \(Swift.String(describing: lastUpdate)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), serviceRoleArn: \(Swift.String(describing: serviceRoleArn)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), webserverUrl: \(Swift.String(describing: webserverUrl)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
 }
 
 extension MWAAClientTypes {
     /// Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     public struct Environment: Swift.Equatable {
-        /// A list of key-value pairs containing the Apache Airflow configuration options attached to your environment. To learn more, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
+        /// A list of key-value pairs containing the Apache Airflow configuration options attached to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
         public var airflowConfigurationOptions: [Swift.String:Swift.String]?
         /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, and 2.4.3.
         public var airflowVersion: Swift.String?
@@ -975,11 +1011,11 @@ extension MWAAClientTypes {
         public var arn: Swift.String?
         /// The day and time the environment was created.
         public var createdAt: ClientRuntime.Date?
-        /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. To learn more, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
+        /// The relative path to the DAGs folder in your Amazon S3 bucket. For example, s3://mwaa-environment/dags. For more information, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
         public var dagS3Path: Swift.String?
-        /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large. To learn more, see [Amazon MWAA environment class](https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html).
+        /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large. For more information, see [Amazon MWAA environment class](https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html).
         public var environmentClass: Swift.String?
-        /// The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. To learn more, see [Amazon MWAA Execution role](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-create-role.html).
+        /// The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, see [Amazon MWAA Execution role](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-create-role.html).
         public var executionRoleArn: Swift.String?
         /// The Amazon Web Services Key Management Service (KMS) encryption key used to encrypt the data in your environment.
         public var kmsKey: Swift.String?
@@ -993,22 +1029,26 @@ extension MWAAClientTypes {
         public var minWorkers: Swift.Int?
         /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
         public var name: Swift.String?
-        /// Describes the VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment. To learn more, see [About networking on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/networking-about.html).
+        /// Describes the VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment. For more information, see [About networking on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/networking-about.html).
         public var networkConfiguration: MWAAClientTypes.NetworkConfiguration?
-        /// The version of the plugins.zip file on your Amazon S3 bucket. To learn more, see [Installing custom plugins](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-import-plugins.html).
+        /// The version of the plugins.zip file in your Amazon S3 bucket. You must specify the [version ID](https://docs.aws.amazon.com/AmazonS3/latest/userguide/versioning-workflows.html) that Amazon S3 assigns to the file. Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example: 3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo For more information, see [Installing custom plugins](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-import-plugins.html).
         public var pluginsS3ObjectVersion: Swift.String?
-        /// The relative path to the plugins.zip file on your Amazon S3 bucket. For example, plugins.zip. To learn more, see [Installing custom plugins](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-import-plugins.html).
+        /// The relative path to the file in your Amazon S3 bucket. For example, s3://mwaa-environment/plugins.zip. For more information, see [Installing custom plugins](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-import-plugins.html).
         public var pluginsS3Path: Swift.String?
-        /// The version of the requirements.txt file on your Amazon S3 bucket. To learn more, see [Installing Python dependencies](https://docs.aws.amazon.com/mwaa/latest/userguide/working-dags-dependencies.html).
+        /// The version of the requirements.txt  file on your Amazon S3 bucket. You must specify the [version ID](https://docs.aws.amazon.com/AmazonS3/latest/userguide/versioning-workflows.html) that Amazon S3 assigns to the file. Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example: 3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo For more information, see [Installing Python dependencies](https://docs.aws.amazon.com/mwaa/latest/userguide/working-dags-dependencies.html).
         public var requirementsS3ObjectVersion: Swift.String?
-        /// The relative path to the requirements.txt file on your Amazon S3 bucket. For example, requirements.txt. To learn more, see [Installing Python dependencies](https://docs.aws.amazon.com/mwaa/latest/userguide/working-dags-dependencies.html).
+        /// The relative path to the requirements.txt file in your Amazon S3 bucket. For example, s3://mwaa-environment/requirements.txt. For more information, see [Installing Python dependencies](https://docs.aws.amazon.com/mwaa/latest/userguide/working-dags-dependencies.html).
         public var requirementsS3Path: Swift.String?
         /// The number of Apache Airflow schedulers that run in your Amazon MWAA environment.
         public var schedulers: Swift.Int?
-        /// The Amazon Resource Name (ARN) for the service-linked role of the environment. To learn more, see [Amazon MWAA Service-linked role](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-slr.html).
+        /// The Amazon Resource Name (ARN) for the service-linked role of the environment. For more information, see [Amazon MWAA Service-linked role](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-slr.html).
         public var serviceRoleArn: Swift.String?
-        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG code and supporting files are stored. For example, arn:aws:s3:::my-airflow-bucket-unique-name. To learn more, see [Create an Amazon S3 bucket for Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-s3-bucket.html).
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG code and supporting files are stored. For example, arn:aws:s3:::my-airflow-bucket-unique-name. For more information, see [Create an Amazon S3 bucket for Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-s3-bucket.html).
         public var sourceBucketArn: Swift.String?
+        /// The version of the startup shell script in your Amazon S3 bucket. You must specify the [version ID](https://docs.aws.amazon.com/AmazonS3/latest/userguide/versioning-workflows.html) that Amazon S3 assigns to the file. Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example: 3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo For more information, see [Using a startup script](https://docs.aws.amazon.com/mwaa/latest/userguide/using-startup-script.html).
+        public var startupScriptS3ObjectVersion: Swift.String?
+        /// The relative path to the startup shell script in your Amazon S3 bucket. For example, s3://mwaa-environment/startup.sh. Amazon MWAA runs the script as your environment starts, and before running the Apache Airflow process. You can use this script to install dependencies, modify Apache Airflow configuration options, and set environment variables. For more information, see [Using a startup script](https://docs.aws.amazon.com/mwaa/latest/userguide/using-startup-script.html).
+        public var startupScriptS3Path: Swift.String?
         /// The status of the Amazon MWAA environment. Valid values:
         ///
         /// * CREATING - Indicates the request to create the environment is in progress.
@@ -1028,13 +1068,13 @@ extension MWAAClientTypes {
         /// * UPDATE_FAILED - Indicates the request to update the environment failed, and the environment has rolled back successfully and is ready to use.
         ///
         ///
-        /// We recommend reviewing our troubleshooting guide for a list of common errors and their solutions. To learn more, see [Amazon MWAA troubleshooting](https://docs.aws.amazon.com/mwaa/latest/userguide/troubleshooting.html).
+        /// We recommend reviewing our troubleshooting guide for a list of common errors and their solutions. For more information, see [Amazon MWAA troubleshooting](https://docs.aws.amazon.com/mwaa/latest/userguide/troubleshooting.html).
         public var status: MWAAClientTypes.EnvironmentStatus?
-        /// The key-value tag pairs associated to your environment. For example, "Environment": "Staging". To learn more, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+        /// The key-value tag pairs associated to your environment. For example, "Environment": "Staging". For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
         public var tags: [Swift.String:Swift.String]?
-        /// The Apache Airflow Web server access mode. To learn more, see [Apache Airflow access modes](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-networking.html).
+        /// The Apache Airflow Web server access mode. For more information, see [Apache Airflow access modes](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-networking.html).
         public var webserverAccessMode: MWAAClientTypes.WebserverAccessMode?
-        /// The Apache Airflow Web server host name for the Amazon MWAA environment. To learn more, see [Accessing the Apache Airflow UI](https://docs.aws.amazon.com/mwaa/latest/userguide/access-airflow-ui.html).
+        /// The Apache Airflow Web server host name for the Amazon MWAA environment. For more information, see [Accessing the Apache Airflow UI](https://docs.aws.amazon.com/mwaa/latest/userguide/access-airflow-ui.html).
         public var webserverUrl: Swift.String?
         /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time that weekly maintenance updates are scheduled. For example: TUE:03:30.
         public var weeklyMaintenanceWindowStart: Swift.String?
@@ -1061,6 +1101,8 @@ extension MWAAClientTypes {
             schedulers: Swift.Int? = nil,
             serviceRoleArn: Swift.String? = nil,
             sourceBucketArn: Swift.String? = nil,
+            startupScriptS3ObjectVersion: Swift.String? = nil,
+            startupScriptS3Path: Swift.String? = nil,
             status: MWAAClientTypes.EnvironmentStatus? = nil,
             tags: [Swift.String:Swift.String]? = nil,
             webserverAccessMode: MWAAClientTypes.WebserverAccessMode? = nil,
@@ -1089,6 +1131,8 @@ extension MWAAClientTypes {
             self.schedulers = schedulers
             self.serviceRoleArn = serviceRoleArn
             self.sourceBucketArn = sourceBucketArn
+            self.startupScriptS3ObjectVersion = startupScriptS3ObjectVersion
+            self.startupScriptS3Path = startupScriptS3Path
             self.status = status
             self.tags = tags
             self.webserverAccessMode = webserverAccessMode
@@ -1568,7 +1612,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListTagsForResourceOutputResponse: Swift.Equatable {
-    /// The key-value tag pairs associated to your environment. To learn more, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+    /// The key-value tag pairs associated to your environment. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
     public var tags: [Swift.String:Swift.String]?
 
     public init (
@@ -2046,11 +2090,11 @@ extension MWAAClientTypes.NetworkConfiguration: Swift.Codable {
 }
 
 extension MWAAClientTypes {
-    /// Describes the VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment. To learn more, see [About networking on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/networking-about.html).
+    /// Describes the VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment. For more information, see [About networking on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/networking-about.html).
     public struct NetworkConfiguration: Swift.Equatable {
-        /// A list of security group IDs. To learn more, see [Security in your VPC on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/vpc-security.html).
+        /// A list of security group IDs. For more information, see [Security in your VPC on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/vpc-security.html).
         public var securityGroupIds: [Swift.String]?
-        /// A list of subnet IDs. To learn more, see [About networking on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/networking-about.html).
+        /// A list of subnet IDs. For more information, see [About networking on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/networking-about.html).
         public var subnetIds: [Swift.String]?
 
         public init (
@@ -2313,7 +2357,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the Amazon MWAA environment. For example, arn:aws:airflow:us-east-1:123456789012:environment/MyMWAAEnvironment.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// The key-value tag pairs you want to associate to your environment. For example, "Environment": "Staging". To learn more, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+    /// The key-value tag pairs you want to associate to your environment. For example, "Environment": "Staging". For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2586,7 +2630,7 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
 
 extension UpdateEnvironmentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateEnvironmentInput(airflowVersion: \(Swift.String(describing: airflowVersion)), dagS3Path: \(Swift.String(describing: dagS3Path)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
+        "UpdateEnvironmentInput(airflowVersion: \(Swift.String(describing: airflowVersion)), dagS3Path: \(Swift.String(describing: dagS3Path)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateEnvironmentInput: Swift.Encodable {
@@ -2606,6 +2650,8 @@ extension UpdateEnvironmentInput: Swift.Encodable {
         case requirementsS3Path = "RequirementsS3Path"
         case schedulers = "Schedulers"
         case sourceBucketArn = "SourceBucketArn"
+        case startupScriptS3ObjectVersion = "StartupScriptS3ObjectVersion"
+        case startupScriptS3Path = "StartupScriptS3Path"
         case webserverAccessMode = "WebserverAccessMode"
         case weeklyMaintenanceWindowStart = "WeeklyMaintenanceWindowStart"
     }
@@ -2660,6 +2706,12 @@ extension UpdateEnvironmentInput: Swift.Encodable {
         if let sourceBucketArn = self.sourceBucketArn {
             try encodeContainer.encode(sourceBucketArn, forKey: .sourceBucketArn)
         }
+        if let startupScriptS3ObjectVersion = self.startupScriptS3ObjectVersion {
+            try encodeContainer.encode(startupScriptS3ObjectVersion, forKey: .startupScriptS3ObjectVersion)
+        }
+        if let startupScriptS3Path = self.startupScriptS3Path {
+            try encodeContainer.encode(startupScriptS3Path, forKey: .startupScriptS3Path)
+        }
         if let webserverAccessMode = self.webserverAccessMode {
             try encodeContainer.encode(webserverAccessMode.rawValue, forKey: .webserverAccessMode)
         }
@@ -2679,15 +2731,15 @@ extension UpdateEnvironmentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateEnvironmentInput: Swift.Equatable {
-    /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. To learn more, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
+    /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
     public var airflowConfigurationOptions: [Swift.String:Swift.String]?
     /// The Apache Airflow version for your environment. If no value is specified, defaults to the latest version. Valid values: 1.10.12, 2.0.2, 2.2.2, and 2.4.3.
     public var airflowVersion: Swift.String?
-    /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. To learn more, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
+    /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
     public var dagS3Path: Swift.String?
-    /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large. To learn more, see [Amazon MWAA environment class](https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html).
+    /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large. For more information, see [Amazon MWAA environment class](https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html).
     public var environmentClass: Swift.String?
-    /// The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. To learn more, see [Amazon MWAA Execution role](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-create-role.html).
+    /// The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, see [Amazon MWAA Execution role](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-create-role.html).
     public var executionRoleArn: Swift.String?
     /// The Apache Airflow log types to send to CloudWatch Logs.
     public var loggingConfiguration: MWAAClientTypes.LoggingConfigurationInput?
@@ -2698,21 +2750,25 @@ public struct UpdateEnvironmentInput: Swift.Equatable {
     /// The name of your Amazon MWAA environment. For example, MyMWAAEnvironment.
     /// This member is required.
     public var name: Swift.String?
-    /// The VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment. To learn more, see [About networking on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/networking-about.html).
+    /// The VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment. For more information, see [About networking on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/networking-about.html).
     public var networkConfiguration: MWAAClientTypes.UpdateNetworkConfigurationInput?
-    /// The version of the plugins.zip file on your Amazon S3 bucket. A version must be specified each time a plugins.zip file is updated. To learn more, see [How S3 Versioning works](https://docs.aws.amazon.com/AmazonS3/latest/userguide/versioning-workflows.html).
+    /// The version of the plugins.zip file on your Amazon S3 bucket. You must specify a version each time a plugins.zip file is updated. For more information, see [How S3 Versioning works](https://docs.aws.amazon.com/AmazonS3/latest/userguide/versioning-workflows.html).
     public var pluginsS3ObjectVersion: Swift.String?
-    /// The relative path to the plugins.zip file on your Amazon S3 bucket. For example, plugins.zip. If specified, then the plugins.zip version is required. To learn more, see [Installing custom plugins](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-import-plugins.html).
+    /// The relative path to the plugins.zip file on your Amazon S3 bucket. For example, plugins.zip. If specified, then the plugins.zip version is required. For more information, see [Installing custom plugins](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-import-plugins.html).
     public var pluginsS3Path: Swift.String?
-    /// The version of the requirements.txt file on your Amazon S3 bucket. A version must be specified each time a requirements.txt file is updated. To learn more, see [How S3 Versioning works](https://docs.aws.amazon.com/AmazonS3/latest/userguide/versioning-workflows.html).
+    /// The version of the requirements.txt file on your Amazon S3 bucket. You must specify a version each time a requirements.txt file is updated. For more information, see [How S3 Versioning works](https://docs.aws.amazon.com/AmazonS3/latest/userguide/versioning-workflows.html).
     public var requirementsS3ObjectVersion: Swift.String?
-    /// The relative path to the requirements.txt file on your Amazon S3 bucket. For example, requirements.txt. If specified, then a file version is required. To learn more, see [Installing Python dependencies](https://docs.aws.amazon.com/mwaa/latest/userguide/working-dags-dependencies.html).
+    /// The relative path to the requirements.txt file on your Amazon S3 bucket. For example, requirements.txt. If specified, then a file version is required. For more information, see [Installing Python dependencies](https://docs.aws.amazon.com/mwaa/latest/userguide/working-dags-dependencies.html).
     public var requirementsS3Path: Swift.String?
     /// The number of Apache Airflow schedulers to run in your Amazon MWAA environment.
     public var schedulers: Swift.Int?
-    /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG code and supporting files are stored. For example, arn:aws:s3:::my-airflow-bucket-unique-name. To learn more, see [Create an Amazon S3 bucket for Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-s3-bucket.html).
+    /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG code and supporting files are stored. For example, arn:aws:s3:::my-airflow-bucket-unique-name. For more information, see [Create an Amazon S3 bucket for Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-s3-bucket.html).
     public var sourceBucketArn: Swift.String?
-    /// The Apache Airflow Web server access mode. To learn more, see [Apache Airflow access modes](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-networking.html).
+    /// The version of the startup shell script in your Amazon S3 bucket. You must specify the [version ID](https://docs.aws.amazon.com/AmazonS3/latest/userguide/versioning-workflows.html) that Amazon S3 assigns to the file every time you update the script. Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example: 3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo For more information, see [Using a startup script](https://docs.aws.amazon.com/mwaa/latest/userguide/using-startup-script.html).
+    public var startupScriptS3ObjectVersion: Swift.String?
+    /// The relative path to the startup shell script in your Amazon S3 bucket. For example, s3://mwaa-environment/startup.sh. Amazon MWAA runs the script as your environment starts, and before running the Apache Airflow process. You can use this script to install dependencies, modify Apache Airflow configuration options, and set environment variables. For more information, see [Using a startup script](https://docs.aws.amazon.com/mwaa/latest/userguide/using-startup-script.html).
+    public var startupScriptS3Path: Swift.String?
+    /// The Apache Airflow Web server access mode. For more information, see [Apache Airflow access modes](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-networking.html).
     public var webserverAccessMode: MWAAClientTypes.WebserverAccessMode?
     /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30 minute increments only.
     public var weeklyMaintenanceWindowStart: Swift.String?
@@ -2734,6 +2790,8 @@ public struct UpdateEnvironmentInput: Swift.Equatable {
         requirementsS3Path: Swift.String? = nil,
         schedulers: Swift.Int? = nil,
         sourceBucketArn: Swift.String? = nil,
+        startupScriptS3ObjectVersion: Swift.String? = nil,
+        startupScriptS3Path: Swift.String? = nil,
         webserverAccessMode: MWAAClientTypes.WebserverAccessMode? = nil,
         weeklyMaintenanceWindowStart: Swift.String? = nil
     )
@@ -2754,6 +2812,8 @@ public struct UpdateEnvironmentInput: Swift.Equatable {
         self.requirementsS3Path = requirementsS3Path
         self.schedulers = schedulers
         self.sourceBucketArn = sourceBucketArn
+        self.startupScriptS3ObjectVersion = startupScriptS3ObjectVersion
+        self.startupScriptS3Path = startupScriptS3Path
         self.webserverAccessMode = webserverAccessMode
         self.weeklyMaintenanceWindowStart = weeklyMaintenanceWindowStart
     }
@@ -2768,6 +2828,8 @@ struct UpdateEnvironmentInputBody: Swift.Equatable {
     let pluginsS3ObjectVersion: Swift.String?
     let requirementsS3Path: Swift.String?
     let requirementsS3ObjectVersion: Swift.String?
+    let startupScriptS3Path: Swift.String?
+    let startupScriptS3ObjectVersion: Swift.String?
     let airflowConfigurationOptions: [Swift.String:Swift.String]?
     let environmentClass: Swift.String?
     let maxWorkers: Swift.Int?
@@ -2796,6 +2858,8 @@ extension UpdateEnvironmentInputBody: Swift.Decodable {
         case requirementsS3Path = "RequirementsS3Path"
         case schedulers = "Schedulers"
         case sourceBucketArn = "SourceBucketArn"
+        case startupScriptS3ObjectVersion = "StartupScriptS3ObjectVersion"
+        case startupScriptS3Path = "StartupScriptS3Path"
         case webserverAccessMode = "WebserverAccessMode"
         case weeklyMaintenanceWindowStart = "WeeklyMaintenanceWindowStart"
     }
@@ -2818,6 +2882,10 @@ extension UpdateEnvironmentInputBody: Swift.Decodable {
         requirementsS3Path = requirementsS3PathDecoded
         let requirementsS3ObjectVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requirementsS3ObjectVersion)
         requirementsS3ObjectVersion = requirementsS3ObjectVersionDecoded
+        let startupScriptS3PathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startupScriptS3Path)
+        startupScriptS3Path = startupScriptS3PathDecoded
+        let startupScriptS3ObjectVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startupScriptS3ObjectVersion)
+        startupScriptS3ObjectVersion = startupScriptS3ObjectVersionDecoded
         let airflowConfigurationOptionsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .airflowConfigurationOptions)
         var airflowConfigurationOptionsDecoded0: [Swift.String:Swift.String]? = nil
         if let airflowConfigurationOptionsContainer = airflowConfigurationOptionsContainer {
@@ -2992,9 +3060,9 @@ extension MWAAClientTypes.UpdateNetworkConfigurationInput: Swift.Codable {
 }
 
 extension MWAAClientTypes {
-    /// Defines the VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment. To learn more, see [About networking on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/networking-about.html).
+    /// Defines the VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment. For more information, see [About networking on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/networking-about.html).
     public struct UpdateNetworkConfigurationInput: Swift.Equatable {
-        /// A list of security group IDs. A security group must be attached to the same VPC as the subnets. To learn more, see [Security in your VPC on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/vpc-security.html).
+        /// A list of security group IDs. A security group must be attached to the same VPC as the subnets. For more information, see [Security in your VPC on Amazon MWAA](https://docs.aws.amazon.com/mwaa/latest/userguide/vpc-security.html).
         /// This member is required.
         public var securityGroupIds: [Swift.String]?
 

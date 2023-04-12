@@ -180,7 +180,7 @@ public struct BatchExecuteStatementInput: Swift.Equatable {
     /// The name of the database. This parameter is required when authenticating using either Secrets Manager or temporary credentials.
     /// This member is required.
     public var database: Swift.String?
-    /// The database user name. This parameter is required when connecting to a cluster and authenticating using temporary credentials.
+    /// The database user name. This parameter is required when connecting to a cluster as a database user and authenticating using temporary credentials.
     public var dbUser: Swift.String?
     /// The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Manager.
     public var secretArn: Swift.String?
@@ -1118,7 +1118,7 @@ public struct DescribeTableInput: Swift.Equatable {
     /// The name of the database that contains the tables to be described. If ConnectedDatabase is not specified, this is also the database to connect to with your authentication credentials.
     /// This member is required.
     public var database: Swift.String?
-    /// The database user name. This parameter is required when connecting to a cluster and authenticating using temporary credentials.
+    /// The database user name. This parameter is required when connecting to a cluster as a database user and authenticating using temporary credentials.
     public var dbUser: Swift.String?
     /// The maximum number of tables to return in the response. If more tables exist than fit in one response, then NextToken is returned to page through the results.
     public var maxResults: Swift.Int
@@ -1438,7 +1438,7 @@ public struct ExecuteStatementInput: Swift.Equatable {
     /// The name of the database. This parameter is required when authenticating using either Secrets Manager or temporary credentials.
     /// This member is required.
     public var database: Swift.String?
-    /// The database user name. This parameter is required when connecting to a cluster and authenticating using temporary credentials.
+    /// The database user name. This parameter is required when connecting to a cluster as a database user and authenticating using temporary credentials.
     public var dbUser: Swift.String?
     /// The parameters for the SQL statement.
     public var parameters: [RedshiftDataClientTypes.SqlParameter]?
@@ -2043,7 +2043,7 @@ public struct ListDatabasesInput: Swift.Equatable {
     /// The name of the database. This parameter is required when authenticating using either Secrets Manager or temporary credentials.
     /// This member is required.
     public var database: Swift.String?
-    /// The database user name. This parameter is required when connecting to a cluster and authenticating using temporary credentials.
+    /// The database user name. This parameter is required when connecting to a cluster as a database user and authenticating using temporary credentials.
     public var dbUser: Swift.String?
     /// The maximum number of databases to return in the response. If more databases exist than fit in one response, then NextToken is returned to page through the results.
     public var maxResults: Swift.Int
@@ -2259,7 +2259,7 @@ public struct ListSchemasInput: Swift.Equatable {
     /// The name of the database that contains the schemas to list. If ConnectedDatabase is not specified, this is also the database to connect to with your authentication credentials.
     /// This member is required.
     public var database: Swift.String?
-    /// The database user name. This parameter is required when connecting to a cluster and authenticating using temporary credentials.
+    /// The database user name. This parameter is required when connecting to a cluster as a database user and authenticating using temporary credentials.
     public var dbUser: Swift.String?
     /// The maximum number of schemas to return in the response. If more schemas exist than fit in one response, then NextToken is returned to page through the results.
     public var maxResults: Swift.Int
@@ -2687,7 +2687,7 @@ public struct ListTablesInput: Swift.Equatable {
     /// The name of the database that contains the tables to list. If ConnectedDatabase is not specified, this is also the database to connect to with your authentication credentials.
     /// This member is required.
     public var database: Swift.String?
-    /// The database user name. This parameter is required when connecting to a cluster and authenticating using temporary credentials.
+    /// The database user name. This parameter is required when connecting to a cluster as a database user and authenticating using temporary credentials.
     public var dbUser: Swift.String?
     /// The maximum number of tables to return in the response. If more tables exist than fit in one response, then NextToken is returned to page through the results.
     public var maxResults: Swift.Int

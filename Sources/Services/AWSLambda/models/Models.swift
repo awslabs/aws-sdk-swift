@@ -1833,10 +1833,12 @@ public struct CreateEventSourceMappingInput: Swift.Equatable {
     /// * Self-managed Apache Kafka – Default 100. Max 10,000.
     ///
     /// * Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.
+    ///
+    /// * DocumentDB – Default 100. Max 10,000.
     public var batchSize: Swift.Int?
-    /// (Streams only) If the function returns an error, split the batch in two and retry.
+    /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry.
     public var bisectBatchOnFunctionError: Swift.Bool?
-    /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+    /// (Kinesis and DynamoDB Streams only) A standard Amazon SQS queue or standard Amazon SNS topic destination for discarded records.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// Specific configuration settings for a DocumentDB event source.
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
@@ -1853,6 +1855,8 @@ public struct CreateEventSourceMappingInput: Swift.Equatable {
     /// * Amazon Managed Streaming for Apache Kafka – The ARN of the cluster.
     ///
     /// * Amazon MQ – The ARN of the broker.
+    ///
+    /// * Amazon DocumentDB – The ARN of the DocumentDB change stream.
     public var eventSourceArn: Swift.String?
     /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
@@ -1870,15 +1874,15 @@ public struct CreateEventSourceMappingInput: Swift.Equatable {
     /// The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
     /// This member is required.
     public var functionName: Swift.String?
-    /// (Streams and Amazon SQS) A list of current response type enums applied to the event source mapping.
+    /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
-    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, and Amazon MQ event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
-    /// (Streams only) Discard records older than the specified age. The default value is infinite (-1).
+    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is infinite (-1).
     public var maximumRecordAgeInSeconds: Swift.Int?
-    /// (Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
+    /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
     public var maximumRetryAttempts: Swift.Int?
-    /// (Streams only) The number of batches to process from each shard concurrently.
+    /// (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
     public var parallelizationFactor: Swift.Int?
     /// (MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
@@ -1890,13 +1894,13 @@ public struct CreateEventSourceMappingInput: Swift.Equatable {
     public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
     /// An array of authentication protocols or VPC components required to secure your event source.
     public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
-    /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK Streams sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams.
+    /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK Streams sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams and Amazon DocumentDB.
     public var startingPosition: LambdaClientTypes.EventSourcePosition?
     /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
     public var startingPositionTimestamp: ClientRuntime.Date?
     /// The name of the Kafka topic.
     public var topics: [Swift.String]?
-    /// (Streams only) The duration in seconds of a processing window. The range is between 1 second and 900 seconds.
+    /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
     public var tumblingWindowInSeconds: Swift.Int?
 
     public init (
@@ -2192,9 +2196,9 @@ public struct CreateEventSourceMappingOutputResponse: Swift.Equatable {
     public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var batchSize: Swift.Int?
-    /// (Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
+    /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
     public var bisectBatchOnFunctionError: Swift.Bool?
-    /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+    /// (Kinesis and DynamoDB Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// Specific configuration settings for a DocumentDB event source.
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
@@ -2204,19 +2208,19 @@ public struct CreateEventSourceMappingOutputResponse: Swift.Equatable {
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
     /// The ARN of the Lambda function.
     public var functionArn: Swift.String?
-    /// (Streams and Amazon SQS) A list of current response type enums applied to the event source mapping.
+    /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
     /// The date that the event source mapping was last updated or that its state changed.
     public var lastModified: ClientRuntime.Date?
     /// The result of the last Lambda invocation of your function.
     public var lastProcessingResult: Swift.String?
-    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, and Amazon MQ event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
-    /// (Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records.
+    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records.
     public var maximumRecordAgeInSeconds: Swift.Int?
-    /// (Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
+    /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
     public var maximumRetryAttempts: Swift.Int?
-    /// (Streams only) The number of batches to process concurrently from each shard. The default value is 1.
+    /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
@@ -2228,7 +2232,7 @@ public struct CreateEventSourceMappingOutputResponse: Swift.Equatable {
     public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
     /// An array of the authentication protocol, VPC components, or virtual host to secure and define your event source.
     public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
-    /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK stream sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams.
+    /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK stream sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams and Amazon DocumentDB.
     public var startingPosition: LambdaClientTypes.EventSourcePosition?
     /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
     public var startingPositionTimestamp: ClientRuntime.Date?
@@ -2238,7 +2242,7 @@ public struct CreateEventSourceMappingOutputResponse: Swift.Equatable {
     public var stateTransitionReason: Swift.String?
     /// The name of the Kafka topic.
     public var topics: [Swift.String]?
-    /// (Streams only) The duration in seconds of a processing window. The range is 1–900 seconds.
+    /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
     public var tumblingWindowInSeconds: Swift.Int?
     /// The identifier of the event source mapping.
     public var uuid: Swift.String?
@@ -3281,6 +3285,7 @@ extension CreateFunctionUrlConfigInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authType = "AuthType"
         case cors = "Cors"
+        case invokeMode = "InvokeMode"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3290,6 +3295,9 @@ extension CreateFunctionUrlConfigInput: Swift.Encodable {
         }
         if let cors = self.cors {
             try encodeContainer.encode(cors, forKey: .cors)
+        }
+        if let invokeMode = self.invokeMode {
+            try encodeContainer.encode(invokeMode.rawValue, forKey: .invokeMode)
         }
     }
 }
@@ -3334,6 +3342,12 @@ public struct CreateFunctionUrlConfigInput: Swift.Equatable {
     /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
     /// This member is required.
     public var functionName: Swift.String?
+    /// Use one of the following options:
+    ///
+    /// * BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results are available when the payload is complete. The maximum payload size is 6 MB.
+    ///
+    /// * RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can [request a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html).
+    public var invokeMode: LambdaClientTypes.InvokeMode?
     /// The alias name.
     public var qualifier: Swift.String?
 
@@ -3341,12 +3355,14 @@ public struct CreateFunctionUrlConfigInput: Swift.Equatable {
         authType: LambdaClientTypes.FunctionUrlAuthType? = nil,
         cors: LambdaClientTypes.Cors? = nil,
         functionName: Swift.String? = nil,
+        invokeMode: LambdaClientTypes.InvokeMode? = nil,
         qualifier: Swift.String? = nil
     )
     {
         self.authType = authType
         self.cors = cors
         self.functionName = functionName
+        self.invokeMode = invokeMode
         self.qualifier = qualifier
     }
 }
@@ -3354,12 +3370,14 @@ public struct CreateFunctionUrlConfigInput: Swift.Equatable {
 struct CreateFunctionUrlConfigInputBody: Swift.Equatable {
     let authType: LambdaClientTypes.FunctionUrlAuthType?
     let cors: LambdaClientTypes.Cors?
+    let invokeMode: LambdaClientTypes.InvokeMode?
 }
 
 extension CreateFunctionUrlConfigInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authType = "AuthType"
         case cors = "Cors"
+        case invokeMode = "InvokeMode"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -3368,6 +3386,8 @@ extension CreateFunctionUrlConfigInputBody: Swift.Decodable {
         authType = authTypeDecoded
         let corsDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.Cors.self, forKey: .cors)
         cors = corsDecoded
+        let invokeModeDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.InvokeMode.self, forKey: .invokeMode)
+        invokeMode = invokeModeDecoded
     }
 }
 
@@ -3412,12 +3432,14 @@ extension CreateFunctionUrlConfigOutputResponse: ClientRuntime.HttpResponseBindi
             self.creationTime = output.creationTime
             self.functionArn = output.functionArn
             self.functionUrl = output.functionUrl
+            self.invokeMode = output.invokeMode
         } else {
             self.authType = nil
             self.cors = nil
             self.creationTime = nil
             self.functionArn = nil
             self.functionUrl = nil
+            self.invokeMode = nil
         }
     }
 }
@@ -3437,13 +3459,20 @@ public struct CreateFunctionUrlConfigOutputResponse: Swift.Equatable {
     /// The HTTP URL endpoint for your function.
     /// This member is required.
     public var functionUrl: Swift.String?
+    /// Use one of the following options:
+    ///
+    /// * BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results are available when the payload is complete. The maximum payload size is 6 MB.
+    ///
+    /// * RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can [request a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html).
+    public var invokeMode: LambdaClientTypes.InvokeMode?
 
     public init (
         authType: LambdaClientTypes.FunctionUrlAuthType? = nil,
         cors: LambdaClientTypes.Cors? = nil,
         creationTime: Swift.String? = nil,
         functionArn: Swift.String? = nil,
-        functionUrl: Swift.String? = nil
+        functionUrl: Swift.String? = nil,
+        invokeMode: LambdaClientTypes.InvokeMode? = nil
     )
     {
         self.authType = authType
@@ -3451,6 +3480,7 @@ public struct CreateFunctionUrlConfigOutputResponse: Swift.Equatable {
         self.creationTime = creationTime
         self.functionArn = functionArn
         self.functionUrl = functionUrl
+        self.invokeMode = invokeMode
     }
 }
 
@@ -3460,6 +3490,7 @@ struct CreateFunctionUrlConfigOutputResponseBody: Swift.Equatable {
     let authType: LambdaClientTypes.FunctionUrlAuthType?
     let cors: LambdaClientTypes.Cors?
     let creationTime: Swift.String?
+    let invokeMode: LambdaClientTypes.InvokeMode?
 }
 
 extension CreateFunctionUrlConfigOutputResponseBody: Swift.Decodable {
@@ -3469,6 +3500,7 @@ extension CreateFunctionUrlConfigOutputResponseBody: Swift.Decodable {
         case creationTime = "CreationTime"
         case functionArn = "FunctionArn"
         case functionUrl = "FunctionUrl"
+        case invokeMode = "InvokeMode"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -3483,6 +3515,8 @@ extension CreateFunctionUrlConfigOutputResponseBody: Swift.Decodable {
         cors = corsDecoded
         let creationTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creationTime)
         creationTime = creationTimeDecoded
+        let invokeModeDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.InvokeMode.self, forKey: .invokeMode)
+        invokeMode = invokeModeDecoded
     }
 }
 
@@ -3808,9 +3842,9 @@ public struct DeleteEventSourceMappingOutputResponse: Swift.Equatable {
     public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var batchSize: Swift.Int?
-    /// (Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
+    /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
     public var bisectBatchOnFunctionError: Swift.Bool?
-    /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+    /// (Kinesis and DynamoDB Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// Specific configuration settings for a DocumentDB event source.
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
@@ -3820,19 +3854,19 @@ public struct DeleteEventSourceMappingOutputResponse: Swift.Equatable {
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
     /// The ARN of the Lambda function.
     public var functionArn: Swift.String?
-    /// (Streams and Amazon SQS) A list of current response type enums applied to the event source mapping.
+    /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
     /// The date that the event source mapping was last updated or that its state changed.
     public var lastModified: ClientRuntime.Date?
     /// The result of the last Lambda invocation of your function.
     public var lastProcessingResult: Swift.String?
-    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, and Amazon MQ event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
-    /// (Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records.
+    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records.
     public var maximumRecordAgeInSeconds: Swift.Int?
-    /// (Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
+    /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
     public var maximumRetryAttempts: Swift.Int?
-    /// (Streams only) The number of batches to process concurrently from each shard. The default value is 1.
+    /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
@@ -3844,7 +3878,7 @@ public struct DeleteEventSourceMappingOutputResponse: Swift.Equatable {
     public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
     /// An array of the authentication protocol, VPC components, or virtual host to secure and define your event source.
     public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
-    /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK stream sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams.
+    /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK stream sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams and Amazon DocumentDB.
     public var startingPosition: LambdaClientTypes.EventSourcePosition?
     /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
     public var startingPositionTimestamp: ClientRuntime.Date?
@@ -3854,7 +3888,7 @@ public struct DeleteEventSourceMappingOutputResponse: Swift.Equatable {
     public var stateTransitionReason: Swift.String?
     /// The name of the Kafka topic.
     public var topics: [Swift.String]?
-    /// (Streams only) The duration in seconds of a processing window. The range is 1–900 seconds.
+    /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
     public var tumblingWindowInSeconds: Swift.Int?
     /// The identifier of the event source mapping.
     public var uuid: Swift.String?
@@ -5755,9 +5789,9 @@ extension LambdaClientTypes {
         public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
         /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public var batchSize: Swift.Int?
-        /// (Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
+        /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
         public var bisectBatchOnFunctionError: Swift.Bool?
-        /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+        /// (Kinesis and DynamoDB Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
         public var destinationConfig: LambdaClientTypes.DestinationConfig?
         /// Specific configuration settings for a DocumentDB event source.
         public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
@@ -5767,19 +5801,19 @@ extension LambdaClientTypes {
         public var filterCriteria: LambdaClientTypes.FilterCriteria?
         /// The ARN of the Lambda function.
         public var functionArn: Swift.String?
-        /// (Streams and Amazon SQS) A list of current response type enums applied to the event source mapping.
+        /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
         public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
         /// The date that the event source mapping was last updated or that its state changed.
         public var lastModified: ClientRuntime.Date?
         /// The result of the last Lambda invocation of your function.
         public var lastProcessingResult: Swift.String?
-        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, and Amazon MQ event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public var maximumBatchingWindowInSeconds: Swift.Int?
-        /// (Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records.
+        /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records.
         public var maximumRecordAgeInSeconds: Swift.Int?
-        /// (Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
+        /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
         public var maximumRetryAttempts: Swift.Int?
-        /// (Streams only) The number of batches to process concurrently from each shard. The default value is 1.
+        /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
         public var parallelizationFactor: Swift.Int?
         /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
         public var queues: [Swift.String]?
@@ -5791,7 +5825,7 @@ extension LambdaClientTypes {
         public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
         /// An array of the authentication protocol, VPC components, or virtual host to secure and define your event source.
         public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
-        /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK stream sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams.
+        /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK stream sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams and Amazon DocumentDB.
         public var startingPosition: LambdaClientTypes.EventSourcePosition?
         /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
         public var startingPositionTimestamp: ClientRuntime.Date?
@@ -5801,7 +5835,7 @@ extension LambdaClientTypes {
         public var stateTransitionReason: Swift.String?
         /// The name of the Kafka topic.
         public var topics: [Swift.String]?
-        /// (Streams only) The duration in seconds of a processing window. The range is 1–900 seconds.
+        /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
         public var tumblingWindowInSeconds: Swift.Int?
         /// The identifier of the event source mapping.
         public var uuid: Swift.String?
@@ -6669,9 +6703,9 @@ extension LambdaClientTypes {
         ///
         /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
         ///
-        /// * Queue - The ARN of an SQS queue.
+        /// * Queue - The ARN of a standard SQS queue.
         ///
-        /// * Topic - The ARN of an SNS topic.
+        /// * Topic - The ARN of a standard SNS topic.
         ///
         /// * Event Bus - The ARN of an Amazon EventBridge event bus.
         public var destinationConfig: LambdaClientTypes.DestinationConfig?
@@ -6770,6 +6804,7 @@ extension LambdaClientTypes.FunctionUrlConfig: Swift.Codable {
         case creationTime = "CreationTime"
         case functionArn = "FunctionArn"
         case functionUrl = "FunctionUrl"
+        case invokeMode = "InvokeMode"
         case lastModifiedTime = "LastModifiedTime"
     }
 
@@ -6790,6 +6825,9 @@ extension LambdaClientTypes.FunctionUrlConfig: Swift.Codable {
         if let functionUrl = self.functionUrl {
             try encodeContainer.encode(functionUrl, forKey: .functionUrl)
         }
+        if let invokeMode = self.invokeMode {
+            try encodeContainer.encode(invokeMode.rawValue, forKey: .invokeMode)
+        }
         if let lastModifiedTime = self.lastModifiedTime {
             try encodeContainer.encode(lastModifiedTime, forKey: .lastModifiedTime)
         }
@@ -6809,6 +6847,8 @@ extension LambdaClientTypes.FunctionUrlConfig: Swift.Codable {
         cors = corsDecoded
         let authTypeDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.FunctionUrlAuthType.self, forKey: .authType)
         authType = authTypeDecoded
+        let invokeModeDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.InvokeMode.self, forKey: .invokeMode)
+        invokeMode = invokeModeDecoded
     }
 }
 
@@ -6829,6 +6869,12 @@ extension LambdaClientTypes {
         /// The HTTP URL endpoint for your function.
         /// This member is required.
         public var functionUrl: Swift.String?
+        /// Use one of the following options:
+        ///
+        /// * BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results are available when the payload is complete. The maximum payload size is 6 MB.
+        ///
+        /// * RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can [request a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html).
+        public var invokeMode: LambdaClientTypes.InvokeMode?
         /// When the function URL configuration was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
         /// This member is required.
         public var lastModifiedTime: Swift.String?
@@ -6839,6 +6885,7 @@ extension LambdaClientTypes {
             creationTime: Swift.String? = nil,
             functionArn: Swift.String? = nil,
             functionUrl: Swift.String? = nil,
+            invokeMode: LambdaClientTypes.InvokeMode? = nil,
             lastModifiedTime: Swift.String? = nil
         )
         {
@@ -6847,6 +6894,7 @@ extension LambdaClientTypes {
             self.creationTime = creationTime
             self.functionArn = functionArn
             self.functionUrl = functionUrl
+            self.invokeMode = invokeMode
             self.lastModifiedTime = lastModifiedTime
         }
     }
@@ -7374,9 +7422,9 @@ public struct GetEventSourceMappingOutputResponse: Swift.Equatable {
     public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var batchSize: Swift.Int?
-    /// (Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
+    /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
     public var bisectBatchOnFunctionError: Swift.Bool?
-    /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+    /// (Kinesis and DynamoDB Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// Specific configuration settings for a DocumentDB event source.
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
@@ -7386,19 +7434,19 @@ public struct GetEventSourceMappingOutputResponse: Swift.Equatable {
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
     /// The ARN of the Lambda function.
     public var functionArn: Swift.String?
-    /// (Streams and Amazon SQS) A list of current response type enums applied to the event source mapping.
+    /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
     /// The date that the event source mapping was last updated or that its state changed.
     public var lastModified: ClientRuntime.Date?
     /// The result of the last Lambda invocation of your function.
     public var lastProcessingResult: Swift.String?
-    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, and Amazon MQ event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
-    /// (Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records.
+    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records.
     public var maximumRecordAgeInSeconds: Swift.Int?
-    /// (Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
+    /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
     public var maximumRetryAttempts: Swift.Int?
-    /// (Streams only) The number of batches to process concurrently from each shard. The default value is 1.
+    /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
@@ -7410,7 +7458,7 @@ public struct GetEventSourceMappingOutputResponse: Swift.Equatable {
     public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
     /// An array of the authentication protocol, VPC components, or virtual host to secure and define your event source.
     public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
-    /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK stream sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams.
+    /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK stream sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams and Amazon DocumentDB.
     public var startingPosition: LambdaClientTypes.EventSourcePosition?
     /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
     public var startingPositionTimestamp: ClientRuntime.Date?
@@ -7420,7 +7468,7 @@ public struct GetEventSourceMappingOutputResponse: Swift.Equatable {
     public var stateTransitionReason: Swift.String?
     /// The name of the Kafka topic.
     public var topics: [Swift.String]?
-    /// (Streams only) The duration in seconds of a processing window. The range is 1–900 seconds.
+    /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
     public var tumblingWindowInSeconds: Swift.Int?
     /// The identifier of the event source mapping.
     public var uuid: Swift.String?
@@ -8485,9 +8533,9 @@ public struct GetFunctionEventInvokeConfigOutputResponse: Swift.Equatable {
     ///
     /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
     ///
-    /// * Queue - The ARN of an SQS queue.
+    /// * Queue - The ARN of a standard SQS queue.
     ///
-    /// * Topic - The ARN of an SNS topic.
+    /// * Topic - The ARN of a standard SNS topic.
     ///
     /// * Event Bus - The ARN of an Amazon EventBridge event bus.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
@@ -8824,6 +8872,7 @@ extension GetFunctionUrlConfigOutputResponse: ClientRuntime.HttpResponseBinding 
             self.creationTime = output.creationTime
             self.functionArn = output.functionArn
             self.functionUrl = output.functionUrl
+            self.invokeMode = output.invokeMode
             self.lastModifiedTime = output.lastModifiedTime
         } else {
             self.authType = nil
@@ -8831,6 +8880,7 @@ extension GetFunctionUrlConfigOutputResponse: ClientRuntime.HttpResponseBinding 
             self.creationTime = nil
             self.functionArn = nil
             self.functionUrl = nil
+            self.invokeMode = nil
             self.lastModifiedTime = nil
         }
     }
@@ -8851,6 +8901,12 @@ public struct GetFunctionUrlConfigOutputResponse: Swift.Equatable {
     /// The HTTP URL endpoint for your function.
     /// This member is required.
     public var functionUrl: Swift.String?
+    /// Use one of the following options:
+    ///
+    /// * BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results are available when the payload is complete. The maximum payload size is 6 MB.
+    ///
+    /// * RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can [request a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html).
+    public var invokeMode: LambdaClientTypes.InvokeMode?
     /// When the function URL configuration was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
     /// This member is required.
     public var lastModifiedTime: Swift.String?
@@ -8861,6 +8917,7 @@ public struct GetFunctionUrlConfigOutputResponse: Swift.Equatable {
         creationTime: Swift.String? = nil,
         functionArn: Swift.String? = nil,
         functionUrl: Swift.String? = nil,
+        invokeMode: LambdaClientTypes.InvokeMode? = nil,
         lastModifiedTime: Swift.String? = nil
     )
     {
@@ -8869,6 +8926,7 @@ public struct GetFunctionUrlConfigOutputResponse: Swift.Equatable {
         self.creationTime = creationTime
         self.functionArn = functionArn
         self.functionUrl = functionUrl
+        self.invokeMode = invokeMode
         self.lastModifiedTime = lastModifiedTime
     }
 }
@@ -8880,6 +8938,7 @@ struct GetFunctionUrlConfigOutputResponseBody: Swift.Equatable {
     let cors: LambdaClientTypes.Cors?
     let creationTime: Swift.String?
     let lastModifiedTime: Swift.String?
+    let invokeMode: LambdaClientTypes.InvokeMode?
 }
 
 extension GetFunctionUrlConfigOutputResponseBody: Swift.Decodable {
@@ -8889,6 +8948,7 @@ extension GetFunctionUrlConfigOutputResponseBody: Swift.Decodable {
         case creationTime = "CreationTime"
         case functionArn = "FunctionArn"
         case functionUrl = "FunctionUrl"
+        case invokeMode = "InvokeMode"
         case lastModifiedTime = "LastModifiedTime"
     }
 
@@ -8906,6 +8966,8 @@ extension GetFunctionUrlConfigOutputResponseBody: Swift.Decodable {
         creationTime = creationTimeDecoded
         let lastModifiedTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedTime)
         lastModifiedTime = lastModifiedTimeDecoded
+        let invokeModeDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.InvokeMode.self, forKey: .invokeMode)
+        invokeMode = invokeModeDecoded
     }
 }
 
@@ -10851,6 +10913,38 @@ extension InvokeInputBody: Swift.Decodable {
     }
 }
 
+extension LambdaClientTypes {
+    public enum InvokeMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case buffered
+        case responseStream
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InvokeMode] {
+            return [
+                .buffered,
+                .responseStream,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .buffered: return "BUFFERED"
+            case .responseStream: return "RESPONSE_STREAM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InvokeMode(rawValue: rawValue) ?? InvokeMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension InvokeOutputError: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -11006,6 +11100,434 @@ extension InvokeOutputResponseBody: Swift.Decodable {
         let payloadDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .payload)
         payload = payloadDecoded
     }
+}
+
+extension LambdaClientTypes.InvokeResponseStreamUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload = "Payload"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let payload = self.payload {
+            try encodeContainer.encode(payload.base64EncodedString(), forKey: .payload)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let payloadDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .payload)
+        payload = payloadDecoded
+    }
+}
+
+extension LambdaClientTypes.InvokeResponseStreamUpdate: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InvokeResponseStreamUpdate(payload: \"CONTENT_REDACTED\")"}
+}
+
+extension LambdaClientTypes {
+    /// A chunk of the streamed response payload.
+    public struct InvokeResponseStreamUpdate: Swift.Equatable {
+        /// Data returned by your Lambda function.
+        public var payload: ClientRuntime.Data?
+
+        public init (
+            payload: ClientRuntime.Data? = nil
+        )
+        {
+            self.payload = payload
+        }
+    }
+
+}
+
+extension LambdaClientTypes.InvokeWithResponseStreamCompleteEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case errorDetails = "ErrorDetails"
+        case logResult = "LogResult"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode, forKey: .errorCode)
+        }
+        if let errorDetails = self.errorDetails {
+            try encodeContainer.encode(errorDetails, forKey: .errorDetails)
+        }
+        if let logResult = self.logResult {
+            try encodeContainer.encode(logResult, forKey: .logResult)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorDetailsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorDetails)
+        errorDetails = errorDetailsDecoded
+        let logResultDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logResult)
+        logResult = logResultDecoded
+    }
+}
+
+extension LambdaClientTypes {
+    /// A response confirming that the event stream is complete.
+    public struct InvokeWithResponseStreamCompleteEvent: Swift.Equatable {
+        /// An error code.
+        public var errorCode: Swift.String?
+        /// The details of any returned error.
+        public var errorDetails: Swift.String?
+        /// The last 4 KB of the execution log, which is base64-encoded.
+        public var logResult: Swift.String?
+
+        public init (
+            errorCode: Swift.String? = nil,
+            errorDetails: Swift.String? = nil,
+            logResult: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorDetails = errorDetails
+            self.logResult = logResult
+        }
+    }
+
+}
+
+public struct InvokeWithResponseStreamInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "InvokeWithResponseStreamInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<InvokeWithResponseStreamInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeWithResponseStreamOutputResponse>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        if let payload = input.operationInput.payload {
+            let payloaddata = payload
+            let payloadbody = ClientRuntime.HttpBody.data(payloaddata)
+            input.builder.withBody(payloadbody)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<InvokeWithResponseStreamInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<InvokeWithResponseStreamOutputResponse>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
+extension InvokeWithResponseStreamInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InvokeWithResponseStreamInput(clientContext: \(Swift.String(describing: clientContext)), functionName: \(Swift.String(describing: functionName)), invocationType: \(Swift.String(describing: invocationType)), logType: \(Swift.String(describing: logType)), qualifier: \(Swift.String(describing: qualifier)), payload: \"CONTENT_REDACTED\")"}
+}
+
+extension InvokeWithResponseStreamInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload = "Payload"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let payload = self.payload {
+            try encodeContainer.encode(payload.base64EncodedString(), forKey: .payload)
+        }
+    }
+}
+
+extension InvokeWithResponseStreamInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let clientContext = clientContext {
+            items.add(Header(name: "X-Amz-Client-Context", value: Swift.String(clientContext)))
+        }
+        if let invocationType = invocationType {
+            items.add(Header(name: "X-Amz-Invocation-Type", value: Swift.String(invocationType.rawValue)))
+        }
+        if let logType = logType {
+            items.add(Header(name: "X-Amz-Log-Type", value: Swift.String(logType.rawValue)))
+        }
+        return items
+    }
+}
+
+extension InvokeWithResponseStreamInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let qualifier = qualifier {
+                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+                items.append(qualifierQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension InvokeWithResponseStreamInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let functionName = functionName else {
+            return nil
+        }
+        return "/2021-11-15/functions/\(functionName.urlPercentEncoding())/response-streaming-invocations"
+    }
+}
+
+public struct InvokeWithResponseStreamInput: Swift.Equatable {
+    /// Up to 3,583 bytes of base64-encoded data about the invoking client to pass to the function in the context object.
+    public var clientContext: Swift.String?
+    /// The name of the Lambda function. Name formats
+    ///
+    /// * Function name – my-function.
+    ///
+    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    ///
+    /// * Partial ARN – 123456789012:function:my-function.
+    ///
+    ///
+    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// Use one of the following options:
+    ///
+    /// * RequestResponse (default) – Invoke the function synchronously. Keep the connection open until the function returns a response or times out. The API operation response includes the function response and additional data.
+    ///
+    /// * DryRun – Validate parameter values and verify that the IAM user or role has permission to invoke the function.
+    public var invocationType: LambdaClientTypes.ResponseStreamingInvocationType?
+    /// Set to Tail to include the execution log in the response. Applies to synchronously invoked functions only.
+    public var logType: LambdaClientTypes.LogType?
+    /// The JSON that you want to provide to your Lambda function as input. You can enter the JSON directly. For example, --payload '{ "key": "value" }'. You can also specify a file path. For example, --payload file://payload.json.
+    public var payload: ClientRuntime.Data?
+    /// The alias name.
+    public var qualifier: Swift.String?
+
+    public init (
+        clientContext: Swift.String? = nil,
+        functionName: Swift.String? = nil,
+        invocationType: LambdaClientTypes.ResponseStreamingInvocationType? = nil,
+        logType: LambdaClientTypes.LogType? = nil,
+        payload: ClientRuntime.Data? = nil,
+        qualifier: Swift.String? = nil
+    )
+    {
+        self.clientContext = clientContext
+        self.functionName = functionName
+        self.invocationType = invocationType
+        self.logType = logType
+        self.payload = payload
+        self.qualifier = qualifier
+    }
+}
+
+struct InvokeWithResponseStreamInputBody: Swift.Equatable {
+    let payload: ClientRuntime.Data?
+}
+
+extension InvokeWithResponseStreamInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload = "Payload"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let payloadDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .payload)
+        payload = payloadDecoded
+    }
+}
+
+extension InvokeWithResponseStreamOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension InvokeWithResponseStreamOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "EC2AccessDeniedException" : self = .eC2AccessDeniedException(try EC2AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "EC2ThrottledException" : self = .eC2ThrottledException(try EC2ThrottledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "EC2UnexpectedException" : self = .eC2UnexpectedException(try EC2UnexpectedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "EFSIOException" : self = .eFSIOException(try EFSIOException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "EFSMountConnectivityException" : self = .eFSMountConnectivityException(try EFSMountConnectivityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "EFSMountFailureException" : self = .eFSMountFailureException(try EFSMountFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "EFSMountTimeoutException" : self = .eFSMountTimeoutException(try EFSMountTimeoutException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ENILimitReachedException" : self = .eNILimitReachedException(try ENILimitReachedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestContentException" : self = .invalidRequestContentException(try InvalidRequestContentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRuntimeException" : self = .invalidRuntimeException(try InvalidRuntimeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidSecurityGroupIDException" : self = .invalidSecurityGroupIDException(try InvalidSecurityGroupIDException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidSubnetIDException" : self = .invalidSubnetIDException(try InvalidSubnetIDException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidZipFileException" : self = .invalidZipFileException(try InvalidZipFileException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "KMSAccessDeniedException" : self = .kMSAccessDeniedException(try KMSAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "KMSDisabledException" : self = .kMSDisabledException(try KMSDisabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "KMSInvalidStateException" : self = .kMSInvalidStateException(try KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "KMSNotFoundException" : self = .kMSNotFoundException(try KMSNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "RequestTooLargeException" : self = .requestTooLargeException(try RequestTooLargeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceConflictException" : self = .resourceConflictException(try ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotReadyException" : self = .resourceNotReadyException(try ResourceNotReadyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "SubnetIPAddressLimitReachedException" : self = .subnetIPAddressLimitReachedException(try SubnetIPAddressLimitReachedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedMediaTypeException" : self = .unsupportedMediaTypeException(try UnsupportedMediaTypeException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum InvokeWithResponseStreamOutputError: Swift.Error, Swift.Equatable {
+    case eC2AccessDeniedException(EC2AccessDeniedException)
+    case eC2ThrottledException(EC2ThrottledException)
+    case eC2UnexpectedException(EC2UnexpectedException)
+    case eFSIOException(EFSIOException)
+    case eFSMountConnectivityException(EFSMountConnectivityException)
+    case eFSMountFailureException(EFSMountFailureException)
+    case eFSMountTimeoutException(EFSMountTimeoutException)
+    case eNILimitReachedException(ENILimitReachedException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case invalidRequestContentException(InvalidRequestContentException)
+    case invalidRuntimeException(InvalidRuntimeException)
+    case invalidSecurityGroupIDException(InvalidSecurityGroupIDException)
+    case invalidSubnetIDException(InvalidSubnetIDException)
+    case invalidZipFileException(InvalidZipFileException)
+    case kMSAccessDeniedException(KMSAccessDeniedException)
+    case kMSDisabledException(KMSDisabledException)
+    case kMSInvalidStateException(KMSInvalidStateException)
+    case kMSNotFoundException(KMSNotFoundException)
+    case requestTooLargeException(RequestTooLargeException)
+    case resourceConflictException(ResourceConflictException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case resourceNotReadyException(ResourceNotReadyException)
+    case serviceException(ServiceException)
+    case subnetIPAddressLimitReachedException(SubnetIPAddressLimitReachedException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unsupportedMediaTypeException(UnsupportedMediaTypeException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension InvokeWithResponseStreamOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let executedVersionHeaderValue = httpResponse.headers.value(for: "X-Amz-Executed-Version") {
+            self.executedVersion = executedVersionHeaderValue
+        } else {
+            self.executedVersion = nil
+        }
+        if let responseStreamContentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
+            self.responseStreamContentType = responseStreamContentTypeHeaderValue
+        } else {
+            self.responseStreamContentType = nil
+        }
+        if let data = httpResponse.body.toBytes()?.getData() {
+            if let responseDecoder = decoder {
+                let output: LambdaClientTypes.InvokeWithResponseStreamResponseEvent = try responseDecoder.decode(responseBody: data)
+                self.eventStream = output
+            } else {
+                self.eventStream = nil
+            }
+        } else {
+            self.eventStream = nil
+        }
+        self.statusCode = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct InvokeWithResponseStreamOutputResponse: Swift.Equatable {
+    /// The stream of response payloads.
+    public var eventStream: LambdaClientTypes.InvokeWithResponseStreamResponseEvent?
+    /// The version of the function that executed. When you invoke a function with an alias, this indicates which version the alias resolved to.
+    public var executedVersion: Swift.String?
+    /// The type of data the stream is returning.
+    public var responseStreamContentType: Swift.String?
+    /// For a successful request, the HTTP status code is in the 200 range. For the RequestResponse invocation type, this status code is 200. For the DryRun invocation type, this status code is 204.
+    public var statusCode: Swift.Int
+
+    public init (
+        eventStream: LambdaClientTypes.InvokeWithResponseStreamResponseEvent? = nil,
+        executedVersion: Swift.String? = nil,
+        responseStreamContentType: Swift.String? = nil,
+        statusCode: Swift.Int = 0
+    )
+    {
+        self.eventStream = eventStream
+        self.executedVersion = executedVersion
+        self.responseStreamContentType = responseStreamContentType
+        self.statusCode = statusCode
+    }
+}
+
+struct InvokeWithResponseStreamOutputResponseBody: Swift.Equatable {
+    let statusCode: Swift.Int
+    let eventStream: LambdaClientTypes.InvokeWithResponseStreamResponseEvent?
+}
+
+extension InvokeWithResponseStreamOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventStream = "EventStream"
+        case statusCode = "StatusCode"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .statusCode) ?? 0
+        statusCode = statusCodeDecoded
+        let eventStreamDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.InvokeWithResponseStreamResponseEvent.self, forKey: .eventStream)
+        eventStream = eventStreamDecoded
+    }
+}
+
+extension LambdaClientTypes.InvokeWithResponseStreamResponseEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case invokecomplete = "InvokeComplete"
+        case payloadchunk = "PayloadChunk"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .invokecomplete(invokecomplete):
+                try container.encode(invokecomplete, forKey: .invokecomplete)
+            case let .payloadchunk(payloadchunk):
+                try container.encode(payloadchunk, forKey: .payloadchunk)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let payloadchunkDecoded = try values.decodeIfPresent(LambdaClientTypes.InvokeResponseStreamUpdate.self, forKey: .payloadchunk)
+        if let payloadchunk = payloadchunkDecoded {
+            self = .payloadchunk(payloadchunk)
+            return
+        }
+        let invokecompleteDecoded = try values.decodeIfPresent(LambdaClientTypes.InvokeWithResponseStreamCompleteEvent.self, forKey: .invokecomplete)
+        if let invokecomplete = invokecompleteDecoded {
+            self = .invokecomplete(invokecomplete)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension LambdaClientTypes {
+    /// An object that includes a chunk of the response payload. When the stream has ended, Lambda includes a InvokeComplete object.
+    public enum InvokeWithResponseStreamResponseEvent: Swift.Equatable {
+        /// A chunk of the streamed response payload.
+        case payloadchunk(LambdaClientTypes.InvokeResponseStreamUpdate)
+        /// An object that's returned when the stream has ended and all the payload chunks have been returned.
+        case invokecomplete(LambdaClientTypes.InvokeWithResponseStreamCompleteEvent)
+        case sdkUnknown(Swift.String)
+    }
+
 }
 
 extension KMSAccessDeniedException {
@@ -12096,6 +12618,8 @@ public struct ListEventSourceMappingsInput: Swift.Equatable {
     /// * Amazon Managed Streaming for Apache Kafka – The ARN of the cluster.
     ///
     /// * Amazon MQ – The ARN of the broker.
+    ///
+    /// * Amazon DocumentDB – The ARN of the DocumentDB change stream.
     public var eventSourceArn: Swift.String?
     /// The name of the Lambda function. Name formats
     ///
@@ -15178,9 +15702,9 @@ public struct PutFunctionEventInvokeConfigInput: Swift.Equatable {
     ///
     /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
     ///
-    /// * Queue - The ARN of an SQS queue.
+    /// * Queue - The ARN of a standard SQS queue.
     ///
-    /// * Topic - The ARN of an SNS topic.
+    /// * Topic - The ARN of a standard SNS topic.
     ///
     /// * Event Bus - The ARN of an Amazon EventBridge event bus.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
@@ -15299,9 +15823,9 @@ public struct PutFunctionEventInvokeConfigOutputResponse: Swift.Equatable {
     ///
     /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
     ///
-    /// * Queue - The ARN of an SQS queue.
+    /// * Queue - The ARN of a standard SQS queue.
     ///
-    /// * Topic - The ARN of an SNS topic.
+    /// * Topic - The ARN of a standard SNS topic.
     ///
     /// * Event Bus - The ARN of an Amazon EventBridge event bus.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
@@ -16284,6 +16808,38 @@ extension ResourceNotReadyExceptionBody: Swift.Decodable {
         type = typeDecoded
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension LambdaClientTypes {
+    public enum ResponseStreamingInvocationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dryrun
+        case requestresponse
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResponseStreamingInvocationType] {
+            return [
+                .dryrun,
+                .requestresponse,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dryrun: return "DryRun"
+            case .requestresponse: return "RequestResponse"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ResponseStreamingInvocationType(rawValue: rawValue) ?? ResponseStreamingInvocationType.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -18281,10 +18837,12 @@ public struct UpdateEventSourceMappingInput: Swift.Equatable {
     /// * Self-managed Apache Kafka – Default 100. Max 10,000.
     ///
     /// * Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.
+    ///
+    /// * DocumentDB – Default 100. Max 10,000.
     public var batchSize: Swift.Int?
-    /// (Streams only) If the function returns an error, split the batch in two and retry.
+    /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry.
     public var bisectBatchOnFunctionError: Swift.Bool?
-    /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+    /// (Kinesis and DynamoDB Streams only) A standard Amazon SQS queue or standard Amazon SNS topic destination for discarded records.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// Specific configuration settings for a DocumentDB event source.
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
@@ -18305,21 +18863,21 @@ public struct UpdateEventSourceMappingInput: Swift.Equatable {
     ///
     /// The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
     public var functionName: Swift.String?
-    /// (Streams and Amazon SQS) A list of current response type enums applied to the event source mapping.
+    /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
-    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, and Amazon MQ event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
-    /// (Streams only) Discard records older than the specified age. The default value is infinite (-1).
+    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is infinite (-1).
     public var maximumRecordAgeInSeconds: Swift.Int?
-    /// (Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
+    /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
     public var maximumRetryAttempts: Swift.Int?
-    /// (Streams only) The number of batches to process from each shard concurrently.
+    /// (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
     public var parallelizationFactor: Swift.Int?
     /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
     public var scalingConfig: LambdaClientTypes.ScalingConfig?
     /// An array of authentication protocols or VPC components required to secure your event source.
     public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
-    /// (Streams only) The duration in seconds of a processing window. The range is between 1 second and 900 seconds.
+    /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
     public var tumblingWindowInSeconds: Swift.Int?
     /// The identifier of the event source mapping.
     /// This member is required.
@@ -18556,9 +19114,9 @@ public struct UpdateEventSourceMappingOutputResponse: Swift.Equatable {
     public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var batchSize: Swift.Int?
-    /// (Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
+    /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
     public var bisectBatchOnFunctionError: Swift.Bool?
-    /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+    /// (Kinesis and DynamoDB Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// Specific configuration settings for a DocumentDB event source.
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
@@ -18568,19 +19126,19 @@ public struct UpdateEventSourceMappingOutputResponse: Swift.Equatable {
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
     /// The ARN of the Lambda function.
     public var functionArn: Swift.String?
-    /// (Streams and Amazon SQS) A list of current response type enums applied to the event source mapping.
+    /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
     /// The date that the event source mapping was last updated or that its state changed.
     public var lastModified: ClientRuntime.Date?
     /// The result of the last Lambda invocation of your function.
     public var lastProcessingResult: Swift.String?
-    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, and Amazon MQ event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
-    /// (Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records.
+    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records.
     public var maximumRecordAgeInSeconds: Swift.Int?
-    /// (Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
+    /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
     public var maximumRetryAttempts: Swift.Int?
-    /// (Streams only) The number of batches to process concurrently from each shard. The default value is 1.
+    /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
@@ -18592,7 +19150,7 @@ public struct UpdateEventSourceMappingOutputResponse: Swift.Equatable {
     public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
     /// An array of the authentication protocol, VPC components, or virtual host to secure and define your event source.
     public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
-    /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK stream sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams.
+    /// The position in a stream from which to start reading. Required for Amazon Kinesis, Amazon DynamoDB, and Amazon MSK stream sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams and Amazon DocumentDB.
     public var startingPosition: LambdaClientTypes.EventSourcePosition?
     /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
     public var startingPositionTimestamp: ClientRuntime.Date?
@@ -18602,7 +19160,7 @@ public struct UpdateEventSourceMappingOutputResponse: Swift.Equatable {
     public var stateTransitionReason: Swift.String?
     /// The name of the Kafka topic.
     public var topics: [Swift.String]?
-    /// (Streams only) The duration in seconds of a processing window. The range is 1–900 seconds.
+    /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
     public var tumblingWindowInSeconds: Swift.Int?
     /// The identifier of the event source mapping.
     public var uuid: Swift.String?
@@ -20224,9 +20782,9 @@ public struct UpdateFunctionEventInvokeConfigInput: Swift.Equatable {
     ///
     /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
     ///
-    /// * Queue - The ARN of an SQS queue.
+    /// * Queue - The ARN of a standard SQS queue.
     ///
-    /// * Topic - The ARN of an SNS topic.
+    /// * Topic - The ARN of a standard SNS topic.
     ///
     /// * Event Bus - The ARN of an Amazon EventBridge event bus.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
@@ -20345,9 +20903,9 @@ public struct UpdateFunctionEventInvokeConfigOutputResponse: Swift.Equatable {
     ///
     /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
     ///
-    /// * Queue - The ARN of an SQS queue.
+    /// * Queue - The ARN of a standard SQS queue.
     ///
-    /// * Topic - The ARN of an SNS topic.
+    /// * Topic - The ARN of a standard SNS topic.
     ///
     /// * Event Bus - The ARN of an Amazon EventBridge event bus.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
@@ -20412,6 +20970,7 @@ extension UpdateFunctionUrlConfigInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authType = "AuthType"
         case cors = "Cors"
+        case invokeMode = "InvokeMode"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -20421,6 +20980,9 @@ extension UpdateFunctionUrlConfigInput: Swift.Encodable {
         }
         if let cors = self.cors {
             try encodeContainer.encode(cors, forKey: .cors)
+        }
+        if let invokeMode = self.invokeMode {
+            try encodeContainer.encode(invokeMode.rawValue, forKey: .invokeMode)
         }
     }
 }
@@ -20464,6 +21026,12 @@ public struct UpdateFunctionUrlConfigInput: Swift.Equatable {
     /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
     /// This member is required.
     public var functionName: Swift.String?
+    /// Use one of the following options:
+    ///
+    /// * BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results are available when the payload is complete. The maximum payload size is 6 MB.
+    ///
+    /// * RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can [request a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html).
+    public var invokeMode: LambdaClientTypes.InvokeMode?
     /// The alias name.
     public var qualifier: Swift.String?
 
@@ -20471,12 +21039,14 @@ public struct UpdateFunctionUrlConfigInput: Swift.Equatable {
         authType: LambdaClientTypes.FunctionUrlAuthType? = nil,
         cors: LambdaClientTypes.Cors? = nil,
         functionName: Swift.String? = nil,
+        invokeMode: LambdaClientTypes.InvokeMode? = nil,
         qualifier: Swift.String? = nil
     )
     {
         self.authType = authType
         self.cors = cors
         self.functionName = functionName
+        self.invokeMode = invokeMode
         self.qualifier = qualifier
     }
 }
@@ -20484,12 +21054,14 @@ public struct UpdateFunctionUrlConfigInput: Swift.Equatable {
 struct UpdateFunctionUrlConfigInputBody: Swift.Equatable {
     let authType: LambdaClientTypes.FunctionUrlAuthType?
     let cors: LambdaClientTypes.Cors?
+    let invokeMode: LambdaClientTypes.InvokeMode?
 }
 
 extension UpdateFunctionUrlConfigInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authType = "AuthType"
         case cors = "Cors"
+        case invokeMode = "InvokeMode"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -20498,6 +21070,8 @@ extension UpdateFunctionUrlConfigInputBody: Swift.Decodable {
         authType = authTypeDecoded
         let corsDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.Cors.self, forKey: .cors)
         cors = corsDecoded
+        let invokeModeDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.InvokeMode.self, forKey: .invokeMode)
+        invokeMode = invokeModeDecoded
     }
 }
 
@@ -20542,6 +21116,7 @@ extension UpdateFunctionUrlConfigOutputResponse: ClientRuntime.HttpResponseBindi
             self.creationTime = output.creationTime
             self.functionArn = output.functionArn
             self.functionUrl = output.functionUrl
+            self.invokeMode = output.invokeMode
             self.lastModifiedTime = output.lastModifiedTime
         } else {
             self.authType = nil
@@ -20549,6 +21124,7 @@ extension UpdateFunctionUrlConfigOutputResponse: ClientRuntime.HttpResponseBindi
             self.creationTime = nil
             self.functionArn = nil
             self.functionUrl = nil
+            self.invokeMode = nil
             self.lastModifiedTime = nil
         }
     }
@@ -20569,6 +21145,12 @@ public struct UpdateFunctionUrlConfigOutputResponse: Swift.Equatable {
     /// The HTTP URL endpoint for your function.
     /// This member is required.
     public var functionUrl: Swift.String?
+    /// Use one of the following options:
+    ///
+    /// * BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results are available when the payload is complete. The maximum payload size is 6 MB.
+    ///
+    /// * RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using the InvokeWithResponseStream API operation. The maximum response payload size is 20 MB, however, you can [request a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html).
+    public var invokeMode: LambdaClientTypes.InvokeMode?
     /// When the function URL configuration was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
     /// This member is required.
     public var lastModifiedTime: Swift.String?
@@ -20579,6 +21161,7 @@ public struct UpdateFunctionUrlConfigOutputResponse: Swift.Equatable {
         creationTime: Swift.String? = nil,
         functionArn: Swift.String? = nil,
         functionUrl: Swift.String? = nil,
+        invokeMode: LambdaClientTypes.InvokeMode? = nil,
         lastModifiedTime: Swift.String? = nil
     )
     {
@@ -20587,6 +21170,7 @@ public struct UpdateFunctionUrlConfigOutputResponse: Swift.Equatable {
         self.creationTime = creationTime
         self.functionArn = functionArn
         self.functionUrl = functionUrl
+        self.invokeMode = invokeMode
         self.lastModifiedTime = lastModifiedTime
     }
 }
@@ -20598,6 +21182,7 @@ struct UpdateFunctionUrlConfigOutputResponseBody: Swift.Equatable {
     let cors: LambdaClientTypes.Cors?
     let creationTime: Swift.String?
     let lastModifiedTime: Swift.String?
+    let invokeMode: LambdaClientTypes.InvokeMode?
 }
 
 extension UpdateFunctionUrlConfigOutputResponseBody: Swift.Decodable {
@@ -20607,6 +21192,7 @@ extension UpdateFunctionUrlConfigOutputResponseBody: Swift.Decodable {
         case creationTime = "CreationTime"
         case functionArn = "FunctionArn"
         case functionUrl = "FunctionUrl"
+        case invokeMode = "InvokeMode"
         case lastModifiedTime = "LastModifiedTime"
     }
 
@@ -20624,6 +21210,8 @@ extension UpdateFunctionUrlConfigOutputResponseBody: Swift.Decodable {
         creationTime = creationTimeDecoded
         let lastModifiedTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedTime)
         lastModifiedTime = lastModifiedTimeDecoded
+        let invokeModeDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.InvokeMode.self, forKey: .invokeMode)
+        invokeMode = invokeModeDecoded
     }
 }
 

@@ -250,6 +250,66 @@ extension RekognitionClientTypes {
 
 }
 
+extension RekognitionClientTypes.AuditImage: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case boundingBox = "BoundingBox"
+        case bytes = "Bytes"
+        case s3Object = "S3Object"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let boundingBox = self.boundingBox {
+            try encodeContainer.encode(boundingBox, forKey: .boundingBox)
+        }
+        if let bytes = self.bytes {
+            try encodeContainer.encode(bytes.base64EncodedString(), forKey: .bytes)
+        }
+        if let s3Object = self.s3Object {
+            try encodeContainer.encode(s3Object, forKey: .s3Object)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bytesDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .bytes)
+        bytes = bytesDecoded
+        let s3ObjectDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.S3Object.self, forKey: .s3Object)
+        s3Object = s3ObjectDecoded
+        let boundingBoxDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.BoundingBox.self, forKey: .boundingBox)
+        boundingBox = boundingBoxDecoded
+    }
+}
+
+extension RekognitionClientTypes.AuditImage: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AuditImage(boundingBox: \(Swift.String(describing: boundingBox)), s3Object: \(Swift.String(describing: s3Object)), bytes: \"CONTENT_REDACTED\")"}
+}
+
+extension RekognitionClientTypes {
+    /// An image that is picked from the Face Liveness video and returned for audit trail purposes, returned as Base64-encoded bytes.
+    public struct AuditImage: Swift.Equatable {
+        /// Identifies the bounding box around the label, face, text, object of interest, or personal protective equipment. The left (x-coordinate) and top (y-coordinate) are coordinates representing the top and left sides of the bounding box. Note that the upper-left corner of the image is the origin (0,0). The top and left values returned are ratios of the overall image size. For example, if the input image is 700x200 pixels, and the top-left coordinate of the bounding box is 350x50 pixels, the API returns a left value of 0.5 (350/700) and a top value of 0.25 (50/200). The width and height values represent the dimensions of the bounding box as a ratio of the overall image dimension. For example, if the input image is 700x200 pixels, and the bounding box width is 70 pixels, the width returned is 0.1. The bounding box coordinates can have negative values. For example, if Amazon Rekognition is able to detect a face that is at the image edge and is only partially visible, the service can return coordinates that are outside the image bounds and, depending on the image edge, you might get negative values or values greater than 1 for the left or top values.
+        public var boundingBox: RekognitionClientTypes.BoundingBox?
+        /// The Base64-encoded bytes representing an image selected from the Face Liveness video and returned for audit purposes.
+        public var bytes: ClientRuntime.Data?
+        /// Provides the S3 bucket name and object name. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide.
+        public var s3Object: RekognitionClientTypes.S3Object?
+
+        public init (
+            boundingBox: RekognitionClientTypes.BoundingBox? = nil,
+            bytes: ClientRuntime.Data? = nil,
+            s3Object: RekognitionClientTypes.S3Object? = nil
+        )
+        {
+            self.boundingBox = boundingBox
+            self.bytes = bytes
+            self.s3Object = s3Object
+        }
+    }
+
+}
+
 extension RekognitionClientTypes.Beard: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case confidence = "Confidence"
@@ -1965,6 +2025,194 @@ extension CreateDatasetOutputResponseBody: Swift.Decodable {
         let datasetArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetArn)
         datasetArn = datasetArnDecoded
     }
+}
+
+extension CreateFaceLivenessSessionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case kmsKeyId = "KmsKeyId"
+        case settings = "Settings"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let settings = self.settings {
+            try encodeContainer.encode(settings, forKey: .settings)
+        }
+    }
+}
+
+extension CreateFaceLivenessSessionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateFaceLivenessSessionInput: Swift.Equatable {
+    /// Idempotent token is used to recognize the Face Liveness request. If the same token is used with multiple CreateFaceLivenessSession requests, the same session is returned. This token is employed to avoid unintentionally creating the same session multiple times.
+    public var clientRequestToken: Swift.String?
+    /// The identifier for your AWS Key Management Service key (AWS KMS key). Used to encrypt audit images and reference images.
+    public var kmsKeyId: Swift.String?
+    /// A session settings object. It contains settings for the operation to be performed. For Face Liveness, it accepts OutputConfig and AuditImagesLimit.
+    public var settings: RekognitionClientTypes.CreateFaceLivenessSessionRequestSettings?
+
+    public init (
+        clientRequestToken: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        settings: RekognitionClientTypes.CreateFaceLivenessSessionRequestSettings? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.kmsKeyId = kmsKeyId
+        self.settings = settings
+    }
+}
+
+struct CreateFaceLivenessSessionInputBody: Swift.Equatable {
+    let kmsKeyId: Swift.String?
+    let settings: RekognitionClientTypes.CreateFaceLivenessSessionRequestSettings?
+    let clientRequestToken: Swift.String?
+}
+
+extension CreateFaceLivenessSessionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case kmsKeyId = "KmsKeyId"
+        case settings = "Settings"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let settingsDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.CreateFaceLivenessSessionRequestSettings.self, forKey: .settings)
+        settings = settingsDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+extension CreateFaceLivenessSessionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateFaceLivenessSessionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateFaceLivenessSessionOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerError(InternalServerError)
+    case invalidParameterException(InvalidParameterException)
+    case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateFaceLivenessSessionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateFaceLivenessSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.sessionId = output.sessionId
+        } else {
+            self.sessionId = nil
+        }
+    }
+}
+
+public struct CreateFaceLivenessSessionOutputResponse: Swift.Equatable {
+    /// A unique 128-bit UUID identifying a Face Liveness session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init (
+        sessionId: Swift.String? = nil
+    )
+    {
+        self.sessionId = sessionId
+    }
+}
+
+struct CreateFaceLivenessSessionOutputResponseBody: Swift.Equatable {
+    let sessionId: Swift.String?
+}
+
+extension CreateFaceLivenessSessionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sessionId = "SessionId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+    }
+}
+
+extension RekognitionClientTypes.CreateFaceLivenessSessionRequestSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case auditImagesLimit = "AuditImagesLimit"
+        case outputConfig = "OutputConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let auditImagesLimit = self.auditImagesLimit {
+            try encodeContainer.encode(auditImagesLimit, forKey: .auditImagesLimit)
+        }
+        if let outputConfig = self.outputConfig {
+            try encodeContainer.encode(outputConfig, forKey: .outputConfig)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let outputConfigDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.LivenessOutputConfig.self, forKey: .outputConfig)
+        outputConfig = outputConfigDecoded
+        let auditImagesLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .auditImagesLimit)
+        auditImagesLimit = auditImagesLimitDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// A session settings object. It contains settings for the operation to be performed. It accepts arguments for OutputConfig and AuditImagesLimit.
+    public struct CreateFaceLivenessSessionRequestSettings: Swift.Equatable {
+        /// Number of audit images to be returned back. Takes an integer between 0-4. Any integer less than 0 will return 0, any integer above 4 will return 4 images in the response. By default, it is set to 0. The limit is best effort and is based on the actual duration of the selfie-video.
+        public var auditImagesLimit: Swift.Int?
+        /// Can specify the location of an Amazon S3 bucket, where reference and audit images will be stored. Note that the Amazon S3 bucket must be located in the caller's AWS account and in the same region as the Face Liveness end-point. Additionally, the Amazon S3 object keys are auto-generated by the Face Liveness system.
+        public var outputConfig: RekognitionClientTypes.LivenessOutputConfig?
+
+        public init (
+            auditImagesLimit: Swift.Int? = nil,
+            outputConfig: RekognitionClientTypes.LivenessOutputConfig? = nil
+        )
+        {
+            self.auditImagesLimit = auditImagesLimit
+            self.outputConfig = outputConfig
+        }
+    }
+
 }
 
 extension CreateProjectInput: Swift.Encodable {
@@ -5578,7 +5826,7 @@ public struct DetectLabelsInput: Swift.Equatable {
     public var maxLabels: Swift.Int?
     /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with confidence lower than this specified value. If MinConfidence is not specified, the operation returns labels with a confidence values greater than or equal to 55 percent.
     public var minConfidence: Swift.Float?
-    /// A list of the filters to be applied to returned detected labels and image properties. Specified filters can be inclusive, exclusive, or a combination of both. Filters can be used for individual labels or label categories. The exact label names or label categories must be supplied. For a full list of labels and label categories, see LINK HERE.
+    /// A list of the filters to be applied to returned detected labels and image properties. Specified filters can be inclusive, exclusive, or a combination of both. Filters can be used for individual labels or label categories. The exact label names or label categories must be supplied. For a full list of labels and label categories, see [Detecting labels](https://docs.aws.amazon.com/rekognition/latest/dg/labels.html).
     public var settings: RekognitionClientTypes.DetectLabelsSettings?
 
     public init (
@@ -7646,7 +7894,7 @@ extension RekognitionClientTypes.GeneralLabelsSettings: Swift.Codable {
 }
 
 extension RekognitionClientTypes {
-    /// Contains filters for the object labels returned by DetectLabels. Filters can be inclusive, exclusive, or a combination of both and can be applied to individual l abels or entire label categories.
+    /// Contains filters for the object labels returned by DetectLabels. Filters can be inclusive, exclusive, or a combination of both and can be applied to individual labels or entire label categories. To see a list of label categories, see [Detecting Labels](https://docs.aws.amazon.com/rekognition/latest/dg/labels.html).
     public struct GeneralLabelsSettings: Swift.Equatable {
         /// The label categories that should be excluded from the return from DetectLabels.
         public var labelCategoryExclusionFilters: [Swift.String]?
@@ -8499,6 +8747,178 @@ extension GetFaceDetectionOutputResponseBody: Swift.Decodable {
             }
         }
         faces = facesDecoded0
+    }
+}
+
+extension GetFaceLivenessSessionResultsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sessionId = "SessionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sessionId = self.sessionId {
+            try encodeContainer.encode(sessionId, forKey: .sessionId)
+        }
+    }
+}
+
+extension GetFaceLivenessSessionResultsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetFaceLivenessSessionResultsInput: Swift.Equatable {
+    /// A unique 128-bit UUID. This is used to uniquely identify the session and also acts as an idempotency token for all operations associated with the session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init (
+        sessionId: Swift.String? = nil
+    )
+    {
+        self.sessionId = sessionId
+    }
+}
+
+struct GetFaceLivenessSessionResultsInputBody: Swift.Equatable {
+    let sessionId: Swift.String?
+}
+
+extension GetFaceLivenessSessionResultsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sessionId = "SessionId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+    }
+}
+
+extension GetFaceLivenessSessionResultsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetFaceLivenessSessionResultsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "SessionNotFoundException" : self = .sessionNotFoundException(try SessionNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetFaceLivenessSessionResultsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerError(InternalServerError)
+    case invalidParameterException(InvalidParameterException)
+    case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
+    case sessionNotFoundException(SessionNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetFaceLivenessSessionResultsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetFaceLivenessSessionResultsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.auditImages = output.auditImages
+            self.confidence = output.confidence
+            self.referenceImage = output.referenceImage
+            self.sessionId = output.sessionId
+            self.status = output.status
+        } else {
+            self.auditImages = nil
+            self.confidence = nil
+            self.referenceImage = nil
+            self.sessionId = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct GetFaceLivenessSessionResultsOutputResponse: Swift.Equatable {
+    /// A set of images from the Face Liveness video that can be used for audit purposes. It includes a bounding box of the face and the Base64-encoded bytes that return an image. If the CreateFaceLivenessSession request included an OutputConfig argument, the image will be uploaded to an S3Object specified in the output configuration.
+    public var auditImages: [RekognitionClientTypes.AuditImage]?
+    /// Probabalistic confidence score for if the person in the given video was live, represented as a float value between 0 to 100.
+    public var confidence: Swift.Float?
+    /// A high-quality image from the Face Liveness video that can be used for face comparison or search. It includes a bounding box of the face and the Base64-encoded bytes that return an image. If the CreateFaceLivenessSession request included an OutputConfig argument, the image will be uploaded to an S3Object specified in the output configuration. In case the reference image is not returned, it's recommended to retry the Liveness check.
+    public var referenceImage: RekognitionClientTypes.AuditImage?
+    /// The sessionId for which this request was called.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// Represents a status corresponding to the state of the session. Possible statuses are: CREATED, IN_PROGRESS, SUCCEEDED, FAILED, EXPIRED.
+    /// This member is required.
+    public var status: RekognitionClientTypes.LivenessSessionStatus?
+
+    public init (
+        auditImages: [RekognitionClientTypes.AuditImage]? = nil,
+        confidence: Swift.Float? = nil,
+        referenceImage: RekognitionClientTypes.AuditImage? = nil,
+        sessionId: Swift.String? = nil,
+        status: RekognitionClientTypes.LivenessSessionStatus? = nil
+    )
+    {
+        self.auditImages = auditImages
+        self.confidence = confidence
+        self.referenceImage = referenceImage
+        self.sessionId = sessionId
+        self.status = status
+    }
+}
+
+struct GetFaceLivenessSessionResultsOutputResponseBody: Swift.Equatable {
+    let sessionId: Swift.String?
+    let status: RekognitionClientTypes.LivenessSessionStatus?
+    let confidence: Swift.Float?
+    let referenceImage: RekognitionClientTypes.AuditImage?
+    let auditImages: [RekognitionClientTypes.AuditImage]?
+}
+
+extension GetFaceLivenessSessionResultsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case auditImages = "AuditImages"
+        case confidence = "Confidence"
+        case referenceImage = "ReferenceImage"
+        case sessionId = "SessionId"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
+        sessionId = sessionIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.LivenessSessionStatus.self, forKey: .status)
+        status = statusDecoded
+        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .confidence)
+        confidence = confidenceDecoded
+        let referenceImageDecoded = try containerValues.decodeIfPresent(RekognitionClientTypes.AuditImage.self, forKey: .referenceImage)
+        referenceImage = referenceImageDecoded
+        let auditImagesContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.AuditImage?].self, forKey: .auditImages)
+        var auditImagesDecoded0:[RekognitionClientTypes.AuditImage]? = nil
+        if let auditImagesContainer = auditImagesContainer {
+            auditImagesDecoded0 = [RekognitionClientTypes.AuditImage]()
+            for structure0 in auditImagesContainer {
+                if let structure0 = structure0 {
+                    auditImagesDecoded0?.append(structure0)
+                }
+            }
+        }
+        auditImages = auditImagesDecoded0
     }
 }
 
@@ -10003,7 +10423,7 @@ extension RekognitionClientTypes.Image: Swift.Codable {
 extension RekognitionClientTypes {
     /// Provides the input image either as bytes or an S3 object. You pass image bytes to an Amazon Rekognition API operation by using the Bytes property. For example, you would use the Bytes property to pass an image loaded from a local file system. Image bytes passed by using the Bytes property must be base64-encoded. Your code may not need to encode image bytes if you are using an AWS SDK to call Amazon Rekognition API operations. For more information, see Analyzing an Image Loaded from a Local File System in the Amazon Rekognition Developer Guide. You pass images stored in an S3 bucket to an Amazon Rekognition API operation by using the S3Object property. Images stored in an S3 bucket do not need to be base64-encoded. The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes using the Bytes property is not supported. You must first upload the image to an Amazon S3 bucket and then call the operation using the S3Object property. For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see How Amazon Rekognition works with IAM in the Amazon Rekognition Developer Guide.
     public struct Image: Swift.Equatable {
-        /// Blob of image bytes up to 5 MBs.
+        /// Blob of image bytes up to 5 MBs. Note that the maximum image size you can pass to DetectCustomLabels is 4MB.
         public var bytes: ClientRuntime.Data?
         /// Identifies an S3 object as the image source.
         public var s3Object: RekognitionClientTypes.S3Object?
@@ -11436,7 +11856,7 @@ extension RekognitionClientTypes.LabelDetectionSettings: Swift.Codable {
 extension RekognitionClientTypes {
     /// Contains the specified filters that should be applied to a list of returned GENERAL_LABELS.
     public struct LabelDetectionSettings: Swift.Equatable {
-        /// Contains filters for the object labels returned by DetectLabels. Filters can be inclusive, exclusive, or a combination of both and can be applied to individual l abels or entire label categories.
+        /// Contains filters for the object labels returned by DetectLabels. Filters can be inclusive, exclusive, or a combination of both and can be applied to individual labels or entire label categories. To see a list of label categories, see [Detecting Labels](https://docs.aws.amazon.com/rekognition/latest/dg/labels.html).
         public var generalLabels: RekognitionClientTypes.GeneralLabelsSettings?
 
         public init (
@@ -12915,6 +13335,90 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+extension RekognitionClientTypes.LivenessOutputConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3Bucket = "S3Bucket"
+        case s3KeyPrefix = "S3KeyPrefix"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let s3Bucket = self.s3Bucket {
+            try encodeContainer.encode(s3Bucket, forKey: .s3Bucket)
+        }
+        if let s3KeyPrefix = self.s3KeyPrefix {
+            try encodeContainer.encode(s3KeyPrefix, forKey: .s3KeyPrefix)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3BucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Bucket)
+        s3Bucket = s3BucketDecoded
+        let s3KeyPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3KeyPrefix)
+        s3KeyPrefix = s3KeyPrefixDecoded
+    }
+}
+
+extension RekognitionClientTypes {
+    /// Contains settings that specify the location of an Amazon S3 bucket used to store the output of a Face Liveness session. Note that the S3 bucket must be located in the caller's AWS account and in the same region as the Face Liveness end-point. Additionally, the Amazon S3 object keys are auto-generated by the Face Liveness system.
+    public struct LivenessOutputConfig: Swift.Equatable {
+        /// The path to an AWS Amazon S3 bucket used to store Face Liveness session results.
+        /// This member is required.
+        public var s3Bucket: Swift.String?
+        /// The prefix appended to the output files for the Face Liveness session results.
+        public var s3KeyPrefix: Swift.String?
+
+        public init (
+            s3Bucket: Swift.String? = nil,
+            s3KeyPrefix: Swift.String? = nil
+        )
+        {
+            self.s3Bucket = s3Bucket
+            self.s3KeyPrefix = s3KeyPrefix
+        }
+    }
+
+}
+
+extension RekognitionClientTypes {
+    public enum LivenessSessionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case created
+        case failed
+        case inProgress
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LivenessSessionStatus] {
+            return [
+                .created,
+                .failed,
+                .inProgress,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LivenessSessionStatus(rawValue: rawValue) ?? LivenessSessionStatus.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -15971,6 +16475,77 @@ struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
 }
 
 extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code = "Code"
+        case logref = "Logref"
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+        let logrefDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logref)
+        logref = logrefDecoded
+    }
+}
+
+extension SessionNotFoundException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: SessionNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.code = output.code
+            self.logref = output.logref
+            self.message = output.message
+        } else {
+            self.code = nil
+            self.logref = nil
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// Occurs when a given sessionId is not found.
+public struct SessionNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var code: Swift.String?
+    /// A universally unique identifier (UUID) for the request.
+    public var logref: Swift.String?
+    public var message: Swift.String?
+
+    public init (
+        code: Swift.String? = nil,
+        logref: Swift.String? = nil,
+        message: Swift.String? = nil
+    )
+    {
+        self.code = code
+        self.logref = logref
+        self.message = message
+    }
+}
+
+struct SessionNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+    let code: Swift.String?
+    let logref: Swift.String?
+}
+
+extension SessionNotFoundExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case code = "Code"
         case logref = "Logref"
@@ -19809,6 +20384,7 @@ extension UpdateStreamProcessorOutputError {
         case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ProvisionedThroughputExceededException" : self = .provisionedThroughputExceededException(try ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceInUseException" : self = .resourceInUseException(try ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -19821,6 +20397,7 @@ public enum UpdateStreamProcessorOutputError: Swift.Error, Swift.Equatable {
     case internalServerError(InternalServerError)
     case invalidParameterException(InvalidParameterException)
     case provisionedThroughputExceededException(ProvisionedThroughputExceededException)
+    case resourceInUseException(ResourceInUseException)
     case resourceNotFoundException(ResourceNotFoundException)
     case throttlingException(ThrottlingException)
     case unknown(UnknownAWSHttpServiceError)

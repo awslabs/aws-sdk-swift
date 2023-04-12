@@ -322,6 +322,67 @@ extension PaginatorSequence where Input == ListImagesInput, Output == ListImages
     }
 }
 extension ImagebuilderClient {
+    /// Paginate over `[ListImageScanFindingAggregationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListImageScanFindingAggregationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListImageScanFindingAggregationsOutputResponse`
+    public func listImageScanFindingAggregationsPaginated(input: ListImageScanFindingAggregationsInput) -> ClientRuntime.PaginatorSequence<ListImageScanFindingAggregationsInput, ListImageScanFindingAggregationsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListImageScanFindingAggregationsInput, ListImageScanFindingAggregationsOutputResponse>(input: input, inputKey: \ListImageScanFindingAggregationsInput.nextToken, outputKey: \ListImageScanFindingAggregationsOutputResponse.nextToken, paginationFunction: self.listImageScanFindingAggregations(input:))
+    }
+}
+
+extension ListImageScanFindingAggregationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListImageScanFindingAggregationsInput {
+        return ListImageScanFindingAggregationsInput(
+            filter: self.filter,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListImageScanFindingAggregationsInput, Output == ListImageScanFindingAggregationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listImageScanFindingAggregationsPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.ImageScanFindingAggregation]`
+    /// - Returns: `[ImagebuilderClientTypes.ImageScanFindingAggregation]`
+    public func responses() async throws -> [ImagebuilderClientTypes.ImageScanFindingAggregation] {
+        return try await self.asyncCompactMap { item in item.responses }
+    }
+}
+extension ImagebuilderClient {
+    /// Paginate over `[ListImageScanFindingsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListImageScanFindingsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListImageScanFindingsOutputResponse`
+    public func listImageScanFindingsPaginated(input: ListImageScanFindingsInput) -> ClientRuntime.PaginatorSequence<ListImageScanFindingsInput, ListImageScanFindingsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListImageScanFindingsInput, ListImageScanFindingsOutputResponse>(input: input, inputKey: \ListImageScanFindingsInput.nextToken, outputKey: \ListImageScanFindingsOutputResponse.nextToken, paginationFunction: self.listImageScanFindings(input:))
+    }
+}
+
+extension ListImageScanFindingsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListImageScanFindingsInput {
+        return ListImageScanFindingsInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListImageScanFindingsInput, Output == ListImageScanFindingsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listImageScanFindingsPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.ImageScanFinding]`
+    /// - Returns: `[ImagebuilderClientTypes.ImageScanFinding]`
+    public func findings() async throws -> [ImagebuilderClientTypes.ImageScanFinding] {
+        return try await self.asyncCompactMap { item in item.findings }
+    }
+}
+extension ImagebuilderClient {
     /// Paginate over `[ListInfrastructureConfigurationsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -350,5 +411,67 @@ extension PaginatorSequence where Input == ListInfrastructureConfigurationsInput
     /// - Returns: `[ImagebuilderClientTypes.InfrastructureConfigurationSummary]`
     public func infrastructureConfigurationSummaryList() async throws -> [ImagebuilderClientTypes.InfrastructureConfigurationSummary] {
         return try await self.asyncCompactMap { item in item.infrastructureConfigurationSummaryList }
+    }
+}
+extension ImagebuilderClient {
+    /// Paginate over `[ListWorkflowExecutionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListWorkflowExecutionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkflowExecutionsOutputResponse`
+    public func listWorkflowExecutionsPaginated(input: ListWorkflowExecutionsInput) -> ClientRuntime.PaginatorSequence<ListWorkflowExecutionsInput, ListWorkflowExecutionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListWorkflowExecutionsInput, ListWorkflowExecutionsOutputResponse>(input: input, inputKey: \ListWorkflowExecutionsInput.nextToken, outputKey: \ListWorkflowExecutionsOutputResponse.nextToken, paginationFunction: self.listWorkflowExecutions(input:))
+    }
+}
+
+extension ListWorkflowExecutionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListWorkflowExecutionsInput {
+        return ListWorkflowExecutionsInput(
+            imageBuildVersionArn: self.imageBuildVersionArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListWorkflowExecutionsInput, Output == ListWorkflowExecutionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listWorkflowExecutionsPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.WorkflowExecutionMetadata]`
+    /// - Returns: `[ImagebuilderClientTypes.WorkflowExecutionMetadata]`
+    public func workflowExecutions() async throws -> [ImagebuilderClientTypes.WorkflowExecutionMetadata] {
+        return try await self.asyncCompactMap { item in item.workflowExecutions }
+    }
+}
+extension ImagebuilderClient {
+    /// Paginate over `[ListWorkflowStepExecutionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListWorkflowStepExecutionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkflowStepExecutionsOutputResponse`
+    public func listWorkflowStepExecutionsPaginated(input: ListWorkflowStepExecutionsInput) -> ClientRuntime.PaginatorSequence<ListWorkflowStepExecutionsInput, ListWorkflowStepExecutionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListWorkflowStepExecutionsInput, ListWorkflowStepExecutionsOutputResponse>(input: input, inputKey: \ListWorkflowStepExecutionsInput.nextToken, outputKey: \ListWorkflowStepExecutionsOutputResponse.nextToken, paginationFunction: self.listWorkflowStepExecutions(input:))
+    }
+}
+
+extension ListWorkflowStepExecutionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListWorkflowStepExecutionsInput {
+        return ListWorkflowStepExecutionsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            workflowExecutionId: self.workflowExecutionId
+        )}
+}
+
+extension PaginatorSequence where Input == ListWorkflowStepExecutionsInput, Output == ListWorkflowStepExecutionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listWorkflowStepExecutionsPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.WorkflowStepMetadata]`
+    /// - Returns: `[ImagebuilderClientTypes.WorkflowStepMetadata]`
+    public func steps() async throws -> [ImagebuilderClientTypes.WorkflowStepMetadata] {
+        return try await self.asyncCompactMap { item in item.steps }
     }
 }

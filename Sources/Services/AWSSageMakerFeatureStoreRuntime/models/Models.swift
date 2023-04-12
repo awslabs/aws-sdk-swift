@@ -94,10 +94,10 @@ extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordError: Swift.Cod
 extension SageMakerFeatureStoreRuntimeClientTypes {
     /// The error that has occurred when attempting to retrieve a batch of Records.
     public struct BatchGetRecordError: Swift.Equatable {
-        /// The error code of an error that has occured when attempting to retrieve a batch of Records. For more information on errors, see [Errors](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_GetRecord.html#API_feature_store_GetRecord_Errors).
+        /// The error code of an error that has occurred when attempting to retrieve a batch of Records. For more information on errors, see [Errors](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_GetRecord.html#API_feature_store_GetRecord_Errors).
         /// This member is required.
         public var errorCode: Swift.String?
-        /// The error message of an error that has occured when attempting to retrieve a record in the batch.
+        /// The error message of an error that has occurred when attempting to retrieve a record in the batch.
         /// This member is required.
         public var errorMessage: Swift.String?
         /// The name of the feature group that the record belongs to.
@@ -435,7 +435,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
         /// The Record retrieved.
         /// This member is required.
         public var record: [SageMakerFeatureStoreRuntimeClientTypes.FeatureValue]?
-        /// The value of the record identifer in string format.
+        /// The value of the record identifier in string format.
         /// This member is required.
         public var recordIdentifierValueAsString: Swift.String?
 
@@ -475,6 +475,10 @@ extension DeleteRecordInput: ClientRuntime.QueryItemProvider {
             }
             let eventTimeQueryItem = ClientRuntime.URLQueryItem(name: "EventTime".urlPercentEncoding(), value: Swift.String(eventTime).urlPercentEncoding())
             items.append(eventTimeQueryItem)
+            if let deletionMode = deletionMode {
+                let deletionModeQueryItem = ClientRuntime.URLQueryItem(name: "DeletionMode".urlPercentEncoding(), value: Swift.String(deletionMode.rawValue).urlPercentEncoding())
+                items.append(deletionModeQueryItem)
+            }
             return items
         }
     }
@@ -490,6 +494,8 @@ extension DeleteRecordInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteRecordInput: Swift.Equatable {
+    /// The name of the deletion mode for deleting the record. By default, the deletion mode is set to SoftDelete.
+    public var deletionMode: SageMakerFeatureStoreRuntimeClientTypes.DeletionMode?
     /// Timestamp indicating when the deletion event occurred. EventTime can be used to query data at a certain point in time.
     /// This member is required.
     public var eventTime: Swift.String?
@@ -503,12 +509,14 @@ public struct DeleteRecordInput: Swift.Equatable {
     public var targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]?
 
     public init (
+        deletionMode: SageMakerFeatureStoreRuntimeClientTypes.DeletionMode? = nil,
         eventTime: Swift.String? = nil,
         featureGroupName: Swift.String? = nil,
         recordIdentifierValueAsString: Swift.String? = nil,
         targetStores: [SageMakerFeatureStoreRuntimeClientTypes.TargetStore]? = nil
     )
     {
+        self.deletionMode = deletionMode
         self.eventTime = eventTime
         self.featureGroupName = featureGroupName
         self.recordIdentifierValueAsString = recordIdentifierValueAsString
@@ -561,6 +569,38 @@ extension DeleteRecordOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DeleteRecordOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension SageMakerFeatureStoreRuntimeClientTypes {
+    public enum DeletionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case hardDelete
+        case softDelete
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeletionMode] {
+            return [
+                .hardDelete,
+                .softDelete,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .hardDelete: return "HardDelete"
+            case .softDelete: return "SoftDelete"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DeletionMode(rawValue: rawValue) ?? DeletionMode.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension SageMakerFeatureStoreRuntimeClientTypes.FeatureValue: Swift.Codable {

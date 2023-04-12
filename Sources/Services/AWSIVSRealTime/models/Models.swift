@@ -1132,7 +1132,7 @@ extension IVSRealTimeClientTypes.ParticipantToken: Swift.Codable {
             try encodeContainer.encode(duration, forKey: .duration)
         }
         if let expirationTime = self.expirationTime {
-            try encodeContainer.encodeTimestamp(expirationTime, format: .epochSeconds, forKey: .expirationTime)
+            try encodeContainer.encodeTimestamp(expirationTime, format: .dateTime, forKey: .expirationTime)
         }
         if let participantId = self.participantId {
             try encodeContainer.encode(participantId, forKey: .participantId)
@@ -1177,9 +1177,14 @@ extension IVSRealTimeClientTypes.ParticipantToken: Swift.Codable {
             }
         }
         capabilities = capabilitiesDecoded0
-        let expirationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .expirationTime)
+        let expirationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .expirationTime)
         expirationTime = expirationTimeDecoded
     }
+}
+
+extension IVSRealTimeClientTypes.ParticipantToken: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ParticipantToken(attributes: \(Swift.String(describing: attributes)), capabilities: \(Swift.String(describing: capabilities)), duration: \(Swift.String(describing: duration)), expirationTime: \(Swift.String(describing: expirationTime)), participantId: \(Swift.String(describing: participantId)), userId: \(Swift.String(describing: userId)), token: \"CONTENT_REDACTED\")"}
 }
 
 extension IVSRealTimeClientTypes {

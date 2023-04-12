@@ -1370,6 +1370,218 @@ extension KendraClientTypes {
 
 }
 
+extension KendraClientTypes.BatchDeleteFeaturedResultsSetError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case errorMessage = "ErrorMessage"
+        case id = "Id"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode.rawValue, forKey: .errorCode)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(KendraClientTypes.ErrorCode.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension KendraClientTypes {
+    /// Provides information about a set of featured results that couldn't be removed from an index by the [BatchDeleteFeaturedResultsSet](https://docs.aws.amazon.com/kendra/latest/dg/API_BatchDeleteFeaturedResultsSet.html) API.
+    public struct BatchDeleteFeaturedResultsSetError: Swift.Equatable {
+        /// The error code for why the set of featured results couldn't be removed from the index.
+        /// This member is required.
+        public var errorCode: KendraClientTypes.ErrorCode?
+        /// An explanation for why the set of featured results couldn't be removed from the index.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+        /// The identifier of the set of featured results that couldn't be removed from the index.
+        /// This member is required.
+        public var id: Swift.String?
+
+        public init (
+            errorCode: KendraClientTypes.ErrorCode? = nil,
+            errorMessage: Swift.String? = nil,
+            id: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.id = id
+        }
+    }
+
+}
+
+extension BatchDeleteFeaturedResultsSetInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case featuredResultsSetIds = "FeaturedResultsSetIds"
+        case indexId = "IndexId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let featuredResultsSetIds = featuredResultsSetIds {
+            var featuredResultsSetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .featuredResultsSetIds)
+            for featuredresultssetid0 in featuredResultsSetIds {
+                try featuredResultsSetIdsContainer.encode(featuredresultssetid0)
+            }
+        }
+        if let indexId = self.indexId {
+            try encodeContainer.encode(indexId, forKey: .indexId)
+        }
+    }
+}
+
+extension BatchDeleteFeaturedResultsSetInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct BatchDeleteFeaturedResultsSetInput: Swift.Equatable {
+    /// The identifiers of the featured results sets that you want to delete.
+    /// This member is required.
+    public var featuredResultsSetIds: [Swift.String]?
+    /// The identifier of the index used for featuring results.
+    /// This member is required.
+    public var indexId: Swift.String?
+
+    public init (
+        featuredResultsSetIds: [Swift.String]? = nil,
+        indexId: Swift.String? = nil
+    )
+    {
+        self.featuredResultsSetIds = featuredResultsSetIds
+        self.indexId = indexId
+    }
+}
+
+struct BatchDeleteFeaturedResultsSetInputBody: Swift.Equatable {
+    let indexId: Swift.String?
+    let featuredResultsSetIds: [Swift.String]?
+}
+
+extension BatchDeleteFeaturedResultsSetInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case featuredResultsSetIds = "FeaturedResultsSetIds"
+        case indexId = "IndexId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
+        indexId = indexIdDecoded
+        let featuredResultsSetIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .featuredResultsSetIds)
+        var featuredResultsSetIdsDecoded0:[Swift.String]? = nil
+        if let featuredResultsSetIdsContainer = featuredResultsSetIdsContainer {
+            featuredResultsSetIdsDecoded0 = [Swift.String]()
+            for string0 in featuredResultsSetIdsContainer {
+                if let string0 = string0 {
+                    featuredResultsSetIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        featuredResultsSetIds = featuredResultsSetIdsDecoded0
+    }
+}
+
+extension BatchDeleteFeaturedResultsSetOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension BatchDeleteFeaturedResultsSetOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum BatchDeleteFeaturedResultsSetOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension BatchDeleteFeaturedResultsSetOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: BatchDeleteFeaturedResultsSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.errors = output.errors
+        } else {
+            self.errors = nil
+        }
+    }
+}
+
+public struct BatchDeleteFeaturedResultsSetOutputResponse: Swift.Equatable {
+    /// The list of errors for the featured results set IDs, explaining why they couldn't be removed from the index.
+    /// This member is required.
+    public var errors: [KendraClientTypes.BatchDeleteFeaturedResultsSetError]?
+
+    public init (
+        errors: [KendraClientTypes.BatchDeleteFeaturedResultsSetError]? = nil
+    )
+    {
+        self.errors = errors
+    }
+}
+
+struct BatchDeleteFeaturedResultsSetOutputResponseBody: Swift.Equatable {
+    let errors: [KendraClientTypes.BatchDeleteFeaturedResultsSetError]?
+}
+
+extension BatchDeleteFeaturedResultsSetOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errors = "Errors"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorsContainer = try containerValues.decodeIfPresent([KendraClientTypes.BatchDeleteFeaturedResultsSetError?].self, forKey: .errors)
+        var errorsDecoded0:[KendraClientTypes.BatchDeleteFeaturedResultsSetError]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [KendraClientTypes.BatchDeleteFeaturedResultsSetError]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
+    }
+}
+
 extension BatchGetDocumentStatusInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case documentInfoList = "DocumentInfoList"
@@ -1638,20 +1850,18 @@ public struct BatchPutDocumentInput: Swift.Equatable {
     public var customDocumentEnrichmentConfiguration: KendraClientTypes.CustomDocumentEnrichmentConfiguration?
     /// One or more documents to add to the index. Documents have the following file size limits.
     ///
-    /// * 5 MB total size for inline documents
-    ///
-    /// * 50 MB total size for files from an S3 bucket
+    /// * 50 MB total size for any file
     ///
     /// * 5 MB extracted text for any file
     ///
     ///
-    /// For more information about file size and transaction per second quotas, see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html).
+    /// For more information, see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html).
     /// This member is required.
     public var documents: [KendraClientTypes.Document]?
     /// The identifier of the index to add the documents to. You need to create the index first using the CreateIndex API.
     /// This member is required.
     public var indexId: Swift.String?
-    /// The Amazon Resource Name (ARN) of a role that is allowed to run the BatchPutDocument API. For more information, see [IAM Roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
+    /// The Amazon Resource Name (ARN) of an IAM role with permission to access your S3 bucket. For more information, see [IAM access roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
     public var roleArn: Swift.String?
 
     public init (
@@ -2251,7 +2461,7 @@ extension KendraClientTypes.ClickFeedback: Swift.Codable {
 extension KendraClientTypes {
     /// Gathers information about when a particular result was clicked by a user. Your application uses the SubmitFeedback API to provide click information.
     public struct ClickFeedback: Swift.Equatable {
-        /// The Unix timestamp of the date and time that the result was clicked.
+        /// The Unix timestamp when the result was clicked.
         /// This member is required.
         public var clickTime: ClientRuntime.Date?
         /// The identifier of the search result that was clicked.
@@ -2481,6 +2691,61 @@ extension ConflictExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension KendraClientTypes.ConflictingItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case queryText = "QueryText"
+        case setId = "SetId"
+        case setName = "SetName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let queryText = self.queryText {
+            try encodeContainer.encode(queryText, forKey: .queryText)
+        }
+        if let setId = self.setId {
+            try encodeContainer.encode(setId, forKey: .setId)
+        }
+        if let setName = self.setName {
+            try encodeContainer.encode(setName, forKey: .setName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queryTextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryText)
+        queryText = queryTextDecoded
+        let setNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .setName)
+        setName = setNameDecoded
+        let setIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .setId)
+        setId = setIdDecoded
+    }
+}
+
+extension KendraClientTypes {
+    /// Information about a conflicting query used across different sets of featured results. When you create a featured results set, you must check that the queries are unique per featured results set for each index.
+    public struct ConflictingItem: Swift.Equatable {
+        /// The text of the conflicting query.
+        public var queryText: Swift.String?
+        /// The identifier of the set of featured results that the conflicting query belongs to.
+        public var setId: Swift.String?
+        /// The name for the set of featured results that the conflicting query belongs to.
+        public var setName: Swift.String?
+
+        public init (
+            queryText: Swift.String? = nil,
+            setId: Swift.String? = nil,
+            setName: Swift.String? = nil
+        )
+        {
+            self.queryText = queryText
+            self.setId = setId
+            self.setName = setName
+        }
+    }
+
 }
 
 extension KendraClientTypes.ConfluenceAttachmentConfiguration: Swift.Codable {
@@ -3991,11 +4256,11 @@ public struct CreateDataSourceInput: Swift.Equatable {
     /// A name for the data source connector.
     /// This member is required.
     public var name: Swift.String?
-    /// The Amazon Resource Name (ARN) of a role with permission to access the data source and required resources. For more information, see [IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html). You can't specify the RoleArn parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception. The RoleArn parameter is required for all other data sources.
+    /// The Amazon Resource Name (ARN) of an IAM role with permission to access the data source and required resources. For more information, see [IAM access roles for Amazon Kendra.](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html). You can't specify the RoleArn parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception. The RoleArn parameter is required for all other data sources.
     public var roleArn: Swift.String?
-    /// Sets the frequency for Amazon Kendra to check the documents in your data source repository and update the index. If you don't set a schedule Amazon Kendra will not periodically update the index. You can call the StartDataSourceSyncJob API to update the index. You can't specify the Schedule parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception.
+    /// Sets the frequency for Amazon Kendra to check the documents in your data source repository and update the index. If you don't set a schedule Amazon Kendra will not periodically update the index. You can call the StartDataSourceSyncJob API to update the index. Specify a cron- format schedule string or an empty string to indicate that the index is updated on demand. You can't specify the Schedule parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception.
     public var schedule: Swift.String?
-    /// A list of key-value pairs that identify the data source connector. You can use the tags to identify and organize your resources and to control access to resources.
+    /// A list of key-value pairs that identify or categorize the data source connector. You can also use tags to help control access to the data source connector. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
     public var tags: [KendraClientTypes.Tag]?
     /// The type of data source repository. For example, SHAREPOINT.
     /// This member is required.
@@ -4232,7 +4497,7 @@ public struct CreateExperienceInput: Swift.Equatable {
     /// A name for your Amazon Kendra experience.
     /// This member is required.
     public var name: Swift.String?
-    /// The Amazon Resource Name (ARN) of a role with permission to access Query API, QuerySuggestions API, SubmitFeedback API, and IAM Identity Center that stores your user and group information. For more information, see [IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
+    /// The Amazon Resource Name (ARN) of an IAM role with permission to access Query API, GetQuerySuggestions API, and other required APIs. The role also must include permission to access IAM Identity Center (successor to Single Sign-On) that stores your user and group information. For more information, see [IAM access roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
     public var roleArn: Swift.String?
 
     public init (
@@ -4337,7 +4602,7 @@ extension CreateExperienceOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateExperienceOutputResponse: Swift.Equatable {
-    /// The identifier for your created Amazon Kendra experience.
+    /// The identifier of your Amazon Kendra experience.
     /// This member is required.
     public var id: Swift.String?
 
@@ -4434,7 +4699,7 @@ public struct CreateFaqInput: Swift.Equatable {
     /// A name for the FAQ.
     /// This member is required.
     public var name: Swift.String?
-    /// The Amazon Resource Name (ARN) of a role with permission to access the S3 bucket that contains the FAQs. For more information, see [IAM Roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
+    /// The Amazon Resource Name (ARN) of an IAM role with permission to access the S3 bucket that contains the FAQs. For more information, see [IAM access roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
     /// This member is required.
     public var roleArn: Swift.String?
     /// The path to the FAQ file in S3.
@@ -4599,6 +4864,250 @@ extension CreateFaqOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateFeaturedResultsSetInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case description = "Description"
+        case featuredDocuments = "FeaturedDocuments"
+        case featuredResultsSetName = "FeaturedResultsSetName"
+        case indexId = "IndexId"
+        case queryTexts = "QueryTexts"
+        case status = "Status"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let featuredDocuments = featuredDocuments {
+            var featuredDocumentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .featuredDocuments)
+            for featureddocument0 in featuredDocuments {
+                try featuredDocumentsContainer.encode(featureddocument0)
+            }
+        }
+        if let featuredResultsSetName = self.featuredResultsSetName {
+            try encodeContainer.encode(featuredResultsSetName, forKey: .featuredResultsSetName)
+        }
+        if let indexId = self.indexId {
+            try encodeContainer.encode(indexId, forKey: .indexId)
+        }
+        if let queryTexts = queryTexts {
+            var queryTextsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queryTexts)
+            for querytext0 in queryTexts {
+                try queryTextsContainer.encode(querytext0)
+            }
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateFeaturedResultsSetInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateFeaturedResultsSetInput: Swift.Equatable {
+    /// A token that you provide to identify the request to create a set of featured results. Multiple calls to the CreateFeaturedResultsSet API with the same client token will create only one featured results set.
+    public var clientToken: Swift.String?
+    /// A description for the set of featured results.
+    public var description: Swift.String?
+    /// A list of document IDs for the documents you want to feature at the top of the search results page. For more information on the list of documents, see [FeaturedResultsSet](https://docs.aws.amazon.com/kendra/latest/dg/API_FeaturedResultsSet.html).
+    public var featuredDocuments: [KendraClientTypes.FeaturedDocument]?
+    /// A name for the set of featured results.
+    /// This member is required.
+    public var featuredResultsSetName: Swift.String?
+    /// The identifier of the index that you want to use for featuring results.
+    /// This member is required.
+    public var indexId: Swift.String?
+    /// A list of queries for featuring results. For more information on the list of queries, see [FeaturedResultsSet](https://docs.aws.amazon.com/kendra/latest/dg/API_FeaturedResultsSet.html).
+    public var queryTexts: [Swift.String]?
+    /// The current status of the set of featured results. When the value is ACTIVE, featured results are ready for use. You can still configure your settings before setting the status to ACTIVE. You can set the status to ACTIVE or INACTIVE using the [UpdateFeaturedResultsSet](https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateFeaturedResultsSet.html) API. The queries you specify for featured results must be unique per featured results set for each index, whether the status is ACTIVE or INACTIVE.
+    public var status: KendraClientTypes.FeaturedResultsSetStatus?
+    /// A list of key-value pairs that identify or categorize the featured results set. You can also use tags to help control access to the featured results set. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols:_ . : / = + - @.
+    public var tags: [KendraClientTypes.Tag]?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        featuredDocuments: [KendraClientTypes.FeaturedDocument]? = nil,
+        featuredResultsSetName: Swift.String? = nil,
+        indexId: Swift.String? = nil,
+        queryTexts: [Swift.String]? = nil,
+        status: KendraClientTypes.FeaturedResultsSetStatus? = nil,
+        tags: [KendraClientTypes.Tag]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.description = description
+        self.featuredDocuments = featuredDocuments
+        self.featuredResultsSetName = featuredResultsSetName
+        self.indexId = indexId
+        self.queryTexts = queryTexts
+        self.status = status
+        self.tags = tags
+    }
+}
+
+struct CreateFeaturedResultsSetInputBody: Swift.Equatable {
+    let indexId: Swift.String?
+    let featuredResultsSetName: Swift.String?
+    let description: Swift.String?
+    let clientToken: Swift.String?
+    let status: KendraClientTypes.FeaturedResultsSetStatus?
+    let queryTexts: [Swift.String]?
+    let featuredDocuments: [KendraClientTypes.FeaturedDocument]?
+    let tags: [KendraClientTypes.Tag]?
+}
+
+extension CreateFeaturedResultsSetInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case description = "Description"
+        case featuredDocuments = "FeaturedDocuments"
+        case featuredResultsSetName = "FeaturedResultsSetName"
+        case indexId = "IndexId"
+        case queryTexts = "QueryTexts"
+        case status = "Status"
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
+        indexId = indexIdDecoded
+        let featuredResultsSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .featuredResultsSetName)
+        featuredResultsSetName = featuredResultsSetNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(KendraClientTypes.FeaturedResultsSetStatus.self, forKey: .status)
+        status = statusDecoded
+        let queryTextsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .queryTexts)
+        var queryTextsDecoded0:[Swift.String]? = nil
+        if let queryTextsContainer = queryTextsContainer {
+            queryTextsDecoded0 = [Swift.String]()
+            for string0 in queryTextsContainer {
+                if let string0 = string0 {
+                    queryTextsDecoded0?.append(string0)
+                }
+            }
+        }
+        queryTexts = queryTextsDecoded0
+        let featuredDocumentsContainer = try containerValues.decodeIfPresent([KendraClientTypes.FeaturedDocument?].self, forKey: .featuredDocuments)
+        var featuredDocumentsDecoded0:[KendraClientTypes.FeaturedDocument]? = nil
+        if let featuredDocumentsContainer = featuredDocumentsContainer {
+            featuredDocumentsDecoded0 = [KendraClientTypes.FeaturedDocument]()
+            for structure0 in featuredDocumentsContainer {
+                if let structure0 = structure0 {
+                    featuredDocumentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        featuredDocuments = featuredDocumentsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([KendraClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[KendraClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [KendraClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateFeaturedResultsSetOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateFeaturedResultsSetOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FeaturedResultsConflictException" : self = .featuredResultsConflictException(try FeaturedResultsConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateFeaturedResultsSetOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case featuredResultsConflictException(FeaturedResultsConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateFeaturedResultsSetOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateFeaturedResultsSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.featuredResultsSet = output.featuredResultsSet
+        } else {
+            self.featuredResultsSet = nil
+        }
+    }
+}
+
+public struct CreateFeaturedResultsSetOutputResponse: Swift.Equatable {
+    /// Information on the set of featured results. This includes the identifier of the featured results set, whether the featured results set is active or inactive, when the featured results set was created, and more.
+    public var featuredResultsSet: KendraClientTypes.FeaturedResultsSet?
+
+    public init (
+        featuredResultsSet: KendraClientTypes.FeaturedResultsSet? = nil
+    )
+    {
+        self.featuredResultsSet = featuredResultsSet
+    }
+}
+
+struct CreateFeaturedResultsSetOutputResponseBody: Swift.Equatable {
+    let featuredResultsSet: KendraClientTypes.FeaturedResultsSet?
+}
+
+extension CreateFeaturedResultsSetOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case featuredResultsSet = "FeaturedResultsSet"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let featuredResultsSetDecoded = try containerValues.decodeIfPresent(KendraClientTypes.FeaturedResultsSet.self, forKey: .featuredResultsSet)
+        featuredResultsSet = featuredResultsSetDecoded
+    }
+}
+
 extension CreateIndexInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
@@ -4665,21 +5174,21 @@ public struct CreateIndexInput: Swift.Equatable {
     public var clientToken: Swift.String?
     /// A description for the index.
     public var description: Swift.String?
-    /// The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for your production databases. Once you set the edition for an index, it can't be changed. The Edition parameter is optional. If you don't supply a value, the default is ENTERPRISE_EDITION. For more information on quota limits for enterprise and developer editions, see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html).
+    /// The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for production. Once you set the edition for an index, it can't be changed. The Edition parameter is optional. If you don't supply a value, the default is ENTERPRISE_EDITION. For more information on quota limits for Enterprise and Developer editions, see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html).
     public var edition: KendraClientTypes.IndexEdition?
     /// A name for the index.
     /// This member is required.
     public var name: Swift.String?
-    /// An Identity and Access Management (IAM) role that gives Amazon Kendra permissions to access your Amazon CloudWatch logs and metrics. This is also the role you use when you call the BatchPutDocument API to index documents from an Amazon S3 bucket.
+    /// The Amazon Resource Name (ARN) of an IAM role with permission to access your Amazon CloudWatch logs and metrics. For more information, see [IAM access roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
     /// This member is required.
     public var roleArn: Swift.String?
     /// The identifier of the KMS customer managed key (CMK) that's used to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support asymmetric CMKs.
     public var serverSideEncryptionConfiguration: KendraClientTypes.ServerSideEncryptionConfiguration?
-    /// A list of key-value pairs that identify the index. You can use the tags to identify and organize your resources and to control access to resources.
+    /// A list of key-value pairs that identify or categorize the index. You can also use tags to help control access to the index. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
     public var tags: [KendraClientTypes.Tag]?
     /// The user context policy. ATTRIBUTE_FILTER All indexed content is searchable and displayable for all users. If you want to filter search results on user context, you can use the attribute filters of _user_id and _group_ids or you can provide user and group information in UserContext. USER_TOKEN Enables token-based user access control to filter search results on user context. All documents with no access control and all documents accessible to the user will be searchable and displayable.
     public var userContextPolicy: KendraClientTypes.UserContextPolicy?
-    /// Enables fetching access levels of groups and users from an IAM Identity Center (successor to Single Sign-On) identity source. To configure this, see [UserGroupResolutionConfiguration](https://docs.aws.amazon.com/kendra/latest/dg/API_UserGroupResolutionConfiguration.html).
+    /// Gets users and groups from IAM Identity Center (successor to Single Sign-On) identity source. To configure this, see [UserGroupResolutionConfiguration](https://docs.aws.amazon.com/kendra/latest/dg/API_UserGroupResolutionConfiguration.html).
     public var userGroupResolutionConfiguration: KendraClientTypes.UserGroupResolutionConfiguration?
     /// The user token configuration.
     public var userTokenConfigurations: [KendraClientTypes.UserTokenConfiguration]?
@@ -4904,21 +5413,21 @@ extension CreateQuerySuggestionsBlockListInput: ClientRuntime.URLPathProvider {
 public struct CreateQuerySuggestionsBlockListInput: Swift.Equatable {
     /// A token that you provide to identify the request to create a query suggestions block list.
     public var clientToken: Swift.String?
-    /// A user-friendly description for the block list. For example, the description "List of all offensive words that can appear in user queries and need to be blocked from suggestions."
+    /// A description for the block list. For example, the description "List of all offensive words that can appear in user queries and need to be blocked from suggestions."
     public var description: Swift.String?
     /// The identifier of the index you want to create a query suggestions block list for.
     /// This member is required.
     public var indexId: Swift.String?
-    /// A user friendly name for the block list. For example, the block list named 'offensive-words' includes all offensive words that could appear in user queries and need to be blocked from suggestions.
+    /// A name for the block list. For example, the name 'offensive-words', which includes all offensive words that could appear in user queries and need to be blocked from suggestions.
     /// This member is required.
     public var name: Swift.String?
-    /// The IAM (Identity and Access Management) role used by Amazon Kendra to access the block list text file in your S3 bucket. You need permissions to the role ARN (Amazon Web Services Resource Name). The role needs S3 read permissions to your file in S3 and needs to give STS (Security Token Service) assume role permissions to Amazon Kendra.
+    /// The Amazon Resource Name (ARN) of an IAM role with permission to access your S3 bucket that contains the block list text file. For more information, see [IAM access roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
     /// This member is required.
     public var roleArn: Swift.String?
     /// The S3 path to your block list text file in your S3 bucket. Each block word or phrase should be on a separate line in a text file. For information on the current quota limits for block lists, see [Quotas for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html).
     /// This member is required.
     public var sourceS3Path: KendraClientTypes.S3Path?
-    /// A tag that you can assign to a block list that categorizes the block list.
+    /// A list of key-value pairs that identify or categorize the block list. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
     public var tags: [KendraClientTypes.Tag]?
 
     public init (
@@ -5038,7 +5547,7 @@ extension CreateQuerySuggestionsBlockListOutputResponse: ClientRuntime.HttpRespo
 }
 
 public struct CreateQuerySuggestionsBlockListOutputResponse: Swift.Equatable {
-    /// The identifier of the created block list.
+    /// The identifier of the block list.
     public var id: Swift.String?
 
     public init (
@@ -5122,13 +5631,13 @@ public struct CreateThesaurusInput: Swift.Equatable {
     /// A name for the thesaurus.
     /// This member is required.
     public var name: Swift.String?
-    /// An IAM role that gives Amazon Kendra permissions to access thesaurus file specified in SourceS3Path.
+    /// The Amazon Resource Name (ARN) of an IAM role with permission to access your S3 bucket that contains the thesaurus file. For more information, see [IAM access roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
     /// This member is required.
     public var roleArn: Swift.String?
     /// The path to the thesaurus file in S3.
     /// This member is required.
     public var sourceS3Path: KendraClientTypes.S3Path?
-    /// A list of key-value pairs that identify the thesaurus. You can use the tags to identify and organize your resources and to control access to resources.
+    /// A list of key-value pairs that identify or categorize the thesaurus. You can also use tags to help control access to the thesaurus. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
     public var tags: [KendraClientTypes.Tag]?
 
     public init (
@@ -5703,7 +6212,7 @@ extension KendraClientTypes.DataSourceSummary: Swift.Codable {
 extension KendraClientTypes {
     /// Summary information for a Amazon Kendra data source.
     public struct DataSourceSummary: Swift.Equatable {
-        /// The UNIX datetime that the data source was created.
+        /// The Unix timestamp when the data source connector was created.
         public var createdAt: ClientRuntime.Date?
         /// The identifier for the data source.
         public var id: Swift.String?
@@ -5715,7 +6224,7 @@ extension KendraClientTypes {
         public var status: KendraClientTypes.DataSourceStatus?
         /// The type of the data source.
         public var type: KendraClientTypes.DataSourceType?
-        /// The UNIX datetime that the data source was lasted updated.
+        /// The Unix timestamp when the data source connector was last updated.
         public var updatedAt: ClientRuntime.Date?
 
         public init (
@@ -5806,7 +6315,7 @@ extension KendraClientTypes {
     public struct DataSourceSyncJob: Swift.Equatable {
         /// If the reason that the synchronization failed is due to an error with the underlying data source, this field contains a code that identifies the error.
         public var dataSourceErrorCode: Swift.String?
-        /// The UNIX datetime that the synchronization job completed.
+        /// The Unix timestamp when the synchronization job completed.
         public var endTime: ClientRuntime.Date?
         /// If the Status field is set to FAILED, the ErrorCode field indicates the reason the synchronization failed.
         public var errorCode: KendraClientTypes.ErrorCode?
@@ -5816,7 +6325,7 @@ extension KendraClientTypes {
         public var executionId: Swift.String?
         /// Maps a batch delete document request to a specific data source sync job. This is optional and should only be supplied when documents are deleted by a data source connector.
         public var metrics: KendraClientTypes.DataSourceSyncJobMetrics?
-        /// The UNIX datetime that the synchronization job started.
+        /// The Unix timestamp when the synchronization job started.
         public var startTime: ClientRuntime.Date?
         /// The execution status of the synchronization job. When the Status field is set to SUCCEEDED, the synchronization job is done. If the status code is set to FAILED, the ErrorCode and ErrorMessage fields give you the reason for the failure.
         public var status: KendraClientTypes.DataSourceSyncJobStatus?
@@ -6892,7 +7401,7 @@ public struct DeletePrincipalMappingInput: Swift.Equatable {
     /// The identifier of the index you want to delete a group from.
     /// This member is required.
     public var indexId: Swift.String?
-    /// The timestamp identifier you specify to ensure Amazon Kendra does not override the latest DELETE action with previous actions. The highest number ID, which is the ordering ID, is the latest action you want to process and apply on top of other actions with lower number IDs. This prevents previous actions with lower number IDs from possibly overriding the latest action. The ordering ID can be the UNIX time of the last update you made to a group members list. You would then provide this list when calling PutPrincipalMapping. This ensures your DELETE action for that updated group with the latest members list doesn't get overwritten by earlier DELETE actions for the same group which are yet to be processed. The default ordering ID is the current UNIX time in milliseconds that the action was received by Amazon Kendra.
+    /// The timestamp identifier you specify to ensure Amazon Kendra does not override the latest DELETE action with previous actions. The highest number ID, which is the ordering ID, is the latest action you want to process and apply on top of other actions with lower number IDs. This prevents previous actions with lower number IDs from possibly overriding the latest action. The ordering ID can be the Unix time of the last update you made to a group members list. You would then provide this list when calling PutPrincipalMapping. This ensures your DELETE action for that updated group with the latest members list doesn't get overwritten by earlier DELETE actions for the same group which are yet to be processed. The default ordering ID is the current Unix time in milliseconds that the action was received by Amazon Kendra.
     public var orderingId: Swift.Int?
 
     public init (
@@ -7511,7 +8020,7 @@ extension DescribeDataSourceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DescribeDataSourceOutputResponse: Swift.Equatable {
     /// Configuration details for the data source connector. This shows how the data source is configured. The configuration options for a data source depend on the data source provider.
     public var configuration: KendraClientTypes.DataSourceConfiguration?
-    /// The Unix timestamp of when the data source connector was created.
+    /// The Unix timestamp when the data source connector was created.
     public var createdAt: ClientRuntime.Date?
     /// Configuration information for altering document metadata and content during the document ingestion process when you describe a data source. For more information on how to create, modify and delete document metadata, or make other content alterations when you ingest documents into Amazon Kendra, see [Customizing document metadata during the ingestion process](https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html).
     public var customDocumentEnrichmentConfiguration: KendraClientTypes.CustomDocumentEnrichmentConfiguration?
@@ -7535,7 +8044,7 @@ public struct DescribeDataSourceOutputResponse: Swift.Equatable {
     public var status: KendraClientTypes.DataSourceStatus?
     /// The type of the data source. For example, SHAREPOINT.
     public var type: KendraClientTypes.DataSourceType?
-    /// The Unix timestamp of when the data source connector was last updated.
+    /// The Unix timestamp when the data source connector was last updated.
     public var updatedAt: ClientRuntime.Date?
     /// Configuration information for an Amazon Virtual Private Cloud to connect to your data source. For more information, see [Configuring a VPC](https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html).
     public var vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration?
@@ -7775,7 +8284,7 @@ extension DescribeExperienceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DescribeExperienceOutputResponse: Swift.Equatable {
     /// Shows the configuration information for your Amazon Kendra experience. This includes ContentSourceConfiguration, which specifies the data source IDs and/or FAQ IDs, and UserIdentityConfiguration, which specifies the user or group information to grant access to your Amazon Kendra experience.
     public var configuration: KendraClientTypes.ExperienceConfiguration?
-    /// Shows the date-time your Amazon Kendra experience was created.
+    /// The Unix timestamp when your Amazon Kendra experience was created.
     public var createdAt: ClientRuntime.Date?
     /// Shows the description for your Amazon Kendra experience.
     public var description: Swift.String?
@@ -7793,7 +8302,7 @@ public struct DescribeExperienceOutputResponse: Swift.Equatable {
     public var roleArn: Swift.String?
     /// The current processing status of your Amazon Kendra experience. When the status is ACTIVE, your Amazon Kendra experience is ready to use. When the status is FAILED, the ErrorMessage field contains the reason that this failed.
     public var status: KendraClientTypes.ExperienceStatus?
-    /// Shows the date-time your Amazon Kendra experience was last updated.
+    /// The Unix timestamp when your Amazon Kendra experience was last updated.
     public var updatedAt: ClientRuntime.Date?
 
     public init (
@@ -8016,7 +8525,7 @@ extension DescribeFaqOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DescribeFaqOutputResponse: Swift.Equatable {
-    /// The date and time that the FAQ was created.
+    /// The Unix timestamp when the FAQ was created.
     public var createdAt: ClientRuntime.Date?
     /// The description of the FAQ that you provided when it was created.
     public var description: Swift.String?
@@ -8038,7 +8547,7 @@ public struct DescribeFaqOutputResponse: Swift.Equatable {
     public var s3Path: KendraClientTypes.S3Path?
     /// The status of the FAQ. It is ready to use when the status is ACTIVE.
     public var status: KendraClientTypes.FaqStatus?
-    /// The date and time that the FAQ was last updated.
+    /// The Unix timestamp when the FAQ was last updated.
     public var updatedAt: ClientRuntime.Date?
 
     public init (
@@ -8128,6 +8637,245 @@ extension DescribeFaqOutputResponseBody: Swift.Decodable {
         fileFormat = fileFormatDecoded
         let languageCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .languageCode)
         languageCode = languageCodeDecoded
+    }
+}
+
+extension DescribeFeaturedResultsSetInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case featuredResultsSetId = "FeaturedResultsSetId"
+        case indexId = "IndexId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let featuredResultsSetId = self.featuredResultsSetId {
+            try encodeContainer.encode(featuredResultsSetId, forKey: .featuredResultsSetId)
+        }
+        if let indexId = self.indexId {
+            try encodeContainer.encode(indexId, forKey: .indexId)
+        }
+    }
+}
+
+extension DescribeFeaturedResultsSetInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeFeaturedResultsSetInput: Swift.Equatable {
+    /// The identifier of the set of featured results that you want to get information on.
+    /// This member is required.
+    public var featuredResultsSetId: Swift.String?
+    /// The identifier of the index used for featuring results.
+    /// This member is required.
+    public var indexId: Swift.String?
+
+    public init (
+        featuredResultsSetId: Swift.String? = nil,
+        indexId: Swift.String? = nil
+    )
+    {
+        self.featuredResultsSetId = featuredResultsSetId
+        self.indexId = indexId
+    }
+}
+
+struct DescribeFeaturedResultsSetInputBody: Swift.Equatable {
+    let indexId: Swift.String?
+    let featuredResultsSetId: Swift.String?
+}
+
+extension DescribeFeaturedResultsSetInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case featuredResultsSetId = "FeaturedResultsSetId"
+        case indexId = "IndexId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
+        indexId = indexIdDecoded
+        let featuredResultsSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .featuredResultsSetId)
+        featuredResultsSetId = featuredResultsSetIdDecoded
+    }
+}
+
+extension DescribeFeaturedResultsSetOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeFeaturedResultsSetOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeFeaturedResultsSetOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeFeaturedResultsSetOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DescribeFeaturedResultsSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationTimestamp = output.creationTimestamp
+            self.description = output.description
+            self.featuredDocumentsMissing = output.featuredDocumentsMissing
+            self.featuredDocumentsWithMetadata = output.featuredDocumentsWithMetadata
+            self.featuredResultsSetId = output.featuredResultsSetId
+            self.featuredResultsSetName = output.featuredResultsSetName
+            self.lastUpdatedTimestamp = output.lastUpdatedTimestamp
+            self.queryTexts = output.queryTexts
+            self.status = output.status
+        } else {
+            self.creationTimestamp = nil
+            self.description = nil
+            self.featuredDocumentsMissing = nil
+            self.featuredDocumentsWithMetadata = nil
+            self.featuredResultsSetId = nil
+            self.featuredResultsSetName = nil
+            self.lastUpdatedTimestamp = nil
+            self.queryTexts = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct DescribeFeaturedResultsSetOutputResponse: Swift.Equatable {
+    /// The Unix timestamp when the set of the featured results was created.
+    public var creationTimestamp: Swift.Int?
+    /// The description for the set of featured results.
+    public var description: Swift.String?
+    /// The list of document IDs that don't exist but you have specified as featured documents. Amazon Kendra cannot feature these documents if they don't exist in the index. You can check the status of a document and its ID or check for documents with status errors using the [BatchGetDocumentStatus](https://docs.aws.amazon.com/kendra/latest/dg/API_BatchGetDocumentStatus.html) API.
+    public var featuredDocumentsMissing: [KendraClientTypes.FeaturedDocumentMissing]?
+    /// The list of document IDs for the documents you want to feature with their metadata information. For more information on the list of featured documents, see [FeaturedResultsSet](https://docs.aws.amazon.com/kendra/latest/dg/API_FeaturedResultsSet.html).
+    public var featuredDocumentsWithMetadata: [KendraClientTypes.FeaturedDocumentWithMetadata]?
+    /// The identifier of the set of featured results.
+    public var featuredResultsSetId: Swift.String?
+    /// The name for the set of featured results.
+    public var featuredResultsSetName: Swift.String?
+    /// The timestamp when the set of featured results was last updated.
+    public var lastUpdatedTimestamp: Swift.Int?
+    /// The list of queries for featuring results. For more information on the list of queries, see [FeaturedResultsSet](https://docs.aws.amazon.com/kendra/latest/dg/API_FeaturedResultsSet.html).
+    public var queryTexts: [Swift.String]?
+    /// The current status of the set of featured results. When the value is ACTIVE, featured results are ready for use. You can still configure your settings before setting the status to ACTIVE. You can set the status to ACTIVE or INACTIVE using the [UpdateFeaturedResultsSet](https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateFeaturedResultsSet.html) API. The queries you specify for featured results must be unique per featured results set for each index, whether the status is ACTIVE or INACTIVE.
+    public var status: KendraClientTypes.FeaturedResultsSetStatus?
+
+    public init (
+        creationTimestamp: Swift.Int? = nil,
+        description: Swift.String? = nil,
+        featuredDocumentsMissing: [KendraClientTypes.FeaturedDocumentMissing]? = nil,
+        featuredDocumentsWithMetadata: [KendraClientTypes.FeaturedDocumentWithMetadata]? = nil,
+        featuredResultsSetId: Swift.String? = nil,
+        featuredResultsSetName: Swift.String? = nil,
+        lastUpdatedTimestamp: Swift.Int? = nil,
+        queryTexts: [Swift.String]? = nil,
+        status: KendraClientTypes.FeaturedResultsSetStatus? = nil
+    )
+    {
+        self.creationTimestamp = creationTimestamp
+        self.description = description
+        self.featuredDocumentsMissing = featuredDocumentsMissing
+        self.featuredDocumentsWithMetadata = featuredDocumentsWithMetadata
+        self.featuredResultsSetId = featuredResultsSetId
+        self.featuredResultsSetName = featuredResultsSetName
+        self.lastUpdatedTimestamp = lastUpdatedTimestamp
+        self.queryTexts = queryTexts
+        self.status = status
+    }
+}
+
+struct DescribeFeaturedResultsSetOutputResponseBody: Swift.Equatable {
+    let featuredResultsSetId: Swift.String?
+    let featuredResultsSetName: Swift.String?
+    let description: Swift.String?
+    let status: KendraClientTypes.FeaturedResultsSetStatus?
+    let queryTexts: [Swift.String]?
+    let featuredDocumentsWithMetadata: [KendraClientTypes.FeaturedDocumentWithMetadata]?
+    let featuredDocumentsMissing: [KendraClientTypes.FeaturedDocumentMissing]?
+    let lastUpdatedTimestamp: Swift.Int?
+    let creationTimestamp: Swift.Int?
+}
+
+extension DescribeFeaturedResultsSetOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTimestamp = "CreationTimestamp"
+        case description = "Description"
+        case featuredDocumentsMissing = "FeaturedDocumentsMissing"
+        case featuredDocumentsWithMetadata = "FeaturedDocumentsWithMetadata"
+        case featuredResultsSetId = "FeaturedResultsSetId"
+        case featuredResultsSetName = "FeaturedResultsSetName"
+        case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+        case queryTexts = "QueryTexts"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let featuredResultsSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .featuredResultsSetId)
+        featuredResultsSetId = featuredResultsSetIdDecoded
+        let featuredResultsSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .featuredResultsSetName)
+        featuredResultsSetName = featuredResultsSetNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(KendraClientTypes.FeaturedResultsSetStatus.self, forKey: .status)
+        status = statusDecoded
+        let queryTextsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .queryTexts)
+        var queryTextsDecoded0:[Swift.String]? = nil
+        if let queryTextsContainer = queryTextsContainer {
+            queryTextsDecoded0 = [Swift.String]()
+            for string0 in queryTextsContainer {
+                if let string0 = string0 {
+                    queryTextsDecoded0?.append(string0)
+                }
+            }
+        }
+        queryTexts = queryTextsDecoded0
+        let featuredDocumentsWithMetadataContainer = try containerValues.decodeIfPresent([KendraClientTypes.FeaturedDocumentWithMetadata?].self, forKey: .featuredDocumentsWithMetadata)
+        var featuredDocumentsWithMetadataDecoded0:[KendraClientTypes.FeaturedDocumentWithMetadata]? = nil
+        if let featuredDocumentsWithMetadataContainer = featuredDocumentsWithMetadataContainer {
+            featuredDocumentsWithMetadataDecoded0 = [KendraClientTypes.FeaturedDocumentWithMetadata]()
+            for structure0 in featuredDocumentsWithMetadataContainer {
+                if let structure0 = structure0 {
+                    featuredDocumentsWithMetadataDecoded0?.append(structure0)
+                }
+            }
+        }
+        featuredDocumentsWithMetadata = featuredDocumentsWithMetadataDecoded0
+        let featuredDocumentsMissingContainer = try containerValues.decodeIfPresent([KendraClientTypes.FeaturedDocumentMissing?].self, forKey: .featuredDocumentsMissing)
+        var featuredDocumentsMissingDecoded0:[KendraClientTypes.FeaturedDocumentMissing]? = nil
+        if let featuredDocumentsMissingContainer = featuredDocumentsMissingContainer {
+            featuredDocumentsMissingDecoded0 = [KendraClientTypes.FeaturedDocumentMissing]()
+            for structure0 in featuredDocumentsMissingContainer {
+                if let structure0 = structure0 {
+                    featuredDocumentsMissingDecoded0?.append(structure0)
+                }
+            }
+        }
+        featuredDocumentsMissing = featuredDocumentsMissingDecoded0
+        let lastUpdatedTimestampDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastUpdatedTimestamp)
+        lastUpdatedTimestamp = lastUpdatedTimestampDecoded
+        let creationTimestampDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .creationTimestamp)
+        creationTimestamp = creationTimestampDecoded
     }
 }
 
@@ -8255,7 +9003,7 @@ extension DescribeIndexOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DescribeIndexOutputResponse: Swift.Equatable {
     /// For Enterprise Edition indexes, you can choose to use additional capacity to meet the needs of your application. This contains the capacity units used for the index. A query or document storage capacity of zero indicates that the index is using the default capacity. For more information on the default capacity for an index and adjusting this, see [Adjusting capacity](https://docs.aws.amazon.com/kendra/latest/dg/adjusting-capacity.html).
     public var capacityUnits: KendraClientTypes.CapacityUnitsConfiguration?
-    /// The Unix datetime that the index was created.
+    /// The Unix timestamp when the index was created.
     public var createdAt: ClientRuntime.Date?
     /// The description for the index.
     public var description: Swift.String?
@@ -8277,7 +9025,7 @@ public struct DescribeIndexOutputResponse: Swift.Equatable {
     public var serverSideEncryptionConfiguration: KendraClientTypes.ServerSideEncryptionConfiguration?
     /// The current status of the index. When the value is ACTIVE, the index is ready for use. If the Status field value is FAILED, the ErrorMessage field contains a message that explains why.
     public var status: KendraClientTypes.IndexStatus?
-    /// The Unix datetime that the index was last updated.
+    /// The Unix when the index was last updated.
     public var updatedAt: ClientRuntime.Date?
     /// The user context policy for the Amazon Kendra index.
     public var userContextPolicy: KendraClientTypes.UserContextPolicy?
@@ -8547,15 +9295,15 @@ public struct DescribePrincipalMappingOutputResponse: Swift.Equatable {
     public var groupId: Swift.String?
     /// Shows the following information on the processing of PUT and DELETE actions for mapping users to their groups:
     ///
-    /// * Status – the status can be either PROCESSING, SUCCEEDED, DELETING, DELETED, or FAILED.
+    /// * Status—the status can be either PROCESSING, SUCCEEDED, DELETING, DELETED, or FAILED.
     ///
-    /// * Last updated – the last date-time an action was updated.
+    /// * Last updated—the last date-time an action was updated.
     ///
-    /// * Received – the last date-time an action was received or submitted.
+    /// * Received—the last date-time an action was received or submitted.
     ///
-    /// * Ordering ID – the latest action that should process and apply after other actions.
+    /// * Ordering ID—the latest action that should process and apply after other actions.
     ///
-    /// * Failure reason – the reason an action could not be processed.
+    /// * Failure reason—the reason an action could not be processed.
     public var groupOrderingIdSummaries: [KendraClientTypes.GroupOrderingIdSummary]?
     /// Shows the identifier of the index to see information on the processing of PUT and DELETE actions for mapping users to their groups.
     public var indexId: Swift.String?
@@ -8738,7 +9486,7 @@ extension DescribeQuerySuggestionsBlockListOutputResponse: ClientRuntime.HttpRes
 }
 
 public struct DescribeQuerySuggestionsBlockListOutputResponse: Swift.Equatable {
-    /// The date-time a block list for query suggestions was created.
+    /// The Unix timestamp when a block list for query suggestions was created.
     public var createdAt: ClientRuntime.Date?
     /// The description for the block list.
     public var description: Swift.String?
@@ -8760,7 +9508,7 @@ public struct DescribeQuerySuggestionsBlockListOutputResponse: Swift.Equatable {
     public var sourceS3Path: KendraClientTypes.S3Path?
     /// The current status of the block list. When the value is ACTIVE, the block list is ready for use.
     public var status: KendraClientTypes.QuerySuggestionsBlockListStatus?
-    /// The date-time a block list for query suggestions was last updated.
+    /// The Unix timestamp when a block list for query suggestions was last updated.
     public var updatedAt: ClientRuntime.Date?
 
     public init (
@@ -8963,9 +9711,9 @@ extension DescribeQuerySuggestionsConfigOutputResponse: ClientRuntime.HttpRespon
 public struct DescribeQuerySuggestionsConfigOutputResponse: Swift.Equatable {
     /// TRUE to use all queries, otherwise use only queries that include user information to generate the query suggestions.
     public var includeQueriesWithoutUserInformation: Swift.Bool?
-    /// The date-time query suggestions for an index was last cleared. After you clear suggestions, Amazon Kendra learns new suggestions based on new queries added to the query log from the time you cleared suggestions. Amazon Kendra only considers re-occurences of a query from the time you cleared suggestions.
+    /// The Unix timestamp when query suggestions for an index was last cleared. After you clear suggestions, Amazon Kendra learns new suggestions based on new queries added to the query log from the time you cleared suggestions. Amazon Kendra only considers re-occurences of a query from the time you cleared suggestions.
     public var lastClearTime: ClientRuntime.Date?
-    /// The date-time query suggestions for an index was last updated.
+    /// The Unix timestamp when query suggestions for an index was last updated.
     public var lastSuggestionsBuildTime: ClientRuntime.Date?
     /// The minimum number of unique users who must search a query in order for the query to be eligible to suggest to your users.
     public var minimumNumberOfQueryingUsers: Swift.Int?
@@ -9181,7 +9929,7 @@ extension DescribeThesaurusOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DescribeThesaurusOutputResponse: Swift.Equatable {
-    /// The Unix datetime that the thesaurus was created.
+    /// The Unix timestamp when the thesaurus was created.
     public var createdAt: ClientRuntime.Date?
     /// The thesaurus description.
     public var description: Swift.String?
@@ -9205,7 +9953,7 @@ public struct DescribeThesaurusOutputResponse: Swift.Equatable {
     public var synonymRuleCount: Swift.Int?
     /// The number of unique terms in the thesaurus file. For example, the synonyms a,b,c and a=>d, the term count would be 4.
     public var termCount: Swift.Int?
-    /// The Unix datetime that the thesaurus was last updated.
+    /// The Unix timestamp when the thesaurus was last updated.
     public var updatedAt: ClientRuntime.Date?
 
     public init (
@@ -10903,7 +11651,7 @@ extension KendraClientTypes.ExperiencesSummary: Swift.Codable {
 extension KendraClientTypes {
     /// Summary information for your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     public struct ExperiencesSummary: Swift.Equatable {
-        /// The date-time your Amazon Kendra experience was created.
+        /// The Unix timestamp when your Amazon Kendra experience was created.
         public var createdAt: ClientRuntime.Date?
         /// The endpoint URLs for your Amazon Kendra experiences. The URLs are unique and fully hosted by Amazon Web Services.
         public var endpoints: [KendraClientTypes.ExperienceEndpoint]?
@@ -11281,7 +12029,7 @@ extension KendraClientTypes.FaqSummary: Swift.Codable {
 extension KendraClientTypes {
     /// Summary information for frequently asked questions and answers included in an index.
     public struct FaqSummary: Swift.Equatable {
-        /// The UNIX datetime that the FAQ was added to the index.
+        /// The Unix timestamp when the FAQ was created.
         public var createdAt: ClientRuntime.Date?
         /// The file type used to create the FAQ.
         public var fileFormat: KendraClientTypes.FaqFileFormat?
@@ -11293,7 +12041,7 @@ extension KendraClientTypes {
         public var name: Swift.String?
         /// The current status of the FAQ. When the status is ACTIVE the FAQ is ready for use.
         public var status: KendraClientTypes.FaqStatus?
-        /// The UNIX datetime that the FAQ was last updated.
+        /// The Unix timestamp when the FAQ was last updated.
         public var updatedAt: ClientRuntime.Date?
 
         public init (
@@ -11313,6 +12061,578 @@ extension KendraClientTypes {
             self.name = name
             self.status = status
             self.updatedAt = updatedAt
+        }
+    }
+
+}
+
+extension KendraClientTypes.FeaturedDocument: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "Id"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+    }
+}
+
+extension KendraClientTypes {
+    /// A featured document. This document is displayed at the top of the search results page, placed above all other results for certain queries. If there's an exact match of a query, then the document is featured in the search results.
+    public struct FeaturedDocument: Swift.Equatable {
+        /// The identifier of the document to feature in the search results. You can use the [Query](https://docs.aws.amazon.com/kendra/latest/dg/API_Query.html) API to search for specific documents with their document IDs included in the result items, or you can use the console.
+        public var id: Swift.String?
+
+        public init (
+            id: Swift.String? = nil
+        )
+        {
+            self.id = id
+        }
+    }
+
+}
+
+extension KendraClientTypes.FeaturedDocumentMissing: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "Id"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+    }
+}
+
+extension KendraClientTypes {
+    /// A document ID doesn't exist but you have specified as a featured document. Amazon Kendra cannot feature the document if it doesn't exist in the index. You can check the status of a document and its ID or check for documents with status errors using the [BatchGetDocumentStatus](https://docs.aws.amazon.com/kendra/latest/dg/API_BatchGetDocumentStatus.html) API.
+    public struct FeaturedDocumentMissing: Swift.Equatable {
+        /// The identifier of the document that doesn't exist but you have specified as a featured document.
+        public var id: Swift.String?
+
+        public init (
+            id: Swift.String? = nil
+        )
+        {
+            self.id = id
+        }
+    }
+
+}
+
+extension KendraClientTypes.FeaturedDocumentWithMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "Id"
+        case title = "Title"
+        case uri = "URI"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+        if let uri = self.uri {
+            try encodeContainer.encode(uri, forKey: .uri)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let uriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uri)
+        uri = uriDecoded
+    }
+}
+
+extension KendraClientTypes {
+    /// A featured document with its metadata information. This document is displayed at the top of the search results page, placed above all other results for certain queries. If there's an exact match of a query, then the document is featured in the search results.
+    public struct FeaturedDocumentWithMetadata: Swift.Equatable {
+        /// The identifier of the featured document with its metadata. You can use the [Query](https://docs.aws.amazon.com/kendra/latest/dg/API_Query.html) API to search for specific documents with their document IDs included in the result items, or you can use the console.
+        public var id: Swift.String?
+        /// The main title of the featured document.
+        public var title: Swift.String?
+        /// The source URI location of the featured document.
+        public var uri: Swift.String?
+
+        public init (
+            id: Swift.String? = nil,
+            title: Swift.String? = nil,
+            uri: Swift.String? = nil
+        )
+        {
+            self.id = id
+            self.title = title
+            self.uri = uri
+        }
+    }
+
+}
+
+extension FeaturedResultsConflictException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: FeaturedResultsConflictExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.conflictingItems = output.conflictingItems
+            self.message = output.message
+        } else {
+            self.conflictingItems = nil
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// An error message with a list of conflicting queries used across different sets of featured results. This occurred with the request for a new featured results set. Check that the queries you specified for featured results are unique per featured results set for each index.
+public struct FeaturedResultsConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// A list of the conflicting queries, including the query text, the name for the featured results set, and the identifier of the featured results set.
+    public var conflictingItems: [KendraClientTypes.ConflictingItem]?
+    /// An explanation for the conflicting queries.
+    public var message: Swift.String?
+
+    public init (
+        conflictingItems: [KendraClientTypes.ConflictingItem]? = nil,
+        message: Swift.String? = nil
+    )
+    {
+        self.conflictingItems = conflictingItems
+        self.message = message
+    }
+}
+
+struct FeaturedResultsConflictExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+    let conflictingItems: [KendraClientTypes.ConflictingItem]?
+}
+
+extension FeaturedResultsConflictExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case conflictingItems = "ConflictingItems"
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let conflictingItemsContainer = try containerValues.decodeIfPresent([KendraClientTypes.ConflictingItem?].self, forKey: .conflictingItems)
+        var conflictingItemsDecoded0:[KendraClientTypes.ConflictingItem]? = nil
+        if let conflictingItemsContainer = conflictingItemsContainer {
+            conflictingItemsDecoded0 = [KendraClientTypes.ConflictingItem]()
+            for structure0 in conflictingItemsContainer {
+                if let structure0 = structure0 {
+                    conflictingItemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        conflictingItems = conflictingItemsDecoded0
+    }
+}
+
+extension KendraClientTypes.FeaturedResultsItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalAttributes = "AdditionalAttributes"
+        case documentAttributes = "DocumentAttributes"
+        case documentExcerpt = "DocumentExcerpt"
+        case documentId = "DocumentId"
+        case documentTitle = "DocumentTitle"
+        case documentURI = "DocumentURI"
+        case feedbackToken = "FeedbackToken"
+        case id = "Id"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalAttributes = additionalAttributes {
+            var additionalAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalAttributes)
+            for additionalresultattribute0 in additionalAttributes {
+                try additionalAttributesContainer.encode(additionalresultattribute0)
+            }
+        }
+        if let documentAttributes = documentAttributes {
+            var documentAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .documentAttributes)
+            for documentattribute0 in documentAttributes {
+                try documentAttributesContainer.encode(documentattribute0)
+            }
+        }
+        if let documentExcerpt = self.documentExcerpt {
+            try encodeContainer.encode(documentExcerpt, forKey: .documentExcerpt)
+        }
+        if let documentId = self.documentId {
+            try encodeContainer.encode(documentId, forKey: .documentId)
+        }
+        if let documentTitle = self.documentTitle {
+            try encodeContainer.encode(documentTitle, forKey: .documentTitle)
+        }
+        if let documentURI = self.documentURI {
+            try encodeContainer.encode(documentURI, forKey: .documentURI)
+        }
+        if let feedbackToken = self.feedbackToken {
+            try encodeContainer.encode(feedbackToken, forKey: .feedbackToken)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(KendraClientTypes.QueryResultType.self, forKey: .type)
+        type = typeDecoded
+        let additionalAttributesContainer = try containerValues.decodeIfPresent([KendraClientTypes.AdditionalResultAttribute?].self, forKey: .additionalAttributes)
+        var additionalAttributesDecoded0:[KendraClientTypes.AdditionalResultAttribute]? = nil
+        if let additionalAttributesContainer = additionalAttributesContainer {
+            additionalAttributesDecoded0 = [KendraClientTypes.AdditionalResultAttribute]()
+            for structure0 in additionalAttributesContainer {
+                if let structure0 = structure0 {
+                    additionalAttributesDecoded0?.append(structure0)
+                }
+            }
+        }
+        additionalAttributes = additionalAttributesDecoded0
+        let documentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentId)
+        documentId = documentIdDecoded
+        let documentTitleDecoded = try containerValues.decodeIfPresent(KendraClientTypes.TextWithHighlights.self, forKey: .documentTitle)
+        documentTitle = documentTitleDecoded
+        let documentExcerptDecoded = try containerValues.decodeIfPresent(KendraClientTypes.TextWithHighlights.self, forKey: .documentExcerpt)
+        documentExcerpt = documentExcerptDecoded
+        let documentURIDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .documentURI)
+        documentURI = documentURIDecoded
+        let documentAttributesContainer = try containerValues.decodeIfPresent([KendraClientTypes.DocumentAttribute?].self, forKey: .documentAttributes)
+        var documentAttributesDecoded0:[KendraClientTypes.DocumentAttribute]? = nil
+        if let documentAttributesContainer = documentAttributesContainer {
+            documentAttributesDecoded0 = [KendraClientTypes.DocumentAttribute]()
+            for structure0 in documentAttributesContainer {
+                if let structure0 = structure0 {
+                    documentAttributesDecoded0?.append(structure0)
+                }
+            }
+        }
+        documentAttributes = documentAttributesDecoded0
+        let feedbackTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .feedbackToken)
+        feedbackToken = feedbackTokenDecoded
+    }
+}
+
+extension KendraClientTypes {
+    /// A single featured result item. A featured result is displayed at the top of the search results page, placed above all other results for certain queries. If there's an exact match of a query, then certain documents are featured in the search results.
+    public struct FeaturedResultsItem: Swift.Equatable {
+        /// One or more additional attributes associated with the featured result.
+        public var additionalAttributes: [KendraClientTypes.AdditionalResultAttribute]?
+        /// An array of document attributes assigned to a featured document in the search results. For example, the document author (_author) or the source URI (_source_uri) of the document.
+        public var documentAttributes: [KendraClientTypes.DocumentAttribute]?
+        /// Provides text and information about where to highlight the text.
+        public var documentExcerpt: KendraClientTypes.TextWithHighlights?
+        /// The identifier of the featured document.
+        public var documentId: Swift.String?
+        /// Provides text and information about where to highlight the text.
+        public var documentTitle: KendraClientTypes.TextWithHighlights?
+        /// The source URI location of the featured document.
+        public var documentURI: Swift.String?
+        /// A token that identifies a particular featured result from a particular query. Use this token to provide click-through feedback for the result. For more information, see [Submitting feedback](https://docs.aws.amazon.com/kendra/latest/dg/submitting-feedback.html).
+        public var feedbackToken: Swift.String?
+        /// The identifier of the featured result.
+        public var id: Swift.String?
+        /// The type of document within the featured result response. For example, a response could include a question-answer type that's relevant to the query.
+        public var type: KendraClientTypes.QueryResultType?
+
+        public init (
+            additionalAttributes: [KendraClientTypes.AdditionalResultAttribute]? = nil,
+            documentAttributes: [KendraClientTypes.DocumentAttribute]? = nil,
+            documentExcerpt: KendraClientTypes.TextWithHighlights? = nil,
+            documentId: Swift.String? = nil,
+            documentTitle: KendraClientTypes.TextWithHighlights? = nil,
+            documentURI: Swift.String? = nil,
+            feedbackToken: Swift.String? = nil,
+            id: Swift.String? = nil,
+            type: KendraClientTypes.QueryResultType? = nil
+        )
+        {
+            self.additionalAttributes = additionalAttributes
+            self.documentAttributes = documentAttributes
+            self.documentExcerpt = documentExcerpt
+            self.documentId = documentId
+            self.documentTitle = documentTitle
+            self.documentURI = documentURI
+            self.feedbackToken = feedbackToken
+            self.id = id
+            self.type = type
+        }
+    }
+
+}
+
+extension KendraClientTypes.FeaturedResultsSet: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTimestamp = "CreationTimestamp"
+        case description = "Description"
+        case featuredDocuments = "FeaturedDocuments"
+        case featuredResultsSetId = "FeaturedResultsSetId"
+        case featuredResultsSetName = "FeaturedResultsSetName"
+        case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+        case queryTexts = "QueryTexts"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTimestamp = self.creationTimestamp {
+            try encodeContainer.encode(creationTimestamp, forKey: .creationTimestamp)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let featuredDocuments = featuredDocuments {
+            var featuredDocumentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .featuredDocuments)
+            for featureddocument0 in featuredDocuments {
+                try featuredDocumentsContainer.encode(featureddocument0)
+            }
+        }
+        if let featuredResultsSetId = self.featuredResultsSetId {
+            try encodeContainer.encode(featuredResultsSetId, forKey: .featuredResultsSetId)
+        }
+        if let featuredResultsSetName = self.featuredResultsSetName {
+            try encodeContainer.encode(featuredResultsSetName, forKey: .featuredResultsSetName)
+        }
+        if let lastUpdatedTimestamp = self.lastUpdatedTimestamp {
+            try encodeContainer.encode(lastUpdatedTimestamp, forKey: .lastUpdatedTimestamp)
+        }
+        if let queryTexts = queryTexts {
+            var queryTextsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queryTexts)
+            for querytext0 in queryTexts {
+                try queryTextsContainer.encode(querytext0)
+            }
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let featuredResultsSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .featuredResultsSetId)
+        featuredResultsSetId = featuredResultsSetIdDecoded
+        let featuredResultsSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .featuredResultsSetName)
+        featuredResultsSetName = featuredResultsSetNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(KendraClientTypes.FeaturedResultsSetStatus.self, forKey: .status)
+        status = statusDecoded
+        let queryTextsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .queryTexts)
+        var queryTextsDecoded0:[Swift.String]? = nil
+        if let queryTextsContainer = queryTextsContainer {
+            queryTextsDecoded0 = [Swift.String]()
+            for string0 in queryTextsContainer {
+                if let string0 = string0 {
+                    queryTextsDecoded0?.append(string0)
+                }
+            }
+        }
+        queryTexts = queryTextsDecoded0
+        let featuredDocumentsContainer = try containerValues.decodeIfPresent([KendraClientTypes.FeaturedDocument?].self, forKey: .featuredDocuments)
+        var featuredDocumentsDecoded0:[KendraClientTypes.FeaturedDocument]? = nil
+        if let featuredDocumentsContainer = featuredDocumentsContainer {
+            featuredDocumentsDecoded0 = [KendraClientTypes.FeaturedDocument]()
+            for structure0 in featuredDocumentsContainer {
+                if let structure0 = structure0 {
+                    featuredDocumentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        featuredDocuments = featuredDocumentsDecoded0
+        let lastUpdatedTimestampDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastUpdatedTimestamp)
+        lastUpdatedTimestamp = lastUpdatedTimestampDecoded
+        let creationTimestampDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .creationTimestamp)
+        creationTimestamp = creationTimestampDecoded
+    }
+}
+
+extension KendraClientTypes {
+    /// A set of featured results that are displayed at the top of your search results. Featured results are placed above all other results for certain queries. If there's an exact match of a query, then one or more specific documents are featured in the search results.
+    public struct FeaturedResultsSet: Swift.Equatable {
+        /// The Unix timestamp when the set of featured results was created.
+        public var creationTimestamp: Swift.Int?
+        /// The description for the set of featured results.
+        public var description: Swift.String?
+        /// The list of document IDs for the documents you want to feature at the top of the search results page. You can use the [Query](https://docs.aws.amazon.com/kendra/latest/dg/API_Query.html) API to search for specific documents with their document IDs included in the result items, or you can use the console. You can add up to four featured documents. You can request to increase this limit by contacting [Support](http://aws.amazon.com/contact-us/). Specific queries are mapped to specific documents for featuring in the results. If a query contains an exact match, then one or more specific documents are featured in the results. The exact match applies to the full query. For example, if you only specify 'Kendra', queries such as 'How does kendra semantically rank results?' will not render the featured results. Featured results are designed for specific queries, rather than queries that are too broad in scope.
+        public var featuredDocuments: [KendraClientTypes.FeaturedDocument]?
+        /// The identifier of the set of featured results.
+        public var featuredResultsSetId: Swift.String?
+        /// The name for the set of featured results.
+        public var featuredResultsSetName: Swift.String?
+        /// The Unix timestamp when the set of featured results was last updated.
+        public var lastUpdatedTimestamp: Swift.Int?
+        /// The list of queries for featuring results. Specific queries are mapped to specific documents for featuring in the results. If a query contains an exact match, then one or more specific documents are featured in the results. The exact match applies to the full query. For example, if you only specify 'Kendra', queries such as 'How does kendra semantically rank results?' will not render the featured results. Featured results are designed for specific queries, rather than queries that are too broad in scope.
+        public var queryTexts: [Swift.String]?
+        /// The current status of the set of featured results. When the value is ACTIVE, featured results are ready for use. You can still configure your settings before setting the status to ACTIVE. You can set the status to ACTIVE or INACTIVE using the [UpdateFeaturedResultsSet](https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateFeaturedResultsSet.html) API. The queries you specify for featured results must be unique per featured results set for each index, whether the status is ACTIVE or INACTIVE.
+        public var status: KendraClientTypes.FeaturedResultsSetStatus?
+
+        public init (
+            creationTimestamp: Swift.Int? = nil,
+            description: Swift.String? = nil,
+            featuredDocuments: [KendraClientTypes.FeaturedDocument]? = nil,
+            featuredResultsSetId: Swift.String? = nil,
+            featuredResultsSetName: Swift.String? = nil,
+            lastUpdatedTimestamp: Swift.Int? = nil,
+            queryTexts: [Swift.String]? = nil,
+            status: KendraClientTypes.FeaturedResultsSetStatus? = nil
+        )
+        {
+            self.creationTimestamp = creationTimestamp
+            self.description = description
+            self.featuredDocuments = featuredDocuments
+            self.featuredResultsSetId = featuredResultsSetId
+            self.featuredResultsSetName = featuredResultsSetName
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.queryTexts = queryTexts
+            self.status = status
+        }
+    }
+
+}
+
+extension KendraClientTypes {
+    public enum FeaturedResultsSetStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FeaturedResultsSetStatus] {
+            return [
+                .active,
+                .inactive,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FeaturedResultsSetStatus(rawValue: rawValue) ?? FeaturedResultsSetStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension KendraClientTypes.FeaturedResultsSetSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTimestamp = "CreationTimestamp"
+        case featuredResultsSetId = "FeaturedResultsSetId"
+        case featuredResultsSetName = "FeaturedResultsSetName"
+        case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTimestamp = self.creationTimestamp {
+            try encodeContainer.encode(creationTimestamp, forKey: .creationTimestamp)
+        }
+        if let featuredResultsSetId = self.featuredResultsSetId {
+            try encodeContainer.encode(featuredResultsSetId, forKey: .featuredResultsSetId)
+        }
+        if let featuredResultsSetName = self.featuredResultsSetName {
+            try encodeContainer.encode(featuredResultsSetName, forKey: .featuredResultsSetName)
+        }
+        if let lastUpdatedTimestamp = self.lastUpdatedTimestamp {
+            try encodeContainer.encode(lastUpdatedTimestamp, forKey: .lastUpdatedTimestamp)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let featuredResultsSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .featuredResultsSetId)
+        featuredResultsSetId = featuredResultsSetIdDecoded
+        let featuredResultsSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .featuredResultsSetName)
+        featuredResultsSetName = featuredResultsSetNameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(KendraClientTypes.FeaturedResultsSetStatus.self, forKey: .status)
+        status = statusDecoded
+        let lastUpdatedTimestampDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastUpdatedTimestamp)
+        lastUpdatedTimestamp = lastUpdatedTimestampDecoded
+        let creationTimestampDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .creationTimestamp)
+        creationTimestamp = creationTimestampDecoded
+    }
+}
+
+extension KendraClientTypes {
+    /// Summary information for a set of featured results. Featured results are placed above all other results for certain queries. If there's an exact match of a query, then one or more specific documents are featured in the search results.
+    public struct FeaturedResultsSetSummary: Swift.Equatable {
+        /// The Unix timestamp when the set of featured results was created.
+        public var creationTimestamp: Swift.Int?
+        /// The identifier of the set of featured results.
+        public var featuredResultsSetId: Swift.String?
+        /// The name for the set of featured results.
+        public var featuredResultsSetName: Swift.String?
+        /// The Unix timestamp when the set of featured results was last updated.
+        public var lastUpdatedTimestamp: Swift.Int?
+        /// The current status of the set of featured results. When the value is ACTIVE, featured results are ready for use. You can still configure your settings before setting the status to ACTIVE. You can set the status to ACTIVE or INACTIVE using the [UpdateFeaturedResultsSet](https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateFeaturedResultsSet.html) API. The queries you specify for featured results must be unique per featured results set for each index, whether the status is ACTIVE or INACTIVE.
+        public var status: KendraClientTypes.FeaturedResultsSetStatus?
+
+        public init (
+            creationTimestamp: Swift.Int? = nil,
+            featuredResultsSetId: Swift.String? = nil,
+            featuredResultsSetName: Swift.String? = nil,
+            lastUpdatedTimestamp: Swift.Int? = nil,
+            status: KendraClientTypes.FeaturedResultsSetStatus? = nil
+        )
+        {
+            self.creationTimestamp = creationTimestamp
+            self.featuredResultsSetId = featuredResultsSetId
+            self.featuredResultsSetName = featuredResultsSetName
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.status = status
         }
     }
 
@@ -11812,7 +13132,7 @@ extension GetSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct GetSnapshotsOutputResponse: Swift.Equatable {
     /// If the response is truncated, Amazon Kendra returns this token, which you can use in a later request to retrieve the next set of search metrics data.
     public var nextToken: Swift.String?
-    /// The date-time for the beginning and end of the time window for the search metrics data.
+    /// The Unix timestamp for the beginning and end of the time window for the search metrics data.
     public var snapShotTimeFilter: KendraClientTypes.TimeRange?
     /// The search metrics data. The data returned depends on the metric type you requested.
     public var snapshotsData: [[Swift.String]]?
@@ -12706,11 +14026,11 @@ extension KendraClientTypes {
     public struct GroupOrderingIdSummary: Swift.Equatable {
         /// The reason an action could not be processed. An action can be a PUT or DELETE action for mapping users to their groups.
         public var failureReason: Swift.String?
-        /// The last date-time an action was updated. An action can be a PUT or DELETE action for mapping users to their groups.
+        /// The Unix timestamp when an action was last updated. An action can be a PUT or DELETE action for mapping users to their groups.
         public var lastUpdatedAt: ClientRuntime.Date?
         /// The order in which actions should complete processing. An action can be a PUT or DELETE action for mapping users to their groups.
         public var orderingId: Swift.Int?
-        /// The date-time an action was received by Amazon Kendra. An action can be a PUT or DELETE action for mapping users to their groups.
+        /// The Unix timestamp when an action was received by Amazon Kendra. An action can be a PUT or DELETE action for mapping users to their groups.
         public var receivedAt: ClientRuntime.Date?
         /// The current processing status of actions for mapping users to their groups. The status can be either PROCESSING, SUCCEEDED, DELETING, DELETED, or FAILED.
         public var status: KendraClientTypes.PrincipalMappingStatus?
@@ -13046,7 +14366,7 @@ extension KendraClientTypes {
         /// The current status of the index. When the status is ACTIVE, the index is ready to search.
         /// This member is required.
         public var status: KendraClientTypes.IndexStatus?
-        /// The Unix timestamp when the index was last updated by the UpdateIndex API.
+        /// The Unix timestamp when the index was last updated.
         /// This member is required.
         public var updatedAt: ClientRuntime.Date?
 
@@ -13265,7 +14585,7 @@ extension InternalServerException {
     }
 }
 
-/// An issue occurred with the internal server used for your Amazon Kendra service. Please wait a few minutes and try again, or contact [ Support](http://aws.amazon.com/aws.amazon.com/contact-us) for help.
+/// An issue occurred with the internal server used for your Amazon Kendra service. Please wait a few minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
 public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -15107,6 +16427,168 @@ extension ListFaqsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListFeaturedResultsSetsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case indexId = "IndexId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let indexId = self.indexId {
+            try encodeContainer.encode(indexId, forKey: .indexId)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListFeaturedResultsSetsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListFeaturedResultsSetsInput: Swift.Equatable {
+    /// The identifier of the index used for featuring results.
+    /// This member is required.
+    public var indexId: Swift.String?
+    /// The maximum number of featured results sets to return.
+    public var maxResults: Swift.Int?
+    /// If the response is truncated, Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of featured results sets.
+    public var nextToken: Swift.String?
+
+    public init (
+        indexId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.indexId = indexId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListFeaturedResultsSetsInputBody: Swift.Equatable {
+    let indexId: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListFeaturedResultsSetsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case indexId = "IndexId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
+        indexId = indexIdDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListFeaturedResultsSetsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListFeaturedResultsSetsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListFeaturedResultsSetsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListFeaturedResultsSetsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListFeaturedResultsSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.featuredResultsSetSummaryItems = output.featuredResultsSetSummaryItems
+            self.nextToken = output.nextToken
+        } else {
+            self.featuredResultsSetSummaryItems = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListFeaturedResultsSetsOutputResponse: Swift.Equatable {
+    /// An array of summary information for one or more featured results sets.
+    public var featuredResultsSetSummaryItems: [KendraClientTypes.FeaturedResultsSetSummary]?
+    /// If the response is truncated, Amazon Kendra returns a pagination token in the response.
+    public var nextToken: Swift.String?
+
+    public init (
+        featuredResultsSetSummaryItems: [KendraClientTypes.FeaturedResultsSetSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.featuredResultsSetSummaryItems = featuredResultsSetSummaryItems
+        self.nextToken = nextToken
+    }
+}
+
+struct ListFeaturedResultsSetsOutputResponseBody: Swift.Equatable {
+    let featuredResultsSetSummaryItems: [KendraClientTypes.FeaturedResultsSetSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListFeaturedResultsSetsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case featuredResultsSetSummaryItems = "FeaturedResultsSetSummaryItems"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let featuredResultsSetSummaryItemsContainer = try containerValues.decodeIfPresent([KendraClientTypes.FeaturedResultsSetSummary?].self, forKey: .featuredResultsSetSummaryItems)
+        var featuredResultsSetSummaryItemsDecoded0:[KendraClientTypes.FeaturedResultsSetSummary]? = nil
+        if let featuredResultsSetSummaryItemsContainer = featuredResultsSetSummaryItemsContainer {
+            featuredResultsSetSummaryItemsDecoded0 = [KendraClientTypes.FeaturedResultsSetSummary]()
+            for structure0 in featuredResultsSetSummaryItemsContainer {
+                if let structure0 = structure0 {
+                    featuredResultsSetSummaryItemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        featuredResultsSetSummaryItems = featuredResultsSetSummaryItemsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListGroupsOlderThanOrderingIdInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataSourceId = "DataSourceId"
@@ -16406,13 +17888,13 @@ extension KendraClientTypes.PersonasSummary: Swift.Codable {
 extension KendraClientTypes {
     /// Summary information for users or groups in your IAM Identity Center identity source. This applies to users and groups with specific permissions that define their level of access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see [Building a search experience with no code](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html).
     public struct PersonasSummary: Swift.Equatable {
-        /// The date-time the summary information was created.
+        /// The Unix timestamp when the summary information was created.
         public var createdAt: ClientRuntime.Date?
         /// The identifier of a user or group in your IAM Identity Center identity source. For example, a user ID could be an email.
         public var entityId: Swift.String?
         /// The persona that defines the specific permissions of the user or group in your IAM Identity Center identity source. The available personas or access roles are Owner and Viewer. For more information on these personas, see [Providing access to your search page](https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html#access-search-experience).
         public var persona: KendraClientTypes.Persona?
-        /// The date-time the summary information was last updated.
+        /// The Unix timestamp when the summary information was last updated.
         public var updatedAt: ClientRuntime.Date?
 
         public init (
@@ -16680,7 +18162,7 @@ public struct PutPrincipalMappingInput: Swift.Equatable {
     /// The identifier of the index you want to map users to their groups.
     /// This member is required.
     public var indexId: Swift.String?
-    /// The timestamp identifier you specify to ensure Amazon Kendra does not override the latest PUT action with previous actions. The highest number ID, which is the ordering ID, is the latest action you want to process and apply on top of other actions with lower number IDs. This prevents previous actions with lower number IDs from possibly overriding the latest action. The ordering ID can be the UNIX time of the last update you made to a group members list. You would then provide this list when calling PutPrincipalMapping. This ensures your PUT action for that updated group with the latest members list doesn't get overwritten by earlier PUT actions for the same group which are yet to be processed. The default ordering ID is the current UNIX time in milliseconds that the action was received by Amazon Kendra.
+    /// The timestamp identifier you specify to ensure Amazon Kendra does not override the latest PUT action with previous actions. The highest number ID, which is the ordering ID, is the latest action you want to process and apply on top of other actions with lower number IDs. This prevents previous actions with lower number IDs from possibly overriding the latest action. The ordering ID can be the Unix time of the last update you made to a group members list. You would then provide this list when calling PutPrincipalMapping. This ensures your PUT action for that updated group with the latest members list doesn't get overwritten by earlier PUT actions for the same group which are yet to be processed. The default ordering ID is the current Unix time in milliseconds that the action was received by Amazon Kendra.
     public var orderingId: Swift.Int?
     /// The Amazon Resource Name (ARN) of a role that has access to the S3 file that contains your list of users or sub groups that belong to a group. For more information, see [IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html#iam-roles-ds).
     public var roleArn: Swift.String?
@@ -17084,6 +18566,7 @@ extension QueryOutputResponse: ClientRuntime.HttpResponseBinding {
             let data = reader.toBytes().getData()
             let output: QueryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.facetResults = output.facetResults
+            self.featuredResultsItems = output.featuredResultsItems
             self.queryId = output.queryId
             self.resultItems = output.resultItems
             self.spellCorrectedQueries = output.spellCorrectedQueries
@@ -17091,6 +18574,7 @@ extension QueryOutputResponse: ClientRuntime.HttpResponseBinding {
             self.warnings = output.warnings
         } else {
             self.facetResults = nil
+            self.featuredResultsItems = nil
             self.queryId = nil
             self.resultItems = nil
             self.spellCorrectedQueries = nil
@@ -17103,6 +18587,8 @@ extension QueryOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct QueryOutputResponse: Swift.Equatable {
     /// Contains the facet results. A FacetResult contains the counts for each attribute key that was specified in the Facets input parameter.
     public var facetResults: [KendraClientTypes.FacetResult]?
+    /// The list of featured result items. Featured results are displayed at the top of the search results page, placed above all other results for certain queries. If there's an exact match of a query, then certain documents are featured in the search results.
+    public var featuredResultsItems: [KendraClientTypes.FeaturedResultsItem]?
     /// The identifier for the search. You use QueryId to identify the search when using the feedback API.
     public var queryId: Swift.String?
     /// The results of the search.
@@ -17116,6 +18602,7 @@ public struct QueryOutputResponse: Swift.Equatable {
 
     public init (
         facetResults: [KendraClientTypes.FacetResult]? = nil,
+        featuredResultsItems: [KendraClientTypes.FeaturedResultsItem]? = nil,
         queryId: Swift.String? = nil,
         resultItems: [KendraClientTypes.QueryResultItem]? = nil,
         spellCorrectedQueries: [KendraClientTypes.SpellCorrectedQuery]? = nil,
@@ -17124,6 +18611,7 @@ public struct QueryOutputResponse: Swift.Equatable {
     )
     {
         self.facetResults = facetResults
+        self.featuredResultsItems = featuredResultsItems
         self.queryId = queryId
         self.resultItems = resultItems
         self.spellCorrectedQueries = spellCorrectedQueries
@@ -17139,11 +18627,13 @@ struct QueryOutputResponseBody: Swift.Equatable {
     let totalNumberOfResults: Swift.Int?
     let warnings: [KendraClientTypes.Warning]?
     let spellCorrectedQueries: [KendraClientTypes.SpellCorrectedQuery]?
+    let featuredResultsItems: [KendraClientTypes.FeaturedResultsItem]?
 }
 
 extension QueryOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case facetResults = "FacetResults"
+        case featuredResultsItems = "FeaturedResultsItems"
         case queryId = "QueryId"
         case resultItems = "ResultItems"
         case spellCorrectedQueries = "SpellCorrectedQueries"
@@ -17201,6 +18691,17 @@ extension QueryOutputResponseBody: Swift.Decodable {
             }
         }
         spellCorrectedQueries = spellCorrectedQueriesDecoded0
+        let featuredResultsItemsContainer = try containerValues.decodeIfPresent([KendraClientTypes.FeaturedResultsItem?].self, forKey: .featuredResultsItems)
+        var featuredResultsItemsDecoded0:[KendraClientTypes.FeaturedResultsItem]? = nil
+        if let featuredResultsItemsContainer = featuredResultsItemsContainer {
+            featuredResultsItemsDecoded0 = [KendraClientTypes.FeaturedResultsItem]()
+            for structure0 in featuredResultsItemsContainer {
+                if let structure0 = structure0 {
+                    featuredResultsItemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        featuredResultsItems = featuredResultsItemsDecoded0
     }
 }
 
@@ -17536,7 +19037,7 @@ extension KendraClientTypes.QuerySuggestionsBlockListSummary: Swift.Codable {
 extension KendraClientTypes {
     /// Summary information on a query suggestions block list. This includes information on the block list ID, block list name, when the block list was created, when the block list was last updated, and the count of block words/phrases in the block list. For information on the current quota limits for block lists, see [Quotas for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html).
     public struct QuerySuggestionsBlockListSummary: Swift.Equatable {
-        /// The date-time summary information for a query suggestions block list was last created.
+        /// The Unix timestamp when the block list was created.
         public var createdAt: ClientRuntime.Date?
         /// The identifier of a block list.
         public var id: Swift.String?
@@ -17546,7 +19047,7 @@ extension KendraClientTypes {
         public var name: Swift.String?
         /// The status of the block list.
         public var status: KendraClientTypes.QuerySuggestionsBlockListStatus?
-        /// The date-time the block list was last updated.
+        /// The Unix timestamp when the block list was last updated.
         public var updatedAt: ClientRuntime.Date?
 
         public init (
@@ -17969,7 +19470,7 @@ extension KendraClientTypes.RelevanceFeedback: Swift.Codable {
 extension KendraClientTypes {
     /// Provides feedback on how relevant a document is to a search. Your application uses the SubmitFeedback API to provide relevance information.
     public struct RelevanceFeedback: Swift.Equatable {
-        /// Whether to document was relevant or not relevant to the search.
+        /// Whether the document was relevant or not relevant to the search.
         /// This member is required.
         public var relevanceValue: KendraClientTypes.RelevanceType?
         /// The identifier of the search result that the user provided relevance feedback for.
@@ -18704,7 +20205,7 @@ extension KendraClientTypes {
         ///
         /// * password - The password associated with the user logging in to the Salesforce instance.
         ///
-        /// * securityToken - The token associated with the user account logging in to the Salesforce instance.
+        /// * securityToken - The token associated with the user logging in to the Salesforce instance.
         ///
         /// * username - The user name of the user logging in to the Salesforce instance.
         /// This member is required.
@@ -19398,7 +20899,7 @@ extension KendraClientTypes.SeedUrlConfiguration: Swift.Codable {
 }
 
 extension KendraClientTypes {
-    /// Provides the configuration information for the seed or starting point URLs to crawl. When selecting websites to index, you must adhere to the [Amazon Acceptable Use Policy](https://aws.amazon.com/aup/) and all other Amazon terms. Remember that you must only use Amazon Kendra Web Crawler to index your own webpages, or webpages that you have authorization to index.
+    /// Provides the configuration information for the seed or starting point URLs to crawl. When selecting websites to index, you must adhere to the [Amazon Acceptable Use Policy](https://aws.amazon.com/aup/) and all other Amazon terms. Remember that you must only use Amazon Kendra Web Crawler to index your own web pages, or web pages that you have authorization to index.
     public struct SeedUrlConfiguration: Swift.Equatable {
         /// The list of seed or starting point URLs of the websites you want to crawl. The list can include a maximum of 100 seed URLs.
         /// This member is required.
@@ -19409,7 +20910,7 @@ extension KendraClientTypes {
         ///
         /// * SUBDOMAINS – crawl the website host names with subdomains. For example, if the seed URL is "abc.example.com", then "a.abc.example.com" and "b.abc.example.com" are also crawled.
         ///
-        /// * EVERYTHING – crawl the website host names with subdomains and other domains that the webpages link to.
+        /// * EVERYTHING – crawl the website host names with subdomains and other domains that the web pages link to.
         ///
         ///
         /// The default mode is set to HOST_ONLY.
@@ -19890,7 +21391,7 @@ extension ServiceQuotaExceededException {
     }
 }
 
-/// You have exceeded the set limits for your Amazon Kendra service. Please see Quotas[hyperlink Kendra Quotas pg] for more information, or contact [ Support](http://aws.amazon.com/aws.amazon.com/contact-us) to inquire about an increase of limits.
+/// You have exceeded the set limits for your Amazon Kendra service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
 public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -20073,7 +21574,7 @@ extension KendraClientTypes.SharePointConfiguration: Swift.Codable {
 extension KendraClientTypes {
     /// Provides the configuration information to connect to Microsoft SharePoint as your data source.
     public struct SharePointConfiguration: Swift.Equatable {
-        /// Whether you want to connect to SharePoint using basic authentication of user name and password, or OAuth authentication of user name, password, client ID, and client secret. You can use OAuth authentication for SharePoint Online.
+        /// Whether you want to connect to SharePoint Online using basic authentication of user name and password, or OAuth authentication of user name, password, client ID, and client secret, or AD App-only authentication of client secret.
         public var authenticationType: KendraClientTypes.SharePointOnlineAuthenticationType?
         /// TRUE to index document attachments.
         public var crawlAttachments: Swift.Bool
@@ -20089,13 +21590,13 @@ extension KendraClientTypes {
         public var inclusionPatterns: [Swift.String]?
         /// Configuration information to connect to your Microsoft SharePoint site URLs via instance via a web proxy. You can use this option for SharePoint Server. You must provide the website host name and port number. For example, the host name of https://a.example.com/page1.html is "a.example.com" and the port is 443, the standard port for HTTPS. Web proxy credentials are optional and you can use them to connect to a web proxy server that requires basic authentication of user name and password. To store web proxy credentials, you use a secret in Secrets Manager. It is recommended that you follow best security practices when configuring your web proxy. This includes setting up throttling, setting up logging and monitoring, and applying security patches on a regular basis. If you use your web proxy with multiple data sources, sync jobs that occur at the same time could strain the load on your proxy. It is recommended you prepare your proxy beforehand for any security and load requirements.
         public var proxyConfiguration: KendraClientTypes.ProxyConfiguration?
-        /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains the user name and password required to connect to the SharePoint instance. If you use SharePoint Server, you also need to provide the sever domain name as part of the credentials. For more information, see [Using a Microsoft SharePoint Data Source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-sharepoint.html). You can also provide OAuth authentication credentials of user name, password, client ID, and client secret. For more information, see [Using a SharePoint data source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-sharepoint.html).
+        /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains the user name and password required to connect to the SharePoint instance. For more information, see [Microsoft SharePoint](https://docs.aws.amazon.com/kendra/latest/dg/data-source-sharepoint.html).
         /// This member is required.
         public var secretArn: Swift.String?
         /// The version of Microsoft SharePoint that you use.
         /// This member is required.
         public var sharePointVersion: KendraClientTypes.SharePointVersion?
-        /// The path to the SSL certificate stored in an Amazon S3 bucket. You use this to connect to SharePoint Server if you require a secure SSL connection. You can simply generate a self-signed X509 certificate on any computer using OpenSSL. For an example of using OpenSSL to create an X509 certificate, see [Create and sign an X509 certificate](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/configuring-https-ssl.html).
+        /// The path to the SSL certificate stored in an Amazon S3 bucket. You use this to connect to SharePoint Server if you require a secure SSL connection. You can generate a self-signed X509 certificate on any computer using OpenSSL. For an example of using OpenSSL to create an X509 certificate, see [Create and sign an X509 certificate](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/configuring-https-ssl.html).
         public var sslCertificateS3Path: KendraClientTypes.S3Path?
         /// The Microsoft SharePoint site URLs for the documents you want to index.
         /// This member is required.
@@ -20243,7 +21744,7 @@ extension KendraClientTypes.SiteMapsConfiguration: Swift.Codable {
 }
 
 extension KendraClientTypes {
-    /// Provides the configuration information for the sitemap URLs to crawl. When selecting websites to index, you must adhere to the [Amazon Acceptable Use Policy](https://aws.amazon.com/aup/) and all other Amazon terms. Remember that you must only use Amazon Kendra Web Crawler to index your own webpages, or webpages that you have authorization to index.
+    /// Provides the configuration information for the sitemap URLs to crawl. When selecting websites to index, you must adhere to the [Amazon Acceptable Use Policy](https://aws.amazon.com/aup/) and all other Amazon terms. Remember that you must only use Amazon Kendra Web Crawler to index your own web pages, or web pages that you have authorization to index.
     public struct SiteMapsConfiguration: Swift.Equatable {
         /// The list of sitemap URLs of the websites you want to crawl. The list can include a maximum of three sitemap URLs.
         /// This member is required.
@@ -21961,7 +23462,7 @@ extension KendraClientTypes.ThesaurusSummary: Swift.Codable {
 extension KendraClientTypes {
     /// An array of summary information for a thesaurus or multiple thesauri.
     public struct ThesaurusSummary: Swift.Equatable {
-        /// The Unix datetime that the thesaurus was created.
+        /// The Unix timestamp when the thesaurus was created.
         public var createdAt: ClientRuntime.Date?
         /// The identifier of the thesaurus.
         public var id: Swift.String?
@@ -21969,7 +23470,7 @@ extension KendraClientTypes {
         public var name: Swift.String?
         /// The status of the thesaurus.
         public var status: KendraClientTypes.ThesaurusStatus?
-        /// The Unix datetime that the thesaurus was last updated.
+        /// The Unix timestamp when the thesaurus was last updated.
         public var updatedAt: ClientRuntime.Date?
 
         public init (
@@ -22070,9 +23571,9 @@ extension KendraClientTypes.TimeRange: Swift.Codable {
 extension KendraClientTypes {
     /// Provides a range of time.
     public struct TimeRange: Swift.Equatable {
-        /// The UNIX datetime of the end of the time range.
+        /// The Unix timestamp for the end of the time range.
         public var endTime: ClientRuntime.Date?
-        /// The UNIX datetime of the beginning of the time range.
+        /// The Unix timestamp for the beginning of the time range.
         public var startTime: ClientRuntime.Date?
 
         public init (
@@ -22757,6 +24258,224 @@ extension UpdateExperienceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct UpdateExperienceOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension UpdateFeaturedResultsSetInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case featuredDocuments = "FeaturedDocuments"
+        case featuredResultsSetId = "FeaturedResultsSetId"
+        case featuredResultsSetName = "FeaturedResultsSetName"
+        case indexId = "IndexId"
+        case queryTexts = "QueryTexts"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let featuredDocuments = featuredDocuments {
+            var featuredDocumentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .featuredDocuments)
+            for featureddocument0 in featuredDocuments {
+                try featuredDocumentsContainer.encode(featureddocument0)
+            }
+        }
+        if let featuredResultsSetId = self.featuredResultsSetId {
+            try encodeContainer.encode(featuredResultsSetId, forKey: .featuredResultsSetId)
+        }
+        if let featuredResultsSetName = self.featuredResultsSetName {
+            try encodeContainer.encode(featuredResultsSetName, forKey: .featuredResultsSetName)
+        }
+        if let indexId = self.indexId {
+            try encodeContainer.encode(indexId, forKey: .indexId)
+        }
+        if let queryTexts = queryTexts {
+            var queryTextsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queryTexts)
+            for querytext0 in queryTexts {
+                try queryTextsContainer.encode(querytext0)
+            }
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+}
+
+extension UpdateFeaturedResultsSetInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateFeaturedResultsSetInput: Swift.Equatable {
+    /// A new description for the set of featured results.
+    public var description: Swift.String?
+    /// A list of document IDs for the documents you want to feature at the top of the search results page. For more information on the list of featured documents, see [FeaturedResultsSet](https://docs.aws.amazon.com/kendra/latest/dg/API_FeaturedResultsSet.html).
+    public var featuredDocuments: [KendraClientTypes.FeaturedDocument]?
+    /// The identifier of the index used for featuring results.
+    /// This member is required.
+    public var featuredResultsSetId: Swift.String?
+    /// A new name for the set of featured results.
+    public var featuredResultsSetName: Swift.String?
+    /// The identifier of the index used for featuring results.
+    /// This member is required.
+    public var indexId: Swift.String?
+    /// A list of queries for featuring results. For more information on the list of queries, see [FeaturedResultsSet](https://docs.aws.amazon.com/kendra/latest/dg/API_FeaturedResultsSet.html).
+    public var queryTexts: [Swift.String]?
+    /// You can set the status to ACTIVE or INACTIVE. When the value is ACTIVE, featured results are ready for use. You can still configure your settings before setting the status to ACTIVE. The queries you specify for featured results must be unique per featured results set for each index, whether the status is ACTIVE or INACTIVE.
+    public var status: KendraClientTypes.FeaturedResultsSetStatus?
+
+    public init (
+        description: Swift.String? = nil,
+        featuredDocuments: [KendraClientTypes.FeaturedDocument]? = nil,
+        featuredResultsSetId: Swift.String? = nil,
+        featuredResultsSetName: Swift.String? = nil,
+        indexId: Swift.String? = nil,
+        queryTexts: [Swift.String]? = nil,
+        status: KendraClientTypes.FeaturedResultsSetStatus? = nil
+    )
+    {
+        self.description = description
+        self.featuredDocuments = featuredDocuments
+        self.featuredResultsSetId = featuredResultsSetId
+        self.featuredResultsSetName = featuredResultsSetName
+        self.indexId = indexId
+        self.queryTexts = queryTexts
+        self.status = status
+    }
+}
+
+struct UpdateFeaturedResultsSetInputBody: Swift.Equatable {
+    let indexId: Swift.String?
+    let featuredResultsSetId: Swift.String?
+    let featuredResultsSetName: Swift.String?
+    let description: Swift.String?
+    let status: KendraClientTypes.FeaturedResultsSetStatus?
+    let queryTexts: [Swift.String]?
+    let featuredDocuments: [KendraClientTypes.FeaturedDocument]?
+}
+
+extension UpdateFeaturedResultsSetInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case featuredDocuments = "FeaturedDocuments"
+        case featuredResultsSetId = "FeaturedResultsSetId"
+        case featuredResultsSetName = "FeaturedResultsSetName"
+        case indexId = "IndexId"
+        case queryTexts = "QueryTexts"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
+        indexId = indexIdDecoded
+        let featuredResultsSetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .featuredResultsSetId)
+        featuredResultsSetId = featuredResultsSetIdDecoded
+        let featuredResultsSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .featuredResultsSetName)
+        featuredResultsSetName = featuredResultsSetNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(KendraClientTypes.FeaturedResultsSetStatus.self, forKey: .status)
+        status = statusDecoded
+        let queryTextsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .queryTexts)
+        var queryTextsDecoded0:[Swift.String]? = nil
+        if let queryTextsContainer = queryTextsContainer {
+            queryTextsDecoded0 = [Swift.String]()
+            for string0 in queryTextsContainer {
+                if let string0 = string0 {
+                    queryTextsDecoded0?.append(string0)
+                }
+            }
+        }
+        queryTexts = queryTextsDecoded0
+        let featuredDocumentsContainer = try containerValues.decodeIfPresent([KendraClientTypes.FeaturedDocument?].self, forKey: .featuredDocuments)
+        var featuredDocumentsDecoded0:[KendraClientTypes.FeaturedDocument]? = nil
+        if let featuredDocumentsContainer = featuredDocumentsContainer {
+            featuredDocumentsDecoded0 = [KendraClientTypes.FeaturedDocument]()
+            for structure0 in featuredDocumentsContainer {
+                if let structure0 = structure0 {
+                    featuredDocumentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        featuredDocuments = featuredDocumentsDecoded0
+    }
+}
+
+extension UpdateFeaturedResultsSetOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateFeaturedResultsSetOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FeaturedResultsConflictException" : self = .featuredResultsConflictException(try FeaturedResultsConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateFeaturedResultsSetOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case featuredResultsConflictException(FeaturedResultsConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateFeaturedResultsSetOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateFeaturedResultsSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.featuredResultsSet = output.featuredResultsSet
+        } else {
+            self.featuredResultsSet = nil
+        }
+    }
+}
+
+public struct UpdateFeaturedResultsSetOutputResponse: Swift.Equatable {
+    /// Information on the set of featured results. This includes the identifier of the featured results set, whether the featured results set is active or inactive, when the featured results set was last updated, and more.
+    public var featuredResultsSet: KendraClientTypes.FeaturedResultsSet?
+
+    public init (
+        featuredResultsSet: KendraClientTypes.FeaturedResultsSet? = nil
+    )
+    {
+        self.featuredResultsSet = featuredResultsSet
+    }
+}
+
+struct UpdateFeaturedResultsSetOutputResponseBody: Swift.Equatable {
+    let featuredResultsSet: KendraClientTypes.FeaturedResultsSet?
+}
+
+extension UpdateFeaturedResultsSetOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case featuredResultsSet = "FeaturedResultsSet"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let featuredResultsSetDecoded = try containerValues.decodeIfPresent(KendraClientTypes.FeaturedResultsSet.self, forKey: .featuredResultsSet)
+        featuredResultsSet = featuredResultsSetDecoded
+    }
 }
 
 extension UpdateIndexInput: Swift.Encodable {
@@ -23449,9 +25168,9 @@ extension KendraClientTypes.Urls: Swift.Codable {
 }
 
 extension KendraClientTypes {
-    /// Provides the configuration information of the URLs to crawl. You can only crawl websites that use the secure communication protocol, Hypertext Transfer Protocol Secure (HTTPS). If you receive an error when crawling a website, it could be that the website is blocked from crawling. When selecting websites to index, you must adhere to the [Amazon Acceptable Use Policy](https://aws.amazon.com/aup/) and all other Amazon terms. Remember that you must only use Amazon Kendra Web Crawler to index your own webpages, or webpages that you have authorization to index.
+    /// Provides the configuration information of the URLs to crawl. You can only crawl websites that use the secure communication protocol, Hypertext Transfer Protocol Secure (HTTPS). If you receive an error when crawling a website, it could be that the website is blocked from crawling. When selecting websites to index, you must adhere to the [Amazon Acceptable Use Policy](https://aws.amazon.com/aup/) and all other Amazon terms. Remember that you must only use Amazon Kendra Web Crawler to index your own web pages, or web pages that you have authorization to index.
     public struct Urls: Swift.Equatable {
-        /// Configuration of the seed or starting point URLs of the websites you want to crawl. You can choose to crawl only the website host names, or the website host names with subdomains, or the website host names with subdomains and other domains that the webpages link to. You can list up to 100 seed URLs.
+        /// Configuration of the seed or starting point URLs of the websites you want to crawl. You can choose to crawl only the website host names, or the website host names with subdomains, or the website host names with subdomains and other domains that the web pages link to. You can list up to 100 seed URLs.
         public var seedUrlConfiguration: KendraClientTypes.SeedUrlConfiguration?
         /// Configuration of the sitemap URLs of the websites you want to crawl. Only URLs belonging to the same website host names are crawled. You can list up to three sitemap URLs.
         public var siteMapsConfiguration: KendraClientTypes.SiteMapsConfiguration?
@@ -23616,9 +25335,9 @@ extension KendraClientTypes.UserGroupResolutionConfiguration: Swift.Codable {
 }
 
 extension KendraClientTypes {
-    /// Provides the configuration information to fetch access levels of groups and users from an IAM Identity Center (successor to Single Sign-On) identity source. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can also use the [PutPrincipalMapping](https://docs.aws.amazon.com/kendra/latest/dg/API_PutPrincipalMapping.html) API to map users to their groups so that you only need to provide the user ID when you issue the query. To set up an IAM Identity Center identity source in the console to use with Amazon Kendra, see [Getting started with an IAM Identity Center identity source](https://docs.aws.amazon.com/kendra/latest/dg/getting-started-aws-sso.html). You must also grant the required permissions to use IAM Identity Center with Amazon Kendra. For more information, see [IAM roles for IAM Identity Center](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html#iam-roles-aws-sso). Amazon Kendra currently does not support using UserGroupResolutionConfiguration with an Amazon Web Services organization member account for your IAM Identity Center identify source. You must create your index in the management account for the organization in order to use UserGroupResolutionConfiguration.
+    /// Provides the configuration information to get users and groups from an IAM Identity Center (successor to Single Sign-On) identity source. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can also use the [PutPrincipalMapping](https://docs.aws.amazon.com/kendra/latest/dg/API_PutPrincipalMapping.html) API to map users to their groups so that you only need to provide the user ID when you issue the query. To set up an IAM Identity Center identity source in the console to use with Amazon Kendra, see [Getting started with an IAM Identity Center identity source](https://docs.aws.amazon.com/kendra/latest/dg/getting-started-aws-sso.html). You must also grant the required permissions to use IAM Identity Center with Amazon Kendra. For more information, see [IAM roles for IAM Identity Center](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html#iam-roles-aws-sso). Amazon Kendra currently does not support using UserGroupResolutionConfiguration with an Amazon Web Services organization member account for your IAM Identity Center identify source. You must create your index in the management account for the organization in order to use UserGroupResolutionConfiguration.
     public struct UserGroupResolutionConfiguration: Swift.Equatable {
-        /// The identity store provider (mode) you want to use to fetch access levels of groups and users. IAM Identity Center (successor to Single Sign-On) is currently the only available mode. Your users and groups must exist in an IAM Identity Center identity source in order to use this mode.
+        /// The identity store provider (mode) you want to use to get users and groups. IAM Identity Center (successor to Single Sign-On) is currently the only available mode. Your users and groups must exist in an IAM Identity Center identity source in order to use this mode.
         /// This member is required.
         public var userGroupResolutionMode: KendraClientTypes.UserGroupResolutionMode?
 
@@ -23966,11 +25685,11 @@ extension KendraClientTypes {
     public struct WebCrawlerConfiguration: Swift.Equatable {
         /// Configuration information required to connect to websites using authentication. You can connect to websites using basic authentication of user name and password. You use a secret in [Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html) to store your authentication credentials. You must provide the website host name and port number. For example, the host name of https://a.example.com/page1.html is "a.example.com" and the port is 443, the standard port for HTTPS.
         public var authenticationConfiguration: KendraClientTypes.AuthenticationConfiguration?
-        /// Specifies the number of levels in a website that you want to crawl. The first level begins from the website seed or starting point URL. For example, if a website has 3 levels – index level (i.e. seed in this example), sections level, and subsections level – and you are only interested in crawling information up to the sections level (i.e. levels 0-1), you can set your depth to 1. The default crawl depth is set to 2.
+        /// Specifies the number of levels in a website that you want to crawl. The first level begins from the website seed or starting point URL. For example, if a website has three levels—index level (the seed in this example), sections level, and subsections level—and you are only interested in crawling information up to the sections level (levels 0-1), you can set your depth to 1. The default crawl depth is set to 2.
         public var crawlDepth: Swift.Int?
-        /// The maximum size (in MB) of a webpage or attachment to crawl. Files larger than this size (in MB) are skipped/not crawled. The default maximum size of a webpage or attachment is set to 50 MB.
+        /// The maximum size (in MB) of a web page or attachment to crawl. Files larger than this size (in MB) are skipped/not crawled. The default maximum size of a web page or attachment is set to 50 MB.
         public var maxContentSizePerPageInMegaBytes: Swift.Float?
-        /// The maximum number of URLs on a webpage to include when crawling a website. This number is per webpage. As a website’s webpages are crawled, any URLs the webpages link to are also crawled. URLs on a webpage are crawled in order of appearance. The default maximum links per page is 100.
+        /// The maximum number of URLs on a web page to include when crawling a website. This number is per web page. As a website’s web pages are crawled, any URLs the web pages link to are also crawled. URLs on a web page are crawled in order of appearance. The default maximum links per page is 100.
         public var maxLinksPerPage: Swift.Int?
         /// The maximum number of URLs crawled per website host per minute. A minimum of one URL is required. The default maximum number of URLs crawled per website host per minute is 300.
         public var maxUrlsPerMinuteCrawlRate: Swift.Int?
@@ -23980,7 +25699,7 @@ extension KendraClientTypes {
         public var urlExclusionPatterns: [Swift.String]?
         /// A list of regular expression patterns to include certain URLs to crawl. URLs that match the patterns are included in the index. URLs that don't match the patterns are excluded from the index. If a URL matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the URL file isn't included in the index.
         public var urlInclusionPatterns: [Swift.String]?
-        /// Specifies the seed or starting point URLs of the websites or the sitemap URLs of the websites you want to crawl. You can include website subdomains. You can list up to 100 seed URLs and up to three sitemap URLs. You can only crawl websites that use the secure communication protocol, Hypertext Transfer Protocol Secure (HTTPS). If you receive an error when crawling a website, it could be that the website is blocked from crawling. When selecting websites to index, you must adhere to the [Amazon Acceptable Use Policy](https://aws.amazon.com/aup/) and all other Amazon terms. Remember that you must only use Amazon Kendra Web Crawler to index your own webpages, or webpages that you have authorization to index.
+        /// Specifies the seed or starting point URLs of the websites or the sitemap URLs of the websites you want to crawl. You can include website subdomains. You can list up to 100 seed URLs and up to three sitemap URLs. You can only crawl websites that use the secure communication protocol, Hypertext Transfer Protocol Secure (HTTPS). If you receive an error when crawling a website, it could be that the website is blocked from crawling. When selecting websites to index, you must adhere to the [Amazon Acceptable Use Policy](https://aws.amazon.com/aup/) and all other Amazon terms. Remember that you must only use Amazon Kendra Web Crawler to index your own web pages, or web pages that you have authorization to index.
         /// This member is required.
         public var urls: KendraClientTypes.Urls?
 

@@ -61,6 +61,8 @@ public protocol GuardDutyClientProtocol {
     func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutputResponse
     /// Provides the details for the GuardDuty administrator account associated with the current GuardDuty member account.
     func getAdministratorAccount(input: GetAdministratorAccountInput) async throws -> GetAdministratorAccountOutputResponse
+    /// Retrieves aggregated statistics for your account. If you are a GuardDuty administrator, you can retrieve the statistics for all the resources associated with the active member accounts in your organization who have enabled EKS Runtime Monitoring and have the GuardDuty agent running on their EKS nodes.
+    func getCoverageStatistics(input: GetCoverageStatisticsInput) async throws -> GetCoverageStatisticsOutputResponse
     /// Retrieves an Amazon GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     func getDetector(input: GetDetectorInput) async throws -> GetDetectorOutputResponse
     /// Returns the details of the filter specified by the filter name.
@@ -90,6 +92,8 @@ public protocol GuardDutyClientProtocol {
     func getUsageStatistics(input: GetUsageStatisticsInput) async throws -> GetUsageStatisticsOutputResponse
     /// Invites other Amazon Web Services accounts (created as members of the current Amazon Web Services account by CreateMembers) to enable GuardDuty, and allow the current Amazon Web Services account to view and manage these accounts' findings on their behalf as the GuardDuty administrator account.
     func inviteMembers(input: InviteMembersInput) async throws -> InviteMembersOutputResponse
+    /// Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have EKS Runtime Monitoring enabled and GuardDuty agent running on their EKS nodes.
+    func listCoverage(input: ListCoverageInput) async throws -> ListCoverageOutputResponse
     /// Lists detectorIds of all the existing Amazon GuardDuty detector resources.
     func listDetectors(input: ListDetectorsInput) async throws -> ListDetectorsOutputResponse
     /// Returns a paginated list of the current filters.

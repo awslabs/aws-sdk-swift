@@ -2895,10 +2895,10 @@ extension AthenaClientTypes.EngineConfiguration: Swift.Codable {
                 try additionalConfigsContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
-        if coordinatorDpuSize != 0 {
+        if let coordinatorDpuSize = self.coordinatorDpuSize {
             try encodeContainer.encode(coordinatorDpuSize, forKey: .coordinatorDpuSize)
         }
-        if defaultExecutorDpuSize != 0 {
+        if let defaultExecutorDpuSize = self.defaultExecutorDpuSize {
             try encodeContainer.encode(defaultExecutorDpuSize, forKey: .defaultExecutorDpuSize)
         }
         if maxConcurrentDpus != 0 {
@@ -2908,11 +2908,11 @@ extension AthenaClientTypes.EngineConfiguration: Swift.Codable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let coordinatorDpuSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .coordinatorDpuSize) ?? 0
+        let coordinatorDpuSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .coordinatorDpuSize)
         coordinatorDpuSize = coordinatorDpuSizeDecoded
         let maxConcurrentDpusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConcurrentDpus) ?? 0
         maxConcurrentDpus = maxConcurrentDpusDecoded
-        let defaultExecutorDpuSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .defaultExecutorDpuSize) ?? 0
+        let defaultExecutorDpuSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .defaultExecutorDpuSize)
         defaultExecutorDpuSize = defaultExecutorDpuSizeDecoded
         let additionalConfigsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalConfigs)
         var additionalConfigsDecoded0: [Swift.String:Swift.String]? = nil
@@ -2934,17 +2934,17 @@ extension AthenaClientTypes {
         /// Contains additional notebook engine MAP parameter mappings in the form of key-value pairs. To specify an Athena notebook that the Jupyter server will download and serve, specify a value for the [StartSessionRequest$NotebookVersion] field, and then add a key named NotebookId to AdditionalConfigs that has the value of the Athena notebook ID.
         public var additionalConfigs: [Swift.String:Swift.String]?
         /// The number of DPUs to use for the coordinator. A coordinator is a special executor that orchestrates processing work and manages other executors in a notebook session.
-        public var coordinatorDpuSize: Swift.Int
+        public var coordinatorDpuSize: Swift.Int?
         /// The default number of DPUs to use for executors. An executor is the smallest unit of compute that a notebook session can request from Athena.
-        public var defaultExecutorDpuSize: Swift.Int
+        public var defaultExecutorDpuSize: Swift.Int?
         /// The maximum number of DPUs that can run concurrently.
         /// This member is required.
         public var maxConcurrentDpus: Swift.Int
 
         public init (
             additionalConfigs: [Swift.String:Swift.String]? = nil,
-            coordinatorDpuSize: Swift.Int = 0,
-            defaultExecutorDpuSize: Swift.Int = 0,
+            coordinatorDpuSize: Swift.Int? = nil,
+            defaultExecutorDpuSize: Swift.Int? = nil,
             maxConcurrentDpus: Swift.Int = 0
         )
         {

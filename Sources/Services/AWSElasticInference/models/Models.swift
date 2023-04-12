@@ -438,7 +438,7 @@ extension DescribeAcceleratorsInput: Swift.Encodable {
                 try filtersContainer.encode(filter0)
             }
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -459,14 +459,14 @@ public struct DescribeAcceleratorsInput: Swift.Equatable {
     /// One or more filters. Filter names and values are case-sensitive. Valid filter names are: accelerator-types: can provide a list of accelerator type names to filter for. instance-id: can provide a list of EC2 instance ids to filter for.
     public var filters: [ElasticInferenceClientTypes.Filter]?
     /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
     public var nextToken: Swift.String?
 
     public init (
         acceleratorIds: [Swift.String]? = nil,
         filters: [ElasticInferenceClientTypes.Filter]? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -480,7 +480,7 @@ public struct DescribeAcceleratorsInput: Swift.Equatable {
 struct DescribeAcceleratorsInputBody: Swift.Equatable {
     let acceleratorIds: [Swift.String]?
     let filters: [ElasticInferenceClientTypes.Filter]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -516,7 +516,7 @@ extension DescribeAcceleratorsInputBody: Swift.Decodable {
             }
         }
         filters = filtersDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded

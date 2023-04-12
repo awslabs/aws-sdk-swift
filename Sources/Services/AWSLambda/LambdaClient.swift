@@ -286,6 +286,8 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// * [ Apache Kafka](https://docs.aws.amazon.com/lambda/latest/dg/kafka-smaa.html)
     ///
+    /// * [ Amazon DocumentDB](https://docs.aws.amazon.com/lambda/latest/dg/with-documentdb.html)
+    ///
     ///
     /// The following error handling options are available only for stream sources (DynamoDB and Kinesis):
     ///
@@ -313,6 +315,8 @@ extension LambdaClient: LambdaClientProtocol {
     /// * [ Amazon MSK](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-parms)
     ///
     /// * [ Apache Kafka](https://docs.aws.amazon.com/lambda/latest/dg/with-kafka.html#services-kafka-parms)
+    ///
+    /// * [ Amazon DocumentDB](https://docs.aws.amazon.com/lambda/latest/dg/with-documentdb.html#docdb-configuration)
     public func createEventSourceMapping(input: CreateEventSourceMappingInput) async throws -> CreateEventSourceMappingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1335,6 +1339,43 @@ extension LambdaClient: LambdaClientProtocol {
         return result
     }
 
+    /// Configure your Lambda functions to stream response payloads back to clients. For more information, see [Configuring a Lambda function to stream responses](https://docs.aws.amazon.com/lambda/latest/dg/configuration-response-streaming.html).
+    public func invokeWithResponseStream(input: InvokeWithResponseStreamInput) async throws -> InvokeWithResponseStreamOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "invokeWithResponseStream")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutputResponse, InvokeWithResponseStreamOutputError>(id: "invokeWithResponseStream")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutputResponse, InvokeWithResponseStreamOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InvokeWithResponseStreamOutputResponse, InvokeWithResponseStreamOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutputResponse>(contentType: "application/octet-stream"))
+        operation.serializeStep.intercept(position: .after, middleware: InvokeWithResponseStreamInputBodyMiddleware())
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<InvokeWithResponseStreamOutputResponse, InvokeWithResponseStreamOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InvokeWithResponseStreamOutputResponse, InvokeWithResponseStreamOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InvokeWithResponseStreamOutputResponse, InvokeWithResponseStreamOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InvokeWithResponseStreamOutputResponse, InvokeWithResponseStreamOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
     /// Returns a list of [aliases](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html) for a Lambda function.
     public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutputResponse
     {
@@ -2196,6 +2237,8 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// * [ Apache Kafka](https://docs.aws.amazon.com/lambda/latest/dg/kafka-smaa.html)
     ///
+    /// * [ Amazon DocumentDB](https://docs.aws.amazon.com/lambda/latest/dg/with-documentdb.html)
+    ///
     ///
     /// The following error handling options are available only for stream sources (DynamoDB and Kinesis):
     ///
@@ -2223,6 +2266,8 @@ extension LambdaClient: LambdaClientProtocol {
     /// * [ Amazon MSK](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-parms)
     ///
     /// * [ Apache Kafka](https://docs.aws.amazon.com/lambda/latest/dg/with-kafka.html#services-kafka-parms)
+    ///
+    /// * [ Amazon DocumentDB](https://docs.aws.amazon.com/lambda/latest/dg/with-documentdb.html#docdb-configuration)
     public func updateEventSourceMapping(input: UpdateEventSourceMappingInput) async throws -> UpdateEventSourceMappingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

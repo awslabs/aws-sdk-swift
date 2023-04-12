@@ -237,6 +237,67 @@ extension ProtonClientTypes {
 
 }
 
+extension ProtonClientTypes {
+    public enum BlockerStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case resolved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BlockerStatus] {
+            return [
+                .active,
+                .resolved,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .resolved: return "RESOLVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BlockerStatus(rawValue: rawValue) ?? BlockerStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ProtonClientTypes {
+    public enum BlockerType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case automated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BlockerType] {
+            return [
+                .automated,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .automated: return "AUTOMATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BlockerType(rawValue: rawValue) ?? BlockerType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension CancelComponentDeploymentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case componentName
@@ -840,6 +901,7 @@ extension ProtonClientTypes.Component: Swift.Codable {
         case deploymentStatusMessage
         case description
         case environmentName
+        case lastClientRequestToken
         case lastDeploymentAttemptedAt
         case lastDeploymentSucceededAt
         case lastModifiedAt
@@ -868,6 +930,9 @@ extension ProtonClientTypes.Component: Swift.Codable {
         }
         if let environmentName = self.environmentName {
             try encodeContainer.encode(environmentName, forKey: .environmentName)
+        }
+        if let lastClientRequestToken = self.lastClientRequestToken {
+            try encodeContainer.encode(lastClientRequestToken, forKey: .lastClientRequestToken)
         }
         if let lastDeploymentAttemptedAt = self.lastDeploymentAttemptedAt {
             try encodeContainer.encodeTimestamp(lastDeploymentAttemptedAt, format: .epochSeconds, forKey: .lastDeploymentAttemptedAt)
@@ -920,12 +985,14 @@ extension ProtonClientTypes.Component: Swift.Codable {
         deploymentStatusMessage = deploymentStatusMessageDecoded
         let serviceSpecDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceSpec)
         serviceSpec = serviceSpecDecoded
+        let lastClientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastClientRequestToken)
+        lastClientRequestToken = lastClientRequestTokenDecoded
     }
 }
 
 extension ProtonClientTypes.Component: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Component(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), environmentName: \(Swift.String(describing: environmentName)), lastDeploymentAttemptedAt: \(Swift.String(describing: lastDeploymentAttemptedAt)), lastDeploymentSucceededAt: \(Swift.String(describing: lastDeploymentSucceededAt)), lastModifiedAt: \(Swift.String(describing: lastModifiedAt)), name: \(Swift.String(describing: name)), serviceInstanceName: \(Swift.String(describing: serviceInstanceName)), serviceName: \(Swift.String(describing: serviceName)), deploymentStatusMessage: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", serviceSpec: \"CONTENT_REDACTED\")"}
+        "Component(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), environmentName: \(Swift.String(describing: environmentName)), lastClientRequestToken: \(Swift.String(describing: lastClientRequestToken)), lastDeploymentAttemptedAt: \(Swift.String(describing: lastDeploymentAttemptedAt)), lastDeploymentSucceededAt: \(Swift.String(describing: lastDeploymentSucceededAt)), lastModifiedAt: \(Swift.String(describing: lastModifiedAt)), name: \(Swift.String(describing: name)), serviceInstanceName: \(Swift.String(describing: serviceInstanceName)), serviceName: \(Swift.String(describing: serviceName)), deploymentStatusMessage: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", serviceSpec: \"CONTENT_REDACTED\")"}
 }
 
 extension ProtonClientTypes {
@@ -947,6 +1014,8 @@ extension ProtonClientTypes {
         /// The name of the Proton environment that this component is associated with.
         /// This member is required.
         public var environmentName: Swift.String?
+        /// The last token the client requested.
+        public var lastClientRequestToken: Swift.String?
         /// The time when a deployment of the component was last attempted.
         public var lastDeploymentAttemptedAt: ClientRuntime.Date?
         /// The time when the component was last deployed successfully.
@@ -971,6 +1040,7 @@ extension ProtonClientTypes {
             deploymentStatusMessage: Swift.String? = nil,
             description: Swift.String? = nil,
             environmentName: Swift.String? = nil,
+            lastClientRequestToken: Swift.String? = nil,
             lastDeploymentAttemptedAt: ClientRuntime.Date? = nil,
             lastDeploymentSucceededAt: ClientRuntime.Date? = nil,
             lastModifiedAt: ClientRuntime.Date? = nil,
@@ -986,6 +1056,7 @@ extension ProtonClientTypes {
             self.deploymentStatusMessage = deploymentStatusMessage
             self.description = description
             self.environmentName = environmentName
+            self.lastClientRequestToken = lastClientRequestToken
             self.lastDeploymentAttemptedAt = lastDeploymentAttemptedAt
             self.lastDeploymentSucceededAt = lastDeploymentSucceededAt
             self.lastModifiedAt = lastModifiedAt
@@ -1294,7 +1365,7 @@ extension ProtonClientTypes {
     public struct CountsSummary: Swift.Equatable {
         /// The total number of components in the Amazon Web Services account. The semantics of the components field are different from the semantics of results for other infrastructure-provisioning resources. That's because at this time components don't have associated templates, therefore they don't have the concept of staleness. The components object will only contain total and failed members.
         public var components: ProtonClientTypes.ResourceCountsSummary?
-        /// The total number of environment templates in the Amazon Web Services account.
+        /// The total number of environment templates in the Amazon Web Services account. The environmentTemplates object will only contain total members.
         public var environmentTemplates: ProtonClientTypes.ResourceCountsSummary?
         /// The staleness counts for Proton environments in the Amazon Web Services account. The environments object will only contain total members.
         public var environments: ProtonClientTypes.ResourceCountsSummary?
@@ -1331,11 +1402,12 @@ extension ProtonClientTypes {
 
 extension CreateComponentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateComponentInput(environmentName: \(Swift.String(describing: environmentName)), name: \(Swift.String(describing: name)), serviceInstanceName: \(Swift.String(describing: serviceInstanceName)), serviceName: \(Swift.String(describing: serviceName)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", manifest: \"CONTENT_REDACTED\", serviceSpec: \"CONTENT_REDACTED\", templateFile: \"CONTENT_REDACTED\")"}
+        "CreateComponentInput(clientToken: \(Swift.String(describing: clientToken)), environmentName: \(Swift.String(describing: environmentName)), name: \(Swift.String(describing: name)), serviceInstanceName: \(Swift.String(describing: serviceInstanceName)), serviceName: \(Swift.String(describing: serviceName)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", manifest: \"CONTENT_REDACTED\", serviceSpec: \"CONTENT_REDACTED\", templateFile: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateComponentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case description
         case environmentName
         case manifest
@@ -1349,6 +1421,9 @@ extension CreateComponentInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
@@ -1389,6 +1464,8 @@ extension CreateComponentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateComponentInput: Swift.Equatable {
+    /// The client token for the created component.
+    public var clientToken: Swift.String?
     /// An optional customer-provided description of the component.
     public var description: Swift.String?
     /// The name of the Proton environment that you want to associate this component with. You must specify this when you don't specify serviceInstanceName and serviceName.
@@ -1412,6 +1489,7 @@ public struct CreateComponentInput: Swift.Equatable {
     public var templateFile: Swift.String?
 
     public init (
+        clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         environmentName: Swift.String? = nil,
         manifest: Swift.String? = nil,
@@ -1423,6 +1501,7 @@ public struct CreateComponentInput: Swift.Equatable {
         templateFile: Swift.String? = nil
     )
     {
+        self.clientToken = clientToken
         self.description = description
         self.environmentName = environmentName
         self.manifest = manifest
@@ -1445,10 +1524,12 @@ struct CreateComponentInputBody: Swift.Equatable {
     let manifest: Swift.String?
     let serviceSpec: Swift.String?
     let tags: [ProtonClientTypes.Tag]?
+    let clientToken: Swift.String?
 }
 
 extension CreateComponentInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case description
         case environmentName
         case manifest
@@ -1489,6 +1570,8 @@ extension CreateComponentInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
     }
 }
 
@@ -2812,6 +2895,219 @@ extension CreateServiceInputBody: Swift.Decodable {
     }
 }
 
+extension CreateServiceInstanceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateServiceInstanceInput(clientToken: \(Swift.String(describing: clientToken)), name: \(Swift.String(describing: name)), serviceName: \(Swift.String(describing: serviceName)), tags: \(Swift.String(describing: tags)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), spec: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateServiceInstanceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case name
+        case serviceName
+        case spec
+        case tags
+        case templateMajorVersion
+        case templateMinorVersion
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let serviceName = self.serviceName {
+            try encodeContainer.encode(serviceName, forKey: .serviceName)
+        }
+        if let spec = self.spec {
+            try encodeContainer.encode(spec, forKey: .spec)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+        if let templateMajorVersion = self.templateMajorVersion {
+            try encodeContainer.encode(templateMajorVersion, forKey: .templateMajorVersion)
+        }
+        if let templateMinorVersion = self.templateMinorVersion {
+            try encodeContainer.encode(templateMinorVersion, forKey: .templateMinorVersion)
+        }
+    }
+}
+
+extension CreateServiceInstanceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateServiceInstanceInput: Swift.Equatable {
+    /// The client token of the service instance to create.
+    public var clientToken: Swift.String?
+    /// The name of the service instance to create.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The name of the service the service instance is added to.
+    /// This member is required.
+    public var serviceName: Swift.String?
+    /// The spec for the service instance you want to create.
+    /// This member is required.
+    public var spec: Swift.String?
+    /// An optional list of metadata items that you can associate with the Proton service instance. A tag is a key-value pair. For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in the Proton User Guide.
+    public var tags: [ProtonClientTypes.Tag]?
+    /// To create a new major and minor version of the service template, exclude major Version.
+    public var templateMajorVersion: Swift.String?
+    /// To create a new minor version of the service template, include a major Version.
+    public var templateMinorVersion: Swift.String?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        name: Swift.String? = nil,
+        serviceName: Swift.String? = nil,
+        spec: Swift.String? = nil,
+        tags: [ProtonClientTypes.Tag]? = nil,
+        templateMajorVersion: Swift.String? = nil,
+        templateMinorVersion: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.name = name
+        self.serviceName = serviceName
+        self.spec = spec
+        self.tags = tags
+        self.templateMajorVersion = templateMajorVersion
+        self.templateMinorVersion = templateMinorVersion
+    }
+}
+
+struct CreateServiceInstanceInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let serviceName: Swift.String?
+    let spec: Swift.String?
+    let templateMajorVersion: Swift.String?
+    let templateMinorVersion: Swift.String?
+    let tags: [ProtonClientTypes.Tag]?
+    let clientToken: Swift.String?
+}
+
+extension CreateServiceInstanceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case name
+        case serviceName
+        case spec
+        case tags
+        case templateMajorVersion
+        case templateMinorVersion
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let serviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+        let specDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spec)
+        spec = specDecoded
+        let templateMajorVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateMajorVersion)
+        templateMajorVersion = templateMajorVersionDecoded
+        let templateMinorVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateMinorVersion)
+        templateMinorVersion = templateMinorVersionDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([ProtonClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[ProtonClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [ProtonClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension CreateServiceInstanceOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateServiceInstanceOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateServiceInstanceOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateServiceInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateServiceInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.serviceInstance = output.serviceInstance
+        } else {
+            self.serviceInstance = nil
+        }
+    }
+}
+
+public struct CreateServiceInstanceOutputResponse: Swift.Equatable {
+    /// The detailed data of the service instance being created.
+    /// This member is required.
+    public var serviceInstance: ProtonClientTypes.ServiceInstance?
+
+    public init (
+        serviceInstance: ProtonClientTypes.ServiceInstance? = nil
+    )
+    {
+        self.serviceInstance = serviceInstance
+    }
+}
+
+struct CreateServiceInstanceOutputResponseBody: Swift.Equatable {
+    let serviceInstance: ProtonClientTypes.ServiceInstance?
+}
+
+extension CreateServiceInstanceOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceInstance
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceInstanceDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceInstance.self, forKey: .serviceInstance)
+        serviceInstance = serviceInstanceDecoded
+    }
+}
+
 extension CreateServiceOutputError: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -2885,6 +3181,179 @@ extension CreateServiceOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Service.self, forKey: .service)
         service = serviceDecoded
+    }
+}
+
+extension CreateServiceSyncConfigInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case branch
+        case filePath
+        case repositoryName
+        case repositoryProvider
+        case serviceName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let branch = self.branch {
+            try encodeContainer.encode(branch, forKey: .branch)
+        }
+        if let filePath = self.filePath {
+            try encodeContainer.encode(filePath, forKey: .filePath)
+        }
+        if let repositoryName = self.repositoryName {
+            try encodeContainer.encode(repositoryName, forKey: .repositoryName)
+        }
+        if let repositoryProvider = self.repositoryProvider {
+            try encodeContainer.encode(repositoryProvider.rawValue, forKey: .repositoryProvider)
+        }
+        if let serviceName = self.serviceName {
+            try encodeContainer.encode(serviceName, forKey: .serviceName)
+        }
+    }
+}
+
+extension CreateServiceSyncConfigInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateServiceSyncConfigInput: Swift.Equatable {
+    /// The repository branch for your Proton Ops file.
+    /// This member is required.
+    public var branch: Swift.String?
+    /// The path to the Proton Ops file.
+    /// This member is required.
+    public var filePath: Swift.String?
+    /// The repository name.
+    /// This member is required.
+    public var repositoryName: Swift.String?
+    /// The provider type for your repository.
+    /// This member is required.
+    public var repositoryProvider: ProtonClientTypes.RepositoryProvider?
+    /// The name of the service the Proton Ops file is for.
+    /// This member is required.
+    public var serviceName: Swift.String?
+
+    public init (
+        branch: Swift.String? = nil,
+        filePath: Swift.String? = nil,
+        repositoryName: Swift.String? = nil,
+        repositoryProvider: ProtonClientTypes.RepositoryProvider? = nil,
+        serviceName: Swift.String? = nil
+    )
+    {
+        self.branch = branch
+        self.filePath = filePath
+        self.repositoryName = repositoryName
+        self.repositoryProvider = repositoryProvider
+        self.serviceName = serviceName
+    }
+}
+
+struct CreateServiceSyncConfigInputBody: Swift.Equatable {
+    let serviceName: Swift.String?
+    let repositoryProvider: ProtonClientTypes.RepositoryProvider?
+    let repositoryName: Swift.String?
+    let branch: Swift.String?
+    let filePath: Swift.String?
+}
+
+extension CreateServiceSyncConfigInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case branch
+        case filePath
+        case repositoryName
+        case repositoryProvider
+        case serviceName
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+        let repositoryProviderDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.RepositoryProvider.self, forKey: .repositoryProvider)
+        repositoryProvider = repositoryProviderDecoded
+        let repositoryNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryName)
+        repositoryName = repositoryNameDecoded
+        let branchDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .branch)
+        branch = branchDecoded
+        let filePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filePath)
+        filePath = filePathDecoded
+    }
+}
+
+extension CreateServiceSyncConfigOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateServiceSyncConfigOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateServiceSyncConfigOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateServiceSyncConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateServiceSyncConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.serviceSyncConfig = output.serviceSyncConfig
+        } else {
+            self.serviceSyncConfig = nil
+        }
+    }
+}
+
+public struct CreateServiceSyncConfigOutputResponse: Swift.Equatable {
+    /// The detailed data of the Proton Ops file.
+    public var serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
+
+    public init (
+        serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig? = nil
+    )
+    {
+        self.serviceSyncConfig = serviceSyncConfig
+    }
+}
+
+struct CreateServiceSyncConfigOutputResponseBody: Swift.Equatable {
+    let serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
+}
+
+extension CreateServiceSyncConfigOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceSyncConfig
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceSyncConfigDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceSyncConfig.self, forKey: .serviceSyncConfig)
+        serviceSyncConfig = serviceSyncConfigDecoded
     }
 }
 
@@ -4409,6 +4878,127 @@ extension DeleteServiceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DeleteServiceSyncConfigInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let serviceName = self.serviceName {
+            try encodeContainer.encode(serviceName, forKey: .serviceName)
+        }
+    }
+}
+
+extension DeleteServiceSyncConfigInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteServiceSyncConfigInput: Swift.Equatable {
+    /// The name of the service that you want to delete the service sync configuration for.
+    /// This member is required.
+    public var serviceName: Swift.String?
+
+    public init (
+        serviceName: Swift.String? = nil
+    )
+    {
+        self.serviceName = serviceName
+    }
+}
+
+struct DeleteServiceSyncConfigInputBody: Swift.Equatable {
+    let serviceName: Swift.String?
+}
+
+extension DeleteServiceSyncConfigInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceName
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+    }
+}
+
+extension DeleteServiceSyncConfigOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteServiceSyncConfigOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteServiceSyncConfigOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteServiceSyncConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DeleteServiceSyncConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.serviceSyncConfig = output.serviceSyncConfig
+        } else {
+            self.serviceSyncConfig = nil
+        }
+    }
+}
+
+public struct DeleteServiceSyncConfigOutputResponse: Swift.Equatable {
+    /// The detailed data for the service sync config.
+    public var serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
+
+    public init (
+        serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig? = nil
+    )
+    {
+        self.serviceSyncConfig = serviceSyncConfig
+    }
+}
+
+struct DeleteServiceSyncConfigOutputResponseBody: Swift.Equatable {
+    let serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
+}
+
+extension DeleteServiceSyncConfigOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceSyncConfig
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceSyncConfigDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceSyncConfig.self, forKey: .serviceSyncConfig)
+        serviceSyncConfig = serviceSyncConfigDecoded
+    }
+}
+
 extension DeleteServiceTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
@@ -5068,7 +5658,7 @@ extension ProtonClientTypes {
         public var protonServiceRoleArn: Swift.String?
         /// When included, indicates that the environment template is for customer provisioned and managed infrastructure.
         public var provisioning: ProtonClientTypes.Provisioning?
-        /// The linked repository that you use to host your rendered infrastructure templates for self-managed provisioning. A linked repository is a repository that has been registered with Proton. For more information, see [CreateRepository].
+        /// The linked repository that you use to host your rendered infrastructure templates for self-managed provisioning. A linked repository is a repository that has been registered with Proton. For more information, see [CreateRepository](https://docs.aws.amazon.com/proton/latest/APIReference/API_CreateRepository.html).
         public var provisioningRepository: ProtonClientTypes.RepositoryBranch?
         /// The environment spec.
         public var spec: Swift.String?
@@ -7429,7 +8019,7 @@ public struct GetServiceInstanceInput: Swift.Equatable {
     /// The name of a service instance that you want to get the detailed data for.
     /// This member is required.
     public var name: Swift.String?
-    /// The name of the service that the service instance belongs to.
+    /// The name of the service that you want the service instance input for.
     /// This member is required.
     public var serviceName: Swift.String?
 
@@ -7535,6 +8125,158 @@ extension GetServiceInstanceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetServiceInstanceSyncStatusInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceInstanceName
+        case serviceName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let serviceInstanceName = self.serviceInstanceName {
+            try encodeContainer.encode(serviceInstanceName, forKey: .serviceInstanceName)
+        }
+        if let serviceName = self.serviceName {
+            try encodeContainer.encode(serviceName, forKey: .serviceName)
+        }
+    }
+}
+
+extension GetServiceInstanceSyncStatusInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetServiceInstanceSyncStatusInput: Swift.Equatable {
+    /// The name of the service instance that you want the sync status input for.
+    /// This member is required.
+    public var serviceInstanceName: Swift.String?
+    /// The name of the service that the service instance belongs to.
+    /// This member is required.
+    public var serviceName: Swift.String?
+
+    public init (
+        serviceInstanceName: Swift.String? = nil,
+        serviceName: Swift.String? = nil
+    )
+    {
+        self.serviceInstanceName = serviceInstanceName
+        self.serviceName = serviceName
+    }
+}
+
+struct GetServiceInstanceSyncStatusInputBody: Swift.Equatable {
+    let serviceName: Swift.String?
+    let serviceInstanceName: Swift.String?
+}
+
+extension GetServiceInstanceSyncStatusInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceInstanceName
+        case serviceName
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+        let serviceInstanceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceInstanceName)
+        serviceInstanceName = serviceInstanceNameDecoded
+    }
+}
+
+extension GetServiceInstanceSyncStatusOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetServiceInstanceSyncStatusOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetServiceInstanceSyncStatusOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetServiceInstanceSyncStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetServiceInstanceSyncStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.desiredState = output.desiredState
+            self.latestSuccessfulSync = output.latestSuccessfulSync
+            self.latestSync = output.latestSync
+        } else {
+            self.desiredState = nil
+            self.latestSuccessfulSync = nil
+            self.latestSync = nil
+        }
+    }
+}
+
+public struct GetServiceInstanceSyncStatusOutputResponse: Swift.Equatable {
+    /// The service instance sync desired state that's returned by Proton
+    public var desiredState: ProtonClientTypes.Revision?
+    /// The detailed data of the latest successful sync with the service instance.
+    public var latestSuccessfulSync: ProtonClientTypes.ResourceSyncAttempt?
+    /// The detailed data of the latest sync with the service instance.
+    public var latestSync: ProtonClientTypes.ResourceSyncAttempt?
+
+    public init (
+        desiredState: ProtonClientTypes.Revision? = nil,
+        latestSuccessfulSync: ProtonClientTypes.ResourceSyncAttempt? = nil,
+        latestSync: ProtonClientTypes.ResourceSyncAttempt? = nil
+    )
+    {
+        self.desiredState = desiredState
+        self.latestSuccessfulSync = latestSuccessfulSync
+        self.latestSync = latestSync
+    }
+}
+
+struct GetServiceInstanceSyncStatusOutputResponseBody: Swift.Equatable {
+    let latestSync: ProtonClientTypes.ResourceSyncAttempt?
+    let latestSuccessfulSync: ProtonClientTypes.ResourceSyncAttempt?
+    let desiredState: ProtonClientTypes.Revision?
+}
+
+extension GetServiceInstanceSyncStatusOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case desiredState
+        case latestSuccessfulSync
+        case latestSync
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let latestSyncDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ResourceSyncAttempt.self, forKey: .latestSync)
+        latestSync = latestSyncDecoded
+        let latestSuccessfulSyncDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ResourceSyncAttempt.self, forKey: .latestSuccessfulSync)
+        latestSuccessfulSync = latestSuccessfulSyncDecoded
+        let desiredStateDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Revision.self, forKey: .desiredState)
+        desiredState = desiredStateDecoded
+    }
+}
+
 extension GetServiceOutputError: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -7603,6 +8345,256 @@ extension GetServiceOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.Service.self, forKey: .service)
         service = serviceDecoded
+    }
+}
+
+extension GetServiceSyncBlockerSummaryInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceInstanceName
+        case serviceName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let serviceInstanceName = self.serviceInstanceName {
+            try encodeContainer.encode(serviceInstanceName, forKey: .serviceInstanceName)
+        }
+        if let serviceName = self.serviceName {
+            try encodeContainer.encode(serviceName, forKey: .serviceName)
+        }
+    }
+}
+
+extension GetServiceSyncBlockerSummaryInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetServiceSyncBlockerSummaryInput: Swift.Equatable {
+    /// The name of the service instance that you want to get the service sync blocker summary for. If given bothe the instance name and the service name, only the instance is blocked.
+    public var serviceInstanceName: Swift.String?
+    /// The name of the service that you want to get the service sync blocker summary for. If given only the service name, all instances are blocked.
+    /// This member is required.
+    public var serviceName: Swift.String?
+
+    public init (
+        serviceInstanceName: Swift.String? = nil,
+        serviceName: Swift.String? = nil
+    )
+    {
+        self.serviceInstanceName = serviceInstanceName
+        self.serviceName = serviceName
+    }
+}
+
+struct GetServiceSyncBlockerSummaryInputBody: Swift.Equatable {
+    let serviceName: Swift.String?
+    let serviceInstanceName: Swift.String?
+}
+
+extension GetServiceSyncBlockerSummaryInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceInstanceName
+        case serviceName
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+        let serviceInstanceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceInstanceName)
+        serviceInstanceName = serviceInstanceNameDecoded
+    }
+}
+
+extension GetServiceSyncBlockerSummaryOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetServiceSyncBlockerSummaryOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetServiceSyncBlockerSummaryOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetServiceSyncBlockerSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetServiceSyncBlockerSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.serviceSyncBlockerSummary = output.serviceSyncBlockerSummary
+        } else {
+            self.serviceSyncBlockerSummary = nil
+        }
+    }
+}
+
+public struct GetServiceSyncBlockerSummaryOutputResponse: Swift.Equatable {
+    /// The detailed data of the requested service sync blocker summary.
+    public var serviceSyncBlockerSummary: ProtonClientTypes.ServiceSyncBlockerSummary?
+
+    public init (
+        serviceSyncBlockerSummary: ProtonClientTypes.ServiceSyncBlockerSummary? = nil
+    )
+    {
+        self.serviceSyncBlockerSummary = serviceSyncBlockerSummary
+    }
+}
+
+struct GetServiceSyncBlockerSummaryOutputResponseBody: Swift.Equatable {
+    let serviceSyncBlockerSummary: ProtonClientTypes.ServiceSyncBlockerSummary?
+}
+
+extension GetServiceSyncBlockerSummaryOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceSyncBlockerSummary
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceSyncBlockerSummaryDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceSyncBlockerSummary.self, forKey: .serviceSyncBlockerSummary)
+        serviceSyncBlockerSummary = serviceSyncBlockerSummaryDecoded
+    }
+}
+
+extension GetServiceSyncConfigInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let serviceName = self.serviceName {
+            try encodeContainer.encode(serviceName, forKey: .serviceName)
+        }
+    }
+}
+
+extension GetServiceSyncConfigInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetServiceSyncConfigInput: Swift.Equatable {
+    /// The name of the service that you want to get the service sync configuration for.
+    /// This member is required.
+    public var serviceName: Swift.String?
+
+    public init (
+        serviceName: Swift.String? = nil
+    )
+    {
+        self.serviceName = serviceName
+    }
+}
+
+struct GetServiceSyncConfigInputBody: Swift.Equatable {
+    let serviceName: Swift.String?
+}
+
+extension GetServiceSyncConfigInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceName
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+    }
+}
+
+extension GetServiceSyncConfigOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetServiceSyncConfigOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetServiceSyncConfigOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetServiceSyncConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetServiceSyncConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.serviceSyncConfig = output.serviceSyncConfig
+        } else {
+            self.serviceSyncConfig = nil
+        }
+    }
+}
+
+public struct GetServiceSyncConfigOutputResponse: Swift.Equatable {
+    /// The detailed data of the requested service sync configuration.
+    public var serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
+
+    public init (
+        serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig? = nil
+    )
+    {
+        self.serviceSyncConfig = serviceSyncConfig
+    }
+}
+
+struct GetServiceSyncConfigOutputResponseBody: Swift.Equatable {
+    let serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
+}
+
+extension GetServiceSyncConfigOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceSyncConfig
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceSyncConfigDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceSyncConfig.self, forKey: .serviceSyncConfig)
+        serviceSyncConfig = serviceSyncConfigDecoded
     }
 }
 
@@ -12319,6 +13311,7 @@ extension ProtonClientTypes {
 extension ProtonClientTypes.RepositorySummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
+        case connectionArn
         case name
         case provider
     }
@@ -12327,6 +13320,9 @@ extension ProtonClientTypes.RepositorySummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let connectionArn = self.connectionArn {
+            try encodeContainer.encode(connectionArn, forKey: .connectionArn)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -12344,6 +13340,8 @@ extension ProtonClientTypes.RepositorySummary: Swift.Codable {
         provider = providerDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let connectionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionArn)
+        connectionArn = connectionArnDecoded
     }
 }
 
@@ -12353,6 +13351,9 @@ extension ProtonClientTypes {
         /// The Amazon Resource Name (ARN) of the linked repository.
         /// This member is required.
         public var arn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the of your connection that connects Proton to your repository.
+        /// This member is required.
+        public var connectionArn: Swift.String?
         /// The repository name.
         /// This member is required.
         public var name: Swift.String?
@@ -12362,11 +13363,13 @@ extension ProtonClientTypes {
 
         public init (
             arn: Swift.String? = nil,
+            connectionArn: Swift.String? = nil,
             name: Swift.String? = nil,
             provider: ProtonClientTypes.RepositoryProvider? = nil
         )
         {
             self.arn = arn
+            self.connectionArn = connectionArn
             self.name = name
             self.provider = provider
         }
@@ -13311,6 +14314,7 @@ extension ProtonClientTypes.ServiceInstance: Swift.Codable {
         case deploymentStatus
         case deploymentStatusMessage
         case environmentName
+        case lastClientRequestToken
         case lastDeploymentAttemptedAt
         case lastDeploymentSucceededAt
         case name
@@ -13337,6 +14341,9 @@ extension ProtonClientTypes.ServiceInstance: Swift.Codable {
         }
         if let environmentName = self.environmentName {
             try encodeContainer.encode(environmentName, forKey: .environmentName)
+        }
+        if let lastClientRequestToken = self.lastClientRequestToken {
+            try encodeContainer.encode(lastClientRequestToken, forKey: .lastClientRequestToken)
         }
         if let lastDeploymentAttemptedAt = self.lastDeploymentAttemptedAt {
             try encodeContainer.encodeTimestamp(lastDeploymentAttemptedAt, format: .epochSeconds, forKey: .lastDeploymentAttemptedAt)
@@ -13392,12 +14399,14 @@ extension ProtonClientTypes.ServiceInstance: Swift.Codable {
         deploymentStatusMessage = deploymentStatusMessageDecoded
         let specDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spec)
         spec = specDecoded
+        let lastClientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastClientRequestToken)
+        lastClientRequestToken = lastClientRequestTokenDecoded
     }
 }
 
 extension ProtonClientTypes.ServiceInstance: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ServiceInstance(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), environmentName: \(Swift.String(describing: environmentName)), lastDeploymentAttemptedAt: \(Swift.String(describing: lastDeploymentAttemptedAt)), lastDeploymentSucceededAt: \(Swift.String(describing: lastDeploymentSucceededAt)), name: \(Swift.String(describing: name)), serviceName: \(Swift.String(describing: serviceName)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), templateName: \(Swift.String(describing: templateName)), deploymentStatusMessage: \"CONTENT_REDACTED\", spec: \"CONTENT_REDACTED\")"}
+        "ServiceInstance(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), deploymentStatus: \(Swift.String(describing: deploymentStatus)), environmentName: \(Swift.String(describing: environmentName)), lastClientRequestToken: \(Swift.String(describing: lastClientRequestToken)), lastDeploymentAttemptedAt: \(Swift.String(describing: lastDeploymentAttemptedAt)), lastDeploymentSucceededAt: \(Swift.String(describing: lastDeploymentSucceededAt)), name: \(Swift.String(describing: name)), serviceName: \(Swift.String(describing: serviceName)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), templateName: \(Swift.String(describing: templateName)), deploymentStatusMessage: \"CONTENT_REDACTED\", spec: \"CONTENT_REDACTED\")"}
 }
 
 extension ProtonClientTypes {
@@ -13417,6 +14426,8 @@ extension ProtonClientTypes {
         /// The name of the environment that the service instance was deployed into.
         /// This member is required.
         public var environmentName: Swift.String?
+        /// The last client request token received.
+        public var lastClientRequestToken: Swift.String?
         /// The time when a deployment of the service instance was last attempted.
         /// This member is required.
         public var lastDeploymentAttemptedAt: ClientRuntime.Date?
@@ -13447,6 +14458,7 @@ extension ProtonClientTypes {
             deploymentStatus: ProtonClientTypes.DeploymentStatus? = nil,
             deploymentStatusMessage: Swift.String? = nil,
             environmentName: Swift.String? = nil,
+            lastClientRequestToken: Swift.String? = nil,
             lastDeploymentAttemptedAt: ClientRuntime.Date? = nil,
             lastDeploymentSucceededAt: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
@@ -13462,6 +14474,7 @@ extension ProtonClientTypes {
             self.deploymentStatus = deploymentStatus
             self.deploymentStatusMessage = deploymentStatusMessage
             self.environmentName = environmentName
+            self.lastClientRequestToken = lastClientRequestToken
             self.lastDeploymentAttemptedAt = lastDeploymentAttemptedAt
             self.lastDeploymentSucceededAt = lastDeploymentSucceededAt
             self.name = name
@@ -14011,6 +15024,154 @@ extension ProtonClientTypes {
             self.status = status
             self.statusMessage = statusMessage
             self.templateName = templateName
+        }
+    }
+
+}
+
+extension ProtonClientTypes.ServiceSyncBlockerSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case latestBlockers
+        case serviceInstanceName
+        case serviceName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let latestBlockers = latestBlockers {
+            var latestBlockersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .latestBlockers)
+            for syncblocker0 in latestBlockers {
+                try latestBlockersContainer.encode(syncblocker0)
+            }
+        }
+        if let serviceInstanceName = self.serviceInstanceName {
+            try encodeContainer.encode(serviceInstanceName, forKey: .serviceInstanceName)
+        }
+        if let serviceName = self.serviceName {
+            try encodeContainer.encode(serviceName, forKey: .serviceName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+        let serviceInstanceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceInstanceName)
+        serviceInstanceName = serviceInstanceNameDecoded
+        let latestBlockersContainer = try containerValues.decodeIfPresent([ProtonClientTypes.SyncBlocker?].self, forKey: .latestBlockers)
+        var latestBlockersDecoded0:[ProtonClientTypes.SyncBlocker]? = nil
+        if let latestBlockersContainer = latestBlockersContainer {
+            latestBlockersDecoded0 = [ProtonClientTypes.SyncBlocker]()
+            for structure0 in latestBlockersContainer {
+                if let structure0 = structure0 {
+                    latestBlockersDecoded0?.append(structure0)
+                }
+            }
+        }
+        latestBlockers = latestBlockersDecoded0
+    }
+}
+
+extension ProtonClientTypes {
+    /// If a service instance is manually updated, Proton wants to prevent accidentally overriding a manual change. A blocker is created because of the manual update or deletion of a service instance. The summary describes the blocker as being active or resolved.
+    public struct ServiceSyncBlockerSummary: Swift.Equatable {
+        /// The latest active blockers for the synced service.
+        public var latestBlockers: [ProtonClientTypes.SyncBlocker]?
+        /// The name of the service instance that you want sync your service configuration with.
+        public var serviceInstanceName: Swift.String?
+        /// The name of the service that you want to get the sync blocker summary for. If given a service instance name and a service name, it will return the blockers only applying to the instance that is blocked. If given only a service name, it will return the blockers that apply to all of the instances. In order to get the blockers for a single instance, you will need to make two distinct calls, one to get the sync blocker summary for the service and the other to get the sync blocker for the service instance.
+        /// This member is required.
+        public var serviceName: Swift.String?
+
+        public init (
+            latestBlockers: [ProtonClientTypes.SyncBlocker]? = nil,
+            serviceInstanceName: Swift.String? = nil,
+            serviceName: Swift.String? = nil
+        )
+        {
+            self.latestBlockers = latestBlockers
+            self.serviceInstanceName = serviceInstanceName
+            self.serviceName = serviceName
+        }
+    }
+
+}
+
+extension ProtonClientTypes.ServiceSyncConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case branch
+        case filePath
+        case repositoryName
+        case repositoryProvider
+        case serviceName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let branch = self.branch {
+            try encodeContainer.encode(branch, forKey: .branch)
+        }
+        if let filePath = self.filePath {
+            try encodeContainer.encode(filePath, forKey: .filePath)
+        }
+        if let repositoryName = self.repositoryName {
+            try encodeContainer.encode(repositoryName, forKey: .repositoryName)
+        }
+        if let repositoryProvider = self.repositoryProvider {
+            try encodeContainer.encode(repositoryProvider.rawValue, forKey: .repositoryProvider)
+        }
+        if let serviceName = self.serviceName {
+            try encodeContainer.encode(serviceName, forKey: .serviceName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+        let repositoryProviderDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.RepositoryProvider.self, forKey: .repositoryProvider)
+        repositoryProvider = repositoryProviderDecoded
+        let repositoryNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryName)
+        repositoryName = repositoryNameDecoded
+        let branchDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .branch)
+        branch = branchDecoded
+        let filePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filePath)
+        filePath = filePathDecoded
+    }
+}
+
+extension ProtonClientTypes {
+    /// Detailed data of the service sync configuration.
+    public struct ServiceSyncConfig: Swift.Equatable {
+        /// The name of the code repository branch that holds the service code Proton will sync with.
+        /// This member is required.
+        public var branch: Swift.String?
+        /// The file path to the service sync configuration file.
+        /// This member is required.
+        public var filePath: Swift.String?
+        /// The name of the code repository that holds the service code Proton will sync with.
+        /// This member is required.
+        public var repositoryName: Swift.String?
+        /// The name of the repository provider that holds the repository Proton will sync with.
+        /// This member is required.
+        public var repositoryProvider: ProtonClientTypes.RepositoryProvider?
+        /// The name of the service that the service instance is added to.
+        /// This member is required.
+        public var serviceName: Swift.String?
+
+        public init (
+            branch: Swift.String? = nil,
+            filePath: Swift.String? = nil,
+            repositoryName: Swift.String? = nil,
+            repositoryProvider: ProtonClientTypes.RepositoryProvider? = nil,
+            serviceName: Swift.String? = nil
+        )
+        {
+            self.branch = branch
+            self.filePath = filePath
+            self.repositoryName = repositoryName
+            self.repositoryProvider = repositoryProvider
+            self.serviceName = serviceName
         }
     }
 
@@ -14644,13 +15805,186 @@ extension ProtonClientTypes {
     }
 }
 
+extension ProtonClientTypes.SyncBlocker: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contexts
+        case createdAt
+        case createdReason
+        case id
+        case resolvedAt
+        case resolvedReason
+        case status
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contexts = contexts {
+            var contextsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contexts)
+            for syncblockercontext0 in contexts {
+                try contextsContainer.encode(syncblockercontext0)
+            }
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let createdReason = self.createdReason {
+            try encodeContainer.encode(createdReason, forKey: .createdReason)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let resolvedAt = self.resolvedAt {
+            try encodeContainer.encodeTimestamp(resolvedAt, format: .epochSeconds, forKey: .resolvedAt)
+        }
+        if let resolvedReason = self.resolvedReason {
+            try encodeContainer.encode(resolvedReason, forKey: .resolvedReason)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.BlockerType.self, forKey: .type)
+        type = typeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.BlockerStatus.self, forKey: .status)
+        status = statusDecoded
+        let createdReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdReason)
+        createdReason = createdReasonDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let contextsContainer = try containerValues.decodeIfPresent([ProtonClientTypes.SyncBlockerContext?].self, forKey: .contexts)
+        var contextsDecoded0:[ProtonClientTypes.SyncBlockerContext]? = nil
+        if let contextsContainer = contextsContainer {
+            contextsDecoded0 = [ProtonClientTypes.SyncBlockerContext]()
+            for structure0 in contextsContainer {
+                if let structure0 = structure0 {
+                    contextsDecoded0?.append(structure0)
+                }
+            }
+        }
+        contexts = contextsDecoded0
+        let resolvedReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resolvedReason)
+        resolvedReason = resolvedReasonDecoded
+        let resolvedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .resolvedAt)
+        resolvedAt = resolvedAtDecoded
+    }
+}
+
+extension ProtonClientTypes {
+    /// Detailed data of the sync blocker.
+    public struct SyncBlocker: Swift.Equatable {
+        /// The contexts for the sync blocker.
+        public var contexts: [ProtonClientTypes.SyncBlockerContext]?
+        /// The time when the sync blocker was created.
+        /// This member is required.
+        public var createdAt: ClientRuntime.Date?
+        /// The reason why the sync blocker was created.
+        /// This member is required.
+        public var createdReason: Swift.String?
+        /// The ID of the sync blocker.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The time the sync blocker was resolved.
+        public var resolvedAt: ClientRuntime.Date?
+        /// The reason the sync blocker was resolved.
+        public var resolvedReason: Swift.String?
+        /// The status of the sync blocker.
+        /// This member is required.
+        public var status: ProtonClientTypes.BlockerStatus?
+        /// The type of the sync blocker.
+        /// This member is required.
+        public var type: ProtonClientTypes.BlockerType?
+
+        public init (
+            contexts: [ProtonClientTypes.SyncBlockerContext]? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            createdReason: Swift.String? = nil,
+            id: Swift.String? = nil,
+            resolvedAt: ClientRuntime.Date? = nil,
+            resolvedReason: Swift.String? = nil,
+            status: ProtonClientTypes.BlockerStatus? = nil,
+            type: ProtonClientTypes.BlockerType? = nil
+        )
+        {
+            self.contexts = contexts
+            self.createdAt = createdAt
+            self.createdReason = createdReason
+            self.id = id
+            self.resolvedAt = resolvedAt
+            self.resolvedReason = resolvedReason
+            self.status = status
+            self.type = type
+        }
+    }
+
+}
+
+extension ProtonClientTypes.SyncBlockerContext: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension ProtonClientTypes {
+    /// Detailed data of the context of the sync blocker.
+    public struct SyncBlockerContext: Swift.Equatable {
+        /// The key for the sync blocker context.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the sync blocker context.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init (
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
 extension ProtonClientTypes {
     public enum SyncType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        /// Syncs services and service instances to Proton.
+        case serviceSync
+        /// Syncs environment and service templates to Proton.
         case templateSync
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SyncType] {
             return [
+                .serviceSync,
                 .templateSync,
                 .sdkUnknown("")
             ]
@@ -14661,6 +15995,7 @@ extension ProtonClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .serviceSync: return "SERVICE_SYNC"
             case .templateSync: return "TEMPLATE_SYNC"
             case let .sdkUnknown(s): return s
             }
@@ -15346,11 +16681,12 @@ extension UpdateAccountSettingsOutputResponseBody: Swift.Decodable {
 
 extension UpdateComponentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateComponentInput(deploymentType: \(Swift.String(describing: deploymentType)), name: \(Swift.String(describing: name)), serviceInstanceName: \(Swift.String(describing: serviceInstanceName)), serviceName: \(Swift.String(describing: serviceName)), description: \"CONTENT_REDACTED\", serviceSpec: \"CONTENT_REDACTED\", templateFile: \"CONTENT_REDACTED\")"}
+        "UpdateComponentInput(clientToken: \(Swift.String(describing: clientToken)), deploymentType: \(Swift.String(describing: deploymentType)), name: \(Swift.String(describing: name)), serviceInstanceName: \(Swift.String(describing: serviceInstanceName)), serviceName: \(Swift.String(describing: serviceName)), description: \"CONTENT_REDACTED\", serviceSpec: \"CONTENT_REDACTED\", templateFile: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateComponentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case deploymentType
         case description
         case name
@@ -15362,6 +16698,9 @@ extension UpdateComponentInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
         if let deploymentType = self.deploymentType {
             try encodeContainer.encode(deploymentType.rawValue, forKey: .deploymentType)
         }
@@ -15393,6 +16732,8 @@ extension UpdateComponentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateComponentInput: Swift.Equatable {
+    /// The client token for the updated component.
+    public var clientToken: Swift.String?
     /// The deployment type. It defines the mode for updating a component, as follows: NONE In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated. You can only specify description in this mode. CURRENT_VERSION In this mode, the component is deployed and updated with the new serviceSpec, templateSource, and/or type that you provide. Only requested parameters are updated.
     /// This member is required.
     public var deploymentType: ProtonClientTypes.ComponentDeploymentUpdateType?
@@ -15411,6 +16752,7 @@ public struct UpdateComponentInput: Swift.Equatable {
     public var templateFile: Swift.String?
 
     public init (
+        clientToken: Swift.String? = nil,
         deploymentType: ProtonClientTypes.ComponentDeploymentUpdateType? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -15420,6 +16762,7 @@ public struct UpdateComponentInput: Swift.Equatable {
         templateFile: Swift.String? = nil
     )
     {
+        self.clientToken = clientToken
         self.deploymentType = deploymentType
         self.description = description
         self.name = name
@@ -15438,10 +16781,12 @@ struct UpdateComponentInputBody: Swift.Equatable {
     let serviceInstanceName: Swift.String?
     let serviceSpec: Swift.String?
     let templateFile: Swift.String?
+    let clientToken: Swift.String?
 }
 
 extension UpdateComponentInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case deploymentType
         case description
         case name
@@ -15467,6 +16812,8 @@ extension UpdateComponentInputBody: Swift.Decodable {
         serviceSpec = serviceSpecDecoded
         let templateFileDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateFile)
         templateFile = templateFileDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
     }
 }
 
@@ -16359,11 +17706,12 @@ extension UpdateServiceInputBody: Swift.Decodable {
 
 extension UpdateServiceInstanceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateServiceInstanceInput(deploymentType: \(Swift.String(describing: deploymentType)), name: \(Swift.String(describing: name)), serviceName: \(Swift.String(describing: serviceName)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), spec: \"CONTENT_REDACTED\")"}
+        "UpdateServiceInstanceInput(clientToken: \(Swift.String(describing: clientToken)), deploymentType: \(Swift.String(describing: deploymentType)), name: \(Swift.String(describing: name)), serviceName: \(Swift.String(describing: serviceName)), templateMajorVersion: \(Swift.String(describing: templateMajorVersion)), templateMinorVersion: \(Swift.String(describing: templateMinorVersion)), spec: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateServiceInstanceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case deploymentType
         case name
         case serviceName
@@ -16374,6 +17722,9 @@ extension UpdateServiceInstanceInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
         if let deploymentType = self.deploymentType {
             try encodeContainer.encode(deploymentType.rawValue, forKey: .deploymentType)
         }
@@ -16402,6 +17753,8 @@ extension UpdateServiceInstanceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateServiceInstanceInput: Swift.Equatable {
+    /// The client token of the service instance to update.
+    public var clientToken: Swift.String?
     /// The deployment type. It defines the mode for updating a service instance, as follows: NONE In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated. CURRENT_VERSION In this mode, the service instance is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment type. MINOR_VERSION In this mode, the service instance is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use. MAJOR_VERSION In this mode, the service instance is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can specify a different major version that's higher than the major version in use and a minor version.
     /// This member is required.
     public var deploymentType: ProtonClientTypes.DeploymentUpdateType?
@@ -16419,6 +17772,7 @@ public struct UpdateServiceInstanceInput: Swift.Equatable {
     public var templateMinorVersion: Swift.String?
 
     public init (
+        clientToken: Swift.String? = nil,
         deploymentType: ProtonClientTypes.DeploymentUpdateType? = nil,
         name: Swift.String? = nil,
         serviceName: Swift.String? = nil,
@@ -16427,6 +17781,7 @@ public struct UpdateServiceInstanceInput: Swift.Equatable {
         templateMinorVersion: Swift.String? = nil
     )
     {
+        self.clientToken = clientToken
         self.deploymentType = deploymentType
         self.name = name
         self.serviceName = serviceName
@@ -16443,10 +17798,12 @@ struct UpdateServiceInstanceInputBody: Swift.Equatable {
     let spec: Swift.String?
     let templateMajorVersion: Swift.String?
     let templateMinorVersion: Swift.String?
+    let clientToken: Swift.String?
 }
 
 extension UpdateServiceInstanceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case deploymentType
         case name
         case serviceName
@@ -16469,6 +17826,8 @@ extension UpdateServiceInstanceInputBody: Swift.Decodable {
         templateMajorVersion = templateMajorVersionDecoded
         let templateMinorVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateMinorVersion)
         templateMinorVersion = templateMinorVersionDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
     }
 }
 
@@ -16796,6 +18155,335 @@ extension UpdateServicePipelineOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServicePipeline.self, forKey: .pipeline)
         pipeline = pipelineDecoded
+    }
+}
+
+extension UpdateServiceSyncBlockerInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id
+        case resolvedReason
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let resolvedReason = self.resolvedReason {
+            try encodeContainer.encode(resolvedReason, forKey: .resolvedReason)
+        }
+    }
+}
+
+extension UpdateServiceSyncBlockerInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateServiceSyncBlockerInput: Swift.Equatable {
+    /// The ID of the service sync blocker.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The reason the service sync blocker was resolved.
+    /// This member is required.
+    public var resolvedReason: Swift.String?
+
+    public init (
+        id: Swift.String? = nil,
+        resolvedReason: Swift.String? = nil
+    )
+    {
+        self.id = id
+        self.resolvedReason = resolvedReason
+    }
+}
+
+struct UpdateServiceSyncBlockerInputBody: Swift.Equatable {
+    let id: Swift.String?
+    let resolvedReason: Swift.String?
+}
+
+extension UpdateServiceSyncBlockerInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id
+        case resolvedReason
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let resolvedReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resolvedReason)
+        resolvedReason = resolvedReasonDecoded
+    }
+}
+
+extension UpdateServiceSyncBlockerOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateServiceSyncBlockerOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateServiceSyncBlockerOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateServiceSyncBlockerOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateServiceSyncBlockerOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.serviceInstanceName = output.serviceInstanceName
+            self.serviceName = output.serviceName
+            self.serviceSyncBlocker = output.serviceSyncBlocker
+        } else {
+            self.serviceInstanceName = nil
+            self.serviceName = nil
+            self.serviceSyncBlocker = nil
+        }
+    }
+}
+
+public struct UpdateServiceSyncBlockerOutputResponse: Swift.Equatable {
+    /// The name of the service instance that you want to update the service sync blocker for.
+    public var serviceInstanceName: Swift.String?
+    /// The name of the service that you want to update the service sync blocker for.
+    /// This member is required.
+    public var serviceName: Swift.String?
+    /// The detailed data on the service sync blocker that was updated.
+    /// This member is required.
+    public var serviceSyncBlocker: ProtonClientTypes.SyncBlocker?
+
+    public init (
+        serviceInstanceName: Swift.String? = nil,
+        serviceName: Swift.String? = nil,
+        serviceSyncBlocker: ProtonClientTypes.SyncBlocker? = nil
+    )
+    {
+        self.serviceInstanceName = serviceInstanceName
+        self.serviceName = serviceName
+        self.serviceSyncBlocker = serviceSyncBlocker
+    }
+}
+
+struct UpdateServiceSyncBlockerOutputResponseBody: Swift.Equatable {
+    let serviceName: Swift.String?
+    let serviceInstanceName: Swift.String?
+    let serviceSyncBlocker: ProtonClientTypes.SyncBlocker?
+}
+
+extension UpdateServiceSyncBlockerOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceInstanceName
+        case serviceName
+        case serviceSyncBlocker
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+        let serviceInstanceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceInstanceName)
+        serviceInstanceName = serviceInstanceNameDecoded
+        let serviceSyncBlockerDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.SyncBlocker.self, forKey: .serviceSyncBlocker)
+        serviceSyncBlocker = serviceSyncBlockerDecoded
+    }
+}
+
+extension UpdateServiceSyncConfigInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case branch
+        case filePath
+        case repositoryName
+        case repositoryProvider
+        case serviceName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let branch = self.branch {
+            try encodeContainer.encode(branch, forKey: .branch)
+        }
+        if let filePath = self.filePath {
+            try encodeContainer.encode(filePath, forKey: .filePath)
+        }
+        if let repositoryName = self.repositoryName {
+            try encodeContainer.encode(repositoryName, forKey: .repositoryName)
+        }
+        if let repositoryProvider = self.repositoryProvider {
+            try encodeContainer.encode(repositoryProvider.rawValue, forKey: .repositoryProvider)
+        }
+        if let serviceName = self.serviceName {
+            try encodeContainer.encode(serviceName, forKey: .serviceName)
+        }
+    }
+}
+
+extension UpdateServiceSyncConfigInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateServiceSyncConfigInput: Swift.Equatable {
+    /// The name of the code repository branch where the Proton Ops file is found.
+    /// This member is required.
+    public var branch: Swift.String?
+    /// The path to the Proton Ops file.
+    /// This member is required.
+    public var filePath: Swift.String?
+    /// The name of the repository where the Proton Ops file is found.
+    /// This member is required.
+    public var repositoryName: Swift.String?
+    /// The name of the repository provider where the Proton Ops file is found.
+    /// This member is required.
+    public var repositoryProvider: ProtonClientTypes.RepositoryProvider?
+    /// The name of the service the Proton Ops file is for.
+    /// This member is required.
+    public var serviceName: Swift.String?
+
+    public init (
+        branch: Swift.String? = nil,
+        filePath: Swift.String? = nil,
+        repositoryName: Swift.String? = nil,
+        repositoryProvider: ProtonClientTypes.RepositoryProvider? = nil,
+        serviceName: Swift.String? = nil
+    )
+    {
+        self.branch = branch
+        self.filePath = filePath
+        self.repositoryName = repositoryName
+        self.repositoryProvider = repositoryProvider
+        self.serviceName = serviceName
+    }
+}
+
+struct UpdateServiceSyncConfigInputBody: Swift.Equatable {
+    let serviceName: Swift.String?
+    let repositoryProvider: ProtonClientTypes.RepositoryProvider?
+    let repositoryName: Swift.String?
+    let branch: Swift.String?
+    let filePath: Swift.String?
+}
+
+extension UpdateServiceSyncConfigInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case branch
+        case filePath
+        case repositoryName
+        case repositoryProvider
+        case serviceName
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+        let repositoryProviderDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.RepositoryProvider.self, forKey: .repositoryProvider)
+        repositoryProvider = repositoryProviderDecoded
+        let repositoryNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryName)
+        repositoryName = repositoryNameDecoded
+        let branchDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .branch)
+        branch = branchDecoded
+        let filePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filePath)
+        filePath = filePathDecoded
+    }
+}
+
+extension UpdateServiceSyncConfigOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateServiceSyncConfigOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateServiceSyncConfigOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateServiceSyncConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateServiceSyncConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.serviceSyncConfig = output.serviceSyncConfig
+        } else {
+            self.serviceSyncConfig = nil
+        }
+    }
+}
+
+public struct UpdateServiceSyncConfigOutputResponse: Swift.Equatable {
+    /// The detailed data of the Proton Ops file.
+    public var serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
+
+    public init (
+        serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig? = nil
+    )
+    {
+        self.serviceSyncConfig = serviceSyncConfig
+    }
+}
+
+struct UpdateServiceSyncConfigOutputResponseBody: Swift.Equatable {
+    let serviceSyncConfig: ProtonClientTypes.ServiceSyncConfig?
+}
+
+extension UpdateServiceSyncConfigOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceSyncConfig
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceSyncConfigDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ServiceSyncConfig.self, forKey: .serviceSyncConfig)
+        serviceSyncConfig = serviceSyncConfigDecoded
     }
 }
 

@@ -487,12 +487,13 @@ extension CreateExtendedSourceServerOutputResponseBody: Swift.Decodable {
 
 extension CreateReplicationConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateReplicationConfigurationTemplateInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateReplicationConfigurationTemplateInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateReplicationConfigurationTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case associateDefaultSecurityGroup
+        case autoReplicateNewDisks
         case bandwidthThrottling
         case createPublicIP
         case dataPlaneRouting
@@ -512,6 +513,9 @@ extension CreateReplicationConfigurationTemplateInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let associateDefaultSecurityGroup = self.associateDefaultSecurityGroup {
             try encodeContainer.encode(associateDefaultSecurityGroup, forKey: .associateDefaultSecurityGroup)
+        }
+        if let autoReplicateNewDisks = self.autoReplicateNewDisks {
+            try encodeContainer.encode(autoReplicateNewDisks, forKey: .autoReplicateNewDisks)
         }
         if bandwidthThrottling != 0 {
             try encodeContainer.encode(bandwidthThrottling, forKey: .bandwidthThrottling)
@@ -577,6 +581,8 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Equatable {
     /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
     /// This member is required.
     public var associateDefaultSecurityGroup: Swift.Bool?
+    /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
+    public var autoReplicateNewDisks: Swift.Bool?
     /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps.
     /// This member is required.
     public var bandwidthThrottling: Swift.Int
@@ -617,6 +623,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Equatable {
 
     public init (
         associateDefaultSecurityGroup: Swift.Bool? = nil,
+        autoReplicateNewDisks: Swift.Bool? = nil,
         bandwidthThrottling: Swift.Int = 0,
         createPublicIP: Swift.Bool? = nil,
         dataPlaneRouting: DrsClientTypes.ReplicationConfigurationDataPlaneRouting? = nil,
@@ -633,6 +640,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Equatable {
     )
     {
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
+        self.autoReplicateNewDisks = autoReplicateNewDisks
         self.bandwidthThrottling = bandwidthThrottling
         self.createPublicIP = createPublicIP
         self.dataPlaneRouting = dataPlaneRouting
@@ -664,11 +672,13 @@ struct CreateReplicationConfigurationTemplateInputBody: Swift.Equatable {
     let stagingAreaTags: [Swift.String:Swift.String]?
     let pitPolicy: [DrsClientTypes.PITPolicyRule]?
     let tags: [Swift.String:Swift.String]?
+    let autoReplicateNewDisks: Swift.Bool?
 }
 
 extension CreateReplicationConfigurationTemplateInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case associateDefaultSecurityGroup
+        case autoReplicateNewDisks
         case bandwidthThrottling
         case createPublicIP
         case dataPlaneRouting
@@ -750,6 +760,8 @@ extension CreateReplicationConfigurationTemplateInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let autoReplicateNewDisksDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoReplicateNewDisks)
+        autoReplicateNewDisks = autoReplicateNewDisksDecoded
     }
 }
 
@@ -787,7 +799,7 @@ public enum CreateReplicationConfigurationTemplateOutputError: Swift.Error, Swif
 
 extension CreateReplicationConfigurationTemplateOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateReplicationConfigurationTemplateOutputResponse(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateReplicationConfigurationTemplateOutputResponse(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateReplicationConfigurationTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -798,6 +810,7 @@ extension CreateReplicationConfigurationTemplateOutputResponse: ClientRuntime.Ht
             let output: CreateReplicationConfigurationTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.associateDefaultSecurityGroup = output.associateDefaultSecurityGroup
+            self.autoReplicateNewDisks = output.autoReplicateNewDisks
             self.bandwidthThrottling = output.bandwidthThrottling
             self.createPublicIP = output.createPublicIP
             self.dataPlaneRouting = output.dataPlaneRouting
@@ -815,6 +828,7 @@ extension CreateReplicationConfigurationTemplateOutputResponse: ClientRuntime.Ht
         } else {
             self.arn = nil
             self.associateDefaultSecurityGroup = nil
+            self.autoReplicateNewDisks = nil
             self.bandwidthThrottling = 0
             self.createPublicIP = nil
             self.dataPlaneRouting = nil
@@ -838,6 +852,8 @@ public struct CreateReplicationConfigurationTemplateOutputResponse: Swift.Equata
     public var arn: Swift.String?
     /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
     public var associateDefaultSecurityGroup: Swift.Bool?
+    /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
+    public var autoReplicateNewDisks: Swift.Bool?
     /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps.
     public var bandwidthThrottling: Swift.Int
     /// Whether to create a Public IP for the Recovery Instance by default.
@@ -871,6 +887,7 @@ public struct CreateReplicationConfigurationTemplateOutputResponse: Swift.Equata
     public init (
         arn: Swift.String? = nil,
         associateDefaultSecurityGroup: Swift.Bool? = nil,
+        autoReplicateNewDisks: Swift.Bool? = nil,
         bandwidthThrottling: Swift.Int = 0,
         createPublicIP: Swift.Bool? = nil,
         dataPlaneRouting: DrsClientTypes.ReplicationConfigurationDataPlaneRouting? = nil,
@@ -889,6 +906,7 @@ public struct CreateReplicationConfigurationTemplateOutputResponse: Swift.Equata
     {
         self.arn = arn
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
+        self.autoReplicateNewDisks = autoReplicateNewDisks
         self.bandwidthThrottling = bandwidthThrottling
         self.createPublicIP = createPublicIP
         self.dataPlaneRouting = dataPlaneRouting
@@ -923,12 +941,14 @@ struct CreateReplicationConfigurationTemplateOutputResponseBody: Swift.Equatable
     let stagingAreaTags: [Swift.String:Swift.String]?
     let tags: [Swift.String:Swift.String]?
     let pitPolicy: [DrsClientTypes.PITPolicyRule]?
+    let autoReplicateNewDisks: Swift.Bool?
 }
 
 extension CreateReplicationConfigurationTemplateOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case associateDefaultSecurityGroup
+        case autoReplicateNewDisks
         case bandwidthThrottling
         case createPublicIP
         case dataPlaneRouting
@@ -1015,6 +1035,8 @@ extension CreateReplicationConfigurationTemplateOutputResponseBody: Swift.Decoda
             }
         }
         pitPolicy = pitPolicyDecoded0
+        let autoReplicateNewDisksDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoReplicateNewDisks)
+        autoReplicateNewDisks = autoReplicateNewDisksDecoded
     }
 }
 
@@ -4232,7 +4254,7 @@ public enum GetReplicationConfigurationOutputError: Swift.Error, Swift.Equatable
 
 extension GetReplicationConfigurationOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetReplicationConfigurationOutputResponse(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "GetReplicationConfigurationOutputResponse(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 extension GetReplicationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4242,6 +4264,7 @@ extension GetReplicationConfigurationOutputResponse: ClientRuntime.HttpResponseB
             let data = reader.toBytes().getData()
             let output: GetReplicationConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.associateDefaultSecurityGroup = output.associateDefaultSecurityGroup
+            self.autoReplicateNewDisks = output.autoReplicateNewDisks
             self.bandwidthThrottling = output.bandwidthThrottling
             self.createPublicIP = output.createPublicIP
             self.dataPlaneRouting = output.dataPlaneRouting
@@ -4259,6 +4282,7 @@ extension GetReplicationConfigurationOutputResponse: ClientRuntime.HttpResponseB
             self.useDedicatedReplicationServer = output.useDedicatedReplicationServer
         } else {
             self.associateDefaultSecurityGroup = nil
+            self.autoReplicateNewDisks = nil
             self.bandwidthThrottling = 0
             self.createPublicIP = nil
             self.dataPlaneRouting = nil
@@ -4281,6 +4305,8 @@ extension GetReplicationConfigurationOutputResponse: ClientRuntime.HttpResponseB
 public struct GetReplicationConfigurationOutputResponse: Swift.Equatable {
     /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration.
     public var associateDefaultSecurityGroup: Swift.Bool?
+    /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
+    public var autoReplicateNewDisks: Swift.Bool?
     /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps.
     public var bandwidthThrottling: Swift.Int
     /// Whether to create a Public IP for the Recovery Instance by default.
@@ -4314,6 +4340,7 @@ public struct GetReplicationConfigurationOutputResponse: Swift.Equatable {
 
     public init (
         associateDefaultSecurityGroup: Swift.Bool? = nil,
+        autoReplicateNewDisks: Swift.Bool? = nil,
         bandwidthThrottling: Swift.Int = 0,
         createPublicIP: Swift.Bool? = nil,
         dataPlaneRouting: DrsClientTypes.ReplicationConfigurationDataPlaneRouting? = nil,
@@ -4332,6 +4359,7 @@ public struct GetReplicationConfigurationOutputResponse: Swift.Equatable {
     )
     {
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
+        self.autoReplicateNewDisks = autoReplicateNewDisks
         self.bandwidthThrottling = bandwidthThrottling
         self.createPublicIP = createPublicIP
         self.dataPlaneRouting = dataPlaneRouting
@@ -4367,11 +4395,13 @@ struct GetReplicationConfigurationOutputResponseBody: Swift.Equatable {
     let createPublicIP: Swift.Bool?
     let stagingAreaTags: [Swift.String:Swift.String]?
     let pitPolicy: [DrsClientTypes.PITPolicyRule]?
+    let autoReplicateNewDisks: Swift.Bool?
 }
 
 extension GetReplicationConfigurationOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case associateDefaultSecurityGroup
+        case autoReplicateNewDisks
         case bandwidthThrottling
         case createPublicIP
         case dataPlaneRouting
@@ -4459,6 +4489,8 @@ extension GetReplicationConfigurationOutputResponseBody: Swift.Decodable {
             }
         }
         pitPolicy = pitPolicyDecoded0
+        let autoReplicateNewDisksDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoReplicateNewDisks)
+        autoReplicateNewDisks = autoReplicateNewDisksDecoded
     }
 }
 
@@ -7549,6 +7581,7 @@ extension DrsClientTypes.ReplicationConfigurationTemplate: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case associateDefaultSecurityGroup
+        case autoReplicateNewDisks
         case bandwidthThrottling
         case createPublicIP
         case dataPlaneRouting
@@ -7572,6 +7605,9 @@ extension DrsClientTypes.ReplicationConfigurationTemplate: Swift.Codable {
         }
         if let associateDefaultSecurityGroup = self.associateDefaultSecurityGroup {
             try encodeContainer.encode(associateDefaultSecurityGroup, forKey: .associateDefaultSecurityGroup)
+        }
+        if let autoReplicateNewDisks = self.autoReplicateNewDisks {
+            try encodeContainer.encode(autoReplicateNewDisks, forKey: .autoReplicateNewDisks)
         }
         if bandwidthThrottling != 0 {
             try encodeContainer.encode(bandwidthThrottling, forKey: .bandwidthThrottling)
@@ -7699,12 +7735,14 @@ extension DrsClientTypes.ReplicationConfigurationTemplate: Swift.Codable {
             }
         }
         pitPolicy = pitPolicyDecoded0
+        let autoReplicateNewDisksDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoReplicateNewDisks)
+        autoReplicateNewDisks = autoReplicateNewDisksDecoded
     }
 }
 
 extension DrsClientTypes.ReplicationConfigurationTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ReplicationConfigurationTemplate(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "ReplicationConfigurationTemplate(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 extension DrsClientTypes {
@@ -7713,6 +7751,8 @@ extension DrsClientTypes {
         public var arn: Swift.String?
         /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
         public var associateDefaultSecurityGroup: Swift.Bool?
+        /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
+        public var autoReplicateNewDisks: Swift.Bool?
         /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps.
         public var bandwidthThrottling: Swift.Int
         /// Whether to create a Public IP for the Recovery Instance by default.
@@ -7746,6 +7786,7 @@ extension DrsClientTypes {
         public init (
             arn: Swift.String? = nil,
             associateDefaultSecurityGroup: Swift.Bool? = nil,
+            autoReplicateNewDisks: Swift.Bool? = nil,
             bandwidthThrottling: Swift.Int = 0,
             createPublicIP: Swift.Bool? = nil,
             dataPlaneRouting: DrsClientTypes.ReplicationConfigurationDataPlaneRouting? = nil,
@@ -7764,6 +7805,7 @@ extension DrsClientTypes {
         {
             self.arn = arn
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
+            self.autoReplicateNewDisks = autoReplicateNewDisks
             self.bandwidthThrottling = bandwidthThrottling
             self.createPublicIP = createPublicIP
             self.dataPlaneRouting = dataPlaneRouting
@@ -7916,6 +7958,7 @@ extension RetryDataReplicationInput: ClientRuntime.URLPathProvider {
     }
 }
 
+@available(*, deprecated, message: "WARNING: RetryDataReplication is deprecated")
 public struct RetryDataReplicationInput: Swift.Equatable {
     /// The ID of the Source Server whose data replication should be retried.
     /// This member is required.
@@ -10468,12 +10511,13 @@ extension UpdateLaunchConfigurationOutputResponseBody: Swift.Decodable {
 
 extension UpdateReplicationConfigurationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateReplicationConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case associateDefaultSecurityGroup
+        case autoReplicateNewDisks
         case bandwidthThrottling
         case createPublicIP
         case dataPlaneRouting
@@ -10495,6 +10539,9 @@ extension UpdateReplicationConfigurationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let associateDefaultSecurityGroup = self.associateDefaultSecurityGroup {
             try encodeContainer.encode(associateDefaultSecurityGroup, forKey: .associateDefaultSecurityGroup)
+        }
+        if let autoReplicateNewDisks = self.autoReplicateNewDisks {
+            try encodeContainer.encode(autoReplicateNewDisks, forKey: .autoReplicateNewDisks)
         }
         if bandwidthThrottling != 0 {
             try encodeContainer.encode(bandwidthThrottling, forKey: .bandwidthThrottling)
@@ -10565,6 +10612,8 @@ extension UpdateReplicationConfigurationInput: ClientRuntime.URLPathProvider {
 public struct UpdateReplicationConfigurationInput: Swift.Equatable {
     /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration.
     public var associateDefaultSecurityGroup: Swift.Bool?
+    /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
+    public var autoReplicateNewDisks: Swift.Bool?
     /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps.
     public var bandwidthThrottling: Swift.Int
     /// Whether to create a Public IP for the Recovery Instance by default.
@@ -10599,6 +10648,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Equatable {
 
     public init (
         associateDefaultSecurityGroup: Swift.Bool? = nil,
+        autoReplicateNewDisks: Swift.Bool? = nil,
         bandwidthThrottling: Swift.Int = 0,
         createPublicIP: Swift.Bool? = nil,
         dataPlaneRouting: DrsClientTypes.ReplicationConfigurationDataPlaneRouting? = nil,
@@ -10617,6 +10667,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Equatable {
     )
     {
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
+        self.autoReplicateNewDisks = autoReplicateNewDisks
         self.bandwidthThrottling = bandwidthThrottling
         self.createPublicIP = createPublicIP
         self.dataPlaneRouting = dataPlaneRouting
@@ -10652,11 +10703,13 @@ struct UpdateReplicationConfigurationInputBody: Swift.Equatable {
     let createPublicIP: Swift.Bool?
     let stagingAreaTags: [Swift.String:Swift.String]?
     let pitPolicy: [DrsClientTypes.PITPolicyRule]?
+    let autoReplicateNewDisks: Swift.Bool?
 }
 
 extension UpdateReplicationConfigurationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case associateDefaultSecurityGroup
+        case autoReplicateNewDisks
         case bandwidthThrottling
         case createPublicIP
         case dataPlaneRouting
@@ -10744,6 +10797,8 @@ extension UpdateReplicationConfigurationInputBody: Swift.Decodable {
             }
         }
         pitPolicy = pitPolicyDecoded0
+        let autoReplicateNewDisksDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoReplicateNewDisks)
+        autoReplicateNewDisks = autoReplicateNewDisksDecoded
     }
 }
 
@@ -10783,7 +10838,7 @@ public enum UpdateReplicationConfigurationOutputError: Swift.Error, Swift.Equata
 
 extension UpdateReplicationConfigurationOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationOutputResponse(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationOutputResponse(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), name: \(Swift.String(describing: name)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicatedDisks: \(Swift.String(describing: replicatedDisks)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), sourceServerID: \(Swift.String(describing: sourceServerID)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateReplicationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -10793,6 +10848,7 @@ extension UpdateReplicationConfigurationOutputResponse: ClientRuntime.HttpRespon
             let data = reader.toBytes().getData()
             let output: UpdateReplicationConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.associateDefaultSecurityGroup = output.associateDefaultSecurityGroup
+            self.autoReplicateNewDisks = output.autoReplicateNewDisks
             self.bandwidthThrottling = output.bandwidthThrottling
             self.createPublicIP = output.createPublicIP
             self.dataPlaneRouting = output.dataPlaneRouting
@@ -10810,6 +10866,7 @@ extension UpdateReplicationConfigurationOutputResponse: ClientRuntime.HttpRespon
             self.useDedicatedReplicationServer = output.useDedicatedReplicationServer
         } else {
             self.associateDefaultSecurityGroup = nil
+            self.autoReplicateNewDisks = nil
             self.bandwidthThrottling = 0
             self.createPublicIP = nil
             self.dataPlaneRouting = nil
@@ -10832,6 +10889,8 @@ extension UpdateReplicationConfigurationOutputResponse: ClientRuntime.HttpRespon
 public struct UpdateReplicationConfigurationOutputResponse: Swift.Equatable {
     /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration.
     public var associateDefaultSecurityGroup: Swift.Bool?
+    /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
+    public var autoReplicateNewDisks: Swift.Bool?
     /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps.
     public var bandwidthThrottling: Swift.Int
     /// Whether to create a Public IP for the Recovery Instance by default.
@@ -10865,6 +10924,7 @@ public struct UpdateReplicationConfigurationOutputResponse: Swift.Equatable {
 
     public init (
         associateDefaultSecurityGroup: Swift.Bool? = nil,
+        autoReplicateNewDisks: Swift.Bool? = nil,
         bandwidthThrottling: Swift.Int = 0,
         createPublicIP: Swift.Bool? = nil,
         dataPlaneRouting: DrsClientTypes.ReplicationConfigurationDataPlaneRouting? = nil,
@@ -10883,6 +10943,7 @@ public struct UpdateReplicationConfigurationOutputResponse: Swift.Equatable {
     )
     {
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
+        self.autoReplicateNewDisks = autoReplicateNewDisks
         self.bandwidthThrottling = bandwidthThrottling
         self.createPublicIP = createPublicIP
         self.dataPlaneRouting = dataPlaneRouting
@@ -10918,11 +10979,13 @@ struct UpdateReplicationConfigurationOutputResponseBody: Swift.Equatable {
     let createPublicIP: Swift.Bool?
     let stagingAreaTags: [Swift.String:Swift.String]?
     let pitPolicy: [DrsClientTypes.PITPolicyRule]?
+    let autoReplicateNewDisks: Swift.Bool?
 }
 
 extension UpdateReplicationConfigurationOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case associateDefaultSecurityGroup
+        case autoReplicateNewDisks
         case bandwidthThrottling
         case createPublicIP
         case dataPlaneRouting
@@ -11010,18 +11073,21 @@ extension UpdateReplicationConfigurationOutputResponseBody: Swift.Decodable {
             }
         }
         pitPolicy = pitPolicyDecoded0
+        let autoReplicateNewDisksDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoReplicateNewDisks)
+        autoReplicateNewDisks = autoReplicateNewDisksDecoded
     }
 }
 
 extension UpdateReplicationConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationTemplateInput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationTemplateInput(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateReplicationConfigurationTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case associateDefaultSecurityGroup
+        case autoReplicateNewDisks
         case bandwidthThrottling
         case createPublicIP
         case dataPlaneRouting
@@ -11044,6 +11110,9 @@ extension UpdateReplicationConfigurationTemplateInput: Swift.Encodable {
         }
         if let associateDefaultSecurityGroup = self.associateDefaultSecurityGroup {
             try encodeContainer.encode(associateDefaultSecurityGroup, forKey: .associateDefaultSecurityGroup)
+        }
+        if let autoReplicateNewDisks = self.autoReplicateNewDisks {
+            try encodeContainer.encode(autoReplicateNewDisks, forKey: .autoReplicateNewDisks)
         }
         if bandwidthThrottling != 0 {
             try encodeContainer.encode(bandwidthThrottling, forKey: .bandwidthThrottling)
@@ -11107,6 +11176,8 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Equatable {
     public var arn: Swift.String?
     /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
     public var associateDefaultSecurityGroup: Swift.Bool?
+    /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
+    public var autoReplicateNewDisks: Swift.Bool?
     /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps.
     public var bandwidthThrottling: Swift.Int
     /// Whether to create a Public IP for the Recovery Instance by default.
@@ -11138,6 +11209,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Equatable {
     public init (
         arn: Swift.String? = nil,
         associateDefaultSecurityGroup: Swift.Bool? = nil,
+        autoReplicateNewDisks: Swift.Bool? = nil,
         bandwidthThrottling: Swift.Int = 0,
         createPublicIP: Swift.Bool? = nil,
         dataPlaneRouting: DrsClientTypes.ReplicationConfigurationDataPlaneRouting? = nil,
@@ -11155,6 +11227,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Equatable {
     {
         self.arn = arn
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
+        self.autoReplicateNewDisks = autoReplicateNewDisks
         self.bandwidthThrottling = bandwidthThrottling
         self.createPublicIP = createPublicIP
         self.dataPlaneRouting = dataPlaneRouting
@@ -11187,12 +11260,14 @@ struct UpdateReplicationConfigurationTemplateInputBody: Swift.Equatable {
     let createPublicIP: Swift.Bool?
     let stagingAreaTags: [Swift.String:Swift.String]?
     let pitPolicy: [DrsClientTypes.PITPolicyRule]?
+    let autoReplicateNewDisks: Swift.Bool?
 }
 
 extension UpdateReplicationConfigurationTemplateInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case associateDefaultSecurityGroup
+        case autoReplicateNewDisks
         case bandwidthThrottling
         case createPublicIP
         case dataPlaneRouting
@@ -11267,6 +11342,8 @@ extension UpdateReplicationConfigurationTemplateInputBody: Swift.Decodable {
             }
         }
         pitPolicy = pitPolicyDecoded0
+        let autoReplicateNewDisksDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoReplicateNewDisks)
+        autoReplicateNewDisks = autoReplicateNewDisksDecoded
     }
 }
 
@@ -11304,7 +11381,7 @@ public enum UpdateReplicationConfigurationTemplateOutputError: Swift.Error, Swif
 
 extension UpdateReplicationConfigurationTemplateOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateReplicationConfigurationTemplateOutputResponse(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "UpdateReplicationConfigurationTemplateOutputResponse(arn: \(Swift.String(describing: arn)), associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationConfigurationTemplateID: \(Swift.String(describing: replicationConfigurationTemplateID)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateReplicationConfigurationTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11315,6 +11392,7 @@ extension UpdateReplicationConfigurationTemplateOutputResponse: ClientRuntime.Ht
             let output: UpdateReplicationConfigurationTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.associateDefaultSecurityGroup = output.associateDefaultSecurityGroup
+            self.autoReplicateNewDisks = output.autoReplicateNewDisks
             self.bandwidthThrottling = output.bandwidthThrottling
             self.createPublicIP = output.createPublicIP
             self.dataPlaneRouting = output.dataPlaneRouting
@@ -11332,6 +11410,7 @@ extension UpdateReplicationConfigurationTemplateOutputResponse: ClientRuntime.Ht
         } else {
             self.arn = nil
             self.associateDefaultSecurityGroup = nil
+            self.autoReplicateNewDisks = nil
             self.bandwidthThrottling = 0
             self.createPublicIP = nil
             self.dataPlaneRouting = nil
@@ -11355,6 +11434,8 @@ public struct UpdateReplicationConfigurationTemplateOutputResponse: Swift.Equata
     public var arn: Swift.String?
     /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
     public var associateDefaultSecurityGroup: Swift.Bool?
+    /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
+    public var autoReplicateNewDisks: Swift.Bool?
     /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps.
     public var bandwidthThrottling: Swift.Int
     /// Whether to create a Public IP for the Recovery Instance by default.
@@ -11388,6 +11469,7 @@ public struct UpdateReplicationConfigurationTemplateOutputResponse: Swift.Equata
     public init (
         arn: Swift.String? = nil,
         associateDefaultSecurityGroup: Swift.Bool? = nil,
+        autoReplicateNewDisks: Swift.Bool? = nil,
         bandwidthThrottling: Swift.Int = 0,
         createPublicIP: Swift.Bool? = nil,
         dataPlaneRouting: DrsClientTypes.ReplicationConfigurationDataPlaneRouting? = nil,
@@ -11406,6 +11488,7 @@ public struct UpdateReplicationConfigurationTemplateOutputResponse: Swift.Equata
     {
         self.arn = arn
         self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
+        self.autoReplicateNewDisks = autoReplicateNewDisks
         self.bandwidthThrottling = bandwidthThrottling
         self.createPublicIP = createPublicIP
         self.dataPlaneRouting = dataPlaneRouting
@@ -11440,12 +11523,14 @@ struct UpdateReplicationConfigurationTemplateOutputResponseBody: Swift.Equatable
     let stagingAreaTags: [Swift.String:Swift.String]?
     let tags: [Swift.String:Swift.String]?
     let pitPolicy: [DrsClientTypes.PITPolicyRule]?
+    let autoReplicateNewDisks: Swift.Bool?
 }
 
 extension UpdateReplicationConfigurationTemplateOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case associateDefaultSecurityGroup
+        case autoReplicateNewDisks
         case bandwidthThrottling
         case createPublicIP
         case dataPlaneRouting
@@ -11532,6 +11617,8 @@ extension UpdateReplicationConfigurationTemplateOutputResponseBody: Swift.Decoda
             }
         }
         pitPolicy = pitPolicyDecoded0
+        let autoReplicateNewDisksDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoReplicateNewDisks)
+        autoReplicateNewDisks = autoReplicateNewDisksDecoded
     }
 }
 

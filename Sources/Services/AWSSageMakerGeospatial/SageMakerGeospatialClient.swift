@@ -194,7 +194,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         return result
     }
 
-    /// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an S3 location.
+    /// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 location.
     public func exportEarthObservationJob(input: ExportEarthObservationJobInput) async throws -> ExportEarthObservationJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -211,6 +211,14 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<ExportEarthObservationJobInput, ExportEarthObservationJobOutputResponse, ExportEarthObservationJobOutputError>(id: "exportEarthObservationJob")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ExportEarthObservationJobOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.clientToken == nil {
+                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportEarthObservationJobInput, ExportEarthObservationJobOutputResponse, ExportEarthObservationJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportEarthObservationJobInput, ExportEarthObservationJobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -229,7 +237,7 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
         return result
     }
 
-    /// Use this operation to copy results of a Vector Enrichment job to an S3 location.
+    /// Use this operation to copy results of a Vector Enrichment job to an Amazon S3 location.
     public func exportVectorEnrichmentJob(input: ExportVectorEnrichmentJobInput) async throws -> ExportVectorEnrichmentJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -246,6 +254,14 @@ extension SageMakerGeospatialClient: SageMakerGeospatialClientProtocol {
                       .withSigningName(value: "sagemaker-geospatial")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<ExportVectorEnrichmentJobInput, ExportVectorEnrichmentJobOutputResponse, ExportVectorEnrichmentJobOutputError>(id: "exportVectorEnrichmentJob")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ExportVectorEnrichmentJobOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.clientToken == nil {
+                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportVectorEnrichmentJobInput, ExportVectorEnrichmentJobOutputResponse, ExportVectorEnrichmentJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportVectorEnrichmentJobInput, ExportVectorEnrichmentJobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)

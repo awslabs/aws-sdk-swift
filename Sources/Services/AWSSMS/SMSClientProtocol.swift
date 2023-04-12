@@ -8,6 +8,7 @@ import ClientRuntime
 /// * [Server Migration Service product page](http://aws.amazon.com/server-migration-service/)
 ///
 /// * [Server Migration Service User Guide](https://docs.aws.amazon.com/server-migration-service/latest/userguide/)
+@available(*, deprecated, message: "AWS Server Migration Service is Deprecated.")
 public protocol SMSClientProtocol {
     /// Creates an application. An application consists of one or more server groups. Each server group contain one or more servers.
     func createApp(input: CreateAppInput) async throws -> CreateAppOutputResponse

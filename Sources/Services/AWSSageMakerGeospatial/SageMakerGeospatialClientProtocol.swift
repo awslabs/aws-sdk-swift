@@ -9,9 +9,9 @@ public protocol SageMakerGeospatialClientProtocol {
     func deleteEarthObservationJob(input: DeleteEarthObservationJobInput) async throws -> DeleteEarthObservationJobOutputResponse
     /// Use this operation to delete a Vector Enrichment job.
     func deleteVectorEnrichmentJob(input: DeleteVectorEnrichmentJobInput) async throws -> DeleteVectorEnrichmentJobOutputResponse
-    /// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an S3 location.
+    /// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 location.
     func exportEarthObservationJob(input: ExportEarthObservationJobInput) async throws -> ExportEarthObservationJobOutputResponse
-    /// Use this operation to copy results of a Vector Enrichment job to an S3 location.
+    /// Use this operation to copy results of a Vector Enrichment job to an Amazon S3 location.
     func exportVectorEnrichmentJob(input: ExportVectorEnrichmentJobInput) async throws -> ExportVectorEnrichmentJobOutputResponse
     /// Get the details for a previously initiated Earth Observation job.
     func getEarthObservationJob(input: GetEarthObservationJobInput) async throws -> GetEarthObservationJobOutputResponse

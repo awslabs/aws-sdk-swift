@@ -161,7 +161,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
         return result
     }
 
-    /// Attaches one or more target groups to the specified Auto Scaling group. This operation is used with the following load balancer types:
+    /// This API operation is superseded by [AttachTrafficSources], which can attach multiple traffic sources types. We recommend using AttachTrafficSources to simplify how you manage traffic sources. However, we continue to support AttachLoadBalancerTargetGroups. You can use both the original AttachLoadBalancerTargetGroups API operation and AttachTrafficSources on the same Auto Scaling group. Attaches one or more target groups to the specified Auto Scaling group. This operation is used with the following load balancer types:
     ///
     /// * Application Load Balancer - Operates at the application layer (layer 7) and supports HTTP and HTTPS.
     ///
@@ -205,7 +205,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
         return result
     }
 
-    /// To attach an Application Load Balancer, Network Load Balancer, or Gateway Load Balancer, use the [AttachLoadBalancerTargetGroups] API operation instead. Attaches one or more Classic Load Balancers to the specified Auto Scaling group. Amazon EC2 Auto Scaling registers the running instances with these Classic Load Balancers. To describe the load balancers for an Auto Scaling group, call the [DescribeLoadBalancers] API. To detach a load balancer from the Auto Scaling group, call the [DetachLoadBalancers] API. This operation is additive and does not detach existing Classic Load Balancers or target groups from the Auto Scaling group. For more information, see [Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-load-balancer.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// This API operation is superseded by [AttachTrafficSources], which can attach multiple traffic sources types. We recommend using AttachTrafficSources to simplify how you manage traffic sources. However, we continue to support AttachLoadBalancers. You can use both the original AttachLoadBalancers API operation and AttachTrafficSources on the same Auto Scaling group. Attaches one or more Classic Load Balancers to the specified Auto Scaling group. Amazon EC2 Auto Scaling registers the running instances with these Classic Load Balancers. To describe the load balancers for an Auto Scaling group, call the [DescribeLoadBalancers] API. To detach a load balancer from the Auto Scaling group, call the [DetachLoadBalancers] API. This operation is additive and does not detach existing Classic Load Balancers or target groups from the Auto Scaling group. For more information, see [Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-load-balancer.html) in the Amazon EC2 Auto Scaling User Guide.
     public func attachLoadBalancers(input: AttachLoadBalancersInput) async throws -> AttachLoadBalancersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -240,7 +240,20 @@ extension AutoScalingClient: AutoScalingClientProtocol {
         return result
     }
 
-    /// Reserved for use with Amazon VPC Lattice, which is in preview and subject to change. Do not use this API for production workloads. This API is also subject to change. Attaches one or more traffic sources to the specified Auto Scaling group. To describe the traffic sources for an Auto Scaling group, call the [DescribeTrafficSources] API. To detach a traffic source from the Auto Scaling group, call the [DetachTrafficSources] API. This operation is additive and does not detach existing traffic sources from the Auto Scaling group.
+    /// Attaches one or more traffic sources to the specified Auto Scaling group. You can use any of the following as traffic sources for an Auto Scaling group:
+    ///
+    /// * Application Load Balancer
+    ///
+    /// * Classic Load Balancer
+    ///
+    /// * Gateway Load Balancer
+    ///
+    /// * Network Load Balancer
+    ///
+    /// * VPC Lattice
+    ///
+    ///
+    /// This operation is additive and does not detach existing traffic sources from the Auto Scaling group. After the operation completes, use the [DescribeTrafficSources] API to return details about the state of the attachments between traffic sources and your Auto Scaling group. To detach a traffic source from the Auto Scaling group, call the [DetachTrafficSources] API.
     public func attachTrafficSources(input: AttachTrafficSourcesInput) async throws -> AttachTrafficSourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1140,7 +1153,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
         return result
     }
 
-    /// Gets information about the Elastic Load Balancing target groups for the specified Auto Scaling group. To determine the attachment status of the target group, use the State element in the response. When you attach a target group to an Auto Scaling group, the initial State value is Adding. The state transitions to Added after all Auto Scaling instances are registered with the target group. If Elastic Load Balancing health checks are enabled for the Auto Scaling group, the state transitions to InService after at least one Auto Scaling instance passes the health check. When the target group is in the InService state, Amazon EC2 Auto Scaling can terminate and replace any instances that are reported as unhealthy. If no registered instances pass the health checks, the target group doesn't enter the InService state. Target groups also have an InService state if you attach them in the [CreateAutoScalingGroup] API call. If your target group state is InService, but it is not working properly, check the scaling activities by calling [DescribeScalingActivities] and take any corrective actions necessary. For help with failed health checks, see [Troubleshooting Amazon EC2 Auto Scaling: Health checks](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ts-as-healthchecks.html) in the Amazon EC2 Auto Scaling User Guide. For more information, see [Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-load-balancer.html) in the Amazon EC2 Auto Scaling User Guide. You can use this operation to describe target groups that were attached by using [AttachLoadBalancerTargetGroups], but not for target groups that were attached by using [AttachTrafficSources].
+    /// This API operation is superseded by [DescribeTrafficSources], which can describe multiple traffic sources types. We recommend using DetachTrafficSources to simplify how you manage traffic sources. However, we continue to support DescribeLoadBalancerTargetGroups. You can use both the original DescribeLoadBalancerTargetGroups API operation and DescribeTrafficSources on the same Auto Scaling group. Gets information about the Elastic Load Balancing target groups for the specified Auto Scaling group. To determine the attachment status of the target group, use the State element in the response. When you attach a target group to an Auto Scaling group, the initial State value is Adding. The state transitions to Added after all Auto Scaling instances are registered with the target group. If Elastic Load Balancing health checks are enabled for the Auto Scaling group, the state transitions to InService after at least one Auto Scaling instance passes the health check. When the target group is in the InService state, Amazon EC2 Auto Scaling can terminate and replace any instances that are reported as unhealthy. If no registered instances pass the health checks, the target group doesn't enter the InService state. Target groups also have an InService state if you attach them in the [CreateAutoScalingGroup] API call. If your target group state is InService, but it is not working properly, check the scaling activities by calling [DescribeScalingActivities] and take any corrective actions necessary. For help with failed health checks, see [Troubleshooting Amazon EC2 Auto Scaling: Health checks](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ts-as-healthchecks.html) in the Amazon EC2 Auto Scaling User Guide. For more information, see [Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-load-balancer.html) in the Amazon EC2 Auto Scaling User Guide. You can use this operation to describe target groups that were attached by using [AttachLoadBalancerTargetGroups], but not for target groups that were attached by using [AttachTrafficSources].
     public func describeLoadBalancerTargetGroups(input: DescribeLoadBalancerTargetGroupsInput) async throws -> DescribeLoadBalancerTargetGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1175,7 +1188,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
         return result
     }
 
-    /// Gets information about the load balancers for the specified Auto Scaling group. This operation describes only Classic Load Balancers. If you have Application Load Balancers, Network Load Balancers, or Gateway Load Balancer, use the [DescribeLoadBalancerTargetGroups] API instead. To determine the attachment status of the load balancer, use the State element in the response. When you attach a load balancer to an Auto Scaling group, the initial State value is Adding. The state transitions to Added after all Auto Scaling instances are registered with the load balancer. If Elastic Load Balancing health checks are enabled for the Auto Scaling group, the state transitions to InService after at least one Auto Scaling instance passes the health check. When the load balancer is in the InService state, Amazon EC2 Auto Scaling can terminate and replace any instances that are reported as unhealthy. If no registered instances pass the health checks, the load balancer doesn't enter the InService state. Load balancers also have an InService state if you attach them in the [CreateAutoScalingGroup] API call. If your load balancer state is InService, but it is not working properly, check the scaling activities by calling [DescribeScalingActivities] and take any corrective actions necessary. For help with failed health checks, see [Troubleshooting Amazon EC2 Auto Scaling: Health checks](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ts-as-healthchecks.html) in the Amazon EC2 Auto Scaling User Guide. For more information, see [Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-load-balancer.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// This API operation is superseded by [DescribeTrafficSources], which can describe multiple traffic sources types. We recommend using DescribeTrafficSources to simplify how you manage traffic sources. However, we continue to support DescribeLoadBalancers. You can use both the original DescribeLoadBalancers API operation and DescribeTrafficSources on the same Auto Scaling group. Gets information about the load balancers for the specified Auto Scaling group. This operation describes only Classic Load Balancers. If you have Application Load Balancers, Network Load Balancers, or Gateway Load Balancers, use the [DescribeLoadBalancerTargetGroups] API instead. To determine the attachment status of the load balancer, use the State element in the response. When you attach a load balancer to an Auto Scaling group, the initial State value is Adding. The state transitions to Added after all Auto Scaling instances are registered with the load balancer. If Elastic Load Balancing health checks are enabled for the Auto Scaling group, the state transitions to InService after at least one Auto Scaling instance passes the health check. When the load balancer is in the InService state, Amazon EC2 Auto Scaling can terminate and replace any instances that are reported as unhealthy. If no registered instances pass the health checks, the load balancer doesn't enter the InService state. Load balancers also have an InService state if you attach them in the [CreateAutoScalingGroup] API call. If your load balancer state is InService, but it is not working properly, check the scaling activities by calling [DescribeScalingActivities] and take any corrective actions necessary. For help with failed health checks, see [Troubleshooting Amazon EC2 Auto Scaling: Health checks](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ts-as-healthchecks.html) in the Amazon EC2 Auto Scaling User Guide. For more information, see [Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-load-balancer.html) in the Amazon EC2 Auto Scaling User Guide.
     public func describeLoadBalancers(input: DescribeLoadBalancersInput) async throws -> DescribeLoadBalancersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1490,7 +1503,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
         return result
     }
 
-    /// Reserved for use with Amazon VPC Lattice, which is in preview and subject to change. Do not use this API for production workloads. This API is also subject to change. Gets information about the traffic sources for the specified Auto Scaling group.
+    /// Gets information about the traffic sources for the specified Auto Scaling group. You can optionally provide a traffic source type. If you provide a traffic source type, then the results only include that traffic source type. If you do not provide a traffic source type, then the results include all the traffic sources for the specified Auto Scaling group.
     public func describeTrafficSources(input: DescribeTrafficSourcesInput) async throws -> DescribeTrafficSourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1595,7 +1608,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
         return result
     }
 
-    /// Detaches one or more target groups from the specified Auto Scaling group. When you detach a target group, it enters the Removing state while deregistering the instances in the group. When all instances are deregistered, then you can no longer describe the target group using the [DescribeLoadBalancerTargetGroups] API call. The instances remain running. You can use this operation to detach target groups that were attached by using [AttachLoadBalancerTargetGroups], but not for target groups that were attached by using [AttachTrafficSources].
+    /// This API operation is superseded by [DetachTrafficSources], which can detach multiple traffic sources types. We recommend using DetachTrafficSources to simplify how you manage traffic sources. However, we continue to support DetachLoadBalancerTargetGroups. You can use both the original DetachLoadBalancerTargetGroups API operation and DetachTrafficSources on the same Auto Scaling group. Detaches one or more target groups from the specified Auto Scaling group. When you detach a target group, it enters the Removing state while deregistering the instances in the group. When all instances are deregistered, then you can no longer describe the target group using the [DescribeLoadBalancerTargetGroups] API call. The instances remain running. You can use this operation to detach target groups that were attached by using [AttachLoadBalancerTargetGroups], but not for target groups that were attached by using [AttachTrafficSources].
     public func detachLoadBalancerTargetGroups(input: DetachLoadBalancerTargetGroupsInput) async throws -> DetachLoadBalancerTargetGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1630,7 +1643,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
         return result
     }
 
-    /// Detaches one or more Classic Load Balancers from the specified Auto Scaling group. This operation detaches only Classic Load Balancers. If you have Application Load Balancers, Network Load Balancers, or Gateway Load Balancer, use the [DetachLoadBalancerTargetGroups] API instead. When you detach a load balancer, it enters the Removing state while deregistering the instances in the group. When all instances are deregistered, then you can no longer describe the load balancer using the [DescribeLoadBalancers] API call. The instances remain running.
+    /// This API operation is superseded by [DetachTrafficSources], which can detach multiple traffic sources types. We recommend using DetachTrafficSources to simplify how you manage traffic sources. However, we continue to support DetachLoadBalancers. You can use both the original DetachLoadBalancers API operation and DetachTrafficSources on the same Auto Scaling group. Detaches one or more Classic Load Balancers from the specified Auto Scaling group. This operation detaches only Classic Load Balancers. If you have Application Load Balancers, Network Load Balancers, or Gateway Load Balancers, use the [DetachLoadBalancerTargetGroups] API instead. When you detach a load balancer, it enters the Removing state while deregistering the instances in the group. When all instances are deregistered, then you can no longer describe the load balancer using the [DescribeLoadBalancers] API call. The instances remain running.
     public func detachLoadBalancers(input: DetachLoadBalancersInput) async throws -> DetachLoadBalancersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1665,7 +1678,7 @@ extension AutoScalingClient: AutoScalingClientProtocol {
         return result
     }
 
-    /// Reserved for use with Amazon VPC Lattice, which is in preview and subject to change. Do not use this API for production workloads. This API is also subject to change. Detaches one or more traffic sources from the specified Auto Scaling group.
+    /// Detaches one or more traffic sources from the specified Auto Scaling group. When you detach a taffic, it enters the Removing state while deregistering the instances in the group. When all instances are deregistered, then you can no longer describe the traffic source using the [DescribeTrafficSources] API call. The instances continue to run.
     public func detachTrafficSources(input: DetachTrafficSourcesInput) async throws -> DetachTrafficSourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

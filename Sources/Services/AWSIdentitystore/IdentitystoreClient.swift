@@ -202,7 +202,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
         return result
     }
 
-    /// Creates a new user within the specified identity store.
+    /// Creates a user within the specified identity store.
     public func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

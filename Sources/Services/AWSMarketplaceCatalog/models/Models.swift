@@ -19,7 +19,7 @@ extension AccessDeniedException {
     }
 }
 
-/// Access is denied.
+/// Access is denied. HTTP status code: 403
 public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -251,10 +251,10 @@ extension MarketplaceCatalogClientTypes {
     public struct Change: Swift.Equatable {
         /// Optional name for the change.
         public var changeName: Swift.String?
-        /// Change types are single string values that describe your intention for the change. Each change type is unique for each EntityType provided in the change's scope.
+        /// Change types are single string values that describe your intention for the change. Each change type is unique for each EntityType provided in the change's scope. For more information on change types available for single-AMI products, see [Working with single-AMI products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products). Also, for more information on change types available for container-based products, see [Working with container products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products).
         /// This member is required.
         public var changeType: Swift.String?
-        /// This object contains details specific to the change type of the requested change.
+        /// This object contains details specific to the change type of the requested change. For more information on change types available for single-AMI products, see [Working with single-AMI products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products). Also, for more information on change types available for container-based products, see [Working with container products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products).
         /// This member is required.
         public var details: Swift.String?
         /// The entity to be changed.
@@ -524,6 +524,89 @@ extension MarketplaceCatalogClientTypes {
         }
     }
 
+}
+
+extension DeleteResourcePolicyInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let resourceArn = resourceArn else {
+                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+            items.append(resourceArnQueryItem)
+            return items
+        }
+    }
+}
+
+extension DeleteResourcePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/DeleteResourcePolicy"
+    }
+}
+
+public struct DeleteResourcePolicyInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the Entity resource that is associated with the resource policy.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init (
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct DeleteResourcePolicyInputBody: Swift.Equatable {
+}
+
+extension DeleteResourcePolicyInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteResourcePolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteResourcePolicyOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServiceException(InternalServiceException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteResourcePolicyOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension DescribeChangeSetInput: ClientRuntime.QueryItemProvider {
@@ -1186,6 +1269,120 @@ extension MarketplaceCatalogClientTypes {
 
 }
 
+extension GetResourcePolicyInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let resourceArn = resourceArn else {
+                let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let resourceArnQueryItem = ClientRuntime.URLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+            items.append(resourceArnQueryItem)
+            return items
+        }
+    }
+}
+
+extension GetResourcePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/GetResourcePolicy"
+    }
+}
+
+public struct GetResourcePolicyInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the Entity resource that is associated with the resource policy.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init (
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct GetResourcePolicyInputBody: Swift.Equatable {
+}
+
+extension GetResourcePolicyInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetResourcePolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetResourcePolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetResourcePolicyOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServiceException(InternalServiceException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.policy = output.policy
+        } else {
+            self.policy = nil
+        }
+    }
+}
+
+public struct GetResourcePolicyOutputResponse: Swift.Equatable {
+    /// The policy document to set; formatted in JSON.
+    public var policy: Swift.String?
+
+    public init (
+        policy: Swift.String? = nil
+    )
+    {
+        self.policy = policy
+    }
+}
+
+struct GetResourcePolicyOutputResponseBody: Swift.Equatable {
+    let policy: Swift.String?
+}
+
+extension GetResourcePolicyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policy = "Policy"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
+        policy = policyDecoded
+    }
+}
+
 extension InternalServiceException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1203,7 +1400,7 @@ extension InternalServiceException {
     }
 }
 
-/// There was an internal service exception.
+/// There was an internal service exception. HTTP status code: 500
 public struct InternalServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -1441,6 +1638,7 @@ extension ListEntitiesInput: Swift.Encodable {
         case filterList = "FilterList"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case ownershipType = "OwnershipType"
         case sort = "Sort"
     }
 
@@ -1463,6 +1661,9 @@ extension ListEntitiesInput: Swift.Encodable {
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let ownershipType = self.ownershipType {
+            try encodeContainer.encode(ownershipType.rawValue, forKey: .ownershipType)
         }
         if let sort = self.sort {
             try encodeContainer.encode(sort, forKey: .sort)
@@ -1489,6 +1690,7 @@ public struct ListEntitiesInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// The value of the next token, if it exists. Null if there are no more results.
     public var nextToken: Swift.String?
+    public var ownershipType: MarketplaceCatalogClientTypes.OwnershipType?
     /// An object that contains two attributes, SortBy and SortOrder.
     public var sort: MarketplaceCatalogClientTypes.Sort?
 
@@ -1498,6 +1700,7 @@ public struct ListEntitiesInput: Swift.Equatable {
         filterList: [MarketplaceCatalogClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        ownershipType: MarketplaceCatalogClientTypes.OwnershipType? = nil,
         sort: MarketplaceCatalogClientTypes.Sort? = nil
     )
     {
@@ -1506,6 +1709,7 @@ public struct ListEntitiesInput: Swift.Equatable {
         self.filterList = filterList
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.ownershipType = ownershipType
         self.sort = sort
     }
 }
@@ -1517,6 +1721,7 @@ struct ListEntitiesInputBody: Swift.Equatable {
     let sort: MarketplaceCatalogClientTypes.Sort?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let ownershipType: MarketplaceCatalogClientTypes.OwnershipType?
 }
 
 extension ListEntitiesInputBody: Swift.Decodable {
@@ -1526,6 +1731,7 @@ extension ListEntitiesInputBody: Swift.Decodable {
         case filterList = "FilterList"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case ownershipType = "OwnershipType"
         case sort = "Sort"
     }
 
@@ -1552,6 +1758,8 @@ extension ListEntitiesInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let ownershipTypeDecoded = try containerValues.decodeIfPresent(MarketplaceCatalogClientTypes.OwnershipType.self, forKey: .ownershipType)
+        ownershipType = ownershipTypeDecoded
     }
 }
 
@@ -1783,6 +1991,139 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension MarketplaceCatalogClientTypes {
+    public enum OwnershipType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `self`
+        case shared
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OwnershipType] {
+            return [
+                .self,
+                .shared,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .self: return "SELF"
+            case .shared: return "SHARED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = OwnershipType(rawValue: rawValue) ?? OwnershipType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PutResourcePolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policy = "Policy"
+        case resourceArn = "ResourceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let policy = self.policy {
+            try encodeContainer.encode(policy, forKey: .policy)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+    }
+}
+
+extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/PutResourcePolicy"
+    }
+}
+
+public struct PutResourcePolicyInput: Swift.Equatable {
+    /// The policy document to set; formatted in JSON.
+    /// This member is required.
+    public var policy: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Entity resource you want to associate with a resource policy.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init (
+        policy: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.policy = policy
+        self.resourceArn = resourceArn
+    }
+}
+
+struct PutResourcePolicyInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+    let policy: Swift.String?
+}
+
+extension PutResourcePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policy = "Policy"
+        case resourceArn = "ResourceArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
+        policy = policyDecoded
+    }
+}
+
+extension PutResourcePolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PutResourcePolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum PutResourcePolicyOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServiceException(InternalServiceException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct PutResourcePolicyOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension ResourceInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1852,7 +2193,7 @@ extension ResourceNotFoundException {
     }
 }
 
-/// The specified resource wasn't found.
+/// The specified resource wasn't found. HTTP status code: 404
 public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -2451,7 +2792,7 @@ extension ThrottlingException {
     }
 }
 
-/// Too many requests.
+/// Too many requests. HTTP status code: 429
 public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -2616,7 +2957,7 @@ extension ValidationException {
     }
 }
 
-/// An error occurred during validation.
+/// An error occurred during validation. HTTP status code: 422
 public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?

@@ -925,20 +925,20 @@ extension CreateTimelineEventInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateTimelineEventInput: Swift.Equatable {
-    /// A token ensuring that the action is called only once with the specified details.
+    /// A token that ensures that a client calls the action only once with the specified details.
     public var clientToken: Swift.String?
     /// A short description of the event.
     /// This member is required.
     public var eventData: Swift.String?
-    /// Adds one or more references to the TimelineEvent. A reference can be an Amazon Web Services resource involved in the incident or in some way associated with it. When you specify a reference, you enter the Amazon Resource Name (ARN) of the resource. You can also specify a related item. As an example, you could specify the ARN of an Amazon DynamoDB (DynamoDB) table. The table for this example is the resource. You could also specify a Amazon CloudWatch metric for that table. The metric is the related item.
+    /// Adds one or more references to the TimelineEvent. A reference is an Amazon Web Services resource involved or associated with the incident. To specify a reference, enter its Amazon Resource Name (ARN). You can also specify a related item associated with a resource. For example, to specify an Amazon DynamoDB (DynamoDB) table as a resource, use the table's ARN. You can also specify an Amazon CloudWatch metric associated with the DynamoDB table as a related item.
     public var eventReferences: [SSMIncidentsClientTypes.EventReference]?
     /// The time that the event occurred.
     /// This member is required.
     public var eventTime: ClientRuntime.Date?
-    /// The type of the event. You can create timeline events of type Custom Event.
+    /// The type of event. You can create timeline events of type Custom Event.
     /// This member is required.
     public var eventType: Swift.String?
-    /// The Amazon Resource Name (ARN) of the incident record to which the event will be added.
+    /// The Amazon Resource Name (ARN) of the incident record that the action adds the incident to.
     /// This member is required.
     public var incidentRecordArn: Swift.String?
 
@@ -1506,7 +1506,7 @@ extension DeleteTimelineEventInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteTimelineEventInput: Swift.Equatable {
-    /// The ID of the event you are updating. You can find this by using ListTimelineEvents.
+    /// The ID of the event to update. You can use ListTimelineEvents to find an event's ID.
     /// This member is required.
     public var eventId: Swift.String?
     /// The Amazon Resource Name (ARN) of the incident that includes the timeline event.
@@ -3387,7 +3387,7 @@ extension ListIncidentRecordsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListIncidentRecordsInput: Swift.Equatable {
-    /// Filters the list of incident records through which you are searching. You can filter on the following keys:
+    /// Filters the list of incident records you want to search through. You can filter on the following keys:
     ///
     /// * creationTime
     ///
@@ -3398,7 +3398,7 @@ public struct ListIncidentRecordsInput: Swift.Equatable {
     /// * createdBy
     ///
     ///
-    /// Note the following when deciding how to use Filters:
+    /// Note the following when when you use Filters:
     ///
     /// * If you don't specify a Filter, the response includes all incident records.
     ///
@@ -4157,7 +4157,7 @@ extension ListTimelineEventsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTimelineEventsInput: Swift.Equatable {
-    /// Filters the timeline events based on the provided conditional values. You can filter timeline events using the following keys:
+    /// Filters the timeline events based on the provided conditional values. You can filter timeline events with the following keys:
     ///
     /// * eventTime
     ///
@@ -4179,7 +4179,7 @@ public struct ListTimelineEventsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// The pagination token to continue to the next page of results.
     public var nextToken: Swift.String?
-    /// Sort by the specified key value pair.
+    /// Sort timeline events by the specified key value pair.
     public var sortBy: SSMIncidentsClientTypes.TimelineEventSort?
     /// Sorts the order of timeline events by the value specified in the sortBy field.
     public var sortOrder: SSMIncidentsClientTypes.SortOrder?
@@ -5668,7 +5668,7 @@ public struct StartIncidentInput: Swift.Equatable {
     ///
     /// * 5 - No impact, customers aren't currently impacted but urgent action is needed to avoid impact.
     public var impact: Swift.Int?
-    /// Add related items to the incident for other responders to use. Related items are AWS resources, external links, or files uploaded to an Amazon S3 bucket.
+    /// Add related items to the incident for other responders to use. Related items are Amazon Web Services resources, external links, or files uploaded to an Amazon S3 bucket.
     public var relatedItems: [SSMIncidentsClientTypes.RelatedItem]?
     /// The Amazon Resource Name (ARN) of the response plan that pre-defines summary, chat channels, Amazon SNS topics, runbooks, title, and impact of the incident.
     /// This member is required.
@@ -6475,9 +6475,9 @@ public struct UpdateIncidentRecordInput: Swift.Equatable {
     public var arn: Swift.String?
     /// The Chatbot chat channel where responders can collaborate.
     public var chatChannel: SSMIncidentsClientTypes.ChatChannel?
-    /// A token that ensures that the operation is called only once with the specified details.
+    /// A token that ensures that a client calls the operation only once with the specified details.
     public var clientToken: Swift.String?
-    /// Defines the impact of the incident to customers and applications. Providing an impact overwrites the impact provided by the response plan. Possible impacts:
+    /// Defines the impact of the incident to customers and applications. If you provide an impact for an incident, it overwrites the impact provided by the response plan. Possible impacts:
     ///
     /// * 1 - Critical impact, full application failure that impacts many to all customers.
     ///
@@ -6489,9 +6489,9 @@ public struct UpdateIncidentRecordInput: Swift.Equatable {
     ///
     /// * 5 - No impact, customers aren't currently impacted but urgent action is needed to avoid impact.
     public var impact: Swift.Int?
-    /// The Amazon SNS targets that are notified when updates are made to an incident. Using multiple SNS topics creates redundancy in the event that a Region is down during the incident.
+    /// The Amazon SNS targets that Incident Manager notifies when a client updates an incident. Using multiple SNS topics creates redundancy in the event that a Region is down during the incident.
     public var notificationTargets: [SSMIncidentsClientTypes.NotificationTargetItem]?
-    /// The status of the incident. An incident can be Open or Resolved.
+    /// The status of the incident. Possible statuses are Open or Resolved.
     public var status: SSMIncidentsClientTypes.IncidentRecordStatus?
     /// A longer description of what occurred during the incident.
     public var summary: Swift.String?
@@ -6643,12 +6643,12 @@ extension UpdateRelatedItemsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateRelatedItemsInput: Swift.Equatable {
-    /// A token ensuring that the operation is called only once with the specified details.
+    /// A token that ensures that a client calls the operation only once with the specified details.
     public var clientToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the incident record containing the related items you are updating.
+    /// The Amazon Resource Name (ARN) of the incident record that contains the related items that you update.
     /// This member is required.
     public var incidentRecordArn: Swift.String?
-    /// Details about the item you are adding or deleting.
+    /// Details about the item that you are add to, or delete from, an incident.
     /// This member is required.
     public var relatedItemsUpdate: SSMIncidentsClientTypes.RelatedItemsUpdate?
 
@@ -7255,18 +7255,18 @@ extension UpdateTimelineEventInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateTimelineEventInput: Swift.Equatable {
-    /// A token ensuring that the operation is called only once with the specified details.
+    /// A token that ensures that a client calls the operation only once with the specified details.
     public var clientToken: Swift.String?
     /// A short description of the event.
     public var eventData: Swift.String?
-    /// The ID of the event you are updating. You can find this by using ListTimelineEvents.
+    /// The ID of the event to update. You can use ListTimelineEvents to find an event's ID.
     /// This member is required.
     public var eventId: Swift.String?
-    /// Updates all existing references in a TimelineEvent. A reference can be an Amazon Web Services resource involved in the incident or in some way associated with it. When you specify a reference, you enter the Amazon Resource Name (ARN) of the resource. You can also specify a related item. As an example, you could specify the ARN of an Amazon DynamoDB (DynamoDB) table. The table for this example is the resource. You could also specify a Amazon CloudWatch metric for that table. The metric is the related item. This update action overrides all existing references. If you want to keep existing references, you must specify them in the call. If you don't, this action removes them and enters only new references.
+    /// Updates all existing references in a TimelineEvent. A reference is an Amazon Web Services resource involved or associated with the incident. To specify a reference, enter its Amazon Resource Name (ARN). You can also specify a related item associated with that resource. For example, to specify an Amazon DynamoDB (DynamoDB) table as a resource, use its ARN. You can also specify an Amazon CloudWatch metric associated with the DynamoDB table as a related item. This update action overrides all existing references. If you want to keep existing references, you must specify them in the call. If you don't, this action removes any existing references and enters only new references.
     public var eventReferences: [SSMIncidentsClientTypes.EventReference]?
     /// The time that the event occurred.
     public var eventTime: ClientRuntime.Date?
-    /// The type of the event. You can update events of type Custom Event.
+    /// The type of event. You can update events of type Custom Event.
     public var eventType: Swift.String?
     /// The Amazon Resource Name (ARN) of the incident that includes the timeline event.
     /// This member is required.

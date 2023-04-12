@@ -126,11 +126,11 @@ extension WellArchitectedClientTypes.AdditionalResources: Swift.Codable {
 }
 
 extension WellArchitectedClientTypes {
-    /// The choice level additional resources.
+    /// The choice level additional resources for a custom lens. This field does not apply to Amazon Web Services official lenses.
     public struct AdditionalResources: Swift.Equatable {
-        /// The URLs for additional resources, either helpful resources or improvement plans. Up to five additional URLs can be specified.
+        /// The URLs for additional resources, either helpful resources or improvement plans, for a custom lens. Up to five additional URLs can be specified.
         public var content: [WellArchitectedClientTypes.ChoiceContent]?
-        /// Type of additional resource.
+        /// Type of additional resource for a custom lens.
         public var type: WellArchitectedClientTypes.AdditionalResourceType?
 
         public init (
@@ -285,11 +285,11 @@ extension WellArchitectedClientTypes {
         public var choiceAnswers: [WellArchitectedClientTypes.ChoiceAnswer]?
         /// List of choices available for a question.
         public var choices: [WellArchitectedClientTypes.Choice]?
-        /// The helpful resource text to be displayed.
+        /// The helpful resource text to be displayed for a custom lens. This field does not apply to Amazon Web Services official lenses.
         public var helpfulResourceDisplayText: Swift.String?
-        /// The helpful resource URL for a question.
+        /// The helpful resource URL. For Amazon Web Services official lenses, this is the helpful resource URL for a question or choice. For custom lenses, this is the helpful resource URL for a question and is only provided if HelpfulResourceDisplayText was specified for the question.
         public var helpfulResourceUrl: Swift.String?
-        /// The improvement plan URL for a question. This value is only available if the question has been answered.
+        /// The improvement plan URL for a question in an Amazon Web Services official lenses. This value is only available if the question has been answered. This value does not apply to custom lenses.
         public var improvementPlanUrl: Swift.String?
         /// Defines whether this question is applicable to a lens review.
         public var isApplicable: Swift.Bool
@@ -647,6 +647,51 @@ extension AssociateLensesOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct AssociateLensesOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension WellArchitectedClientTypes.BestPractice: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case choiceId = "ChoiceId"
+        case choiceTitle = "ChoiceTitle"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let choiceId = self.choiceId {
+            try encodeContainer.encode(choiceId, forKey: .choiceId)
+        }
+        if let choiceTitle = self.choiceTitle {
+            try encodeContainer.encode(choiceTitle, forKey: .choiceTitle)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let choiceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .choiceId)
+        choiceId = choiceIdDecoded
+        let choiceTitleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .choiceTitle)
+        choiceTitle = choiceTitleDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// A best practice, or question choice, that has been identified as a risk in this question.
+    public struct BestPractice: Swift.Equatable {
+        /// The ID of a choice.
+        public var choiceId: Swift.String?
+        /// The title of a choice.
+        public var choiceTitle: Swift.String?
+
+        public init (
+            choiceId: Swift.String? = nil,
+            choiceTitle: Swift.String? = nil
+        )
+        {
+            self.choiceId = choiceId
+            self.choiceTitle = choiceTitle
+        }
+    }
+
 }
 
 extension WellArchitectedClientTypes.CheckDetail: Swift.Codable {
@@ -1123,15 +1168,15 @@ extension WellArchitectedClientTypes.Choice: Swift.Codable {
 extension WellArchitectedClientTypes {
     /// A choice available to answer question.
     public struct Choice: Swift.Equatable {
-        /// The additional resources for a choice. A choice can have up to two additional resources: one of type HELPFUL_RESOURCE, one of type IMPROVEMENT_PLAN, or both.
+        /// The additional resources for a choice in a custom lens. A choice can have up to two additional resources: one of type HELPFUL_RESOURCE, one of type IMPROVEMENT_PLAN, or both.
         public var additionalResources: [WellArchitectedClientTypes.AdditionalResources]?
         /// The ID of a choice.
         public var choiceId: Swift.String?
         /// The description of a choice.
         public var description: Swift.String?
-        /// The choice level helpful resource.
+        /// The helpful resource (both text and URL) for a particular choice. This field only applies to custom lenses. Each choice can have only one helpful resource.
         public var helpfulResource: WellArchitectedClientTypes.ChoiceContent?
-        /// The choice level improvement plan.
+        /// The improvement plan (both text and URL) for a particular choice. This field only applies to custom lenses. Each choice can have only one improvement plan.
         public var improvementPlan: WellArchitectedClientTypes.ChoiceContent?
         /// The title of a choice.
         public var title: Swift.String?
@@ -1359,7 +1404,7 @@ extension WellArchitectedClientTypes {
         public var choiceId: Swift.String?
         /// The display text for the improvement plan.
         public var displayText: Swift.String?
-        /// The improvement plan URL for a question. This value is only available if the question has been answered.
+        /// The improvement plan URL for a question in an Amazon Web Services official lenses. This value is only available if the question has been answered. This value does not apply to custom lenses.
         public var improvementPlanUrl: Swift.String?
 
         public init (
@@ -1529,7 +1574,7 @@ extension ConflictException {
     }
 }
 
-/// The resource already exists.
+/// The resource has already been processed, was deleted, or is too large.
 public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -1584,6 +1629,135 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
+extension WellArchitectedClientTypes.ConsolidatedReportMetric: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lenses = "Lenses"
+        case lensesAppliedCount = "LensesAppliedCount"
+        case metricType = "MetricType"
+        case riskCounts = "RiskCounts"
+        case updatedAt = "UpdatedAt"
+        case workloadArn = "WorkloadArn"
+        case workloadId = "WorkloadId"
+        case workloadName = "WorkloadName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lenses = lenses {
+            var lensesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lenses)
+            for lensmetric0 in lenses {
+                try lensesContainer.encode(lensmetric0)
+            }
+        }
+        if lensesAppliedCount != 0 {
+            try encodeContainer.encode(lensesAppliedCount, forKey: .lensesAppliedCount)
+        }
+        if let metricType = self.metricType {
+            try encodeContainer.encode(metricType.rawValue, forKey: .metricType)
+        }
+        if let riskCounts = riskCounts {
+            var riskCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .riskCounts)
+            for (dictKey0, riskCounts0) in riskCounts {
+                try riskCountsContainer.encode(riskCounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
+        }
+        if let workloadArn = self.workloadArn {
+            try encodeContainer.encode(workloadArn, forKey: .workloadArn)
+        }
+        if let workloadId = self.workloadId {
+            try encodeContainer.encode(workloadId, forKey: .workloadId)
+        }
+        if let workloadName = self.workloadName {
+            try encodeContainer.encode(workloadName, forKey: .workloadName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricTypeDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.MetricType.self, forKey: .metricType)
+        metricType = metricTypeDecoded
+        let riskCountsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .riskCounts)
+        var riskCountsDecoded0: [Swift.String:Swift.Int]? = nil
+        if let riskCountsContainer = riskCountsContainer {
+            riskCountsDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in riskCountsContainer {
+                if let count0 = count0 {
+                    riskCountsDecoded0?[key0] = count0
+                }
+            }
+        }
+        riskCounts = riskCountsDecoded0
+        let workloadIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadId)
+        workloadId = workloadIdDecoded
+        let workloadNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadName)
+        workloadName = workloadNameDecoded
+        let workloadArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workloadArn)
+        workloadArn = workloadArnDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let lensesContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.LensMetric?].self, forKey: .lenses)
+        var lensesDecoded0:[WellArchitectedClientTypes.LensMetric]? = nil
+        if let lensesContainer = lensesContainer {
+            lensesDecoded0 = [WellArchitectedClientTypes.LensMetric]()
+            for structure0 in lensesContainer {
+                if let structure0 = structure0 {
+                    lensesDecoded0?.append(structure0)
+                }
+            }
+        }
+        lenses = lensesDecoded0
+        let lensesAppliedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lensesAppliedCount) ?? 0
+        lensesAppliedCount = lensesAppliedCountDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// A metric that contributes to the consolidated report.
+    public struct ConsolidatedReportMetric: Swift.Equatable {
+        /// The metrics for the lenses in the workload.
+        public var lenses: [WellArchitectedClientTypes.LensMetric]?
+        /// The total number of lenses applied to the workload.
+        public var lensesAppliedCount: Swift.Int
+        /// The metric type of a metric in the consolidated report. Currently only WORKLOAD metric types are supported.
+        public var metricType: WellArchitectedClientTypes.MetricType?
+        /// A map from risk names to the count of how many questions have that rating.
+        public var riskCounts: [Swift.String:Swift.Int]?
+        /// The date and time recorded.
+        public var updatedAt: ClientRuntime.Date?
+        /// The ARN for the workload.
+        public var workloadArn: Swift.String?
+        /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
+        public var workloadId: Swift.String?
+        /// The name of the workload. The name must be unique within an account within an Amazon Web Services Region. Spaces and capitalization are ignored when checking for uniqueness.
+        public var workloadName: Swift.String?
+
+        public init (
+            lenses: [WellArchitectedClientTypes.LensMetric]? = nil,
+            lensesAppliedCount: Swift.Int = 0,
+            metricType: WellArchitectedClientTypes.MetricType? = nil,
+            riskCounts: [Swift.String:Swift.Int]? = nil,
+            updatedAt: ClientRuntime.Date? = nil,
+            workloadArn: Swift.String? = nil,
+            workloadId: Swift.String? = nil,
+            workloadName: Swift.String? = nil
+        )
+        {
+            self.lenses = lenses
+            self.lensesAppliedCount = lensesAppliedCount
+            self.metricType = metricType
+            self.riskCounts = riskCounts
+            self.updatedAt = updatedAt
+            self.workloadArn = workloadArn
+            self.workloadId = workloadId
+            self.workloadName = workloadName
+        }
+    }
+
+}
+
 extension CreateLensShareInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken = "ClientRequestToken"
@@ -1611,10 +1785,10 @@ extension CreateLensShareInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateLensShareInput: Swift.Equatable {
-    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after it has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
     /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload is shared.
@@ -1740,7 +1914,7 @@ extension CreateLensVersionInput: Swift.Encodable {
         if let clientRequestToken = self.clientRequestToken {
             try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
         }
-        if isMajorVersion != false {
+        if let isMajorVersion = self.isMajorVersion {
             try encodeContainer.encode(isMajorVersion, forKey: .isMajorVersion)
         }
         if let lensVersion = self.lensVersion {
@@ -1759,12 +1933,12 @@ extension CreateLensVersionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateLensVersionInput: Swift.Equatable {
-    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after it has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
     /// Set to true if this new major lens version.
-    public var isMajorVersion: Swift.Bool
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    public var isMajorVersion: Swift.Bool?
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
     /// The version of the lens being created.
@@ -1773,7 +1947,7 @@ public struct CreateLensVersionInput: Swift.Equatable {
 
     public init (
         clientRequestToken: Swift.String? = nil,
-        isMajorVersion: Swift.Bool = false,
+        isMajorVersion: Swift.Bool? = nil,
         lensAlias: Swift.String? = nil,
         lensVersion: Swift.String? = nil
     )
@@ -1787,7 +1961,7 @@ public struct CreateLensVersionInput: Swift.Equatable {
 
 struct CreateLensVersionInputBody: Swift.Equatable {
     let lensVersion: Swift.String?
-    let isMajorVersion: Swift.Bool
+    let isMajorVersion: Swift.Bool?
     let clientRequestToken: Swift.String?
 }
 
@@ -1802,7 +1976,7 @@ extension CreateLensVersionInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let lensVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lensVersion)
         lensVersion = lensVersionDecoded
-        let isMajorVersionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isMajorVersion) ?? false
+        let isMajorVersionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isMajorVersion)
         isMajorVersion = isMajorVersionDecoded
         let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
         clientRequestToken = clientRequestTokenDecoded
@@ -1922,7 +2096,7 @@ extension CreateMilestoneInput: ClientRuntime.URLPathProvider {
 
 /// Input for milestone creation.
 public struct CreateMilestoneInput: Swift.Equatable {
-    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after it has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
     /// The name of the milestone in a workload. Milestone names must be unique within a workload.
@@ -2164,7 +2338,7 @@ public struct CreateWorkloadInput: Swift.Equatable {
     public var architecturalDesign: Swift.String?
     /// The list of Amazon Web Services Regions associated with the workload, for example, us-east-2, or ca-central-1.
     public var awsRegions: [Swift.String]?
-    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after it has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
     /// The description for the workload.
@@ -2447,6 +2621,7 @@ extension CreateWorkloadOutputError {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -2459,6 +2634,7 @@ public enum CreateWorkloadOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
     case serviceQuotaExceededException(ServiceQuotaExceededException)
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
@@ -2549,7 +2725,7 @@ extension CreateWorkloadShareInput: ClientRuntime.URLPathProvider {
 
 /// Input for Create Workload Share
 public struct CreateWorkloadShareInput: Swift.Equatable {
-    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after it has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
     /// Permission granted on a workload share.
@@ -2717,10 +2893,10 @@ extension DeleteLensInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteLensInput: Swift.Equatable {
-    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after it has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
     /// The status of the lens to be deleted.
@@ -2818,10 +2994,10 @@ extension DeleteLensShareInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteLensShareInput: Swift.Equatable {
-    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after it has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
     /// The ID associated with the workload share.
@@ -2917,7 +3093,7 @@ extension DeleteWorkloadInput: ClientRuntime.URLPathProvider {
 
 /// Input for workload deletion.
 public struct DeleteWorkloadInput: Swift.Equatable {
-    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after it has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -3014,7 +3190,7 @@ extension DeleteWorkloadShareInput: ClientRuntime.URLPathProvider {
 
 /// Input for Delete Workload Share
 public struct DeleteWorkloadShareInput: Swift.Equatable {
-    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after it has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
     /// The ID associated with the workload share.
@@ -3256,7 +3432,7 @@ extension ExportLensInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ExportLensInput: Swift.Equatable {
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
     /// The lens version to be exported.
@@ -3325,7 +3501,7 @@ extension ExportLensOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ExportLensOutputResponse: Swift.Equatable {
-    /// The JSON for the lens.
+    /// The JSON representation of a lens.
     public var lensJSON: Swift.String?
 
     public init (
@@ -3356,7 +3532,7 @@ extension GetAnswerInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if milestoneNumber != 0 {
+            if let milestoneNumber = milestoneNumber {
                 let milestoneNumberQueryItem = ClientRuntime.URLQueryItem(name: "MilestoneNumber".urlPercentEncoding(), value: Swift.String(milestoneNumber).urlPercentEncoding())
                 items.append(milestoneNumberQueryItem)
             }
@@ -3382,11 +3558,11 @@ extension GetAnswerInput: ClientRuntime.URLPathProvider {
 
 /// Input to get answer.
 public struct GetAnswerInput: Swift.Equatable {
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
     /// The milestone number. A workload can have a maximum of 100 milestones.
-    public var milestoneNumber: Swift.Int
+    public var milestoneNumber: Swift.Int?
     /// The ID of the question.
     /// This member is required.
     public var questionId: Swift.String?
@@ -3396,7 +3572,7 @@ public struct GetAnswerInput: Swift.Equatable {
 
     public init (
         lensAlias: Swift.String? = nil,
-        milestoneNumber: Swift.Int = 0,
+        milestoneNumber: Swift.Int? = nil,
         questionId: Swift.String? = nil,
         workloadId: Swift.String? = nil
     )
@@ -3472,7 +3648,7 @@ extension GetAnswerOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct GetAnswerOutputResponse: Swift.Equatable {
     /// An answer of the question.
     public var answer: WellArchitectedClientTypes.Answer?
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     public var lensAlias: Swift.String?
     /// The ARN for the lens.
     public var lensArn: Swift.String?
@@ -3529,6 +3705,173 @@ extension GetAnswerOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetConsolidatedReportInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let format = format else {
+                let message = "Creating a URL Query Item failed. format is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let formatQueryItem = ClientRuntime.URLQueryItem(name: "Format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+            items.append(formatQueryItem)
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let includeSharedResources = includeSharedResources {
+                let includeSharedResourcesQueryItem = ClientRuntime.URLQueryItem(name: "IncludeSharedResources".urlPercentEncoding(), value: Swift.String(includeSharedResources).urlPercentEncoding())
+                items.append(includeSharedResourcesQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension GetConsolidatedReportInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/consolidatedReport"
+    }
+}
+
+public struct GetConsolidatedReportInput: Swift.Equatable {
+    /// The format of the consolidated report. For PDF, Base64String is returned. For JSON, Metrics is returned.
+    /// This member is required.
+    public var format: WellArchitectedClientTypes.ReportFormat?
+    /// Set to true to have shared resources included in the report.
+    public var includeSharedResources: Swift.Bool?
+    /// The maximum number of results to return for this request.
+    public var maxResults: Swift.Int?
+    /// The token to use to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init (
+        format: WellArchitectedClientTypes.ReportFormat? = nil,
+        includeSharedResources: Swift.Bool? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.format = format
+        self.includeSharedResources = includeSharedResources
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct GetConsolidatedReportInputBody: Swift.Equatable {
+}
+
+extension GetConsolidatedReportInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetConsolidatedReportOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetConsolidatedReportOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetConsolidatedReportOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetConsolidatedReportOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetConsolidatedReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.base64String = output.base64String
+            self.metrics = output.metrics
+            self.nextToken = output.nextToken
+        } else {
+            self.base64String = nil
+            self.metrics = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct GetConsolidatedReportOutputResponse: Swift.Equatable {
+    /// The Base64-encoded string representation of a lens review report. This data can be used to create a PDF file. Only returned by [GetConsolidatedReport] when PDF format is requested.
+    public var base64String: Swift.String?
+    /// The metrics that make up the consolidated report. Only returned when JSON format is requested.
+    public var metrics: [WellArchitectedClientTypes.ConsolidatedReportMetric]?
+    /// The token to use to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init (
+        base64String: Swift.String? = nil,
+        metrics: [WellArchitectedClientTypes.ConsolidatedReportMetric]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.base64String = base64String
+        self.metrics = metrics
+        self.nextToken = nextToken
+    }
+}
+
+struct GetConsolidatedReportOutputResponseBody: Swift.Equatable {
+    let metrics: [WellArchitectedClientTypes.ConsolidatedReportMetric]?
+    let nextToken: Swift.String?
+    let base64String: Swift.String?
+}
+
+extension GetConsolidatedReportOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case base64String = "Base64String"
+        case metrics = "Metrics"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricsContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.ConsolidatedReportMetric?].self, forKey: .metrics)
+        var metricsDecoded0:[WellArchitectedClientTypes.ConsolidatedReportMetric]? = nil
+        if let metricsContainer = metricsContainer {
+            metricsDecoded0 = [WellArchitectedClientTypes.ConsolidatedReportMetric]()
+            for structure0 in metricsContainer {
+                if let structure0 = structure0 {
+                    metricsDecoded0?.append(structure0)
+                }
+            }
+        }
+        metrics = metricsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let base64StringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .base64String)
+        base64String = base64StringDecoded
+    }
+}
+
 extension GetLensInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -3552,7 +3895,7 @@ extension GetLensInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetLensInput: Swift.Equatable {
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
     /// The lens version to be retrieved.
@@ -3652,7 +3995,7 @@ extension GetLensReviewInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if milestoneNumber != 0 {
+            if let milestoneNumber = milestoneNumber {
                 let milestoneNumberQueryItem = ClientRuntime.URLQueryItem(name: "MilestoneNumber".urlPercentEncoding(), value: Swift.String(milestoneNumber).urlPercentEncoding())
                 items.append(milestoneNumberQueryItem)
             }
@@ -3675,18 +4018,18 @@ extension GetLensReviewInput: ClientRuntime.URLPathProvider {
 
 /// Input to get lens review.
 public struct GetLensReviewInput: Swift.Equatable {
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
     /// The milestone number. A workload can have a maximum of 100 milestones.
-    public var milestoneNumber: Swift.Int
+    public var milestoneNumber: Swift.Int?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
     /// This member is required.
     public var workloadId: Swift.String?
 
     public init (
         lensAlias: Swift.String? = nil,
-        milestoneNumber: Swift.Int = 0,
+        milestoneNumber: Swift.Int? = nil,
         workloadId: Swift.String? = nil
     )
     {
@@ -3801,7 +4144,7 @@ extension GetLensReviewReportInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if milestoneNumber != 0 {
+            if let milestoneNumber = milestoneNumber {
                 let milestoneNumberQueryItem = ClientRuntime.URLQueryItem(name: "MilestoneNumber".urlPercentEncoding(), value: Swift.String(milestoneNumber).urlPercentEncoding())
                 items.append(milestoneNumberQueryItem)
             }
@@ -3824,18 +4167,18 @@ extension GetLensReviewReportInput: ClientRuntime.URLPathProvider {
 
 /// Input to get lens review report.
 public struct GetLensReviewReportInput: Swift.Equatable {
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
     /// The milestone number. A workload can have a maximum of 100 milestones.
-    public var milestoneNumber: Swift.Int
+    public var milestoneNumber: Swift.Int?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
     /// This member is required.
     public var workloadId: Swift.String?
 
     public init (
         lensAlias: Swift.String? = nil,
-        milestoneNumber: Swift.Int = 0,
+        milestoneNumber: Swift.Int? = nil,
         workloadId: Swift.String? = nil
     )
     {
@@ -3975,7 +4318,7 @@ extension GetLensVersionDifferenceInput: ClientRuntime.URLPathProvider {
 public struct GetLensVersionDifferenceInput: Swift.Equatable {
     /// The base version of the lens.
     public var baseLensVersion: Swift.String?
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
     /// The lens version to target a difference for.
@@ -4060,7 +4403,7 @@ public struct GetLensVersionDifferenceOutputResponse: Swift.Equatable {
     public var baseLensVersion: Swift.String?
     /// The latest version of the lens.
     public var latestLensVersion: Swift.String?
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     public var lensAlias: Swift.String?
     /// The ARN for the lens.
     public var lensArn: Swift.String?
@@ -4128,6 +4471,9 @@ extension GetMilestoneInput: ClientRuntime.URLPathProvider {
         guard let workloadId = workloadId else {
             return nil
         }
+        guard let milestoneNumber = milestoneNumber else {
+            return nil
+        }
         return "/workloads/\(workloadId.urlPercentEncoding())/milestones/\(milestoneNumber)"
     }
 }
@@ -4136,13 +4482,13 @@ extension GetMilestoneInput: ClientRuntime.URLPathProvider {
 public struct GetMilestoneInput: Swift.Equatable {
     /// The milestone number. A workload can have a maximum of 100 milestones.
     /// This member is required.
-    public var milestoneNumber: Swift.Int
+    public var milestoneNumber: Swift.Int?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
     /// This member is required.
     public var workloadId: Swift.String?
 
     public init (
-        milestoneNumber: Swift.Int = 0,
+        milestoneNumber: Swift.Int? = nil,
         workloadId: Swift.String? = nil
     )
     {
@@ -4381,13 +4727,13 @@ extension ImportLensInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ImportLensInput: Swift.Equatable {
-    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after it has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
     /// The JSON representation of a lens.
     /// This member is required.
     public var jsonString: Swift.String?
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     public var lensAlias: Swift.String?
     /// Tags to associate to a lens.
     public var tags: [Swift.String:Swift.String]?
@@ -4493,7 +4839,7 @@ extension ImportLensOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ImportLensOutputResponse: Swift.Equatable {
-    /// The ARN for the lens.
+    /// The ARN for the lens that was created or updated.
     public var lensArn: Swift.String?
     /// The status of the imported lens.
     public var status: WellArchitectedClientTypes.ImportLensStatus?
@@ -4627,7 +4973,7 @@ extension WellArchitectedClientTypes.ImprovementSummary: Swift.Codable {
 extension WellArchitectedClientTypes {
     /// An improvement summary of a lens review in a workload.
     public struct ImprovementSummary: Swift.Equatable {
-        /// The improvement plan URL for a question. This value is only available if the question has been answered.
+        /// The improvement plan URL for a question in an Amazon Web Services official lenses. This value is only available if the question has been answered. This value does not apply to custom lenses.
         public var improvementPlanUrl: Swift.String?
         /// The improvement plan details.
         public var improvementPlans: [WellArchitectedClientTypes.ChoiceImprovementPlan]?
@@ -4821,6 +5167,85 @@ extension WellArchitectedClientTypes {
 
 }
 
+extension WellArchitectedClientTypes.LensMetric: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lensArn = "LensArn"
+        case pillars = "Pillars"
+        case riskCounts = "RiskCounts"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lensArn = self.lensArn {
+            try encodeContainer.encode(lensArn, forKey: .lensArn)
+        }
+        if let pillars = pillars {
+            var pillarsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pillars)
+            for pillarmetric0 in pillars {
+                try pillarsContainer.encode(pillarmetric0)
+            }
+        }
+        if let riskCounts = riskCounts {
+            var riskCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .riskCounts)
+            for (dictKey0, riskCounts0) in riskCounts {
+                try riskCountsContainer.encode(riskCounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lensArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lensArn)
+        lensArn = lensArnDecoded
+        let pillarsContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.PillarMetric?].self, forKey: .pillars)
+        var pillarsDecoded0:[WellArchitectedClientTypes.PillarMetric]? = nil
+        if let pillarsContainer = pillarsContainer {
+            pillarsDecoded0 = [WellArchitectedClientTypes.PillarMetric]()
+            for structure0 in pillarsContainer {
+                if let structure0 = structure0 {
+                    pillarsDecoded0?.append(structure0)
+                }
+            }
+        }
+        pillars = pillarsDecoded0
+        let riskCountsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .riskCounts)
+        var riskCountsDecoded0: [Swift.String:Swift.Int]? = nil
+        if let riskCountsContainer = riskCountsContainer {
+            riskCountsDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in riskCountsContainer {
+                if let count0 = count0 {
+                    riskCountsDecoded0?[key0] = count0
+                }
+            }
+        }
+        riskCounts = riskCountsDecoded0
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// A metric for a particular lens in a workload.
+    public struct LensMetric: Swift.Equatable {
+        /// The lens ARN.
+        public var lensArn: Swift.String?
+        /// The metrics for the pillars in a lens.
+        public var pillars: [WellArchitectedClientTypes.PillarMetric]?
+        /// A map from risk names to the count of how many questions have that rating.
+        public var riskCounts: [Swift.String:Swift.Int]?
+
+        public init (
+            lensArn: Swift.String? = nil,
+            pillars: [WellArchitectedClientTypes.PillarMetric]? = nil,
+            riskCounts: [Swift.String:Swift.Int]? = nil
+        )
+        {
+            self.lensArn = lensArn
+            self.pillars = pillars
+            self.riskCounts = riskCounts
+        }
+    }
+
+}
+
 extension WellArchitectedClientTypes.LensReview: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lensAlias = "LensAlias"
@@ -4921,7 +5346,7 @@ extension WellArchitectedClientTypes.LensReview: Swift.Codable {
 extension WellArchitectedClientTypes {
     /// A lens review of a question.
     public struct LensReview: Swift.Equatable {
-        /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+        /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
         public var lensAlias: Swift.String?
         /// The ARN for the lens.
         public var lensArn: Swift.String?
@@ -4937,7 +5362,7 @@ extension WellArchitectedClientTypes {
         public var notes: Swift.String?
         /// List of pillar review summaries of lens review in a workload.
         public var pillarReviewSummaries: [WellArchitectedClientTypes.PillarReviewSummary]?
-        /// A map from risk names to the count of how questions have that rating.
+        /// A map from risk names to the count of how many questions have that rating.
         public var riskCounts: [Swift.String:Swift.Int]?
         /// The date and time recorded.
         public var updatedAt: ClientRuntime.Date?
@@ -5004,9 +5429,9 @@ extension WellArchitectedClientTypes.LensReviewReport: Swift.Codable {
 extension WellArchitectedClientTypes {
     /// A report of a lens review.
     public struct LensReviewReport: Swift.Equatable {
-        /// The Base64-encoded string representation of a lens review report. This data can be used to create a PDF file.
+        /// The Base64-encoded string representation of a lens review report. This data can be used to create a PDF file. Only returned by [GetConsolidatedReport] when PDF format is requested.
         public var base64String: Swift.String?
-        /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+        /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
         public var lensAlias: Swift.String?
         /// The ARN for the lens.
         public var lensArn: Swift.String?
@@ -5095,7 +5520,7 @@ extension WellArchitectedClientTypes.LensReviewSummary: Swift.Codable {
 extension WellArchitectedClientTypes {
     /// A lens review summary of a workload.
     public struct LensReviewSummary: Swift.Equatable {
-        /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+        /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
         public var lensAlias: Swift.String?
         /// The ARN for the lens.
         public var lensArn: Swift.String?
@@ -5105,7 +5530,7 @@ extension WellArchitectedClientTypes {
         public var lensStatus: WellArchitectedClientTypes.LensStatus?
         /// The version of the lens.
         public var lensVersion: Swift.String?
-        /// A map from risk names to the count of how questions have that rating.
+        /// A map from risk names to the count of how many questions have that rating.
         public var riskCounts: [Swift.String:Swift.Int]?
         /// The date and time recorded.
         public var updatedAt: ClientRuntime.Date?
@@ -5353,7 +5778,7 @@ extension WellArchitectedClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// The description of the lens.
         public var description: Swift.String?
-        /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+        /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
         public var lensAlias: Swift.String?
         /// The ARN of the lens.
         public var lensArn: Swift.String?
@@ -5489,7 +5914,7 @@ extension WellArchitectedClientTypes {
         public var currentLensVersion: Swift.String?
         /// The latest version of the lens.
         public var latestLensVersion: Swift.String?
-        /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+        /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
         public var lensAlias: Swift.String?
         /// The ARN for the lens.
         public var lensArn: Swift.String?
@@ -5530,11 +5955,11 @@ extension ListAnswersInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
-            if milestoneNumber != 0 {
+            if let milestoneNumber = milestoneNumber {
                 let milestoneNumberQueryItem = ClientRuntime.URLQueryItem(name: "MilestoneNumber".urlPercentEncoding(), value: Swift.String(milestoneNumber).urlPercentEncoding())
                 items.append(milestoneNumberQueryItem)
             }
@@ -5557,13 +5982,13 @@ extension ListAnswersInput: ClientRuntime.URLPathProvider {
 
 /// Input to list answers.
 public struct ListAnswersInput: Swift.Equatable {
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
     /// The maximum number of results to return for this request.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The milestone number. A workload can have a maximum of 100 milestones.
-    public var milestoneNumber: Swift.Int
+    public var milestoneNumber: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
@@ -5574,8 +5999,8 @@ public struct ListAnswersInput: Swift.Equatable {
 
     public init (
         lensAlias: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
-        milestoneNumber: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
+        milestoneNumber: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pillarId: Swift.String? = nil,
         workloadId: Swift.String? = nil
@@ -5656,7 +6081,7 @@ extension ListAnswersOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ListAnswersOutputResponse: Swift.Equatable {
     /// List of answer summaries of lens review in a workload.
     public var answerSummaries: [WellArchitectedClientTypes.AnswerSummary]?
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     public var lensAlias: Swift.String?
     /// The ARN for the lens.
     public var lensArn: Swift.String?
@@ -5748,7 +6173,7 @@ extension ListCheckDetailsInput: Swift.Encodable {
         if let lensArn = self.lensArn {
             try encodeContainer.encode(lensArn, forKey: .lensArn)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -5780,7 +6205,7 @@ public struct ListCheckDetailsInput: Swift.Equatable {
     /// This member is required.
     public var lensArn: Swift.String?
     /// The maximum number of results to return for this request.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
@@ -5796,7 +6221,7 @@ public struct ListCheckDetailsInput: Swift.Equatable {
     public init (
         choiceId: Swift.String? = nil,
         lensArn: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pillarId: Swift.String? = nil,
         questionId: Swift.String? = nil,
@@ -5815,7 +6240,7 @@ public struct ListCheckDetailsInput: Swift.Equatable {
 
 struct ListCheckDetailsInputBody: Swift.Equatable {
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let lensArn: Swift.String?
     let pillarId: Swift.String?
     let questionId: Swift.String?
@@ -5836,7 +6261,7 @@ extension ListCheckDetailsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let lensArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lensArn)
         lensArn = lensArnDecoded
@@ -5957,7 +6382,7 @@ extension ListCheckSummariesInput: Swift.Encodable {
         if let lensArn = self.lensArn {
             try encodeContainer.encode(lensArn, forKey: .lensArn)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -5989,7 +6414,7 @@ public struct ListCheckSummariesInput: Swift.Equatable {
     /// This member is required.
     public var lensArn: Swift.String?
     /// The maximum number of results to return for this request.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
@@ -6005,7 +6430,7 @@ public struct ListCheckSummariesInput: Swift.Equatable {
     public init (
         choiceId: Swift.String? = nil,
         lensArn: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pillarId: Swift.String? = nil,
         questionId: Swift.String? = nil,
@@ -6024,7 +6449,7 @@ public struct ListCheckSummariesInput: Swift.Equatable {
 
 struct ListCheckSummariesInputBody: Swift.Equatable {
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let lensArn: Swift.String?
     let pillarId: Swift.String?
     let questionId: Swift.String?
@@ -6045,7 +6470,7 @@ extension ListCheckSummariesInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let lensArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lensArn)
         lensArn = lensArnDecoded
@@ -6160,11 +6585,11 @@ extension ListLensReviewImprovementsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
-            if milestoneNumber != 0 {
+            if let milestoneNumber = milestoneNumber {
                 let milestoneNumberQueryItem = ClientRuntime.URLQueryItem(name: "MilestoneNumber".urlPercentEncoding(), value: Swift.String(milestoneNumber).urlPercentEncoding())
                 items.append(milestoneNumberQueryItem)
             }
@@ -6187,13 +6612,13 @@ extension ListLensReviewImprovementsInput: ClientRuntime.URLPathProvider {
 
 /// Input to list lens review improvements.
 public struct ListLensReviewImprovementsInput: Swift.Equatable {
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
     /// The maximum number of results to return for this request.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The milestone number. A workload can have a maximum of 100 milestones.
-    public var milestoneNumber: Swift.Int
+    public var milestoneNumber: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
@@ -6204,8 +6629,8 @@ public struct ListLensReviewImprovementsInput: Swift.Equatable {
 
     public init (
         lensAlias: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
-        milestoneNumber: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
+        milestoneNumber: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pillarId: Swift.String? = nil,
         workloadId: Swift.String? = nil
@@ -6286,7 +6711,7 @@ extension ListLensReviewImprovementsOutputResponse: ClientRuntime.HttpResponseBi
 public struct ListLensReviewImprovementsOutputResponse: Swift.Equatable {
     /// List of improvement summaries of lens review in a workload.
     public var improvementSummaries: [WellArchitectedClientTypes.ImprovementSummary]?
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     public var lensAlias: Swift.String?
     /// The ARN for the lens.
     public var lensArn: Swift.String?
@@ -6368,11 +6793,11 @@ extension ListLensReviewsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
-            if milestoneNumber != 0 {
+            if let milestoneNumber = milestoneNumber {
                 let milestoneNumberQueryItem = ClientRuntime.URLQueryItem(name: "MilestoneNumber".urlPercentEncoding(), value: Swift.String(milestoneNumber).urlPercentEncoding())
                 items.append(milestoneNumberQueryItem)
             }
@@ -6393,9 +6818,9 @@ extension ListLensReviewsInput: ClientRuntime.URLPathProvider {
 /// Input to list lens reviews.
 public struct ListLensReviewsInput: Swift.Equatable {
     /// The maximum number of results to return for this request.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The milestone number. A workload can have a maximum of 100 milestones.
-    public var milestoneNumber: Swift.Int
+    public var milestoneNumber: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -6403,8 +6828,8 @@ public struct ListLensReviewsInput: Swift.Equatable {
     public var workloadId: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
-        milestoneNumber: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
+        milestoneNumber: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workloadId: Swift.String? = nil
     )
@@ -6552,7 +6977,7 @@ extension ListLensSharesInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -6571,11 +6996,11 @@ extension ListLensSharesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListLensSharesInput: Swift.Equatable {
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
     /// The maximum number of results to return for this request.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the lens is shared.
@@ -6585,7 +7010,7 @@ public struct ListLensSharesInput: Swift.Equatable {
 
     public init (
         lensAlias: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sharedWithPrefix: Swift.String? = nil,
         status: WellArchitectedClientTypes.ShareStatus? = nil
@@ -6710,7 +7135,7 @@ extension ListLensesInput: ClientRuntime.QueryItemProvider {
                 let lensNameQueryItem = ClientRuntime.URLQueryItem(name: "LensName".urlPercentEncoding(), value: Swift.String(lensName).urlPercentEncoding())
                 items.append(lensNameQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -6742,7 +7167,7 @@ public struct ListLensesInput: Swift.Equatable {
     /// The type of lenses to be returned.
     public var lensType: WellArchitectedClientTypes.LensType?
     /// The maximum number of results to return for this request.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
 
@@ -6750,7 +7175,7 @@ public struct ListLensesInput: Swift.Equatable {
         lensName: Swift.String? = nil,
         lensStatus: WellArchitectedClientTypes.LensStatusType? = nil,
         lensType: WellArchitectedClientTypes.LensType? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -6868,7 +7293,7 @@ extension ListMilestonesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -6889,7 +7314,7 @@ extension ListMilestonesInput: ClientRuntime.URLPathProvider {
 /// Input to list all milestones for a workload.
 public struct ListMilestonesInput: Swift.Equatable {
     /// The maximum number of results to return for this request.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -6897,7 +7322,7 @@ public struct ListMilestonesInput: Swift.Equatable {
     public var workloadId: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workloadId: Swift.String? = nil
     )
@@ -6910,7 +7335,7 @@ public struct ListMilestonesInput: Swift.Equatable {
 
 struct ListMilestonesInputBody: Swift.Equatable {
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
 }
 
 extension ListMilestonesInputBody: Swift.Decodable {
@@ -6923,7 +7348,7 @@ extension ListMilestonesInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
     }
 }
@@ -7038,7 +7463,7 @@ extension ListNotificationsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -7058,14 +7483,14 @@ extension ListNotificationsInput: ClientRuntime.URLPathProvider {
 
 public struct ListNotificationsInput: Swift.Equatable {
     /// The maximum number of results to return for this request.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
     public var workloadId: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workloadId: Swift.String? = nil
     )
@@ -7079,7 +7504,7 @@ public struct ListNotificationsInput: Swift.Equatable {
 struct ListNotificationsInputBody: Swift.Equatable {
     let workloadId: Swift.String?
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
 }
 
 extension ListNotificationsInputBody: Swift.Decodable {
@@ -7095,7 +7520,7 @@ extension ListNotificationsInputBody: Swift.Decodable {
         workloadId = workloadIdDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
     }
 }
@@ -7204,7 +7629,7 @@ extension ListShareInvitationsInput: ClientRuntime.QueryItemProvider {
                 let shareResourceTypeQueryItem = ClientRuntime.URLQueryItem(name: "ShareResourceType".urlPercentEncoding(), value: Swift.String(shareResourceType.rawValue).urlPercentEncoding())
                 items.append(shareResourceTypeQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -7228,7 +7653,7 @@ public struct ListShareInvitationsInput: Swift.Equatable {
     /// An optional string added to the beginning of each lens name returned in the results.
     public var lensNamePrefix: Swift.String?
     /// The maximum number of results to return for this request.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The type of share invitations to be returned.
@@ -7238,7 +7663,7 @@ public struct ListShareInvitationsInput: Swift.Equatable {
 
     public init (
         lensNamePrefix: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         shareResourceType: WellArchitectedClientTypes.ShareResourceType? = nil,
         workloadNamePrefix: Swift.String? = nil
@@ -7471,7 +7896,7 @@ extension ListWorkloadSharesInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -7492,7 +7917,7 @@ extension ListWorkloadSharesInput: ClientRuntime.URLPathProvider {
 /// Input for List Workload Share
 public struct ListWorkloadSharesInput: Swift.Equatable {
     /// The maximum number of results to return for this request.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The Amazon Web Services account ID, IAM role, organization ID, or organizational unit (OU) ID with which the workload is shared.
@@ -7504,7 +7929,7 @@ public struct ListWorkloadSharesInput: Swift.Equatable {
     public var workloadId: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sharedWithPrefix: Swift.String? = nil,
         status: WellArchitectedClientTypes.ShareStatus? = nil,
@@ -7638,7 +8063,7 @@ extension ListWorkloadsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -7659,14 +8084,14 @@ extension ListWorkloadsInput: ClientRuntime.URLPathProvider {
 /// Input to list all workloads.
 public struct ListWorkloadsInput: Swift.Equatable {
     /// The maximum number of results to return for this request.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// An optional string added to the beginning of each workload name returned in the results.
     public var workloadNamePrefix: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workloadNamePrefix: Swift.String? = nil
     )
@@ -7680,7 +8105,7 @@ public struct ListWorkloadsInput: Swift.Equatable {
 struct ListWorkloadsInputBody: Swift.Equatable {
     let workloadNamePrefix: Swift.String?
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
 }
 
 extension ListWorkloadsInputBody: Swift.Decodable {
@@ -7696,7 +8121,7 @@ extension ListWorkloadsInputBody: Swift.Decodable {
         workloadNamePrefix = workloadNamePrefixDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
     }
 }
@@ -7787,6 +8212,35 @@ extension ListWorkloadsOutputResponseBody: Swift.Decodable {
         workloadSummaries = workloadSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    public enum MetricType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case workload
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetricType] {
+            return [
+                .workload,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .workload: return "WORKLOAD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MetricType(rawValue: rawValue) ?? MetricType.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -8139,6 +8593,85 @@ extension WellArchitectedClientTypes {
 
 }
 
+extension WellArchitectedClientTypes.PillarMetric: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pillarId = "PillarId"
+        case questions = "Questions"
+        case riskCounts = "RiskCounts"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let pillarId = self.pillarId {
+            try encodeContainer.encode(pillarId, forKey: .pillarId)
+        }
+        if let questions = questions {
+            var questionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .questions)
+            for questionmetric0 in questions {
+                try questionsContainer.encode(questionmetric0)
+            }
+        }
+        if let riskCounts = riskCounts {
+            var riskCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .riskCounts)
+            for (dictKey0, riskCounts0) in riskCounts {
+                try riskCountsContainer.encode(riskCounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pillarIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pillarId)
+        pillarId = pillarIdDecoded
+        let riskCountsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .riskCounts)
+        var riskCountsDecoded0: [Swift.String:Swift.Int]? = nil
+        if let riskCountsContainer = riskCountsContainer {
+            riskCountsDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in riskCountsContainer {
+                if let count0 = count0 {
+                    riskCountsDecoded0?[key0] = count0
+                }
+            }
+        }
+        riskCounts = riskCountsDecoded0
+        let questionsContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.QuestionMetric?].self, forKey: .questions)
+        var questionsDecoded0:[WellArchitectedClientTypes.QuestionMetric]? = nil
+        if let questionsContainer = questionsContainer {
+            questionsDecoded0 = [WellArchitectedClientTypes.QuestionMetric]()
+            for structure0 in questionsContainer {
+                if let structure0 = structure0 {
+                    questionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        questions = questionsDecoded0
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// A metric for a particular pillar in a lens.
+    public struct PillarMetric: Swift.Equatable {
+        /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
+        public var pillarId: Swift.String?
+        /// The questions that have been identified as risks in the pillar.
+        public var questions: [WellArchitectedClientTypes.QuestionMetric]?
+        /// A map from risk names to the count of how many questions have that rating.
+        public var riskCounts: [Swift.String:Swift.Int]?
+
+        public init (
+            pillarId: Swift.String? = nil,
+            questions: [WellArchitectedClientTypes.QuestionMetric]? = nil,
+            riskCounts: [Swift.String:Swift.Int]? = nil
+        )
+        {
+            self.pillarId = pillarId
+            self.questions = questions
+            self.riskCounts = riskCounts
+        }
+    }
+
+}
+
 extension WellArchitectedClientTypes.PillarReviewSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case notes = "Notes"
@@ -8197,7 +8730,7 @@ extension WellArchitectedClientTypes {
         public var pillarId: Swift.String?
         /// The name of the pillar.
         public var pillarName: Swift.String?
-        /// A map from risk names to the count of how questions have that rating.
+        /// A map from risk names to the count of how many questions have that rating.
         public var riskCounts: [Swift.String:Swift.Int]?
 
         public init (
@@ -8269,6 +8802,105 @@ extension WellArchitectedClientTypes {
         }
     }
 
+}
+
+extension WellArchitectedClientTypes.QuestionMetric: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bestPractices = "BestPractices"
+        case questionId = "QuestionId"
+        case risk = "Risk"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bestPractices = bestPractices {
+            var bestPracticesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bestPractices)
+            for bestpractice0 in bestPractices {
+                try bestPracticesContainer.encode(bestpractice0)
+            }
+        }
+        if let questionId = self.questionId {
+            try encodeContainer.encode(questionId, forKey: .questionId)
+        }
+        if let risk = self.risk {
+            try encodeContainer.encode(risk.rawValue, forKey: .risk)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let questionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .questionId)
+        questionId = questionIdDecoded
+        let riskDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.Risk.self, forKey: .risk)
+        risk = riskDecoded
+        let bestPracticesContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.BestPractice?].self, forKey: .bestPractices)
+        var bestPracticesDecoded0:[WellArchitectedClientTypes.BestPractice]? = nil
+        if let bestPracticesContainer = bestPracticesContainer {
+            bestPracticesDecoded0 = [WellArchitectedClientTypes.BestPractice]()
+            for structure0 in bestPracticesContainer {
+                if let structure0 = structure0 {
+                    bestPracticesDecoded0?.append(structure0)
+                }
+            }
+        }
+        bestPractices = bestPracticesDecoded0
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// A metric for a particular question in the pillar.
+    public struct QuestionMetric: Swift.Equatable {
+        /// The best practices, or choices, that have been identified as contributing to risk in a question.
+        public var bestPractices: [WellArchitectedClientTypes.BestPractice]?
+        /// The ID of the question.
+        public var questionId: Swift.String?
+        /// The risk for a given workload, lens review, pillar, or question.
+        public var risk: WellArchitectedClientTypes.Risk?
+
+        public init (
+            bestPractices: [WellArchitectedClientTypes.BestPractice]? = nil,
+            questionId: Swift.String? = nil,
+            risk: WellArchitectedClientTypes.Risk? = nil
+        )
+        {
+            self.bestPractices = bestPractices
+            self.questionId = questionId
+            self.risk = risk
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes {
+    public enum ReportFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case json
+        case pdf
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReportFormat] {
+            return [
+                .json,
+                .pdf,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .json: return "JSON"
+            case .pdf: return "PDF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ReportFormat(rawValue: rawValue) ?? ReportFormat.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ResourceNotFoundException {
@@ -8531,7 +9163,7 @@ extension WellArchitectedClientTypes.ShareInvitation: Swift.Codable {
 extension WellArchitectedClientTypes {
     /// The share invitation.
     public struct ShareInvitation: Swift.Equatable {
-        /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+        /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
         public var lensAlias: Swift.String?
         /// The ARN for the lens.
         public var lensArn: Swift.String?
@@ -9103,7 +9735,7 @@ extension UpdateAnswerInput: Swift.Encodable {
                 try choiceUpdatesContainer.encode(choiceUpdates0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
-        if isApplicable != false {
+        if let isApplicable = self.isApplicable {
             try encodeContainer.encode(isApplicable, forKey: .isApplicable)
         }
         if let notes = self.notes {
@@ -9141,8 +9773,8 @@ public struct UpdateAnswerInput: Swift.Equatable {
     /// A list of choices to update on a question in your workload. The String key corresponds to the choice ID to be updated.
     public var choiceUpdates: [Swift.String:WellArchitectedClientTypes.ChoiceUpdate]?
     /// Defines whether this question is applicable to a lens review.
-    public var isApplicable: Swift.Bool
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    public var isApplicable: Swift.Bool?
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
     /// The notes associated with the workload.
@@ -9160,7 +9792,7 @@ public struct UpdateAnswerInput: Swift.Equatable {
 
     public init (
         choiceUpdates: [Swift.String:WellArchitectedClientTypes.ChoiceUpdate]? = nil,
-        isApplicable: Swift.Bool = false,
+        isApplicable: Swift.Bool? = nil,
         lensAlias: Swift.String? = nil,
         notes: Swift.String? = nil,
         questionId: Swift.String? = nil,
@@ -9184,7 +9816,7 @@ struct UpdateAnswerInputBody: Swift.Equatable {
     let selectedChoices: [Swift.String]?
     let choiceUpdates: [Swift.String:WellArchitectedClientTypes.ChoiceUpdate]?
     let notes: Swift.String?
-    let isApplicable: Swift.Bool
+    let isApplicable: Swift.Bool?
     let reason: WellArchitectedClientTypes.AnswerReason?
 }
 
@@ -9223,7 +9855,7 @@ extension UpdateAnswerInputBody: Swift.Decodable {
         choiceUpdates = choiceUpdatesDecoded0
         let notesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notes)
         notes = notesDecoded
-        let isApplicableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isApplicable) ?? false
+        let isApplicableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isApplicable)
         isApplicable = isApplicableDecoded
         let reasonDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.AnswerReason.self, forKey: .reason)
         reason = reasonDecoded
@@ -9285,7 +9917,7 @@ extension UpdateAnswerOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct UpdateAnswerOutputResponse: Swift.Equatable {
     /// An answer of the question.
     public var answer: WellArchitectedClientTypes.Answer?
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     public var lensAlias: Swift.String?
     /// The ARN for the lens.
     public var lensArn: Swift.String?
@@ -9455,7 +10087,7 @@ extension UpdateLensReviewInput: ClientRuntime.URLPathProvider {
 
 /// Input for update lens review.
 public struct UpdateLensReviewInput: Swift.Equatable {
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
     /// The notes associated with the workload.
@@ -9784,7 +10416,7 @@ extension UpdateWorkloadInput: Swift.Encodable {
         if let industryType = self.industryType {
             try encodeContainer.encode(industryType, forKey: .industryType)
         }
-        if isReviewOwnerUpdateAcknowledged != false {
+        if let isReviewOwnerUpdateAcknowledged = self.isReviewOwnerUpdateAcknowledged {
             try encodeContainer.encode(isReviewOwnerUpdateAcknowledged, forKey: .isReviewOwnerUpdateAcknowledged)
         }
         if let nonAwsRegions = nonAwsRegions {
@@ -9897,7 +10529,7 @@ public struct UpdateWorkloadInput: Swift.Equatable {
     /// * Other
     public var industryType: Swift.String?
     /// Flag indicating whether the workload owner has acknowledged that the Review owner field is required. If a Review owner is not added to the workload within 60 days of acknowledgement, access to the workload is restricted until an owner is added.
-    public var isReviewOwnerUpdateAcknowledged: Swift.Bool
+    public var isReviewOwnerUpdateAcknowledged: Swift.Bool?
     /// The list of non-Amazon Web Services Regions associated with the workload.
     public var nonAwsRegions: [Swift.String]?
     /// The notes associated with the workload.
@@ -9923,7 +10555,7 @@ public struct UpdateWorkloadInput: Swift.Equatable {
         improvementStatus: WellArchitectedClientTypes.WorkloadImprovementStatus? = nil,
         industry: Swift.String? = nil,
         industryType: Swift.String? = nil,
-        isReviewOwnerUpdateAcknowledged: Swift.Bool = false,
+        isReviewOwnerUpdateAcknowledged: Swift.Bool? = nil,
         nonAwsRegions: [Swift.String]? = nil,
         notes: Swift.String? = nil,
         pillarPriorities: [Swift.String]? = nil,
@@ -9962,7 +10594,7 @@ struct UpdateWorkloadInputBody: Swift.Equatable {
     let pillarPriorities: [Swift.String]?
     let architecturalDesign: Swift.String?
     let reviewOwner: Swift.String?
-    let isReviewOwnerUpdateAcknowledged: Swift.Bool
+    let isReviewOwnerUpdateAcknowledged: Swift.Bool?
     let industryType: Swift.String?
     let industry: Swift.String?
     let notes: Swift.String?
@@ -10047,7 +10679,7 @@ extension UpdateWorkloadInputBody: Swift.Decodable {
         architecturalDesign = architecturalDesignDecoded
         let reviewOwnerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reviewOwner)
         reviewOwner = reviewOwnerDecoded
-        let isReviewOwnerUpdateAcknowledgedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isReviewOwnerUpdateAcknowledged) ?? false
+        let isReviewOwnerUpdateAcknowledgedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isReviewOwnerUpdateAcknowledged)
         isReviewOwnerUpdateAcknowledged = isReviewOwnerUpdateAcknowledgedDecoded
         let industryTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .industryType)
         industryType = industryTypeDecoded
@@ -10326,9 +10958,9 @@ extension UpgradeLensReviewInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpgradeLensReviewInput: Swift.Equatable {
-    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after it has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     public var clientRequestToken: Swift.String?
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-west-2::lens/serverless. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens. Each lens is identified by its [LensSummary$LensAlias].
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
     /// The name of the milestone in a workload. Milestone names must be unique within a workload.
@@ -10982,7 +11614,7 @@ extension WellArchitectedClientTypes {
         public var reviewOwner: Swift.String?
         /// The date and time recorded.
         public var reviewRestrictionDate: ClientRuntime.Date?
-        /// A map from risk names to the count of how questions have that rating.
+        /// A map from risk names to the count of how many questions have that rating.
         public var riskCounts: [Swift.String:Swift.Int]?
         /// The ID assigned to the share invitation.
         public var shareInvitationId: Swift.String?
@@ -11429,7 +12061,7 @@ extension WellArchitectedClientTypes {
         public var lenses: [Swift.String]?
         /// An Amazon Web Services account ID.
         public var owner: Swift.String?
-        /// A map from risk names to the count of how questions have that rating.
+        /// A map from risk names to the count of how many questions have that rating.
         public var riskCounts: [Swift.String:Swift.Int]?
         /// The date and time recorded.
         public var updatedAt: ClientRuntime.Date?

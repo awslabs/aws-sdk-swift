@@ -690,9 +690,9 @@ extension GlueClientTypes.AuditContext: Swift.Codable {
 }
 
 extension GlueClientTypes {
-    /// A structure containing information for audit.
+    /// A structure containing the Lake Formation audit context.
     public struct AuditContext: Swift.Equatable {
-        /// The context for the audit..
+        /// A string containing the additional audit context information.
         public var additionalAuditContext: Swift.String?
         /// All columns request for audit.
         public var allColumnsRequested: Swift.Bool?
@@ -2845,6 +2845,8 @@ extension BatchGetPartitionOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FederationSourceException" : self = .federationSourceException(try FederationSourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FederationSourceRetryableException" : self = .federationSourceRetryableException(try FederationSourceRetryableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "GlueEncryptionException" : self = .glueEncryptionException(try GlueEncryptionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -2857,6 +2859,8 @@ extension BatchGetPartitionOutputError {
 
 public enum BatchGetPartitionOutputError: Swift.Error, Swift.Equatable {
     case entityNotFoundException(EntityNotFoundException)
+    case federationSourceException(FederationSourceException)
+    case federationSourceRetryableException(FederationSourceRetryableException)
     case glueEncryptionException(GlueEncryptionException)
     case internalServiceException(InternalServiceException)
     case invalidInputException(InvalidInputException)
@@ -6965,7 +6969,7 @@ extension GlueClientTypes {
         public var booleanColumnStatisticsData: GlueClientTypes.BooleanColumnStatisticsData?
         /// Date column statistics data.
         public var dateColumnStatisticsData: GlueClientTypes.DateColumnStatisticsData?
-        /// Decimal column statistics data.
+        /// Decimal column statistics data. UnscaledValues within are Base64-encoded binary objects storing big-endian, two's complement representations of the decimal's unscaled value.
         public var decimalColumnStatisticsData: GlueClientTypes.DecimalColumnStatisticsData?
         /// Double column statistics data.
         public var doubleColumnStatisticsData: GlueClientTypes.DoubleColumnStatisticsData?
@@ -10623,6 +10627,7 @@ extension CreateDatabaseOutputError {
         switch errorType {
         case "AlreadyExistsException" : self = .alreadyExistsException(try AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ConcurrentModificationException" : self = .concurrentModificationException(try ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FederatedResourceAlreadyExistsException" : self = .federatedResourceAlreadyExistsException(try FederatedResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "GlueEncryptionException" : self = .glueEncryptionException(try GlueEncryptionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -10636,6 +10641,7 @@ extension CreateDatabaseOutputError {
 public enum CreateDatabaseOutputError: Swift.Error, Swift.Equatable {
     case alreadyExistsException(AlreadyExistsException)
     case concurrentModificationException(ConcurrentModificationException)
+    case federatedResourceAlreadyExistsException(FederatedResourceAlreadyExistsException)
     case glueEncryptionException(GlueEncryptionException)
     case internalServiceException(InternalServiceException)
     case invalidInputException(InvalidInputException)
@@ -13325,7 +13331,7 @@ public struct CreateSessionInput: Swift.Equatable {
     /// The ID of the session request.
     /// This member is required.
     public var id: Swift.String?
-    /// The number of seconds when idle before request times out.
+    /// The number of minutes when idle before session times out. Default for Spark ETL jobs is value of Timeout. Consult the documentation for other job types.
     public var idleTimeout: Swift.Int?
     /// The number of Glue data processing units (DPUs) that can be allocated when the job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB memory.
     public var maxCapacity: Swift.Double?
@@ -13340,7 +13346,7 @@ public struct CreateSessionInput: Swift.Equatable {
     public var securityConfiguration: Swift.String?
     /// The map of key value pairs (tags) belonging to the session.
     public var tags: [Swift.String:Swift.String]?
-    /// The number of seconds before request times out.
+    /// The number of minutes before session times out. Default for Spark ETL jobs is 48 hours (2880 minutes), the maximum session lifetime for this job type. Consult the documentation for other job types.
     public var timeout: Swift.Int?
     /// The type of predefined worker that is allocated to use for the session. Accepts a value of Standard, G.1X, G.2X, or G.025X.
     ///
@@ -15958,6 +15964,7 @@ extension GlueClientTypes.Database: Swift.Codable {
         case createTableDefaultPermissions = "CreateTableDefaultPermissions"
         case createTime = "CreateTime"
         case description = "Description"
+        case federatedDatabase = "FederatedDatabase"
         case locationUri = "LocationUri"
         case name = "Name"
         case parameters = "Parameters"
@@ -15980,6 +15987,9 @@ extension GlueClientTypes.Database: Swift.Codable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let federatedDatabase = self.federatedDatabase {
+            try encodeContainer.encode(federatedDatabase, forKey: .federatedDatabase)
         }
         if let locationUri = self.locationUri {
             try encodeContainer.encode(locationUri, forKey: .locationUri)
@@ -16034,6 +16044,8 @@ extension GlueClientTypes.Database: Swift.Codable {
         targetDatabase = targetDatabaseDecoded
         let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
         catalogId = catalogIdDecoded
+        let federatedDatabaseDecoded = try containerValues.decodeIfPresent(GlueClientTypes.FederatedDatabase.self, forKey: .federatedDatabase)
+        federatedDatabase = federatedDatabaseDecoded
     }
 }
 
@@ -16048,6 +16060,8 @@ extension GlueClientTypes {
         public var createTime: ClientRuntime.Date?
         /// A description of the database.
         public var description: Swift.String?
+        /// A FederatedDatabase structure that references an entity outside the Glue Data Catalog.
+        public var federatedDatabase: GlueClientTypes.FederatedDatabase?
         /// The location of the database (for example, an HDFS path).
         public var locationUri: Swift.String?
         /// The name of the database. For Hive compatibility, this is folded to lowercase when it is stored.
@@ -16063,6 +16077,7 @@ extension GlueClientTypes {
             createTableDefaultPermissions: [GlueClientTypes.PrincipalPermissions]? = nil,
             createTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
+            federatedDatabase: GlueClientTypes.FederatedDatabase? = nil,
             locationUri: Swift.String? = nil,
             name: Swift.String? = nil,
             parameters: [Swift.String:Swift.String]? = nil,
@@ -16073,6 +16088,7 @@ extension GlueClientTypes {
             self.createTableDefaultPermissions = createTableDefaultPermissions
             self.createTime = createTime
             self.description = description
+            self.federatedDatabase = federatedDatabase
             self.locationUri = locationUri
             self.name = name
             self.parameters = parameters
@@ -16131,6 +16147,7 @@ extension GlueClientTypes.DatabaseInput: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createTableDefaultPermissions = "CreateTableDefaultPermissions"
         case description = "Description"
+        case federatedDatabase = "FederatedDatabase"
         case locationUri = "LocationUri"
         case name = "Name"
         case parameters = "Parameters"
@@ -16147,6 +16164,9 @@ extension GlueClientTypes.DatabaseInput: Swift.Codable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let federatedDatabase = self.federatedDatabase {
+            try encodeContainer.encode(federatedDatabase, forKey: .federatedDatabase)
         }
         if let locationUri = self.locationUri {
             try encodeContainer.encode(locationUri, forKey: .locationUri)
@@ -16197,6 +16217,8 @@ extension GlueClientTypes.DatabaseInput: Swift.Codable {
         createTableDefaultPermissions = createTableDefaultPermissionsDecoded0
         let targetDatabaseDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DatabaseIdentifier.self, forKey: .targetDatabase)
         targetDatabase = targetDatabaseDecoded
+        let federatedDatabaseDecoded = try containerValues.decodeIfPresent(GlueClientTypes.FederatedDatabase.self, forKey: .federatedDatabase)
+        federatedDatabase = federatedDatabaseDecoded
     }
 }
 
@@ -16207,6 +16229,8 @@ extension GlueClientTypes {
         public var createTableDefaultPermissions: [GlueClientTypes.PrincipalPermissions]?
         /// A description of the database.
         public var description: Swift.String?
+        /// A FederatedDatabase structure that references an entity outside the Glue Data Catalog.
+        public var federatedDatabase: GlueClientTypes.FederatedDatabase?
         /// The location of the database (for example, an HDFS path).
         public var locationUri: Swift.String?
         /// The name of the database. For Hive compatibility, this is folded to lowercase when it is stored.
@@ -16220,6 +16244,7 @@ extension GlueClientTypes {
         public init (
             createTableDefaultPermissions: [GlueClientTypes.PrincipalPermissions]? = nil,
             description: Swift.String? = nil,
+            federatedDatabase: GlueClientTypes.FederatedDatabase? = nil,
             locationUri: Swift.String? = nil,
             name: Swift.String? = nil,
             parameters: [Swift.String:Swift.String]? = nil,
@@ -16228,6 +16253,7 @@ extension GlueClientTypes {
         {
             self.createTableDefaultPermissions = createTableDefaultPermissions
             self.description = description
+            self.federatedDatabase = federatedDatabase
             self.locationUri = locationUri
             self.name = name
             self.parameters = parameters
@@ -20936,8 +20962,10 @@ extension EntityNotFoundException {
             let responseDecoder = decoder {
             let data = reader.toBytes().getData()
             let output: EntityNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.fromFederationSource = output.fromFederationSource
             self.message = output.message
         } else {
+            self.fromFederationSource = nil
             self.message = nil
         }
         self._headers = httpResponse.headers
@@ -20956,23 +20984,29 @@ public struct EntityNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// Indicates whether or not the exception relates to a federated source.
+    public var fromFederationSource: Swift.Bool?
     /// A message describing the problem.
     public var message: Swift.String?
 
     public init (
+        fromFederationSource: Swift.Bool? = nil,
         message: Swift.String? = nil
     )
     {
+        self.fromFederationSource = fromFederationSource
         self.message = message
     }
 }
 
 struct EntityNotFoundExceptionBody: Swift.Equatable {
     let message: Swift.String?
+    let fromFederationSource: Swift.Bool?
 }
 
 extension EntityNotFoundExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fromFederationSource = "FromFederationSource"
         case message = "Message"
     }
 
@@ -20980,6 +21014,8 @@ extension EntityNotFoundExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+        let fromFederationSourceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .fromFederationSource)
+        fromFederationSource = fromFederationSourceDecoded
     }
 }
 
@@ -21400,6 +21436,324 @@ extension GlueClientTypes {
         }
     }
 
+}
+
+extension GlueClientTypes.FederatedDatabase: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionName = "ConnectionName"
+        case identifier = "Identifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectionName = self.connectionName {
+            try encodeContainer.encode(connectionName, forKey: .connectionName)
+        }
+        if let identifier = self.identifier {
+            try encodeContainer.encode(identifier, forKey: .identifier)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
+        identifier = identifierDecoded
+        let connectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionName)
+        connectionName = connectionNameDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// A database that points to an entity outside the Glue Data Catalog.
+    public struct FederatedDatabase: Swift.Equatable {
+        /// The name of the connection to the external metastore.
+        public var connectionName: Swift.String?
+        /// A unique identifier for the federated database.
+        public var identifier: Swift.String?
+
+        public init (
+            connectionName: Swift.String? = nil,
+            identifier: Swift.String? = nil
+        )
+        {
+            self.connectionName = connectionName
+            self.identifier = identifier
+        }
+    }
+
+}
+
+extension FederatedResourceAlreadyExistsException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: FederatedResourceAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.associatedGlueResource = output.associatedGlueResource
+            self.message = output.message
+        } else {
+            self.associatedGlueResource = nil
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// A federated resource already exists.
+public struct FederatedResourceAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// The associated Glue resource already exists.
+    public var associatedGlueResource: Swift.String?
+    /// The message describing the problem.
+    public var message: Swift.String?
+
+    public init (
+        associatedGlueResource: Swift.String? = nil,
+        message: Swift.String? = nil
+    )
+    {
+        self.associatedGlueResource = associatedGlueResource
+        self.message = message
+    }
+}
+
+struct FederatedResourceAlreadyExistsExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+    let associatedGlueResource: Swift.String?
+}
+
+extension FederatedResourceAlreadyExistsExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associatedGlueResource = "AssociatedGlueResource"
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let associatedGlueResourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .associatedGlueResource)
+        associatedGlueResource = associatedGlueResourceDecoded
+    }
+}
+
+extension GlueClientTypes.FederatedTable: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionName = "ConnectionName"
+        case databaseIdentifier = "DatabaseIdentifier"
+        case identifier = "Identifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectionName = self.connectionName {
+            try encodeContainer.encode(connectionName, forKey: .connectionName)
+        }
+        if let databaseIdentifier = self.databaseIdentifier {
+            try encodeContainer.encode(databaseIdentifier, forKey: .databaseIdentifier)
+        }
+        if let identifier = self.identifier {
+            try encodeContainer.encode(identifier, forKey: .identifier)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
+        identifier = identifierDecoded
+        let databaseIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseIdentifier)
+        databaseIdentifier = databaseIdentifierDecoded
+        let connectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionName)
+        connectionName = connectionNameDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// A table that points to an entity outside the Glue Data Catalog.
+    public struct FederatedTable: Swift.Equatable {
+        /// The name of the connection to the external metastore.
+        public var connectionName: Swift.String?
+        /// A unique identifier for the federated database.
+        public var databaseIdentifier: Swift.String?
+        /// A unique identifier for the federated table.
+        public var identifier: Swift.String?
+
+        public init (
+            connectionName: Swift.String? = nil,
+            databaseIdentifier: Swift.String? = nil,
+            identifier: Swift.String? = nil
+        )
+        {
+            self.connectionName = connectionName
+            self.databaseIdentifier = databaseIdentifier
+            self.identifier = identifier
+        }
+    }
+
+}
+
+extension GlueClientTypes {
+    public enum FederationSourceErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case internalserviceexception
+        case invalidresponseexception
+        case operationnotsupportedexception
+        case operationtimeoutexception
+        case throttlingexception
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FederationSourceErrorCode] {
+            return [
+                .internalserviceexception,
+                .invalidresponseexception,
+                .operationnotsupportedexception,
+                .operationtimeoutexception,
+                .throttlingexception,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalserviceexception: return "InternalServiceException"
+            case .invalidresponseexception: return "InvalidResponseException"
+            case .operationnotsupportedexception: return "OperationNotSupportedException"
+            case .operationtimeoutexception: return "OperationTimeoutException"
+            case .throttlingexception: return "ThrottlingException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FederationSourceErrorCode(rawValue: rawValue) ?? FederationSourceErrorCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension FederationSourceException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: FederationSourceExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.federationSourceErrorCode = output.federationSourceErrorCode
+            self.message = output.message
+        } else {
+            self.federationSourceErrorCode = nil
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// A federation source failed.
+public struct FederationSourceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// The error code of the problem.
+    public var federationSourceErrorCode: GlueClientTypes.FederationSourceErrorCode?
+    /// The message describing the problem.
+    public var message: Swift.String?
+
+    public init (
+        federationSourceErrorCode: GlueClientTypes.FederationSourceErrorCode? = nil,
+        message: Swift.String? = nil
+    )
+    {
+        self.federationSourceErrorCode = federationSourceErrorCode
+        self.message = message
+    }
+}
+
+struct FederationSourceExceptionBody: Swift.Equatable {
+    let federationSourceErrorCode: GlueClientTypes.FederationSourceErrorCode?
+    let message: Swift.String?
+}
+
+extension FederationSourceExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case federationSourceErrorCode = "FederationSourceErrorCode"
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let federationSourceErrorCodeDecoded = try containerValues.decodeIfPresent(GlueClientTypes.FederationSourceErrorCode.self, forKey: .federationSourceErrorCode)
+        federationSourceErrorCode = federationSourceErrorCodeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension FederationSourceRetryableException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: FederationSourceRetryableExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+public struct FederationSourceRetryableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct FederationSourceRetryableExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension FederationSourceRetryableExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension GlueClientTypes {
@@ -23277,7 +23631,7 @@ extension GetColumnStatisticsForTableOutputResponse: ClientRuntime.HttpResponseB
 }
 
 public struct GetColumnStatisticsForTableOutputResponse: Swift.Equatable {
-    /// List of ColumnStatistics that failed to be retrieved.
+    /// List of ColumnStatistics.
     public var columnStatisticsList: [GlueClientTypes.ColumnStatistics]?
     /// List of ColumnStatistics that failed to be retrieved.
     public var errors: [GlueClientTypes.ColumnError]?
@@ -25369,6 +25723,7 @@ extension GetDatabaseOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FederationSourceException" : self = .federationSourceException(try FederationSourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "GlueEncryptionException" : self = .glueEncryptionException(try GlueEncryptionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -25380,6 +25735,7 @@ extension GetDatabaseOutputError {
 
 public enum GetDatabaseOutputError: Swift.Error, Swift.Equatable {
     case entityNotFoundException(EntityNotFoundException)
+    case federationSourceException(FederationSourceException)
     case glueEncryptionException(GlueEncryptionException)
     case internalServiceException(InternalServiceException)
     case invalidInputException(InvalidInputException)
@@ -25466,7 +25822,9 @@ public struct GetDatabasesInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// A continuation token, if this is a continuation call.
     public var nextToken: Swift.String?
-    /// Allows you to specify that you want to list the databases shared with your account. The allowable values are FOREIGN or ALL.
+    /// Allows you to specify that you want to list the databases shared with your account. The allowable values are FEDERATED, FOREIGN or ALL.
+    ///
+    /// * If set to FEDERATED, will list the federated databases (referencing an external entity) shared with your account.
     ///
     /// * If set to FOREIGN, will list the databases shared with your account.
     ///
@@ -28052,6 +28410,8 @@ extension GetPartitionOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FederationSourceException" : self = .federationSourceException(try FederationSourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FederationSourceRetryableException" : self = .federationSourceRetryableException(try FederationSourceRetryableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "GlueEncryptionException" : self = .glueEncryptionException(try GlueEncryptionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -28063,6 +28423,8 @@ extension GetPartitionOutputError {
 
 public enum GetPartitionOutputError: Swift.Error, Swift.Equatable {
     case entityNotFoundException(EntityNotFoundException)
+    case federationSourceException(FederationSourceException)
+    case federationSourceRetryableException(FederationSourceRetryableException)
     case glueEncryptionException(GlueEncryptionException)
     case internalServiceException(InternalServiceException)
     case invalidInputException(InvalidInputException)
@@ -28301,6 +28663,8 @@ extension GetPartitionsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FederationSourceException" : self = .federationSourceException(try FederationSourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FederationSourceRetryableException" : self = .federationSourceRetryableException(try FederationSourceRetryableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "GlueEncryptionException" : self = .glueEncryptionException(try GlueEncryptionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -28314,6 +28678,8 @@ extension GetPartitionsOutputError {
 
 public enum GetPartitionsOutputError: Swift.Error, Swift.Equatable {
     case entityNotFoundException(EntityNotFoundException)
+    case federationSourceException(FederationSourceException)
+    case federationSourceRetryableException(FederationSourceRetryableException)
     case glueEncryptionException(GlueEncryptionException)
     case internalServiceException(InternalServiceException)
     case invalidInputException(InvalidInputException)
@@ -30496,6 +30862,8 @@ extension GetTableOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FederationSourceException" : self = .federationSourceException(try FederationSourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FederationSourceRetryableException" : self = .federationSourceRetryableException(try FederationSourceRetryableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "GlueEncryptionException" : self = .glueEncryptionException(try GlueEncryptionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -30508,6 +30876,8 @@ extension GetTableOutputError {
 
 public enum GetTableOutputError: Swift.Error, Swift.Equatable {
     case entityNotFoundException(EntityNotFoundException)
+    case federationSourceException(FederationSourceException)
+    case federationSourceRetryableException(FederationSourceRetryableException)
     case glueEncryptionException(GlueEncryptionException)
     case internalServiceException(InternalServiceException)
     case invalidInputException(InvalidInputException)
@@ -31032,6 +31402,8 @@ extension GetTablesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FederationSourceException" : self = .federationSourceException(try FederationSourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FederationSourceRetryableException" : self = .federationSourceRetryableException(try FederationSourceRetryableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "GlueEncryptionException" : self = .glueEncryptionException(try GlueEncryptionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -31043,6 +31415,8 @@ extension GetTablesOutputError {
 
 public enum GetTablesOutputError: Swift.Error, Swift.Equatable {
     case entityNotFoundException(EntityNotFoundException)
+    case federationSourceException(FederationSourceException)
+    case federationSourceRetryableException(FederationSourceRetryableException)
     case glueEncryptionException(GlueEncryptionException)
     case internalServiceException(InternalServiceException)
     case invalidInputException(InvalidInputException)
@@ -31660,6 +32034,8 @@ extension GetUnfilteredPartitionMetadataOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FederationSourceException" : self = .federationSourceException(try FederationSourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FederationSourceRetryableException" : self = .federationSourceRetryableException(try FederationSourceRetryableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "GlueEncryptionException" : self = .glueEncryptionException(try GlueEncryptionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -31672,6 +32048,8 @@ extension GetUnfilteredPartitionMetadataOutputError {
 
 public enum GetUnfilteredPartitionMetadataOutputError: Swift.Error, Swift.Equatable {
     case entityNotFoundException(EntityNotFoundException)
+    case federationSourceException(FederationSourceException)
+    case federationSourceRetryableException(FederationSourceRetryableException)
     case glueEncryptionException(GlueEncryptionException)
     case internalServiceException(InternalServiceException)
     case invalidInputException(InvalidInputException)
@@ -31942,6 +32320,8 @@ extension GetUnfilteredPartitionsMetadataOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FederationSourceException" : self = .federationSourceException(try FederationSourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FederationSourceRetryableException" : self = .federationSourceRetryableException(try FederationSourceRetryableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "GlueEncryptionException" : self = .glueEncryptionException(try GlueEncryptionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -31954,6 +32334,8 @@ extension GetUnfilteredPartitionsMetadataOutputError {
 
 public enum GetUnfilteredPartitionsMetadataOutputError: Swift.Error, Swift.Equatable {
     case entityNotFoundException(EntityNotFoundException)
+    case federationSourceException(FederationSourceException)
+    case federationSourceRetryableException(FederationSourceRetryableException)
     case glueEncryptionException(GlueEncryptionException)
     case internalServiceException(InternalServiceException)
     case invalidInputException(InvalidInputException)
@@ -32145,6 +32527,8 @@ extension GetUnfilteredTableMetadataOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "EntityNotFoundException" : self = .entityNotFoundException(try EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FederationSourceException" : self = .federationSourceException(try FederationSourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "FederationSourceRetryableException" : self = .federationSourceRetryableException(try FederationSourceRetryableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "GlueEncryptionException" : self = .glueEncryptionException(try GlueEncryptionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServiceException" : self = .internalServiceException(try InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -32157,6 +32541,8 @@ extension GetUnfilteredTableMetadataOutputError {
 
 public enum GetUnfilteredTableMetadataOutputError: Swift.Error, Swift.Equatable {
     case entityNotFoundException(EntityNotFoundException)
+    case federationSourceException(FederationSourceException)
+    case federationSourceRetryableException(FederationSourceRetryableException)
     case glueEncryptionException(GlueEncryptionException)
     case internalServiceException(InternalServiceException)
     case invalidInputException(InvalidInputException)
@@ -34262,8 +34648,10 @@ extension InvalidInputException {
             let responseDecoder = decoder {
             let data = reader.toBytes().getData()
             let output: InvalidInputExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.fromFederationSource = output.fromFederationSource
             self.message = output.message
         } else {
+            self.fromFederationSource = nil
             self.message = nil
         }
         self._headers = httpResponse.headers
@@ -34282,23 +34670,29 @@ public struct InvalidInputException: AWSClientRuntime.AWSHttpServiceError, Swift
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// Indicates whether or not the exception relates to a federated source.
+    public var fromFederationSource: Swift.Bool?
     /// A message describing the problem.
     public var message: Swift.String?
 
     public init (
+        fromFederationSource: Swift.Bool? = nil,
         message: Swift.String? = nil
     )
     {
+        self.fromFederationSource = fromFederationSource
         self.message = message
     }
 }
 
 struct InvalidInputExceptionBody: Swift.Equatable {
     let message: Swift.String?
+    let fromFederationSource: Swift.Bool?
 }
 
 extension InvalidInputExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fromFederationSource = "FromFederationSource"
         case message = "Message"
     }
 
@@ -34306,6 +34700,8 @@ extension InvalidInputExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+        let fromFederationSourceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .fromFederationSource)
+        fromFederationSource = fromFederationSourceDecoded
     }
 }
 
@@ -35288,7 +35684,7 @@ extension GlueClientTypes {
         ///
         /// * When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.
         ///
-        /// * When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate a minimum of 2 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
+        /// * When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
         ///
         ///
         /// For Glue version 2.0 jobs, you cannot instead specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers.
@@ -43237,6 +43633,7 @@ extension PermissionTypeMismatchException {
     }
 }
 
+/// The operation timed out.
 public struct PermissionTypeMismatchException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -43245,6 +43642,7 @@ public struct PermissionTypeMismatchException: AWSClientRuntime.AWSHttpServiceEr
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// There is a mismatch between the SupportedPermissionType used in the query request and the permissions defined on the target table.
     public var message: Swift.String?
 
     public init (
@@ -45843,12 +46241,14 @@ extension ResourceNumberLimitExceededExceptionBody: Swift.Decodable {
 extension GlueClientTypes {
     public enum ResourceShareType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case all
+        case federated
         case foreign
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceShareType] {
             return [
                 .all,
+                .federated,
                 .foreign,
                 .sdkUnknown("")
             ]
@@ -45860,6 +46260,7 @@ extension GlueClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .all: return "ALL"
+            case .federated: return "FEDERATED"
             case .foreign: return "FOREIGN"
             case let .sdkUnknown(s): return s
             }
@@ -54302,6 +54703,7 @@ extension GlueClientTypes.Table: Swift.Codable {
         case createdBy = "CreatedBy"
         case databaseName = "DatabaseName"
         case description = "Description"
+        case federatedTable = "FederatedTable"
         case isRegisteredWithLakeFormation = "IsRegisteredWithLakeFormation"
         case lastAccessTime = "LastAccessTime"
         case lastAnalyzedTime = "LastAnalyzedTime"
@@ -54335,6 +54737,9 @@ extension GlueClientTypes.Table: Swift.Codable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let federatedTable = self.federatedTable {
+            try encodeContainer.encode(federatedTable, forKey: .federatedTable)
         }
         if isRegisteredWithLakeFormation != false {
             try encodeContainer.encode(isRegisteredWithLakeFormation, forKey: .isRegisteredWithLakeFormation)
@@ -54449,6 +54854,8 @@ extension GlueClientTypes.Table: Swift.Codable {
         catalogId = catalogIdDecoded
         let versionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionId)
         versionId = versionIdDecoded
+        let federatedTableDecoded = try containerValues.decodeIfPresent(GlueClientTypes.FederatedTable.self, forKey: .federatedTable)
+        federatedTable = federatedTableDecoded
     }
 }
 
@@ -54465,6 +54872,8 @@ extension GlueClientTypes {
         public var databaseName: Swift.String?
         /// A description of the table.
         public var description: Swift.String?
+        /// A FederatedTable structure that references an entity outside the Glue Data Catalog.
+        public var federatedTable: GlueClientTypes.FederatedTable?
         /// Indicates whether the table has been registered with Lake Formation.
         public var isRegisteredWithLakeFormation: Swift.Bool
         /// The last time that the table was accessed. This is usually taken from HDFS, and might not be reliable.
@@ -54503,6 +54912,7 @@ extension GlueClientTypes {
             createdBy: Swift.String? = nil,
             databaseName: Swift.String? = nil,
             description: Swift.String? = nil,
+            federatedTable: GlueClientTypes.FederatedTable? = nil,
             isRegisteredWithLakeFormation: Swift.Bool = false,
             lastAccessTime: ClientRuntime.Date? = nil,
             lastAnalyzedTime: ClientRuntime.Date? = nil,
@@ -54525,6 +54935,7 @@ extension GlueClientTypes {
             self.createdBy = createdBy
             self.databaseName = databaseName
             self.description = description
+            self.federatedTable = federatedTable
             self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation
             self.lastAccessTime = lastAccessTime
             self.lastAnalyzedTime = lastAnalyzedTime
@@ -57958,7 +58369,6 @@ extension UpdateDataQualityRulesetInput: Swift.Encodable {
         case description = "Description"
         case name = "Name"
         case ruleset = "Ruleset"
-        case updatedName = "UpdatedName"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -57971,9 +58381,6 @@ extension UpdateDataQualityRulesetInput: Swift.Encodable {
         }
         if let ruleset = self.ruleset {
             try encodeContainer.encode(ruleset, forKey: .ruleset)
-        }
-        if let updatedName = self.updatedName {
-            try encodeContainer.encode(updatedName, forKey: .updatedName)
         }
     }
 }
@@ -57992,26 +58399,21 @@ public struct UpdateDataQualityRulesetInput: Swift.Equatable {
     public var name: Swift.String?
     /// A Data Quality Definition Language (DQDL) ruleset. For more information, see the Glue developer guide.
     public var ruleset: Swift.String?
-    /// The new name of the ruleset, if you are renaming it.
-    public var updatedName: Swift.String?
 
     public init (
         description: Swift.String? = nil,
         name: Swift.String? = nil,
-        ruleset: Swift.String? = nil,
-        updatedName: Swift.String? = nil
+        ruleset: Swift.String? = nil
     )
     {
         self.description = description
         self.name = name
         self.ruleset = ruleset
-        self.updatedName = updatedName
     }
 }
 
 struct UpdateDataQualityRulesetInputBody: Swift.Equatable {
     let name: Swift.String?
-    let updatedName: Swift.String?
     let description: Swift.String?
     let ruleset: Swift.String?
 }
@@ -58021,15 +58423,12 @@ extension UpdateDataQualityRulesetInputBody: Swift.Decodable {
         case description = "Description"
         case name = "Name"
         case ruleset = "Ruleset"
-        case updatedName = "UpdatedName"
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let updatedNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .updatedName)
-        updatedName = updatedNameDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
         let rulesetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ruleset)

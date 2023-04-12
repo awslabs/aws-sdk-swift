@@ -2,6 +2,51 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension ImagebuilderClientTypes.AccountAggregation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case severityCounts
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let severityCounts = self.severityCounts {
+            try encodeContainer.encode(severityCounts, forKey: .severityCounts)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let severityCountsDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.SeverityCounts.self, forKey: .severityCounts)
+        severityCounts = severityCountsDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Contains counts of vulnerability findings from image scans that run when you create new Image Builder images, or build new versions of existing images. The vulnerability counts are grouped by severity level. The counts are aggregated across resources to create the final tally for the account that owns them.
+    public struct AccountAggregation: Swift.Equatable {
+        /// Identifies the account that owns the aggregated resource findings.
+        public var accountId: Swift.String?
+        /// Counts by severity level for medium severity and higher level findings, plus a total for all of the findings.
+        public var severityCounts: ImagebuilderClientTypes.SeverityCounts?
+
+        public init (
+            accountId: Swift.String? = nil,
+            severityCounts: ImagebuilderClientTypes.SeverityCounts? = nil
+        )
+        {
+            self.accountId = accountId
+            self.severityCounts = severityCounts
+        }
+    }
+
+}
+
 extension ImagebuilderClientTypes.AdditionalInstanceConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case systemsManagerAgent
@@ -109,7 +154,7 @@ extension ImagebuilderClientTypes {
         public var name: Swift.String?
         /// The Amazon Web Services Region of the Amazon EC2 AMI.
         public var region: Swift.String?
-        /// Image state shows the image status and the reason for that status.
+        /// Image status and the reason for that status.
         public var state: ImagebuilderClientTypes.ImageState?
 
         public init (
@@ -355,7 +400,7 @@ public struct CancelImageCreationInput: Swift.Equatable {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the image whose creation you want to cancel.
+    /// The Amazon Resource Name (ARN) of the image that you want to cancel creation for.
     /// This member is required.
     public var imageBuildVersionArn: Swift.String?
 
@@ -445,7 +490,7 @@ extension CancelImageCreationOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct CancelImageCreationOutputResponse: Swift.Equatable {
     /// The idempotency token that was used for this request.
     public var clientToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the image whose creation has been cancelled.
+    /// The ARN of the image whose creation this request canceled.
     public var imageBuildVersionArn: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -2214,7 +2259,7 @@ extension CreateComponentOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct CreateComponentOutputResponse: Swift.Equatable {
     /// The idempotency token used to make this request idempotent.
     public var clientToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the component that was created by this request.
+    /// The Amazon Resource Name (ARN) of the component that this request created.
     public var componentBuildVersionArn: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -2848,6 +2893,7 @@ extension CreateImageInput: Swift.Encodable {
         case distributionConfigurationArn
         case enhancedImageMetadataEnabled
         case imageRecipeArn
+        case imageScanningConfiguration
         case imageTestsConfiguration
         case infrastructureConfigurationArn
         case tags
@@ -2869,6 +2915,9 @@ extension CreateImageInput: Swift.Encodable {
         }
         if let imageRecipeArn = self.imageRecipeArn {
             try encodeContainer.encode(imageRecipeArn, forKey: .imageRecipeArn)
+        }
+        if let imageScanningConfiguration = self.imageScanningConfiguration {
+            try encodeContainer.encode(imageScanningConfiguration, forKey: .imageScanningConfiguration)
         }
         if let imageTestsConfiguration = self.imageTestsConfiguration {
             try encodeContainer.encode(imageTestsConfiguration, forKey: .imageTestsConfiguration)
@@ -2903,6 +2952,8 @@ public struct CreateImageInput: Swift.Equatable {
     public var enhancedImageMetadataEnabled: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the image recipe that defines how images are configured, tested, and assessed.
     public var imageRecipeArn: Swift.String?
+    /// Contains settings for vulnerability scans.
+    public var imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration?
     /// The image tests configuration of the image.
     public var imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration?
     /// The Amazon Resource Name (ARN) of the infrastructure configuration that defines the environment in which your image will be built and tested.
@@ -2917,6 +2968,7 @@ public struct CreateImageInput: Swift.Equatable {
         distributionConfigurationArn: Swift.String? = nil,
         enhancedImageMetadataEnabled: Swift.Bool? = nil,
         imageRecipeArn: Swift.String? = nil,
+        imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration? = nil,
         imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration? = nil,
         infrastructureConfigurationArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -2927,6 +2979,7 @@ public struct CreateImageInput: Swift.Equatable {
         self.distributionConfigurationArn = distributionConfigurationArn
         self.enhancedImageMetadataEnabled = enhancedImageMetadataEnabled
         self.imageRecipeArn = imageRecipeArn
+        self.imageScanningConfiguration = imageScanningConfiguration
         self.imageTestsConfiguration = imageTestsConfiguration
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
         self.tags = tags
@@ -2942,6 +2995,7 @@ struct CreateImageInputBody: Swift.Equatable {
     let enhancedImageMetadataEnabled: Swift.Bool?
     let tags: [Swift.String:Swift.String]?
     let clientToken: Swift.String?
+    let imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration?
 }
 
 extension CreateImageInputBody: Swift.Decodable {
@@ -2951,6 +3005,7 @@ extension CreateImageInputBody: Swift.Decodable {
         case distributionConfigurationArn
         case enhancedImageMetadataEnabled
         case imageRecipeArn
+        case imageScanningConfiguration
         case imageTestsConfiguration
         case infrastructureConfigurationArn
         case tags
@@ -2983,6 +3038,8 @@ extension CreateImageInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+        let imageScanningConfigurationDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.ImageScanningConfiguration.self, forKey: .imageScanningConfiguration)
+        imageScanningConfiguration = imageScanningConfigurationDecoded
     }
 }
 
@@ -3044,7 +3101,7 @@ extension CreateImageOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct CreateImageOutputResponse: Swift.Equatable {
     /// The idempotency token used to make this request idempotent.
     public var clientToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the image that was created by this request.
+    /// The Amazon Resource Name (ARN) of the image that this request created.
     public var imageBuildVersionArn: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -3093,6 +3150,7 @@ extension CreateImagePipelineInput: Swift.Encodable {
         case distributionConfigurationArn
         case enhancedImageMetadataEnabled
         case imageRecipeArn
+        case imageScanningConfiguration
         case imageTestsConfiguration
         case infrastructureConfigurationArn
         case name
@@ -3120,6 +3178,9 @@ extension CreateImagePipelineInput: Swift.Encodable {
         }
         if let imageRecipeArn = self.imageRecipeArn {
             try encodeContainer.encode(imageRecipeArn, forKey: .imageRecipeArn)
+        }
+        if let imageScanningConfiguration = self.imageScanningConfiguration {
+            try encodeContainer.encode(imageScanningConfiguration, forKey: .imageScanningConfiguration)
         }
         if let imageTestsConfiguration = self.imageTestsConfiguration {
             try encodeContainer.encode(imageTestsConfiguration, forKey: .imageTestsConfiguration)
@@ -3165,6 +3226,8 @@ public struct CreateImagePipelineInput: Swift.Equatable {
     public var enhancedImageMetadataEnabled: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the image recipe that will be used to configure images created by this image pipeline.
     public var imageRecipeArn: Swift.String?
+    /// Contains settings for vulnerability scans.
+    public var imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration?
     /// The image test configuration of the image pipeline.
     public var imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration?
     /// The Amazon Resource Name (ARN) of the infrastructure configuration that will be used to build images created by this image pipeline.
@@ -3187,6 +3250,7 @@ public struct CreateImagePipelineInput: Swift.Equatable {
         distributionConfigurationArn: Swift.String? = nil,
         enhancedImageMetadataEnabled: Swift.Bool? = nil,
         imageRecipeArn: Swift.String? = nil,
+        imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration? = nil,
         imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration? = nil,
         infrastructureConfigurationArn: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -3201,6 +3265,7 @@ public struct CreateImagePipelineInput: Swift.Equatable {
         self.distributionConfigurationArn = distributionConfigurationArn
         self.enhancedImageMetadataEnabled = enhancedImageMetadataEnabled
         self.imageRecipeArn = imageRecipeArn
+        self.imageScanningConfiguration = imageScanningConfiguration
         self.imageTestsConfiguration = imageTestsConfiguration
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
         self.name = name
@@ -3223,6 +3288,7 @@ struct CreateImagePipelineInputBody: Swift.Equatable {
     let status: ImagebuilderClientTypes.PipelineStatus?
     let tags: [Swift.String:Swift.String]?
     let clientToken: Swift.String?
+    let imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration?
 }
 
 extension CreateImagePipelineInputBody: Swift.Decodable {
@@ -3233,6 +3299,7 @@ extension CreateImagePipelineInputBody: Swift.Decodable {
         case distributionConfigurationArn
         case enhancedImageMetadataEnabled
         case imageRecipeArn
+        case imageScanningConfiguration
         case imageTestsConfiguration
         case infrastructureConfigurationArn
         case name
@@ -3276,6 +3343,8 @@ extension CreateImagePipelineInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+        let imageScanningConfigurationDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.ImageScanningConfiguration.self, forKey: .imageScanningConfiguration)
+        imageScanningConfiguration = imageScanningConfigurationDecoded
     }
 }
 
@@ -4034,6 +4103,213 @@ extension CreateInfrastructureConfigurationOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ImagebuilderClientTypes.CvssScore: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baseScore
+        case scoringVector
+        case source
+        case version
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let baseScore = self.baseScore {
+            try encodeContainer.encode(baseScore, forKey: .baseScore)
+        }
+        if let scoringVector = self.scoringVector {
+            try encodeContainer.encode(scoringVector, forKey: .scoringVector)
+        }
+        if let source = self.source {
+            try encodeContainer.encode(source, forKey: .source)
+        }
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let baseScoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .baseScore)
+        baseScore = baseScoreDecoded
+        let scoringVectorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scoringVector)
+        scoringVector = scoringVectorDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .source)
+        source = sourceDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Amazon Inspector generates a risk score for each finding. This score helps you to prioritize findings, to focus on the most critical findings and the most vulnerable resources. The score uses the Common Vulnerability Scoring System (CVSS) format. This format is a modification of the base CVSS score that the National Vulnerability Database (NVD) provides. For more information about severity levels, see [Severity levels for Amazon Inspector findings](https://docs.aws.amazon.com/inspector/latest/user/findings-understanding-severity.html) in the Amazon Inspector User Guide.
+    public struct CvssScore: Swift.Equatable {
+        /// The CVSS base score.
+        public var baseScore: Swift.Double?
+        /// The vector string of the CVSS score.
+        public var scoringVector: Swift.String?
+        /// The source of the CVSS score.
+        public var source: Swift.String?
+        /// The CVSS version that generated the score.
+        public var version: Swift.String?
+
+        public init (
+            baseScore: Swift.Double? = nil,
+            scoringVector: Swift.String? = nil,
+            source: Swift.String? = nil,
+            version: Swift.String? = nil
+        )
+        {
+            self.baseScore = baseScore
+            self.scoringVector = scoringVector
+            self.source = source
+            self.version = version
+        }
+    }
+
+}
+
+extension ImagebuilderClientTypes.CvssScoreAdjustment: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metric
+        case reason
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let metric = self.metric {
+            try encodeContainer.encode(metric, forKey: .metric)
+        }
+        if let reason = self.reason {
+            try encodeContainer.encode(reason, forKey: .reason)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metric)
+        metric = metricDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
+        reason = reasonDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Details about an adjustment that Amazon Inspector made to the CVSS score for a finding.
+    public struct CvssScoreAdjustment: Swift.Equatable {
+        /// The metric that Amazon Inspector used to adjust the CVSS score.
+        public var metric: Swift.String?
+        /// The reason for the CVSS score adjustment.
+        public var reason: Swift.String?
+
+        public init (
+            metric: Swift.String? = nil,
+            reason: Swift.String? = nil
+        )
+        {
+            self.metric = metric
+            self.reason = reason
+        }
+    }
+
+}
+
+extension ImagebuilderClientTypes.CvssScoreDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adjustments
+        case cvssSource
+        case score
+        case scoreSource
+        case scoringVector
+        case version
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let adjustments = adjustments {
+            var adjustmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .adjustments)
+            for cvssscoreadjustment0 in adjustments {
+                try adjustmentsContainer.encode(cvssscoreadjustment0)
+            }
+        }
+        if let cvssSource = self.cvssSource {
+            try encodeContainer.encode(cvssSource, forKey: .cvssSource)
+        }
+        if let score = self.score {
+            try encodeContainer.encode(score, forKey: .score)
+        }
+        if let scoreSource = self.scoreSource {
+            try encodeContainer.encode(scoreSource, forKey: .scoreSource)
+        }
+        if let scoringVector = self.scoringVector {
+            try encodeContainer.encode(scoringVector, forKey: .scoringVector)
+        }
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scoreSourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scoreSource)
+        scoreSource = scoreSourceDecoded
+        let cvssSourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cvssSource)
+        cvssSource = cvssSourceDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+        let scoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .score)
+        score = scoreDecoded
+        let scoringVectorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scoringVector)
+        scoringVector = scoringVectorDecoded
+        let adjustmentsContainer = try containerValues.decodeIfPresent([ImagebuilderClientTypes.CvssScoreAdjustment?].self, forKey: .adjustments)
+        var adjustmentsDecoded0:[ImagebuilderClientTypes.CvssScoreAdjustment]? = nil
+        if let adjustmentsContainer = adjustmentsContainer {
+            adjustmentsDecoded0 = [ImagebuilderClientTypes.CvssScoreAdjustment]()
+            for structure0 in adjustmentsContainer {
+                if let structure0 = structure0 {
+                    adjustmentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        adjustments = adjustmentsDecoded0
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Details about the source of the score, and the factors that determined the adjustments to create the final score.
+    public struct CvssScoreDetails: Swift.Equatable {
+        /// An object that contains details about an adjustment that Amazon Inspector made to the CVSS score for the finding.
+        public var adjustments: [ImagebuilderClientTypes.CvssScoreAdjustment]?
+        /// The source of the finding.
+        public var cvssSource: Swift.String?
+        /// The CVSS score.
+        public var score: Swift.Double?
+        /// The source for the CVSS score.
+        public var scoreSource: Swift.String?
+        /// A vector that measures the severity of the vulnerability.
+        public var scoringVector: Swift.String?
+        /// The CVSS version that generated the score.
+        public var version: Swift.String?
+
+        public init (
+            adjustments: [ImagebuilderClientTypes.CvssScoreAdjustment]? = nil,
+            cvssSource: Swift.String? = nil,
+            score: Swift.Double? = nil,
+            scoreSource: Swift.String? = nil,
+            scoringVector: Swift.String? = nil,
+            version: Swift.String? = nil
+        )
+        {
+            self.adjustments = adjustments
+            self.cvssSource = cvssSource
+            self.score = score
+            self.scoreSource = scoreSource
+            self.scoringVector = scoringVector
+            self.version = version
+        }
+    }
+
+}
+
 extension DeleteComponentInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -4127,7 +4403,7 @@ extension DeleteComponentOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteComponentOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the component build version that was deleted.
+    /// The ARN of the component build version that this request deleted.
     public var componentBuildVersionArn: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -4511,7 +4787,7 @@ extension DeleteImageOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteImageOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Image Builder image resource that was deleted.
+    /// The ARN of the Image Builder image resource that this request deleted.
     public var imageBuildVersionArn: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -5498,6 +5774,63 @@ extension ImagebuilderClientTypes {
     }
 }
 
+extension ImagebuilderClientTypes.EcrConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case containerTags
+        case repositoryName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let containerTags = containerTags {
+            var containerTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containerTags)
+            for nonemptystring0 in containerTags {
+                try containerTagsContainer.encode(nonemptystring0)
+            }
+        }
+        if let repositoryName = self.repositoryName {
+            try encodeContainer.encode(repositoryName, forKey: .repositoryName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let repositoryNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryName)
+        repositoryName = repositoryNameDecoded
+        let containerTagsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .containerTags)
+        var containerTagsDecoded0:[Swift.String]? = nil
+        if let containerTagsContainer = containerTagsContainer {
+            containerTagsDecoded0 = [Swift.String]()
+            for string0 in containerTagsContainer {
+                if let string0 = string0 {
+                    containerTagsDecoded0?.append(string0)
+                }
+            }
+        }
+        containerTags = containerTagsDecoded0
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Settings that Image Builder uses to configure the ECR repository and the output container images that Amazon Inspector scans.
+    public struct EcrConfiguration: Swift.Equatable {
+        /// Tags for Image Builder to apply to the output container image that &INS; scans. Tags can help you identify and manage your scanned images.
+        public var containerTags: [Swift.String]?
+        /// The name of the container repository that Amazon Inspector scans to identify findings for your container images. The name includes the path for the repository location. If you don’t provide this information, Image Builder creates a repository in your account named image-builder-image-scanning-repository for vulnerability scans of your output container images.
+        public var repositoryName: Swift.String?
+
+        public init (
+            containerTags: [Swift.String]? = nil,
+            repositoryName: Swift.String? = nil
+        )
+        {
+            self.containerTags = containerTags
+            self.repositoryName = repositoryName
+        }
+    }
+
+}
+
 extension ImagebuilderClientTypes.FastLaunchConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId
@@ -5795,7 +6128,7 @@ extension GetComponentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetComponentInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the component that you want to retrieve. Regex requires "/\d+$" suffix.
+    /// The Amazon Resource Name (ARN) of the component that you want to get. Regex requires the suffix /\d+$.
     /// This member is required.
     public var componentBuildVersionArn: Swift.String?
 
@@ -6425,7 +6758,7 @@ extension GetImageInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetImageInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the image that you want to retrieve.
+    /// The Amazon Resource Name (ARN) of the image that you want to get.
     /// This member is required.
     public var imageBuildVersionArn: Swift.String?
 
@@ -7161,6 +7494,518 @@ extension GetInfrastructureConfigurationOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetWorkflowExecutionInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let workflowExecutionId = workflowExecutionId else {
+                let message = "Creating a URL Query Item failed. workflowExecutionId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let workflowExecutionIdQueryItem = ClientRuntime.URLQueryItem(name: "workflowExecutionId".urlPercentEncoding(), value: Swift.String(workflowExecutionId).urlPercentEncoding())
+            items.append(workflowExecutionIdQueryItem)
+            return items
+        }
+    }
+}
+
+extension GetWorkflowExecutionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/GetWorkflowExecution"
+    }
+}
+
+public struct GetWorkflowExecutionInput: Swift.Equatable {
+    /// Use the unique identifier for a runtime instance of the workflow to get runtime details.
+    /// This member is required.
+    public var workflowExecutionId: Swift.String?
+
+    public init (
+        workflowExecutionId: Swift.String? = nil
+    )
+    {
+        self.workflowExecutionId = workflowExecutionId
+    }
+}
+
+struct GetWorkflowExecutionInputBody: Swift.Equatable {
+}
+
+extension GetWorkflowExecutionInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetWorkflowExecutionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetWorkflowExecutionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "CallRateLimitExceededException" : self = .callRateLimitExceededException(try CallRateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetWorkflowExecutionOutputError: Swift.Error, Swift.Equatable {
+    case callRateLimitExceededException(CallRateLimitExceededException)
+    case clientException(ClientException)
+    case forbiddenException(ForbiddenException)
+    case invalidRequestException(InvalidRequestException)
+    case serviceException(ServiceException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetWorkflowExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetWorkflowExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.endTime = output.endTime
+            self.imageBuildVersionArn = output.imageBuildVersionArn
+            self.message = output.message
+            self.requestId = output.requestId
+            self.startTime = output.startTime
+            self.status = output.status
+            self.totalStepCount = output.totalStepCount
+            self.totalStepsFailed = output.totalStepsFailed
+            self.totalStepsSkipped = output.totalStepsSkipped
+            self.totalStepsSucceeded = output.totalStepsSucceeded
+            self.type = output.type
+            self.workflowBuildVersionArn = output.workflowBuildVersionArn
+            self.workflowExecutionId = output.workflowExecutionId
+        } else {
+            self.endTime = nil
+            self.imageBuildVersionArn = nil
+            self.message = nil
+            self.requestId = nil
+            self.startTime = nil
+            self.status = nil
+            self.totalStepCount = 0
+            self.totalStepsFailed = 0
+            self.totalStepsSkipped = 0
+            self.totalStepsSucceeded = 0
+            self.type = nil
+            self.workflowBuildVersionArn = nil
+            self.workflowExecutionId = nil
+        }
+    }
+}
+
+public struct GetWorkflowExecutionOutputResponse: Swift.Equatable {
+    /// The timestamp when the specified runtime instance of the workflow finished.
+    public var endTime: Swift.String?
+    /// The Amazon Resource Name (ARN) of the image resource build version that the specified runtime instance of the workflow created.
+    public var imageBuildVersionArn: Swift.String?
+    /// The output message from the specified runtime instance of the workflow, if applicable.
+    public var message: Swift.String?
+    /// The request ID that uniquely identifies this request.
+    public var requestId: Swift.String?
+    /// The timestamp when the specified runtime instance of the workflow started.
+    public var startTime: Swift.String?
+    /// The current runtime status for the specified runtime instance of the workflow.
+    public var status: ImagebuilderClientTypes.WorkflowExecutionStatus?
+    /// The total number of steps in the specified runtime instance of the workflow that ran. This number should equal the sum of the step counts for steps that succeeded, were skipped, and failed.
+    public var totalStepCount: Swift.Int
+    /// A runtime count for the number of steps that failed in the specified runtime instance of the workflow.
+    public var totalStepsFailed: Swift.Int
+    /// A runtime count for the number of steps that were skipped in the specified runtime instance of the workflow.
+    public var totalStepsSkipped: Swift.Int
+    /// A runtime count for the number of steps that ran successfully in the specified runtime instance of the workflow.
+    public var totalStepsSucceeded: Swift.Int
+    /// The type of workflow that Image Builder ran for the specified runtime instance of the workflow.
+    public var type: ImagebuilderClientTypes.WorkflowType?
+    /// The Amazon Resource Name (ARN) of the build version for the Image Builder workflow resource that defines the specified runtime instance of the workflow.
+    public var workflowBuildVersionArn: Swift.String?
+    /// The unique identifier that Image Builder assigned to keep track of runtime details when it ran the workflow.
+    public var workflowExecutionId: Swift.String?
+
+    public init (
+        endTime: Swift.String? = nil,
+        imageBuildVersionArn: Swift.String? = nil,
+        message: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        startTime: Swift.String? = nil,
+        status: ImagebuilderClientTypes.WorkflowExecutionStatus? = nil,
+        totalStepCount: Swift.Int = 0,
+        totalStepsFailed: Swift.Int = 0,
+        totalStepsSkipped: Swift.Int = 0,
+        totalStepsSucceeded: Swift.Int = 0,
+        type: ImagebuilderClientTypes.WorkflowType? = nil,
+        workflowBuildVersionArn: Swift.String? = nil,
+        workflowExecutionId: Swift.String? = nil
+    )
+    {
+        self.endTime = endTime
+        self.imageBuildVersionArn = imageBuildVersionArn
+        self.message = message
+        self.requestId = requestId
+        self.startTime = startTime
+        self.status = status
+        self.totalStepCount = totalStepCount
+        self.totalStepsFailed = totalStepsFailed
+        self.totalStepsSkipped = totalStepsSkipped
+        self.totalStepsSucceeded = totalStepsSucceeded
+        self.type = type
+        self.workflowBuildVersionArn = workflowBuildVersionArn
+        self.workflowExecutionId = workflowExecutionId
+    }
+}
+
+struct GetWorkflowExecutionOutputResponseBody: Swift.Equatable {
+    let requestId: Swift.String?
+    let workflowBuildVersionArn: Swift.String?
+    let workflowExecutionId: Swift.String?
+    let imageBuildVersionArn: Swift.String?
+    let type: ImagebuilderClientTypes.WorkflowType?
+    let status: ImagebuilderClientTypes.WorkflowExecutionStatus?
+    let message: Swift.String?
+    let totalStepCount: Swift.Int
+    let totalStepsSucceeded: Swift.Int
+    let totalStepsFailed: Swift.Int
+    let totalStepsSkipped: Swift.Int
+    let startTime: Swift.String?
+    let endTime: Swift.String?
+}
+
+extension GetWorkflowExecutionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime
+        case imageBuildVersionArn
+        case message
+        case requestId
+        case startTime
+        case status
+        case totalStepCount
+        case totalStepsFailed
+        case totalStepsSkipped
+        case totalStepsSucceeded
+        case type
+        case workflowBuildVersionArn
+        case workflowExecutionId
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let workflowBuildVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowBuildVersionArn)
+        workflowBuildVersionArn = workflowBuildVersionArnDecoded
+        let workflowExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowExecutionId)
+        workflowExecutionId = workflowExecutionIdDecoded
+        let imageBuildVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageBuildVersionArn)
+        imageBuildVersionArn = imageBuildVersionArnDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.WorkflowType.self, forKey: .type)
+        type = typeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.WorkflowExecutionStatus.self, forKey: .status)
+        status = statusDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let totalStepCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalStepCount) ?? 0
+        totalStepCount = totalStepCountDecoded
+        let totalStepsSucceededDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalStepsSucceeded) ?? 0
+        totalStepsSucceeded = totalStepsSucceededDecoded
+        let totalStepsFailedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalStepsFailed) ?? 0
+        totalStepsFailed = totalStepsFailedDecoded
+        let totalStepsSkippedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalStepsSkipped) ?? 0
+        totalStepsSkipped = totalStepsSkippedDecoded
+        let startTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension GetWorkflowStepExecutionInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let stepExecutionId = stepExecutionId else {
+                let message = "Creating a URL Query Item failed. stepExecutionId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let stepExecutionIdQueryItem = ClientRuntime.URLQueryItem(name: "stepExecutionId".urlPercentEncoding(), value: Swift.String(stepExecutionId).urlPercentEncoding())
+            items.append(stepExecutionIdQueryItem)
+            return items
+        }
+    }
+}
+
+extension GetWorkflowStepExecutionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/GetWorkflowStepExecution"
+    }
+}
+
+public struct GetWorkflowStepExecutionInput: Swift.Equatable {
+    /// Use the unique identifier for a specific runtime instance of the workflow step to get runtime details for that step.
+    /// This member is required.
+    public var stepExecutionId: Swift.String?
+
+    public init (
+        stepExecutionId: Swift.String? = nil
+    )
+    {
+        self.stepExecutionId = stepExecutionId
+    }
+}
+
+struct GetWorkflowStepExecutionInputBody: Swift.Equatable {
+}
+
+extension GetWorkflowStepExecutionInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetWorkflowStepExecutionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetWorkflowStepExecutionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "CallRateLimitExceededException" : self = .callRateLimitExceededException(try CallRateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetWorkflowStepExecutionOutputError: Swift.Error, Swift.Equatable {
+    case callRateLimitExceededException(CallRateLimitExceededException)
+    case clientException(ClientException)
+    case forbiddenException(ForbiddenException)
+    case invalidRequestException(InvalidRequestException)
+    case serviceException(ServiceException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetWorkflowStepExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetWorkflowStepExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.action = output.action
+            self.description = output.description
+            self.endTime = output.endTime
+            self.imageBuildVersionArn = output.imageBuildVersionArn
+            self.inputs = output.inputs
+            self.message = output.message
+            self.name = output.name
+            self.onFailure = output.onFailure
+            self.outputs = output.outputs
+            self.requestId = output.requestId
+            self.rollbackStatus = output.rollbackStatus
+            self.startTime = output.startTime
+            self.status = output.status
+            self.stepExecutionId = output.stepExecutionId
+            self.timeoutSeconds = output.timeoutSeconds
+            self.workflowBuildVersionArn = output.workflowBuildVersionArn
+            self.workflowExecutionId = output.workflowExecutionId
+        } else {
+            self.action = nil
+            self.description = nil
+            self.endTime = nil
+            self.imageBuildVersionArn = nil
+            self.inputs = nil
+            self.message = nil
+            self.name = nil
+            self.onFailure = nil
+            self.outputs = nil
+            self.requestId = nil
+            self.rollbackStatus = nil
+            self.startTime = nil
+            self.status = nil
+            self.stepExecutionId = nil
+            self.timeoutSeconds = nil
+            self.workflowBuildVersionArn = nil
+            self.workflowExecutionId = nil
+        }
+    }
+}
+
+public struct GetWorkflowStepExecutionOutputResponse: Swift.Equatable {
+    /// The name of the action that the specified step performs.
+    public var action: Swift.String?
+    /// Describes the specified workflow step.
+    public var description: Swift.String?
+    /// The timestamp when the specified runtime instance of the workflow step finished.
+    public var endTime: Swift.String?
+    /// The Amazon Resource Name (ARN) of the image resource build version that the specified runtime instance of the workflow step creates.
+    public var imageBuildVersionArn: Swift.String?
+    /// Input parameters that Image Builder provided for the specified runtime instance of the workflow step.
+    public var inputs: Swift.String?
+    /// The output message from the specified runtime instance of the workflow step, if applicable.
+    public var message: Swift.String?
+    /// The name of the specified runtime instance of the workflow step.
+    public var name: Swift.String?
+    /// The action to perform if the workflow step fails.
+    public var onFailure: Swift.String?
+    /// The file names that the specified runtime version of the workflow step created as output.
+    public var outputs: Swift.String?
+    /// The request ID that uniquely identifies this request.
+    public var requestId: Swift.String?
+    /// Reports on the rollback status of the specified runtime version of the workflow step, if applicable.
+    public var rollbackStatus: ImagebuilderClientTypes.WorkflowStepExecutionRollbackStatus?
+    /// The timestamp when the specified runtime version of the workflow step started.
+    public var startTime: Swift.String?
+    /// The current status for the specified runtime version of the workflow step.
+    public var status: ImagebuilderClientTypes.WorkflowStepExecutionStatus?
+    /// The unique identifier for the runtime version of the workflow step that you specified in the request.
+    public var stepExecutionId: Swift.String?
+    /// The maximum duration in seconds for this step to complete its action.
+    public var timeoutSeconds: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the build version for the Image Builder workflow resource that defines this workflow step.
+    public var workflowBuildVersionArn: Swift.String?
+    /// The unique identifier that Image Builder assigned to keep track of runtime details when it ran the workflow.
+    public var workflowExecutionId: Swift.String?
+
+    public init (
+        action: Swift.String? = nil,
+        description: Swift.String? = nil,
+        endTime: Swift.String? = nil,
+        imageBuildVersionArn: Swift.String? = nil,
+        inputs: Swift.String? = nil,
+        message: Swift.String? = nil,
+        name: Swift.String? = nil,
+        onFailure: Swift.String? = nil,
+        outputs: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        rollbackStatus: ImagebuilderClientTypes.WorkflowStepExecutionRollbackStatus? = nil,
+        startTime: Swift.String? = nil,
+        status: ImagebuilderClientTypes.WorkflowStepExecutionStatus? = nil,
+        stepExecutionId: Swift.String? = nil,
+        timeoutSeconds: Swift.Int? = nil,
+        workflowBuildVersionArn: Swift.String? = nil,
+        workflowExecutionId: Swift.String? = nil
+    )
+    {
+        self.action = action
+        self.description = description
+        self.endTime = endTime
+        self.imageBuildVersionArn = imageBuildVersionArn
+        self.inputs = inputs
+        self.message = message
+        self.name = name
+        self.onFailure = onFailure
+        self.outputs = outputs
+        self.requestId = requestId
+        self.rollbackStatus = rollbackStatus
+        self.startTime = startTime
+        self.status = status
+        self.stepExecutionId = stepExecutionId
+        self.timeoutSeconds = timeoutSeconds
+        self.workflowBuildVersionArn = workflowBuildVersionArn
+        self.workflowExecutionId = workflowExecutionId
+    }
+}
+
+struct GetWorkflowStepExecutionOutputResponseBody: Swift.Equatable {
+    let requestId: Swift.String?
+    let stepExecutionId: Swift.String?
+    let workflowBuildVersionArn: Swift.String?
+    let workflowExecutionId: Swift.String?
+    let imageBuildVersionArn: Swift.String?
+    let name: Swift.String?
+    let description: Swift.String?
+    let action: Swift.String?
+    let status: ImagebuilderClientTypes.WorkflowStepExecutionStatus?
+    let rollbackStatus: ImagebuilderClientTypes.WorkflowStepExecutionRollbackStatus?
+    let message: Swift.String?
+    let inputs: Swift.String?
+    let outputs: Swift.String?
+    let startTime: Swift.String?
+    let endTime: Swift.String?
+    let onFailure: Swift.String?
+    let timeoutSeconds: Swift.Int?
+}
+
+extension GetWorkflowStepExecutionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action
+        case description
+        case endTime
+        case imageBuildVersionArn
+        case inputs
+        case message
+        case name
+        case onFailure
+        case outputs
+        case requestId
+        case rollbackStatus
+        case startTime
+        case status
+        case stepExecutionId
+        case timeoutSeconds
+        case workflowBuildVersionArn
+        case workflowExecutionId
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let stepExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stepExecutionId)
+        stepExecutionId = stepExecutionIdDecoded
+        let workflowBuildVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowBuildVersionArn)
+        workflowBuildVersionArn = workflowBuildVersionArnDecoded
+        let workflowExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowExecutionId)
+        workflowExecutionId = workflowExecutionIdDecoded
+        let imageBuildVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageBuildVersionArn)
+        imageBuildVersionArn = imageBuildVersionArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let actionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .action)
+        action = actionDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.WorkflowStepExecutionStatus.self, forKey: .status)
+        status = statusDecoded
+        let rollbackStatusDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.WorkflowStepExecutionRollbackStatus.self, forKey: .rollbackStatus)
+        rollbackStatus = rollbackStatusDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let inputsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .inputs)
+        inputs = inputsDecoded
+        let outputsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outputs)
+        outputs = outputsDecoded
+        let startTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endTime)
+        endTime = endTimeDecoded
+        let onFailureDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .onFailure)
+        onFailure = onFailureDecoded
+        let timeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutSeconds)
+        timeoutSeconds = timeoutSecondsDecoded
+    }
+}
+
 extension IdempotentParameterMismatchException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7222,6 +8067,7 @@ extension ImagebuilderClientTypes.Image: Swift.Codable {
         case distributionConfiguration
         case enhancedImageMetadataEnabled
         case imageRecipe
+        case imageScanningConfiguration
         case imageSource
         case imageTestsConfiguration
         case infrastructureConfiguration
@@ -7229,6 +8075,7 @@ extension ImagebuilderClientTypes.Image: Swift.Codable {
         case osVersion
         case outputResources
         case platform
+        case scanState
         case sourcePipelineArn
         case sourcePipelineName
         case state
@@ -7260,6 +8107,9 @@ extension ImagebuilderClientTypes.Image: Swift.Codable {
         if let imageRecipe = self.imageRecipe {
             try encodeContainer.encode(imageRecipe, forKey: .imageRecipe)
         }
+        if let imageScanningConfiguration = self.imageScanningConfiguration {
+            try encodeContainer.encode(imageScanningConfiguration, forKey: .imageScanningConfiguration)
+        }
         if let imageSource = self.imageSource {
             try encodeContainer.encode(imageSource.rawValue, forKey: .imageSource)
         }
@@ -7280,6 +8130,9 @@ extension ImagebuilderClientTypes.Image: Swift.Codable {
         }
         if let platform = self.platform {
             try encodeContainer.encode(platform.rawValue, forKey: .platform)
+        }
+        if let scanState = self.scanState {
+            try encodeContainer.encode(scanState, forKey: .scanState)
         }
         if let sourcePipelineArn = self.sourcePipelineArn {
             try encodeContainer.encode(sourcePipelineArn, forKey: .sourcePipelineArn)
@@ -7355,6 +8208,10 @@ extension ImagebuilderClientTypes.Image: Swift.Codable {
         buildType = buildTypeDecoded
         let imageSourceDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.ImageSource.self, forKey: .imageSource)
         imageSource = imageSourceDecoded
+        let scanStateDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.ImageScanState.self, forKey: .scanState)
+        scanState = scanStateDecoded
+        let imageScanningConfigurationDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.ImageScanningConfiguration.self, forKey: .imageScanningConfiguration)
+        imageScanningConfiguration = imageScanningConfigurationDecoded
     }
 }
 
@@ -7387,6 +8244,8 @@ extension ImagebuilderClientTypes {
         public var enhancedImageMetadataEnabled: Swift.Bool?
         /// For images that distribute an AMI, this is the image recipe that Image Builder used to create the image. For container images, this is empty.
         public var imageRecipe: ImagebuilderClientTypes.ImageRecipe?
+        /// Contains settings for vulnerability scans.
+        public var imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration?
         /// The origin of the base image that Image Builder used to build this image.
         public var imageSource: ImagebuilderClientTypes.ImageSource?
         /// The image tests that ran when that Image Builder created this image.
@@ -7401,6 +8260,8 @@ extension ImagebuilderClientTypes {
         public var outputResources: ImagebuilderClientTypes.OutputResources?
         /// The image operating system platform, such as Linux or Windows.
         public var platform: ImagebuilderClientTypes.Platform?
+        /// Contains information about the current state of scans for this image.
+        public var scanState: ImagebuilderClientTypes.ImageScanState?
         /// The Amazon Resource Name (ARN) of the image pipeline that created this image.
         public var sourcePipelineArn: Swift.String?
         /// The name of the image pipeline that created this image.
@@ -7422,6 +8283,7 @@ extension ImagebuilderClientTypes {
             distributionConfiguration: ImagebuilderClientTypes.DistributionConfiguration? = nil,
             enhancedImageMetadataEnabled: Swift.Bool? = nil,
             imageRecipe: ImagebuilderClientTypes.ImageRecipe? = nil,
+            imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration? = nil,
             imageSource: ImagebuilderClientTypes.ImageSource? = nil,
             imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration? = nil,
             infrastructureConfiguration: ImagebuilderClientTypes.InfrastructureConfiguration? = nil,
@@ -7429,6 +8291,7 @@ extension ImagebuilderClientTypes {
             osVersion: Swift.String? = nil,
             outputResources: ImagebuilderClientTypes.OutputResources? = nil,
             platform: ImagebuilderClientTypes.Platform? = nil,
+            scanState: ImagebuilderClientTypes.ImageScanState? = nil,
             sourcePipelineArn: Swift.String? = nil,
             sourcePipelineName: Swift.String? = nil,
             state: ImagebuilderClientTypes.ImageState? = nil,
@@ -7444,6 +8307,7 @@ extension ImagebuilderClientTypes {
             self.distributionConfiguration = distributionConfiguration
             self.enhancedImageMetadataEnabled = enhancedImageMetadataEnabled
             self.imageRecipe = imageRecipe
+            self.imageScanningConfiguration = imageScanningConfiguration
             self.imageSource = imageSource
             self.imageTestsConfiguration = imageTestsConfiguration
             self.infrastructureConfiguration = infrastructureConfiguration
@@ -7451,12 +8315,58 @@ extension ImagebuilderClientTypes {
             self.osVersion = osVersion
             self.outputResources = outputResources
             self.platform = platform
+            self.scanState = scanState
             self.sourcePipelineArn = sourcePipelineArn
             self.sourcePipelineName = sourcePipelineName
             self.state = state
             self.tags = tags
             self.type = type
             self.version = version
+        }
+    }
+
+}
+
+extension ImagebuilderClientTypes.ImageAggregation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case imageBuildVersionArn
+        case severityCounts
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let imageBuildVersionArn = self.imageBuildVersionArn {
+            try encodeContainer.encode(imageBuildVersionArn, forKey: .imageBuildVersionArn)
+        }
+        if let severityCounts = self.severityCounts {
+            try encodeContainer.encode(severityCounts, forKey: .severityCounts)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let imageBuildVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageBuildVersionArn)
+        imageBuildVersionArn = imageBuildVersionArnDecoded
+        let severityCountsDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.SeverityCounts.self, forKey: .severityCounts)
+        severityCounts = severityCountsDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Contains vulnerability counts for a specific image.
+    public struct ImageAggregation: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) that identifies the image for this aggregation.
+        public var imageBuildVersionArn: Swift.String?
+        /// Counts by severity level for medium severity and higher level findings, plus a total for all of the findings for the specified image.
+        public var severityCounts: ImagebuilderClientTypes.SeverityCounts?
+
+        public init (
+            imageBuildVersionArn: Swift.String? = nil,
+            severityCounts: ImagebuilderClientTypes.SeverityCounts? = nil
+        )
+        {
+            self.imageBuildVersionArn = imageBuildVersionArn
+            self.severityCounts = severityCounts
         }
     }
 
@@ -7519,6 +8429,7 @@ extension ImagebuilderClientTypes.ImagePipeline: Swift.Codable {
         case distributionConfigurationArn
         case enhancedImageMetadataEnabled
         case imageRecipeArn
+        case imageScanningConfiguration
         case imageTestsConfiguration
         case infrastructureConfigurationArn
         case name
@@ -7559,6 +8470,9 @@ extension ImagebuilderClientTypes.ImagePipeline: Swift.Codable {
         }
         if let imageRecipeArn = self.imageRecipeArn {
             try encodeContainer.encode(imageRecipeArn, forKey: .imageRecipeArn)
+        }
+        if let imageScanningConfiguration = self.imageScanningConfiguration {
+            try encodeContainer.encode(imageScanningConfiguration, forKey: .imageScanningConfiguration)
         }
         if let imageTestsConfiguration = self.imageTestsConfiguration {
             try encodeContainer.encode(imageTestsConfiguration, forKey: .imageTestsConfiguration)
@@ -7631,6 +8545,8 @@ extension ImagebuilderClientTypes.ImagePipeline: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let imageScanningConfigurationDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.ImageScanningConfiguration.self, forKey: .imageScanningConfiguration)
+        imageScanningConfiguration = imageScanningConfigurationDecoded
     }
 }
 
@@ -7657,6 +8573,8 @@ extension ImagebuilderClientTypes {
         public var enhancedImageMetadataEnabled: Swift.Bool?
         /// The Amazon Resource Name (ARN) of the image recipe associated with this image pipeline.
         public var imageRecipeArn: Swift.String?
+        /// Contains settings for vulnerability scans.
+        public var imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration?
         /// The image tests configuration of the image pipeline.
         public var imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration?
         /// The Amazon Resource Name (ARN) of the infrastructure configuration associated with this image pipeline.
@@ -7683,6 +8601,7 @@ extension ImagebuilderClientTypes {
             distributionConfigurationArn: Swift.String? = nil,
             enhancedImageMetadataEnabled: Swift.Bool? = nil,
             imageRecipeArn: Swift.String? = nil,
+            imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration? = nil,
             imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration? = nil,
             infrastructureConfigurationArn: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -7702,6 +8621,7 @@ extension ImagebuilderClientTypes {
             self.distributionConfigurationArn = distributionConfigurationArn
             self.enhancedImageMetadataEnabled = enhancedImageMetadataEnabled
             self.imageRecipeArn = imageRecipeArn
+            self.imageScanningConfiguration = imageScanningConfiguration
             self.imageTestsConfiguration = imageTestsConfiguration
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
             self.name = name
@@ -7709,6 +8629,51 @@ extension ImagebuilderClientTypes {
             self.schedule = schedule
             self.status = status
             self.tags = tags
+        }
+    }
+
+}
+
+extension ImagebuilderClientTypes.ImagePipelineAggregation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case imagePipelineArn
+        case severityCounts
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let imagePipelineArn = self.imagePipelineArn {
+            try encodeContainer.encode(imagePipelineArn, forKey: .imagePipelineArn)
+        }
+        if let severityCounts = self.severityCounts {
+            try encodeContainer.encode(severityCounts, forKey: .severityCounts)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let imagePipelineArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imagePipelineArn)
+        imagePipelineArn = imagePipelineArnDecoded
+        let severityCountsDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.SeverityCounts.self, forKey: .severityCounts)
+        severityCounts = severityCountsDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Contains vulnerability counts for a specific image pipeline.
+    public struct ImagePipelineAggregation: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) that identifies the image pipeline for this aggregation.
+        public var imagePipelineArn: Swift.String?
+        /// Counts by severity level for medium severity and higher level findings, plus a total for all of the findings for the specified image pipeline.
+        public var severityCounts: ImagebuilderClientTypes.SeverityCounts?
+
+        public init (
+            imagePipelineArn: Swift.String? = nil,
+            severityCounts: ImagebuilderClientTypes.SeverityCounts? = nil
+        )
+        {
+            self.imagePipelineArn = imagePipelineArn
+            self.severityCounts = severityCounts
         }
     }
 
@@ -8022,6 +8987,430 @@ extension ImagebuilderClientTypes {
 
 }
 
+extension ImagebuilderClientTypes.ImageScanFinding: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case awsAccountId
+        case description
+        case firstObservedAt
+        case fixAvailable
+        case imageBuildVersionArn
+        case imagePipelineArn
+        case inspectorScore
+        case inspectorScoreDetails
+        case packageVulnerabilityDetails
+        case remediation
+        case severity
+        case title
+        case type
+        case updatedAt
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let awsAccountId = self.awsAccountId {
+            try encodeContainer.encode(awsAccountId, forKey: .awsAccountId)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let firstObservedAt = self.firstObservedAt {
+            try encodeContainer.encodeTimestamp(firstObservedAt, format: .epochSeconds, forKey: .firstObservedAt)
+        }
+        if let fixAvailable = self.fixAvailable {
+            try encodeContainer.encode(fixAvailable, forKey: .fixAvailable)
+        }
+        if let imageBuildVersionArn = self.imageBuildVersionArn {
+            try encodeContainer.encode(imageBuildVersionArn, forKey: .imageBuildVersionArn)
+        }
+        if let imagePipelineArn = self.imagePipelineArn {
+            try encodeContainer.encode(imagePipelineArn, forKey: .imagePipelineArn)
+        }
+        if let inspectorScore = self.inspectorScore {
+            try encodeContainer.encode(inspectorScore, forKey: .inspectorScore)
+        }
+        if let inspectorScoreDetails = self.inspectorScoreDetails {
+            try encodeContainer.encode(inspectorScoreDetails, forKey: .inspectorScoreDetails)
+        }
+        if let packageVulnerabilityDetails = self.packageVulnerabilityDetails {
+            try encodeContainer.encode(packageVulnerabilityDetails, forKey: .packageVulnerabilityDetails)
+        }
+        if let remediation = self.remediation {
+            try encodeContainer.encode(remediation, forKey: .remediation)
+        }
+        if let severity = self.severity {
+            try encodeContainer.encode(severity, forKey: .severity)
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let awsAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsAccountId)
+        awsAccountId = awsAccountIdDecoded
+        let imageBuildVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageBuildVersionArn)
+        imageBuildVersionArn = imageBuildVersionArnDecoded
+        let imagePipelineArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imagePipelineArn)
+        imagePipelineArn = imagePipelineArnDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let remediationDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.Remediation.self, forKey: .remediation)
+        remediation = remediationDecoded
+        let severityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .severity)
+        severity = severityDecoded
+        let firstObservedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .firstObservedAt)
+        firstObservedAt = firstObservedAtDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let inspectorScoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .inspectorScore)
+        inspectorScore = inspectorScoreDecoded
+        let inspectorScoreDetailsDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.InspectorScoreDetails.self, forKey: .inspectorScoreDetails)
+        inspectorScoreDetails = inspectorScoreDetailsDecoded
+        let packageVulnerabilityDetailsDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.PackageVulnerabilityDetails.self, forKey: .packageVulnerabilityDetails)
+        packageVulnerabilityDetails = packageVulnerabilityDetailsDecoded
+        let fixAvailableDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fixAvailable)
+        fixAvailable = fixAvailableDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Contains details about a vulnerability scan finding.
+    public struct ImageScanFinding: Swift.Equatable {
+        /// The Amazon Web Services account ID that's associated with the finding.
+        public var awsAccountId: Swift.String?
+        /// The description of the finding.
+        public var description: Swift.String?
+        /// The date and time when the finding was first observed.
+        public var firstObservedAt: ClientRuntime.Date?
+        /// Details about whether a fix is available for any of the packages that are identified in the finding through a version update.
+        public var fixAvailable: Swift.String?
+        /// The Amazon Resource Name (ARN) of the image build version that's associated with the finding.
+        public var imageBuildVersionArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the image pipeline that's associated with the finding.
+        public var imagePipelineArn: Swift.String?
+        /// The score that Amazon Inspector assigned for the finding.
+        public var inspectorScore: Swift.Double?
+        /// An object that contains details of the Amazon Inspector score.
+        public var inspectorScoreDetails: ImagebuilderClientTypes.InspectorScoreDetails?
+        /// An object that contains the details of a package vulnerability finding.
+        public var packageVulnerabilityDetails: ImagebuilderClientTypes.PackageVulnerabilityDetails?
+        /// An object that contains the details about how to remediate the finding.
+        public var remediation: ImagebuilderClientTypes.Remediation?
+        /// The severity of the finding.
+        public var severity: Swift.String?
+        /// The title of the finding.
+        public var title: Swift.String?
+        /// The type of the finding. Image Builder looks for findings of the type PACKAGE_VULNERABILITY that apply to output images, and excludes other types.
+        public var type: Swift.String?
+        /// The timestamp when the finding was last updated.
+        public var updatedAt: ClientRuntime.Date?
+
+        public init (
+            awsAccountId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            firstObservedAt: ClientRuntime.Date? = nil,
+            fixAvailable: Swift.String? = nil,
+            imageBuildVersionArn: Swift.String? = nil,
+            imagePipelineArn: Swift.String? = nil,
+            inspectorScore: Swift.Double? = nil,
+            inspectorScoreDetails: ImagebuilderClientTypes.InspectorScoreDetails? = nil,
+            packageVulnerabilityDetails: ImagebuilderClientTypes.PackageVulnerabilityDetails? = nil,
+            remediation: ImagebuilderClientTypes.Remediation? = nil,
+            severity: Swift.String? = nil,
+            title: Swift.String? = nil,
+            type: Swift.String? = nil,
+            updatedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.awsAccountId = awsAccountId
+            self.description = description
+            self.firstObservedAt = firstObservedAt
+            self.fixAvailable = fixAvailable
+            self.imageBuildVersionArn = imageBuildVersionArn
+            self.imagePipelineArn = imagePipelineArn
+            self.inspectorScore = inspectorScore
+            self.inspectorScoreDetails = inspectorScoreDetails
+            self.packageVulnerabilityDetails = packageVulnerabilityDetails
+            self.remediation = remediation
+            self.severity = severity
+            self.title = title
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+    }
+
+}
+
+extension ImagebuilderClientTypes.ImageScanFindingAggregation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountAggregation
+        case imageAggregation
+        case imagePipelineAggregation
+        case vulnerabilityIdAggregation
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountAggregation = self.accountAggregation {
+            try encodeContainer.encode(accountAggregation, forKey: .accountAggregation)
+        }
+        if let imageAggregation = self.imageAggregation {
+            try encodeContainer.encode(imageAggregation, forKey: .imageAggregation)
+        }
+        if let imagePipelineAggregation = self.imagePipelineAggregation {
+            try encodeContainer.encode(imagePipelineAggregation, forKey: .imagePipelineAggregation)
+        }
+        if let vulnerabilityIdAggregation = self.vulnerabilityIdAggregation {
+            try encodeContainer.encode(vulnerabilityIdAggregation, forKey: .vulnerabilityIdAggregation)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountAggregationDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.AccountAggregation.self, forKey: .accountAggregation)
+        accountAggregation = accountAggregationDecoded
+        let imageAggregationDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.ImageAggregation.self, forKey: .imageAggregation)
+        imageAggregation = imageAggregationDecoded
+        let imagePipelineAggregationDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.ImagePipelineAggregation.self, forKey: .imagePipelineAggregation)
+        imagePipelineAggregation = imagePipelineAggregationDecoded
+        let vulnerabilityIdAggregationDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.VulnerabilityIdAggregation.self, forKey: .vulnerabilityIdAggregation)
+        vulnerabilityIdAggregation = vulnerabilityIdAggregationDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// This returns exactly one type of aggregation, based on the filter that Image Builder applies in its API action.
+    public struct ImageScanFindingAggregation: Swift.Equatable {
+        /// Returns an object that contains severity counts based on an account ID.
+        public var accountAggregation: ImagebuilderClientTypes.AccountAggregation?
+        /// Returns an object that contains severity counts based on the Amazon Resource Name (ARN) for a specific image.
+        public var imageAggregation: ImagebuilderClientTypes.ImageAggregation?
+        /// Returns an object that contains severity counts based on an image pipeline ARN.
+        public var imagePipelineAggregation: ImagebuilderClientTypes.ImagePipelineAggregation?
+        /// Returns an object that contains severity counts based on vulnerability ID.
+        public var vulnerabilityIdAggregation: ImagebuilderClientTypes.VulnerabilityIdAggregation?
+
+        public init (
+            accountAggregation: ImagebuilderClientTypes.AccountAggregation? = nil,
+            imageAggregation: ImagebuilderClientTypes.ImageAggregation? = nil,
+            imagePipelineAggregation: ImagebuilderClientTypes.ImagePipelineAggregation? = nil,
+            vulnerabilityIdAggregation: ImagebuilderClientTypes.VulnerabilityIdAggregation? = nil
+        )
+        {
+            self.accountAggregation = accountAggregation
+            self.imageAggregation = imageAggregation
+            self.imagePipelineAggregation = imagePipelineAggregation
+            self.vulnerabilityIdAggregation = vulnerabilityIdAggregation
+        }
+    }
+
+}
+
+extension ImagebuilderClientTypes.ImageScanFindingsFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case values
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// A name value pair that Image Builder applies to streamline results from the vulnerability scan findings list action.
+    public struct ImageScanFindingsFilter: Swift.Equatable {
+        /// The name of the image scan finding filter. Filter names are case-sensitive.
+        public var name: Swift.String?
+        /// The filter values. Filter values are case-sensitive.
+        public var values: [Swift.String]?
+
+        public init (
+            name: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.values = values
+        }
+    }
+
+}
+
+extension ImagebuilderClientTypes.ImageScanState: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reason
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let reason = self.reason {
+            try encodeContainer.encode(reason, forKey: .reason)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.ImageScanStatus.self, forKey: .status)
+        status = statusDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
+        reason = reasonDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Shows the vulnerability scan status for a specific image, and the reason for that status.
+    public struct ImageScanState: Swift.Equatable {
+        /// The reason for the scan status for the image.
+        public var reason: Swift.String?
+        /// The current state of vulnerability scans for the image.
+        public var status: ImagebuilderClientTypes.ImageScanStatus?
+
+        public init (
+            reason: Swift.String? = nil,
+            status: ImagebuilderClientTypes.ImageScanStatus? = nil
+        )
+        {
+            self.reason = reason
+            self.status = status
+        }
+    }
+
+}
+
+extension ImagebuilderClientTypes {
+    public enum ImageScanStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case abandoned
+        case collecting
+        case completed
+        case failed
+        case pending
+        case scanning
+        case timedOut
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageScanStatus] {
+            return [
+                .abandoned,
+                .collecting,
+                .completed,
+                .failed,
+                .pending,
+                .scanning,
+                .timedOut,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .abandoned: return "ABANDONED"
+            case .collecting: return "COLLECTING"
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .scanning: return "SCANNING"
+            case .timedOut: return "TIMED_OUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ImageScanStatus(rawValue: rawValue) ?? ImageScanStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ImagebuilderClientTypes.ImageScanningConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ecrConfiguration
+        case imageScanningEnabled
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ecrConfiguration = self.ecrConfiguration {
+            try encodeContainer.encode(ecrConfiguration, forKey: .ecrConfiguration)
+        }
+        if let imageScanningEnabled = self.imageScanningEnabled {
+            try encodeContainer.encode(imageScanningEnabled, forKey: .imageScanningEnabled)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let imageScanningEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .imageScanningEnabled)
+        imageScanningEnabled = imageScanningEnabledDecoded
+        let ecrConfigurationDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.EcrConfiguration.self, forKey: .ecrConfiguration)
+        ecrConfiguration = ecrConfigurationDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Contains settings for Image Builder image resource and container image scans.
+    public struct ImageScanningConfiguration: Swift.Equatable {
+        /// Contains Amazon ECR settings for vulnerability scans.
+        public var ecrConfiguration: ImagebuilderClientTypes.EcrConfiguration?
+        /// A setting that indicates whether Image Builder keeps a snapshot of the vulnerability scans that Amazon Inspector runs against the build instance when you create a new image.
+        public var imageScanningEnabled: Swift.Bool?
+
+        public init (
+            ecrConfiguration: ImagebuilderClientTypes.EcrConfiguration? = nil,
+            imageScanningEnabled: Swift.Bool? = nil
+        )
+        {
+            self.ecrConfiguration = ecrConfiguration
+            self.imageScanningEnabled = imageScanningEnabled
+        }
+    }
+
+}
+
 extension ImagebuilderClientTypes {
     public enum ImageSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case amazonManaged
@@ -8086,9 +9475,9 @@ extension ImagebuilderClientTypes.ImageState: Swift.Codable {
 }
 
 extension ImagebuilderClientTypes {
-    /// Image state shows the image status and the reason for that status.
+    /// Image status and the reason for that status.
     public struct ImageState: Swift.Equatable {
-        /// The reason for the image's status.
+        /// The reason for the status of the image.
         public var reason: Swift.String?
         /// The status of the image.
         public var status: ImagebuilderClientTypes.ImageStatus?
@@ -8618,7 +10007,7 @@ extension ImportComponentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ImportComponentInput: Swift.Equatable {
-    /// The change description of the component. Describes what change has been made in this version, or what makes this version different from other versions of this component.
+    /// The change description of the component. This description indicates the change that has been made in this version, or what makes this version different from other versions of this component.
     public var changeDescription: Swift.String?
     /// The idempotency token of the component.
     /// This member is required.
@@ -9468,6 +10857,41 @@ extension ImagebuilderClientTypes {
 
 }
 
+extension ImagebuilderClientTypes.InspectorScoreDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adjustedCvss
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let adjustedCvss = self.adjustedCvss {
+            try encodeContainer.encode(adjustedCvss, forKey: .adjustedCvss)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let adjustedCvssDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.CvssScoreDetails.self, forKey: .adjustedCvss)
+        adjustedCvss = adjustedCvssDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Information about the factors that influenced the score that Amazon Inspector assigned for a finding.
+    public struct InspectorScoreDetails: Swift.Equatable {
+        /// An object that contains details about an adjustment that Amazon Inspector made to the CVSS score for the finding.
+        public var adjustedCvss: ImagebuilderClientTypes.CvssScoreDetails?
+
+        public init (
+            adjustedCvss: ImagebuilderClientTypes.CvssScoreDetails? = nil
+        )
+        {
+            self.adjustedCvss = adjustedCvss
+        }
+    }
+
+}
+
 extension ImagebuilderClientTypes.InstanceBlockDeviceMapping: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case deviceName
@@ -9867,7 +11291,7 @@ extension InvalidRequestException {
     }
 }
 
-/// You have made a request for an action that is not supported by the service.
+/// You have requested an action that that the service doesn't support.
 public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -10249,7 +11673,7 @@ extension ListComponentBuildVersionsOutputResponse: ClientRuntime.HttpResponseBi
 public struct ListComponentBuildVersionsOutputResponse: Swift.Equatable {
     /// The list of component summaries for the specified semantic version.
     public var componentSummaryList: [ImagebuilderClientTypes.ComponentSummary]?
-    /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
+    /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service has'ot included in this request. Use this token with the next request to retrieve additional objects.
     public var nextToken: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -10472,7 +11896,7 @@ extension ListComponentsOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ListComponentsOutputResponse: Swift.Equatable {
     /// The list of component semantic versions. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them.
     public var componentVersionList: [ImagebuilderClientTypes.ComponentVersion]?
-    /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
+    /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service has'ot included in this request. Use this token with the next request to retrieve additional objects.
     public var nextToken: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -10567,9 +11991,9 @@ public struct ListContainerRecipesInput: Swift.Equatable {
     ///
     /// * platform
     public var filters: [ImagebuilderClientTypes.Filter]?
-    /// The maximum number of results to return in the list.
+    /// The maximum items to return in a request.
     public var maxResults: Swift.Int?
-    /// Provides a token for pagination, which determines where to begin the next set of results when the current set reaches the maximum for one request.
+    /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
     public var nextToken: Swift.String?
     /// Returns container recipes belonging to the specified owner, that have been shared with you. You can omit this field to return container recipes belonging to your account.
     public var owner: ImagebuilderClientTypes.Ownership?
@@ -10679,7 +12103,7 @@ extension ListContainerRecipesOutputResponse: ClientRuntime.HttpResponseBinding 
 public struct ListContainerRecipesOutputResponse: Swift.Equatable {
     /// The list of container recipes returned for the request.
     public var containerRecipeSummaryList: [ImagebuilderClientTypes.ContainerRecipeSummary]?
-    /// The next token field is used for paginated responses. When this is not empty, there are additional container recipes that the service has not included in this response. Use this token with the next request to retrieve additional list items.
+    /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service has'ot included in this request. Use this token with the next request to retrieve additional objects.
     public var nextToken: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -10866,7 +12290,7 @@ extension ListDistributionConfigurationsOutputResponse: ClientRuntime.HttpRespon
 public struct ListDistributionConfigurationsOutputResponse: Swift.Equatable {
     /// The list of distributions.
     public var distributionConfigurationSummaryList: [ImagebuilderClientTypes.DistributionConfigurationSummary]?
-    /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
+    /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service has'ot included in this request. Use this token with the next request to retrieve additional objects.
     public var nextToken: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -11076,7 +12500,7 @@ extension ListImageBuildVersionsOutputResponse: ClientRuntime.HttpResponseBindin
 public struct ListImageBuildVersionsOutputResponse: Swift.Equatable {
     /// The list of image build versions.
     public var imageSummaryList: [ImagebuilderClientTypes.ImageSummary]?
-    /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
+    /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service has'ot included in this request. Use this token with the next request to retrieve additional objects.
     public var nextToken: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -11157,7 +12581,7 @@ public struct ListImagePackagesInput: Swift.Equatable {
     /// Filter results for the ListImagePackages request by the Image Build Version ARN
     /// This member is required.
     public var imageBuildVersionArn: Swift.String?
-    /// The maxiumum number of results to return from the ListImagePackages request.
+    /// The maximum items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
     public var nextToken: Swift.String?
@@ -11254,7 +12678,7 @@ extension ListImagePackagesOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ListImagePackagesOutputResponse: Swift.Equatable {
     /// The list of Image Packages returned in the response.
     public var imagePackageList: [ImagebuilderClientTypes.ImagePackage]?
-    /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
+    /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service has'ot included in this request. Use this token with the next request to retrieve additional objects.
     public var nextToken: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -11460,7 +12884,7 @@ extension ListImagePipelineImagesOutputResponse: ClientRuntime.HttpResponseBindi
 public struct ListImagePipelineImagesOutputResponse: Swift.Equatable {
     /// The list of images built by this pipeline.
     public var imageSummaryList: [ImagebuilderClientTypes.ImageSummary]?
-    /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
+    /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service has'ot included in this request. Use this token with the next request to retrieve additional objects.
     public var nextToken: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -11659,7 +13083,7 @@ extension ListImagePipelinesOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ListImagePipelinesOutputResponse: Swift.Equatable {
     /// The list of image pipelines.
     public var imagePipelineList: [ImagebuilderClientTypes.ImagePipeline]?
-    /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
+    /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service has'ot included in this request. Use this token with the next request to retrieve additional objects.
     public var nextToken: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -11864,7 +13288,7 @@ extension ListImageRecipesOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ListImageRecipesOutputResponse: Swift.Equatable {
     /// The list of image pipelines.
     public var imageRecipeSummaryList: [ImagebuilderClientTypes.ImageRecipeSummary]?
-    /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
+    /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service has'ot included in this request. Use this token with the next request to retrieve additional objects.
     public var nextToken: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -11909,6 +13333,388 @@ extension ListImageRecipesOutputResponseBody: Swift.Decodable {
             }
         }
         imageRecipeSummaryList = imageRecipeSummaryListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListImageScanFindingAggregationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListImageScanFindingAggregationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListImageScanFindingAggregations"
+    }
+}
+
+public struct ListImageScanFindingAggregationsInput: Swift.Equatable {
+    /// A filter name and value pair that is used to return a more specific list of results from a list operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs.
+    public var filter: ImagebuilderClientTypes.Filter?
+    /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
+    public var nextToken: Swift.String?
+
+    public init (
+        filter: ImagebuilderClientTypes.Filter? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filter = filter
+        self.nextToken = nextToken
+    }
+}
+
+struct ListImageScanFindingAggregationsInputBody: Swift.Equatable {
+    let filter: ImagebuilderClientTypes.Filter?
+    let nextToken: Swift.String?
+}
+
+extension ListImageScanFindingAggregationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filterDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.Filter.self, forKey: .filter)
+        filter = filterDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListImageScanFindingAggregationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListImageScanFindingAggregationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "CallRateLimitExceededException" : self = .callRateLimitExceededException(try CallRateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidPaginationTokenException" : self = .invalidPaginationTokenException(try InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListImageScanFindingAggregationsOutputError: Swift.Error, Swift.Equatable {
+    case callRateLimitExceededException(CallRateLimitExceededException)
+    case clientException(ClientException)
+    case forbiddenException(ForbiddenException)
+    case invalidPaginationTokenException(InvalidPaginationTokenException)
+    case invalidRequestException(InvalidRequestException)
+    case serviceException(ServiceException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListImageScanFindingAggregationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListImageScanFindingAggregationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.aggregationType = output.aggregationType
+            self.nextToken = output.nextToken
+            self.requestId = output.requestId
+            self.responses = output.responses
+        } else {
+            self.aggregationType = nil
+            self.nextToken = nil
+            self.requestId = nil
+            self.responses = nil
+        }
+    }
+}
+
+public struct ListImageScanFindingAggregationsOutputResponse: Swift.Equatable {
+    /// The aggregation type specifies what type of key is used to group the image scan findings. Image Builder returns results based on the request filter. If you didn't specify a filter in the request, the type defaults to accountId. Aggregation types
+    ///
+    /// * accountId
+    ///
+    /// * imageBuildVersionArn
+    ///
+    /// * imagePipelineArn
+    ///
+    /// * vulnerabilityId
+    ///
+    ///
+    /// Each aggregation includes counts by severity level for medium severity and higher level findings, plus a total for all of the findings for each key value.
+    public var aggregationType: Swift.String?
+    /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service has'ot included in this request. Use this token with the next request to retrieve additional objects.
+    public var nextToken: Swift.String?
+    /// The request ID that uniquely identifies this request.
+    public var requestId: Swift.String?
+    /// An array of image scan finding aggregations that match the filter criteria.
+    public var responses: [ImagebuilderClientTypes.ImageScanFindingAggregation]?
+
+    public init (
+        aggregationType: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        responses: [ImagebuilderClientTypes.ImageScanFindingAggregation]? = nil
+    )
+    {
+        self.aggregationType = aggregationType
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.responses = responses
+    }
+}
+
+struct ListImageScanFindingAggregationsOutputResponseBody: Swift.Equatable {
+    let requestId: Swift.String?
+    let aggregationType: Swift.String?
+    let responses: [ImagebuilderClientTypes.ImageScanFindingAggregation]?
+    let nextToken: Swift.String?
+}
+
+extension ListImageScanFindingAggregationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregationType
+        case nextToken
+        case requestId
+        case responses
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let aggregationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .aggregationType)
+        aggregationType = aggregationTypeDecoded
+        let responsesContainer = try containerValues.decodeIfPresent([ImagebuilderClientTypes.ImageScanFindingAggregation?].self, forKey: .responses)
+        var responsesDecoded0:[ImagebuilderClientTypes.ImageScanFindingAggregation]? = nil
+        if let responsesContainer = responsesContainer {
+            responsesDecoded0 = [ImagebuilderClientTypes.ImageScanFindingAggregation]()
+            for structure0 in responsesContainer {
+                if let structure0 = structure0 {
+                    responsesDecoded0?.append(structure0)
+                }
+            }
+        }
+        responses = responsesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListImageScanFindingsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for imagescanfindingsfilter0 in filters {
+                try filtersContainer.encode(imagescanfindingsfilter0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListImageScanFindingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListImageScanFindings"
+    }
+}
+
+public struct ListImageScanFindingsInput: Swift.Equatable {
+    /// An array of name value pairs that you can use to filter your results. You can use the following filters to streamline results:
+    ///
+    /// * imageBuildVersionArn
+    ///
+    /// * imagePipelineArn
+    ///
+    /// * vulnerabilityId
+    ///
+    /// * severity
+    ///
+    ///
+    /// If you don't request a filter, then all findings in your account are listed.
+    public var filters: [ImagebuilderClientTypes.ImageScanFindingsFilter]?
+    /// The maximum items to return in a request.
+    public var maxResults: Swift.Int?
+    /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
+    public var nextToken: Swift.String?
+
+    public init (
+        filters: [ImagebuilderClientTypes.ImageScanFindingsFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListImageScanFindingsInputBody: Swift.Equatable {
+    let filters: [ImagebuilderClientTypes.ImageScanFindingsFilter]?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListImageScanFindingsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters
+        case maxResults
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filtersContainer = try containerValues.decodeIfPresent([ImagebuilderClientTypes.ImageScanFindingsFilter?].self, forKey: .filters)
+        var filtersDecoded0:[ImagebuilderClientTypes.ImageScanFindingsFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [ImagebuilderClientTypes.ImageScanFindingsFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListImageScanFindingsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListImageScanFindingsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "CallRateLimitExceededException" : self = .callRateLimitExceededException(try CallRateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidPaginationTokenException" : self = .invalidPaginationTokenException(try InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListImageScanFindingsOutputError: Swift.Error, Swift.Equatable {
+    case callRateLimitExceededException(CallRateLimitExceededException)
+    case clientException(ClientException)
+    case forbiddenException(ForbiddenException)
+    case invalidPaginationTokenException(InvalidPaginationTokenException)
+    case invalidRequestException(InvalidRequestException)
+    case serviceException(ServiceException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListImageScanFindingsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListImageScanFindingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.findings = output.findings
+            self.nextToken = output.nextToken
+            self.requestId = output.requestId
+        } else {
+            self.findings = nil
+            self.nextToken = nil
+            self.requestId = nil
+        }
+    }
+}
+
+public struct ListImageScanFindingsOutputResponse: Swift.Equatable {
+    /// The image scan findings for your account that meet your request filter criteria.
+    public var findings: [ImagebuilderClientTypes.ImageScanFinding]?
+    /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service has'ot included in this request. Use this token with the next request to retrieve additional objects.
+    public var nextToken: Swift.String?
+    /// The request ID that uniquely identifies this request.
+    public var requestId: Swift.String?
+
+    public init (
+        findings: [ImagebuilderClientTypes.ImageScanFinding]? = nil,
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    )
+    {
+        self.findings = findings
+        self.nextToken = nextToken
+        self.requestId = requestId
+    }
+}
+
+struct ListImageScanFindingsOutputResponseBody: Swift.Equatable {
+    let requestId: Swift.String?
+    let findings: [ImagebuilderClientTypes.ImageScanFinding]?
+    let nextToken: Swift.String?
+}
+
+extension ListImageScanFindingsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case findings
+        case nextToken
+        case requestId
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let findingsContainer = try containerValues.decodeIfPresent([ImagebuilderClientTypes.ImageScanFinding?].self, forKey: .findings)
+        var findingsDecoded0:[ImagebuilderClientTypes.ImageScanFinding]? = nil
+        if let findingsContainer = findingsContainer {
+            findingsDecoded0 = [ImagebuilderClientTypes.ImageScanFinding]()
+            for structure0 in findingsContainer {
+                if let structure0 = structure0 {
+                    findingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        findings = findingsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -12097,7 +13903,7 @@ extension ListImagesOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ListImagesOutputResponse: Swift.Equatable {
     /// The list of image semantic versions. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them. Filtering: With semantic versioning, you have the flexibility to use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards.
     public var imageVersionList: [ImagebuilderClientTypes.ImageVersion]?
-    /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
+    /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service has'ot included in this request. Use this token with the next request to retrieve additional objects.
     public var nextToken: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -12284,7 +14090,7 @@ extension ListInfrastructureConfigurationsOutputResponse: ClientRuntime.HttpResp
 public struct ListInfrastructureConfigurationsOutputResponse: Swift.Equatable {
     /// The list of infrastructure configurations.
     public var infrastructureConfigurationSummaryList: [ImagebuilderClientTypes.InfrastructureConfigurationSummary]?
-    /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
+    /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service has'ot included in this request. Use this token with the next request to retrieve additional objects.
     public var nextToken: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -12441,6 +14247,418 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListWorkflowExecutionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case imageBuildVersionArn
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let imageBuildVersionArn = self.imageBuildVersionArn {
+            try encodeContainer.encode(imageBuildVersionArn, forKey: .imageBuildVersionArn)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListWorkflowExecutionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListWorkflowExecutions"
+    }
+}
+
+public struct ListWorkflowExecutionsInput: Swift.Equatable {
+    /// List all workflow runtime instances for the specified image build version resource ARN.
+    /// This member is required.
+    public var imageBuildVersionArn: Swift.String?
+    /// The maximum items to return in a request.
+    public var maxResults: Swift.Int?
+    /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
+    public var nextToken: Swift.String?
+
+    public init (
+        imageBuildVersionArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.imageBuildVersionArn = imageBuildVersionArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListWorkflowExecutionsInputBody: Swift.Equatable {
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+    let imageBuildVersionArn: Swift.String?
+}
+
+extension ListWorkflowExecutionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case imageBuildVersionArn
+        case maxResults
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let imageBuildVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageBuildVersionArn)
+        imageBuildVersionArn = imageBuildVersionArnDecoded
+    }
+}
+
+extension ListWorkflowExecutionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListWorkflowExecutionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "CallRateLimitExceededException" : self = .callRateLimitExceededException(try CallRateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidPaginationTokenException" : self = .invalidPaginationTokenException(try InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListWorkflowExecutionsOutputError: Swift.Error, Swift.Equatable {
+    case callRateLimitExceededException(CallRateLimitExceededException)
+    case clientException(ClientException)
+    case forbiddenException(ForbiddenException)
+    case invalidPaginationTokenException(InvalidPaginationTokenException)
+    case invalidRequestException(InvalidRequestException)
+    case serviceException(ServiceException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListWorkflowExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListWorkflowExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.imageBuildVersionArn = output.imageBuildVersionArn
+            self.message = output.message
+            self.nextToken = output.nextToken
+            self.requestId = output.requestId
+            self.workflowExecutions = output.workflowExecutions
+        } else {
+            self.imageBuildVersionArn = nil
+            self.message = nil
+            self.nextToken = nil
+            self.requestId = nil
+            self.workflowExecutions = nil
+        }
+    }
+}
+
+public struct ListWorkflowExecutionsOutputResponse: Swift.Equatable {
+    /// The resource ARN of the image build version for which you requested a list of workflow runtime details.
+    public var imageBuildVersionArn: Swift.String?
+    /// The output message from the list action, if applicable.
+    public var message: Swift.String?
+    /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service has'ot included in this request. Use this token with the next request to retrieve additional objects.
+    public var nextToken: Swift.String?
+    /// The request ID that uniquely identifies this request.
+    public var requestId: Swift.String?
+    /// Contains an array of runtime details that represents each time a workflow ran for the requested image build version.
+    public var workflowExecutions: [ImagebuilderClientTypes.WorkflowExecutionMetadata]?
+
+    public init (
+        imageBuildVersionArn: Swift.String? = nil,
+        message: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        workflowExecutions: [ImagebuilderClientTypes.WorkflowExecutionMetadata]? = nil
+    )
+    {
+        self.imageBuildVersionArn = imageBuildVersionArn
+        self.message = message
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.workflowExecutions = workflowExecutions
+    }
+}
+
+struct ListWorkflowExecutionsOutputResponseBody: Swift.Equatable {
+    let requestId: Swift.String?
+    let workflowExecutions: [ImagebuilderClientTypes.WorkflowExecutionMetadata]?
+    let imageBuildVersionArn: Swift.String?
+    let message: Swift.String?
+    let nextToken: Swift.String?
+}
+
+extension ListWorkflowExecutionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case imageBuildVersionArn
+        case message
+        case nextToken
+        case requestId
+        case workflowExecutions
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let workflowExecutionsContainer = try containerValues.decodeIfPresent([ImagebuilderClientTypes.WorkflowExecutionMetadata?].self, forKey: .workflowExecutions)
+        var workflowExecutionsDecoded0:[ImagebuilderClientTypes.WorkflowExecutionMetadata]? = nil
+        if let workflowExecutionsContainer = workflowExecutionsContainer {
+            workflowExecutionsDecoded0 = [ImagebuilderClientTypes.WorkflowExecutionMetadata]()
+            for structure0 in workflowExecutionsContainer {
+                if let structure0 = structure0 {
+                    workflowExecutionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        workflowExecutions = workflowExecutionsDecoded0
+        let imageBuildVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageBuildVersionArn)
+        imageBuildVersionArn = imageBuildVersionArnDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListWorkflowStepExecutionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case workflowExecutionId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let workflowExecutionId = self.workflowExecutionId {
+            try encodeContainer.encode(workflowExecutionId, forKey: .workflowExecutionId)
+        }
+    }
+}
+
+extension ListWorkflowStepExecutionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListWorkflowStepExecutions"
+    }
+}
+
+public struct ListWorkflowStepExecutionsInput: Swift.Equatable {
+    /// The maximum items to return in a request.
+    public var maxResults: Swift.Int?
+    /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
+    public var nextToken: Swift.String?
+    /// The unique identifier that Image Builder assigned to keep track of runtime details when it ran the workflow.
+    /// This member is required.
+    public var workflowExecutionId: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        workflowExecutionId: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.workflowExecutionId = workflowExecutionId
+    }
+}
+
+struct ListWorkflowStepExecutionsInputBody: Swift.Equatable {
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+    let workflowExecutionId: Swift.String?
+}
+
+extension ListWorkflowStepExecutionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case workflowExecutionId
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let workflowExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowExecutionId)
+        workflowExecutionId = workflowExecutionIdDecoded
+    }
+}
+
+extension ListWorkflowStepExecutionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListWorkflowStepExecutionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "CallRateLimitExceededException" : self = .callRateLimitExceededException(try CallRateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ClientException" : self = .clientException(try ClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidPaginationTokenException" : self = .invalidPaginationTokenException(try InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListWorkflowStepExecutionsOutputError: Swift.Error, Swift.Equatable {
+    case callRateLimitExceededException(CallRateLimitExceededException)
+    case clientException(ClientException)
+    case forbiddenException(ForbiddenException)
+    case invalidPaginationTokenException(InvalidPaginationTokenException)
+    case invalidRequestException(InvalidRequestException)
+    case serviceException(ServiceException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListWorkflowStepExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListWorkflowStepExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.imageBuildVersionArn = output.imageBuildVersionArn
+            self.message = output.message
+            self.nextToken = output.nextToken
+            self.requestId = output.requestId
+            self.steps = output.steps
+            self.workflowBuildVersionArn = output.workflowBuildVersionArn
+            self.workflowExecutionId = output.workflowExecutionId
+        } else {
+            self.imageBuildVersionArn = nil
+            self.message = nil
+            self.nextToken = nil
+            self.requestId = nil
+            self.steps = nil
+            self.workflowBuildVersionArn = nil
+            self.workflowExecutionId = nil
+        }
+    }
+}
+
+public struct ListWorkflowStepExecutionsOutputResponse: Swift.Equatable {
+    /// The image build version resource ARN that's associated with the specified runtime instance of the workflow.
+    public var imageBuildVersionArn: Swift.String?
+    /// The output message from the list action, if applicable.
+    public var message: Swift.String?
+    /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service has'ot included in this request. Use this token with the next request to retrieve additional objects.
+    public var nextToken: Swift.String?
+    /// The request ID that uniquely identifies this request.
+    public var requestId: Swift.String?
+    /// Contains an array of runtime details that represents each step in this runtime instance of the workflow.
+    public var steps: [ImagebuilderClientTypes.WorkflowStepMetadata]?
+    /// The build version ARN for the Image Builder workflow resource that defines the steps for this runtime instance of the workflow.
+    public var workflowBuildVersionArn: Swift.String?
+    /// The unique identifier that Image Builder assigned to keep track of runtime details when it ran the workflow.
+    public var workflowExecutionId: Swift.String?
+
+    public init (
+        imageBuildVersionArn: Swift.String? = nil,
+        message: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        steps: [ImagebuilderClientTypes.WorkflowStepMetadata]? = nil,
+        workflowBuildVersionArn: Swift.String? = nil,
+        workflowExecutionId: Swift.String? = nil
+    )
+    {
+        self.imageBuildVersionArn = imageBuildVersionArn
+        self.message = message
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.steps = steps
+        self.workflowBuildVersionArn = workflowBuildVersionArn
+        self.workflowExecutionId = workflowExecutionId
+    }
+}
+
+struct ListWorkflowStepExecutionsOutputResponseBody: Swift.Equatable {
+    let requestId: Swift.String?
+    let steps: [ImagebuilderClientTypes.WorkflowStepMetadata]?
+    let workflowBuildVersionArn: Swift.String?
+    let workflowExecutionId: Swift.String?
+    let imageBuildVersionArn: Swift.String?
+    let message: Swift.String?
+    let nextToken: Swift.String?
+}
+
+extension ListWorkflowStepExecutionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case imageBuildVersionArn
+        case message
+        case nextToken
+        case requestId
+        case steps
+        case workflowBuildVersionArn
+        case workflowExecutionId
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let stepsContainer = try containerValues.decodeIfPresent([ImagebuilderClientTypes.WorkflowStepMetadata?].self, forKey: .steps)
+        var stepsDecoded0:[ImagebuilderClientTypes.WorkflowStepMetadata]? = nil
+        if let stepsContainer = stepsContainer {
+            stepsDecoded0 = [ImagebuilderClientTypes.WorkflowStepMetadata]()
+            for structure0 in stepsContainer {
+                if let structure0 = structure0 {
+                    stepsDecoded0?.append(structure0)
+                }
+            }
+        }
+        steps = stepsDecoded0
+        let workflowBuildVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowBuildVersionArn)
+        workflowBuildVersionArn = workflowBuildVersionArnDecoded
+        let workflowExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowExecutionId)
+        workflowExecutionId = workflowExecutionIdDecoded
+        let imageBuildVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageBuildVersionArn)
+        imageBuildVersionArn = imageBuildVersionArnDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ImagebuilderClientTypes.Logging: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case s3Logs
@@ -12581,6 +14799,180 @@ extension ImagebuilderClientTypes {
             self = Ownership(rawValue: rawValue) ?? Ownership.sdkUnknown(rawValue)
         }
     }
+}
+
+extension ImagebuilderClientTypes.PackageVulnerabilityDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cvss
+        case referenceUrls
+        case relatedVulnerabilities
+        case source
+        case sourceUrl
+        case vendorCreatedAt
+        case vendorSeverity
+        case vendorUpdatedAt
+        case vulnerabilityId
+        case vulnerablePackages
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cvss = cvss {
+            var cvssContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cvss)
+            for cvssscore0 in cvss {
+                try cvssContainer.encode(cvssscore0)
+            }
+        }
+        if let referenceUrls = referenceUrls {
+            var referenceUrlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .referenceUrls)
+            for nonemptystring0 in referenceUrls {
+                try referenceUrlsContainer.encode(nonemptystring0)
+            }
+        }
+        if let relatedVulnerabilities = relatedVulnerabilities {
+            var relatedVulnerabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedVulnerabilities)
+            for vulnerabilityid0 in relatedVulnerabilities {
+                try relatedVulnerabilitiesContainer.encode(vulnerabilityid0)
+            }
+        }
+        if let source = self.source {
+            try encodeContainer.encode(source, forKey: .source)
+        }
+        if let sourceUrl = self.sourceUrl {
+            try encodeContainer.encode(sourceUrl, forKey: .sourceUrl)
+        }
+        if let vendorCreatedAt = self.vendorCreatedAt {
+            try encodeContainer.encodeTimestamp(vendorCreatedAt, format: .epochSeconds, forKey: .vendorCreatedAt)
+        }
+        if let vendorSeverity = self.vendorSeverity {
+            try encodeContainer.encode(vendorSeverity, forKey: .vendorSeverity)
+        }
+        if let vendorUpdatedAt = self.vendorUpdatedAt {
+            try encodeContainer.encodeTimestamp(vendorUpdatedAt, format: .epochSeconds, forKey: .vendorUpdatedAt)
+        }
+        if let vulnerabilityId = self.vulnerabilityId {
+            try encodeContainer.encode(vulnerabilityId, forKey: .vulnerabilityId)
+        }
+        if let vulnerablePackages = vulnerablePackages {
+            var vulnerablePackagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vulnerablePackages)
+            for vulnerablepackage0 in vulnerablePackages {
+                try vulnerablePackagesContainer.encode(vulnerablepackage0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vulnerabilityIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vulnerabilityId)
+        vulnerabilityId = vulnerabilityIdDecoded
+        let vulnerablePackagesContainer = try containerValues.decodeIfPresent([ImagebuilderClientTypes.VulnerablePackage?].self, forKey: .vulnerablePackages)
+        var vulnerablePackagesDecoded0:[ImagebuilderClientTypes.VulnerablePackage]? = nil
+        if let vulnerablePackagesContainer = vulnerablePackagesContainer {
+            vulnerablePackagesDecoded0 = [ImagebuilderClientTypes.VulnerablePackage]()
+            for structure0 in vulnerablePackagesContainer {
+                if let structure0 = structure0 {
+                    vulnerablePackagesDecoded0?.append(structure0)
+                }
+            }
+        }
+        vulnerablePackages = vulnerablePackagesDecoded0
+        let sourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .source)
+        source = sourceDecoded
+        let cvssContainer = try containerValues.decodeIfPresent([ImagebuilderClientTypes.CvssScore?].self, forKey: .cvss)
+        var cvssDecoded0:[ImagebuilderClientTypes.CvssScore]? = nil
+        if let cvssContainer = cvssContainer {
+            cvssDecoded0 = [ImagebuilderClientTypes.CvssScore]()
+            for structure0 in cvssContainer {
+                if let structure0 = structure0 {
+                    cvssDecoded0?.append(structure0)
+                }
+            }
+        }
+        cvss = cvssDecoded0
+        let relatedVulnerabilitiesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .relatedVulnerabilities)
+        var relatedVulnerabilitiesDecoded0:[Swift.String]? = nil
+        if let relatedVulnerabilitiesContainer = relatedVulnerabilitiesContainer {
+            relatedVulnerabilitiesDecoded0 = [Swift.String]()
+            for string0 in relatedVulnerabilitiesContainer {
+                if let string0 = string0 {
+                    relatedVulnerabilitiesDecoded0?.append(string0)
+                }
+            }
+        }
+        relatedVulnerabilities = relatedVulnerabilitiesDecoded0
+        let sourceUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceUrl)
+        sourceUrl = sourceUrlDecoded
+        let vendorSeverityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vendorSeverity)
+        vendorSeverity = vendorSeverityDecoded
+        let vendorCreatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .vendorCreatedAt)
+        vendorCreatedAt = vendorCreatedAtDecoded
+        let vendorUpdatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .vendorUpdatedAt)
+        vendorUpdatedAt = vendorUpdatedAtDecoded
+        let referenceUrlsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .referenceUrls)
+        var referenceUrlsDecoded0:[Swift.String]? = nil
+        if let referenceUrlsContainer = referenceUrlsContainer {
+            referenceUrlsDecoded0 = [Swift.String]()
+            for string0 in referenceUrlsContainer {
+                if let string0 = string0 {
+                    referenceUrlsDecoded0?.append(string0)
+                }
+            }
+        }
+        referenceUrls = referenceUrlsDecoded0
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Information about package vulnerability findings.
+    public struct PackageVulnerabilityDetails: Swift.Equatable {
+        /// CVSS scores for one or more vulnerabilities that Amazon Inspector identified for a package.
+        public var cvss: [ImagebuilderClientTypes.CvssScore]?
+        /// Links to web pages that contain details about the vulnerabilities that Amazon Inspector identified for the package.
+        public var referenceUrls: [Swift.String]?
+        /// Vulnerabilities that are often related to the findings for the package.
+        public var relatedVulnerabilities: [Swift.String]?
+        /// The source of the vulnerability information.
+        public var source: Swift.String?
+        /// A link to the source of the vulnerability information.
+        public var sourceUrl: Swift.String?
+        /// The date and time when this vulnerability was first added to the vendor's database.
+        public var vendorCreatedAt: ClientRuntime.Date?
+        /// The severity that the vendor assigned to this vulnerability type.
+        public var vendorSeverity: Swift.String?
+        /// The date and time when the vendor last updated this vulnerability in their database.
+        public var vendorUpdatedAt: ClientRuntime.Date?
+        /// A unique identifier for this vulnerability.
+        /// This member is required.
+        public var vulnerabilityId: Swift.String?
+        /// The packages that this vulnerability impacts.
+        public var vulnerablePackages: [ImagebuilderClientTypes.VulnerablePackage]?
+
+        public init (
+            cvss: [ImagebuilderClientTypes.CvssScore]? = nil,
+            referenceUrls: [Swift.String]? = nil,
+            relatedVulnerabilities: [Swift.String]? = nil,
+            source: Swift.String? = nil,
+            sourceUrl: Swift.String? = nil,
+            vendorCreatedAt: ClientRuntime.Date? = nil,
+            vendorSeverity: Swift.String? = nil,
+            vendorUpdatedAt: ClientRuntime.Date? = nil,
+            vulnerabilityId: Swift.String? = nil,
+            vulnerablePackages: [ImagebuilderClientTypes.VulnerablePackage]? = nil
+        )
+        {
+            self.cvss = cvss
+            self.referenceUrls = referenceUrls
+            self.relatedVulnerabilities = relatedVulnerabilities
+            self.source = source
+            self.sourceUrl = sourceUrl
+            self.vendorCreatedAt = vendorCreatedAt
+            self.vendorSeverity = vendorSeverity
+            self.vendorUpdatedAt = vendorUpdatedAt
+            self.vulnerabilityId = vulnerabilityId
+            self.vulnerablePackages = vulnerablePackages
+        }
+    }
+
 }
 
 extension ImagebuilderClientTypes {
@@ -13271,6 +15663,86 @@ extension PutImageRecipePolicyOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ImagebuilderClientTypes.Remediation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recommendation
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let recommendation = self.recommendation {
+            try encodeContainer.encode(recommendation, forKey: .recommendation)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recommendationDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.RemediationRecommendation.self, forKey: .recommendation)
+        recommendation = recommendationDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Information about how to remediate a finding.
+    public struct Remediation: Swift.Equatable {
+        /// An object that contains information about the recommended course of action to remediate the finding.
+        public var recommendation: ImagebuilderClientTypes.RemediationRecommendation?
+
+        public init (
+            recommendation: ImagebuilderClientTypes.RemediationRecommendation? = nil
+        )
+        {
+            self.recommendation = recommendation
+        }
+    }
+
+}
+
+extension ImagebuilderClientTypes.RemediationRecommendation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case text
+        case url
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let text = self.text {
+            try encodeContainer.encode(text, forKey: .text)
+        }
+        if let url = self.url {
+            try encodeContainer.encode(url, forKey: .url)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let textDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .text)
+        text = textDecoded
+        let urlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .url)
+        url = urlDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Details about the recommended course of action to remediate the finding.
+    public struct RemediationRecommendation: Swift.Equatable {
+        /// The recommended course of action to remediate the finding.
+        public var text: Swift.String?
+        /// A link to more information about the recommended remediation for this vulnerability.
+        public var url: Swift.String?
+
+        public init (
+            text: Swift.String? = nil,
+            url: Swift.String? = nil
+        )
+        {
+            self.text = text
+            self.url = url
+        }
+    }
+
+}
+
 extension ResourceAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -13807,6 +16279,71 @@ extension ServiceUnavailableExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension ImagebuilderClientTypes.SeverityCounts: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case all
+        case critical
+        case high
+        case medium
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let all = self.all {
+            try encodeContainer.encode(all, forKey: .all)
+        }
+        if let critical = self.critical {
+            try encodeContainer.encode(critical, forKey: .critical)
+        }
+        if let high = self.high {
+            try encodeContainer.encode(high, forKey: .high)
+        }
+        if let medium = self.medium {
+            try encodeContainer.encode(medium, forKey: .medium)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let allDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .all)
+        all = allDecoded
+        let criticalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .critical)
+        critical = criticalDecoded
+        let highDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .high)
+        high = highDecoded
+        let mediumDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .medium)
+        medium = mediumDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Includes counts by severity level for medium severity and higher level findings, plus a total for all of the findings for the specified filter.
+    public struct SeverityCounts: Swift.Equatable {
+        /// The total number of findings across all severity levels for the specified filter.
+        public var all: Swift.Int?
+        /// The number of critical severity findings for the specified filter.
+        public var critical: Swift.Int?
+        /// The number of high severity findings for the specified filter.
+        public var high: Swift.Int?
+        /// The number of medium severity findings for the specified filter.
+        public var medium: Swift.Int?
+
+        public init (
+            all: Swift.Int? = nil,
+            critical: Swift.Int? = nil,
+            high: Swift.Int? = nil,
+            medium: Swift.Int? = nil
+        )
+        {
+            self.all = all
+            self.critical = critical
+            self.high = high
+            self.medium = medium
+        }
+    }
+
 }
 
 extension StartImagePipelineExecutionInput: Swift.Encodable {
@@ -14450,6 +16987,7 @@ extension UpdateImagePipelineInput: Swift.Encodable {
         case enhancedImageMetadataEnabled
         case imagePipelineArn
         case imageRecipeArn
+        case imageScanningConfiguration
         case imageTestsConfiguration
         case infrastructureConfigurationArn
         case schedule
@@ -14478,6 +17016,9 @@ extension UpdateImagePipelineInput: Swift.Encodable {
         }
         if let imageRecipeArn = self.imageRecipeArn {
             try encodeContainer.encode(imageRecipeArn, forKey: .imageRecipeArn)
+        }
+        if let imageScanningConfiguration = self.imageScanningConfiguration {
+            try encodeContainer.encode(imageScanningConfiguration, forKey: .imageScanningConfiguration)
         }
         if let imageTestsConfiguration = self.imageTestsConfiguration {
             try encodeContainer.encode(imageTestsConfiguration, forKey: .imageTestsConfiguration)
@@ -14508,7 +17049,7 @@ public struct UpdateImagePipelineInput: Swift.Equatable {
     public var containerRecipeArn: Swift.String?
     /// The description of the image pipeline.
     public var description: Swift.String?
-    /// The Amazon Resource Name (ARN) of the distribution configuration that will be used to configure and distribute images updated by this image pipeline.
+    /// The Amazon Resource Name (ARN) of the distribution configuration that Image Builder uses to configure and distribute images that this image pipeline has updated.
     public var distributionConfigurationArn: Swift.String?
     /// Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
     public var enhancedImageMetadataEnabled: Swift.Bool?
@@ -14517,9 +17058,11 @@ public struct UpdateImagePipelineInput: Swift.Equatable {
     public var imagePipelineArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the image recipe that will be used to configure images updated by this image pipeline.
     public var imageRecipeArn: Swift.String?
+    /// Contains settings for vulnerability scans.
+    public var imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration?
     /// The image test configuration of the image pipeline.
     public var imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration?
-    /// The Amazon Resource Name (ARN) of the infrastructure configuration that will be used to build images updated by this image pipeline.
+    /// The Amazon Resource Name (ARN) of the infrastructure configuration that Image Builder uses to build images that this image pipeline has updated.
     /// This member is required.
     public var infrastructureConfigurationArn: Swift.String?
     /// The schedule of the image pipeline.
@@ -14535,6 +17078,7 @@ public struct UpdateImagePipelineInput: Swift.Equatable {
         enhancedImageMetadataEnabled: Swift.Bool? = nil,
         imagePipelineArn: Swift.String? = nil,
         imageRecipeArn: Swift.String? = nil,
+        imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration? = nil,
         imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration? = nil,
         infrastructureConfigurationArn: Swift.String? = nil,
         schedule: ImagebuilderClientTypes.Schedule? = nil,
@@ -14548,6 +17092,7 @@ public struct UpdateImagePipelineInput: Swift.Equatable {
         self.enhancedImageMetadataEnabled = enhancedImageMetadataEnabled
         self.imagePipelineArn = imagePipelineArn
         self.imageRecipeArn = imageRecipeArn
+        self.imageScanningConfiguration = imageScanningConfiguration
         self.imageTestsConfiguration = imageTestsConfiguration
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
         self.schedule = schedule
@@ -14567,6 +17112,7 @@ struct UpdateImagePipelineInputBody: Swift.Equatable {
     let schedule: ImagebuilderClientTypes.Schedule?
     let status: ImagebuilderClientTypes.PipelineStatus?
     let clientToken: Swift.String?
+    let imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration?
 }
 
 extension UpdateImagePipelineInputBody: Swift.Decodable {
@@ -14578,6 +17124,7 @@ extension UpdateImagePipelineInputBody: Swift.Decodable {
         case enhancedImageMetadataEnabled
         case imagePipelineArn
         case imageRecipeArn
+        case imageScanningConfiguration
         case imageTestsConfiguration
         case infrastructureConfigurationArn
         case schedule
@@ -14608,6 +17155,8 @@ extension UpdateImagePipelineInputBody: Swift.Decodable {
         status = statusDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+        let imageScanningConfigurationDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.ImageScanningConfiguration.self, forKey: .imageScanningConfiguration)
+        imageScanningConfiguration = imageScanningConfigurationDecoded
     }
 }
 
@@ -15036,5 +17585,606 @@ extension UpdateInfrastructureConfigurationOutputResponseBody: Swift.Decodable {
         clientToken = clientTokenDecoded
         let infrastructureConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .infrastructureConfigurationArn)
         infrastructureConfigurationArn = infrastructureConfigurationArnDecoded
+    }
+}
+
+extension ImagebuilderClientTypes.VulnerabilityIdAggregation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case severityCounts
+        case vulnerabilityId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let severityCounts = self.severityCounts {
+            try encodeContainer.encode(severityCounts, forKey: .severityCounts)
+        }
+        if let vulnerabilityId = self.vulnerabilityId {
+            try encodeContainer.encode(vulnerabilityId, forKey: .vulnerabilityId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vulnerabilityIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vulnerabilityId)
+        vulnerabilityId = vulnerabilityIdDecoded
+        let severityCountsDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.SeverityCounts.self, forKey: .severityCounts)
+        severityCounts = severityCountsDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Includes counts of image and pipeline resource findings by vulnerability.
+    public struct VulnerabilityIdAggregation: Swift.Equatable {
+        /// Counts by severity level for medium severity and higher level findings, plus a total for all of the findings for the specified vulnerability.
+        public var severityCounts: ImagebuilderClientTypes.SeverityCounts?
+        /// The vulnerability Id for this set of counts.
+        public var vulnerabilityId: Swift.String?
+
+        public init (
+            severityCounts: ImagebuilderClientTypes.SeverityCounts? = nil,
+            vulnerabilityId: Swift.String? = nil
+        )
+        {
+            self.severityCounts = severityCounts
+            self.vulnerabilityId = vulnerabilityId
+        }
+    }
+
+}
+
+extension ImagebuilderClientTypes.VulnerablePackage: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arch
+        case epoch
+        case filePath
+        case fixedInVersion
+        case name
+        case packageManager
+        case release
+        case remediation
+        case sourceLayerHash
+        case version
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arch = self.arch {
+            try encodeContainer.encode(arch, forKey: .arch)
+        }
+        if let epoch = self.epoch {
+            try encodeContainer.encode(epoch, forKey: .epoch)
+        }
+        if let filePath = self.filePath {
+            try encodeContainer.encode(filePath, forKey: .filePath)
+        }
+        if let fixedInVersion = self.fixedInVersion {
+            try encodeContainer.encode(fixedInVersion, forKey: .fixedInVersion)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let packageManager = self.packageManager {
+            try encodeContainer.encode(packageManager, forKey: .packageManager)
+        }
+        if let release = self.release {
+            try encodeContainer.encode(release, forKey: .release)
+        }
+        if let remediation = self.remediation {
+            try encodeContainer.encode(remediation, forKey: .remediation)
+        }
+        if let sourceLayerHash = self.sourceLayerHash {
+            try encodeContainer.encode(sourceLayerHash, forKey: .sourceLayerHash)
+        }
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+        let sourceLayerHashDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceLayerHash)
+        sourceLayerHash = sourceLayerHashDecoded
+        let epochDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .epoch)
+        epoch = epochDecoded
+        let releaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .release)
+        release = releaseDecoded
+        let archDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arch)
+        arch = archDecoded
+        let packageManagerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .packageManager)
+        packageManager = packageManagerDecoded
+        let filePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filePath)
+        filePath = filePathDecoded
+        let fixedInVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fixedInVersion)
+        fixedInVersion = fixedInVersionDecoded
+        let remediationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .remediation)
+        remediation = remediationDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Information about a vulnerable package that Amazon Inspector identifies in a finding.
+    public struct VulnerablePackage: Swift.Equatable {
+        /// The architecture of the vulnerable package.
+        public var arch: Swift.String?
+        /// The epoch of the vulnerable package.
+        public var epoch: Swift.Int?
+        /// The file path of the vulnerable package.
+        public var filePath: Swift.String?
+        /// The version of the package that contains the vulnerability fix.
+        public var fixedInVersion: Swift.String?
+        /// The name of the vulnerable package.
+        public var name: Swift.String?
+        /// The package manager of the vulnerable package.
+        public var packageManager: Swift.String?
+        /// The release of the vulnerable package.
+        public var release: Swift.String?
+        /// The code to run in your environment to update packages with a fix available.
+        public var remediation: Swift.String?
+        /// The source layer hash of the vulnerable package.
+        public var sourceLayerHash: Swift.String?
+        /// The version of the vulnerable package.
+        public var version: Swift.String?
+
+        public init (
+            arch: Swift.String? = nil,
+            epoch: Swift.Int? = nil,
+            filePath: Swift.String? = nil,
+            fixedInVersion: Swift.String? = nil,
+            name: Swift.String? = nil,
+            packageManager: Swift.String? = nil,
+            release: Swift.String? = nil,
+            remediation: Swift.String? = nil,
+            sourceLayerHash: Swift.String? = nil,
+            version: Swift.String? = nil
+        )
+        {
+            self.arch = arch
+            self.epoch = epoch
+            self.filePath = filePath
+            self.fixedInVersion = fixedInVersion
+            self.name = name
+            self.packageManager = packageManager
+            self.release = release
+            self.remediation = remediation
+            self.sourceLayerHash = sourceLayerHash
+            self.version = version
+        }
+    }
+
+}
+
+extension ImagebuilderClientTypes.WorkflowExecutionMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime
+        case message
+        case startTime
+        case status
+        case totalStepCount
+        case totalStepsFailed
+        case totalStepsSkipped
+        case totalStepsSucceeded
+        case type
+        case workflowBuildVersionArn
+        case workflowExecutionId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encode(endTime, forKey: .endTime)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encode(startTime, forKey: .startTime)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if totalStepCount != 0 {
+            try encodeContainer.encode(totalStepCount, forKey: .totalStepCount)
+        }
+        if totalStepsFailed != 0 {
+            try encodeContainer.encode(totalStepsFailed, forKey: .totalStepsFailed)
+        }
+        if totalStepsSkipped != 0 {
+            try encodeContainer.encode(totalStepsSkipped, forKey: .totalStepsSkipped)
+        }
+        if totalStepsSucceeded != 0 {
+            try encodeContainer.encode(totalStepsSucceeded, forKey: .totalStepsSucceeded)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if let workflowBuildVersionArn = self.workflowBuildVersionArn {
+            try encodeContainer.encode(workflowBuildVersionArn, forKey: .workflowBuildVersionArn)
+        }
+        if let workflowExecutionId = self.workflowExecutionId {
+            try encodeContainer.encode(workflowExecutionId, forKey: .workflowExecutionId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workflowBuildVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowBuildVersionArn)
+        workflowBuildVersionArn = workflowBuildVersionArnDecoded
+        let workflowExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowExecutionId)
+        workflowExecutionId = workflowExecutionIdDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.WorkflowType.self, forKey: .type)
+        type = typeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.WorkflowExecutionStatus.self, forKey: .status)
+        status = statusDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let totalStepCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalStepCount) ?? 0
+        totalStepCount = totalStepCountDecoded
+        let totalStepsSucceededDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalStepsSucceeded) ?? 0
+        totalStepsSucceeded = totalStepsSucceededDecoded
+        let totalStepsFailedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalStepsFailed) ?? 0
+        totalStepsFailed = totalStepsFailedDecoded
+        let totalStepsSkippedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalStepsSkipped) ?? 0
+        totalStepsSkipped = totalStepsSkippedDecoded
+        let startTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Metadata that includes details and status from this runtime instance of the workflow.
+    public struct WorkflowExecutionMetadata: Swift.Equatable {
+        /// The timestamp when this runtime instance of the workflow finished.
+        public var endTime: Swift.String?
+        /// The runtime output message from the workflow, if applicable.
+        public var message: Swift.String?
+        /// The timestamp when the runtime instance of this workflow started.
+        public var startTime: Swift.String?
+        /// The current runtime status for this workflow.
+        public var status: ImagebuilderClientTypes.WorkflowExecutionStatus?
+        /// The total number of steps in the workflow. This should equal the sum of the step counts for steps that succeeded, were skipped, and failed.
+        public var totalStepCount: Swift.Int
+        /// A runtime count for the number of steps in the workflow that failed.
+        public var totalStepsFailed: Swift.Int
+        /// A runtime count for the number of steps in the workflow that were skipped.
+        public var totalStepsSkipped: Swift.Int
+        /// A runtime count for the number of steps in the workflow that ran successfully.
+        public var totalStepsSucceeded: Swift.Int
+        /// Indicates what type of workflow that Image Builder ran for this runtime instance of the workflow.
+        public var type: ImagebuilderClientTypes.WorkflowType?
+        /// The Amazon Resource Name (ARN) of the workflow resource build version that ran.
+        public var workflowBuildVersionArn: Swift.String?
+        /// Unique identifier that Image Builder assigns to keep track of runtime resources each time it runs a workflow.
+        public var workflowExecutionId: Swift.String?
+
+        public init (
+            endTime: Swift.String? = nil,
+            message: Swift.String? = nil,
+            startTime: Swift.String? = nil,
+            status: ImagebuilderClientTypes.WorkflowExecutionStatus? = nil,
+            totalStepCount: Swift.Int = 0,
+            totalStepsFailed: Swift.Int = 0,
+            totalStepsSkipped: Swift.Int = 0,
+            totalStepsSucceeded: Swift.Int = 0,
+            type: ImagebuilderClientTypes.WorkflowType? = nil,
+            workflowBuildVersionArn: Swift.String? = nil,
+            workflowExecutionId: Swift.String? = nil
+        )
+        {
+            self.endTime = endTime
+            self.message = message
+            self.startTime = startTime
+            self.status = status
+            self.totalStepCount = totalStepCount
+            self.totalStepsFailed = totalStepsFailed
+            self.totalStepsSkipped = totalStepsSkipped
+            self.totalStepsSucceeded = totalStepsSucceeded
+            self.type = type
+            self.workflowBuildVersionArn = workflowBuildVersionArn
+            self.workflowExecutionId = workflowExecutionId
+        }
+    }
+
+}
+
+extension ImagebuilderClientTypes {
+    public enum WorkflowExecutionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case failed
+        case pending
+        case rollbackCompleted
+        case rollbackInProgress
+        case running
+        case skipped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkflowExecutionStatus] {
+            return [
+                .completed,
+                .failed,
+                .pending,
+                .rollbackCompleted,
+                .rollbackInProgress,
+                .running,
+                .skipped,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .rollbackCompleted: return "ROLLBACK_COMPLETED"
+            case .rollbackInProgress: return "ROLLBACK_IN_PROGRESS"
+            case .running: return "RUNNING"
+            case .skipped: return "SKIPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = WorkflowExecutionStatus(rawValue: rawValue) ?? WorkflowExecutionStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ImagebuilderClientTypes {
+    public enum WorkflowStepExecutionRollbackStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case failed
+        case running
+        case skipped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkflowStepExecutionRollbackStatus] {
+            return [
+                .completed,
+                .failed,
+                .running,
+                .skipped,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .skipped: return "SKIPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = WorkflowStepExecutionRollbackStatus(rawValue: rawValue) ?? WorkflowStepExecutionRollbackStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ImagebuilderClientTypes {
+    public enum WorkflowStepExecutionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case failed
+        case pending
+        case running
+        case skipped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkflowStepExecutionStatus] {
+            return [
+                .completed,
+                .failed,
+                .pending,
+                .running,
+                .skipped,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .running: return "RUNNING"
+            case .skipped: return "SKIPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = WorkflowStepExecutionStatus(rawValue: rawValue) ?? WorkflowStepExecutionStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ImagebuilderClientTypes.WorkflowStepMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action
+        case description
+        case endTime
+        case inputs
+        case message
+        case name
+        case outputs
+        case rollbackStatus
+        case startTime
+        case status
+        case stepExecutionId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action, forKey: .action)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encode(endTime, forKey: .endTime)
+        }
+        if let inputs = self.inputs {
+            try encodeContainer.encode(inputs, forKey: .inputs)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let outputs = self.outputs {
+            try encodeContainer.encode(outputs, forKey: .outputs)
+        }
+        if let rollbackStatus = self.rollbackStatus {
+            try encodeContainer.encode(rollbackStatus.rawValue, forKey: .rollbackStatus)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encode(startTime, forKey: .startTime)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let stepExecutionId = self.stepExecutionId {
+            try encodeContainer.encode(stepExecutionId, forKey: .stepExecutionId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stepExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stepExecutionId)
+        stepExecutionId = stepExecutionIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let actionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .action)
+        action = actionDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.WorkflowStepExecutionStatus.self, forKey: .status)
+        status = statusDecoded
+        let rollbackStatusDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.WorkflowStepExecutionRollbackStatus.self, forKey: .rollbackStatus)
+        rollbackStatus = rollbackStatusDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let inputsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .inputs)
+        inputs = inputsDecoded
+        let outputsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outputs)
+        outputs = outputsDecoded
+        let startTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Runtime details and status for the workflow step.
+    public struct WorkflowStepMetadata: Swift.Equatable {
+        /// The step action name.
+        public var action: Swift.String?
+        /// Description of the workflow step.
+        public var description: Swift.String?
+        /// The timestamp when the workflow step finished.
+        public var endTime: Swift.String?
+        /// Input parameters that Image Builder provides for the workflow step.
+        public var inputs: Swift.String?
+        /// Detailed output message that the workflow step provides at runtime.
+        public var message: Swift.String?
+        /// The name of the workflow step.
+        public var name: Swift.String?
+        /// The file names that the workflow step created as output for this runtime instance of the workflow.
+        public var outputs: Swift.String?
+        /// Reports on the rollback status of the step, if applicable.
+        public var rollbackStatus: ImagebuilderClientTypes.WorkflowStepExecutionRollbackStatus?
+        /// The timestamp when the workflow step started.
+        public var startTime: Swift.String?
+        /// Runtime status for the workflow step.
+        public var status: ImagebuilderClientTypes.WorkflowStepExecutionStatus?
+        /// A unique identifier for the workflow step, assigned at runtime.
+        public var stepExecutionId: Swift.String?
+
+        public init (
+            action: Swift.String? = nil,
+            description: Swift.String? = nil,
+            endTime: Swift.String? = nil,
+            inputs: Swift.String? = nil,
+            message: Swift.String? = nil,
+            name: Swift.String? = nil,
+            outputs: Swift.String? = nil,
+            rollbackStatus: ImagebuilderClientTypes.WorkflowStepExecutionRollbackStatus? = nil,
+            startTime: Swift.String? = nil,
+            status: ImagebuilderClientTypes.WorkflowStepExecutionStatus? = nil,
+            stepExecutionId: Swift.String? = nil
+        )
+        {
+            self.action = action
+            self.description = description
+            self.endTime = endTime
+            self.inputs = inputs
+            self.message = message
+            self.name = name
+            self.outputs = outputs
+            self.rollbackStatus = rollbackStatus
+            self.startTime = startTime
+            self.status = status
+            self.stepExecutionId = stepExecutionId
+        }
+    }
+
+}
+
+extension ImagebuilderClientTypes {
+    public enum WorkflowType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case build
+        case distribution
+        case test
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkflowType] {
+            return [
+                .build,
+                .distribution,
+                .test,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .build: return "BUILD"
+            case .distribution: return "DISTRIBUTION"
+            case .test: return "TEST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = WorkflowType(rawValue: rawValue) ?? WorkflowType.sdkUnknown(rawValue)
+        }
     }
 }

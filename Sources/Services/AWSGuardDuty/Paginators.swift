@@ -83,6 +83,39 @@ extension GetUsageStatisticsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension GuardDutyClient {
+    /// Paginate over `[ListCoverageOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCoverageInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCoverageOutputResponse`
+    public func listCoveragePaginated(input: ListCoverageInput) -> ClientRuntime.PaginatorSequence<ListCoverageInput, ListCoverageOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListCoverageInput, ListCoverageOutputResponse>(input: input, inputKey: \ListCoverageInput.nextToken, outputKey: \ListCoverageOutputResponse.nextToken, paginationFunction: self.listCoverage(input:))
+    }
+}
+
+extension ListCoverageInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCoverageInput {
+        return ListCoverageInput(
+            detectorId: self.detectorId,
+            filterCriteria: self.filterCriteria,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortCriteria: self.sortCriteria
+        )}
+}
+
+extension PaginatorSequence where Input == ListCoverageInput, Output == ListCoverageOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listCoveragePaginated`
+    /// to access the nested member `[GuardDutyClientTypes.CoverageResource]`
+    /// - Returns: `[GuardDutyClientTypes.CoverageResource]`
+    public func resources() async throws -> [GuardDutyClientTypes.CoverageResource] {
+        return try await self.asyncCompactMap { item in item.resources }
+    }
+}
+extension GuardDutyClient {
     /// Paginate over `[ListDetectorsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

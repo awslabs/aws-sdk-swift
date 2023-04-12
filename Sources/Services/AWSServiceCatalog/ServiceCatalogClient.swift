@@ -2766,6 +2766,138 @@ extension ServiceCatalogClient: ServiceCatalogClientProtocol {
         return result
     }
 
+    /// Notifies the result of the provisioning engine execution.
+    public func notifyProvisionProductEngineWorkflowResult(input: NotifyProvisionProductEngineWorkflowResultInput) async throws -> NotifyProvisionProductEngineWorkflowResultOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "notifyProvisionProductEngineWorkflowResult")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "servicecatalog")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutputResponse, NotifyProvisionProductEngineWorkflowResultOutputError>(id: "notifyProvisionProductEngineWorkflowResult")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<NotifyProvisionProductEngineWorkflowResultOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.idempotencyToken == nil {
+                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutputResponse, NotifyProvisionProductEngineWorkflowResultOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<NotifyProvisionProductEngineWorkflowResultOutputResponse, NotifyProvisionProductEngineWorkflowResultOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.NotifyProvisionProductEngineWorkflowResult"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutputResponse>(xmlName: "NotifyProvisionProductEngineWorkflowResultInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<NotifyProvisionProductEngineWorkflowResultInput, NotifyProvisionProductEngineWorkflowResultOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<NotifyProvisionProductEngineWorkflowResultOutputResponse, NotifyProvisionProductEngineWorkflowResultOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<NotifyProvisionProductEngineWorkflowResultOutputResponse, NotifyProvisionProductEngineWorkflowResultOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<NotifyProvisionProductEngineWorkflowResultOutputResponse, NotifyProvisionProductEngineWorkflowResultOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<NotifyProvisionProductEngineWorkflowResultOutputResponse, NotifyProvisionProductEngineWorkflowResultOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Notifies the result of the terminate engine execution.
+    public func notifyTerminateProvisionedProductEngineWorkflowResult(input: NotifyTerminateProvisionedProductEngineWorkflowResultInput) async throws -> NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "notifyTerminateProvisionedProductEngineWorkflowResult")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "servicecatalog")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>(id: "notifyTerminateProvisionedProductEngineWorkflowResult")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.idempotencyToken == nil {
+                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.NotifyTerminateProvisionedProductEngineWorkflowResult"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse>(xmlName: "NotifyTerminateProvisionedProductEngineWorkflowResultInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultInput, NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse, NotifyTerminateProvisionedProductEngineWorkflowResultOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Notifies the result of the update engine execution.
+    public func notifyUpdateProvisionedProductEngineWorkflowResult(input: NotifyUpdateProvisionedProductEngineWorkflowResultInput) async throws -> NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "notifyUpdateProvisionedProductEngineWorkflowResult")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "servicecatalog")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>(id: "notifyUpdateProvisionedProductEngineWorkflowResult")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.idempotencyToken == nil {
+                copiedInput.idempotencyToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse>(xAmzTarget: "AWS242ServiceCatalogService.NotifyUpdateProvisionedProductEngineWorkflowResult"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse>(xmlName: "NotifyUpdateProvisionedProductEngineWorkflowResultInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultInput, NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse, NotifyUpdateProvisionedProductEngineWorkflowResultOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
     /// Provisions the specified product. A provisioned product is a resourced instance of a product. For example, provisioning a product that's based on an CloudFormation template launches an CloudFormation stack and its underlying resources. You can check the status of this request using [DescribeRecord]. If the request contains a tag key with an empty list of values, there's a tag conflict for that key. Don't include conflicted keys as tags, or this will cause the error "Parameter validation failed: Missing required parameter in Tags[N]:Value". When provisioning a product that's been added to a portfolio, you must grant your user, group, or role access to the portfolio. For more information, see [Granting users access](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/catalogs_portfolios_users.html) in the Service Catalog User Guide.
     public func provisionProduct(input: ProvisionProductInput) async throws -> ProvisionProductOutputResponse
     {

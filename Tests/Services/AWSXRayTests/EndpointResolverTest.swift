@@ -793,8 +793,27 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-iso-east-1 with FIPS enabled and DualStack disabled
+    /// For region us-iso-east-1 with FIPS enabled and DualStack enabled
     func testResolve40() throws {
+        let endpointParams = EndpointParams(
+            region: "us-iso-east-1",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("FIPS and DualStack are enabled, but this partition does not support one or both", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// For region us-iso-east-1 with FIPS enabled and DualStack disabled
+    func testResolve41() throws {
         let endpointParams = EndpointParams(
             region: "us-iso-east-1",
             useDualStack: false,
@@ -813,8 +832,27 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// For region us-iso-east-1 with FIPS disabled and DualStack enabled
+    func testResolve42() throws {
+        let endpointParams = EndpointParams(
+            region: "us-iso-east-1",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("DualStack is enabled but this partition does not support DualStack", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
     /// For region us-iso-east-1 with FIPS disabled and DualStack disabled
-    func testResolve41() throws {
+    func testResolve43() throws {
         let endpointParams = EndpointParams(
             region: "us-iso-east-1",
             useDualStack: false,
@@ -833,8 +871,27 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// For region us-isob-east-1 with FIPS enabled and DualStack enabled
+    func testResolve44() throws {
+        let endpointParams = EndpointParams(
+            region: "us-isob-east-1",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("FIPS and DualStack are enabled, but this partition does not support one or both", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
     /// For region us-isob-east-1 with FIPS enabled and DualStack disabled
-    func testResolve42() throws {
+    func testResolve45() throws {
         let endpointParams = EndpointParams(
             region: "us-isob-east-1",
             useDualStack: false,
@@ -853,8 +910,27 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// For region us-isob-east-1 with FIPS disabled and DualStack enabled
+    func testResolve46() throws {
+        let endpointParams = EndpointParams(
+            region: "us-isob-east-1",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("DualStack is enabled but this partition does not support DualStack", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
     /// For region us-isob-east-1 with FIPS disabled and DualStack disabled
-    func testResolve43() throws {
+    func testResolve47() throws {
         let endpointParams = EndpointParams(
             region: "us-isob-east-1",
             useDualStack: false,
@@ -874,7 +950,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For custom endpoint with region set and fips disabled and dualstack disabled
-    func testResolve44() throws {
+    func testResolve48() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
@@ -895,7 +971,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For custom endpoint with region not set and fips disabled and dualstack disabled
-    func testResolve45() throws {
+    func testResolve49() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             useDualStack: false,
@@ -915,7 +991,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For custom endpoint with fips enabled and dualstack disabled
-    func testResolve46() throws {
+    func testResolve50() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
@@ -935,7 +1011,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For custom endpoint with fips disabled and dualstack enabled
-    func testResolve47() throws {
+    func testResolve51() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
@@ -948,6 +1024,22 @@ class EndpointResolverTest: XCTestCase {
             switch error {
             case EndpointError.unresolved(let message):
                 XCTAssertEqual("Invalid Configuration: Dualstack and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// Missing region
+    func testResolve52() throws {
+        let endpointParams = EndpointParams(
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: Missing Region", message)
             default:
                 XCTFail()
             }

@@ -32,8 +32,6 @@ extension AcceptPortfolioShareInput: ClientRuntime.URLPathProvider {
 public struct AcceptPortfolioShareInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -379,8 +377,6 @@ extension AssociatePrincipalWithPortfolioInput: ClientRuntime.URLPathProvider {
 public struct AssociatePrincipalWithPortfolioInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -388,7 +384,7 @@ public struct AssociatePrincipalWithPortfolioInput: Swift.Equatable {
     /// The portfolio identifier.
     /// This member is required.
     public var portfolioId: Swift.String?
-    /// The ARN of the principal (IAM user, role, or group). This field allows an ARN with no accountID if PrincipalType is IAM_PATTERN. You can associate multiple IAM patterns even if the account has no principal with that name. This is useful in Principal Name Sharing if you want to share a principal without creating it in the account that owns the portfolio.
+    /// The ARN of the principal (user, role, or group). This field allows an ARN with no accountID if PrincipalType is IAM_PATTERN. You can associate multiple IAM patterns even if the account has no principal with that name. This is useful in Principal Name Sharing if you want to share a principal without creating it in the account that owns the portfolio.
     /// This member is required.
     public var principalARN: Swift.String?
     /// The principal type. The supported value is IAM if you use a fully defined ARN, or IAM_PATTERN if you use an ARN with no accountID.
@@ -506,8 +502,6 @@ extension AssociateProductWithPortfolioInput: ClientRuntime.URLPathProvider {
 
 public struct AssociateProductWithPortfolioInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -634,8 +628,6 @@ extension AssociateServiceActionWithProvisioningArtifactInput: ClientRuntime.URL
 public struct AssociateServiceActionWithProvisioningArtifactInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -704,6 +696,7 @@ extension AssociateServiceActionWithProvisioningArtifactOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "DuplicateResourceException" : self = .duplicateResourceException(try DuplicateResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParametersException" : self = .invalidParametersException(try InvalidParametersException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -713,6 +706,7 @@ extension AssociateServiceActionWithProvisioningArtifactOutputError {
 
 public enum AssociateServiceActionWithProvisioningArtifactOutputError: Swift.Error, Swift.Equatable {
     case duplicateResourceException(DuplicateResourceException)
+    case invalidParametersException(InvalidParametersException)
     case limitExceededException(LimitExceededException)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
@@ -859,8 +853,6 @@ extension BatchAssociateServiceActionWithProvisioningArtifactInput: ClientRuntim
 
 public struct BatchAssociateServiceActionWithProvisioningArtifactInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -1009,8 +1001,6 @@ extension BatchDisassociateServiceActionFromProvisioningArtifactInput: ClientRun
 
 public struct BatchDisassociateServiceActionFromProvisioningArtifactInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -1535,8 +1525,6 @@ extension CopyProductInput: ClientRuntime.URLPathProvider {
 public struct CopyProductInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -1789,8 +1777,6 @@ extension CreateConstraintInput: ClientRuntime.URLPathProvider {
 public struct CreateConstraintInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -2017,8 +2003,6 @@ extension CreatePortfolioInput: ClientRuntime.URLPathProvider {
 public struct CreatePortfolioInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -2227,8 +2211,6 @@ extension CreatePortfolioShareInput: ClientRuntime.URLPathProvider {
 
 public struct CreatePortfolioShareInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -2443,8 +2425,6 @@ extension CreateProductInput: ClientRuntime.URLPathProvider {
 
 public struct CreateProductInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -2755,8 +2735,6 @@ extension CreateProvisionedProductPlanInput: ClientRuntime.URLPathProvider {
 public struct CreateProvisionedProductPlanInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -3040,8 +3018,6 @@ extension CreateProvisioningArtifactInput: ClientRuntime.URLPathProvider {
 public struct CreateProvisioningArtifactInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -3238,8 +3214,6 @@ extension CreateServiceActionInput: ClientRuntime.URLPathProvider {
 
 public struct CreateServiceActionInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -3542,8 +3516,6 @@ extension DeleteConstraintInput: ClientRuntime.URLPathProvider {
 public struct DeleteConstraintInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -3641,8 +3613,6 @@ extension DeletePortfolioInput: ClientRuntime.URLPathProvider {
 
 public struct DeletePortfolioInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -3753,8 +3723,6 @@ extension DeletePortfolioShareInput: ClientRuntime.URLPathProvider {
 
 public struct DeletePortfolioShareInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -3905,8 +3873,6 @@ extension DeleteProductInput: ClientRuntime.URLPathProvider {
 public struct DeleteProductInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -4012,8 +3978,6 @@ extension DeleteProvisionedProductPlanInput: ClientRuntime.URLPathProvider {
 
 public struct DeleteProvisionedProductPlanInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -4125,8 +4089,6 @@ extension DeleteProvisioningArtifactInput: ClientRuntime.URLPathProvider {
 public struct DeleteProvisioningArtifactInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -4235,8 +4197,6 @@ extension DeleteServiceActionInput: ClientRuntime.URLPathProvider {
 
 public struct DeleteServiceActionInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -4408,8 +4368,6 @@ extension DescribeConstraintInput: ClientRuntime.URLPathProvider {
 public struct DescribeConstraintInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -4557,8 +4515,6 @@ extension DescribeCopyProductStatusInput: ClientRuntime.URLPathProvider {
 public struct DescribeCopyProductStatusInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -4705,8 +4661,6 @@ extension DescribePortfolioInput: ClientRuntime.URLPathProvider {
 
 public struct DescribePortfolioInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -5262,8 +5216,6 @@ extension DescribeProductAsAdminInput: ClientRuntime.URLPathProvider {
 public struct DescribeProductAsAdminInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -5488,8 +5440,6 @@ extension DescribeProductInput: ClientRuntime.URLPathProvider {
 public struct DescribeProductInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -5683,8 +5633,6 @@ extension DescribeProductViewInput: ClientRuntime.URLPathProvider {
 public struct DescribeProductViewInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -5837,8 +5785,6 @@ extension DescribeProvisionedProductInput: ClientRuntime.URLPathProvider {
 /// DescribeProvisionedProductAPI input structure. AcceptLanguage - [Optional] The language code for localization. Id - [Optional] The provisioned product identifier. Name - [Optional] Another provisioned product identifier. Customers must provide either Id or Name.
 public struct DescribeProvisionedProductInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -6002,8 +5948,6 @@ extension DescribeProvisionedProductPlanInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeProvisionedProductPlanInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -6194,8 +6138,6 @@ extension DescribeProvisioningArtifactInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeProvisioningArtifactInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -6405,8 +6347,6 @@ extension DescribeProvisioningParametersInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeProvisioningParametersInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -6699,8 +6639,6 @@ extension DescribeRecordInput: ClientRuntime.URLPathProvider {
 public struct DescribeRecordInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -6877,8 +6815,6 @@ extension DescribeServiceActionExecutionParametersInput: ClientRuntime.URLPathPr
 public struct DescribeServiceActionExecutionParametersInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -7025,8 +6961,6 @@ extension DescribeServiceActionInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeServiceActionInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -7421,8 +7355,6 @@ extension DisassociatePrincipalFromPortfolioInput: ClientRuntime.URLPathProvider
 public struct DisassociatePrincipalFromPortfolioInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -7430,7 +7362,7 @@ public struct DisassociatePrincipalFromPortfolioInput: Swift.Equatable {
     /// The portfolio identifier.
     /// This member is required.
     public var portfolioId: Swift.String?
-    /// The ARN of the principal (IAM user, role, or group). This field allows an ARN with no accountID if PrincipalType is IAM_PATTERN.
+    /// The ARN of the principal (user, role, or group). This field allows an ARN with no accountID if PrincipalType is IAM_PATTERN.
     /// This member is required.
     public var principalARN: Swift.String?
     /// The supported value is IAM if you use a fully defined ARN, or IAM_PATTERN if you use no accountID.
@@ -7541,8 +7473,6 @@ extension DisassociateProductFromPortfolioInput: ClientRuntime.URLPathProvider {
 
 public struct DisassociateProductFromPortfolioInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -7660,8 +7590,6 @@ extension DisassociateServiceActionFromProvisioningArtifactInput: ClientRuntime.
 
 public struct DisassociateServiceActionFromProvisioningArtifactInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -7942,6 +7870,73 @@ public struct EnableAWSOrganizationsAccessOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension ServiceCatalogClientTypes.EngineWorkflowResourceIdentifier: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case uniqueTag = "UniqueTag"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let uniqueTag = self.uniqueTag {
+            try encodeContainer.encode(uniqueTag, forKey: .uniqueTag)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let uniqueTagDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.UniqueTagResourceIdentifier.self, forKey: .uniqueTag)
+        uniqueTag = uniqueTagDecoded
+    }
+}
+
+extension ServiceCatalogClientTypes {
+    /// The ID for the provisioned product resources that are part of a resource group.
+    public struct EngineWorkflowResourceIdentifier: Swift.Equatable {
+        /// The unique key-value pair for a tag that identifies provisioned product resources.
+        public var uniqueTag: ServiceCatalogClientTypes.UniqueTagResourceIdentifier?
+
+        public init (
+            uniqueTag: ServiceCatalogClientTypes.UniqueTagResourceIdentifier? = nil
+        )
+        {
+            self.uniqueTag = uniqueTag
+        }
+    }
+
+}
+
+extension ServiceCatalogClientTypes {
+    public enum EngineWorkflowStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EngineWorkflowStatus] {
+            return [
+                .failed,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EngineWorkflowStatus(rawValue: rawValue) ?? EngineWorkflowStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ServiceCatalogClientTypes {
     public enum EvaluationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `dynamic`
@@ -8003,8 +7998,6 @@ extension ExecuteProvisionedProductPlanInput: ClientRuntime.URLPathProvider {
 
 public struct ExecuteProvisionedProductPlanInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -8163,8 +8156,6 @@ extension ExecuteProvisionedProductServiceActionInput: ClientRuntime.URLPathProv
 
 public struct ExecuteProvisionedProductServiceActionInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -8593,8 +8584,6 @@ extension GetProvisionedProductOutputsInput: ClientRuntime.URLPathProvider {
 public struct GetProvisionedProductOutputsInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -8798,8 +8787,6 @@ extension ImportAsProvisionedProductInput: ClientRuntime.URLPathProvider {
 
 public struct ImportAsProvisionedProductInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -9385,8 +9372,6 @@ extension ListAcceptedPortfolioSharesInput: ClientRuntime.URLPathProvider {
 public struct ListAcceptedPortfolioSharesInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -9564,8 +9549,6 @@ extension ListBudgetsForResourceInput: ClientRuntime.URLPathProvider {
 public struct ListBudgetsForResourceInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -9741,8 +9724,6 @@ extension ListConstraintsForPortfolioInput: ClientRuntime.URLPathProvider {
 
 public struct ListConstraintsForPortfolioInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -9924,8 +9905,6 @@ extension ListLaunchPathsInput: ClientRuntime.URLPathProvider {
 public struct ListLaunchPathsInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -10101,8 +10080,6 @@ extension ListOrganizationPortfolioAccessInput: ClientRuntime.URLPathProvider {
 
 public struct ListOrganizationPortfolioAccessInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -10297,8 +10274,6 @@ extension ListPortfolioAccessInput: ClientRuntime.URLPathProvider {
 public struct ListPortfolioAccessInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -10479,8 +10454,6 @@ extension ListPortfoliosForProductInput: ClientRuntime.URLPathProvider {
 public struct ListPortfoliosForProductInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -10649,8 +10622,6 @@ extension ListPortfoliosInput: ClientRuntime.URLPathProvider {
 public struct ListPortfoliosInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -10811,8 +10782,6 @@ extension ListPrincipalsForPortfolioInput: ClientRuntime.URLPathProvider {
 
 public struct ListPrincipalsForPortfolioInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -10989,8 +10958,6 @@ extension ListProvisionedProductPlansInput: ClientRuntime.URLPathProvider {
 
 public struct ListProvisionedProductPlansInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -11171,8 +11138,6 @@ extension ListProvisioningArtifactsForServiceActionInput: ClientRuntime.URLPathP
 public struct ListProvisioningArtifactsForServiceActionInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -11337,8 +11302,6 @@ extension ListProvisioningArtifactsInput: ClientRuntime.URLPathProvider {
 public struct ListProvisioningArtifactsInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -11498,8 +11461,6 @@ extension ListRecordHistoryInput: ClientRuntime.URLPathProvider {
 
 public struct ListRecordHistoryInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -11869,8 +11830,6 @@ extension ListServiceActionsForProvisioningArtifactInput: ClientRuntime.URLPathP
 public struct ListServiceActionsForProvisioningArtifactInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -12048,8 +12007,6 @@ extension ListServiceActionsInput: ClientRuntime.URLPathProvider {
 public struct ListServiceActionsInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -12210,8 +12167,6 @@ extension ListStackInstancesForProvisionedProductInput: ClientRuntime.URLPathPro
 
 public struct ListStackInstancesForProvisionedProductInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -12559,6 +12514,465 @@ extension ListTagOptionsOutputResponseBody: Swift.Decodable {
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
     }
+}
+
+extension NotifyProvisionProductEngineWorkflowResultInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case failureReason = "FailureReason"
+        case idempotencyToken = "IdempotencyToken"
+        case outputs = "Outputs"
+        case recordId = "RecordId"
+        case resourceIdentifier = "ResourceIdentifier"
+        case status = "Status"
+        case workflowToken = "WorkflowToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let failureReason = self.failureReason {
+            try encodeContainer.encode(failureReason, forKey: .failureReason)
+        }
+        if let idempotencyToken = self.idempotencyToken {
+            try encodeContainer.encode(idempotencyToken, forKey: .idempotencyToken)
+        }
+        if let outputs = outputs {
+            var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
+            for recordoutput0 in outputs {
+                try outputsContainer.encode(recordoutput0)
+            }
+        }
+        if let recordId = self.recordId {
+            try encodeContainer.encode(recordId, forKey: .recordId)
+        }
+        if let resourceIdentifier = self.resourceIdentifier {
+            try encodeContainer.encode(resourceIdentifier, forKey: .resourceIdentifier)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let workflowToken = self.workflowToken {
+            try encodeContainer.encode(workflowToken, forKey: .workflowToken)
+        }
+    }
+}
+
+extension NotifyProvisionProductEngineWorkflowResultInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct NotifyProvisionProductEngineWorkflowResultInput: Swift.Equatable {
+    /// The reason why the provisioning engine execution failed.
+    public var failureReason: Swift.String?
+    /// The idempotency token that identifies the provisioning engine execution.
+    /// This member is required.
+    public var idempotencyToken: Swift.String?
+    /// The output of the provisioning engine execution.
+    public var outputs: [ServiceCatalogClientTypes.RecordOutput]?
+    /// The identifier of the record.
+    /// This member is required.
+    public var recordId: Swift.String?
+    /// The ID for the provisioned product resources that are part of a resource group.
+    public var resourceIdentifier: ServiceCatalogClientTypes.EngineWorkflowResourceIdentifier?
+    /// The status of the provisioning engine execution.
+    /// This member is required.
+    public var status: ServiceCatalogClientTypes.EngineWorkflowStatus?
+    /// The encrypted contents of the provisioning engine execution payload that Service Catalog sends after the Terraform product provisioning workflow starts.
+    /// This member is required.
+    public var workflowToken: Swift.String?
+
+    public init (
+        failureReason: Swift.String? = nil,
+        idempotencyToken: Swift.String? = nil,
+        outputs: [ServiceCatalogClientTypes.RecordOutput]? = nil,
+        recordId: Swift.String? = nil,
+        resourceIdentifier: ServiceCatalogClientTypes.EngineWorkflowResourceIdentifier? = nil,
+        status: ServiceCatalogClientTypes.EngineWorkflowStatus? = nil,
+        workflowToken: Swift.String? = nil
+    )
+    {
+        self.failureReason = failureReason
+        self.idempotencyToken = idempotencyToken
+        self.outputs = outputs
+        self.recordId = recordId
+        self.resourceIdentifier = resourceIdentifier
+        self.status = status
+        self.workflowToken = workflowToken
+    }
+}
+
+struct NotifyProvisionProductEngineWorkflowResultInputBody: Swift.Equatable {
+    let workflowToken: Swift.String?
+    let recordId: Swift.String?
+    let status: ServiceCatalogClientTypes.EngineWorkflowStatus?
+    let failureReason: Swift.String?
+    let resourceIdentifier: ServiceCatalogClientTypes.EngineWorkflowResourceIdentifier?
+    let outputs: [ServiceCatalogClientTypes.RecordOutput]?
+    let idempotencyToken: Swift.String?
+}
+
+extension NotifyProvisionProductEngineWorkflowResultInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case failureReason = "FailureReason"
+        case idempotencyToken = "IdempotencyToken"
+        case outputs = "Outputs"
+        case recordId = "RecordId"
+        case resourceIdentifier = "ResourceIdentifier"
+        case status = "Status"
+        case workflowToken = "WorkflowToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workflowTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowToken)
+        workflowToken = workflowTokenDecoded
+        let recordIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recordId)
+        recordId = recordIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.EngineWorkflowStatus.self, forKey: .status)
+        status = statusDecoded
+        let failureReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureReason)
+        failureReason = failureReasonDecoded
+        let resourceIdentifierDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.EngineWorkflowResourceIdentifier.self, forKey: .resourceIdentifier)
+        resourceIdentifier = resourceIdentifierDecoded
+        let outputsContainer = try containerValues.decodeIfPresent([ServiceCatalogClientTypes.RecordOutput?].self, forKey: .outputs)
+        var outputsDecoded0:[ServiceCatalogClientTypes.RecordOutput]? = nil
+        if let outputsContainer = outputsContainer {
+            outputsDecoded0 = [ServiceCatalogClientTypes.RecordOutput]()
+            for structure0 in outputsContainer {
+                if let structure0 = structure0 {
+                    outputsDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputs = outputsDecoded0
+        let idempotencyTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idempotencyToken)
+        idempotencyToken = idempotencyTokenDecoded
+    }
+}
+
+extension NotifyProvisionProductEngineWorkflowResultOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension NotifyProvisionProductEngineWorkflowResultOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidParametersException" : self = .invalidParametersException(try InvalidParametersException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum NotifyProvisionProductEngineWorkflowResultOutputError: Swift.Error, Swift.Equatable {
+    case invalidParametersException(InvalidParametersException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension NotifyProvisionProductEngineWorkflowResultOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct NotifyProvisionProductEngineWorkflowResultOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension NotifyTerminateProvisionedProductEngineWorkflowResultInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case failureReason = "FailureReason"
+        case idempotencyToken = "IdempotencyToken"
+        case recordId = "RecordId"
+        case status = "Status"
+        case workflowToken = "WorkflowToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let failureReason = self.failureReason {
+            try encodeContainer.encode(failureReason, forKey: .failureReason)
+        }
+        if let idempotencyToken = self.idempotencyToken {
+            try encodeContainer.encode(idempotencyToken, forKey: .idempotencyToken)
+        }
+        if let recordId = self.recordId {
+            try encodeContainer.encode(recordId, forKey: .recordId)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let workflowToken = self.workflowToken {
+            try encodeContainer.encode(workflowToken, forKey: .workflowToken)
+        }
+    }
+}
+
+extension NotifyTerminateProvisionedProductEngineWorkflowResultInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct NotifyTerminateProvisionedProductEngineWorkflowResultInput: Swift.Equatable {
+    /// The reason why the terminate engine execution failed.
+    public var failureReason: Swift.String?
+    /// The idempotency token that identifies the terminate engine execution.
+    /// This member is required.
+    public var idempotencyToken: Swift.String?
+    /// The identifier of the record.
+    /// This member is required.
+    public var recordId: Swift.String?
+    /// The status of the terminate engine execution.
+    /// This member is required.
+    public var status: ServiceCatalogClientTypes.EngineWorkflowStatus?
+    /// The encrypted contents of the terminate engine execution payload that Service Catalog sends after the Terraform product terminate workflow starts.
+    /// This member is required.
+    public var workflowToken: Swift.String?
+
+    public init (
+        failureReason: Swift.String? = nil,
+        idempotencyToken: Swift.String? = nil,
+        recordId: Swift.String? = nil,
+        status: ServiceCatalogClientTypes.EngineWorkflowStatus? = nil,
+        workflowToken: Swift.String? = nil
+    )
+    {
+        self.failureReason = failureReason
+        self.idempotencyToken = idempotencyToken
+        self.recordId = recordId
+        self.status = status
+        self.workflowToken = workflowToken
+    }
+}
+
+struct NotifyTerminateProvisionedProductEngineWorkflowResultInputBody: Swift.Equatable {
+    let workflowToken: Swift.String?
+    let recordId: Swift.String?
+    let status: ServiceCatalogClientTypes.EngineWorkflowStatus?
+    let failureReason: Swift.String?
+    let idempotencyToken: Swift.String?
+}
+
+extension NotifyTerminateProvisionedProductEngineWorkflowResultInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case failureReason = "FailureReason"
+        case idempotencyToken = "IdempotencyToken"
+        case recordId = "RecordId"
+        case status = "Status"
+        case workflowToken = "WorkflowToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workflowTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowToken)
+        workflowToken = workflowTokenDecoded
+        let recordIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recordId)
+        recordId = recordIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.EngineWorkflowStatus.self, forKey: .status)
+        status = statusDecoded
+        let failureReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureReason)
+        failureReason = failureReasonDecoded
+        let idempotencyTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idempotencyToken)
+        idempotencyToken = idempotencyTokenDecoded
+    }
+}
+
+extension NotifyTerminateProvisionedProductEngineWorkflowResultOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension NotifyTerminateProvisionedProductEngineWorkflowResultOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidParametersException" : self = .invalidParametersException(try InvalidParametersException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum NotifyTerminateProvisionedProductEngineWorkflowResultOutputError: Swift.Error, Swift.Equatable {
+    case invalidParametersException(InvalidParametersException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension NotifyUpdateProvisionedProductEngineWorkflowResultInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case failureReason = "FailureReason"
+        case idempotencyToken = "IdempotencyToken"
+        case outputs = "Outputs"
+        case recordId = "RecordId"
+        case status = "Status"
+        case workflowToken = "WorkflowToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let failureReason = self.failureReason {
+            try encodeContainer.encode(failureReason, forKey: .failureReason)
+        }
+        if let idempotencyToken = self.idempotencyToken {
+            try encodeContainer.encode(idempotencyToken, forKey: .idempotencyToken)
+        }
+        if let outputs = outputs {
+            var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
+            for recordoutput0 in outputs {
+                try outputsContainer.encode(recordoutput0)
+            }
+        }
+        if let recordId = self.recordId {
+            try encodeContainer.encode(recordId, forKey: .recordId)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let workflowToken = self.workflowToken {
+            try encodeContainer.encode(workflowToken, forKey: .workflowToken)
+        }
+    }
+}
+
+extension NotifyUpdateProvisionedProductEngineWorkflowResultInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct NotifyUpdateProvisionedProductEngineWorkflowResultInput: Swift.Equatable {
+    /// The reason why the update engine execution failed.
+    public var failureReason: Swift.String?
+    /// The idempotency token that identifies the update engine execution.
+    /// This member is required.
+    public var idempotencyToken: Swift.String?
+    /// The output of the update engine execution.
+    public var outputs: [ServiceCatalogClientTypes.RecordOutput]?
+    /// The identifier of the record.
+    /// This member is required.
+    public var recordId: Swift.String?
+    /// The status of the update engine execution.
+    /// This member is required.
+    public var status: ServiceCatalogClientTypes.EngineWorkflowStatus?
+    /// The encrypted contents of the update engine execution payload that Service Catalog sends after the Terraform product update workflow starts.
+    /// This member is required.
+    public var workflowToken: Swift.String?
+
+    public init (
+        failureReason: Swift.String? = nil,
+        idempotencyToken: Swift.String? = nil,
+        outputs: [ServiceCatalogClientTypes.RecordOutput]? = nil,
+        recordId: Swift.String? = nil,
+        status: ServiceCatalogClientTypes.EngineWorkflowStatus? = nil,
+        workflowToken: Swift.String? = nil
+    )
+    {
+        self.failureReason = failureReason
+        self.idempotencyToken = idempotencyToken
+        self.outputs = outputs
+        self.recordId = recordId
+        self.status = status
+        self.workflowToken = workflowToken
+    }
+}
+
+struct NotifyUpdateProvisionedProductEngineWorkflowResultInputBody: Swift.Equatable {
+    let workflowToken: Swift.String?
+    let recordId: Swift.String?
+    let status: ServiceCatalogClientTypes.EngineWorkflowStatus?
+    let failureReason: Swift.String?
+    let outputs: [ServiceCatalogClientTypes.RecordOutput]?
+    let idempotencyToken: Swift.String?
+}
+
+extension NotifyUpdateProvisionedProductEngineWorkflowResultInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case failureReason = "FailureReason"
+        case idempotencyToken = "IdempotencyToken"
+        case outputs = "Outputs"
+        case recordId = "RecordId"
+        case status = "Status"
+        case workflowToken = "WorkflowToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workflowTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowToken)
+        workflowToken = workflowTokenDecoded
+        let recordIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recordId)
+        recordId = recordIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.EngineWorkflowStatus.self, forKey: .status)
+        status = statusDecoded
+        let failureReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureReason)
+        failureReason = failureReasonDecoded
+        let outputsContainer = try containerValues.decodeIfPresent([ServiceCatalogClientTypes.RecordOutput?].self, forKey: .outputs)
+        var outputsDecoded0:[ServiceCatalogClientTypes.RecordOutput]? = nil
+        if let outputsContainer = outputsContainer {
+            outputsDecoded0 = [ServiceCatalogClientTypes.RecordOutput]()
+            for structure0 in outputsContainer {
+                if let structure0 = structure0 {
+                    outputsDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputs = outputsDecoded0
+        let idempotencyTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idempotencyToken)
+        idempotencyToken = idempotencyTokenDecoded
+    }
+}
+
+extension NotifyUpdateProvisionedProductEngineWorkflowResultOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension NotifyUpdateProvisionedProductEngineWorkflowResultOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidParametersException" : self = .invalidParametersException(try InvalidParametersException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum NotifyUpdateProvisionedProductEngineWorkflowResultOutputError: Swift.Error, Swift.Equatable {
+    case invalidParametersException(InvalidParametersException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension OperationNotSupportedException {
@@ -13023,7 +13437,7 @@ extension ServiceCatalogClientTypes.Principal: Swift.Codable {
 extension ServiceCatalogClientTypes {
     /// Information about a principal.
     public struct Principal: Swift.Equatable {
-        /// The ARN of the principal (IAM user, role, or group). This field allows for an ARN with no accountID if the PrincipalType is an IAM_PATTERN.
+        /// The ARN of the principal (user, role, or group). This field allows for an ARN with no accountID if the PrincipalType is an IAM_PATTERN.
         public var principalARN: Swift.String?
         /// The principal type. The supported value is IAM if you use a fully defined ARN, or IAM_PATTERN if you use an ARN with no accountID.
         public var principalType: ServiceCatalogClientTypes.PrincipalType?
@@ -13105,12 +13519,14 @@ extension ServiceCatalogClientTypes {
     public enum ProductType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cloudFormationTemplate
         case marketplace
+        case terraformOpenSource
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ProductType] {
             return [
                 .cloudFormationTemplate,
                 .marketplace,
+                .terraformOpenSource,
                 .sdkUnknown("")
             ]
         }
@@ -13122,6 +13538,7 @@ extension ServiceCatalogClientTypes {
             switch self {
             case .cloudFormationTemplate: return "CLOUD_FORMATION_TEMPLATE"
             case .marketplace: return "MARKETPLACE"
+            case .terraformOpenSource: return "TERRAFORM_OPEN_SOURCE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -13578,8 +13995,6 @@ extension ProvisionProductInput: ClientRuntime.URLPathProvider {
 public struct ProvisionProductInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -14003,9 +14418,9 @@ extension ServiceCatalogClientTypes {
         public var tags: [ServiceCatalogClientTypes.Tag]?
         /// The type of provisioned product. The supported values are CFN_STACK and CFN_STACKSET.
         public var type: Swift.String?
-        /// The Amazon Resource Name (ARN) of the IAM user.
+        /// The Amazon Resource Name (ARN) of the user.
         public var userArn: Swift.String?
-        /// The ARN of the IAM user in the session. This ARN might contain a session ID.
+        /// The ARN of the user in the session. This ARN might contain a session ID.
         public var userArnSession: Swift.String?
 
         public init (
@@ -15174,6 +15589,8 @@ extension ServiceCatalogClientTypes {
         /// * MARKETPLACE_AMI - Amazon Web Services Marketplace AMI
         ///
         /// * MARKETPLACE_CAR - Amazon Web Services Marketplace Clusters and Amazon Web Services Resources
+        ///
+        /// * TERRAFORM_OPEN_SOURCE - Terraform open source configuration file
         public var type: ServiceCatalogClientTypes.ProvisioningArtifactType?
 
         public init (
@@ -15315,6 +15732,7 @@ extension ServiceCatalogClientTypes {
         case cloudFormationTemplate
         case marketplaceAmi
         case marketplaceCar
+        case terraformOpenSource
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ProvisioningArtifactType] {
@@ -15322,6 +15740,7 @@ extension ServiceCatalogClientTypes {
                 .cloudFormationTemplate,
                 .marketplaceAmi,
                 .marketplaceCar,
+                .terraformOpenSource,
                 .sdkUnknown("")
             ]
         }
@@ -15334,6 +15753,7 @@ extension ServiceCatalogClientTypes {
             case .cloudFormationTemplate: return "CLOUD_FORMATION_TEMPLATE"
             case .marketplaceAmi: return "MARKETPLACE_AMI"
             case .marketplaceCar: return "MARKETPLACE_CAR"
+            case .terraformOpenSource: return "TERRAFORM_OPEN_SOURCE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -15964,8 +16384,6 @@ extension RejectPortfolioShareInput: ClientRuntime.URLPathProvider {
 
 public struct RejectPortfolioShareInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -16610,8 +17028,6 @@ extension ScanProvisionedProductsInput: ClientRuntime.URLPathProvider {
 public struct ScanProvisionedProductsInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -16802,8 +17218,6 @@ extension SearchProductsAsAdminInput: ClientRuntime.URLPathProvider {
 
 public struct SearchProductsAsAdminInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -17037,8 +17451,6 @@ extension SearchProductsInput: ClientRuntime.URLPathProvider {
 
 public struct SearchProductsInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -17284,8 +17696,6 @@ extension SearchProvisionedProductsInput: ClientRuntime.URLPathProvider {
 
 public struct SearchProvisionedProductsInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -17534,6 +17944,7 @@ extension ServiceCatalogClientTypes {
     public enum ServiceActionAssociationErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case duplicateresourceexception
         case internalfailure
+        case invalidparameterexception
         case limitexceededexception
         case resourcenotfoundexception
         case throttlingexception
@@ -17543,6 +17954,7 @@ extension ServiceCatalogClientTypes {
             return [
                 .duplicateresourceexception,
                 .internalfailure,
+                .invalidparameterexception,
                 .limitexceededexception,
                 .resourcenotfoundexception,
                 .throttlingexception,
@@ -17557,6 +17969,7 @@ extension ServiceCatalogClientTypes {
             switch self {
             case .duplicateresourceexception: return "DUPLICATE_RESOURCE"
             case .internalfailure: return "INTERNAL_FAILURE"
+            case .invalidparameterexception: return "INVALID_PARAMETER"
             case .limitexceededexception: return "LIMIT_EXCEEDED"
             case .resourcenotfoundexception: return "RESOURCE_NOT_FOUND"
             case .throttlingexception: return "THROTTLING"
@@ -18583,8 +18996,6 @@ extension TerminateProvisionedProductInput: ClientRuntime.URLPathProvider {
 public struct TerminateProvisionedProductInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -18718,6 +19129,51 @@ extension TerminateProvisionedProductOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ServiceCatalogClientTypes.UniqueTagResourceIdentifier: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension ServiceCatalogClientTypes {
+    /// The unique key-value pair for a tag that identifies provisioned product resources.
+    public struct UniqueTagResourceIdentifier: Swift.Equatable {
+        /// A unique key that's attached to a resource.
+        public var key: Swift.String?
+        /// A unique value that's attached to a resource.
+        public var value: Swift.String?
+
+        public init (
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
 extension UpdateConstraintInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case acceptLanguage = "AcceptLanguage"
@@ -18751,8 +19207,6 @@ extension UpdateConstraintInput: ClientRuntime.URLPathProvider {
 
 public struct UpdateConstraintInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -18944,8 +19398,6 @@ extension UpdatePortfolioInput: ClientRuntime.URLPathProvider {
 
 public struct UpdatePortfolioInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -19173,8 +19625,6 @@ extension UpdatePortfolioShareInput: ClientRuntime.URLPathProvider {
 public struct UpdatePortfolioShareInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -19395,8 +19845,6 @@ extension UpdateProductInput: ClientRuntime.URLPathProvider {
 
 public struct UpdateProductInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -19700,8 +20148,6 @@ extension UpdateProvisionedProductInput: ClientRuntime.URLPathProvider {
 public struct UpdateProvisionedProductInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -19948,8 +20394,6 @@ extension UpdateProvisionedProductPropertiesInput: ClientRuntime.URLPathProvider
 public struct UpdateProvisionedProductPropertiesInput: Swift.Equatable {
     /// The language code.
     ///
-    /// * en - English (default)
-    ///
     /// * jp - Japanese
     ///
     /// * zh - Chinese
@@ -19960,7 +20404,7 @@ public struct UpdateProvisionedProductPropertiesInput: Swift.Equatable {
     /// The identifier of the provisioned product.
     /// This member is required.
     public var provisionedProductId: Swift.String?
-    /// A map that contains the provisioned product properties to be updated. The LAUNCH_ROLE key accepts role ARNs. This key allows an administrator to call UpdateProvisionedProductProperties to update the launch role that is associated with a provisioned product. This role is used when an end user calls a provisioning operation such as UpdateProvisionedProduct, TerminateProvisionedProduct, or ExecuteProvisionedProductServiceAction. Only a role ARN is valid. A user ARN is invalid. The OWNER key accepts IAM user ARNs, IAM role ARNs, and STS assumed-role ARNs. The owner is the user that has permission to see, update, terminate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM or STS entity within the same account. Both end user owners and administrators can see ownership history of the provisioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the DescribeRecord API. The previous owner can no longer use DescribeRecord, but can still see the product's history from when he was an owner using ListRecordHistory. If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned product.
+    /// A map that contains the provisioned product properties to be updated. The LAUNCH_ROLE key accepts role ARNs. This key allows an administrator to call UpdateProvisionedProductProperties to update the launch role that is associated with a provisioned product. This role is used when an end user calls a provisioning operation such as UpdateProvisionedProduct, TerminateProvisionedProduct, or ExecuteProvisionedProductServiceAction. Only a role ARN is valid. A user ARN is invalid. The OWNER key accepts user ARNs, IAM role ARNs, and STS assumed-role ARNs. The owner is the user that has permission to see, update, terminate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM or STS entity within the same account. Both end user owners and administrators can see ownership history of the provisioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the DescribeRecord API. The previous owner can no longer use DescribeRecord, but can still see the product's history from when he was an owner using ListRecordHistory. If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned product.
     /// This member is required.
     public var provisionedProductProperties: [Swift.String:Swift.String]?
 
@@ -20166,8 +20610,6 @@ extension UpdateProvisioningArtifactInput: ClientRuntime.URLPathProvider {
 
 public struct UpdateProvisioningArtifactInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///
@@ -20556,8 +20998,6 @@ extension UpdateServiceActionInput: ClientRuntime.URLPathProvider {
 
 public struct UpdateServiceActionInput: Swift.Equatable {
     /// The language code.
-    ///
-    /// * en - English (default)
     ///
     /// * jp - Japanese
     ///

@@ -2468,7 +2468,7 @@ extension ExportAutoScalingGroupRecommendationsInput: Swift.Encodable {
                 try filtersContainer.encode(filter0)
             }
         }
-        if includeMemberAccounts != false {
+        if let includeMemberAccounts = self.includeMemberAccounts {
             try encodeContainer.encode(includeMemberAccounts, forKey: .includeMemberAccounts)
         }
         if let recommendationPreferences = self.recommendationPreferences {
@@ -2496,7 +2496,7 @@ public struct ExportAutoScalingGroupRecommendationsInput: Swift.Equatable {
     /// An array of objects to specify a filter that exports a more specific set of Auto Scaling group recommendations.
     public var filters: [ComputeOptimizerClientTypes.Filter]?
     /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access) in the Compute Optimizer User Guide. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
-    public var includeMemberAccounts: Swift.Bool
+    public var includeMemberAccounts: Swift.Bool?
     /// An object to specify the preferences for the Auto Scaling group recommendations to export.
     public var recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences?
     /// An object to specify the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for the export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permissions policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see [Amazon S3 Bucket Policy for Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html) in the Compute Optimizer User Guide.
@@ -2508,7 +2508,7 @@ public struct ExportAutoScalingGroupRecommendationsInput: Swift.Equatable {
         fieldsToExport: [ComputeOptimizerClientTypes.ExportableAutoScalingGroupField]? = nil,
         fileFormat: ComputeOptimizerClientTypes.FileFormat? = nil,
         filters: [ComputeOptimizerClientTypes.Filter]? = nil,
-        includeMemberAccounts: Swift.Bool = false,
+        includeMemberAccounts: Swift.Bool? = nil,
         recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences? = nil,
         s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
     )
@@ -2529,7 +2529,7 @@ struct ExportAutoScalingGroupRecommendationsInputBody: Swift.Equatable {
     let fieldsToExport: [ComputeOptimizerClientTypes.ExportableAutoScalingGroupField]?
     let s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig?
     let fileFormat: ComputeOptimizerClientTypes.FileFormat?
-    let includeMemberAccounts: Swift.Bool
+    let includeMemberAccounts: Swift.Bool?
     let recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences?
 }
 
@@ -2583,7 +2583,7 @@ extension ExportAutoScalingGroupRecommendationsInputBody: Swift.Decodable {
         s3DestinationConfig = s3DestinationConfigDecoded
         let fileFormatDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.FileFormat.self, forKey: .fileFormat)
         fileFormat = fileFormatDecoded
-        let includeMemberAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeMemberAccounts) ?? false
+        let includeMemberAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeMemberAccounts)
         includeMemberAccounts = includeMemberAccountsDecoded
         let recommendationPreferencesDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.RecommendationPreferences.self, forKey: .recommendationPreferences)
         recommendationPreferences = recommendationPreferencesDecoded
@@ -2745,7 +2745,7 @@ extension ExportEBSVolumeRecommendationsInput: Swift.Encodable {
                 try filtersContainer.encode(ebsfilter0)
             }
         }
-        if includeMemberAccounts != false {
+        if let includeMemberAccounts = self.includeMemberAccounts {
             try encodeContainer.encode(includeMemberAccounts, forKey: .includeMemberAccounts)
         }
         if let s3DestinationConfig = self.s3DestinationConfig {
@@ -2770,7 +2770,7 @@ public struct ExportEBSVolumeRecommendationsInput: Swift.Equatable {
     /// An array of objects to specify a filter that exports a more specific set of Amazon EBS volume recommendations.
     public var filters: [ComputeOptimizerClientTypes.EBSFilter]?
     /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access) in the Compute Optimizer User Guide. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
-    public var includeMemberAccounts: Swift.Bool
+    public var includeMemberAccounts: Swift.Bool?
     /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for a recommendations export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see [Amazon S3 Bucket Policy for Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html) in the Compute Optimizer User Guide.
     /// This member is required.
     public var s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig?
@@ -2780,7 +2780,7 @@ public struct ExportEBSVolumeRecommendationsInput: Swift.Equatable {
         fieldsToExport: [ComputeOptimizerClientTypes.ExportableVolumeField]? = nil,
         fileFormat: ComputeOptimizerClientTypes.FileFormat? = nil,
         filters: [ComputeOptimizerClientTypes.EBSFilter]? = nil,
-        includeMemberAccounts: Swift.Bool = false,
+        includeMemberAccounts: Swift.Bool? = nil,
         s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
     )
     {
@@ -2799,7 +2799,7 @@ struct ExportEBSVolumeRecommendationsInputBody: Swift.Equatable {
     let fieldsToExport: [ComputeOptimizerClientTypes.ExportableVolumeField]?
     let s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig?
     let fileFormat: ComputeOptimizerClientTypes.FileFormat?
-    let includeMemberAccounts: Swift.Bool
+    let includeMemberAccounts: Swift.Bool?
 }
 
 extension ExportEBSVolumeRecommendationsInputBody: Swift.Decodable {
@@ -2851,7 +2851,7 @@ extension ExportEBSVolumeRecommendationsInputBody: Swift.Decodable {
         s3DestinationConfig = s3DestinationConfigDecoded
         let fileFormatDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.FileFormat.self, forKey: .fileFormat)
         fileFormat = fileFormatDecoded
-        let includeMemberAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeMemberAccounts) ?? false
+        let includeMemberAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeMemberAccounts)
         includeMemberAccounts = includeMemberAccountsDecoded
     }
 }
@@ -2977,7 +2977,7 @@ extension ExportEC2InstanceRecommendationsInput: Swift.Encodable {
                 try filtersContainer.encode(filter0)
             }
         }
-        if includeMemberAccounts != false {
+        if let includeMemberAccounts = self.includeMemberAccounts {
             try encodeContainer.encode(includeMemberAccounts, forKey: .includeMemberAccounts)
         }
         if let recommendationPreferences = self.recommendationPreferences {
@@ -3005,7 +3005,7 @@ public struct ExportEC2InstanceRecommendationsInput: Swift.Equatable {
     /// An array of objects to specify a filter that exports a more specific set of instance recommendations.
     public var filters: [ComputeOptimizerClientTypes.Filter]?
     /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access) in the Compute Optimizer User Guide. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
-    public var includeMemberAccounts: Swift.Bool
+    public var includeMemberAccounts: Swift.Bool?
     /// An object to specify the preferences for the Amazon EC2 instance recommendations to export.
     public var recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences?
     /// An object to specify the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for the export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permissions policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see [Amazon S3 Bucket Policy for Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html) in the Compute Optimizer User Guide.
@@ -3017,7 +3017,7 @@ public struct ExportEC2InstanceRecommendationsInput: Swift.Equatable {
         fieldsToExport: [ComputeOptimizerClientTypes.ExportableInstanceField]? = nil,
         fileFormat: ComputeOptimizerClientTypes.FileFormat? = nil,
         filters: [ComputeOptimizerClientTypes.Filter]? = nil,
-        includeMemberAccounts: Swift.Bool = false,
+        includeMemberAccounts: Swift.Bool? = nil,
         recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences? = nil,
         s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
     )
@@ -3038,7 +3038,7 @@ struct ExportEC2InstanceRecommendationsInputBody: Swift.Equatable {
     let fieldsToExport: [ComputeOptimizerClientTypes.ExportableInstanceField]?
     let s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig?
     let fileFormat: ComputeOptimizerClientTypes.FileFormat?
-    let includeMemberAccounts: Swift.Bool
+    let includeMemberAccounts: Swift.Bool?
     let recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences?
 }
 
@@ -3092,7 +3092,7 @@ extension ExportEC2InstanceRecommendationsInputBody: Swift.Decodable {
         s3DestinationConfig = s3DestinationConfigDecoded
         let fileFormatDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.FileFormat.self, forKey: .fileFormat)
         fileFormat = fileFormatDecoded
-        let includeMemberAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeMemberAccounts) ?? false
+        let includeMemberAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeMemberAccounts)
         includeMemberAccounts = includeMemberAccountsDecoded
         let recommendationPreferencesDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.RecommendationPreferences.self, forKey: .recommendationPreferences)
         recommendationPreferences = recommendationPreferencesDecoded
@@ -3219,7 +3219,7 @@ extension ExportECSServiceRecommendationsInput: Swift.Encodable {
                 try filtersContainer.encode(ecsservicerecommendationfilter0)
             }
         }
-        if includeMemberAccounts != false {
+        if let includeMemberAccounts = self.includeMemberAccounts {
             try encodeContainer.encode(includeMemberAccounts, forKey: .includeMemberAccounts)
         }
         if let s3DestinationConfig = self.s3DestinationConfig {
@@ -3244,7 +3244,7 @@ public struct ExportECSServiceRecommendationsInput: Swift.Equatable {
     /// An array of objects to specify a filter that exports a more specific set of Amazon ECS service recommendations.
     public var filters: [ComputeOptimizerClientTypes.ECSServiceRecommendationFilter]?
     /// If your account is the management account or the delegated administrator of an organization, this parameter indicates whether to include recommendations for resources in all member accounts of the organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access) in the Compute Optimizer User Guide. If this parameter is omitted, recommendations for member accounts of the organization aren't included in the export file. If this parameter or the account ID parameter is omitted, recommendations for member accounts aren't included in the export.
-    public var includeMemberAccounts: Swift.Bool
+    public var includeMemberAccounts: Swift.Bool?
     /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for a recommendations export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see [Amazon S3 Bucket Policy for Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html) in the Compute Optimizer User Guide.
     /// This member is required.
     public var s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig?
@@ -3254,7 +3254,7 @@ public struct ExportECSServiceRecommendationsInput: Swift.Equatable {
         fieldsToExport: [ComputeOptimizerClientTypes.ExportableECSServiceField]? = nil,
         fileFormat: ComputeOptimizerClientTypes.FileFormat? = nil,
         filters: [ComputeOptimizerClientTypes.ECSServiceRecommendationFilter]? = nil,
-        includeMemberAccounts: Swift.Bool = false,
+        includeMemberAccounts: Swift.Bool? = nil,
         s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
     )
     {
@@ -3273,7 +3273,7 @@ struct ExportECSServiceRecommendationsInputBody: Swift.Equatable {
     let fieldsToExport: [ComputeOptimizerClientTypes.ExportableECSServiceField]?
     let s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig?
     let fileFormat: ComputeOptimizerClientTypes.FileFormat?
-    let includeMemberAccounts: Swift.Bool
+    let includeMemberAccounts: Swift.Bool?
 }
 
 extension ExportECSServiceRecommendationsInputBody: Swift.Decodable {
@@ -3325,7 +3325,7 @@ extension ExportECSServiceRecommendationsInputBody: Swift.Decodable {
         s3DestinationConfig = s3DestinationConfigDecoded
         let fileFormatDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.FileFormat.self, forKey: .fileFormat)
         fileFormat = fileFormatDecoded
-        let includeMemberAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeMemberAccounts) ?? false
+        let includeMemberAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeMemberAccounts)
         includeMemberAccounts = includeMemberAccountsDecoded
     }
 }
@@ -3450,7 +3450,7 @@ extension ExportLambdaFunctionRecommendationsInput: Swift.Encodable {
                 try filtersContainer.encode(lambdafunctionrecommendationfilter0)
             }
         }
-        if includeMemberAccounts != false {
+        if let includeMemberAccounts = self.includeMemberAccounts {
             try encodeContainer.encode(includeMemberAccounts, forKey: .includeMemberAccounts)
         }
         if let s3DestinationConfig = self.s3DestinationConfig {
@@ -3475,7 +3475,7 @@ public struct ExportLambdaFunctionRecommendationsInput: Swift.Equatable {
     /// An array of objects to specify a filter that exports a more specific set of Lambda function recommendations.
     public var filters: [ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter]?
     /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access) in the Compute Optimizer User Guide. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
-    public var includeMemberAccounts: Swift.Bool
+    public var includeMemberAccounts: Swift.Bool?
     /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for a recommendations export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see [Amazon S3 Bucket Policy for Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html) in the Compute Optimizer User Guide.
     /// This member is required.
     public var s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig?
@@ -3485,7 +3485,7 @@ public struct ExportLambdaFunctionRecommendationsInput: Swift.Equatable {
         fieldsToExport: [ComputeOptimizerClientTypes.ExportableLambdaFunctionField]? = nil,
         fileFormat: ComputeOptimizerClientTypes.FileFormat? = nil,
         filters: [ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter]? = nil,
-        includeMemberAccounts: Swift.Bool = false,
+        includeMemberAccounts: Swift.Bool? = nil,
         s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
     )
     {
@@ -3504,7 +3504,7 @@ struct ExportLambdaFunctionRecommendationsInputBody: Swift.Equatable {
     let fieldsToExport: [ComputeOptimizerClientTypes.ExportableLambdaFunctionField]?
     let s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig?
     let fileFormat: ComputeOptimizerClientTypes.FileFormat?
-    let includeMemberAccounts: Swift.Bool
+    let includeMemberAccounts: Swift.Bool?
 }
 
 extension ExportLambdaFunctionRecommendationsInputBody: Swift.Decodable {
@@ -3556,7 +3556,7 @@ extension ExportLambdaFunctionRecommendationsInputBody: Swift.Decodable {
         s3DestinationConfig = s3DestinationConfigDecoded
         let fileFormatDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.FileFormat.self, forKey: .fileFormat)
         fileFormat = fileFormatDecoded
-        let includeMemberAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeMemberAccounts) ?? false
+        let includeMemberAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeMemberAccounts)
         includeMemberAccounts = includeMemberAccountsDecoded
     }
 }
@@ -3952,6 +3952,7 @@ extension ComputeOptimizerClientTypes {
         case inferredWorkloadTypes
         case instanceArn
         case instanceName
+        case instanceState
         case lastRefreshTimestamp
         case lookbackPeriodInDays
         case recommendationsSourcesRecommendationSourceArn
@@ -4009,6 +4010,7 @@ extension ComputeOptimizerClientTypes {
                 .inferredWorkloadTypes,
                 .instanceArn,
                 .instanceName,
+                .instanceState,
                 .lastRefreshTimestamp,
                 .lookbackPeriodInDays,
                 .recommendationsSourcesRecommendationSourceArn,
@@ -4071,6 +4073,7 @@ extension ComputeOptimizerClientTypes {
             case .inferredWorkloadTypes: return "InferredWorkloadTypes"
             case .instanceArn: return "InstanceArn"
             case .instanceName: return "InstanceName"
+            case .instanceState: return "InstanceState"
             case .lastRefreshTimestamp: return "LastRefreshTimestamp"
             case .lookbackPeriodInDays: return "LookbackPeriodInDays"
             case .recommendationsSourcesRecommendationSourceArn: return "RecommendationsSourcesRecommendationSourceArn"
@@ -4245,6 +4248,7 @@ extension ComputeOptimizerClientTypes {
         case recommendationOptionsMonthlyPrice
         case recommendationOptionsPerformanceRisk
         case recommendationOptionsSavingsOpportunityPercentage
+        case rootVolume
         case utilizationMetricsVolumeReadBytesPerSecondMaximum
         case utilizationMetricsVolumeReadOpsPerSecondMaximum
         case utilizationMetricsVolumeWriteBytesPerSecondMaximum
@@ -4277,6 +4281,7 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsMonthlyPrice,
                 .recommendationOptionsPerformanceRisk,
                 .recommendationOptionsSavingsOpportunityPercentage,
+                .rootVolume,
                 .utilizationMetricsVolumeReadBytesPerSecondMaximum,
                 .utilizationMetricsVolumeReadOpsPerSecondMaximum,
                 .utilizationMetricsVolumeWriteBytesPerSecondMaximum,
@@ -4314,6 +4319,7 @@ extension ComputeOptimizerClientTypes {
             case .recommendationOptionsMonthlyPrice: return "RecommendationOptionsMonthlyPrice"
             case .recommendationOptionsPerformanceRisk: return "RecommendationOptionsPerformanceRisk"
             case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
+            case .rootVolume: return "RootVolume"
             case .utilizationMetricsVolumeReadBytesPerSecondMaximum: return "UtilizationMetricsVolumeReadBytesPerSecondMaximum"
             case .utilizationMetricsVolumeReadOpsPerSecondMaximum: return "UtilizationMetricsVolumeReadOpsPerSecondMaximum"
             case .utilizationMetricsVolumeWriteBytesPerSecondMaximum: return "UtilizationMetricsVolumeWriteBytesPerSecondMaximum"
@@ -5414,7 +5420,7 @@ extension GetEC2RecommendationProjectedMetricsInput: Swift.Encodable {
         if let instanceArn = self.instanceArn {
             try encodeContainer.encode(instanceArn, forKey: .instanceArn)
         }
-        if period != 0 {
+        if let period = self.period {
             try encodeContainer.encode(period, forKey: .period)
         }
         if let recommendationPreferences = self.recommendationPreferences {
@@ -5444,7 +5450,7 @@ public struct GetEC2RecommendationProjectedMetricsInput: Swift.Equatable {
     public var instanceArn: Swift.String?
     /// The granularity, in seconds, of the projected metrics data points.
     /// This member is required.
-    public var period: Swift.Int
+    public var period: Swift.Int?
     /// An object to specify the preferences for the Amazon EC2 recommendation projected metrics to return in the response.
     public var recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences?
     /// The timestamp of the first projected metrics data point to return.
@@ -5457,7 +5463,7 @@ public struct GetEC2RecommendationProjectedMetricsInput: Swift.Equatable {
     public init (
         endTime: ClientRuntime.Date? = nil,
         instanceArn: Swift.String? = nil,
-        period: Swift.Int = 0,
+        period: Swift.Int? = nil,
         recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences? = nil,
         startTime: ClientRuntime.Date? = nil,
         stat: ComputeOptimizerClientTypes.MetricStatistic? = nil
@@ -5475,7 +5481,7 @@ public struct GetEC2RecommendationProjectedMetricsInput: Swift.Equatable {
 struct GetEC2RecommendationProjectedMetricsInputBody: Swift.Equatable {
     let instanceArn: Swift.String?
     let stat: ComputeOptimizerClientTypes.MetricStatistic?
-    let period: Swift.Int
+    let period: Swift.Int?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
     let recommendationPreferences: ComputeOptimizerClientTypes.RecommendationPreferences?
@@ -5497,7 +5503,7 @@ extension GetEC2RecommendationProjectedMetricsInputBody: Swift.Decodable {
         instanceArn = instanceArnDecoded
         let statDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.MetricStatistic.self, forKey: .stat)
         stat = statDecoded
-        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period) ?? 0
+        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period)
         period = periodDecoded
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
         startTime = startTimeDecoded
@@ -5608,7 +5614,7 @@ extension GetECSServiceRecommendationProjectedMetricsInput: Swift.Encodable {
         if let endTime = self.endTime {
             try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
         }
-        if period != 0 {
+        if let period = self.period {
             try encodeContainer.encode(period, forKey: .period)
         }
         if let serviceArn = self.serviceArn {
@@ -5635,7 +5641,7 @@ public struct GetECSServiceRecommendationProjectedMetricsInput: Swift.Equatable 
     public var endTime: ClientRuntime.Date?
     /// The granularity, in seconds, of the projected metrics data points.
     /// This member is required.
-    public var period: Swift.Int
+    public var period: Swift.Int?
     /// The ARN that identifies the Amazon ECS service. The following is the format of the ARN: arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
     /// This member is required.
     public var serviceArn: Swift.String?
@@ -5648,7 +5654,7 @@ public struct GetECSServiceRecommendationProjectedMetricsInput: Swift.Equatable 
 
     public init (
         endTime: ClientRuntime.Date? = nil,
-        period: Swift.Int = 0,
+        period: Swift.Int? = nil,
         serviceArn: Swift.String? = nil,
         startTime: ClientRuntime.Date? = nil,
         stat: ComputeOptimizerClientTypes.MetricStatistic? = nil
@@ -5665,7 +5671,7 @@ public struct GetECSServiceRecommendationProjectedMetricsInput: Swift.Equatable 
 struct GetECSServiceRecommendationProjectedMetricsInputBody: Swift.Equatable {
     let serviceArn: Swift.String?
     let stat: ComputeOptimizerClientTypes.MetricStatistic?
-    let period: Swift.Int
+    let period: Swift.Int?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
 }
@@ -5685,7 +5691,7 @@ extension GetECSServiceRecommendationProjectedMetricsInputBody: Swift.Decodable 
         serviceArn = serviceArnDecoded
         let statDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.MetricStatistic.self, forKey: .stat)
         stat = statDecoded
-        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period) ?? 0
+        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period)
         period = periodDecoded
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
         startTime = startTimeDecoded
@@ -7209,6 +7215,7 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
         case inferredWorkloadTypes
         case instanceArn
         case instanceName
+        case instanceState
         case lastRefreshTimestamp
         case lookBackPeriodInDays
         case recommendationOptions
@@ -7250,6 +7257,9 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
         }
         if let instanceName = self.instanceName {
             try encodeContainer.encode(instanceName, forKey: .instanceName)
+        }
+        if let instanceState = self.instanceState {
+            try encodeContainer.encode(instanceState.rawValue, forKey: .instanceState)
         }
         if let lastRefreshTimestamp = self.lastRefreshTimestamp {
             try encodeContainer.encodeTimestamp(lastRefreshTimestamp, format: .epochSeconds, forKey: .lastRefreshTimestamp)
@@ -7352,6 +7362,8 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
             }
         }
         inferredWorkloadTypes = inferredWorkloadTypesDecoded0
+        let instanceStateDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.InstanceState.self, forKey: .instanceState)
+        instanceState = instanceStateDecoded
     }
 }
 
@@ -7384,13 +7396,13 @@ extension ComputeOptimizerClientTypes {
         ///
         /// * MemoryUnderprovisioned — The instance’s memory configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better memory performance. This is identified by analyzing the memory utilization metric of the current instance during the look-back period. Memory utilization is analyzed only for resources that have the unified CloudWatch agent installed on them. For more information, see [Enabling memory utilization with the Amazon CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent) in the Compute Optimizer User Guide. On Linux instances, Compute Optimizer analyses the mem_used_percent metric in the CWAgent namespace, or the legacy MemoryUtilization metric in the System/Linux namespace. On Windows instances, Compute Optimizer analyses the Memory % Committed Bytes In Use metric in the CWAgent namespace.
         ///
-        /// * EBSThroughputOverprovisioned — The instance’s EBS throughput configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metrics of EBS volumes attached to the current instance during the look-back period.
+        /// * EBSThroughputOverprovisioned — The instance’s EBS throughput configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes metrics of EBS volumes attached to the current instance during the look-back period.
         ///
-        /// * EBSThroughputUnderprovisioned — The instance’s EBS throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS throughput performance. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metrics of EBS volumes attached to the current instance during the look-back period.
+        /// * EBSThroughputUnderprovisioned — The instance’s EBS throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS throughput performance. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes> metrics of EBS volumes attached to the current instance during the look-back period.
         ///
-        /// * EBSIOPSOverprovisioned — The instance’s EBS IOPS configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes metric of EBS volumes attached to the current instance during the look-back period.
+        /// * EBSIOPSOverprovisioned — The instance’s EBS IOPS configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metric of EBS volumes attached to the current instance during the look-back period.
         ///
-        /// * EBSIOPSUnderprovisioned — The instance’s EBS IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS IOPS performance. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes metric of EBS volumes attached to the current instance during the look-back period.
+        /// * EBSIOPSUnderprovisioned — The instance’s EBS IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS IOPS performance. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metric of EBS volumes attached to the current instance during the look-back period.
         ///
         /// * NetworkBandwidthOverprovisioned — The instance’s network bandwidth configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the NetworkIn and NetworkOut metrics of the current instance during the look-back period.
         ///
@@ -7433,6 +7445,8 @@ extension ComputeOptimizerClientTypes {
         public var instanceArn: Swift.String?
         /// The name of the current instance.
         public var instanceName: Swift.String?
+        /// The state of the instance when the recommendation was generated.
+        public var instanceState: ComputeOptimizerClientTypes.InstanceState?
         /// The timestamp of when the instance recommendation was last generated.
         public var lastRefreshTimestamp: ClientRuntime.Date?
         /// The number of days for which utilization metrics were analyzed for the instance.
@@ -7454,6 +7468,7 @@ extension ComputeOptimizerClientTypes {
             inferredWorkloadTypes: [ComputeOptimizerClientTypes.InferredWorkloadType]? = nil,
             instanceArn: Swift.String? = nil,
             instanceName: Swift.String? = nil,
+            instanceState: ComputeOptimizerClientTypes.InstanceState? = nil,
             lastRefreshTimestamp: ClientRuntime.Date? = nil,
             lookBackPeriodInDays: Swift.Double = 0.0,
             recommendationOptions: [ComputeOptimizerClientTypes.InstanceRecommendationOption]? = nil,
@@ -7470,6 +7485,7 @@ extension ComputeOptimizerClientTypes {
             self.inferredWorkloadTypes = inferredWorkloadTypes
             self.instanceArn = instanceArn
             self.instanceName = instanceName
+            self.instanceState = instanceState
             self.lastRefreshTimestamp = lastRefreshTimestamp
             self.lookBackPeriodInDays = lookBackPeriodInDays
             self.recommendationOptions = recommendationOptions
@@ -7683,6 +7699,50 @@ extension ComputeOptimizerClientTypes {
         }
     }
 
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum InstanceState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case pending
+        case running
+        case shuttingDown
+        case stopped
+        case stopping
+        case terminated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceState] {
+            return [
+                .pending,
+                .running,
+                .shuttingDown,
+                .stopped,
+                .stopping,
+                .terminated,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .pending: return "pending"
+            case .running: return "running"
+            case .shuttingDown: return "shutting-down"
+            case .stopped: return "stopped"
+            case .stopping: return "stopping"
+            case .terminated: return "terminated"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InstanceState(rawValue: rawValue) ?? InstanceState.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension InternalServerException {
@@ -10399,7 +10459,7 @@ extension UpdateEnrollmentStatusInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if includeMemberAccounts != false {
+        if let includeMemberAccounts = self.includeMemberAccounts {
             try encodeContainer.encode(includeMemberAccounts, forKey: .includeMemberAccounts)
         }
         if let status = self.status {
@@ -10416,7 +10476,7 @@ extension UpdateEnrollmentStatusInput: ClientRuntime.URLPathProvider {
 
 public struct UpdateEnrollmentStatusInput: Swift.Equatable {
     /// Indicates whether to enroll member accounts of the organization if the account is the management account of an organization.
-    public var includeMemberAccounts: Swift.Bool
+    public var includeMemberAccounts: Swift.Bool?
     /// The new enrollment status of the account. The following status options are available:
     ///
     /// * Active - Opts in your account to the Compute Optimizer service. Compute Optimizer begins analyzing the configuration and utilization metrics of your Amazon Web Services resources after you opt in. For more information, see [Metrics analyzed by Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html) in the Compute Optimizer User Guide.
@@ -10429,7 +10489,7 @@ public struct UpdateEnrollmentStatusInput: Swift.Equatable {
     public var status: ComputeOptimizerClientTypes.Status?
 
     public init (
-        includeMemberAccounts: Swift.Bool = false,
+        includeMemberAccounts: Swift.Bool? = nil,
         status: ComputeOptimizerClientTypes.Status? = nil
     )
     {
@@ -10440,7 +10500,7 @@ public struct UpdateEnrollmentStatusInput: Swift.Equatable {
 
 struct UpdateEnrollmentStatusInputBody: Swift.Equatable {
     let status: ComputeOptimizerClientTypes.Status?
-    let includeMemberAccounts: Swift.Bool
+    let includeMemberAccounts: Swift.Bool?
 }
 
 extension UpdateEnrollmentStatusInputBody: Swift.Decodable {
@@ -10453,7 +10513,7 @@ extension UpdateEnrollmentStatusInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statusDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.Status.self, forKey: .status)
         status = statusDecoded
-        let includeMemberAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeMemberAccounts) ?? false
+        let includeMemberAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeMemberAccounts)
         includeMemberAccounts = includeMemberAccountsDecoded
     }
 }
@@ -10626,6 +10686,7 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes.VolumeConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rootVolume
         case volumeBaselineIOPS
         case volumeBaselineThroughput
         case volumeBurstIOPS
@@ -10636,6 +10697,9 @@ extension ComputeOptimizerClientTypes.VolumeConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let rootVolume = self.rootVolume {
+            try encodeContainer.encode(rootVolume, forKey: .rootVolume)
+        }
         if volumeBaselineIOPS != 0 {
             try encodeContainer.encode(volumeBaselineIOPS, forKey: .volumeBaselineIOPS)
         }
@@ -10670,12 +10734,16 @@ extension ComputeOptimizerClientTypes.VolumeConfiguration: Swift.Codable {
         volumeBaselineThroughput = volumeBaselineThroughputDecoded
         let volumeBurstThroughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumeBurstThroughput) ?? 0
         volumeBurstThroughput = volumeBurstThroughputDecoded
+        let rootVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .rootVolume)
+        rootVolume = rootVolumeDecoded
     }
 }
 
 extension ComputeOptimizerClientTypes {
     /// Describes the configuration of an Amazon Elastic Block Store (Amazon EBS) volume.
     public struct VolumeConfiguration: Swift.Equatable {
+        /// Contains the image used to boot the instance during launch.
+        public var rootVolume: Swift.Bool?
         /// The baseline IOPS of the volume.
         public var volumeBaselineIOPS: Swift.Int
         /// The baseline throughput of the volume.
@@ -10690,6 +10758,7 @@ extension ComputeOptimizerClientTypes {
         public var volumeType: Swift.String?
 
         public init (
+            rootVolume: Swift.Bool? = nil,
             volumeBaselineIOPS: Swift.Int = 0,
             volumeBaselineThroughput: Swift.Int = 0,
             volumeBurstIOPS: Swift.Int = 0,
@@ -10698,6 +10767,7 @@ extension ComputeOptimizerClientTypes {
             volumeType: Swift.String? = nil
         )
         {
+            self.rootVolume = rootVolume
             self.volumeBaselineIOPS = volumeBaselineIOPS
             self.volumeBaselineThroughput = volumeBaselineThroughput
             self.volumeBurstIOPS = volumeBurstIOPS
