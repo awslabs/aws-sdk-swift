@@ -8,7 +8,7 @@
 import Foundation
 import XCTest
 
-@_spi(Internal) @testable import AWSClientRuntime
+@_spi(FileBasedConfig) @testable import AWSClientRuntime
 
 class FileBasedConfigurationTests: XCTestCase {
     let configPath = Bundle.module.path(forResource: "file_based_config_tests", ofType: nil)

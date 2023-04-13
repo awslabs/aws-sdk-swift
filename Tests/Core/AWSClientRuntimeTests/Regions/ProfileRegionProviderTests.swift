@@ -8,17 +8,19 @@
 import ClientRuntime
 import SmithyTestUtil
 import XCTest
-@_spi(Internal) @testable import AWSClientRuntime
+@_spi(FileBasedConfig) @testable import AWSClientRuntime
 
 class ProfileRegionProviderTests: XCTestCase {
     
     let configPath = Bundle.module.path(forResource: "profile_region_provider_tests", ofType: nil)!
     
-    let store = try! CRTFiledBasedConfigurationStore()
+    let fileBasedConfigProvider: FileBasedConfigurationProviding = { configPath, credentialsPath in
+        try CRTFileBasedConfiguration.make(configFilePath: configPath, credentialsFilePath: credentialsPath)
+    }
     
     func testProfileRegionProviderUsesDefaultProfileWhenNil() async {
         let provider = ProfileRegionProvider(
-            fileBasedConfigurationProvider: store,
+            fileBasedConfigurationProvider: fileBasedConfigProvider,
             configFilePath: configPath
         )
         let region = try! await provider.resolveRegion()
@@ -27,7 +29,7 @@ class ProfileRegionProviderTests: XCTestCase {
     
     func testProfileRegionProviderUsesPassedInProfile() async {
         let provider = ProfileRegionProvider(
-            fileBasedConfigurationProvider: store,
+            fileBasedConfigurationProvider: fileBasedConfigProvider,
             profileName: "west",
             configFilePath: configPath
         )
@@ -37,7 +39,9 @@ class ProfileRegionProviderTests: XCTestCase {
     
     func testProfileRegionProviderWorksWithCredentialsFile() async {
         let provider = ProfileRegionProvider(
-            fileBasedConfigurationProvider: store,
+            fileBasedConfigurationProvider: { configPath, credentialsPath in
+               try CRTFileBasedConfiguration(configFilePath: configPath, credentialsFilePath: credentialsPath)
+            },
             credentialsFilePath: configPath
         )
         let region = try! await provider.resolveRegion()

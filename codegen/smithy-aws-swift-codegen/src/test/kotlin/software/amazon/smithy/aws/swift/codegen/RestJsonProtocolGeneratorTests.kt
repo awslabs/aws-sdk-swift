@@ -76,7 +76,7 @@ class RestJsonProtocolGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            @_spi(Internal) import AWSClientRuntime
+            @_spi(FileBasedConfig) import AWSClientRuntime
             import ClientRuntime
             import Foundation
             import Logging
@@ -102,8 +102,8 @@ class RestJsonProtocolGeneratorTests {
                     self.config = config
                 }
             
-                public convenience init(region: Swift.String) async throws {
-                    let config = try await ExampleClientConfiguration(region: region)
+                public convenience init(region: Swift.String) throws {
+                    let config = try ExampleClientConfiguration(region: region)
                     self.init(config: config)
                 }
             
@@ -122,7 +122,7 @@ class RestJsonProtocolGeneratorTests {
                     public var logger: ClientRuntime.LogAgent
                     public var retryer: ClientRuntime.SDKRetryer
             
-                    public var credentialsProvider: AWSClientRuntime.CredentialsProvider
+                    public var credentialsProvider: AWSClientRuntime.CredentialsProviding
                     public var endpoint: Swift.String?
                     public var frameworkMetadata: AWSClientRuntime.FrameworkMetadata?
                     public var region: Swift.String?
@@ -133,8 +133,9 @@ class RestJsonProtocolGeneratorTests {
             
                     public var endpointResolver: EndpointResolver
             
-                    public init(
-                        credentialsProvider: AWSClientRuntime.CredentialsProvider? = nil,
+                    /// Creates a configuration asynchronously
+                    public convenience init(
+                        credentialsProvider: AWSClientRuntime.CredentialsProviding? = nil,
                         endpoint: Swift.String? = nil,
                         endpointResolver: EndpointResolver? = nil,
                         frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
@@ -145,12 +146,10 @@ class RestJsonProtocolGeneratorTests {
                         useDualStack: Swift.Bool? = nil,
                         useFIPS: Swift.Bool? = nil
                     ) async throws {
-                        let runtimeConfig = try runtimeConfig ?? ClientRuntime.DefaultSDKRuntimeConfiguration("ExampleClient")
-
-                        let fileBasedConfigurationStore = try CRTFiledBasedConfigurationStore()
-
-                        let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver(fileBasedConfigurationProvider: fileBasedConfigurationStore)
-
+                        let fileBasedConfig = try await CRTFileBasedConfiguration.makeAsync()
+            
+                        let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver { _, _ in fileBasedConfig }
+            
                         let resolvedRegion: String?
                         if let region = region {
                             resolvedRegion = region
@@ -158,21 +157,84 @@ class RestJsonProtocolGeneratorTests {
                             resolvedRegion = await resolvedRegionResolver.resolveRegion()
                         }
             
-                        let resolvedSigningRegion = signingRegion ?? resolvedRegion
+                        let resolvedCredentialProvider: AWSClientRuntime.CredentialsProviding
+                        if let credentialsProvider = credentialsProvider {
+                            resolvedCredentialProvider = credentialsProvider
+                        } else {
+                            resolvedCredentialProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
+                        }
             
-                        let resolvedCredentialProvider = try await AWSClientRuntime.AWSCredentialsProvider.resolvedProvider(
-                            credentialsProvider,
-                            configuration: .init(fileBasedConfigurationStore: fileBasedConfigurationStore)
+                        try self.init(
+                            credentialsProvider: resolvedCredentialProvider,
+                            endpoint: endpoint,
+                            endpointResolver: resolvedEndpointsResolver,
+                            frameworkMetadata: frameworkMetadata,
+                            region: resolvedRegion,
+                            signingRegion: signingRegion,
+                            useDualStack: useDualStack,
+                            useFIPS: useFIPS,
+                            runtimeConfig: runtimeConfig,
                         )
+                    }
+            
+                    public convenience init(
+                        region: Swift.String,
+                        credentialsProvider: AWSClientRuntime.CredentialsProviding? = nil,
+                        endpoint: Swift.String? = nil,
+                        endpointResolver: EndpointResolver? = nil,
+                        frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
+                        runtimeConfig: ClientRuntime.SDKRuntimeConfiguration? = nil,
+                        signingRegion: Swift.String? = nil,
+                        useDualStack: Swift.Bool? = nil,
+                        useFIPS: Swift.Bool? = nil
+                    ) throws {
+                        let resolvedCredentialsProvider: CredentialsProviding
+                        if let credentialsProvider = credentialsProvider {
+                            resolvedCredentialsProvider = credentialsProvider
+                        } else {
+                            let fileBasedConfig = try CRTFileBasedConfiguration.make()
+                            resolvedCredentialProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
+                        }
+            
+                        try self.init(
+                            credentialsProvider: resolvedCredentialProvider,
+                            endpoint: endpoint,
+                            endpointResolver: endpointResolver,
+                            frameworkMetadata: frameworkMetadata,
+                            region: region,
+                            signingRegion: signingRegion,
+                            useDualStack: useDualStack,
+                            useFIPS: useFIPS,
+                            runtimeConfig: runtimeConfig,
+                        )
+                    }
+            
+                    /// Internal designated init
+                    /// All convenience inits should call this
+                    public init(
+                        credentialsProvider: AWSClientRuntime.CredentialsProviding,
+                        endpoint: Swift.String?,
+                        endpointResolver: EndpointResolver?,
+                        frameworkMetadata: AWSClientRuntime.FrameworkMetadata?,
+                        region: Swift.String?,
+                        signingRegion: Swift.String?,
+                        useDualStack: Swift.Bool?,
+                        useFIPS: Swift.Bool?,
+                        runtimeConfig: ClientRuntime.DefaultSDKRuntimeConfiguration? = nil
+                    ) throws {
+                        let runtimeConfig = try runtimeConfig ?? ClientRuntime.DefaultSDKRuntimeConfiguration("ExampleClient")
+            
+                        let resolvedSigningRegion = signingRegion ?? region
             
                         let resolvedEndpointsResolver = try endpointResolver ?? DefaultEndpointResolver()
             
-                        self.credentialsProvider = resolvedCredentialProvider
+                        self.credentialsProvider = credentialsProvider
                         self.endpoint = endpoint
                         self.endpointResolver = resolvedEndpointsResolver
                         self.frameworkMetadata = frameworkMetadata
-                        self.region = resolvedRegion
-                        self.regionResolver = resolvedRegionResolver
+                        self.region = region
+                        // TODO: Remove region resolver. Region must already be resolved and there is no point in storing the resolver.
+                        self.regionResolver = nil
                         self.signingRegion = resolvedSigningRegion
                         self.useDualStack = useDualStack
                         self.useFIPS = useFIPS

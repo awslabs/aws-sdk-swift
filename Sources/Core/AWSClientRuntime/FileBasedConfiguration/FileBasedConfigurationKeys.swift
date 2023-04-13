@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-@_spi(Internal)
+@_spi(FileBasedConfig)
 public struct FileBasedConfigurationKey: RawRepresentable, ExpressibleByStringLiteral {
     public typealias RawValue = String
     public typealias StringLiteralType = String
@@ -20,7 +20,7 @@ public struct FileBasedConfigurationKey: RawRepresentable, ExpressibleByStringLi
     }
 }
 
-@_spi(Internal)
+@_spi(FileBasedConfig)
 public extension FileBasedConfigurationKey {
     static var region: Self { "region" }
 }

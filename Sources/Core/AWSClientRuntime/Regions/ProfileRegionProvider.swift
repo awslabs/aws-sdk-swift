@@ -14,7 +14,7 @@ struct ProfileRegionProvider: RegionProvider {
     let credentialsFilePath: String?
 
     init(
-        fileBasedConfigurationProvider: FileBasedConfigurationProviding,
+        fileBasedConfigurationProvider: @escaping FileBasedConfigurationProviding,
         profileName: String? = nil,
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil
@@ -27,9 +27,9 @@ struct ProfileRegionProvider: RegionProvider {
     }
 
     func resolveRegion() async throws -> String? {
-        guard let configuration = try await fileBasedConfigurationProvider.fileBasedConfiguration(
-            configFilePath: configFilePath,
-            credentialsFilePath: credentialsFilePath
+        guard let configuration = try await fileBasedConfigurationProvider(
+            configFilePath,
+            credentialsFilePath
         ) else {
             logger.debug("Failed to resolve region from configuration file. No configuration file found.")
             return nil

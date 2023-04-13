@@ -8,11 +8,15 @@
 import ClientRuntime
 import SmithyTestUtil
 import XCTest
-@_spi(Internal) @testable import AWSClientRuntime
+@_spi(FileBasedConfig) @testable import AWSClientRuntime
 
 class DefaultRegionResolverTests: XCTestCase {
     
     let configPath = Bundle.module.path(forResource: "profile_region_provider_tests", ofType: nil)!
+    
+    let fileBasedConfigProvider: FileBasedConfigurationProviding = { configPath, credentialsPath in
+        try CRTFileBasedConfiguration.make(configFilePath: configPath, credentialsFilePath: credentialsPath)
+    }
     
     func testItResolvesFromEnvironment() async {
         setenv("AWS_REGION", "us-west-1", 1)
@@ -21,9 +25,8 @@ class DefaultRegionResolverTests: XCTestCase {
         }
         
         do {
-            let store = try CRTFiledBasedConfigurationStore()
             let resolver = try DefaultRegionResolver(
-                fileBasedConfigurationProvider: store
+                fileBasedConfigurationProvider: fileBasedConfigProvider
             )
             let region = await resolver.resolveRegion()
             XCTAssertEqual(region, "us-west-1")
@@ -39,9 +42,8 @@ class DefaultRegionResolverTests: XCTestCase {
         }
         
         do {
-            let store = try CRTFiledBasedConfigurationStore()
             let resolver = try DefaultRegionResolver(
-                fileBasedConfigurationProvider: store
+                fileBasedConfigurationProvider: fileBasedConfigProvider
             )
             let region = await resolver.resolveRegion()
             XCTAssertEqual(region, "us-east-2")
