@@ -129,6 +129,7 @@ struct PrepareRelease {
             files = [
                 "Package.swift",
                 "Package.version",
+                "packageDependencies.plist",
                 "Sources/Services",
                 "Tests/Services"
             ]
