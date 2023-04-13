@@ -9,8 +9,10 @@ import AwsCommonRuntimeKit
 
 @_spi(Internal) public typealias CRTFileBasedConfiguration = AwsCommonRuntimeKit.FileBasedConfiguration
 @_spi(Internal) public typealias CRTFileBasedConfigurationSection = AwsCommonRuntimeKit.FileBasedConfiguration.Section
-@_spi(Internal) public typealias CRTFileBasedConfigurationSectionType = AwsCommonRuntimeKit.FileBasedConfiguration.SectionType
-@_spi(Internal) public typealias CRTFileBasedConfigurationProperty = AwsCommonRuntimeKit.FileBasedConfiguration.Section.Property
+@_spi(Internal) public typealias CRTFileBasedConfigurationSectionType
+    = AwsCommonRuntimeKit.FileBasedConfiguration.SectionType
+@_spi(Internal) public typealias CRTFileBasedConfigurationProperty
+    = AwsCommonRuntimeKit.FileBasedConfiguration.Section.Property
 
 extension CRTFileBasedConfigurationSectionType {
     init(_ type: FileBasedConfigurationSectionType) {

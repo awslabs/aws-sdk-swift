@@ -20,10 +20,10 @@ public extension CRTFiledBasedConfigurationStore {
                     credentialsFilePath: sources.credentialPath
                 )
             }
-            
+
             return try await task.value
         }
-        
+
         self.init(
             cache: cache,
             defaultConfigFilePath: try CRTFileBasedConfiguration.resolveConfigPath(sourceType: .config),

@@ -11,11 +11,11 @@ import Foundation
 public struct FileBasedConfigurationStore<T: FileBasedConfiguration> {
     typealias Cache = FunctionCache<FileBasedConfigurationSources, T>
     private let cache: Cache
-    
+
     public let defaultConfigFilePath: String
-    
+
     public let defaultCredentialsFilePath: String
-    
+
     init(
         cache: Cache,
         defaultConfigFilePath: String,
@@ -25,7 +25,7 @@ public struct FileBasedConfigurationStore<T: FileBasedConfiguration> {
         self.defaultConfigFilePath = defaultConfigFilePath
         self.defaultCredentialsFilePath = defaultCredentialsFilePath
     }
-    
+
     public func _fileBasedConfiguration(
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil
@@ -40,7 +40,8 @@ public struct FileBasedConfigurationStore<T: FileBasedConfiguration> {
 
 @_spi(Internal)
 extension FileBasedConfigurationStore: FileBasedConfigurationProviding {
-    public func fileBasedConfiguration(configFilePath: String?, credentialsFilePath: String?) async throws -> FileBasedConfiguration? {
+    public func fileBasedConfiguration(configFilePath: String?, credentialsFilePath: String?) async throws
+        -> FileBasedConfiguration? {
         try await _fileBasedConfiguration(configFilePath: configFilePath, credentialsFilePath: credentialsFilePath)
     }
 }
