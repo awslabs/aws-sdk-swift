@@ -14,21 +14,21 @@ public typealias AWSCredentialsProvider = CredentialsProvider
 /// Create instances using its static functions.
 public struct CredentialsProvider {
     @_spi(Internal)
-    public struct Configuration  {
+    public struct Configuration {
         public let fileBasedConfigurationStore: CRTFiledBasedConfigurationStore
-        
+
         public init(fileBasedConfigurationStore: CRTFiledBasedConfigurationStore) {
             self.fileBasedConfigurationStore = fileBasedConfigurationStore
         }
     }
-    
+
     private var configuredProvider: CredentialsProviding?
     private var configureProvider: ((Configuration) async throws -> CredentialsProviding)?
-    
+
     /// A string that identifies the credential provider
     /// This is useful for debugging and tests to verify type of credentials provider
     let identifier: String
-        
+
     init(
         identifier: String,
         _ configureProvider: @escaping (Configuration) async throws -> CredentialsProviding
@@ -36,11 +36,13 @@ public struct CredentialsProvider {
         self.identifier = identifier
         self.configureProvider = configureProvider
     }
-    
+
     @_spi(Internal)
     mutating public func configure(_ configuration: Configuration) async throws {
         guard let configureProvider = self.configureProvider else {
-            throw ClientError.authError("The credential provider is already configured and can only be configured once.")
+            throw ClientError.authError(
+                "The credential provider is already configured and can only be configured once."
+            )
         }
         self.configuredProvider = try await configureProvider(configuration)
         self.configureProvider = nil
@@ -58,7 +60,7 @@ extension CredentialsProvider: CredentialsProviding {
             `client.config.credentialsProvider`
             """)
         }
-        
+
         return try await configuredProvider.getCredentials()
     }
 }

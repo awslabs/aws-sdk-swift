@@ -17,7 +17,7 @@ public struct Credentials {
     let secret: String
     let expirationTimeout: Date?
     let sessionToken: String?
-    
+
     /// Creates credentials with the specified keys and optionally an expiration and session token.
     ///
     /// - Parameters:

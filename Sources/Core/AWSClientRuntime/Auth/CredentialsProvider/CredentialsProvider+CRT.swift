@@ -13,11 +13,11 @@ typealias CRTCredentialsProvider = AwsCommonRuntimeKit.CredentialsProvider
 /// A credentials provider that adapts a CRT credentials provider to `CredentialsProviding`
 struct CRTCredentialsProviderAdapter: CredentialsProviding {
     let crtCredentialsProvider: CRTCredentialsProviding
-    
+
     init(_ crtCredentialsProvider: CRTCredentialsProviding) {
         self.crtCredentialsProvider = crtCredentialsProvider
     }
-    
+
     func getCredentials() async throws -> Credentials {
         let crtCredentials = try await crtCredentialsProvider.getCredentials()
         return try .init(crtCredentials: crtCredentials)
