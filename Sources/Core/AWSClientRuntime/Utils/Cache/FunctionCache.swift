@@ -13,7 +13,7 @@ import Foundation
 actor FunctionCache<Input: Hashable, Output> {
     typealias Function = (Input) async throws -> Output
     private let f: Function
-    
+
     // Future Improvement:
     // Allow for the cache type and instance to be injected in,
     // this would allow composers to specify the type of backing cache that they need.
@@ -21,7 +21,7 @@ actor FunctionCache<Input: Hashable, Output> {
     // resources when the system is low on memory.
     private var cache = [Input: Output]()
     private var activeTasks = [Input: Task<Output, Error>]()
-    
+
     /// Creates a function cache that will store the outputs of the provided function.
     init(_ f: @escaping Function) {
         self.f = f
@@ -43,13 +43,13 @@ extension FunctionCache {
             // We have an existing task scheduled for the input, so await its value
             return try await existingTask.value
         }
-        
+
         // Check if we have an output cached for the input
         if let existingOutput = cache[input] {
             // We have an output cached for the input, so return that
             return existingOutput
         }
-        
+
         // Create a task that handles performing the work
         // It will execute the function and store the output in the cache.
         let task = Task<Output, Error> {
@@ -68,13 +68,14 @@ extension FunctionCache {
                 throw error
             }
         }
-        
+
         // Keep track of the task
         // This allows us to use this same task if another call is made with the same input
         // before the function finishes executing.
         activeTasks[input] = task
-        
+
         // Await the task and return it's value
         return try await task.value
     }
 }
+

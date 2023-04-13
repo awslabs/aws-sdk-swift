@@ -23,7 +23,8 @@ public struct FileBasedConfigurationSources: Hashable {
 
 @_spi(Internal)
 public protocol FileBasedConfigurationProviding {
-    func fileBasedConfiguration(configFilePath: String?, credentialsFilePath: String?) async throws -> FileBasedConfigurationSectionProviding?
+    func fileBasedConfiguration(configFilePath: String?, credentialsFilePath: String?) async throws
+        -> FileBasedConfigurationSectionProviding?
 }
 
 @_spi(Internal)
@@ -65,7 +66,7 @@ public extension FileBasedConfigurationPropertyProviding {
             return nil
         }
     }
-    
+
     func subproperties(for name: FileBasedConfigurationKey) -> FileBasedConfigurationSubsection? {
         guard let value = property(for: name) else { return nil }
         switch value {
