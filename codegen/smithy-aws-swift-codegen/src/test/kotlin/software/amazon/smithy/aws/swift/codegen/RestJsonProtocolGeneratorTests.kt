@@ -157,23 +157,23 @@ class RestJsonProtocolGeneratorTests {
                             resolvedRegion = await resolvedRegionResolver.resolveRegion()
                         }
             
-                        let resolvedCredentialProvider: AWSClientRuntime.CredentialsProviding
+                        let resolvedCredentialsProvider: AWSClientRuntime.CredentialsProviding
                         if let credentialsProvider = credentialsProvider {
-                            resolvedCredentialProvider = credentialsProvider
+                            resolvedCredentialsProvider = credentialsProvider
                         } else {
-                            resolvedCredentialProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
+                            resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
                         }
             
                         try self.init(
-                            credentialsProvider: resolvedCredentialProvider,
+                            credentialsProvider: resolvedCredentialsProvider,
                             endpoint: endpoint,
-                            endpointResolver: resolvedEndpointsResolver,
+                            endpointResolver: endpointResolver,
                             frameworkMetadata: frameworkMetadata,
                             region: resolvedRegion,
                             signingRegion: signingRegion,
                             useDualStack: useDualStack,
                             useFIPS: useFIPS,
-                            runtimeConfig: runtimeConfig,
+                            runtimeConfig: runtimeConfig
                         )
                     }
             
@@ -193,11 +193,11 @@ class RestJsonProtocolGeneratorTests {
                             resolvedCredentialsProvider = credentialsProvider
                         } else {
                             let fileBasedConfig = try CRTFileBasedConfiguration.make()
-                            resolvedCredentialProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
+                            resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
                         }
             
                         try self.init(
-                            credentialsProvider: resolvedCredentialProvider,
+                            credentialsProvider: resolvedCredentialsProvider,
                             endpoint: endpoint,
                             endpointResolver: endpointResolver,
                             frameworkMetadata: frameworkMetadata,
@@ -205,7 +205,7 @@ class RestJsonProtocolGeneratorTests {
                             signingRegion: signingRegion,
                             useDualStack: useDualStack,
                             useFIPS: useFIPS,
-                            runtimeConfig: runtimeConfig,
+                            runtimeConfig: runtimeConfig
                         )
                     }
             
@@ -220,7 +220,7 @@ class RestJsonProtocolGeneratorTests {
                         signingRegion: Swift.String?,
                         useDualStack: Swift.Bool?,
                         useFIPS: Swift.Bool?,
-                        runtimeConfig: ClientRuntime.DefaultSDKRuntimeConfiguration? = nil
+                        runtimeConfig: ClientRuntime.SDKRuntimeConfiguration?
                     ) throws {
                         let runtimeConfig = try runtimeConfig ?? ClientRuntime.DefaultSDKRuntimeConfiguration("ExampleClient")
             

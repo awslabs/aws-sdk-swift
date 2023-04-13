@@ -91,7 +91,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
                 }
             }
 
-            writer.write("\$L: \$D", RUNTIME_CONFIG_NAME, ClientRuntimeTypes.Core.DefaultSDKRuntimeConfiguration)
+            writer.write("\$L: \$T", RUNTIME_CONFIG_NAME, ClientRuntimeTypes.Core.SDKRuntimeConfiguration)
         }
         writer.indent()
 
@@ -173,12 +173,12 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
         writer.write("")
 
         // Resolve the credentials provider
-        writer.write("let resolvedCredentialProvider: \$N", AWSClientRuntimeTypes.Core.CredentialsProviding)
+        writer.write("let resolvedCredentialsProvider: \$N", AWSClientRuntimeTypes.Core.CredentialsProviding)
         writer.openBlock("if let \$L = \$L {", "} else {", CREDENTIALS_PROVIDER_CONFIG_NAME, CREDENTIALS_PROVIDER_CONFIG_NAME) {
-            writer.write("resolvedCredentialProvider = \$L", CREDENTIALS_PROVIDER_CONFIG_NAME)
+            writer.write("resolvedCredentialsProvider = \$L", CREDENTIALS_PROVIDER_CONFIG_NAME)
         }
         writer.indent()
-        writer.write("resolvedCredentialProvider = try DefaultChainCredentialsProvider(fileBasedConfig: \$L)", FILE_BASED_CONFIG_LOCAL_NAME)
+        writer.write("resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: \$L)", FILE_BASED_CONFIG_LOCAL_NAME)
         writer.dedent()
         writer.write("}")
         writer.write("")
@@ -186,12 +186,8 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
         writer.openBlock("try self.init(", ")") {
             awsConfigs.forEach {
                 when (it.memberName) {
-                    ENDPOINT_RESOLVER -> {
-                        writer.write("\$L: resolvedEndpointsResolver,", it.memberName)
-                    }
-
                     CREDENTIALS_PROVIDER_CONFIG_NAME -> {
-                        writer.write("\$L: resolvedCredentialProvider,", it.memberName)
+                        writer.write("\$L: resolvedCredentialsProvider,", it.memberName)
                     }
 
                     REGION_CONFIG_NAME -> {
@@ -209,7 +205,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
                     }
                 }
             }
-            writer.write("\$L: \$L,", RUNTIME_CONFIG_NAME, RUNTIME_CONFIG_NAME)
+            writer.write("\$L: \$L", RUNTIME_CONFIG_NAME, RUNTIME_CONFIG_NAME)
         }
 
         writer.dedent().write("}")
@@ -244,7 +240,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
         }
         writer.indent()
         writer.write("let \$L = try CRTFileBasedConfiguration.make()", FILE_BASED_CONFIG_LOCAL_NAME)
-        writer.write("resolvedCredentialProvider = try DefaultChainCredentialsProvider(fileBasedConfig: \$L)", FILE_BASED_CONFIG_LOCAL_NAME)
+        writer.write("resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: \$L)", FILE_BASED_CONFIG_LOCAL_NAME)
         writer.dedent()
         writer.write("}")
         writer.write("")
@@ -253,7 +249,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
             awsConfigs.forEach {
                 when (it.memberName) {
                     CREDENTIALS_PROVIDER_CONFIG_NAME -> {
-                        writer.write("\$L: resolvedCredentialProvider,", it.memberName)
+                        writer.write("\$L: resolvedCredentialsProvider,", it.memberName)
                     }
 
                     // Skip, region should already be resolved
@@ -267,7 +263,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
                     }
                 }
             }
-            writer.write("\$L: \$L,", RUNTIME_CONFIG_NAME, RUNTIME_CONFIG_NAME)
+            writer.write("\$L: \$L", RUNTIME_CONFIG_NAME, RUNTIME_CONFIG_NAME)
         }
 
         writer.dedent().write("}")
