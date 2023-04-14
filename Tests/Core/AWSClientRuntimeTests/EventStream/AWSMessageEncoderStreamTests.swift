@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import AwsCommonRuntimeKit
 import ClientRuntime
 @testable import AWSClientRuntime
 
@@ -23,6 +24,12 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
     let serviceName = "test"
     let credentials = AWSCredentials(accessKey: "fake access key", secret: "fake secret key")
     let messageEncoder = AWSEventStream.AWSMessageEncoder()
+    
+    override class func setUp() {
+        AwsCommonRuntimeKit.CommonRuntimeKit.initialize()
+    }
+    
+    // MARK: - Tests
     
     func testIterator_EndMessageSent() async throws {
         let context = HttpContextBuilder()
