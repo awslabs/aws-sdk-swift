@@ -2254,6 +2254,7 @@ extension EMRClientTypes {
 
 extension EMRClientTypes.ClusterStatus: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorDetails = "ErrorDetails"
         case state = "State"
         case stateChangeReason = "StateChangeReason"
         case timeline = "Timeline"
@@ -2261,6 +2262,12 @@ extension EMRClientTypes.ClusterStatus: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorDetails = errorDetails {
+            var errorDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errorDetails)
+            for errordetail0 in errorDetails {
+                try errorDetailsContainer.encode(errordetail0)
+            }
+        }
         if let state = self.state {
             try encodeContainer.encode(state.rawValue, forKey: .state)
         }
@@ -2280,12 +2287,25 @@ extension EMRClientTypes.ClusterStatus: Swift.Codable {
         stateChangeReason = stateChangeReasonDecoded
         let timelineDecoded = try containerValues.decodeIfPresent(EMRClientTypes.ClusterTimeline.self, forKey: .timeline)
         timeline = timelineDecoded
+        let errorDetailsContainer = try containerValues.decodeIfPresent([EMRClientTypes.ErrorDetail?].self, forKey: .errorDetails)
+        var errorDetailsDecoded0:[EMRClientTypes.ErrorDetail]? = nil
+        if let errorDetailsContainer = errorDetailsContainer {
+            errorDetailsDecoded0 = [EMRClientTypes.ErrorDetail]()
+            for structure0 in errorDetailsContainer {
+                if let structure0 = structure0 {
+                    errorDetailsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errorDetails = errorDetailsDecoded0
     }
 }
 
 extension EMRClientTypes {
     /// The detailed status of the cluster.
     public struct ClusterStatus: Swift.Equatable {
+        /// A list of tuples that provide information about the errors that caused a cluster termination. This structure may have up to 10 different ErrorDetail tuples.
+        public var errorDetails: [EMRClientTypes.ErrorDetail]?
         /// The current state of the cluster.
         public var state: EMRClientTypes.ClusterState?
         /// The reason for the cluster status change.
@@ -2294,11 +2314,13 @@ extension EMRClientTypes {
         public var timeline: EMRClientTypes.ClusterTimeline?
 
         public init (
+            errorDetails: [EMRClientTypes.ErrorDetail]? = nil,
             state: EMRClientTypes.ClusterState? = nil,
             stateChangeReason: EMRClientTypes.ClusterStateChangeReason? = nil,
             timeline: EMRClientTypes.ClusterTimeline? = nil
         )
         {
+            self.errorDetails = errorDetails
             self.state = state
             self.stateChangeReason = stateChangeReason
             self.timeline = timeline
@@ -4970,6 +4992,85 @@ extension EMRClientTypes {
             self.requestedEc2AvailabilityZones = requestedEc2AvailabilityZones
             self.requestedEc2SubnetIds = requestedEc2SubnetIds
             self.serviceAccessSecurityGroup = serviceAccessSecurityGroup
+        }
+    }
+
+}
+
+extension EMRClientTypes.ErrorDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case errorData = "ErrorData"
+        case errorMessage = "ErrorMessage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode, forKey: .errorCode)
+        }
+        if let errorData = errorData {
+            var errorDataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errorData)
+            for stringmap0 in errorData {
+                var stringmap0Container = errorDataContainer.nestedContainer(keyedBy: ClientRuntime.Key.self)
+                for (dictKey1, stringMap1) in stringmap0 {
+                    try stringmap0Container.encode(stringMap1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
+            }
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorDataContainer = try containerValues.decodeIfPresent([[Swift.String: Swift.String?]?].self, forKey: .errorData)
+        var errorDataDecoded0:[[Swift.String:Swift.String]]? = nil
+        if let errorDataContainer = errorDataContainer {
+            errorDataDecoded0 = [[Swift.String:Swift.String]]()
+            for map0 in errorDataContainer {
+                var errorDataContainerDecoded0: [Swift.String: Swift.String]? = nil
+                if let map0 = map0 {
+                    errorDataContainerDecoded0 = [Swift.String: Swift.String]()
+                    for (key1, string1) in map0 {
+                        if let string1 = string1 {
+                            errorDataContainerDecoded0?[key1] = string1
+                        }
+                    }
+                }
+                if let errorDataContainerDecoded0 = errorDataContainerDecoded0 {
+                    errorDataDecoded0?.append(errorDataContainerDecoded0)
+                }
+            }
+        }
+        errorData = errorDataDecoded0
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension EMRClientTypes {
+    /// A tuple that provides information about an error that caused a cluster to terminate.
+    public struct ErrorDetail: Swift.Equatable {
+        /// The name or code that's associated with the error.
+        public var errorCode: Swift.String?
+        /// A list of key value pairs that provide contextual information to explain why the error may have occured.
+        public var errorData: [[Swift.String:Swift.String]]?
+        /// A message describing the error that occured.
+        public var errorMessage: Swift.String?
+
+        public init (
+            errorCode: Swift.String? = nil,
+            errorData: [[Swift.String:Swift.String]]? = nil,
+            errorMessage: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorData = errorData
+            self.errorMessage = errorMessage
         }
     }
 

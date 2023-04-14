@@ -446,7 +446,7 @@ extension ECSClientTypes {
         public var autoScalingGroupArn: Swift.String?
         /// The managed scaling settings for the Auto Scaling group capacity provider.
         public var managedScaling: ECSClientTypes.ManagedScaling?
-        /// The managed termination protection setting to use for the Auto Scaling group capacity provider. This determines whether the Auto Scaling group has managed termination protection. The default is off. When using managed termination protection, managed scaling must also be used otherwise managed termination protection doesn't work. When managed termination protection is on, Amazon ECS prevents the Amazon EC2 instances in an Auto Scaling group that contain tasks from being terminated during a scale-in action. The Auto Scaling group and each instance in the Auto Scaling group must have instance protection from scale-in actions enabled as well. For more information, see [Instance Protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-termination.html#instance-protection) in the Auto Scaling User Guide. When managed termination protection is off, your Amazon EC2 instances aren't protected from termination when the Auto Scaling group scales in.
+        /// The managed termination protection setting to use for the Auto Scaling group capacity provider. This determines whether the Auto Scaling group has managed termination protection. The default is off. When using managed termination protection, managed scaling must also be used otherwise managed termination protection doesn't work. When managed termination protection is on, Amazon ECS prevents the Amazon EC2 instances in an Auto Scaling group that contain tasks from being terminated during a scale-in action. The Auto Scaling group and each instance in the Auto Scaling group must have instance protection from scale-in actions on as well. For more information, see [Instance Protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-termination.html#instance-protection) in the Auto Scaling User Guide. When managed termination protection is off, your Amazon EC2 instances aren't protected from termination when the Auto Scaling group scales in.
         public var managedTerminationProtection: ECSClientTypes.ManagedTerminationProtection?
 
         public init (
@@ -1634,7 +1634,7 @@ extension ECSClientTypes.ClusterServiceConnectDefaultsRequest: Swift.Codable {
 extension ECSClientTypes {
     /// Use this parameter to set a default Service Connect namespace. After you set a default Service Connect namespace, any new services with Service Connect turned on that are created in the cluster are added as client services in the namespace. This setting only applies to new services that set the enabled parameter to true in the ServiceConnectConfiguration. You can set the namespace of each service individually in the ServiceConnectConfiguration to override this default parameter. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
     public struct ClusterServiceConnectDefaultsRequest: Swift.Equatable {
-        /// The namespace name or full Amazon Resource Name (ARN) of the Cloud Map namespace that's used when you create a service and don't specify a Service Connect configuration. The namespace name can include up to 1024 characters. The name is case-sensitive. The name can't include hyphens (-), tilde (~), greater than (>), less than (<), or slash (/). If you enter an existing namespace name or ARN, then that namespace will be used. Any namespace type is supported. The namespace must be in this account and this Amazon Web Services Region. If you enter a new name, a Cloud Map namespace will be created. Amazon ECS creates a Cloud Map namespace with the "API calls" method of instance discovery only. This instance discovery method is the "HTTP" namespace type in the Command Line Interface. Other types of instance discovery aren't used by Service Connect. If you update the service with an empty string "" for the namespace name, the cluster configuration for Service Connect is removed. Note that the namespace will remain in Cloud Map and must be deleted separately. For more information about Cloud Map, see [Working with Services](https://docs.aws.amazon.com/) in the Cloud Map Developer Guide.
+        /// The namespace name or full Amazon Resource Name (ARN) of the Cloud Map namespace that's used when you create a service and don't specify a Service Connect configuration. The namespace name can include up to 1024 characters. The name is case-sensitive. The name can't include hyphens (-), tilde (~), greater than (>), less than (<), or slash (/). If you enter an existing namespace name or ARN, then that namespace will be used. Any namespace type is supported. The namespace must be in this account and this Amazon Web Services Region. If you enter a new name, a Cloud Map namespace will be created. Amazon ECS creates a Cloud Map namespace with the "API calls" method of instance discovery only. This instance discovery method is the "HTTP" namespace type in the Command Line Interface. Other types of instance discovery aren't used by Service Connect. If you update the service with an empty string "" for the namespace name, the cluster configuration for Service Connect is removed. Note that the namespace will remain in Cloud Map and must be deleted separately. For more information about Cloud Map, see [Working with Services](https://docs.aws.amazon.com/cloud-map/latest/dg/working-with-services.html) in the Cloud Map Developer Guide.
         /// This member is required.
         public var namespace: Swift.String?
 
@@ -1676,9 +1676,9 @@ extension ECSClientTypes.ClusterSetting: Swift.Codable {
 extension ECSClientTypes {
     /// The settings to use when creating a cluster. This parameter is used to turn on CloudWatch Container Insights for a cluster.
     public struct ClusterSetting: Swift.Equatable {
-        /// The name of the cluster setting. The only supported value is containerInsights.
+        /// The name of the cluster setting. The value is containerInsights .
         public var name: ECSClientTypes.ClusterSettingName?
-        /// The value to set for the cluster setting. The supported values are enabled and disabled. If enabled is specified, CloudWatch Container Insights will be enabled for the cluster, otherwise it will be off unless the containerInsights account setting is turned on. If a cluster value is specified, it will override the containerInsights value set with [PutAccountSetting](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAccountSetting.html) or [PutAccountSettingDefault](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAccountSettingDefault.html).
+        /// The value to set for the cluster setting. The supported values are enabled and disabled. If you set name to containerInsights and value to enabled, CloudWatch Container Insights will be on for the cluster, otherwise it will be off unless the containerInsights account setting is turned on. If a cluster value is specified, it will override the containerInsights value set with [PutAccountSetting](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAccountSetting.html) or [PutAccountSettingDefault](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAccountSettingDefault.html).
         public var value: Swift.String?
 
         public init (
@@ -4037,7 +4037,7 @@ public struct CreateServiceInput: Swift.Equatable {
     public var desiredCount: Swift.Int?
     /// Specifies whether to turn on Amazon ECS managed tags for the tasks within the service. For more information, see [Tagging your Amazon ECS resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the Amazon Elastic Container Service Developer Guide.
     public var enableECSManagedTags: Swift.Bool?
-    /// Determines whether the execute command functionality is enabled for the service. If true, this enables execute command functionality on all containers in the service tasks.
+    /// Determines whether the execute command functionality is turned on for the service. If true, this enables execute command functionality on all containers in the service tasks.
     public var enableExecuteCommand: Swift.Bool?
     /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing target health checks after a task has first started. This is only used when your service is configured to use a load balancer. If your service has a load balancer defined and you don't specify a health check grace period value, the default value of 0 is used. If you do not use an Elastic Load Balancing, we recommend that you use the startPeriod in the task definition health check parameters. For more information, see [Health check](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_HealthCheck.html). If your service's tasks take a while to start and respond to Elastic Load Balancing health checks, you can specify a health check grace period of up to 2,147,483,647 seconds (about 69 years). During that time, the Amazon ECS service scheduler ignores health check status. This grace period can prevent the service scheduler from marking tasks as unhealthy and stopping them before they have time to come up.
     public var healthCheckGracePeriodSeconds: Swift.Int?
@@ -4053,7 +4053,7 @@ public struct CreateServiceInput: Swift.Equatable {
     public var placementStrategy: [ECSClientTypes.PlacementStrategy]?
     /// The platform version that your tasks in the service are running on. A platform version is specified only for tasks using the Fargate launch type. If one isn't specified, the LATEST platform version is used. For more information, see [Fargate platform versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html) in the Amazon Elastic Container Service Developer Guide.
     public var platformVersion: Swift.String?
-    /// Specifies whether to propagate the tags from the task definition to the task. If no value is specified, the tags aren't propagated. Tags can only be propagated to the task during task creation. To add tags to a task after task creation, use the [TagResource] API action.
+    /// Specifies whether to propagate the tags from the task definition to the task. If no value is specified, the tags aren't propagated. Tags can only be propagated to the task during task creation. To add tags to a task after task creation, use the [TagResource](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TagResource.html) API action.
     public var propagateTags: ECSClientTypes.PropagateTags?
     /// The name or full Amazon Resource Name (ARN) of the IAM role that allows Amazon ECS to make calls to your load balancer on your behalf. This parameter is only permitted if you are using a load balancer with your service and your task definition doesn't use the awsvpc network mode. If you specify the role parameter, you must also specify a load balancer object with the loadBalancers parameter. If your account has already created the Amazon ECS service-linked role, that role is used for your service unless you specify a role here. The service-linked role is required if your task definition uses the awsvpc network mode or if the service is configured to use service discovery, an external deployment controller, multiple target groups, or Elastic Inference accelerators in which case you don't specify a role here. For more information, see [Using service-linked roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide. If your specified role has a path other than /, then you must either specify the full role ARN (this is recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/ then you would specify /foo/bar as the role name. For more information, see [Friendly names and paths](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) in the IAM User Guide.
     public var role: Swift.String?
@@ -4086,7 +4086,7 @@ public struct CreateServiceInput: Swift.Equatable {
     ///
     /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
     public var tags: [ECSClientTypes.Tag]?
-    /// The family and revision (family:revision) or full ARN of the task definition to run in your service. If a revision isn't specified, the latest ACTIVE revision is used. A task definition must be specified if the service uses either the ECS or CODE_DEPLOY deployment controllers.
+    /// The family and revision (family:revision) or full ARN of the task definition to run in your service. If a revision isn't specified, the latest ACTIVE revision is used. A task definition must be specified if the service uses either the ECS or CODE_DEPLOY deployment controllers. For more information about deployment types, see [Amazon ECS deployment types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html).
     public var taskDefinition: Swift.String?
 
     public init (
@@ -5865,7 +5865,7 @@ extension ECSClientTypes {
         public var platformFamily: Swift.String?
         /// The platform version that your tasks in the service run on. A platform version is only specified for tasks using the Fargate launch type. If one isn't specified, the LATEST platform version is used. For more information, see [Fargate Platform Versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html) in the Amazon Elastic Container Service Developer Guide.
         public var platformVersion: Swift.String?
-        /// The rolloutState of a service is only returned for services that use the rolling update (ECS) deployment type that aren't behind a Classic Load Balancer. The rollout state of the deployment. When a service deployment is started, it begins in an IN_PROGRESS state. When the service reaches a steady state, the deployment transitions to a COMPLETED state. If the service fails to reach a steady state and circuit breaker is enabled, the deployment transitions to a FAILED state. A deployment in FAILED state doesn't launch any new tasks. For more information, see [DeploymentCircuitBreaker].
+        /// The rolloutState of a service is only returned for services that use the rolling update (ECS) deployment type that aren't behind a Classic Load Balancer. The rollout state of the deployment. When a service deployment is started, it begins in an IN_PROGRESS state. When the service reaches a steady state, the deployment transitions to a COMPLETED state. If the service fails to reach a steady state and circuit breaker is turned on, the deployment transitions to a FAILED state. A deployment in FAILED state doesn't launch any new tasks. For more information, see [DeploymentCircuitBreaker].
         public var rolloutState: ECSClientTypes.DeploymentRolloutState?
         /// A description of the rollout state of a deployment.
         public var rolloutStateReason: Swift.String?
@@ -6022,7 +6022,7 @@ extension ECSClientTypes.DeploymentCircuitBreaker: Swift.Codable {
 }
 
 extension ECSClientTypes {
-    /// The deployment circuit breaker can only be used for services using the rolling update (ECS) deployment type. The deployment circuit breaker determines whether a service deployment will fail if the service can't reach a steady state. If enabled, a service deployment will transition to a failed state and stop launching new tasks. You can also configure Amazon ECS to roll back your service to the last completed deployment after a failure. For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide.
+    /// The deployment circuit breaker can only be used for services using the rolling update (ECS) deployment type. The deployment circuit breaker determines whether a service deployment will fail if the service can't reach a steady state. If it is turned on, a service deployment will transition to a failed state and stop launching new tasks. You can also configure Amazon ECS to roll back your service to the last completed deployment after a failure. For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide.
     public struct DeploymentCircuitBreaker: Swift.Equatable {
         /// Determines whether to use the deployment circuit breaker logic for the service.
         /// This member is required.
@@ -8250,9 +8250,9 @@ extension ECSClientTypes.EFSAuthorizationConfig: Swift.Codable {
 extension ECSClientTypes {
     /// The authorization configuration details for the Amazon EFS file system.
     public struct EFSAuthorizationConfig: Swift.Equatable {
-        /// The Amazon EFS access point ID to use. If an access point is specified, the root directory value specified in the EFSVolumeConfiguration must either be omitted or set to / which will enforce the path set on the EFS access point. If an access point is used, transit encryption must be enabled in the EFSVolumeConfiguration. For more information, see [Working with Amazon EFS access points](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html) in the Amazon Elastic File System User Guide.
+        /// The Amazon EFS access point ID to use. If an access point is specified, the root directory value specified in the EFSVolumeConfiguration must either be omitted or set to / which will enforce the path set on the EFS access point. If an access point is used, transit encryption must be on in the EFSVolumeConfiguration. For more information, see [Working with Amazon EFS access points](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html) in the Amazon Elastic File System User Guide.
         public var accessPointId: Swift.String?
-        /// Determines whether to use the Amazon ECS task role defined in a task definition when mounting the Amazon EFS file system. If enabled, transit encryption must be enabled in the EFSVolumeConfiguration. If this parameter is omitted, the default value of DISABLED is used. For more information, see [Using Amazon EFS access points](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/efs-volumes.html#efs-volume-accesspoints) in the Amazon Elastic Container Service Developer Guide.
+        /// Determines whether to use the Amazon ECS task role defined in a task definition when mounting the Amazon EFS file system. If it is turned on, transit encryption must be turned on in the EFSVolumeConfiguration. If this parameter is omitted, the default value of DISABLED is used. For more information, see [Using Amazon EFS access points](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/efs-volumes.html#efs-volume-accesspoints) in the Amazon Elastic Container Service Developer Guide.
         public var iam: ECSClientTypes.EFSAuthorizationConfigIAM?
 
         public init (
@@ -8384,7 +8384,7 @@ extension ECSClientTypes {
         public var fileSystemId: Swift.String?
         /// The directory within the Amazon EFS file system to mount as the root directory inside the host. If this parameter is omitted, the root of the Amazon EFS volume will be used. Specifying / will have the same effect as omitting this parameter. If an EFS access point is specified in the authorizationConfig, the root directory parameter must either be omitted or set to / which will enforce the path set on the EFS access point.
         public var rootDirectory: Swift.String?
-        /// Determines whether to use encryption for Amazon EFS data in transit between the Amazon ECS host and the Amazon EFS server. Transit encryption must be enabled if Amazon EFS IAM authorization is used. If this parameter is omitted, the default value of DISABLED is used. For more information, see [Encrypting data in transit](https://docs.aws.amazon.com/efs/latest/ug/encryption-in-transit.html) in the Amazon Elastic File System User Guide.
+        /// Determines whether to use encryption for Amazon EFS data in transit between the Amazon ECS host and the Amazon EFS server. Transit encryption must be turned on if Amazon EFS IAM authorization is used. If this parameter is omitted, the default value of DISABLED is used. For more information, see [Encrypting data in transit](https://docs.aws.amazon.com/efs/latest/ug/encryption-in-transit.html) in the Amazon Elastic File System User Guide.
         public var transitEncryption: ECSClientTypes.EFSTransitEncryption?
         /// The port to use when sending encrypted data between the Amazon ECS host and the Amazon EFS server. If you do not specify a transit encryption port, it will use the port selection strategy that the Amazon EFS mount helper uses. For more information, see [EFS mount helper](https://docs.aws.amazon.com/efs/latest/ug/efs-mount-helper.html) in the Amazon Elastic File System User Guide.
         public var transitEncryptionPort: Swift.Int?
@@ -8507,7 +8507,9 @@ extension ECSClientTypes.EphemeralStorage: Swift.Codable {
 }
 
 extension ECSClientTypes {
-    /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see [Fargate task storage](https://docs.aws.amazon.com/AmazonECS/latest/userguide/using_data_volumes.html) in the Amazon ECS User Guide for Fargate. This parameter is only supported for tasks hosted on Fargate using Linux platform version 1.4.0 or later. This parameter is not supported for Windows containers on Fargate.
+    /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see [Fargate task storage](https://docs.aws.amazon.com/AmazonECS/latest/userguide/using_data_volumes.html) in the Amazon ECS User Guide for Fargate. For tasks using the Fargate launch type, the task requires the following platforms:
+    ///
+    /// * Linux platform version 1.4.0 or later.
     public struct EphemeralStorage: Swift.Equatable {
         /// The total amount, in GiB, of ephemeral storage to set for the task. The minimum supported value is 21 GiB and the maximum supported value is 200 GiB.
         /// This member is required.
@@ -9293,7 +9295,7 @@ public struct GetTaskProtectionOutputResponse: Swift.Equatable {
     ///
     /// * taskArn: The task ARN.
     ///
-    /// * protectionEnabled: The protection status of the task. If scale-in protection is enabled for a task, the value is true. Otherwise, it is false.
+    /// * protectionEnabled: The protection status of the task. If scale-in protection is turned on for a task, the value is true. Otherwise, it is false.
     ///
     /// * expirationDate: The epoch time when protection for the task will expire.
     public var protectedTasks: [ECSClientTypes.ProtectedTask]?
@@ -9402,7 +9404,7 @@ extension ECSClientTypes.HealthCheck: Swift.Codable {
 }
 
 extension ECSClientTypes {
-    /// An object representing a container health check. Health check parameters that are specified in a container definition override any Docker health checks that exist in the container image (such as those specified in a parent image or from the image's Dockerfile). The Amazon ECS container agent only monitors and reports on the health checks specified in the task definition. Amazon ECS does not monitor Docker health checks that are embedded in a container image and not specified in the container definition. Health check parameters that are specified in a container definition override any Docker health checks that exist in the container image. You can view the health status of both individual containers and a task with the DescribeTasks API operation or when viewing the task details in the console. The following describes the possible healthStatus values for a container:
+    /// An object representing a container health check. Health check parameters that are specified in a container definition override any Docker health checks that exist in the container image (such as those specified in a parent image or from the image's Dockerfile). This configuration maps to the HEALTHCHECK parameter of [docker run](https://docs.docker.com/engine/reference/run/). The Amazon ECS container agent only monitors and reports on the health checks specified in the task definition. Amazon ECS does not monitor Docker health checks that are embedded in a container image and not specified in the container definition. Health check parameters that are specified in a container definition override any Docker health checks that exist in the container image. You can view the health status of both individual containers and a task with the DescribeTasks API operation or when viewing the task details in the console. The following describes the possible healthStatus values for a container:
     ///
     /// * HEALTHY-The container health check has passed successfully.
     ///
@@ -9411,16 +9413,16 @@ extension ECSClientTypes {
     /// * UNKNOWN-The container health check is being evaluated or there's no container health check defined.
     ///
     ///
-    /// The following describes the possible healthStatus values for a task. The container health check status of nonessential containers only affects the health status of a task if no essential containers have health checks defined.
+    /// The following describes the possible healthStatus values for a task. The container health check status of non-essential containers don't have an effect on the health status of a task.
     ///
     /// * HEALTHY-All essential containers within the task have passed their health checks.
     ///
     /// * UNHEALTHY-One or more essential containers have failed their health check.
     ///
-    /// * UNKNOWN-The essential containers within the task are still having their health checks evaluated or there are only nonessential containers with health checks defined.
+    /// * UNKNOWN-The essential containers within the task are still having their health checks evaluated, there are only nonessential containers with health checks defined, or there are no container health checks defined.
     ///
     ///
-    /// If a task is run manually, and not as part of a service, the task will continue its lifecycle regardless of its health status. For tasks that are part of a service, if the task reports as unhealthy then the task will be stopped and the service scheduler will replace it. For tasks that are a part of a service and the service uses the ECS rolling deployment type, the deployment is paused while the new tasks have the UNKNOWN task health check status. For example, tasks that define health checks for nonessential containers when no essential containers have health checks will have the UNKNOWN health check status indefinitely which prevents the deployment from completing. The following are notes about container health check support:
+    /// If a task is run manually, and not as part of a service, the task will continue its lifecycle regardless of its health status. For tasks that are part of a service, if the task reports as unhealthy then the task will be stopped and the service scheduler will replace it. The following are notes about container health check support:
     ///
     /// * Container health checks require version 1.17.0 or greater of the Amazon ECS container agent. For more information, see [Updating the Amazon ECS container agent](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html).
     ///
@@ -9603,7 +9605,7 @@ extension ECSClientTypes.InferenceAccelerator: Swift.Codable {
 extension ECSClientTypes {
     /// Details on an Elastic Inference accelerator. For more information, see [Working with Amazon Elastic Inference on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-inference.html) in the Amazon Elastic Container Service Developer Guide.
     public struct InferenceAccelerator: Swift.Equatable {
-        /// The Elastic Inference accelerator device name. The deviceName must also be referenced in a container definition as a [ResourceRequirement].
+        /// The Elastic Inference accelerator device name. The deviceName must also be referenced in a container definition as a [ResourceRequirement](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ResourceRequirement.html).
         /// This member is required.
         public var deviceName: Swift.String?
         /// The Elastic Inference accelerator type to use.
@@ -10167,7 +10169,7 @@ extension ECSClientTypes.LinuxParameters: Swift.Codable {
 }
 
 extension ECSClientTypes {
-    /// Linux-specific options that are applied to the container, such as Linux [KernelCapabilities].
+    /// The Linux-specific options that are applied to the container, such as Linux [KernelCapabilities](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_KernelCapabilities.html).
     public struct LinuxParameters: Swift.Equatable {
         /// The Linux capabilities for the container that are added to or dropped from the default configuration provided by Docker. For tasks that use the Fargate launch type, capabilities is supported for all platform versions but the add parameter is only supported if using platform version 1.4.0 or later.
         public var capabilities: ECSClientTypes.KernelCapabilities?
@@ -12009,7 +12011,7 @@ extension ECSClientTypes.LoadBalancer: Swift.Codable {
 }
 
 extension ECSClientTypes {
-    /// The load balancer configuration to use with a service or task set. For specific notes and restrictions regarding the use of load balancers with services and task sets, see the CreateService and CreateTaskSet actions. When you add, update, or remove a load balancer configuration, Amazon ECS starts a new deployment with the updated Elastic Load Balancing configuration. This causes tasks to register to and deregister from load balancers. We recommend that you verify this on a test environment before you update the Elastic Load Balancing configuration. A service-linked role is required for services that use multiple target groups. For more information, see [Using service-linked roles](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide.
+    /// The load balancer configuration to use with a service or task set. When you add, update, or remove a load balancer configuration, Amazon ECS starts a new deployment with the updated Elastic Load Balancing configuration. This causes tasks to register to and deregister from load balancers. We recommend that you verify this on a test environment before you update the Elastic Load Balancing configuration. A service-linked role is required for services that use multiple target groups. For more information, see [Using service-linked roles](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide.
     public struct LoadBalancer: Swift.Equatable {
         /// The name of the container (as it appears in a container definition) to associate with the load balancer.
         public var containerName: Swift.String?
@@ -12218,7 +12220,7 @@ extension ECSClientTypes {
         public var lastStartedAt: ClientRuntime.Date?
         /// The last known status of the managed agent.
         public var lastStatus: Swift.String?
-        /// The name of the managed agent. When the execute command feature is enabled, the managed agent name is ExecuteCommandAgent.
+        /// The name of the managed agent. When the execute command feature is turned on, the managed agent name is ExecuteCommandAgent.
         public var name: ECSClientTypes.ManagedAgentName?
         /// The reason for why the managed agent is in the state it is in.
         public var reason: Swift.String?
@@ -12380,7 +12382,7 @@ extension ECSClientTypes.ManagedScaling: Swift.Codable {
 }
 
 extension ECSClientTypes {
-    /// The managed scaling settings for the Auto Scaling group capacity provider. When managed scaling is enabled, Amazon ECS manages the scale-in and scale-out actions of the Auto Scaling group. Amazon ECS manages a target tracking scaling policy using an Amazon ECS managed CloudWatch metric with the specified targetCapacity value as the target value for the metric. For more information, see [Using managed scaling](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/asg-capacity-providers.html#asg-capacity-providers-managed-scaling) in the Amazon Elastic Container Service Developer Guide. If managed scaling is off, the user must manage the scaling of the Auto Scaling group.
+    /// The managed scaling settings for the Auto Scaling group capacity provider. When managed scaling is turned on, Amazon ECS manages the scale-in and scale-out actions of the Auto Scaling group. Amazon ECS manages a target tracking scaling policy using an Amazon ECS managed CloudWatch metric with the specified targetCapacity value as the target value for the metric. For more information, see [Using managed scaling](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/asg-capacity-providers.html#asg-capacity-providers-managed-scaling) in the Amazon Elastic Container Service Developer Guide. If managed scaling is off, the user must manage the scaling of the Auto Scaling group.
     public struct ManagedScaling: Swift.Equatable {
         /// The period of time, in seconds, after a newly launched Amazon EC2 instance can contribute to CloudWatch metrics for Auto Scaling group. If this parameter is omitted, the default value of 300 seconds is used.
         public var instanceWarmupPeriod: Swift.Int?
@@ -12390,7 +12392,7 @@ extension ECSClientTypes {
         public var minimumScalingStepSize: Swift.Int?
         /// Determines whether to use managed scaling for the capacity provider.
         public var status: ECSClientTypes.ManagedScalingStatus?
-        /// The target capacity value for the capacity provider. The specified value must be greater than 0 and less than or equal to 100. A value of 100 results in the Amazon EC2 instances in your Auto Scaling group being completely used.
+        /// The target capacity utilization as a percentage for the capacity provider. The specified value must be greater than 0 and less than or equal to 100. For example, if you want the capacity provider to maintain 10% spare capacity, then that means the utilization is 90%, so use a targetCapacity of 90. The default value of 100 percent results in the Amazon EC2 instances in your Auto Scaling group being completely used.
         public var targetCapacity: Swift.Int?
 
         public init (
@@ -12559,7 +12561,7 @@ extension ECSClientTypes.MountPoint: Swift.Codable {
 }
 
 extension ECSClientTypes {
-    /// Details for a volume mount point that's used in a container definition.
+    /// The details for a volume mount point that's used in a container definition.
     public struct MountPoint: Swift.Equatable {
         /// The path on the container to mount the host volume at.
         public var containerPath: Swift.String?
@@ -13444,10 +13446,10 @@ extension ECSClientTypes {
         ///
         /// * For containers in a task with the awsvpc network mode, the hostPort is set to the same value as the containerPort. This is a static mapping strategy.
         ///
-        /// * For containers in a task with the bridge network mode, the Amazon ECS agent finds open ports on the host and automaticaly binds them to the container ports. This is a dynamic mapping strategy.
+        /// * For containers in a task with the bridge network mode, the Amazon ECS agent finds open ports on the host and automatically binds them to the container ports. This is a dynamic mapping strategy.
         ///
         ///
-        /// If you use containers in a task with the awsvpc or host network mode, the hostPort can either be left blank or set to the same value as the containerPort. If you use containers in a task with the bridge network mode, you can specify a non-reserved host port for your container port mapping, or you can omit the hostPort (or set it to 0) while specifying a containerPort and your container automatically receives a port in the ephemeral port range for your container instance operating system and Docker version. The default ephemeral port range for Docker version 1.6.0 and later is listed on the instance under /proc/sys/net/ipv4/ip_local_port_range. If this kernel parameter is unavailable, the default ephemeral port range from 49153 through 65535 is used. Do not attempt to specify a host port in the ephemeral port range as these are reserved for automatic assignment. In general, ports below 32768 are outside of the ephemeral port range. The default reserved ports are 22 for SSH, the Docker ports 2375 and 2376, and the Amazon ECS container agent ports 51678-51680. Any host port that was previously specified in a running task is also reserved while the task is running. That is, after a task stops, the host port is released. The current reserved ports are displayed in the remainingResources of [DescribeContainerInstances] output. A container instance can have up to 100 reserved ports at a time. This number includes the default reserved ports. Automatically assigned ports aren't included in the 100 reserved ports quota.
+        /// If you use containers in a task with the awsvpc or host network mode, the hostPort can either be left blank or set to the same value as the containerPort. If you use containers in a task with the bridge network mode, you can specify a non-reserved host port for your container port mapping, or you can omit the hostPort (or set it to 0) while specifying a containerPort and your container automatically receives a port in the ephemeral port range for your container instance operating system and Docker version. The default ephemeral port range for Docker version 1.6.0 and later is listed on the instance under /proc/sys/net/ipv4/ip_local_port_range. If this kernel parameter is unavailable, the default ephemeral port range from 49153 through 65535 is used. Do not attempt to specify a host port in the ephemeral port range as these are reserved for automatic assignment. In general, ports below 32768 are outside of the ephemeral port range. The default reserved ports are 22 for SSH, the Docker ports 2375 and 2376, and the Amazon ECS container agent ports 51678-51680. Any host port that was previously specified in a running task is also reserved while the task is running. That is, after a task stops, the host port is released. The current reserved ports are displayed in the remainingResources of [DescribeContainerInstances](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeContainerInstances.html) output. A container instance can have up to 100 reserved ports at a time. This number includes the default reserved ports. Automatically assigned ports aren't included in the 100 reserved ports quota.
         public var hostPort: Swift.Int?
         /// The name that's used for the port mapping. This parameter only applies to Service Connect. This parameter is the name that you use in the serviceConnectConfiguration of a service. The name can include up to 64 characters. The characters can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
         public var name: Swift.String?
@@ -13699,7 +13701,7 @@ extension PutAccountSettingDefaultInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutAccountSettingDefaultInput: Swift.Equatable {
-    /// The resource name for which to modify the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected. If containerInsights is specified, the default setting for CloudWatch Container Insights for your clusters is affected. Fargate is transitioning from task count-based quotas to vCPU-based quotas. You can set the name to fargateVCPULimit to opt in or opt out of the vCPU-based quotas. For information about the opt in timeline, see [Fargate vCPU-based quotas timeline](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#fargate-quota-timeline) in the Amazon ECS Developer Guide.
+    /// The resource name for which to modify the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit for your Amazon ECS container instances is affected. If containerInsights is specified, the default setting for Amazon Web Services CloudWatch Container Insights for your clusters is affected. When you specify fargateFIPSMode for the name and enabled for the value, Fargate uses FIPS-140 compliant cryptographic algorithms on your tasks. For more information about FIPS-140 compliance with Fargate, see [ Amazon Web Services Fargate Federal Information Processing Standard (FIPS) 140-2 compliance](https://docs.aws.amazon.com/AWSEC2ContainerServiceDocs/build/server-root/AmazonECS/latest/developerguide/ecs-fips-compliance.html) in the Amazon Elastic Container Service Developer Guide.
     /// This member is required.
     public var name: ECSClientTypes.SettingName?
     /// The account setting value for the specified principal ARN. Accepted values are enabled and disabled.
@@ -13831,7 +13833,7 @@ extension PutAccountSettingInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutAccountSettingInput: Swift.Equatable {
-    /// The Amazon ECS resource name for which to modify the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the elastic network interface (ENI) limit for your Amazon ECS container instances is affected. If containerInsights is specified, the default setting for CloudWatch Container Insights for your clusters is affected.
+    /// The Amazon ECS resource name for which to modify the account setting. If serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your Amazon ECS container instances is affected. If awsvpcTrunking is specified, the elastic network interface (ENI) limit for your Amazon ECS container instances is affected. If containerInsights is specified, the default setting for Amazon Web Services CloudWatch Container Insights for your clusters is affected. If fargateFIPSMode is specified, Fargate FIPS 140 compliance is affected.
     /// This member is required.
     public var name: ECSClientTypes.SettingName?
     /// The ARN of the principal, which can be a user, role, or the root user. If you specify the root user, it modifies the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user. Federated users assume the account setting of the root user and can't have explicit account settings set for them.
@@ -14657,7 +14659,7 @@ public struct RegisterTaskDefinitionInput: Swift.Equatable {
     ///
     /// * 16384 (16vCPU) - Available memory values: 32GB and 120 GB in 8 GB increments This option requires Linux platform 1.4.0 or later.
     public var cpu: Swift.String?
-    /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see [Fargate task storage](https://docs.aws.amazon.com/AmazonECS/latest/userguide/using_data_volumes.html) in the Amazon ECS User Guide for Fargate. This parameter is only supported for tasks hosted on Fargate using the following platform versions:
+    /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see [Fargate task storage](https://docs.aws.amazon.com/AmazonECS/latest/userguide/using_data_volumes.html) in the Amazon ECS User Guide for Fargate. For tasks using the Fargate launch type, the task requires the following platforms:
     ///
     /// * Linux platform version 1.4.0 or later.
     public var ephemeralStorage: ECSClientTypes.EphemeralStorage?
@@ -15254,7 +15256,7 @@ extension ECSClientTypes {
         /// The type of resource to assign to a container. The supported values are GPU or InferenceAccelerator.
         /// This member is required.
         public var type: ECSClientTypes.ResourceType?
-        /// The value for the specified resource type. If the GPU type is used, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for all containers in a task can't exceed the number of available GPUs on the container instance that the task is launched on. If the InferenceAccelerator type is used, the value matches the deviceName for an [InferenceAccelerator] specified in a task definition.
+        /// The value for the specified resource type. If the GPU type is used, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for all containers in a task can't exceed the number of available GPUs on the container instance that the task is launched on. If the InferenceAccelerator type is used, the value matches the deviceName for an [InferenceAccelerator](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_InferenceAccelerator.html) specified in a task definition.
         /// This member is required.
         public var value: Swift.String?
 
@@ -16308,7 +16310,7 @@ extension ECSClientTypes.Service: Swift.Codable {
 }
 
 extension ECSClientTypes {
-    /// Details on a service within a cluster
+    /// Details on a service within a cluster.
     public struct Service: Swift.Equatable {
         /// The capacity provider strategy the service uses. When using the DescribeServices API, this field is omitted if the service was created using a launch type.
         public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
@@ -16328,7 +16330,7 @@ extension ECSClientTypes {
         public var desiredCount: Swift.Int
         /// Determines whether to use Amazon ECS managed tags for the tasks in the service. For more information, see [Tagging Your Amazon ECS Resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the Amazon Elastic Container Service Developer Guide.
         public var enableECSManagedTags: Swift.Bool
-        /// Determines whether the execute command functionality is enabled for the service. If true, the execute command functionality is enabled for all containers in tasks as part of the service.
+        /// Determines whether the execute command functionality is turned on for the service. If true, the execute command functionality is turned on for all containers in tasks as part of the service.
         public var enableExecuteCommand: Swift.Bool
         /// The event stream for your service. A maximum of 100 of the latest events are displayed.
         public var events: [ECSClientTypes.ServiceEvent]?
@@ -16572,7 +16574,7 @@ extension ECSClientTypes {
         ///
         /// * For tasks that are on Fargate, because you don't have access to the underlying infrastructure your tasks are hosted on, any additional software needed must be installed outside of the task. For example, the Fluentd output aggregators or a remote host running Logstash to send Gelf logs to.
         public var logConfiguration: ECSClientTypes.LogConfiguration?
-        /// The namespace name or full Amazon Resource Name (ARN) of the Cloud Map namespace for use with Service Connect. The namespace must be in the same Amazon Web Services Region as the Amazon ECS service and cluster. The type of namespace doesn't affect Service Connect. For more information about Cloud Map, see [Working with Services](https://docs.aws.amazon.com/) in the Cloud Map Developer Guide.
+        /// The namespace name or full Amazon Resource Name (ARN) of the Cloud Map namespace for use with Service Connect. The namespace must be in the same Amazon Web Services Region as the Amazon ECS service and cluster. The type of namespace doesn't affect Service Connect. For more information about Cloud Map, see [Working with Services](https://docs.aws.amazon.com/cloud-map/latest/dg/working-with-services.html) in the Cloud Map Developer Guide.
         public var namespace: Swift.String?
         /// The list of Service Connect service objects. These are names and aliases (also known as endpoints) that are used by other Amazon ECS services to connect to this service. This field is not required for a "client" Amazon ECS service that's a member of a namespace only to connect to other services within the namespace. An example of this would be a frontend application that accepts incoming requests from either a load balancer that's attached to the service or by other means. An object selects a port from the task definition, assigns a name for the Cloud Map service, and a list of aliases (endpoints) and ports for client applications to refer to this service.
         public var services: [ECSClientTypes.ServiceConnectService]?
@@ -16647,7 +16649,7 @@ extension ECSClientTypes {
     public struct ServiceConnectService: Swift.Equatable {
         /// The list of client aliases for this Service Connect service. You use these to assign names that can be used by client applications. The maximum number of client aliases that you can have in this list is 1. Each alias ("endpoint") is a fully-qualified name and port number that other Amazon ECS tasks ("clients") can use to connect to this service. Each name and port mapping must be unique within the namespace. For each ServiceConnectService, you must provide at least one clientAlias with one port.
         public var clientAliases: [ECSClientTypes.ServiceConnectClientAlias]?
-        /// The discoveryName is the name of the new Cloud Map service that Amazon ECS creates for this Amazon ECS service. This must be unique within the Cloud Map namespace. The name can contain up to 64 characters. The name can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen. If this parameter isn't specified, the default value of discoveryName.namespace is used. If the discoveryName isn't specified, the port mapping name from the task definition is used in portName.namespace.
+        /// The discoveryName is the name of the new Cloud Map service that Amazon ECS creates for this Amazon ECS service. This must be unique within the Cloud Map namespace. The name can contain up to 64 characters. The name can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen. If the discoveryName isn't specified, the port mapping name from the task definition is used in portName.namespace.
         public var discoveryName: Swift.String?
         /// The port number for the Service Connect proxy to listen on. Use the value of this field to bypass the proxy for traffic on the port number specified in the named portMapping in the task definition of this application, and then use it in your VPC security groups to allow traffic into the proxy for this Amazon ECS service. In awsvpc mode and Fargate, the default value is the container port number. The container port number is in the portMapping in the task definition. In bridge mode, the default value is the ephemeral port of the Service Connect proxy.
         public var ingressPortOverride: Swift.Int?
@@ -16701,7 +16703,7 @@ extension ECSClientTypes {
     public struct ServiceConnectServiceResource: Swift.Equatable {
         /// The Amazon Resource Name (ARN) for the namespace in Cloud Map that matches the discovery name for this Service Connect resource. You can use this ARN in other integrations with Cloud Map. However, Service Connect can't ensure connectivity outside of Amazon ECS.
         public var discoveryArn: Swift.String?
-        /// The discovery name of this Service Connect resource. The discoveryName is the name of the new Cloud Map service that Amazon ECS creates for this Amazon ECS service. This must be unique within the Cloud Map namespace. The name can contain up to 64 characters. The name can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen. If this parameter isn't specified, the default value of discoveryName.namespace is used. If the discoveryName isn't specified, the port mapping name from the task definition is used in portName.namespace.
+        /// The discovery name of this Service Connect resource. The discoveryName is the name of the new Cloud Map service that Amazon ECS creates for this Amazon ECS service. This must be unique within the Cloud Map namespace. The name can contain up to 64 characters. The name can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen. If the discoveryName isn't specified, the port mapping name from the task definition is used in portName.namespace.
         public var discoveryName: Swift.String?
 
         public init (
@@ -17089,6 +17091,7 @@ extension ECSClientTypes {
         case awsvpcTrunking
         case containerInsights
         case containerInstanceLongArnFormat
+        case fargateFipsMode
         case serviceLongArnFormat
         case taskLongArnFormat
         case sdkUnknown(Swift.String)
@@ -17098,6 +17101,7 @@ extension ECSClientTypes {
                 .awsvpcTrunking,
                 .containerInsights,
                 .containerInstanceLongArnFormat,
+                .fargateFipsMode,
                 .serviceLongArnFormat,
                 .taskLongArnFormat,
                 .sdkUnknown("")
@@ -17112,6 +17116,7 @@ extension ECSClientTypes {
             case .awsvpcTrunking: return "awsvpcTrunking"
             case .containerInsights: return "containerInsights"
             case .containerInstanceLongArnFormat: return "containerInstanceLongArnFormat"
+            case .fargateFipsMode: return "fargateFIPSMode"
             case .serviceLongArnFormat: return "serviceLongArnFormat"
             case .taskLongArnFormat: return "taskLongArnFormat"
             case let .sdkUnknown(s): return s
@@ -17266,7 +17271,7 @@ public struct StartTaskInput: Swift.Equatable {
     public var containerInstances: [Swift.String]?
     /// Specifies whether to use Amazon ECS managed tags for the task. For more information, see [Tagging Your Amazon ECS Resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the Amazon Elastic Container Service Developer Guide.
     public var enableECSManagedTags: Swift.Bool?
-    /// Whether or not the execute command functionality is enabled for the task. If true, this enables execute command functionality on all containers in the task.
+    /// Whether or not the execute command functionality is turned on for the task. If true, this enables execute command functionality on all containers in the task.
     public var enableExecuteCommand: Swift.Bool?
     /// The name of the task group to associate with the task. The default value is the family name of the task definition (for example, family:my-family-name).
     public var group: Swift.String?
@@ -18515,7 +18520,7 @@ extension TargetNotConnectedException {
 ///
 /// * The SSM agent is not installed or is not running
 ///
-/// * There is an interface Amazon VPC endpoint for Amazon ECS, but there is not one for for Systems Manager Session Manager
+/// * There is an interface Amazon VPC endpoint for Amazon ECS, but there is not one for Systems Manager Session Manager
 ///
 ///
 /// For information about how to troubleshoot the issues, see [Troubleshooting issues with ECS Exec](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-exec.html) in the Amazon Elastic Container Service Developer Guide.
@@ -18964,7 +18969,7 @@ extension ECSClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// The desired status of the task. For more information, see [Task Lifecycle](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-lifecycle.html).
         public var desiredStatus: Swift.String?
-        /// Determines whether execute command functionality is enabled for this task. If true, execute command functionality is enabled on all the containers in the task.
+        /// Determines whether execute command functionality is turned on for this task. If true, execute command functionality is turned on all the containers in the task.
         public var enableExecuteCommand: Swift.Bool
         /// The ephemeral storage settings for the task.
         public var ephemeralStorage: ECSClientTypes.EphemeralStorage?
@@ -19446,7 +19451,7 @@ extension ECSClientTypes {
         public var registeredBy: Swift.String?
         /// The container instance attributes required by your task. When an Amazon EC2 instance is registered to your cluster, the Amazon ECS container agent assigns some standard attributes to the instance. You can apply custom attributes. These are specified as key-value pairs using the Amazon ECS console or the [PutAttributes] API. These attributes are used when determining task placement for tasks hosted on Amazon EC2 instances. For more information, see [Attributes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html#attributes) in the Amazon Elastic Container Service Developer Guide. This parameter isn't supported for tasks run on Fargate.
         public var requiresAttributes: [ECSClientTypes.Attribute]?
-        /// The task launch types the task definition was validated against. To determine which task launch types the task definition is validated for, see the [TaskDefinition$compatibilities] parameter.
+        /// The task launch types the task definition was validated against. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide.
         public var requiresCompatibilities: [ECSClientTypes.Compatibility]?
         /// The revision of the task in a particular family. The revision is a version number of a task definition in a family. When you register a task definition for the first time, the revision is 1. Each time that you register a new revision of a task definition in the same family, the revision value always increases by one. This is even if you deregistered previous revisions in this family.
         public var revision: Swift.Int
@@ -19607,7 +19612,7 @@ extension ECSClientTypes.TaskDefinitionPlacementConstraint: Swift.Codable {
 }
 
 extension ECSClientTypes {
-    /// An object representing a constraint on task placement in the task definition. For more information, see [Task placement constraints](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html) in the Amazon Elastic Container Service Developer Guide. Task placement constraints aren't supported for tasks run on Fargate.
+    /// The constraint on task placement in the task definition. For more information, see [Task placement constraints](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html) in the Amazon Elastic Container Service Developer Guide. Task placement constraints aren't supported for tasks run on Fargate.
     public struct TaskDefinitionPlacementConstraint: Swift.Equatable {
         /// A cluster query language expression to apply to the constraint. For more information, see [Cluster query language](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html) in the Amazon Elastic Container Service Developer Guide.
         public var expression: Swift.String?
@@ -22204,7 +22209,7 @@ public struct UpdateTaskProtectionOutputResponse: Swift.Equatable {
     ///
     /// * taskArn: The task ARN.
     ///
-    /// * protectionEnabled: The protection status of the task. If scale-in protection is enabled for a task, the value is true. Otherwise, it is false.
+    /// * protectionEnabled: The protection status of the task. If scale-in protection is turned on for a task, the value is true. Otherwise, it is false.
     ///
     /// * expirationDate: The epoch time when protection for the task will expire.
     public var protectedTasks: [ECSClientTypes.ProtectedTask]?

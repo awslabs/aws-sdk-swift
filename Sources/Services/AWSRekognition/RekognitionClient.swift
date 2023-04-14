@@ -166,7 +166,7 @@ extension RekognitionClient: RekognitionClientProtocol {
         return result
     }
 
-    /// Copies a version of an Amazon Rekognition Custom Labels model from a source project to a destination project. The source and destination projects can be in different AWS accounts but must be in the same AWS Region. You can't copy a model to another AWS service. To copy a model version to a different AWS account, you need to create a resource-based policy known as a project policy. You attach the project policy to the source project by calling [PutProjectPolicy]. The project policy gives permission to copy the model version from a trusting AWS account to a trusted account. For more information creating and attaching a project policy, see Attaching a project policy (SDK) in the Amazon Rekognition Custom Labels Developer Guide. If you are copying a model version to a project in the same AWS account, you don't need to create a project policy. To copy a model, the destination project, source project, and source model version must already exist. Copying a model version takes a while to complete. To get the current status, call [DescribeProjectVersions] and check the value of Status in the [ProjectVersionDescription] object. The copy operation has finished when the value of Status is COPYING_COMPLETED.
+    /// Copies a version of an Amazon Rekognition Custom Labels model from a source project to a destination project. The source and destination projects can be in different AWS accounts but must be in the same AWS Region. You can't copy a model to another AWS service. To copy a model version to a different AWS account, you need to create a resource-based policy known as a project policy. You attach the project policy to the source project by calling [PutProjectPolicy]. The project policy gives permission to copy the model version from a trusting AWS account to a trusted account. For more information creating and attaching a project policy, see Attaching a project policy (SDK) in the Amazon Rekognition Custom Labels Developer Guide. If you are copying a model version to a project in the same AWS account, you don't need to create a project policy. To copy a model, the destination project, source project, and source model version must already exist. Copying a model version takes a while to complete. To get the current status, call [DescribeProjectVersions] and check the value of Status in the [ProjectVersionDescription] object. The copy operation has finished when the value of Status is COPYING_COMPLETED. This operation requires permissions to perform the rekognition:CopyProjectVersion action.
     public func copyProjectVersion(input: CopyProjectVersionInput) async throws -> CopyProjectVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -274,6 +274,42 @@ extension RekognitionClient: RekognitionClientProtocol {
         return result
     }
 
+    /// This API operation initiates a Face Liveness session. It returns a SessionId, which you can use to start streaming Face Liveness video and get the results for a Face Liveness session. You can use the OutputConfig option in the Settings parameter to provide an Amazon S3 bucket location. The Amazon S3 bucket stores reference images and audit images. You can use AuditImagesLimit to limit of audit images returned. This number is between 0 and 4. By default, it is set to 0. The limit is best effort and based on the duration of the selfie-video.
+    public func createFaceLivenessSession(input: CreateFaceLivenessSessionInput) async throws -> CreateFaceLivenessSessionOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createFaceLivenessSession")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "rekognition")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutputResponse, CreateFaceLivenessSessionOutputError>(id: "createFaceLivenessSession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutputResponse, CreateFaceLivenessSessionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFaceLivenessSessionOutputResponse, CreateFaceLivenessSessionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutputResponse>(xAmzTarget: "RekognitionService.CreateFaceLivenessSession"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutputResponse>(xmlName: "CreateFaceLivenessSessionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateFaceLivenessSessionOutputResponse, CreateFaceLivenessSessionOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFaceLivenessSessionOutputResponse, CreateFaceLivenessSessionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFaceLivenessSessionOutputResponse, CreateFaceLivenessSessionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFaceLivenessSessionOutputResponse, CreateFaceLivenessSessionOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
     /// Creates a new Amazon Rekognition Custom Labels project. A project is a group of resources (datasets, model versions) that you use to create and manage Amazon Rekognition Custom Labels models. This operation requires permissions to perform the rekognition:CreateProject action.
     public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutputResponse
     {
@@ -348,9 +384,9 @@ extension RekognitionClient: RekognitionClientProtocol {
 
     /// Creates an Amazon Rekognition stream processor that you can use to detect and recognize faces or to detect labels in a streaming video. Amazon Rekognition Video is a consumer of live video from Amazon Kinesis Video Streams. There are two different settings for stream processors in Amazon Rekognition: detecting faces and detecting labels.
     ///
-    /// * If you are creating a stream processor for detecting faces, you provide as input a Kinesis video stream (Input) and a Kinesis data stream (Output) stream. You also specify the face recognition criteria in Settings. For example, the collection containing faces that you want to recognize. After you have finished analyzing a streaming video, use [StopStreamProcessor] to stop processing.
+    /// * If you are creating a stream processor for detecting faces, you provide as input a Kinesis video stream (Input) and a Kinesis data stream (Output) stream for receiving the output. You must use the FaceSearch option in Settings, specifying the collection that contains the faces you want to recognize. After you have finished analyzing a streaming video, use [StopStreamProcessor] to stop processing.
     ///
-    /// * If you are creating a stream processor to detect labels, you provide as input a Kinesis video stream (Input), Amazon S3 bucket information (Output), and an Amazon SNS topic ARN (NotificationChannel). You can also provide a KMS key ID to encrypt the data sent to your Amazon S3 bucket. You specify what you want to detect in ConnectedHomeSettings, such as people, packages and people, or pets, people, and packages. You can also specify where in the frame you want Amazon Rekognition to monitor with RegionsOfInterest. When you run the [StartStreamProcessor] operation on a label detection stream processor, you input start and stop information to determine the length of the processing time.
+    /// * If you are creating a stream processor to detect labels, you provide as input a Kinesis video stream (Input), Amazon S3 bucket information (Output), and an Amazon SNS topic ARN (NotificationChannel). You can also provide a KMS key ID to encrypt the data sent to your Amazon S3 bucket. You specify what you want to detect by using the ConnectedHome option in settings, and selecting one of the following: PERSON, PET, PACKAGE, ALL You can also specify where in the frame you want Amazon Rekognition to monitor with RegionsOfInterest. When you run the [StartStreamProcessor] operation on a label detection stream processor, you input start and stop information to determine the length of the processing time.
     ///
     ///
     /// Use Name to assign an identifier for the stream processor. You use Name to manage the stream processor. For example, you can start processing the source video by calling [StartStreamProcessor] with the Name field. This operation requires permissions to perform the rekognition:CreateStreamProcessor action. If you want to tag your stream processor, you also require permission to perform the rekognition:TagResource operation.
@@ -533,7 +569,7 @@ extension RekognitionClient: RekognitionClientProtocol {
         return result
     }
 
-    /// Deletes an existing project policy. To get a list of project policies attached to a project, call [ListProjectPolicies]. To attach a project policy to a project, call [PutProjectPolicy].
+    /// Deletes an existing project policy. To get a list of project policies attached to a project, call [ListProjectPolicies]. To attach a project policy to a project, call [PutProjectPolicy]. This operation requires permissions to perform the rekognition:DeleteProjectPolicy action.
     public func deleteProjectPolicy(input: DeleteProjectPolicyInput) async throws -> DeleteProjectPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -893,7 +929,7 @@ extension RekognitionClient: RekognitionClientProtocol {
         return result
     }
 
-    /// Detects instances of real-world entities within an image (JPEG or PNG) provided as input. This includes objects like flower, tree, and table; events like wedding, graduation, and birthday party; and concepts like landscape, evening, and nature. For an example, see Analyzing images stored in an Amazon S3 bucket in the Amazon Rekognition Developer Guide. You pass the input image as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. The image must be either a PNG or JPEG formatted file. Optional Parameters You can specify one or both of the GENERAL_LABELS and IMAGE_PROPERTIES feature types when calling the DetectLabels API. Including GENERAL_LABELS will ensure the response includes the labels detected in the input image, while including IMAGE_PROPERTIES will ensure the response includes information about the image quality and color. When using GENERAL_LABELS and/or IMAGE_PROPERTIES you can provide filtering criteria to the Settings parameter. You can filter with sets of individual labels or with label categories. You can specify inclusive filters, exclusive filters, or a combination of inclusive and exclusive filters. For more information on filtering see [Detecting Labels in an Image](https://docs.aws.amazon.com/rekognition/latest/dg/labels-detect-labels-image.html). You can specify MinConfidence to control the confidence threshold for the labels returned. The default is 55%. You can also add the MaxLabels parameter to limit the number of labels returned. The default and upper limit is 1000 labels. Response Elements For each object, scene, and concept the API returns one or more labels. The API returns the following types of information regarding labels:
+    /// Detects instances of real-world entities within an image (JPEG or PNG) provided as input. This includes objects like flower, tree, and table; events like wedding, graduation, and birthday party; and concepts like landscape, evening, and nature. For an example, see Analyzing images stored in an Amazon S3 bucket in the Amazon Rekognition Developer Guide. You pass the input image as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. The image must be either a PNG or JPEG formatted file. Optional Parameters You can specify one or both of the GENERAL_LABELS and IMAGE_PROPERTIES feature types when calling the DetectLabels API. Including GENERAL_LABELS will ensure the response includes the labels detected in the input image, while including IMAGE_PROPERTIES will ensure the response includes information about the image quality and color. When using GENERAL_LABELS and/or IMAGE_PROPERTIES you can provide filtering criteria to the Settings parameter. You can filter with sets of individual labels or with label categories. You can specify inclusive filters, exclusive filters, or a combination of inclusive and exclusive filters. For more information on filtering see [Detecting Labels in an Image](https://docs.aws.amazon.com/rekognition/latest/dg/labels-detect-labels-image.html). You can specify MinConfidence to control the confidence threshold for the labels returned. The default is 55%. You can also add the MaxLabels parameter to limit the number of labels returned. The default and upper limit is 1000 labels. Response Elements For each object, scene, and concept the API returns one or more labels. The API returns the following types of information about labels:
     ///
     /// * Name - The name of the detected label.
     ///
@@ -925,7 +961,7 @@ extension RekognitionClient: RekognitionClientProtocol {
     /// {Name: sea,Confidence: 75.061} The list of labels can include multiple labels for the same object. For example, if the input image shows a flower (for example, a tulip), the operation might return the following three labels. {Name: flower,Confidence: 99.0562}
     ///     {Name: plant,Confidence: 99.0562}
     ///
-    /// {Name: tulip,Confidence: 99.0562} In this example, the detection algorithm more precisely identifies the flower as a tulip. If the object detected is a person, the operation doesn't provide the same facial details that the [DetectFaces] operation provides. This is a stateless API operation. That is, the operation does not persist any data. This operation requires permissions to perform the rekognition:DetectLabels action.
+    /// {Name: tulip,Confidence: 99.0562} In this example, the detection algorithm more precisely identifies the flower as a tulip. If the object detected is a person, the operation doesn't provide the same facial details that the [DetectFaces] operation provides. This is a stateless API operation that doesn't return any data. This operation requires permissions to perform the rekognition:DetectLabels action.
     public func detectLabels(input: DetectLabelsInput) async throws -> DetectLabelsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1263,6 +1299,42 @@ extension RekognitionClient: RekognitionClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFaceDetectionOutputResponse, GetFaceDetectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFaceDetectionOutputResponse, GetFaceDetectionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFaceDetectionOutputResponse, GetFaceDetectionOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Retrieves the results of a specific Face Liveness session. It requires the sessionId as input, which was created using CreateFaceLivenessSession. Returns the corresponding Face Liveness confidence score, a reference image that includes a face bounding box, and audit images that also contain face bounding boxes. The Face Liveness confidence score ranges from 0 to 100. The reference image can optionally be returned.
+    public func getFaceLivenessSessionResults(input: GetFaceLivenessSessionResultsInput) async throws -> GetFaceLivenessSessionResultsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getFaceLivenessSessionResults")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "rekognition")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutputResponse, GetFaceLivenessSessionResultsOutputError>(id: "getFaceLivenessSessionResults")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutputResponse, GetFaceLivenessSessionResultsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFaceLivenessSessionResultsOutputResponse, GetFaceLivenessSessionResultsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutputResponse>(xAmzTarget: "RekognitionService.GetFaceLivenessSessionResults"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutputResponse>(xmlName: "GetFaceLivenessSessionResultsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetFaceLivenessSessionResultsOutputResponse, GetFaceLivenessSessionResultsOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFaceLivenessSessionResultsOutputResponse, GetFaceLivenessSessionResultsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFaceLivenessSessionResultsOutputResponse, GetFaceLivenessSessionResultsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFaceLivenessSessionResultsOutputResponse, GetFaceLivenessSessionResultsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1670,7 +1742,7 @@ extension RekognitionClient: RekognitionClientProtocol {
         return result
     }
 
-    /// Gets a list of the project policies attached to a project. To attach a project policy to a project, call [PutProjectPolicy]. To remove a project policy from a project, call [DeleteProjectPolicy].
+    /// Gets a list of the project policies attached to a project. To attach a project policy to a project, call [PutProjectPolicy]. To remove a project policy from a project, call [DeleteProjectPolicy]. This operation requires permissions to perform the rekognition:ListProjectPolicies action.
     public func listProjectPolicies(input: ListProjectPoliciesInput) async throws -> ListProjectPoliciesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1778,7 +1850,7 @@ extension RekognitionClient: RekognitionClientProtocol {
         return result
     }
 
-    /// Attaches a project policy to a Amazon Rekognition Custom Labels project in a trusting AWS account. A project policy specifies that a trusted AWS account can copy a model version from a trusting AWS account to a project in the trusted AWS account. To copy a model version you use the [CopyProjectVersion] operation. For more information about the format of a project policy document, see Attaching a project policy (SDK) in the Amazon Rekognition Custom Labels Developer Guide. The response from PutProjectPolicy is a revision ID for the project policy. You can attach multiple project policies to a project. You can also update an existing project policy by specifying the policy revision ID of the existing policy. To remove a project policy from a project, call [DeleteProjectPolicy]. To get a list of project policies attached to a project, call [ListProjectPolicies]. You copy a model version by calling [CopyProjectVersion].
+    /// Attaches a project policy to a Amazon Rekognition Custom Labels project in a trusting AWS account. A project policy specifies that a trusted AWS account can copy a model version from a trusting AWS account to a project in the trusted AWS account. To copy a model version you use the [CopyProjectVersion] operation. For more information about the format of a project policy document, see Attaching a project policy (SDK) in the Amazon Rekognition Custom Labels Developer Guide. The response from PutProjectPolicy is a revision ID for the project policy. You can attach multiple project policies to a project. You can also update an existing project policy by specifying the policy revision ID of the existing policy. To remove a project policy from a project, call [DeleteProjectPolicy]. To get a list of project policies attached to a project, call [ListProjectPolicies]. You copy a model version by calling [CopyProjectVersion]. This operation requires permissions to perform the rekognition:PutProjectPolicy action.
     public func putProjectPolicy(input: PutProjectPolicyInput) async throws -> PutProjectPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2282,7 +2354,7 @@ extension RekognitionClient: RekognitionClientProtocol {
         return result
     }
 
-    /// Stops a running model. The operation might take a while to complete. To check the current status, call [DescribeProjectVersions].
+    /// Stops a running model. The operation might take a while to complete. To check the current status, call [DescribeProjectVersions]. This operation requires permissions to perform the rekognition:StopProjectVersion action.
     public func stopProjectVersion(input: StopProjectVersionInput) async throws -> StopProjectVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

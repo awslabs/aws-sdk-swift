@@ -33,6 +33,8 @@ public protocol QuickSightClientProtocol {
     func createIngestion(input: CreateIngestionInput) async throws -> CreateIngestionOutputResponse
     /// (Enterprise edition only) Creates a new namespace for you to use with Amazon QuickSight. A namespace allows you to isolate the Amazon QuickSight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Amazon QuickSight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web Services Support.
     func createNamespace(input: CreateNamespaceInput) async throws -> CreateNamespaceOutputResponse
+    /// Creates a refresh schedule for a dataset. You can create up to 5 different schedules for a single dataset.
+    func createRefreshSchedule(input: CreateRefreshScheduleInput) async throws -> CreateRefreshScheduleOutputResponse
     /// Creates a template either from a TemplateDefinition or from an existing Amazon QuickSight analysis or template. You can use the resulting template to create additional dashboards, templates, or analyses. A template is an entity in Amazon QuickSight that encapsulates the metadata required to create an analysis and that you can use to create s dashboard. A template adds a layer of abstraction by using placeholders to replace the dataset associated with the analysis. You can use templates to create dashboards by replacing dataset placeholders with datasets that follow the same schema that was used to create the source analysis and template.
     func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutputResponse
     /// Creates a template alias for a template.
@@ -51,6 +53,8 @@ public protocol QuickSightClientProtocol {
     func deleteDashboard(input: DeleteDashboardInput) async throws -> DeleteDashboardOutputResponse
     /// Deletes a dataset.
     func deleteDataSet(input: DeleteDataSetInput) async throws -> DeleteDataSetOutputResponse
+    /// Deletes the dataset refresh properties of the dataset.
+    func deleteDataSetRefreshProperties(input: DeleteDataSetRefreshPropertiesInput) async throws -> DeleteDataSetRefreshPropertiesOutputResponse
     /// Deletes the data source permanently. This operation breaks all the datasets that reference the deleted data source.
     func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutputResponse
     /// Deletes an empty folder.
@@ -65,6 +69,8 @@ public protocol QuickSightClientProtocol {
     func deleteIAMPolicyAssignment(input: DeleteIAMPolicyAssignmentInput) async throws -> DeleteIAMPolicyAssignmentOutputResponse
     /// Deletes a namespace and the users and groups that are associated with the namespace. This is an asynchronous process. Assets including dashboards, analyses, datasets and data sources are not deleted. To delete these assets, you use the API operations for the relevant asset.
     func deleteNamespace(input: DeleteNamespaceInput) async throws -> DeleteNamespaceOutputResponse
+    /// Deletes a refresh schedule from a dataset.
+    func deleteRefreshSchedule(input: DeleteRefreshScheduleInput) async throws -> DeleteRefreshScheduleOutputResponse
     /// Deletes a template.
     func deleteTemplate(input: DeleteTemplateInput) async throws -> DeleteTemplateOutputResponse
     /// Deletes the item that the specified template alias points to. If you provide a specific alias, you delete the version of the template that the alias points to.
@@ -116,6 +122,8 @@ public protocol QuickSightClientProtocol {
     func describeDataSet(input: DescribeDataSetInput) async throws -> DescribeDataSetOutputResponse
     /// Describes the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
     func describeDataSetPermissions(input: DescribeDataSetPermissionsInput) async throws -> DescribeDataSetPermissionsOutputResponse
+    /// Describes the refresh properties of a dataset.
+    func describeDataSetRefreshProperties(input: DescribeDataSetRefreshPropertiesInput) async throws -> DescribeDataSetRefreshPropertiesOutputResponse
     /// Describes a data source.
     func describeDataSource(input: DescribeDataSourceInput) async throws -> DescribeDataSourceOutputResponse
     /// Describes the resource permissions for a data source.
@@ -138,6 +146,8 @@ public protocol QuickSightClientProtocol {
     func describeIpRestriction(input: DescribeIpRestrictionInput) async throws -> DescribeIpRestrictionOutputResponse
     /// Describes the current namespace.
     func describeNamespace(input: DescribeNamespaceInput) async throws -> DescribeNamespaceOutputResponse
+    /// Provides a summary of a refresh schedule.
+    func describeRefreshSchedule(input: DescribeRefreshScheduleInput) async throws -> DescribeRefreshScheduleOutputResponse
     /// Describes a template's metadata.
     func describeTemplate(input: DescribeTemplateInput) async throws -> DescribeTemplateOutputResponse
     /// Describes the template alias for a template.
@@ -223,6 +233,8 @@ public protocol QuickSightClientProtocol {
     func listIngestions(input: ListIngestionsInput) async throws -> ListIngestionsOutputResponse
     /// Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces.
     func listNamespaces(input: ListNamespacesInput) async throws -> ListNamespacesOutputResponse
+    /// Lists the refresh schedules of a dataset. Each dataset can have up to 5 schedules.
+    func listRefreshSchedules(input: ListRefreshSchedulesInput) async throws -> ListRefreshSchedulesOutputResponse
     /// Lists the tags assigned to a resource.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Lists all the aliases of a template.
@@ -241,6 +253,8 @@ public protocol QuickSightClientProtocol {
     func listUserGroups(input: ListUserGroupsInput) async throws -> ListUserGroupsOutputResponse
     /// Returns a list of all of the Amazon QuickSight users belonging to this account.
     func listUsers(input: ListUsersInput) async throws -> ListUsersOutputResponse
+    /// Creates or updates the dataset refresh properties for the dataset.
+    func putDataSetRefreshProperties(input: PutDataSetRefreshPropertiesInput) async throws -> PutDataSetRefreshPropertiesOutputResponse
     /// Creates an Amazon QuickSight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Amazon QuickSight API, Amazon QuickSight generates a registration URL. The user accesses this registration URL to create their account. Amazon QuickSight doesn't send a registration email to users who are registered from the Amazon QuickSight API. If you want new users to receive a registration email, then add those users in the Amazon QuickSight console. For more information on registering a new user in the Amazon QuickSight console, see [ Inviting users to access Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/managing-users.html#inviting-users).
     func registerUser(input: RegisterUserInput) async throws -> RegisterUserOutputResponse
     /// Restores an analysis.
@@ -299,6 +313,8 @@ public protocol QuickSightClientProtocol {
     func updateIpRestriction(input: UpdateIpRestrictionInput) async throws -> UpdateIpRestrictionOutputResponse
     /// Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazon QuickSight dashboard. To use this operation, turn on session capacity pricing for your Amazon QuickSight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon QuickSight, see [Using Amazon QuickSight with IAM](https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html) in the Amazon QuickSight User Guide.
     func updatePublicSharingSettings(input: UpdatePublicSharingSettingsInput) async throws -> UpdatePublicSharingSettingsOutputResponse
+    /// Updates a refresh schedule for a dataset.
+    func updateRefreshSchedule(input: UpdateRefreshScheduleInput) async throws -> UpdateRefreshScheduleOutputResponse
     /// Updates a template from an existing Amazon QuickSight analysis or another template.
     func updateTemplate(input: UpdateTemplateInput) async throws -> UpdateTemplateOutputResponse
     /// Updates the template alias of a template.

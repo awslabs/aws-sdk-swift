@@ -72,6 +72,7 @@ struct ProcessRunner {
     static let standard = ProcessRunner { process in
         log("Running process: \(process.commandString)")
         try process.run()
+        process.waitUntilExit()
     }
     
     #if DEBUG

@@ -198,6 +198,38 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
 }
 
 extension LicenseManagerClientTypes {
+    public enum ActivationOverrideBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case allGrantsPermittedByIssuer
+        case distributedGrantsOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ActivationOverrideBehavior] {
+            return [
+                .allGrantsPermittedByIssuer,
+                .distributedGrantsOnly,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .allGrantsPermittedByIssuer: return "ALL_GRANTS_PERMITTED_BY_ISSUER"
+            case .distributedGrantsOnly: return "DISTRIBUTED_GRANTS_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ActivationOverrideBehavior(rawValue: rawValue) ?? ActivationOverrideBehavior.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LicenseManagerClientTypes {
     public enum AllowedOperation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case checkoutBorrowLicense
         case checkoutLicense
@@ -1331,7 +1363,19 @@ public struct CreateGrantInput: Swift.Equatable {
     /// Amazon Resource Name (ARN) of the license.
     /// This member is required.
     public var licenseArn: Swift.String?
-    /// The grant principals. This value should be specified as an Amazon Resource Name (ARN).
+    /// The grant principals. You can specify one of the following as an Amazon Resource Name (ARN):
+    ///
+    /// * An Amazon Web Services account, which includes only the account specified.
+    ///
+    ///
+    ///
+    ///
+    /// * An organizational unit (OU), which includes all accounts in the OU.
+    ///
+    ///
+    ///
+    ///
+    /// * An organization, which will include all accounts across your organization.
     /// This member is required.
     public var principals: [Swift.String]?
 
@@ -1508,6 +1552,7 @@ extension CreateGrantVersionInput: Swift.Encodable {
         case clientToken = "ClientToken"
         case grantArn = "GrantArn"
         case grantName = "GrantName"
+        case options = "Options"
         case sourceVersion = "SourceVersion"
         case status = "Status"
         case statusReason = "StatusReason"
@@ -1529,6 +1574,9 @@ extension CreateGrantVersionInput: Swift.Encodable {
         }
         if let grantName = self.grantName {
             try encodeContainer.encode(grantName, forKey: .grantName)
+        }
+        if let options = self.options {
+            try encodeContainer.encode(options, forKey: .options)
         }
         if let sourceVersion = self.sourceVersion {
             try encodeContainer.encode(sourceVersion, forKey: .sourceVersion)
@@ -1559,6 +1607,8 @@ public struct CreateGrantVersionInput: Swift.Equatable {
     public var grantArn: Swift.String?
     /// Grant name.
     public var grantName: Swift.String?
+    /// The options specified for the grant.
+    public var options: LicenseManagerClientTypes.Options?
     /// Current version of the grant.
     public var sourceVersion: Swift.String?
     /// Grant status.
@@ -1571,6 +1621,7 @@ public struct CreateGrantVersionInput: Swift.Equatable {
         clientToken: Swift.String? = nil,
         grantArn: Swift.String? = nil,
         grantName: Swift.String? = nil,
+        options: LicenseManagerClientTypes.Options? = nil,
         sourceVersion: Swift.String? = nil,
         status: LicenseManagerClientTypes.GrantStatus? = nil,
         statusReason: Swift.String? = nil
@@ -1580,6 +1631,7 @@ public struct CreateGrantVersionInput: Swift.Equatable {
         self.clientToken = clientToken
         self.grantArn = grantArn
         self.grantName = grantName
+        self.options = options
         self.sourceVersion = sourceVersion
         self.status = status
         self.statusReason = statusReason
@@ -1594,6 +1646,7 @@ struct CreateGrantVersionInputBody: Swift.Equatable {
     let status: LicenseManagerClientTypes.GrantStatus?
     let statusReason: Swift.String?
     let sourceVersion: Swift.String?
+    let options: LicenseManagerClientTypes.Options?
 }
 
 extension CreateGrantVersionInputBody: Swift.Decodable {
@@ -1602,6 +1655,7 @@ extension CreateGrantVersionInputBody: Swift.Decodable {
         case clientToken = "ClientToken"
         case grantArn = "GrantArn"
         case grantName = "GrantName"
+        case options = "Options"
         case sourceVersion = "SourceVersion"
         case status = "Status"
         case statusReason = "StatusReason"
@@ -1632,6 +1686,8 @@ extension CreateGrantVersionInputBody: Swift.Decodable {
         statusReason = statusReasonDecoded
         let sourceVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceVersion)
         sourceVersion = sourceVersionDecoded
+        let optionsDecoded = try containerValues.decodeIfPresent(LicenseManagerClientTypes.Options.self, forKey: .options)
+        options = optionsDecoded
     }
 }
 
@@ -2023,13 +2079,13 @@ extension CreateLicenseConversionTaskForResourceInput: ClientRuntime.URLPathProv
 }
 
 public struct CreateLicenseConversionTaskForResourceInput: Swift.Equatable {
-    /// Information that identifies the license type you are converting to. For the structure of the destination license, see [Convert a license type using the Amazon Web Services CLI](https://docs.aws.amazon.com/license-manager/latest/userguide/conversion-procedures.html#conversion-cli) in the License Manager User Guide.
+    /// Information that identifies the license type you are converting to. For the structure of the destination license, see [Convert a license type using the CLI ](https://docs.aws.amazon.com/license-manager/latest/userguide/conversion-procedures.html#conversion-cli) in the License Manager User Guide.
     /// This member is required.
     public var destinationLicenseContext: LicenseManagerClientTypes.LicenseConversionContext?
     /// Amazon Resource Name (ARN) of the resource you are converting the license type for.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// Information that identifies the license type you are converting from. For the structure of the source license, see [Convert a license type using the Amazon Web Services CLI](https://docs.aws.amazon.com/license-manager/latest/userguide/conversion-procedures.html#conversion-cli) in the License Manager User Guide.
+    /// Information that identifies the license type you are converting from. For the structure of the source license, see [Convert a license type using the CLI ](https://docs.aws.amazon.com/license-manager/latest/userguide/conversion-procedures.html#conversion-cli) in the License Manager User Guide.
     /// This member is required.
     public var sourceLicenseContext: LicenseManagerClientTypes.LicenseConversionContext?
 
@@ -4346,7 +4402,7 @@ extension ExtendLicenseConsumptionInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let licenseConsumptionToken = self.licenseConsumptionToken {
@@ -4363,13 +4419,13 @@ extension ExtendLicenseConsumptionInput: ClientRuntime.URLPathProvider {
 
 public struct ExtendLicenseConsumptionInput: Swift.Equatable {
     /// Checks whether you have the required permissions for the action, without actually making the request. Provides an error response if you do not have the required permissions.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// License consumption token.
     /// This member is required.
     public var licenseConsumptionToken: Swift.String?
 
     public init (
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         licenseConsumptionToken: Swift.String? = nil
     )
     {
@@ -4380,7 +4436,7 @@ public struct ExtendLicenseConsumptionInput: Swift.Equatable {
 
 struct ExtendLicenseConsumptionInputBody: Swift.Equatable {
     let licenseConsumptionToken: Swift.String?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
 }
 
 extension ExtendLicenseConsumptionInputBody: Swift.Decodable {
@@ -4393,7 +4449,7 @@ extension ExtendLicenseConsumptionInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let licenseConsumptionTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseConsumptionToken)
         licenseConsumptionToken = licenseConsumptionTokenDecoded
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
     }
 }
@@ -4586,7 +4642,7 @@ extension LicenseManagerClientTypes {
     public struct Filter: Swift.Equatable {
         /// Name of the filter. Filter names are case-sensitive.
         public var name: Swift.String?
-        /// Filter values. Filter values are case-sensitive.
+        /// The value of the filter, which is case-sensitive. You can only specify one value for the filter.
         public var values: [Swift.String]?
 
         public init (
@@ -5979,6 +6035,7 @@ extension LicenseManagerClientTypes.Grant: Swift.Codable {
         case granteePrincipalArn = "GranteePrincipalArn"
         case homeRegion = "HomeRegion"
         case licenseArn = "LicenseArn"
+        case options = "Options"
         case parentArn = "ParentArn"
         case statusReason = "StatusReason"
         case version = "Version"
@@ -6009,6 +6066,9 @@ extension LicenseManagerClientTypes.Grant: Swift.Codable {
         }
         if let licenseArn = self.licenseArn {
             try encodeContainer.encode(licenseArn, forKey: .licenseArn)
+        }
+        if let options = self.options {
+            try encodeContainer.encode(options, forKey: .options)
         }
         if let parentArn = self.parentArn {
             try encodeContainer.encode(parentArn, forKey: .parentArn)
@@ -6052,6 +6112,8 @@ extension LicenseManagerClientTypes.Grant: Swift.Codable {
             }
         }
         grantedOperations = grantedOperationsDecoded0
+        let optionsDecoded = try containerValues.decodeIfPresent(LicenseManagerClientTypes.Options.self, forKey: .options)
+        options = optionsDecoded
     }
 }
 
@@ -6079,6 +6141,8 @@ extension LicenseManagerClientTypes {
         /// License ARN.
         /// This member is required.
         public var licenseArn: Swift.String?
+        /// The options specified for the grant.
+        public var options: LicenseManagerClientTypes.Options?
         /// Parent ARN.
         /// This member is required.
         public var parentArn: Swift.String?
@@ -6096,6 +6160,7 @@ extension LicenseManagerClientTypes {
             granteePrincipalArn: Swift.String? = nil,
             homeRegion: Swift.String? = nil,
             licenseArn: Swift.String? = nil,
+            options: LicenseManagerClientTypes.Options? = nil,
             parentArn: Swift.String? = nil,
             statusReason: Swift.String? = nil,
             version: Swift.String? = nil
@@ -6108,6 +6173,7 @@ extension LicenseManagerClientTypes {
             self.granteePrincipalArn = granteePrincipalArn
             self.homeRegion = homeRegion
             self.licenseArn = licenseArn
+            self.options = options
             self.parentArn = parentArn
             self.statusReason = statusReason
             self.version = version
@@ -11120,6 +11186,50 @@ extension NoEntitlementsAllowedExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension LicenseManagerClientTypes.Options: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activationOverrideBehavior = "ActivationOverrideBehavior"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activationOverrideBehavior = self.activationOverrideBehavior {
+            try encodeContainer.encode(activationOverrideBehavior.rawValue, forKey: .activationOverrideBehavior)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let activationOverrideBehaviorDecoded = try containerValues.decodeIfPresent(LicenseManagerClientTypes.ActivationOverrideBehavior.self, forKey: .activationOverrideBehavior)
+        activationOverrideBehavior = activationOverrideBehaviorDecoded
+    }
+}
+
+extension LicenseManagerClientTypes {
+    /// The options you can specify when you create a new version of a grant, such as activation override behavior. For more information, see [Granted licenses in License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html) in the License Manager User Guide.
+    public struct Options: Swift.Equatable {
+        /// An activation option for your grant that determines the behavior of activating a grant. Activation options can only be used with granted licenses sourced from the Amazon Web Services Marketplace. Additionally, the operation must specify the value of ACTIVE for the Status parameter.
+        ///
+        /// * As a license administrator, you can optionally specify an ActivationOverrideBehavior when activating a grant.
+        ///
+        /// * As a grantor, you can optionally specify an ActivationOverrideBehavior when you activate a grant for a grantee account in your organization.
+        ///
+        /// * As a grantee, if the grantor creating the distributed grant doesn’t specify an ActivationOverrideBehavior, you can optionally specify one when you are activating the grant.
+        ///
+        ///
+        /// DISTRIBUTED_GRANTS_ONLY Use this value to activate a grant without replacing any member account’s active grants for the same product. ALL_GRANTS_PERMITTED_BY_ISSUER Use this value to activate a grant and disable other active grants in any member accounts for the same product. This action will also replace their previously activated grants with this activated grant.
+        public var activationOverrideBehavior: LicenseManagerClientTypes.ActivationOverrideBehavior?
+
+        public init (
+            activationOverrideBehavior: LicenseManagerClientTypes.ActivationOverrideBehavior? = nil
+        )
+        {
+            self.activationOverrideBehavior = activationOverrideBehavior
+        }
+    }
+
 }
 
 extension LicenseManagerClientTypes.OrganizationConfiguration: Swift.Codable {

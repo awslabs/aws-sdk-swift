@@ -149,10 +149,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<AssociateConnectionAliasInput, AssociateConnectionAliasOutputResponse, AssociateConnectionAliasOutputError>(id: "associateConnectionAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateConnectionAliasInput, AssociateConnectionAliasOutputResponse, AssociateConnectionAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateConnectionAliasInput, AssociateConnectionAliasOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AssociateConnectionAliasOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateConnectionAliasOutputResponse, AssociateConnectionAliasOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -188,10 +185,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<AssociateIpGroupsInput, AssociateIpGroupsOutputResponse, AssociateIpGroupsOutputError>(id: "associateIpGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateIpGroupsInput, AssociateIpGroupsOutputResponse, AssociateIpGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateIpGroupsInput, AssociateIpGroupsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AssociateIpGroupsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateIpGroupsOutputResponse, AssociateIpGroupsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -227,10 +221,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<AuthorizeIpRulesInput, AuthorizeIpRulesOutputResponse, AuthorizeIpRulesOutputError>(id: "authorizeIpRules")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AuthorizeIpRulesInput, AuthorizeIpRulesOutputResponse, AuthorizeIpRulesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AuthorizeIpRulesInput, AuthorizeIpRulesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AuthorizeIpRulesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AuthorizeIpRulesOutputResponse, AuthorizeIpRulesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -266,10 +257,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<CopyWorkspaceImageInput, CopyWorkspaceImageOutputResponse, CopyWorkspaceImageOutputError>(id: "copyWorkspaceImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyWorkspaceImageInput, CopyWorkspaceImageOutputResponse, CopyWorkspaceImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyWorkspaceImageInput, CopyWorkspaceImageOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CopyWorkspaceImageOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CopyWorkspaceImageOutputResponse, CopyWorkspaceImageOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -305,10 +293,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateConnectClientAddInInput, CreateConnectClientAddInOutputResponse, CreateConnectClientAddInOutputError>(id: "createConnectClientAddIn")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConnectClientAddInInput, CreateConnectClientAddInOutputResponse, CreateConnectClientAddInOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConnectClientAddInInput, CreateConnectClientAddInOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateConnectClientAddInOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateConnectClientAddInOutputResponse, CreateConnectClientAddInOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -344,10 +329,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateConnectionAliasInput, CreateConnectionAliasOutputResponse, CreateConnectionAliasOutputError>(id: "createConnectionAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConnectionAliasInput, CreateConnectionAliasOutputResponse, CreateConnectionAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConnectionAliasInput, CreateConnectionAliasOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateConnectionAliasOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateConnectionAliasOutputResponse, CreateConnectionAliasOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -383,10 +365,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateIpGroupInput, CreateIpGroupOutputResponse, CreateIpGroupOutputError>(id: "createIpGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIpGroupInput, CreateIpGroupOutputResponse, CreateIpGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateIpGroupInput, CreateIpGroupOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateIpGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateIpGroupOutputResponse, CreateIpGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -422,10 +401,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateStandbyWorkspacesInput, CreateStandbyWorkspacesOutputResponse, CreateStandbyWorkspacesOutputError>(id: "createStandbyWorkspaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStandbyWorkspacesInput, CreateStandbyWorkspacesOutputResponse, CreateStandbyWorkspacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStandbyWorkspacesInput, CreateStandbyWorkspacesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateStandbyWorkspacesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateStandbyWorkspacesOutputResponse, CreateStandbyWorkspacesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -461,10 +437,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateTagsInput, CreateTagsOutputResponse, CreateTagsOutputError>(id: "createTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTagsInput, CreateTagsOutputResponse, CreateTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTagsInput, CreateTagsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateTagsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTagsOutputResponse, CreateTagsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -506,10 +479,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateUpdatedWorkspaceImageInput, CreateUpdatedWorkspaceImageOutputResponse, CreateUpdatedWorkspaceImageOutputError>(id: "createUpdatedWorkspaceImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUpdatedWorkspaceImageInput, CreateUpdatedWorkspaceImageOutputResponse, CreateUpdatedWorkspaceImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUpdatedWorkspaceImageInput, CreateUpdatedWorkspaceImageOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateUpdatedWorkspaceImageOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUpdatedWorkspaceImageOutputResponse, CreateUpdatedWorkspaceImageOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -545,10 +515,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateWorkspaceBundleInput, CreateWorkspaceBundleOutputResponse, CreateWorkspaceBundleOutputError>(id: "createWorkspaceBundle")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorkspaceBundleInput, CreateWorkspaceBundleOutputResponse, CreateWorkspaceBundleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorkspaceBundleInput, CreateWorkspaceBundleOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateWorkspaceBundleOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWorkspaceBundleOutputResponse, CreateWorkspaceBundleOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -584,10 +551,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateWorkspaceImageInput, CreateWorkspaceImageOutputResponse, CreateWorkspaceImageOutputError>(id: "createWorkspaceImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorkspaceImageInput, CreateWorkspaceImageOutputResponse, CreateWorkspaceImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorkspaceImageInput, CreateWorkspaceImageOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateWorkspaceImageOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWorkspaceImageOutputResponse, CreateWorkspaceImageOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -623,10 +587,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateWorkspacesInput, CreateWorkspacesOutputResponse, CreateWorkspacesOutputError>(id: "createWorkspaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorkspacesInput, CreateWorkspacesOutputResponse, CreateWorkspacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorkspacesInput, CreateWorkspacesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateWorkspacesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWorkspacesOutputResponse, CreateWorkspacesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -662,10 +623,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteClientBrandingInput, DeleteClientBrandingOutputResponse, DeleteClientBrandingOutputError>(id: "deleteClientBranding")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteClientBrandingInput, DeleteClientBrandingOutputResponse, DeleteClientBrandingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteClientBrandingInput, DeleteClientBrandingOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteClientBrandingOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteClientBrandingOutputResponse, DeleteClientBrandingOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -701,10 +659,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteConnectClientAddInInput, DeleteConnectClientAddInOutputResponse, DeleteConnectClientAddInOutputError>(id: "deleteConnectClientAddIn")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConnectClientAddInInput, DeleteConnectClientAddInOutputResponse, DeleteConnectClientAddInOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConnectClientAddInInput, DeleteConnectClientAddInOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteConnectClientAddInOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConnectClientAddInOutputResponse, DeleteConnectClientAddInOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -740,10 +695,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteConnectionAliasInput, DeleteConnectionAliasOutputResponse, DeleteConnectionAliasOutputError>(id: "deleteConnectionAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConnectionAliasInput, DeleteConnectionAliasOutputResponse, DeleteConnectionAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConnectionAliasInput, DeleteConnectionAliasOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteConnectionAliasOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteConnectionAliasOutputResponse, DeleteConnectionAliasOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -779,10 +731,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteIpGroupInput, DeleteIpGroupOutputResponse, DeleteIpGroupOutputError>(id: "deleteIpGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIpGroupInput, DeleteIpGroupOutputResponse, DeleteIpGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIpGroupInput, DeleteIpGroupOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteIpGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteIpGroupOutputResponse, DeleteIpGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -818,10 +767,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteTagsInput, DeleteTagsOutputResponse, DeleteTagsOutputError>(id: "deleteTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTagsInput, DeleteTagsOutputResponse, DeleteTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTagsInput, DeleteTagsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteTagsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTagsOutputResponse, DeleteTagsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -857,10 +803,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteWorkspaceBundleInput, DeleteWorkspaceBundleOutputResponse, DeleteWorkspaceBundleOutputError>(id: "deleteWorkspaceBundle")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWorkspaceBundleInput, DeleteWorkspaceBundleOutputResponse, DeleteWorkspaceBundleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWorkspaceBundleInput, DeleteWorkspaceBundleOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteWorkspaceBundleOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWorkspaceBundleOutputResponse, DeleteWorkspaceBundleOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -896,10 +839,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteWorkspaceImageInput, DeleteWorkspaceImageOutputResponse, DeleteWorkspaceImageOutputError>(id: "deleteWorkspaceImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWorkspaceImageInput, DeleteWorkspaceImageOutputResponse, DeleteWorkspaceImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWorkspaceImageInput, DeleteWorkspaceImageOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteWorkspaceImageOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWorkspaceImageOutputResponse, DeleteWorkspaceImageOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -935,10 +875,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DeregisterWorkspaceDirectoryInput, DeregisterWorkspaceDirectoryOutputResponse, DeregisterWorkspaceDirectoryOutputError>(id: "deregisterWorkspaceDirectory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterWorkspaceDirectoryInput, DeregisterWorkspaceDirectoryOutputResponse, DeregisterWorkspaceDirectoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterWorkspaceDirectoryInput, DeregisterWorkspaceDirectoryOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeregisterWorkspaceDirectoryOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeregisterWorkspaceDirectoryOutputResponse, DeregisterWorkspaceDirectoryOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -974,10 +911,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeAccountInput, DescribeAccountOutputResponse, DescribeAccountOutputError>(id: "describeAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountInput, DescribeAccountOutputResponse, DescribeAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountInput, DescribeAccountOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeAccountOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccountOutputResponse, DescribeAccountOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1013,10 +947,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeAccountModificationsInput, DescribeAccountModificationsOutputResponse, DescribeAccountModificationsOutputError>(id: "describeAccountModifications")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountModificationsInput, DescribeAccountModificationsOutputResponse, DescribeAccountModificationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountModificationsInput, DescribeAccountModificationsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeAccountModificationsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccountModificationsOutputResponse, DescribeAccountModificationsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1052,10 +983,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeClientBrandingInput, DescribeClientBrandingOutputResponse, DescribeClientBrandingOutputError>(id: "describeClientBranding")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClientBrandingInput, DescribeClientBrandingOutputResponse, DescribeClientBrandingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClientBrandingInput, DescribeClientBrandingOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeClientBrandingOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeClientBrandingOutputResponse, DescribeClientBrandingOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1091,10 +1019,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeClientPropertiesInput, DescribeClientPropertiesOutputResponse, DescribeClientPropertiesOutputError>(id: "describeClientProperties")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClientPropertiesInput, DescribeClientPropertiesOutputResponse, DescribeClientPropertiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClientPropertiesInput, DescribeClientPropertiesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeClientPropertiesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeClientPropertiesOutputResponse, DescribeClientPropertiesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1130,10 +1055,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeConnectClientAddInsInput, DescribeConnectClientAddInsOutputResponse, DescribeConnectClientAddInsOutputError>(id: "describeConnectClientAddIns")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConnectClientAddInsInput, DescribeConnectClientAddInsOutputResponse, DescribeConnectClientAddInsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConnectClientAddInsInput, DescribeConnectClientAddInsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeConnectClientAddInsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConnectClientAddInsOutputResponse, DescribeConnectClientAddInsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1169,10 +1091,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeConnectionAliasPermissionsInput, DescribeConnectionAliasPermissionsOutputResponse, DescribeConnectionAliasPermissionsOutputError>(id: "describeConnectionAliasPermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConnectionAliasPermissionsInput, DescribeConnectionAliasPermissionsOutputResponse, DescribeConnectionAliasPermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConnectionAliasPermissionsInput, DescribeConnectionAliasPermissionsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeConnectionAliasPermissionsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConnectionAliasPermissionsOutputResponse, DescribeConnectionAliasPermissionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1208,10 +1127,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeConnectionAliasesInput, DescribeConnectionAliasesOutputResponse, DescribeConnectionAliasesOutputError>(id: "describeConnectionAliases")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConnectionAliasesInput, DescribeConnectionAliasesOutputResponse, DescribeConnectionAliasesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConnectionAliasesInput, DescribeConnectionAliasesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeConnectionAliasesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeConnectionAliasesOutputResponse, DescribeConnectionAliasesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1247,10 +1163,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeIpGroupsInput, DescribeIpGroupsOutputResponse, DescribeIpGroupsOutputError>(id: "describeIpGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeIpGroupsInput, DescribeIpGroupsOutputResponse, DescribeIpGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeIpGroupsInput, DescribeIpGroupsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeIpGroupsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeIpGroupsOutputResponse, DescribeIpGroupsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1286,10 +1199,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeTagsInput, DescribeTagsOutputResponse, DescribeTagsOutputError>(id: "describeTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTagsInput, DescribeTagsOutputResponse, DescribeTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTagsInput, DescribeTagsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeTagsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTagsOutputResponse, DescribeTagsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1325,10 +1235,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeWorkspaceBundlesInput, DescribeWorkspaceBundlesOutputResponse, DescribeWorkspaceBundlesOutputError>(id: "describeWorkspaceBundles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorkspaceBundlesInput, DescribeWorkspaceBundlesOutputResponse, DescribeWorkspaceBundlesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorkspaceBundlesInput, DescribeWorkspaceBundlesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeWorkspaceBundlesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeWorkspaceBundlesOutputResponse, DescribeWorkspaceBundlesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1364,10 +1271,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeWorkspaceDirectoriesInput, DescribeWorkspaceDirectoriesOutputResponse, DescribeWorkspaceDirectoriesOutputError>(id: "describeWorkspaceDirectories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorkspaceDirectoriesInput, DescribeWorkspaceDirectoriesOutputResponse, DescribeWorkspaceDirectoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorkspaceDirectoriesInput, DescribeWorkspaceDirectoriesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeWorkspaceDirectoriesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeWorkspaceDirectoriesOutputResponse, DescribeWorkspaceDirectoriesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1403,10 +1307,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeWorkspaceImagePermissionsInput, DescribeWorkspaceImagePermissionsOutputResponse, DescribeWorkspaceImagePermissionsOutputError>(id: "describeWorkspaceImagePermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorkspaceImagePermissionsInput, DescribeWorkspaceImagePermissionsOutputResponse, DescribeWorkspaceImagePermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorkspaceImagePermissionsInput, DescribeWorkspaceImagePermissionsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeWorkspaceImagePermissionsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeWorkspaceImagePermissionsOutputResponse, DescribeWorkspaceImagePermissionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1442,10 +1343,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeWorkspaceImagesInput, DescribeWorkspaceImagesOutputResponse, DescribeWorkspaceImagesOutputError>(id: "describeWorkspaceImages")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorkspaceImagesInput, DescribeWorkspaceImagesOutputResponse, DescribeWorkspaceImagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorkspaceImagesInput, DescribeWorkspaceImagesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeWorkspaceImagesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeWorkspaceImagesOutputResponse, DescribeWorkspaceImagesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1481,10 +1379,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeWorkspaceSnapshotsInput, DescribeWorkspaceSnapshotsOutputResponse, DescribeWorkspaceSnapshotsOutputError>(id: "describeWorkspaceSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorkspaceSnapshotsInput, DescribeWorkspaceSnapshotsOutputResponse, DescribeWorkspaceSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorkspaceSnapshotsInput, DescribeWorkspaceSnapshotsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeWorkspaceSnapshotsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeWorkspaceSnapshotsOutputResponse, DescribeWorkspaceSnapshotsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1520,10 +1415,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeWorkspacesInput, DescribeWorkspacesOutputResponse, DescribeWorkspacesOutputError>(id: "describeWorkspaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorkspacesInput, DescribeWorkspacesOutputResponse, DescribeWorkspacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorkspacesInput, DescribeWorkspacesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeWorkspacesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeWorkspacesOutputResponse, DescribeWorkspacesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1559,10 +1451,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeWorkspacesConnectionStatusInput, DescribeWorkspacesConnectionStatusOutputResponse, DescribeWorkspacesConnectionStatusOutputError>(id: "describeWorkspacesConnectionStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorkspacesConnectionStatusInput, DescribeWorkspacesConnectionStatusOutputResponse, DescribeWorkspacesConnectionStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorkspacesConnectionStatusInput, DescribeWorkspacesConnectionStatusOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeWorkspacesConnectionStatusOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeWorkspacesConnectionStatusOutputResponse, DescribeWorkspacesConnectionStatusOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1598,10 +1487,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DisassociateConnectionAliasInput, DisassociateConnectionAliasOutputResponse, DisassociateConnectionAliasOutputError>(id: "disassociateConnectionAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateConnectionAliasInput, DisassociateConnectionAliasOutputResponse, DisassociateConnectionAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateConnectionAliasInput, DisassociateConnectionAliasOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DisassociateConnectionAliasOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateConnectionAliasOutputResponse, DisassociateConnectionAliasOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1637,10 +1523,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<DisassociateIpGroupsInput, DisassociateIpGroupsOutputResponse, DisassociateIpGroupsOutputError>(id: "disassociateIpGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateIpGroupsInput, DisassociateIpGroupsOutputResponse, DisassociateIpGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateIpGroupsInput, DisassociateIpGroupsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DisassociateIpGroupsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateIpGroupsOutputResponse, DisassociateIpGroupsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1684,10 +1567,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<ImportClientBrandingInput, ImportClientBrandingOutputResponse, ImportClientBrandingOutputError>(id: "importClientBranding")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportClientBrandingInput, ImportClientBrandingOutputResponse, ImportClientBrandingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportClientBrandingInput, ImportClientBrandingOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ImportClientBrandingOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportClientBrandingOutputResponse, ImportClientBrandingOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1723,10 +1603,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<ImportWorkspaceImageInput, ImportWorkspaceImageOutputResponse, ImportWorkspaceImageOutputError>(id: "importWorkspaceImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportWorkspaceImageInput, ImportWorkspaceImageOutputResponse, ImportWorkspaceImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportWorkspaceImageInput, ImportWorkspaceImageOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ImportWorkspaceImageOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportWorkspaceImageOutputResponse, ImportWorkspaceImageOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1762,10 +1639,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<ListAvailableManagementCidrRangesInput, ListAvailableManagementCidrRangesOutputResponse, ListAvailableManagementCidrRangesOutputError>(id: "listAvailableManagementCidrRanges")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAvailableManagementCidrRangesInput, ListAvailableManagementCidrRangesOutputResponse, ListAvailableManagementCidrRangesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAvailableManagementCidrRangesInput, ListAvailableManagementCidrRangesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListAvailableManagementCidrRangesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAvailableManagementCidrRangesOutputResponse, ListAvailableManagementCidrRangesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1801,10 +1675,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<MigrateWorkspaceInput, MigrateWorkspaceOutputResponse, MigrateWorkspaceOutputError>(id: "migrateWorkspace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MigrateWorkspaceInput, MigrateWorkspaceOutputResponse, MigrateWorkspaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MigrateWorkspaceInput, MigrateWorkspaceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<MigrateWorkspaceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<MigrateWorkspaceOutputResponse, MigrateWorkspaceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1840,10 +1711,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<ModifyAccountInput, ModifyAccountOutputResponse, ModifyAccountOutputError>(id: "modifyAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyAccountInput, ModifyAccountOutputResponse, ModifyAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyAccountInput, ModifyAccountOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ModifyAccountOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyAccountOutputResponse, ModifyAccountOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1879,10 +1747,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<ModifyCertificateBasedAuthPropertiesInput, ModifyCertificateBasedAuthPropertiesOutputResponse, ModifyCertificateBasedAuthPropertiesOutputError>(id: "modifyCertificateBasedAuthProperties")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyCertificateBasedAuthPropertiesInput, ModifyCertificateBasedAuthPropertiesOutputResponse, ModifyCertificateBasedAuthPropertiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyCertificateBasedAuthPropertiesInput, ModifyCertificateBasedAuthPropertiesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ModifyCertificateBasedAuthPropertiesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyCertificateBasedAuthPropertiesOutputResponse, ModifyCertificateBasedAuthPropertiesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1918,10 +1783,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<ModifyClientPropertiesInput, ModifyClientPropertiesOutputResponse, ModifyClientPropertiesOutputError>(id: "modifyClientProperties")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyClientPropertiesInput, ModifyClientPropertiesOutputResponse, ModifyClientPropertiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyClientPropertiesInput, ModifyClientPropertiesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ModifyClientPropertiesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyClientPropertiesOutputResponse, ModifyClientPropertiesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1957,10 +1819,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<ModifySamlPropertiesInput, ModifySamlPropertiesOutputResponse, ModifySamlPropertiesOutputError>(id: "modifySamlProperties")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifySamlPropertiesInput, ModifySamlPropertiesOutputResponse, ModifySamlPropertiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifySamlPropertiesInput, ModifySamlPropertiesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ModifySamlPropertiesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifySamlPropertiesOutputResponse, ModifySamlPropertiesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1996,10 +1855,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<ModifySelfservicePermissionsInput, ModifySelfservicePermissionsOutputResponse, ModifySelfservicePermissionsOutputError>(id: "modifySelfservicePermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifySelfservicePermissionsInput, ModifySelfservicePermissionsOutputResponse, ModifySelfservicePermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifySelfservicePermissionsInput, ModifySelfservicePermissionsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ModifySelfservicePermissionsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifySelfservicePermissionsOutputResponse, ModifySelfservicePermissionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2035,10 +1891,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<ModifyWorkspaceAccessPropertiesInput, ModifyWorkspaceAccessPropertiesOutputResponse, ModifyWorkspaceAccessPropertiesOutputError>(id: "modifyWorkspaceAccessProperties")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyWorkspaceAccessPropertiesInput, ModifyWorkspaceAccessPropertiesOutputResponse, ModifyWorkspaceAccessPropertiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyWorkspaceAccessPropertiesInput, ModifyWorkspaceAccessPropertiesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ModifyWorkspaceAccessPropertiesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyWorkspaceAccessPropertiesOutputResponse, ModifyWorkspaceAccessPropertiesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2074,10 +1927,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<ModifyWorkspaceCreationPropertiesInput, ModifyWorkspaceCreationPropertiesOutputResponse, ModifyWorkspaceCreationPropertiesOutputError>(id: "modifyWorkspaceCreationProperties")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyWorkspaceCreationPropertiesInput, ModifyWorkspaceCreationPropertiesOutputResponse, ModifyWorkspaceCreationPropertiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyWorkspaceCreationPropertiesInput, ModifyWorkspaceCreationPropertiesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ModifyWorkspaceCreationPropertiesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyWorkspaceCreationPropertiesOutputResponse, ModifyWorkspaceCreationPropertiesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2113,10 +1963,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<ModifyWorkspacePropertiesInput, ModifyWorkspacePropertiesOutputResponse, ModifyWorkspacePropertiesOutputError>(id: "modifyWorkspaceProperties")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyWorkspacePropertiesInput, ModifyWorkspacePropertiesOutputResponse, ModifyWorkspacePropertiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyWorkspacePropertiesInput, ModifyWorkspacePropertiesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ModifyWorkspacePropertiesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyWorkspacePropertiesOutputResponse, ModifyWorkspacePropertiesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2152,10 +1999,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<ModifyWorkspaceStateInput, ModifyWorkspaceStateOutputResponse, ModifyWorkspaceStateOutputError>(id: "modifyWorkspaceState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyWorkspaceStateInput, ModifyWorkspaceStateOutputResponse, ModifyWorkspaceStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyWorkspaceStateInput, ModifyWorkspaceStateOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ModifyWorkspaceStateOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyWorkspaceStateOutputResponse, ModifyWorkspaceStateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2191,10 +2035,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<RebootWorkspacesInput, RebootWorkspacesOutputResponse, RebootWorkspacesOutputError>(id: "rebootWorkspaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebootWorkspacesInput, RebootWorkspacesOutputResponse, RebootWorkspacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebootWorkspacesInput, RebootWorkspacesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<RebootWorkspacesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RebootWorkspacesOutputResponse, RebootWorkspacesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2230,10 +2071,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<RebuildWorkspacesInput, RebuildWorkspacesOutputResponse, RebuildWorkspacesOutputError>(id: "rebuildWorkspaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebuildWorkspacesInput, RebuildWorkspacesOutputResponse, RebuildWorkspacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebuildWorkspacesInput, RebuildWorkspacesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<RebuildWorkspacesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RebuildWorkspacesOutputResponse, RebuildWorkspacesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2269,10 +2107,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<RegisterWorkspaceDirectoryInput, RegisterWorkspaceDirectoryOutputResponse, RegisterWorkspaceDirectoryOutputError>(id: "registerWorkspaceDirectory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterWorkspaceDirectoryInput, RegisterWorkspaceDirectoryOutputResponse, RegisterWorkspaceDirectoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterWorkspaceDirectoryInput, RegisterWorkspaceDirectoryOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<RegisterWorkspaceDirectoryOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterWorkspaceDirectoryOutputResponse, RegisterWorkspaceDirectoryOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2308,10 +2143,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<RestoreWorkspaceInput, RestoreWorkspaceOutputResponse, RestoreWorkspaceOutputError>(id: "restoreWorkspace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreWorkspaceInput, RestoreWorkspaceOutputResponse, RestoreWorkspaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreWorkspaceInput, RestoreWorkspaceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<RestoreWorkspaceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RestoreWorkspaceOutputResponse, RestoreWorkspaceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2347,10 +2179,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<RevokeIpRulesInput, RevokeIpRulesOutputResponse, RevokeIpRulesOutputError>(id: "revokeIpRules")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeIpRulesInput, RevokeIpRulesOutputResponse, RevokeIpRulesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeIpRulesInput, RevokeIpRulesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<RevokeIpRulesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RevokeIpRulesOutputResponse, RevokeIpRulesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2386,10 +2215,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<StartWorkspacesInput, StartWorkspacesOutputResponse, StartWorkspacesOutputError>(id: "startWorkspaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartWorkspacesInput, StartWorkspacesOutputResponse, StartWorkspacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartWorkspacesInput, StartWorkspacesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<StartWorkspacesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartWorkspacesOutputResponse, StartWorkspacesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2425,10 +2251,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<StopWorkspacesInput, StopWorkspacesOutputResponse, StopWorkspacesOutputError>(id: "stopWorkspaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopWorkspacesInput, StopWorkspacesOutputResponse, StopWorkspacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopWorkspacesInput, StopWorkspacesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<StopWorkspacesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopWorkspacesOutputResponse, StopWorkspacesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2464,10 +2287,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<TerminateWorkspacesInput, TerminateWorkspacesOutputResponse, TerminateWorkspacesOutputError>(id: "terminateWorkspaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TerminateWorkspacesInput, TerminateWorkspacesOutputResponse, TerminateWorkspacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TerminateWorkspacesInput, TerminateWorkspacesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<TerminateWorkspacesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TerminateWorkspacesOutputResponse, TerminateWorkspacesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2503,10 +2323,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateConnectClientAddInInput, UpdateConnectClientAddInOutputResponse, UpdateConnectClientAddInOutputError>(id: "updateConnectClientAddIn")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConnectClientAddInInput, UpdateConnectClientAddInOutputResponse, UpdateConnectClientAddInOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConnectClientAddInInput, UpdateConnectClientAddInOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateConnectClientAddInOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateConnectClientAddInOutputResponse, UpdateConnectClientAddInOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2546,10 +2363,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateConnectionAliasPermissionInput, UpdateConnectionAliasPermissionOutputResponse, UpdateConnectionAliasPermissionOutputError>(id: "updateConnectionAliasPermission")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConnectionAliasPermissionInput, UpdateConnectionAliasPermissionOutputResponse, UpdateConnectionAliasPermissionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConnectionAliasPermissionInput, UpdateConnectionAliasPermissionOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateConnectionAliasPermissionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateConnectionAliasPermissionOutputResponse, UpdateConnectionAliasPermissionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2585,10 +2399,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateRulesOfIpGroupInput, UpdateRulesOfIpGroupOutputResponse, UpdateRulesOfIpGroupOutputError>(id: "updateRulesOfIpGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRulesOfIpGroupInput, UpdateRulesOfIpGroupOutputResponse, UpdateRulesOfIpGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRulesOfIpGroupInput, UpdateRulesOfIpGroupOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateRulesOfIpGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRulesOfIpGroupOutputResponse, UpdateRulesOfIpGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2624,10 +2435,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateWorkspaceBundleInput, UpdateWorkspaceBundleOutputResponse, UpdateWorkspaceBundleOutputError>(id: "updateWorkspaceBundle")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWorkspaceBundleInput, UpdateWorkspaceBundleOutputResponse, UpdateWorkspaceBundleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWorkspaceBundleInput, UpdateWorkspaceBundleOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateWorkspaceBundleOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateWorkspaceBundleOutputResponse, UpdateWorkspaceBundleOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2667,10 +2475,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateWorkspaceImagePermissionInput, UpdateWorkspaceImagePermissionOutputResponse, UpdateWorkspaceImagePermissionOutputError>(id: "updateWorkspaceImagePermission")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWorkspaceImagePermissionInput, UpdateWorkspaceImagePermissionOutputResponse, UpdateWorkspaceImagePermissionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWorkspaceImagePermissionInput, UpdateWorkspaceImagePermissionOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateWorkspaceImagePermissionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateWorkspaceImagePermissionOutputResponse, UpdateWorkspaceImagePermissionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))

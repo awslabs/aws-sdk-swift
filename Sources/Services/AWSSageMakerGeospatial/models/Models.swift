@@ -277,9 +277,9 @@ extension SageMakerGeospatialClientTypes.AreaOfInterest: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The geographic extent of the Earth Observation job.
     public enum AreaOfInterest: Swift.Equatable {
-        ///
+        /// A GeoJSON object representing the geographic extent in the coordinate space.
         case areaofinterestgeometry(SageMakerGeospatialClientTypes.AreaOfInterestGeometry)
         case sdkUnknown(Swift.String)
     }
@@ -322,11 +322,11 @@ extension SageMakerGeospatialClientTypes.AreaOfInterestGeometry: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// A GeoJSON object representing the geographic extent in the coordinate space.
     public enum AreaOfInterestGeometry: Swift.Equatable {
-        ///
+        /// The structure representing Polygon Geometry.
         case polygongeometry(SageMakerGeospatialClientTypes.PolygonGeometryInput)
-        ///
+        /// The structure representing the MultiPolygon Geometry.
         case multipolygongeometry(SageMakerGeospatialClientTypes.MultiPolygonGeometryInput)
         case sdkUnknown(Swift.String)
     }
@@ -353,9 +353,9 @@ extension SageMakerGeospatialClientTypes.AssetValue: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The structure containing the asset properties.
     public struct AssetValue: Swift.Equatable {
-        ///
+        /// Link to the asset object.
         public var href: Swift.String?
 
         public init (
@@ -406,11 +406,11 @@ extension SageMakerGeospatialClientTypes.BandMathConfigInput: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// Input structure for the BandMath operation type. Defines Predefined and CustomIndices to be computed using BandMath.
     public struct BandMathConfigInput: Swift.Equatable {
-        ///
+        /// CustomIndices that are computed.
         public var customIndices: SageMakerGeospatialClientTypes.CustomIndicesInput?
-        ///
+        /// One or many of the supported predefined indices to compute. Allowed values: NDVI, EVI2, MSAVI, NDWI, NDMI, NDSI, and WDRVI.
         public var predefinedIndices: [Swift.String]?
 
         public init (
@@ -437,7 +437,7 @@ extension SageMakerGeospatialClientTypes.CloudMaskingConfigInput: Swift.Codable 
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// Input structure for CloudMasking operation type.
     public struct CloudMaskingConfigInput: Swift.Equatable {
 
         public init () { }
@@ -489,13 +489,13 @@ extension SageMakerGeospatialClientTypes.CloudRemovalConfigInput: Swift.Codable 
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// Input structure for Cloud Removal Operation type
     public struct CloudRemovalConfigInput: Swift.Equatable {
         /// The name of the algorithm used for cloud removal.
         public var algorithmName: SageMakerGeospatialClientTypes.AlgorithmNameCloudRemoval?
         /// The interpolation value you provide for cloud removal.
         public var interpolationValue: Swift.String?
-        ///
+        /// TargetBands to be returned in the output of CloudRemoval operation.
         public var targetBands: [Swift.String]?
 
         public init (
@@ -569,7 +569,7 @@ extension ConflictException {
     }
 }
 
-///
+/// Updating or deleting a resource can cause an inconsistent state.
 public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -580,8 +580,7 @@ public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _type: ClientRuntime.ErrorType = .client
     /// This member is required.
     public var message: Swift.String?
-    ///
-    /// This member is required.
+    /// Identifier of the resource affected.
     public var resourceId: Swift.String?
 
     public init (
@@ -646,9 +645,9 @@ extension SageMakerGeospatialClientTypes.CustomIndicesInput: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// Input object defining the custom BandMath indices to compute.
     public struct CustomIndicesInput: Swift.Equatable {
-        ///
+        /// A list of BandMath indices to compute.
         public var operations: [SageMakerGeospatialClientTypes.Operation]?
 
         public init (
@@ -873,9 +872,9 @@ extension SageMakerGeospatialClientTypes.EarthObservationJobErrorDetails: Swift.
 extension SageMakerGeospatialClientTypes {
     /// The structure representing the errors in an EarthObservationJob.
     public struct EarthObservationJobErrorDetails: Swift.Equatable {
-        ///
+        /// A detailed message describing the error in an Earth Observation job.
         public var message: Swift.String?
-        ///
+        /// The type of error in an Earth Observation job.
         public var type: SageMakerGeospatialClientTypes.EarthObservationJobErrorType?
 
         public init (
@@ -1046,12 +1045,12 @@ extension SageMakerGeospatialClientTypes.EoCloudCoverInput: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The structure representing the EoCloudCover filter.
     public struct EoCloudCoverInput: Swift.Equatable {
-        ///
+        /// Lower bound for EoCloudCover.
         /// This member is required.
         public var lowerBound: Swift.Float?
-        ///
+        /// Upper bound for EoCloudCover.
         /// This member is required.
         public var upperBound: Swift.Float?
 
@@ -1095,9 +1094,9 @@ extension SageMakerGeospatialClientTypes.EojDataSourceConfigInput: Swift.Codable
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// Union representing different data sources to be used as input for an Earth Observation job.
     public enum EojDataSourceConfigInput: Swift.Equatable {
-        ///
+        /// The input structure for S3Data; representing the Amazon S3 location of the input data objects.
         case s3data(SageMakerGeospatialClientTypes.S3DataInput)
         case sdkUnknown(Swift.String)
     }
@@ -1107,6 +1106,7 @@ extension SageMakerGeospatialClientTypes {
 extension ExportEarthObservationJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
+        case clientToken = "ClientToken"
         case executionRoleArn = "ExecutionRoleArn"
         case exportSourceImages = "ExportSourceImages"
         case outputConfig = "OutputConfig"
@@ -1116,6 +1116,9 @@ extension ExportEarthObservationJobInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
         }
         if let executionRoleArn = self.executionRoleArn {
             try encodeContainer.encode(executionRoleArn, forKey: .executionRoleArn)
@@ -1139,6 +1142,8 @@ public struct ExportEarthObservationJobInput: Swift.Equatable {
     /// The input Amazon Resource Name (ARN) of the Earth Observation job being exported.
     /// This member is required.
     public var arn: Swift.String?
+    /// A unique token that guarantees that the call to this API is idempotent.
+    public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role that you specified for the job.
     /// This member is required.
     public var executionRoleArn: Swift.String?
@@ -1150,12 +1155,14 @@ public struct ExportEarthObservationJobInput: Swift.Equatable {
 
     public init (
         arn: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
         exportSourceImages: Swift.Bool? = nil,
         outputConfig: SageMakerGeospatialClientTypes.OutputConfigInput? = nil
     )
     {
         self.arn = arn
+        self.clientToken = clientToken
         self.executionRoleArn = executionRoleArn
         self.exportSourceImages = exportSourceImages
         self.outputConfig = outputConfig
@@ -1164,6 +1171,7 @@ public struct ExportEarthObservationJobInput: Swift.Equatable {
 
 struct ExportEarthObservationJobInputBody: Swift.Equatable {
     let arn: Swift.String?
+    let clientToken: Swift.String?
     let executionRoleArn: Swift.String?
     let outputConfig: SageMakerGeospatialClientTypes.OutputConfigInput?
     let exportSourceImages: Swift.Bool?
@@ -1172,6 +1180,7 @@ struct ExportEarthObservationJobInputBody: Swift.Equatable {
 extension ExportEarthObservationJobInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
+        case clientToken = "ClientToken"
         case executionRoleArn = "ExecutionRoleArn"
         case exportSourceImages = "ExportSourceImages"
         case outputConfig = "OutputConfig"
@@ -1181,6 +1190,8 @@ extension ExportEarthObservationJobInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
         let executionRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRoleArn)
         executionRoleArn = executionRoleArnDecoded
         let outputConfigDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.OutputConfigInput.self, forKey: .outputConfig)
@@ -1307,7 +1318,7 @@ extension ExportEarthObservationJobOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
-        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
         creationTime = creationTimeDecoded
         let exportStatusDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.EarthObservationJobExportStatus.self, forKey: .exportStatus)
         exportStatus = exportStatusDecoded
@@ -1348,9 +1359,9 @@ extension SageMakerGeospatialClientTypes.ExportErrorDetails: Swift.Codable {
 extension SageMakerGeospatialClientTypes {
     /// The structure for returning the export error details in a GetEarthObservationJob.
     public struct ExportErrorDetails: Swift.Equatable {
-        ///
+        /// The structure for returning the export error details while exporting results of an Earth Observation job.
         public var exportResults: SageMakerGeospatialClientTypes.ExportErrorDetailsOutput?
-        ///
+        /// The structure for returning the export error details while exporting the source images of an Earth Observation job.
         public var exportSourceImages: SageMakerGeospatialClientTypes.ExportErrorDetailsOutput?
 
         public init (
@@ -1391,11 +1402,11 @@ extension SageMakerGeospatialClientTypes.ExportErrorDetailsOutput: Swift.Codable
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The structure representing the errors in an export EarthObservationJob operation.
     public struct ExportErrorDetailsOutput: Swift.Equatable {
-        ///
+        /// A detailed message describing the error in an export EarthObservationJob operation.
         public var message: Swift.String?
-        ///
+        /// The type of error in an export EarthObservationJob operation.
         public var type: SageMakerGeospatialClientTypes.ExportErrorType?
 
         public init (
@@ -1470,9 +1481,9 @@ extension SageMakerGeospatialClientTypes.ExportS3DataInput: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The structure containing the Amazon S3 path to export the Earth Observation job output.
     public struct ExportS3DataInput: Swift.Equatable {
-        /// The Amazon Key Management Service (KMS) key ID for server-side encryption.
+        /// The Key Management Service key ID for server-side encryption.
         public var kmsKeyId: Swift.String?
         /// The URL to the Amazon S3 data input.
         /// This member is required.
@@ -1493,6 +1504,7 @@ extension SageMakerGeospatialClientTypes {
 extension ExportVectorEnrichmentJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
+        case clientToken = "ClientToken"
         case executionRoleArn = "ExecutionRoleArn"
         case outputConfig = "OutputConfig"
     }
@@ -1501,6 +1513,9 @@ extension ExportVectorEnrichmentJobInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
         }
         if let executionRoleArn = self.executionRoleArn {
             try encodeContainer.encode(executionRoleArn, forKey: .executionRoleArn)
@@ -1521,6 +1536,8 @@ public struct ExportVectorEnrichmentJobInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the Vector Enrichment job.
     /// This member is required.
     public var arn: Swift.String?
+    /// A unique token that guarantees that the call to this API is idempotent.
+    public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM rolewith permission to upload to the location in OutputConfig.
     /// This member is required.
     public var executionRoleArn: Swift.String?
@@ -1530,11 +1547,13 @@ public struct ExportVectorEnrichmentJobInput: Swift.Equatable {
 
     public init (
         arn: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
         outputConfig: SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig? = nil
     )
     {
         self.arn = arn
+        self.clientToken = clientToken
         self.executionRoleArn = executionRoleArn
         self.outputConfig = outputConfig
     }
@@ -1542,6 +1561,7 @@ public struct ExportVectorEnrichmentJobInput: Swift.Equatable {
 
 struct ExportVectorEnrichmentJobInputBody: Swift.Equatable {
     let arn: Swift.String?
+    let clientToken: Swift.String?
     let executionRoleArn: Swift.String?
     let outputConfig: SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig?
 }
@@ -1549,6 +1569,7 @@ struct ExportVectorEnrichmentJobInputBody: Swift.Equatable {
 extension ExportVectorEnrichmentJobInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
+        case clientToken = "ClientToken"
         case executionRoleArn = "ExecutionRoleArn"
         case outputConfig = "OutputConfig"
     }
@@ -1557,6 +1578,8 @@ extension ExportVectorEnrichmentJobInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
         let executionRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRoleArn)
         executionRoleArn = executionRoleArnDecoded
         let outputConfigDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig.self, forKey: .outputConfig)
@@ -1586,7 +1609,7 @@ extension SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig: 
 extension SageMakerGeospatialClientTypes {
     /// An object containing information about the output file.
     public struct ExportVectorEnrichmentJobOutputConfig: Swift.Equatable {
-        ///
+        /// The input structure for Amazon S3 data; representing the Amazon S3 location of the input data objects.
         /// This member is required.
         public var s3Data: SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data?
 
@@ -1709,7 +1732,7 @@ extension ExportVectorEnrichmentJobOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
-        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
         creationTime = creationTimeDecoded
         let executionRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRoleArn)
         executionRoleArn = executionRoleArnDecoded
@@ -1906,12 +1929,12 @@ extension SageMakerGeospatialClientTypes.Geometry: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The structure representing a Geometry in terms of Type and Coordinates as per GeoJson spec.
     public struct Geometry: Swift.Equatable {
-        ///
+        /// The coordinates of the GeoJson Geometry.
         /// This member is required.
         public var coordinates: [[[Swift.Double]]]?
-        ///
+        /// GeoJson Geometry types like Polygon and MultiPolygon.
         /// This member is required.
         public var type: Swift.String?
 
@@ -2051,12 +2074,12 @@ public struct GetEarthObservationJobOutputResponse: Swift.Equatable {
     /// An object containing information about the job configuration.
     /// This member is required.
     public var jobConfig: SageMakerGeospatialClientTypes.JobConfigInput?
-    /// The Amazon Key Management Service (KMS) key ID for server-side encryption.
+    /// The Key Management Service key ID for server-side encryption.
     public var kmsKeyId: Swift.String?
     /// The name of the Earth Observation job.
     /// This member is required.
     public var name: Swift.String?
-    ///
+    /// Bands available in the output of an operation.
     public var outputBands: [SageMakerGeospatialClientTypes.OutputBand]?
     /// The status of a previously initiated Earth Observation job.
     /// This member is required.
@@ -2139,7 +2162,7 @@ extension GetEarthObservationJobOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
         creationTime = creationTimeDecoded
         let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds)
         durationInSeconds = durationInSecondsDecoded
@@ -2282,7 +2305,7 @@ public struct GetRasterDataCollectionOutputResponse: Swift.Equatable {
     /// The URL of the description page.
     /// This member is required.
     public var descriptionPageUrl: Swift.String?
-    ///
+    /// The list of image source bands in the raster data collection.
     /// This member is required.
     public var imageSourceBands: [Swift.String]?
     /// The name of the raster data collection.
@@ -2406,6 +2429,10 @@ extension GetTileInput: ClientRuntime.QueryItemProvider {
                 let imageMaskQueryItem = ClientRuntime.URLQueryItem(name: "ImageMask".urlPercentEncoding(), value: Swift.String(imageMask).urlPercentEncoding())
                 items.append(imageMaskQueryItem)
             }
+            if let executionRoleArn = executionRoleArn {
+                let executionRoleArnQueryItem = ClientRuntime.URLQueryItem(name: "ExecutionRoleArn".urlPercentEncoding(), value: Swift.String(executionRoleArn).urlPercentEncoding())
+                items.append(executionRoleArnQueryItem)
+            }
             guard let target = target else {
                 let message = "Creating a URL Query Item failed. target is required and must not be nil."
                 throw ClientRuntime.ClientError.queryItemCreationFailed(message)
@@ -2458,6 +2485,8 @@ public struct GetTileInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the tile operation.
     /// This member is required.
     public var arn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that you specify.
+    public var executionRoleArn: Swift.String?
     /// The particular assets or bands to tile.
     /// This member is required.
     public var imageAssets: [Swift.String]?
@@ -2486,6 +2515,7 @@ public struct GetTileInput: Swift.Equatable {
 
     public init (
         arn: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
         imageAssets: [Swift.String]? = nil,
         imageMask: Swift.Bool? = nil,
         outputDataType: SageMakerGeospatialClientTypes.OutputType? = nil,
@@ -2499,6 +2529,7 @@ public struct GetTileInput: Swift.Equatable {
     )
     {
         self.arn = arn
+        self.executionRoleArn = executionRoleArn
         self.imageAssets = imageAssets
         self.imageMask = imageMask
         self.outputDataType = outputDataType
@@ -2714,7 +2745,7 @@ public struct GetVectorEnrichmentJobOutputResponse: Swift.Equatable {
     /// An object containing information about the job configuration.
     /// This member is required.
     public var jobConfig: SageMakerGeospatialClientTypes.VectorEnrichmentJobConfig?
-    /// The Amazon Key Management Service (KMS) key ID for server-side encryption.
+    /// The Key Management Service key ID for server-side encryption.
     public var kmsKeyId: Swift.String?
     /// The name of the Vector Enrichment job.
     /// This member is required.
@@ -2805,7 +2836,7 @@ extension GetVectorEnrichmentJobOutputResponseBody: Swift.Decodable {
         type = typeDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
         creationTime = creationTimeDecoded
         let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds)
         durationInSeconds = durationInSecondsDecoded
@@ -2911,7 +2942,7 @@ extension SageMakerGeospatialClientTypes {
         public var dataSourceConfig: SageMakerGeospatialClientTypes.EojDataSourceConfigInput?
         /// The Amazon Resource Name (ARN) of the previous Earth Observation job.
         public var previousEarthObservationJobArn: Swift.String?
-        ///
+        /// The structure representing the RasterDataCollection Query consisting of the Area of Interest, RasterDataCollectionArn,TimeRange and Property Filters.
         public var rasterDataCollectionQuery: SageMakerGeospatialClientTypes.RasterDataCollectionQueryInput?
 
         public init (
@@ -2966,7 +2997,7 @@ extension SageMakerGeospatialClientTypes {
         public var dataSourceConfig: SageMakerGeospatialClientTypes.EojDataSourceConfigInput?
         /// The Amazon Resource Name (ARN) of the previous Earth Observation job.
         public var previousEarthObservationJobArn: Swift.String?
-        ///
+        /// The structure representing the RasterDataCollection Query consisting of the Area of Interest, RasterDataCollectionArn, RasterDataCollectionName, TimeRange, and Property Filters.
         public var rasterDataCollectionQuery: SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput?
 
         public init (
@@ -3014,7 +3045,6 @@ public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swi
     /// This member is required.
     public var message: Swift.String?
     ///
-    /// This member is required.
     public var resourceId: Swift.String?
 
     public init (
@@ -3103,20 +3133,20 @@ extension SageMakerGeospatialClientTypes.ItemSource: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    /// Structure representing the items in the response for SearchRasterDataCollection.
+    /// The structure representing the items in the response for SearchRasterDataCollection.
     public struct ItemSource: Swift.Equatable {
-        ///
+        /// This is a dictionary of Asset Objects data associated with the Item that can be downloaded or streamed, each with a unique key.
         public var assets: [Swift.String:SageMakerGeospatialClientTypes.AssetValue]?
-        ///
+        /// The searchable date and time of the item, in UTC.
         /// This member is required.
         public var dateTime: ClientRuntime.Date?
-        ///
+        /// The item Geometry in GeoJson format.
         /// This member is required.
         public var geometry: SageMakerGeospatialClientTypes.Geometry?
         /// A unique Id for the source item.
         /// This member is required.
         public var id: Swift.String?
-        ///
+        /// This field contains additional properties of the item.
         public var properties: SageMakerGeospatialClientTypes.Properties?
 
         public init (
@@ -3231,7 +3261,7 @@ extension SageMakerGeospatialClientTypes.JobConfigInput: Swift.Codable {
 extension SageMakerGeospatialClientTypes {
     /// The input structure for the JobConfig in an EarthObservationJob.
     public enum JobConfigInput: Swift.Equatable {
-        ///
+        /// An object containing information about the job configuration for BandMath.
         case bandmathconfig(SageMakerGeospatialClientTypes.BandMathConfigInput)
         /// An object containing information about the job configuration for resampling.
         case resamplingconfig(SageMakerGeospatialClientTypes.ResamplingConfigInput)
@@ -3243,7 +3273,7 @@ extension SageMakerGeospatialClientTypes {
         case zonalstatisticsconfig(SageMakerGeospatialClientTypes.ZonalStatisticsConfigInput)
         /// An object containing information about the job configuration for geomosaic.
         case geomosaicconfig(SageMakerGeospatialClientTypes.GeoMosaicConfigInput)
-        ///
+        /// An object containing information about the job configuration for a Stacking Earth Observation job.
         case stackconfig(SageMakerGeospatialClientTypes.StackConfigInput)
         /// An object containing information about the job configuration for cloud masking.
         case cloudmaskingconfig(SageMakerGeospatialClientTypes.CloudMaskingConfigInput)
@@ -3266,7 +3296,7 @@ extension SageMakerGeospatialClientTypes.LandCoverSegmentationConfigInput: Swift
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The input structure for Land Cover Operation type.
     public struct LandCoverSegmentationConfigInput: Swift.Equatable {
 
         public init () { }
@@ -3300,12 +3330,12 @@ extension SageMakerGeospatialClientTypes.LandsatCloudCoverLandInput: Swift.Codab
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The structure representing Land Cloud Cover property for Landsat data collection.
     public struct LandsatCloudCoverLandInput: Swift.Equatable {
-        ///
+        /// The minimum value for Land Cloud Cover property filter. This will filter items having Land Cloud Cover greater than or equal to this value.
         /// This member is required.
         public var lowerBound: Swift.Float?
-        ///
+        /// The maximum value for Land Cloud Cover property filter. This will filter items having Land Cloud Cover less than or equal to this value.
         /// This member is required.
         public var upperBound: Swift.Float?
 
@@ -3338,7 +3368,7 @@ extension SageMakerGeospatialClientTypes.ListEarthObservationJobOutputConfig: Sw
             try encodeContainer.encode(arn, forKey: .arn)
         }
         if let creationTime = self.creationTime {
-            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+            try encodeContainer.encodeTimestamp(creationTime, format: .dateTime, forKey: .creationTime)
         }
         if let durationInSeconds = self.durationInSeconds {
             try encodeContainer.encode(durationInSeconds, forKey: .durationInSeconds)
@@ -3366,7 +3396,7 @@ extension SageMakerGeospatialClientTypes.ListEarthObservationJobOutputConfig: Sw
         arn = arnDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
         creationTime = creationTimeDecoded
         let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds)
         durationInSeconds = durationInSecondsDecoded
@@ -3403,7 +3433,7 @@ extension SageMakerGeospatialClientTypes {
         /// The names of the Earth Observation jobs in the list.
         /// This member is required.
         public var name: Swift.String?
-        ///
+        /// The operation type for an Earth Observation job.
         /// This member is required.
         public var operationType: Swift.String?
         /// The status of the list of the Earth Observation jobs.
@@ -3907,7 +3937,7 @@ extension SageMakerGeospatialClientTypes.ListVectorEnrichmentJobOutputConfig: Sw
             try encodeContainer.encode(arn, forKey: .arn)
         }
         if let creationTime = self.creationTime {
-            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+            try encodeContainer.encodeTimestamp(creationTime, format: .dateTime, forKey: .creationTime)
         }
         if let durationInSeconds = self.durationInSeconds {
             try encodeContainer.encode(durationInSeconds, forKey: .durationInSeconds)
@@ -3937,7 +3967,7 @@ extension SageMakerGeospatialClientTypes.ListVectorEnrichmentJobOutputConfig: Sw
         name = nameDecoded
         let typeDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.VectorEnrichmentJobType.self, forKey: .type)
         type = typeDecoded
-        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
         creationTime = creationTimeDecoded
         let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds)
         durationInSeconds = durationInSecondsDecoded
@@ -4267,9 +4297,9 @@ extension SageMakerGeospatialClientTypes.MapMatchingConfig: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The input structure for Map Matching operation type.
     public struct MapMatchingConfig: Swift.Equatable {
-        ///
+        /// The field name for the data that describes the identifier representing a collection of GPS points belonging to an individual trace.
         /// This member is required.
         public var idAttributeName: Swift.String?
         /// The name of the timestamp attribute.
@@ -4396,7 +4426,7 @@ extension SageMakerGeospatialClientTypes.MultiPolygonGeometryInput: Swift.Codabl
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The structure representing Polygon Geometry based on the [GeoJson spec](https://www.rfc-editor.org/rfc/rfc7946#section-3.1.6).
     public struct MultiPolygonGeometryInput: Swift.Equatable {
         /// The coordinates of the multipolygon geometry.
         /// This member is required.
@@ -4444,9 +4474,9 @@ extension SageMakerGeospatialClientTypes.Operation: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// Represents an arithmetic operation to compute spectral index.
     public struct Operation: Swift.Equatable {
-        ///
+        /// Textual representation of the math operation; Equation used to compute the spectral index.
         /// This member is required.
         public var equation: Swift.String?
         /// The name of the operation.
@@ -4572,9 +4602,9 @@ extension SageMakerGeospatialClientTypes.OutputResolutionResamplingInput: Swift.
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// OutputResolution Configuration indicating the target resolution for the output of Resampling operation.
     public struct OutputResolutionResamplingInput: Swift.Equatable {
-        ///
+        /// User Defined Resolution for the output of Resampling operation defined by value and unit.
         /// This member is required.
         public var userDefined: SageMakerGeospatialClientTypes.UserDefined?
 
@@ -4614,11 +4644,11 @@ extension SageMakerGeospatialClientTypes.OutputResolutionStackInput: Swift.Codab
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The input structure representing Output Resolution for Stacking Operation.
     public struct OutputResolutionStackInput: Swift.Equatable {
-        ///
+        /// A string value representing Predefined Output Resolution for a stacking operation. Allowed values are HIGHEST, LOWEST, and AVERAGE.
         public var predefined: SageMakerGeospatialClientTypes.PredefinedResolution?
-        ///
+        /// The structure representing User Output Resolution for a Stacking operation defined as a value and unit.
         public var userDefined: SageMakerGeospatialClientTypes.UserDefined?
 
         public init (
@@ -4705,9 +4735,9 @@ extension SageMakerGeospatialClientTypes.PlatformInput: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The input structure for specifying Platform. Platform refers to the unique name of the specific platform the instrument is attached to. For satellites it is the name of the satellite, eg. landsat-8 (Landsat-8), sentinel-2a.
     public struct PlatformInput: Swift.Equatable {
-        ///
+        /// The ComparisonOperator to use with PlatformInput.
         public var comparisonOperator: SageMakerGeospatialClientTypes.ComparisonOperator?
         /// The value of the platform.
         /// This member is required.
@@ -4781,9 +4811,9 @@ extension SageMakerGeospatialClientTypes.PolygonGeometryInput: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The structure representing Polygon Geometry based on the [GeoJson spec](https://www.rfc-editor.org/rfc/rfc7946#section-3.1.6).
     public struct PolygonGeometryInput: Swift.Equatable {
-        ///
+        /// Coordinates representing a Polygon based on the [GeoJson spec](https://www.rfc-editor.org/rfc/rfc7946#section-3.1.6).
         /// This member is required.
         public var coordinates: [[[Swift.Double]]]?
 
@@ -4885,19 +4915,19 @@ extension SageMakerGeospatialClientTypes.Properties: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// Properties associated with the Item.
     public struct Properties: Swift.Equatable {
-        ///
+        /// Estimate of cloud cover.
         public var eoCloudCover: Swift.Float?
-        ///
+        /// Land cloud cover for Landsat Data Collection.
         public var landsatCloudCoverLand: Swift.Float?
-        ///
+        /// Platform property. Platform refers to the unique name of the specific platform the instrument is attached to. For satellites it is the name of the satellite, eg. landsat-8 (Landsat-8), sentinel-2a.
         public var platform: Swift.String?
-        ///
+        /// The angle from the sensor between nadir (straight down) and the scene center. Measured in degrees (0-90).
         public var viewOffNadir: Swift.Float?
-        ///
+        /// The sun azimuth angle. From the scene center point on the ground, this is the angle between truth north and the sun. Measured clockwise in degrees (0-360).
         public var viewSunAzimuth: Swift.Float?
-        ///
+        /// The sun elevation angle. The angle from the tangent of the scene center point to the sun. Measured from the horizon in degrees (-90-90). Negative values indicate the sun is below the horizon, e.g. sun elevation of -10° means the data was captured during [nautical twilight](https://www.timeanddate.com/astronomy/different-types-twilight.html).
         public var viewSunElevation: Swift.Float?
 
         public init (
@@ -4988,19 +5018,19 @@ extension SageMakerGeospatialClientTypes.Property: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// Represents a single searchable property to search on.
     public enum Property: Swift.Equatable {
-        ///
+        /// The structure representing EoCloudCover property filter containing a lower bound and upper bound.
         case eocloudcover(SageMakerGeospatialClientTypes.EoCloudCoverInput)
-        ///
+        /// The structure representing ViewOffNadir property filter containing a lower bound and upper bound.
         case viewoffnadir(SageMakerGeospatialClientTypes.ViewOffNadirInput)
-        ///
+        /// The structure representing ViewSunAzimuth property filter containing a lower bound and upper bound.
         case viewsunazimuth(SageMakerGeospatialClientTypes.ViewSunAzimuthInput)
-        ///
+        /// The structure representing ViewSunElevation property filter containing a lower bound and upper bound.
         case viewsunelevation(SageMakerGeospatialClientTypes.ViewSunElevationInput)
-        ///
+        /// The structure representing Platform property filter consisting of value and comparison operator.
         case platform(SageMakerGeospatialClientTypes.PlatformInput)
-        ///
+        /// The structure representing Land Cloud Cover property filter for Landsat collection containing a lower bound and upper bound.
         case landsatcloudcoverland(SageMakerGeospatialClientTypes.LandsatCloudCoverLandInput)
         case sdkUnknown(Swift.String)
     }
@@ -5027,9 +5057,9 @@ extension SageMakerGeospatialClientTypes.PropertyFilter: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The structure representing a single PropertyFilter.
     public struct PropertyFilter: Swift.Equatable {
-        ///
+        /// Represents a single property to match with when searching a raster data collection.
         /// This member is required.
         public var property: SageMakerGeospatialClientTypes.Property?
 
@@ -5081,11 +5111,11 @@ extension SageMakerGeospatialClientTypes.PropertyFilters: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// A list of PropertyFilter objects.
     public struct PropertyFilters: Swift.Equatable {
-        ///
+        /// The Logical Operator used to combine the Property Filters.
         public var logicalOperator: SageMakerGeospatialClientTypes.LogicalOperator?
-        ///
+        /// A list of Property Filters.
         public var properties: [SageMakerGeospatialClientTypes.PropertyFilter]?
 
         public init (
@@ -5193,7 +5223,7 @@ extension SageMakerGeospatialClientTypes {
         /// The name of the raster data collection.
         /// This member is required.
         public var name: Swift.String?
-        ///
+        /// The list of filters supported by the raster data collection.
         /// This member is required.
         public var supportedFilters: [SageMakerGeospatialClientTypes.Filter]?
         /// Each tag consists of a key and a value.
@@ -5267,16 +5297,16 @@ extension SageMakerGeospatialClientTypes.RasterDataCollectionQueryInput: Swift.C
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The input structure for Raster Data Collection Query containing the Area of Interest, TimeRange Filters, and Property Filters.
     public struct RasterDataCollectionQueryInput: Swift.Equatable {
         /// The area of interest being queried for the raster data collection.
         public var areaOfInterest: SageMakerGeospatialClientTypes.AreaOfInterest?
-        ///
+        /// The list of Property filters used in the Raster Data Collection Query.
         public var propertyFilters: SageMakerGeospatialClientTypes.PropertyFilters?
         /// The Amazon Resource Name (ARN) of the raster data collection.
         /// This member is required.
         public var rasterDataCollectionArn: Swift.String?
-        ///
+        /// The TimeRange Filter used in the RasterDataCollection Query.
         /// This member is required.
         public var timeRangeFilter: SageMakerGeospatialClientTypes.TimeRangeFilterInput?
 
@@ -5330,7 +5360,7 @@ extension SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput: Swift.
         rasterDataCollectionArn = rasterDataCollectionArnDecoded
         let rasterDataCollectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rasterDataCollectionName)
         rasterDataCollectionName = rasterDataCollectionNameDecoded
-        let timeRangeFilterDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.TimeRangeFilterInput.self, forKey: .timeRangeFilter)
+        let timeRangeFilterDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.TimeRangeFilterOutput.self, forKey: .timeRangeFilter)
         timeRangeFilter = timeRangeFilterDecoded
         let areaOfInterestDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.AreaOfInterest.self, forKey: .areaOfInterest)
         areaOfInterest = areaOfInterestDecoded
@@ -5345,28 +5375,28 @@ extension SageMakerGeospatialClientTypes.RasterDataCollectionQueryOutput: Swift.
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The output structure contains the Raster Data Collection Query input along with some additional metadata.
     public struct RasterDataCollectionQueryOutput: Swift.Equatable {
-        ///
+        /// The Area of Interest used in the search.
         public var areaOfInterest: SageMakerGeospatialClientTypes.AreaOfInterest?
-        ///
+        /// Property filters used in the search.
         public var propertyFilters: SageMakerGeospatialClientTypes.PropertyFilters?
-        ///
+        /// The ARN of the Raster Data Collection against which the search is done.
         /// This member is required.
         public var rasterDataCollectionArn: Swift.String?
         /// The name of the raster data collection.
         /// This member is required.
         public var rasterDataCollectionName: Swift.String?
-        ///
+        /// The TimeRange filter used in the search.
         /// This member is required.
-        public var timeRangeFilter: SageMakerGeospatialClientTypes.TimeRangeFilterInput?
+        public var timeRangeFilter: SageMakerGeospatialClientTypes.TimeRangeFilterOutput?
 
         public init (
             areaOfInterest: SageMakerGeospatialClientTypes.AreaOfInterest? = nil,
             propertyFilters: SageMakerGeospatialClientTypes.PropertyFilters? = nil,
             rasterDataCollectionArn: Swift.String? = nil,
             rasterDataCollectionName: Swift.String? = nil,
-            timeRangeFilter: SageMakerGeospatialClientTypes.TimeRangeFilterInput? = nil
+            timeRangeFilter: SageMakerGeospatialClientTypes.TimeRangeFilterOutput? = nil
         )
         {
             self.areaOfInterest = areaOfInterest
@@ -5436,13 +5466,13 @@ extension SageMakerGeospatialClientTypes.RasterDataCollectionQueryWithBandFilter
 extension SageMakerGeospatialClientTypes {
     /// This is a RasterDataCollectionQueryInput containing AreaOfInterest, Time Range filter and Property filters.
     public struct RasterDataCollectionQueryWithBandFilterInput: Swift.Equatable {
-        ///
+        /// The Area of interest to be used in the search query.
         public var areaOfInterest: SageMakerGeospatialClientTypes.AreaOfInterest?
-        ///
+        /// The list of Bands to be displayed in the result for each item.
         public var bandFilter: [Swift.String]?
-        ///
+        /// The Property Filters used in the search query.
         public var propertyFilters: SageMakerGeospatialClientTypes.PropertyFilters?
-        ///
+        /// The TimeRange Filter used in the search query.
         /// This member is required.
         public var timeRangeFilter: SageMakerGeospatialClientTypes.TimeRangeFilterInput?
 
@@ -5506,14 +5536,14 @@ extension SageMakerGeospatialClientTypes.ResamplingConfigInput: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The structure representing input for resampling operation.
     public struct ResamplingConfigInput: Swift.Equatable {
         /// The name of the algorithm used for resampling.
         public var algorithmName: SageMakerGeospatialClientTypes.AlgorithmNameResampling?
-        ///
+        /// The structure representing output resolution (in target georeferenced units) of the result of resampling operation.
         /// This member is required.
         public var outputResolution: SageMakerGeospatialClientTypes.OutputResolutionResamplingInput?
-        ///
+        /// Bands used in the operation. If no target bands are specified, it uses all bands available in the input.
         public var targetBands: [Swift.String]?
 
         public init (
@@ -5549,7 +5579,7 @@ extension ResourceNotFoundException {
     }
 }
 
-///
+/// The request references a resource which does not exist.
 public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -5560,8 +5590,7 @@ public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, S
     public var _type: ClientRuntime.ErrorType = .client
     /// This member is required.
     public var message: Swift.String?
-    ///
-    /// This member is required.
+    /// Identifier of the resource that was not found.
     public var resourceId: Swift.String?
 
     public init (
@@ -5620,12 +5649,12 @@ extension SageMakerGeospatialClientTypes.ReverseGeocodingConfig: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The input structure for Reverse Geocoding operation type.
     public struct ReverseGeocodingConfig: Swift.Equatable {
-        ///
+        /// The field name for the data that describes x-axis coordinate, eg. longitude of a point.
         /// This member is required.
         public var xAttributeName: Swift.String?
-        ///
+        /// The field name for the data that describes y-axis coordinate, eg. latitude of a point.
         /// This member is required.
         public var yAttributeName: Swift.String?
 
@@ -5675,9 +5704,9 @@ extension SageMakerGeospatialClientTypes.S3DataInput: Swift.Codable {
 extension SageMakerGeospatialClientTypes {
     /// Path to Amazon S3 storage location for input data.
     public struct S3DataInput: Swift.Equatable {
-        /// The Amazon Key Management Service (KMS) key ID for server-side encryption.
+        /// The Key Management Service key ID for server-side encryption.
         public var kmsKeyId: Swift.String?
-        ///
+        /// Metadata provider from whom the Amazon S3 data has been acquired.
         /// This member is required.
         public var metadataProvider: SageMakerGeospatialClientTypes.MetadataProvider?
         /// The URL to the Amazon S3 input.
@@ -5736,7 +5765,7 @@ public struct SearchRasterDataCollectionInput: Swift.Equatable {
     public var arn: Swift.String?
     /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
     public var nextToken: Swift.String?
-    ///
+    /// RasterDataCollectionQuery consisting of [AreaOfInterest(AOI)](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_geospatial_AreaOfInterest.html), [PropertyFilters](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_geospatial_PropertyFilter.html) and [TimeRangeFilterInput](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_geospatial_TimeRangeFilterInput.html) used in [SearchRasterDataCollection](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_geospatial_SearchRasterDataCollection.html).
     /// This member is required.
     public var rasterDataCollectionQuery: SageMakerGeospatialClientTypes.RasterDataCollectionQueryWithBandFilterInput?
 
@@ -5829,10 +5858,10 @@ extension SearchRasterDataCollectionOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 public struct SearchRasterDataCollectionOutputResponse: Swift.Equatable {
-    ///
+    /// Approximate number of results in the response.
     /// This member is required.
     public var approximateResultCount: Swift.Int?
-    ///
+    /// List of items matching the Raster DataCollectionQuery.
     public var items: [SageMakerGeospatialClientTypes.ItemSource]?
     /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
     public var nextToken: Swift.String?
@@ -5912,8 +5941,7 @@ public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceErro
     public var _type: ClientRuntime.ErrorType = .client
     /// This member is required.
     public var message: Swift.String?
-    ///
-    /// This member is required.
+    /// Identifier of the resource affected.
     public var resourceId: Swift.String?
 
     public init (
@@ -6018,11 +6046,11 @@ extension SageMakerGeospatialClientTypes.StackConfigInput: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The input structure for Stacking Operation.
     public struct StackConfigInput: Swift.Equatable {
-        ///
+        /// The structure representing output resolution (in target georeferenced units) of the result of stacking operation.
         public var outputResolution: SageMakerGeospatialClientTypes.OutputResolutionStackInput?
-        ///
+        /// A list of bands to be stacked in the specified order. When the parameter is not provided, all the available bands in the data collection are stacked in the alphabetical order of their asset names.
         public var targetBands: [Swift.String]?
 
         public init (
@@ -6094,7 +6122,7 @@ public struct StartEarthObservationJobInput: Swift.Equatable {
     /// An object containing information about the job configuration.
     /// This member is required.
     public var jobConfig: SageMakerGeospatialClientTypes.JobConfigInput?
-    /// The Amazon Key Management Service (KMS) key ID for server-side encryption.
+    /// The Key Management Service key ID for server-side encryption.
     public var kmsKeyId: Swift.String?
     /// The name of the Earth Observation job.
     /// This member is required.
@@ -6253,7 +6281,7 @@ public struct StartEarthObservationJobOutputResponse: Swift.Equatable {
     /// An object containing information about the job configuration.
     /// This member is required.
     public var jobConfig: SageMakerGeospatialClientTypes.JobConfigInput?
-    /// The Amazon Key Management Service (KMS) key ID for server-side encryption.
+    /// The Key Management Service key ID for server-side encryption.
     public var kmsKeyId: Swift.String?
     /// The name of the Earth Observation job.
     /// This member is required.
@@ -6323,7 +6351,7 @@ extension StartEarthObservationJobOutputResponseBody: Swift.Decodable {
         name = nameDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
-        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
         creationTime = creationTimeDecoded
         let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds)
         durationInSeconds = durationInSecondsDecoded
@@ -6409,7 +6437,7 @@ public struct StartVectorEnrichmentJobInput: Swift.Equatable {
     /// An object containing information about the job configuration.
     /// This member is required.
     public var jobConfig: SageMakerGeospatialClientTypes.VectorEnrichmentJobConfig?
-    /// The Amazon Key Management Service (KMS) key ID for server-side encryption.
+    /// The Key Management Service key ID for server-side encryption.
     public var kmsKeyId: Swift.String?
     /// The name of the Vector Enrichment job.
     /// This member is required.
@@ -6572,7 +6600,7 @@ public struct StartVectorEnrichmentJobOutputResponse: Swift.Equatable {
     /// An object containing information about the job configuration.
     /// This member is required.
     public var jobConfig: SageMakerGeospatialClientTypes.VectorEnrichmentJobConfig?
-    /// The Amazon Key Management Service (KMS) key ID for server-side encryption.
+    /// The Key Management Service key ID for server-side encryption.
     public var kmsKeyId: Swift.String?
     /// The name of the Vector Enrichment job.
     /// This member is required.
@@ -6651,7 +6679,7 @@ extension StartVectorEnrichmentJobOutputResponseBody: Swift.Decodable {
         arn = arnDecoded
         let typeDecoded = try containerValues.decodeIfPresent(SageMakerGeospatialClientTypes.VectorEnrichmentJobType.self, forKey: .type)
         type = typeDecoded
-        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
         creationTime = creationTimeDecoded
         let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds)
         durationInSeconds = durationInSecondsDecoded
@@ -7095,14 +7123,14 @@ extension SageMakerGeospatialClientTypes.TemporalStatisticsConfigInput: Swift.Co
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The structure representing the configuration for Temporal Statistics operation.
     public struct TemporalStatisticsConfigInput: Swift.Equatable {
-        ///
+        /// The input for the temporal statistics grouping by time frequency option.
         public var groupBy: SageMakerGeospatialClientTypes.GroupBy?
-        ///
+        /// The list of the statistics method options.
         /// This member is required.
         public var statistics: [SageMakerGeospatialClientTypes.TemporalStatistics]?
-        ///
+        /// The list of target band names for the temporal statistic to calculate.
         public var targetBands: [Swift.String]?
 
         public init (
@@ -7150,7 +7178,6 @@ public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     /// This member is required.
     public var message: Swift.String?
     ///
-    /// This member is required.
     public var resourceId: Swift.String?
 
     public init (
@@ -7221,6 +7248,59 @@ extension SageMakerGeospatialClientTypes {
         /// This member is required.
         public var endTime: ClientRuntime.Date?
         /// The start time for the time-range filter.
+        /// This member is required.
+        public var startTime: ClientRuntime.Date?
+
+        public init (
+            endTime: ClientRuntime.Date? = nil,
+            startTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+
+}
+
+extension SageMakerGeospatialClientTypes.TimeRangeFilterOutput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime = "EndTime"
+        case startTime = "StartTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .dateTime, forKey: .endTime)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .dateTime, forKey: .startTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension SageMakerGeospatialClientTypes.TimeRangeFilterOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension SageMakerGeospatialClientTypes {
+    /// The output structure of the time range filter.
+    public struct TimeRangeFilterOutput: Swift.Equatable {
+        /// The ending time for the time range filter.
+        /// This member is required.
+        public var endTime: ClientRuntime.Date?
+        /// The starting time for the time range filter.
         /// This member is required.
         public var startTime: ClientRuntime.Date?
 
@@ -7385,12 +7465,12 @@ extension SageMakerGeospatialClientTypes.UserDefined: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The output resolution (in target georeferenced units) of the result of the operation
     public struct UserDefined: Swift.Equatable {
-        ///
+        /// The units for output resolution of the result.
         /// This member is required.
         public var unit: SageMakerGeospatialClientTypes.Unit?
-        ///
+        /// The value for output resolution of the result.
         /// This member is required.
         public var value: Swift.Float?
 
@@ -7437,7 +7517,6 @@ public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     /// This member is required.
     public var message: Swift.String?
     ///
-    /// This member is required.
     public var resourceId: Swift.String?
 
     public init (
@@ -7508,9 +7587,9 @@ extension SageMakerGeospatialClientTypes.VectorEnrichmentJobConfig: Swift.Codabl
 extension SageMakerGeospatialClientTypes {
     /// It contains configs such as ReverseGeocodingConfig and MapMatchingConfig.
     public enum VectorEnrichmentJobConfig: Swift.Equatable {
-        ///
+        /// The input structure for Reverse Geocoding operation type.
         case reversegeocodingconfig(SageMakerGeospatialClientTypes.ReverseGeocodingConfig)
-        ///
+        /// The input structure for Map Matching operation type.
         case mapmatchingconfig(SageMakerGeospatialClientTypes.MapMatchingConfig)
         case sdkUnknown(Swift.String)
     }
@@ -7545,9 +7624,9 @@ extension SageMakerGeospatialClientTypes.VectorEnrichmentJobDataSourceConfigInpu
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The input structure for the data source that represents the storage type of the input data objects.
     public enum VectorEnrichmentJobDataSourceConfigInput: Swift.Equatable {
-        ///
+        /// The input structure for the Amazon S3 data that represents the Amazon S3 location of the input data objects.
         case s3data(SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data)
         case sdkUnknown(Swift.String)
     }
@@ -7692,7 +7771,7 @@ extension SageMakerGeospatialClientTypes {
     public struct VectorEnrichmentJobExportErrorDetails: Swift.Equatable {
         /// The message providing details about the errors generated during the Vector Enrichment job.
         public var message: Swift.String?
-        ///
+        /// The output error details for an Export operation on a Vector Enrichment job.
         public var type: SageMakerGeospatialClientTypes.VectorEnrichmentJobExportErrorType?
 
         public init (
@@ -7802,10 +7881,10 @@ extension SageMakerGeospatialClientTypes.VectorEnrichmentJobInputConfig: Swift.C
 extension SageMakerGeospatialClientTypes {
     /// The input structure for the InputConfig in a VectorEnrichmentJob.
     public struct VectorEnrichmentJobInputConfig: Swift.Equatable {
-        ///
+        /// The input structure for the data source that represents the storage type of the input data objects.
         /// This member is required.
         public var dataSourceConfig: SageMakerGeospatialClientTypes.VectorEnrichmentJobDataSourceConfigInput?
-        ///
+        /// The input structure that defines the data source file type.
         /// This member is required.
         public var documentType: SageMakerGeospatialClientTypes.VectorEnrichmentJobDocumentType?
 
@@ -7849,7 +7928,7 @@ extension SageMakerGeospatialClientTypes.VectorEnrichmentJobS3Data: Swift.Codabl
 extension SageMakerGeospatialClientTypes {
     /// The Amazon S3 data for the Vector Enrichment job.
     public struct VectorEnrichmentJobS3Data: Swift.Equatable {
-        /// The Amazon Key Management Service (KMS) key ID for server-side encryption.
+        /// The Key Management Service key ID for server-side encryption.
         public var kmsKeyId: Swift.String?
         /// The URL to the Amazon S3 data for the Vector Enrichment job.
         /// This member is required.
@@ -7975,12 +8054,12 @@ extension SageMakerGeospatialClientTypes.ViewOffNadirInput: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The input structure for specifying ViewOffNadir property filter. ViewOffNadir refers to the angle from the sensor between nadir (straight down) and the scene center. Measured in degrees (0-90).
     public struct ViewOffNadirInput: Swift.Equatable {
-        ///
+        /// The minimum value for ViewOffNadir property filter. This filters items having ViewOffNadir greater than or equal to this value.
         /// This member is required.
         public var lowerBound: Swift.Float?
-        ///
+        /// The maximum value for ViewOffNadir property filter. This filters items having ViewOffNadir lesser than or equal to this value.
         /// This member is required.
         public var upperBound: Swift.Float?
 
@@ -8022,12 +8101,12 @@ extension SageMakerGeospatialClientTypes.ViewSunAzimuthInput: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The input structure for specifying ViewSunAzimuth property filter. ViewSunAzimuth refers to the Sun azimuth angle. From the scene center point on the ground, this is the angle between truth north and the sun. Measured clockwise in degrees (0-360).
     public struct ViewSunAzimuthInput: Swift.Equatable {
-        ///
+        /// The minimum value for ViewSunAzimuth property filter. This filters items having ViewSunAzimuth greater than or equal to this value.
         /// This member is required.
         public var lowerBound: Swift.Float?
-        ///
+        /// The maximum value for ViewSunAzimuth property filter. This filters items having ViewSunAzimuth lesser than or equal to this value.
         /// This member is required.
         public var upperBound: Swift.Float?
 
@@ -8069,7 +8148,7 @@ extension SageMakerGeospatialClientTypes.ViewSunElevationInput: Swift.Codable {
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The input structure for specifying ViewSunElevation angle property filter.
     public struct ViewSunElevationInput: Swift.Equatable {
         /// The lower bound to view the sun elevation.
         /// This member is required.
@@ -8145,6 +8224,7 @@ extension SageMakerGeospatialClientTypes.ZonalStatisticsConfigInput: Swift.Codab
         case statistics = "Statistics"
         case targetBands = "TargetBands"
         case zoneS3Path = "ZoneS3Path"
+        case zoneS3PathKmsKeyId = "ZoneS3PathKmsKeyId"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -8163,6 +8243,9 @@ extension SageMakerGeospatialClientTypes.ZonalStatisticsConfigInput: Swift.Codab
         }
         if let zoneS3Path = self.zoneS3Path {
             try encodeContainer.encode(zoneS3Path, forKey: .zoneS3Path)
+        }
+        if let zoneS3PathKmsKeyId = self.zoneS3PathKmsKeyId {
+            try encodeContainer.encode(zoneS3PathKmsKeyId, forKey: .zoneS3PathKmsKeyId)
         }
     }
 
@@ -8192,30 +8275,43 @@ extension SageMakerGeospatialClientTypes.ZonalStatisticsConfigInput: Swift.Codab
             }
         }
         targetBands = targetBandsDecoded0
+        let zoneS3PathKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .zoneS3PathKmsKeyId)
+        zoneS3PathKmsKeyId = zoneS3PathKmsKeyIdDecoded
     }
 }
 
 extension SageMakerGeospatialClientTypes {
-    ///
+    /// The structure representing input configuration of ZonalStatistics operation.
     public struct ZonalStatisticsConfigInput: Swift.Equatable {
-        ///
+        /// List of zonal statistics to compute.
         /// This member is required.
         public var statistics: [SageMakerGeospatialClientTypes.ZonalStatistics]?
-        ///
+        /// Bands used in the operation. If no target bands are specified, it uses all bands available input.
         public var targetBands: [Swift.String]?
-        ///
+        /// The Amazon S3 path pointing to the GeoJSON containing the polygonal zones.
         /// This member is required.
         public var zoneS3Path: Swift.String?
+        /// The Amazon Resource Name (ARN) or an ID of a Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to decrypt your output artifacts with Amazon S3 server-side encryption. The SageMaker execution role must have kms:GenerateDataKey permission. The KmsKeyId can be any of the following formats:
+        ///
+        /// * // KMS Key ID "1234abcd-12ab-34cd-56ef-1234567890ab"
+        ///
+        /// * // Amazon Resource Name (ARN) of a KMS Key "arn:aws:kms:<region>:<account>:key/<key-id-12ab-34cd-56ef-1234567890ab>"
+        ///
+        ///
+        /// For more information about key identifiers, see [Key identifiers (KeyID)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-id) in the Amazon Web Services Key Management Service (Amazon Web Services KMS) documentation.
+        public var zoneS3PathKmsKeyId: Swift.String?
 
         public init (
             statistics: [SageMakerGeospatialClientTypes.ZonalStatistics]? = nil,
             targetBands: [Swift.String]? = nil,
-            zoneS3Path: Swift.String? = nil
+            zoneS3Path: Swift.String? = nil,
+            zoneS3PathKmsKeyId: Swift.String? = nil
         )
         {
             self.statistics = statistics
             self.targetBands = targetBands
             self.zoneS3Path = zoneS3Path
+            self.zoneS3PathKmsKeyId = zoneS3PathKmsKeyId
         }
     }
 

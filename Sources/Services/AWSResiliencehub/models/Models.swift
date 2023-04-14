@@ -81,7 +81,7 @@ extension AddDraftAppVersionResourceMappingsInput: ClientRuntime.URLPathProvider
 }
 
 public struct AddDraftAppVersionResourceMappingsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Mappings used to map logical resources from the template to physical resources. You can use the mapping type CFN_STACK if the application template uses a logical stack name. Or you can map individual resources by using the mapping type RESOURCE. We recommend using the mapping type CFN_STACK if the application is backed by a CloudFormation stack.
@@ -177,7 +177,7 @@ extension AddDraftAppVersionResourceMappingsOutputResponse: ClientRuntime.HttpRe
 }
 
 public struct AddDraftAppVersionResourceMappingsOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -499,7 +499,7 @@ extension ResiliencehubClientTypes.App: Swift.CustomDebugStringConvertible {
 extension ResiliencehubClientTypes {
     /// Defines an Resilience Hub application.
     public struct App: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
         /// This member is required.
         public var appArn: Swift.String?
         /// Assessment execution schedule with 'Daily' or 'Disabled' values.
@@ -700,7 +700,7 @@ extension ResiliencehubClientTypes.AppAssessment: Swift.CustomDebugStringConvert
 extension ResiliencehubClientTypes {
     /// Defines an application assessment.
     public struct AppAssessment: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
         public var appArn: Swift.String?
         /// The version of the application.
         public var appVersion: Swift.String?
@@ -896,7 +896,7 @@ extension ResiliencehubClientTypes.AppAssessmentSummary: Swift.Codable {
 extension ResiliencehubClientTypes {
     /// Defines an application assessment summary.
     public struct AppAssessmentSummary: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
         public var appArn: Swift.String?
         /// The version of the application.
         public var appVersion: Swift.String?
@@ -1055,7 +1055,7 @@ extension ResiliencehubClientTypes.AppComponent: Swift.Codable {
 extension ResiliencehubClientTypes {
     /// Defines an Application Component.
     public struct AppComponent: Swift.Equatable {
-        /// Additional configuration parameters for an AWS Resilience Hub application. Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
+        /// Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html). Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
         public var additionalInfo: [Swift.String:[Swift.String]]?
         /// Unique identifier of the Application Component.
         public var id: Swift.String?
@@ -1361,7 +1361,7 @@ extension ResiliencehubClientTypes.AppSummary: Swift.Codable {
 extension ResiliencehubClientTypes {
     /// Defines an application summary.
     public struct AppSummary: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
         /// This member is required.
         public var appArn: Swift.String?
         /// Assessment execution schedule with 'Daily' or 'Disabled' values.
@@ -2238,7 +2238,7 @@ extension CreateAppVersionAppComponentInput: ClientRuntime.URLPathProvider {
 public struct CreateAppVersionAppComponentInput: Swift.Equatable {
     /// Currently, there is no supported additional information for Application Components.
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
@@ -2374,12 +2374,12 @@ extension CreateAppVersionAppComponentOutputResponse: ClientRuntime.HttpResponse
 }
 
 public struct CreateAppVersionAppComponentOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The list of Application Components that belong to this resource.
     public var appComponent: ResiliencehubClientTypes.AppComponent?
-    /// The AWS Resilience Hub application version.
+    /// The Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
 
@@ -2486,10 +2486,10 @@ extension CreateAppVersionResourceInput: ClientRuntime.URLPathProvider {
 public struct CreateAppVersionResourceInput: Swift.Equatable {
     /// Currently, there is no supported additional information for resources.
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The list of Application Components that this resource belongs to. If an Application Component is not part of the AWS Resilience Hub application, it will be added.
+    /// The list of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added.
     /// This member is required.
     public var appComponents: [Swift.String]?
     /// The Amazon Web Services account that owns the physical resource.
@@ -2666,10 +2666,10 @@ extension CreateAppVersionResourceOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 public struct CreateAppVersionResourceOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The AWS Resilience Hub application version.
+    /// The Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
     /// Defines a physical resource. A physical resource is a resource that exists in your account. It can be identified using an Amazon Resource Name (ARN) or a Resilience Hub-native identifier.
@@ -3393,7 +3393,7 @@ extension DeleteAppInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteAppInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
@@ -3473,7 +3473,7 @@ extension DeleteAppInputSourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteAppInputSourceInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
@@ -3581,7 +3581,7 @@ extension DeleteAppInputSourceOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 public struct DeleteAppInputSourceOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     public var appArn: Swift.String?
     /// The name of the input source from where the application resource is imported from.
     public var appInputSource: ResiliencehubClientTypes.AppInputSource?
@@ -3660,7 +3660,7 @@ extension DeleteAppOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteAppOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
 
@@ -3716,7 +3716,7 @@ extension DeleteAppVersionAppComponentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteAppVersionAppComponentInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
@@ -3811,12 +3811,12 @@ extension DeleteAppVersionAppComponentOutputResponse: ClientRuntime.HttpResponse
 }
 
 public struct DeleteAppVersionAppComponentOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The list of Application Components that belong to this resource.
     public var appComponent: ResiliencehubClientTypes.AppComponent?
-    /// The AWS Resilience Hub application version.
+    /// The Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
 
@@ -3900,7 +3900,7 @@ extension DeleteAppVersionResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteAppVersionResourceInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The Amazon Web Services account that owns the physical resource.
@@ -4026,10 +4026,10 @@ extension DeleteAppVersionResourceOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 public struct DeleteAppVersionResourceOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The AWS Resilience Hub application version.
+    /// The Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
     /// Defines a physical resource. A physical resource is a resource that exists in your account. It can be identified using an Amazon Resource Name (ARN) or a Resilience Hub-native identifier.
@@ -4488,7 +4488,7 @@ extension DescribeAppInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeAppInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
 
@@ -4616,10 +4616,10 @@ extension DescribeAppVersionAppComponentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeAppVersionAppComponentInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The AWS Resilience Hub application version.
+    /// The Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
     /// The identifier of the Application Component.
@@ -4712,12 +4712,12 @@ extension DescribeAppVersionAppComponentOutputResponse: ClientRuntime.HttpRespon
 }
 
 public struct DescribeAppVersionAppComponentOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The list of Application Components that belong to this resource.
     public var appComponent: ResiliencehubClientTypes.AppComponent?
-    /// The AWS Resilience Hub application version.
+    /// The Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
 
@@ -4781,10 +4781,10 @@ extension DescribeAppVersionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeAppVersionInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The AWS Resilience Hub application version.
+    /// The Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
 
@@ -4866,12 +4866,12 @@ extension DescribeAppVersionOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DescribeAppVersionOutputResponse: Swift.Equatable {
-    /// Additional configuration parameters for an AWS Resilience Hub application. Currently, this parameter supports only failover region and account.
+    /// Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html). Currently, this parameter supports only failover region and account.
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The AWS Resilience Hub application version.
+    /// The Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
 
@@ -4971,10 +4971,10 @@ extension DescribeAppVersionResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeAppVersionResourceInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The AWS Resilience Hub application version.
+    /// The Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
     /// The Amazon Web Services account that owns the physical resource.
@@ -5098,10 +5098,10 @@ extension DescribeAppVersionResourceOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 public struct DescribeAppVersionResourceOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The AWS Resilience Hub application version.
+    /// The Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
     /// Defines a physical resource. A physical resource is a resource that exists in your account. It can be identified using an Amazon Resource Name (ARN) or a Resilience Hub-native identifier.
@@ -5171,7 +5171,7 @@ extension DescribeAppVersionResourcesResolutionStatusInput: ClientRuntime.URLPat
 }
 
 public struct DescribeAppVersionResourcesResolutionStatusInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -5268,7 +5268,7 @@ extension DescribeAppVersionResourcesResolutionStatusOutputResponse: ClientRunti
 }
 
 public struct DescribeAppVersionResourcesResolutionStatusOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -5355,7 +5355,7 @@ extension DescribeAppVersionTemplateInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeAppVersionTemplateInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -5440,12 +5440,12 @@ extension DescribeAppVersionTemplateOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 public struct DescribeAppVersionTemplateOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// A JSON string that provides information about your application structure. To learn more about the appTemplateBody template, see the sample template provided in the Examples section. The appTemplateBody JSON string has the following structure:
     ///
-    /// * resources The list of logical resources that needs to be included in the Resilience Hub application. Type: Array Don't add the resources that you want to exclude. Each resources array item includes the following fields:
+    /// * resources The list of logical resources that must be included in the Resilience Hub application. Type: Array Don't add the resources that you want to exclude. Each resources array item includes the following fields:
     ///
     /// * logicalResourceId The logical identifier of the resource. Type: Object Each logicalResourceId object includes the following fields:
     ///
@@ -5457,6 +5457,8 @@ public struct DescribeAppVersionTemplateOutputResponse: Swift.Equatable {
     ///
     /// * terraformSourceName The name of the Terraform S3 state file this resource belongs to. Type: String
     ///
+    /// * eksSourceName The name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. This parameter accepts values in "eks-cluster/namespace" format. Type: String
+    ///
     ///
     ///
     ///
@@ -5464,12 +5466,12 @@ public struct DescribeAppVersionTemplateOutputResponse: Swift.Equatable {
     ///
     /// * name The name of the resource. Type: String
     ///
-    /// * additionalInfo Additional configuration parameters for an AWS Resilience Hub application. Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
+    /// * additionalInfo Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html). Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
     ///
     ///
     ///
     ///
-    /// * appComponents The list of Application Components that this resource belongs to. If an Application Component is not part of the AWS Resilience Hub application, it will be added. Type: Array Each appComponents array item includes the following fields:
+    /// * appComponents The list of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added. Type: Array Each appComponents array item includes the following fields:
     ///
     /// * name The name of the Application Component. Type: String
     ///
@@ -5477,7 +5479,7 @@ public struct DescribeAppVersionTemplateOutputResponse: Swift.Equatable {
     ///
     /// * resourceNames The list of included resources that are assigned to the Application Component. Type: Array of strings
     ///
-    /// * additionalInfo Additional configuration parameters for an AWS Resilience Hub application. Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
+    /// * additionalInfo Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html). Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
     ///
     ///
     ///
@@ -5492,6 +5494,8 @@ public struct DescribeAppVersionTemplateOutputResponse: Swift.Equatable {
     ///
     /// * terraformSourceName
     ///
+    /// * eksSourceName
+    ///
     ///
     /// Each logicalResourceIds object includes the following fields:
     ///
@@ -5503,15 +5507,17 @@ public struct DescribeAppVersionTemplateOutputResponse: Swift.Equatable {
     ///
     /// * terraformSourceName The name of the Terraform S3 state file this resource belongs to. Type: String
     ///
+    /// * eksSourceName The name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. This parameter accepts values in "eks-cluster/namespace" format. Type: String
     ///
     ///
     ///
     ///
     ///
     ///
-    /// * version The AWS Resilience Hub application version.
     ///
-    /// * additionalInfo Additional configuration parameters for an AWS Resilience Hub application. Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
+    /// * version The Resilience Hub application version.
+    ///
+    /// * additionalInfo Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html). Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
     /// This member is required.
     public var appTemplateBody: Swift.String?
     /// The version of the application.
@@ -5574,7 +5580,7 @@ extension DescribeDraftAppVersionResourcesImportStatusInput: ClientRuntime.URLPa
 }
 
 public struct DescribeDraftAppVersionResourcesImportStatusInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
 
@@ -5654,7 +5660,7 @@ extension DescribeDraftAppVersionResourcesImportStatusOutputResponse: ClientRunt
 }
 
 public struct DescribeDraftAppVersionResourcesImportStatusOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -6278,7 +6284,7 @@ extension ImportResourcesToDraftAppVersionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ImportResourcesToDraftAppVersionInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The input sources of the Amazon Elastic Kubernetes Service resources you need to import.
@@ -6421,7 +6427,7 @@ extension ImportResourcesToDraftAppVersionOutputResponse: ClientRuntime.HttpResp
 }
 
 public struct ImportResourcesToDraftAppVersionOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -6783,7 +6789,7 @@ extension ListAppAssessmentsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppAssessmentsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     public var appArn: Swift.String?
     /// The name for the assessment.
     public var assessmentName: Swift.String?
@@ -7280,10 +7286,10 @@ extension ListAppInputSourcesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppInputSourcesInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The AWS Resilience Hub application version.
+    /// The Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
     /// Maximum number of input sources to be displayed per Resilience Hub application.
@@ -7456,13 +7462,13 @@ extension ListAppVersionAppComponentsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppVersionAppComponentsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the Application Component.
     /// This member is required.
     public var appVersion: Swift.String?
-    /// Maximum number of Application Components to be displayed per AWS Resilience Hub application version.
+    /// Maximum number of Application Components to be displayed per Resilience Hub application version.
     public var maxResults: Swift.Int?
     /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
@@ -7561,12 +7567,12 @@ extension ListAppVersionAppComponentsOutputResponse: ClientRuntime.HttpResponseB
 }
 
 public struct ListAppVersionAppComponentsOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Defines an Application Component.
     public var appComponents: [ResiliencehubClientTypes.AppComponent]?
-    /// The AWS Resilience Hub application version.
+    /// The Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
     /// The token for the next set of results, or null if there are no more results.
@@ -7655,7 +7661,7 @@ extension ListAppVersionResourceMappingsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppVersionResourceMappingsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -7835,7 +7841,7 @@ extension ListAppVersionResourcesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppVersionResourcesInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -8028,7 +8034,7 @@ extension ListAppVersionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppVersionsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -8193,7 +8199,7 @@ extension ListAppsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAppsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     public var appArn: Swift.String?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
@@ -9263,7 +9269,7 @@ extension ListUnsupportedAppVersionResourcesInput: ClientRuntime.URLPathProvider
 }
 
 public struct ListUnsupportedAppVersionResourcesInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -9628,7 +9634,7 @@ extension ResiliencehubClientTypes.PhysicalResource: Swift.Codable {
 extension ResiliencehubClientTypes {
     /// Defines a physical resource. A physical resource is a resource that exists in your account. It can be identified using an Amazon Resource Name (ARN) or an Resilience Hub-native identifier.
     public struct PhysicalResource: Swift.Equatable {
-        /// Additional configuration parameters for an AWS Resilience Hub application. Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
+        /// Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html). Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
         public var additionalInfo: [Swift.String:[Swift.String]]?
         /// The application components that belong to this resource.
         public var appComponents: [ResiliencehubClientTypes.AppComponent]?
@@ -9755,7 +9761,7 @@ extension PublishAppVersionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PublishAppVersionInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
 
@@ -9831,7 +9837,7 @@ extension PublishAppVersionOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct PublishAppVersionOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -9891,12 +9897,12 @@ extension PutDraftAppVersionTemplateInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutDraftAppVersionTemplateInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// A JSON string that provides information about your application structure. To learn more about the appTemplateBody template, see the sample template provided in the Examples section. The appTemplateBody JSON string has the following structure:
     ///
-    /// * resources The list of logical resources that needs to be included in the Resilience Hub application. Type: Array Don't add the resources that you want to exclude. Each resources array item includes the following fields:
+    /// * resources The list of logical resources that must be included in the Resilience Hub application. Type: Array Don't add the resources that you want to exclude. Each resources array item includes the following fields:
     ///
     /// * logicalResourceId The logical identifier of the resource. Type: Object Each logicalResourceId object includes the following fields:
     ///
@@ -9908,6 +9914,8 @@ public struct PutDraftAppVersionTemplateInput: Swift.Equatable {
     ///
     /// * terraformSourceName The name of the Terraform S3 state file this resource belongs to. Type: String
     ///
+    /// * eksSourceName The name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. This parameter accepts values in "eks-cluster/namespace" format. Type: String
+    ///
     ///
     ///
     ///
@@ -9915,12 +9923,12 @@ public struct PutDraftAppVersionTemplateInput: Swift.Equatable {
     ///
     /// * name The name of the resource. Type: String
     ///
-    /// * additionalInfo Additional configuration parameters for an AWS Resilience Hub application. Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
+    /// * additionalInfo Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html). Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
     ///
     ///
     ///
     ///
-    /// * appComponents The list of Application Components that this resource belongs to. If an Application Component is not part of the AWS Resilience Hub application, it will be added. Type: Array Each appComponents array item includes the following fields:
+    /// * appComponents The list of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added. Type: Array Each appComponents array item includes the following fields:
     ///
     /// * name The name of the Application Component. Type: String
     ///
@@ -9928,7 +9936,7 @@ public struct PutDraftAppVersionTemplateInput: Swift.Equatable {
     ///
     /// * resourceNames The list of included resources that are assigned to the Application Component. Type: Array of strings
     ///
-    /// * additionalInfo Additional configuration parameters for an AWS Resilience Hub application. Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
+    /// * additionalInfo Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html). Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
     ///
     ///
     ///
@@ -9943,6 +9951,8 @@ public struct PutDraftAppVersionTemplateInput: Swift.Equatable {
     ///
     /// * terraformSourceName
     ///
+    /// * eksSourceName
+    ///
     ///
     /// Each logicalResourceIds object includes the following fields:
     ///
@@ -9954,15 +9964,17 @@ public struct PutDraftAppVersionTemplateInput: Swift.Equatable {
     ///
     /// * terraformSourceName The name of the Terraform S3 state file this resource belongs to. Type: String
     ///
+    /// * eksSourceName The name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. This parameter accepts values in "eks-cluster/namespace" format. Type: String
     ///
     ///
     ///
     ///
     ///
     ///
-    /// * version The AWS Resilience Hub application version.
     ///
-    /// * additionalInfo Additional configuration parameters for an AWS Resilience Hub application. Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
+    /// * version The Resilience Hub application version.
+    ///
+    /// * additionalInfo Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html). Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
     /// This member is required.
     public var appTemplateBody: Swift.String?
 
@@ -10044,7 +10056,7 @@ extension PutDraftAppVersionTemplateOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 public struct PutDraftAppVersionTemplateOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     public var appArn: Swift.String?
     /// The version of the application.
     public var appVersion: Swift.String?
@@ -10396,7 +10408,7 @@ extension ResiliencehubClientTypes.RecommendationTemplate: Swift.CustomDebugStri
 extension ResiliencehubClientTypes {
     /// Defines a recommendation template created with the [CreateRecommendationTemplate] action.
     public struct RecommendationTemplate: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
         public var appArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
         /// This member is required.
@@ -10567,7 +10579,7 @@ extension RemoveDraftAppVersionResourceMappingsInput: ClientRuntime.URLPathProvi
 }
 
 public struct RemoveDraftAppVersionResourceMappingsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The names of the registered applications you want to remove from the resource mappings.
@@ -10745,7 +10757,7 @@ extension RemoveDraftAppVersionResourceMappingsOutputResponse: ClientRuntime.Htt
 }
 
 public struct RemoveDraftAppVersionResourceMappingsOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     public var appArn: Swift.String?
     /// The version of the application.
     public var appVersion: Swift.String?
@@ -11083,7 +11095,7 @@ extension ResolveAppVersionResourcesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ResolveAppVersionResourcesInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -11172,7 +11184,7 @@ extension ResolveAppVersionResourcesOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 public struct ResolveAppVersionResourcesOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -11479,7 +11491,7 @@ extension ResiliencehubClientTypes {
         public var eksSourceName: Swift.String?
         /// The name of the CloudFormation stack this resource is mapped to.
         public var logicalStackName: Swift.String?
-        /// Specifies the type of resource mapping. AppRegistryApp The resource is mapped to another application. The name of the application is contained in the appRegistryAppName property. CfnStack The resource is mapped to a CloudFormation stack. The name of the CloudFormation stack is contained in the logicalStackName property. Resource The resource is mapped to another resource. The name of the resource is contained in the resourceName property. ResourceGroup The resource is mapped to an Resource Groups. The name of the resource group is contained in the resourceGroupName property.
+        /// Specifies the type of resource mapping. AppRegistryApp The resource is mapped to another application. The name of the application is contained in the appRegistryAppName property. CfnStack The resource is mapped to a CloudFormation stack. The name of the CloudFormation stack is contained in the logicalStackName property. Resource The resource is mapped to another resource. The name of the resource is contained in the resourceName property. ResourceGroup The resource is mapped to Resource Groups. The name of the resource group is contained in the resourceGroupName property.
         /// This member is required.
         public var mappingType: ResiliencehubClientTypes.ResourceMappingType?
         /// The identifier of this resource.
@@ -11960,7 +11972,7 @@ extension StartAppAssessmentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartAppAssessmentInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The version of the application.
@@ -12632,7 +12644,7 @@ extension ResiliencehubClientTypes {
         /// The type of resource.
         /// This member is required.
         public var resourceType: Swift.String?
-        /// The status of unsupported resource.
+        /// The status of the unsupported resource.
         public var unsupportedResourceStatus: Swift.String?
 
         public init (
@@ -12785,7 +12797,7 @@ extension UpdateAppInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateAppInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// Assessment execution schedule with 'Daily' or 'Disabled' values.
@@ -12963,7 +12975,7 @@ extension UpdateAppVersionAppComponentInput: ClientRuntime.URLPathProvider {
 public struct UpdateAppVersionAppComponentInput: Swift.Equatable {
     /// Currently, there is no supported additional information for Application Components.
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The identifier of the Application Component.
@@ -13088,12 +13100,12 @@ extension UpdateAppVersionAppComponentOutputResponse: ClientRuntime.HttpResponse
 }
 
 public struct UpdateAppVersionAppComponentOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
     /// The list of Application Components that belong to this resource.
     public var appComponent: ResiliencehubClientTypes.AppComponent?
-    /// The AWS Resilience Hub application version.
+    /// The Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
 
@@ -13163,9 +13175,9 @@ extension UpdateAppVersionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateAppVersionInput: Swift.Equatable {
-    /// Additional configuration parameters for an AWS Resilience Hub application. Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
+    /// Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html). Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
 
@@ -13265,12 +13277,12 @@ extension UpdateAppVersionOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateAppVersionOutputResponse: Swift.Equatable {
-    /// Additional configuration parameters for an AWS Resilience Hub application. Currently, this parameter supports only failover region and account.
+    /// Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see [Configure the application configuration parameters](https://docs.aws.amazon.com/resilience-hub/latest/userguide/app-config-param.html). Currently, this parameter supports only failover region and account.
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The AWS Resilience Hub application version.
+    /// The Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
 
@@ -13393,10 +13405,10 @@ extension UpdateAppVersionResourceInput: ClientRuntime.URLPathProvider {
 public struct UpdateAppVersionResourceInput: Swift.Equatable {
     /// Currently, there is no supported additional information for resources.
     public var additionalInfo: [Swift.String:[Swift.String]]?
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The list of Application Components that this resource belongs to. If an Application Component is not part of the AWS Resilience Hub application, it will be added.
+    /// The list of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added.
     public var appComponents: [Swift.String]?
     /// The Amazon Web Services account that owns the physical resource.
     public var awsAccountId: Swift.String?
@@ -13568,10 +13580,10 @@ extension UpdateAppVersionResourceOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 public struct UpdateAppVersionResourceOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The AWS Resilience Hub application version.
+    /// The Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
     /// Defines a physical resource. A physical resource is a resource that exists in your account. It can be identified using an Amazon Resource Name (ARN) or a Resilience Hub-native identifier.

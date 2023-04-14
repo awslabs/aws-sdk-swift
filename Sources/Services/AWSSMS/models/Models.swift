@@ -662,9 +662,9 @@ extension SMSClientTypes.Connector: Swift.Codable {
         var capabilityListDecoded0:[SMSClientTypes.ConnectorCapability]? = nil
         if let capabilityListContainer = capabilityListContainer {
             capabilityListDecoded0 = [SMSClientTypes.ConnectorCapability]()
-            for string0 in capabilityListContainer {
-                if let string0 = string0 {
-                    capabilityListDecoded0?.append(string0)
+            for enum0 in capabilityListContainer {
+                if let enum0 = enum0 {
+                    capabilityListDecoded0?.append(enum0)
                 }
             }
         }

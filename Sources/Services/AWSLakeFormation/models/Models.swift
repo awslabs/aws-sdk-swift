@@ -3086,7 +3086,7 @@ extension EntityNotFoundException {
     }
 }
 
-/// A specified entity does not exist
+/// A specified entity does not exist.
 public struct EntityNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -8058,6 +8058,7 @@ extension RegisterResourceInput: Swift.Encodable {
         case resourceArn = "ResourceArn"
         case roleArn = "RoleArn"
         case useServiceLinkedRole = "UseServiceLinkedRole"
+        case withFederation = "WithFederation"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -8070,6 +8071,9 @@ extension RegisterResourceInput: Swift.Encodable {
         }
         if let useServiceLinkedRole = self.useServiceLinkedRole {
             try encodeContainer.encode(useServiceLinkedRole, forKey: .useServiceLinkedRole)
+        }
+        if let withFederation = self.withFederation {
+            try encodeContainer.encode(withFederation, forKey: .withFederation)
         }
     }
 }
@@ -8088,16 +8092,20 @@ public struct RegisterResourceInput: Swift.Equatable {
     public var roleArn: Swift.String?
     /// Designates an Identity and Access Management (IAM) service-linked role by registering this role with the Data Catalog. A service-linked role is a unique type of IAM role that is linked directly to Lake Formation. For more information, see [Using Service-Linked Roles for Lake Formation](https://docs.aws.amazon.com/lake-formation/latest/dg/service-linked-roles.html).
     public var useServiceLinkedRole: Swift.Bool?
+    /// Whether or not the resource is a federated resource.
+    public var withFederation: Swift.Bool?
 
     public init (
         resourceArn: Swift.String? = nil,
         roleArn: Swift.String? = nil,
-        useServiceLinkedRole: Swift.Bool? = nil
+        useServiceLinkedRole: Swift.Bool? = nil,
+        withFederation: Swift.Bool? = nil
     )
     {
         self.resourceArn = resourceArn
         self.roleArn = roleArn
         self.useServiceLinkedRole = useServiceLinkedRole
+        self.withFederation = withFederation
     }
 }
 
@@ -8105,6 +8113,7 @@ struct RegisterResourceInputBody: Swift.Equatable {
     let resourceArn: Swift.String?
     let useServiceLinkedRole: Swift.Bool?
     let roleArn: Swift.String?
+    let withFederation: Swift.Bool?
 }
 
 extension RegisterResourceInputBody: Swift.Decodable {
@@ -8112,6 +8121,7 @@ extension RegisterResourceInputBody: Swift.Decodable {
         case resourceArn = "ResourceArn"
         case roleArn = "RoleArn"
         case useServiceLinkedRole = "UseServiceLinkedRole"
+        case withFederation = "WithFederation"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -8122,6 +8132,8 @@ extension RegisterResourceInputBody: Swift.Decodable {
         useServiceLinkedRole = useServiceLinkedRoleDecoded
         let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
         roleArn = roleArnDecoded
+        let withFederationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .withFederation)
+        withFederation = withFederationDecoded
     }
 }
 
@@ -8448,6 +8460,7 @@ extension LakeFormationClientTypes.ResourceInfo: Swift.Codable {
         case lastModified = "LastModified"
         case resourceArn = "ResourceArn"
         case roleArn = "RoleArn"
+        case withFederation = "WithFederation"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -8461,6 +8474,9 @@ extension LakeFormationClientTypes.ResourceInfo: Swift.Codable {
         if let roleArn = self.roleArn {
             try encodeContainer.encode(roleArn, forKey: .roleArn)
         }
+        if let withFederation = self.withFederation {
+            try encodeContainer.encode(withFederation, forKey: .withFederation)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -8471,6 +8487,8 @@ extension LakeFormationClientTypes.ResourceInfo: Swift.Codable {
         roleArn = roleArnDecoded
         let lastModifiedDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModified)
         lastModified = lastModifiedDecoded
+        let withFederationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .withFederation)
+        withFederation = withFederationDecoded
     }
 }
 
@@ -8483,16 +8501,20 @@ extension LakeFormationClientTypes {
         public var resourceArn: Swift.String?
         /// The IAM role that registered a resource.
         public var roleArn: Swift.String?
+        /// Whether or not the resource is a federated resource.
+        public var withFederation: Swift.Bool?
 
         public init (
             lastModified: ClientRuntime.Date? = nil,
             resourceArn: Swift.String? = nil,
-            roleArn: Swift.String? = nil
+            roleArn: Swift.String? = nil,
+            withFederation: Swift.Bool? = nil
         )
         {
             self.lastModified = lastModified
             self.resourceArn = resourceArn
             self.roleArn = roleArn
+            self.withFederation = withFederation
         }
     }
 
@@ -10656,6 +10678,7 @@ extension UpdateResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceArn = "ResourceArn"
         case roleArn = "RoleArn"
+        case withFederation = "WithFederation"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -10665,6 +10688,9 @@ extension UpdateResourceInput: Swift.Encodable {
         }
         if let roleArn = self.roleArn {
             try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let withFederation = self.withFederation {
+            try encodeContainer.encode(withFederation, forKey: .withFederation)
         }
     }
 }
@@ -10682,26 +10708,32 @@ public struct UpdateResourceInput: Swift.Equatable {
     /// The new role to use for the given resource registered in Lake Formation.
     /// This member is required.
     public var roleArn: Swift.String?
+    /// Whether or not the resource is a federated resource.
+    public var withFederation: Swift.Bool?
 
     public init (
         resourceArn: Swift.String? = nil,
-        roleArn: Swift.String? = nil
+        roleArn: Swift.String? = nil,
+        withFederation: Swift.Bool? = nil
     )
     {
         self.resourceArn = resourceArn
         self.roleArn = roleArn
+        self.withFederation = withFederation
     }
 }
 
 struct UpdateResourceInputBody: Swift.Equatable {
     let roleArn: Swift.String?
     let resourceArn: Swift.String?
+    let withFederation: Swift.Bool?
 }
 
 extension UpdateResourceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceArn = "ResourceArn"
         case roleArn = "RoleArn"
+        case withFederation = "WithFederation"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -10710,6 +10742,8 @@ extension UpdateResourceInputBody: Swift.Decodable {
         roleArn = roleArnDecoded
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
+        let withFederationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .withFederation)
+        withFederation = withFederationDecoded
     }
 }
 

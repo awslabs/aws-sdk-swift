@@ -269,7 +269,7 @@ extension OpenSearchServerlessClientTypes.AccountSettingsDetail: Swift.Codable {
 extension OpenSearchServerlessClientTypes {
     /// OpenSearch Serverless-related information for the current account.
     public struct AccountSettingsDetail: Swift.Equatable {
-        /// The maximum capacity limits for all OpenSearch Serverless collections, in OpenSearch Compute Units (OCUs). These limits are used to scale your collections based on the current workload. For more information, see [Autoscaling](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-overview.html#serverless-scaling).
+        /// The maximum capacity limits for all OpenSearch Serverless collections, in OpenSearch Compute Units (OCUs). These limits are used to scale your collections based on the current workload. For more information, see [Managing capacity limits for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-scaling.html).
         public var capacityLimits: OpenSearchServerlessClientTypes.CapacityLimits?
 
         public init (
@@ -637,7 +637,7 @@ extension OpenSearchServerlessClientTypes.CapacityLimits: Swift.Codable {
 }
 
 extension OpenSearchServerlessClientTypes {
-    /// The maximum capacity limits for all OpenSearch Serverless collections, in OpenSearch Compute Units (OCUs). These limits are used to scale your collections based on the current workload. For more information, see [Autoscaling](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-overview.html#serverless-scaling).
+    /// The maximum capacity limits for all OpenSearch Serverless collections, in OpenSearch Compute Units (OCUs). These limits are used to scale your collections based on the current workload. For more information, see [Managing capacity limits for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-scaling.html).
     public struct CapacityLimits: Swift.Equatable {
         /// The maximum indexing capacity for collections.
         public var maxIndexingCapacityInOCU: Swift.Int?
@@ -1059,7 +1059,7 @@ extension ConflictException {
     }
 }
 
-/// When creating a collection, thrown when a collection with the same name already exists or is being created. When deleting a collection, thrown when the collection is not in the ACTIVE or FAILED state.
+/// When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
 public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -1205,6 +1205,7 @@ extension CreateAccessPolicyOutputError {
         switch errorType {
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -1214,6 +1215,7 @@ extension CreateAccessPolicyOutputError {
 public enum CreateAccessPolicyOutputError: Swift.Error, Swift.Equatable {
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -1495,6 +1497,8 @@ extension CreateCollectionOutputError {
         switch errorType {
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OcuLimitExceededException" : self = .ocuLimitExceededException(try OcuLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -1504,6 +1508,8 @@ extension CreateCollectionOutputError {
 public enum CreateCollectionOutputError: Swift.Error, Swift.Equatable {
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
+    case ocuLimitExceededException(OcuLimitExceededException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -1592,7 +1598,7 @@ public struct CreateSecurityConfigInput: Swift.Equatable {
     /// The name of the security configuration.
     /// This member is required.
     public var name: Swift.String?
-    /// Describes SAML options in in the form of a key-value map.
+    /// Describes SAML options in in the form of a key-value map. This field is required if you specify saml for the type parameter.
     public var samlOptions: OpenSearchServerlessClientTypes.SamlConfigOptions?
     /// The type of security configuration.
     /// This member is required.
@@ -1659,6 +1665,7 @@ extension CreateSecurityConfigOutputError {
         switch errorType {
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -1668,6 +1675,7 @@ extension CreateSecurityConfigOutputError {
 public enum CreateSecurityConfigOutputError: Swift.Error, Swift.Equatable {
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -1824,6 +1832,7 @@ extension CreateSecurityPolicyOutputError {
         switch errorType {
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -1833,6 +1842,7 @@ extension CreateSecurityPolicyOutputError {
 public enum CreateSecurityPolicyOutputError: Swift.Error, Swift.Equatable {
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -2068,6 +2078,7 @@ extension CreateVpcEndpointOutputError {
         switch errorType {
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -2077,6 +2088,7 @@ extension CreateVpcEndpointOutputError {
 public enum CreateVpcEndpointOutputError: Swift.Error, Swift.Equatable {
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -3486,7 +3498,7 @@ public struct ListAccessPoliciesInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// If your initial ListAccessPolicies operation returns a nextToken, you can include the returned nextToken in subsequent ListAccessPolicies operations, which returns results in the next page.
     public var nextToken: Swift.String?
-    /// Resource filters (can be collection or indexes) that policies can apply to.
+    /// Resource filters (can be collections or indexes) that policies can apply to.
     public var resource: [Swift.String]?
     /// The type of access policy.
     /// This member is required.
@@ -4397,6 +4409,60 @@ extension ListVpcEndpointsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension OcuLimitExceededException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: OcuLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// OCU Limit Exceeded for service limits
+public struct OcuLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// Description of the error.
+    /// This member is required.
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct OcuLimitExceededExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension OcuLimitExceededExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4494,7 +4560,7 @@ extension OpenSearchServerlessClientTypes {
         /// The XML IdP metadata file generated from your identity provider.
         /// This member is required.
         public var metadata: Swift.String?
-        /// The session timeout, in minutes. Minimum is 15 minutes and maximum is 1440 minutes (24 hours or 1 day). Default is 60 minutes.
+        /// The session timeout, in minutes. Default is 60 minutes (12 hours).
         public var sessionTimeout: Swift.Int?
         /// A user attribute for this SAML integration.
         public var userAttribute: Swift.String?
@@ -5019,6 +5085,101 @@ extension OpenSearchServerlessClientTypes {
     }
 }
 
+extension ServiceQuotaExceededException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+            self.quotaCode = output.quotaCode
+            self.resourceId = output.resourceId
+            self.resourceType = output.resourceType
+            self.serviceCode = output.serviceCode
+        } else {
+            self.message = nil
+            self.quotaCode = nil
+            self.resourceId = nil
+            self.resourceType = nil
+            self.serviceCode = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// Thrown when you attempt to create more resources than the service allows based on service quotas.
+public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// Description of the error.
+    /// This member is required.
+    public var message: Swift.String?
+    /// Service Quotas requirement to identify originating quota.
+    public var quotaCode: Swift.String?
+    /// Identifier of the resource affected.
+    public var resourceId: Swift.String?
+    /// Type of the resource affected.
+    public var resourceType: Swift.String?
+    /// Service Quotas requirement to identify originating service.
+    /// This member is required.
+    public var serviceCode: Swift.String?
+
+    public init (
+        message: Swift.String? = nil,
+        quotaCode: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
+        serviceCode: Swift.String? = nil
+    )
+    {
+        self.message = message
+        self.quotaCode = quotaCode
+        self.resourceId = resourceId
+        self.resourceType = resourceType
+        self.serviceCode = serviceCode
+    }
+}
+
+struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+    let resourceId: Swift.String?
+    let resourceType: Swift.String?
+    let serviceCode: Swift.String?
+    let quotaCode: Swift.String?
+}
+
+extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case quotaCode
+        case resourceId
+        case resourceType
+        case serviceCode
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let serviceCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceCode)
+        serviceCode = serviceCodeDecoded
+        let quotaCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quotaCode)
+        quotaCode = quotaCodeDecoded
+    }
+}
+
 extension OpenSearchServerlessClientTypes.Tag: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case key
@@ -5153,6 +5314,7 @@ extension TagResourceOutputError {
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -5163,6 +5325,7 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -5487,7 +5650,7 @@ extension UpdateAccountSettingsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateAccountSettingsInput: Swift.Equatable {
-    /// The maximum capacity limits for all OpenSearch Serverless collections, in OpenSearch Compute Units (OCUs). These limits are used to scale your collections based on the current workload. For more information, see [Autoscaling](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-overview.html#serverless-scaling).
+    /// The maximum capacity limits for all OpenSearch Serverless collections, in OpenSearch Compute Units (OCUs). These limits are used to scale your collections based on the current workload. For more information, see [Managing capacity limits for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-scaling.html).
     public var capacityLimits: OpenSearchServerlessClientTypes.CapacityLimits?
 
     public init (
@@ -6113,6 +6276,7 @@ extension UpdateSecurityPolicyOutputError {
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -6123,6 +6287,7 @@ public enum UpdateSecurityPolicyOutputError: Swift.Error, Swift.Equatable {
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -6646,7 +6811,7 @@ extension OpenSearchServerlessClientTypes {
         public var status: OpenSearchServerlessClientTypes.VpcEndpointStatus?
         /// The ID of the subnets from which you access OpenSearch Serverless.
         public var subnetIds: [Swift.String]?
-        /// The ID of the VPC from which you access OpenSearch Serverless
+        /// The ID of the VPC from which you access OpenSearch Serverless.
         public var vpcId: Swift.String?
 
         public init (

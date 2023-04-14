@@ -1154,7 +1154,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         return result
     }
 
-    /// Update the OpenSearch Serverless settings for the current Amazon Web Services account. For more information, see [Autoscaling](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-overview.html#serverless-scaling).
+    /// Update the OpenSearch Serverless settings for the current Amazon Web Services account. For more information, see [Managing capacity limits for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-scaling.html).
     public func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

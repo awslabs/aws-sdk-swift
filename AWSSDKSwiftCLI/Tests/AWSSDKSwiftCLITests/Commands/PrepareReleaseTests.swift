@@ -41,15 +41,16 @@ class PrepareReleaseTests: CLITestCase {
         let versionFromFile = try! Version.fromFile("Package.version")
         XCTAssertEqual(versionFromFile, newVersion)
         
-        let releaseManifest = try! ReleaseManifest.fromFile("release_manifest.json")
+        let releaseManifest = try! ReleaseManifest.fromFile("release-manifest.json")
         XCTAssertEqual(releaseManifest.name, "\(newVersion)")
         XCTAssertEqual(releaseManifest.tagName, "\(newVersion)")
         
-        XCTAssertEqual(commands.count, 4)
+        XCTAssertEqual(commands.count, 5)
         XCTAssertTrue(commands[0].contains("git add"))
         XCTAssertTrue(commands[1].contains("git commit"))
         XCTAssertTrue(commands[2].contains("git tag"))
         XCTAssertTrue(commands[3].contains("git log"))
+        XCTAssertTrue(commands[4].contains("git status"))
     }
     
     func testRunBailsEarlyIfThereAreNoChanges() {
@@ -103,7 +104,7 @@ class PrepareReleaseTests: CLITestCase {
         ProcessRunner.testRunner = runner
         let subject = PrepareRelease.mock(repoType: .awsSdkSwift)
         try! subject.stageFiles()
-        XCTAssertTrue(command.hasSuffix("git add Package.swift Package.version Core/Services Tests/Services"))
+        XCTAssertTrue(command.hasSuffix("git add Package.swift Package.version Sources/Services Tests/Services"))
     }
     
     func testStageFilesForSmithySwift() {

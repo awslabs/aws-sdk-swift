@@ -7,19 +7,19 @@ import ClientRuntime
 public protocol WellArchitectedClientProtocol {
     /// Associate a lens to a workload. Up to 10 lenses can be associated with a workload in a single API operation. A maximum of 20 lenses can be associated with a workload. Disclaimer By accessing and/or applying custom lenses created by another Amazon Web Services user or account, you acknowledge that custom lenses created by other users and shared with you are Third Party Content as defined in the Amazon Web Services Customer Agreement.
     func associateLenses(input: AssociateLensesInput) async throws -> AssociateLensesOutputResponse
-    /// Create a lens share. The owner of a lens can share it with other Amazon Web Services accounts, IAM users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Shared access to a lens is not removed until the lens invitation is deleted. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
+    /// Create a lens share. The owner of a lens can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared. Shared access to a lens is not removed until the lens invitation is deleted. If you share a lens with an organization or OU, all accounts in the organization or OU are granted access to the lens. For more information, see [Sharing a custom lens](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-sharing.html) in the Well-Architected Tool User Guide. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     func createLensShare(input: CreateLensShareInput) async throws -> CreateLensShareOutputResponse
-    /// Create a new lens version. A lens can have up to 100 versions. After a lens has been imported, create a new lens version to publish it. The owner of a lens can share the lens with other Amazon Web Services accounts and IAM users in the same Amazon Web Services Region. Only the owner of a lens can delete it.
+    /// Create a new lens version. A lens can have up to 100 versions. Use this operation to publish a new lens version after you have imported a lens. The LensAlias is used to identify the lens to be published. The owner of a lens can share the lens with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a lens can delete it.
     func createLensVersion(input: CreateLensVersionInput) async throws -> CreateLensVersionOutputResponse
     /// Create a milestone for an existing workload.
     func createMilestone(input: CreateMilestoneInput) async throws -> CreateMilestoneOutputResponse
-    /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, IAM users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see [Defining a Workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/define-workload.html) in the Well-Architected Tool User Guide.
+    /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see [Defining a Workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/define-workload.html) in the Well-Architected Tool User Guide. Either AwsRegions, NonAwsRegions, or both must be specified when creating a workload. You also must specify ReviewOwner, even though the parameter is listed as not being required in the following section.
     func createWorkload(input: CreateWorkloadInput) async throws -> CreateWorkloadOutputResponse
-    /// Create a workload share. The owner of a workload can share it with other Amazon Web Services accounts and IAM users in the same Amazon Web Services Region. Shared access to a workload is not removed until the workload invitation is deleted. For more information, see [Sharing a Workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/workloads-sharing.html) in the Well-Architected Tool User Guide.
+    /// Create a workload share. The owner of a workload can share it with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Shared access to a workload is not removed until the workload invitation is deleted. If you share a workload with an organization or OU, all accounts in the organization or OU are granted access to the workload. For more information, see [Sharing a workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/workloads-sharing.html) in the Well-Architected Tool User Guide.
     func createWorkloadShare(input: CreateWorkloadShareInput) async throws -> CreateWorkloadShareOutputResponse
-    /// Delete an existing lens. Only the owner of a lens can delete it. After the lens is deleted, Amazon Web Services accounts and IAM users that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
+    /// Delete an existing lens. Only the owner of a lens can delete it. After the lens is deleted, Amazon Web Services accounts and users that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     func deleteLens(input: DeleteLensInput) async throws -> DeleteLensOutputResponse
-    /// Delete a lens share. After the lens share is deleted, Amazon Web Services accounts, IAM users, organizations, and organizational units (OUs) that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
+    /// Delete a lens share. After the lens share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     func deleteLensShare(input: DeleteLensShareInput) async throws -> DeleteLensShareOutputResponse
     /// Delete an existing workload.
     func deleteWorkload(input: DeleteWorkloadInput) async throws -> DeleteWorkloadOutputResponse
@@ -27,10 +27,12 @@ public protocol WellArchitectedClientProtocol {
     func deleteWorkloadShare(input: DeleteWorkloadShareInput) async throws -> DeleteWorkloadShareOutputResponse
     /// Disassociate a lens from a workload. Up to 10 lenses can be disassociated from a workload in a single API operation. The Amazon Web Services Well-Architected Framework lens (wellarchitected) cannot be removed from a workload.
     func disassociateLenses(input: DisassociateLensesInput) async throws -> DisassociateLensesOutputResponse
-    /// Export an existing lens. Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html) in the Well-Architected Tool User Guide. Only the owner of a lens can export it. Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
+    /// Export an existing lens. Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be exported. Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html) in the Well-Architected Tool User Guide. Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
     func exportLens(input: ExportLensInput) async throws -> ExportLensOutputResponse
     /// Get the answer to a specific question in a workload review.
     func getAnswer(input: GetAnswerInput) async throws -> GetAnswerOutputResponse
+    /// Get a consolidated report of your workloads. You can optionally choose to include workloads that have been shared with you.
+    func getConsolidatedReport(input: GetConsolidatedReportInput) async throws -> GetConsolidatedReportOutputResponse
     /// Get an existing lens.
     func getLens(input: GetLensInput) async throws -> GetLensOutputResponse
     /// Get lens review.
@@ -43,9 +45,9 @@ public protocol WellArchitectedClientProtocol {
     func getMilestone(input: GetMilestoneInput) async throws -> GetMilestoneOutputResponse
     /// Get an existing workload.
     func getWorkload(input: GetWorkloadInput) async throws -> GetWorkloadOutputResponse
-    /// Import a new lens. The lens cannot be applied to workloads or shared with other Amazon Web Services accounts until it's published with [CreateLensVersion] Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html) in the Well-Architected Tool User Guide. A custom lens cannot exceed 500 KB in size. Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
+    /// Import a new custom lens or update an existing custom lens. To update an existing custom lens, specify its ARN as the LensAlias. If no ARN is specified, a new custom lens is created. The new or updated lens will have a status of DRAFT. The lens cannot be applied to workloads or shared with other Amazon Web Services accounts until it's published with [CreateLensVersion]. Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html) in the Well-Architected Tool User Guide. A custom lens cannot exceed 500 KB in size. Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
     func importLens(input: ImportLensInput) async throws -> ImportLensOutputResponse
-    /// List of answers.
+    /// List of answers for a particular workload and lens.
     func listAnswers(input: ListAnswersInput) async throws -> ListAnswersOutputResponse
     /// List of Trusted Advisor check details by account related to the workload.
     func listCheckDetails(input: ListCheckDetailsInput) async throws -> ListCheckDetailsOutputResponse
@@ -55,7 +57,7 @@ public protocol WellArchitectedClientProtocol {
     func listLenses(input: ListLensesInput) async throws -> ListLensesOutputResponse
     /// List lens review improvements.
     func listLensReviewImprovements(input: ListLensReviewImprovementsInput) async throws -> ListLensReviewImprovementsOutputResponse
-    /// List lens reviews.
+    /// List lens reviews for a particular workload.
     func listLensReviews(input: ListLensReviewsInput) async throws -> ListLensReviewsOutputResponse
     /// List the lens shares associated with the lens.
     func listLensShares(input: ListLensSharesInput) async throws -> ListLensSharesOutputResponse
@@ -67,7 +69,7 @@ public protocol WellArchitectedClientProtocol {
     func listShareInvitations(input: ListShareInvitationsInput) async throws -> ListShareInvitationsOutputResponse
     /// List the tags for a resource. The WorkloadArn parameter can be either a workload ARN or a custom lens ARN.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
-    /// List workloads. Paginated.
+    /// Paginated list of workloads.
     func listWorkloads(input: ListWorkloadsInput) async throws -> ListWorkloadsOutputResponse
     /// List the workload shares associated with the workload.
     func listWorkloadShares(input: ListWorkloadSharesInput) async throws -> ListWorkloadSharesOutputResponse
@@ -79,7 +81,7 @@ public protocol WellArchitectedClientProtocol {
     func updateAnswer(input: UpdateAnswerInput) async throws -> UpdateAnswerOutputResponse
     /// Updates whether the Amazon Web Services account is opted into organization sharing features.
     func updateGlobalSettings(input: UpdateGlobalSettingsInput) async throws -> UpdateGlobalSettingsOutputResponse
-    /// Update lens review.
+    /// Update lens review for a particular workload.
     func updateLensReview(input: UpdateLensReviewInput) async throws -> UpdateLensReviewOutputResponse
     /// Update a workload or custom lens share invitation. This API operation can be called independently of any resource. Previous documentation implied that a workload ARN must be specified.
     func updateShareInvitation(input: UpdateShareInvitationInput) async throws -> UpdateShareInvitationOutputResponse
@@ -87,7 +89,7 @@ public protocol WellArchitectedClientProtocol {
     func updateWorkload(input: UpdateWorkloadInput) async throws -> UpdateWorkloadOutputResponse
     /// Update a workload share.
     func updateWorkloadShare(input: UpdateWorkloadShareInput) async throws -> UpdateWorkloadShareOutputResponse
-    /// Upgrade lens review.
+    /// Upgrade lens review for a particular workload.
     func upgradeLensReview(input: UpgradeLensReviewInput) async throws -> UpgradeLensReviewOutputResponse
 }
 

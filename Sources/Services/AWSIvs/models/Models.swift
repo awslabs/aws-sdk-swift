@@ -478,6 +478,7 @@ extension IvsClientTypes.Channel: Swift.Codable {
         case arn
         case authorized
         case ingestEndpoint
+        case insecureIngest
         case latencyMode
         case name
         case playbackUrl
@@ -496,6 +497,9 @@ extension IvsClientTypes.Channel: Swift.Codable {
         }
         if let ingestEndpoint = self.ingestEndpoint {
             try encodeContainer.encode(ingestEndpoint, forKey: .ingestEndpoint)
+        }
+        if insecureIngest != false {
+            try encodeContainer.encode(insecureIngest, forKey: .insecureIngest)
         }
         if let latencyMode = self.latencyMode {
             try encodeContainer.encode(latencyMode.rawValue, forKey: .latencyMode)
@@ -549,6 +553,8 @@ extension IvsClientTypes.Channel: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let insecureIngestDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .insecureIngest) ?? false
+        insecureIngest = insecureIngestDecoded
     }
 }
 
@@ -561,6 +567,8 @@ extension IvsClientTypes {
         public var authorized: Swift.Bool
         /// Channel ingest endpoint, part of the definition of an ingest server, used when you set up streaming software.
         public var ingestEndpoint: Swift.String?
+        /// Whether the channel allows insecure RTMP ingest. Default: false.
+        public var insecureIngest: Swift.Bool
         /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. Default: LOW. (Note: In the Amazon IVS console, LOW and NORMAL correspond to Ultra-low and Standard, respectively.)
         public var latencyMode: IvsClientTypes.ChannelLatencyMode?
         /// Channel name.
@@ -582,6 +590,7 @@ extension IvsClientTypes {
             arn: Swift.String? = nil,
             authorized: Swift.Bool = false,
             ingestEndpoint: Swift.String? = nil,
+            insecureIngest: Swift.Bool = false,
             latencyMode: IvsClientTypes.ChannelLatencyMode? = nil,
             name: Swift.String? = nil,
             playbackUrl: Swift.String? = nil,
@@ -593,6 +602,7 @@ extension IvsClientTypes {
             self.arn = arn
             self.authorized = authorized
             self.ingestEndpoint = ingestEndpoint
+            self.insecureIngest = insecureIngest
             self.latencyMode = latencyMode
             self.name = name
             self.playbackUrl = playbackUrl
@@ -693,6 +703,7 @@ extension IvsClientTypes.ChannelSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case authorized
+        case insecureIngest
         case latencyMode
         case name
         case recordingConfigurationArn
@@ -706,6 +717,9 @@ extension IvsClientTypes.ChannelSummary: Swift.Codable {
         }
         if authorized != false {
             try encodeContainer.encode(authorized, forKey: .authorized)
+        }
+        if insecureIngest != false {
+            try encodeContainer.encode(insecureIngest, forKey: .insecureIngest)
         }
         if let latencyMode = self.latencyMode {
             try encodeContainer.encode(latencyMode.rawValue, forKey: .latencyMode)
@@ -747,6 +761,8 @@ extension IvsClientTypes.ChannelSummary: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let insecureIngestDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .insecureIngest) ?? false
+        insecureIngest = insecureIngestDecoded
     }
 }
 
@@ -757,6 +773,8 @@ extension IvsClientTypes {
         public var arn: Swift.String?
         /// Whether the channel is private (enabled for playback authorization). Default: false.
         public var authorized: Swift.Bool
+        /// Whether the channel allows insecure RTMP ingest. Default: false.
+        public var insecureIngest: Swift.Bool
         /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. Default: LOW. (Note: In the Amazon IVS console, LOW and NORMAL correspond to Ultra-low and Standard, respectively.)
         public var latencyMode: IvsClientTypes.ChannelLatencyMode?
         /// Channel name.
@@ -769,6 +787,7 @@ extension IvsClientTypes {
         public init (
             arn: Swift.String? = nil,
             authorized: Swift.Bool = false,
+            insecureIngest: Swift.Bool = false,
             latencyMode: IvsClientTypes.ChannelLatencyMode? = nil,
             name: Swift.String? = nil,
             recordingConfigurationArn: Swift.String? = nil,
@@ -777,6 +796,7 @@ extension IvsClientTypes {
         {
             self.arn = arn
             self.authorized = authorized
+            self.insecureIngest = insecureIngest
             self.latencyMode = latencyMode
             self.name = name
             self.recordingConfigurationArn = recordingConfigurationArn
@@ -874,6 +894,7 @@ extension ConflictExceptionBody: Swift.Decodable {
 extension CreateChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authorized
+        case insecureIngest
         case latencyMode
         case name
         case recordingConfigurationArn
@@ -885,6 +906,9 @@ extension CreateChannelInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if authorized != false {
             try encodeContainer.encode(authorized, forKey: .authorized)
+        }
+        if insecureIngest != false {
+            try encodeContainer.encode(insecureIngest, forKey: .insecureIngest)
         }
         if let latencyMode = self.latencyMode {
             try encodeContainer.encode(latencyMode.rawValue, forKey: .latencyMode)
@@ -916,6 +940,8 @@ extension CreateChannelInput: ClientRuntime.URLPathProvider {
 public struct CreateChannelInput: Swift.Equatable {
     /// Whether the channel is private (enabled for playback authorization). Default: false.
     public var authorized: Swift.Bool
+    /// Whether the channel allows insecure RTMP ingest. Default: false.
+    public var insecureIngest: Swift.Bool
     /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. (Note: In the Amazon IVS console, LOW and NORMAL correspond to Ultra-low and Standard, respectively.) Default: LOW.
     public var latencyMode: IvsClientTypes.ChannelLatencyMode?
     /// Channel name.
@@ -933,6 +959,7 @@ public struct CreateChannelInput: Swift.Equatable {
 
     public init (
         authorized: Swift.Bool = false,
+        insecureIngest: Swift.Bool = false,
         latencyMode: IvsClientTypes.ChannelLatencyMode? = nil,
         name: Swift.String? = nil,
         recordingConfigurationArn: Swift.String? = nil,
@@ -941,6 +968,7 @@ public struct CreateChannelInput: Swift.Equatable {
     )
     {
         self.authorized = authorized
+        self.insecureIngest = insecureIngest
         self.latencyMode = latencyMode
         self.name = name
         self.recordingConfigurationArn = recordingConfigurationArn
@@ -956,11 +984,13 @@ struct CreateChannelInputBody: Swift.Equatable {
     let authorized: Swift.Bool
     let recordingConfigurationArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let insecureIngest: Swift.Bool
 }
 
 extension CreateChannelInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authorized
+        case insecureIngest
         case latencyMode
         case name
         case recordingConfigurationArn
@@ -991,6 +1021,8 @@ extension CreateChannelInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let insecureIngestDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .insecureIngest) ?? false
+        insecureIngest = insecureIngestDecoded
     }
 }
 
@@ -5589,6 +5621,7 @@ extension UpdateChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case authorized
+        case insecureIngest
         case latencyMode
         case name
         case recordingConfigurationArn
@@ -5602,6 +5635,9 @@ extension UpdateChannelInput: Swift.Encodable {
         }
         if authorized != false {
             try encodeContainer.encode(authorized, forKey: .authorized)
+        }
+        if insecureIngest != false {
+            try encodeContainer.encode(insecureIngest, forKey: .insecureIngest)
         }
         if let latencyMode = self.latencyMode {
             try encodeContainer.encode(latencyMode.rawValue, forKey: .latencyMode)
@@ -5630,6 +5666,8 @@ public struct UpdateChannelInput: Swift.Equatable {
     public var arn: Swift.String?
     /// Whether the channel is private (enabled for playback authorization).
     public var authorized: Swift.Bool
+    /// Whether the channel allows insecure RTMP ingest. Default: false.
+    public var insecureIngest: Swift.Bool
     /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. (Note: In the Amazon IVS console, LOW and NORMAL correspond to Ultra-low and Standard, respectively.)
     public var latencyMode: IvsClientTypes.ChannelLatencyMode?
     /// Channel name.
@@ -5646,6 +5684,7 @@ public struct UpdateChannelInput: Swift.Equatable {
     public init (
         arn: Swift.String? = nil,
         authorized: Swift.Bool = false,
+        insecureIngest: Swift.Bool = false,
         latencyMode: IvsClientTypes.ChannelLatencyMode? = nil,
         name: Swift.String? = nil,
         recordingConfigurationArn: Swift.String? = nil,
@@ -5654,6 +5693,7 @@ public struct UpdateChannelInput: Swift.Equatable {
     {
         self.arn = arn
         self.authorized = authorized
+        self.insecureIngest = insecureIngest
         self.latencyMode = latencyMode
         self.name = name
         self.recordingConfigurationArn = recordingConfigurationArn
@@ -5668,12 +5708,14 @@ struct UpdateChannelInputBody: Swift.Equatable {
     let type: IvsClientTypes.ChannelType?
     let authorized: Swift.Bool
     let recordingConfigurationArn: Swift.String?
+    let insecureIngest: Swift.Bool
 }
 
 extension UpdateChannelInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case authorized
+        case insecureIngest
         case latencyMode
         case name
         case recordingConfigurationArn
@@ -5694,6 +5736,8 @@ extension UpdateChannelInputBody: Swift.Decodable {
         authorized = authorizedDecoded
         let recordingConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recordingConfigurationArn)
         recordingConfigurationArn = recordingConfigurationArnDecoded
+        let insecureIngestDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .insecureIngest) ?? false
+        insecureIngest = insecureIngestDecoded
     }
 }
 

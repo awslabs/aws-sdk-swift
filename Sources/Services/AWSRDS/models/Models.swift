@@ -5806,7 +5806,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
     ///
     /// Valid for: Multi-AZ DB clusters only
     public var publiclyAccessible: Swift.Bool?
-    /// The Amazon Resource Name (ARN) of the source DB instance or DB cluster if this DB cluster is created as a read replica. Valid for: Aurora DB clusters and RDS for PostgreSQL Multi-AZ DB clusters
+    /// The Amazon Resource Name (ARN) of the source DB instance or DB cluster if this DB cluster is created as a read replica. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var replicationSourceIdentifier: Swift.String?
     /// For DB clusters in serverless DB engine mode, the scaling properties of the DB cluster. Valid for: Aurora DB clusters only
     public var scalingConfiguration: RDSClientTypes.ScalingConfiguration?
@@ -7100,13 +7100,15 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     ///
     /// * aurora-postgresql
     ///
-    /// * custom-oracle-ee (for RDS Custom for Oracle instances)
+    /// * custom-oracle-ee (for RDS Custom for Oracle DB instances)
     ///
-    /// * custom-sqlserver-ee (for RDS Custom for SQL Server instances)
+    /// * custom-oracle-ee-cdb (for RDS Custom for Oracle DB instances)
     ///
-    /// * custom-sqlserver-se (for RDS Custom for SQL Server instances)
+    /// * custom-sqlserver-ee (for RDS Custom for SQL Server DB instances)
     ///
-    /// * custom-sqlserver-web (for RDS Custom for SQL Server instances)
+    /// * custom-sqlserver-se (for RDS Custom for SQL Server DB instances)
+    ///
+    /// * custom-sqlserver-web (for RDS Custom for SQL Server DB instances)
     ///
     /// * mariadb
     ///
@@ -7900,6 +7902,9 @@ extension CreateDBInstanceReadReplicaInput: Swift.Encodable {
         if let replicaMode = replicaMode {
             try container.encode(replicaMode, forKey: ClientRuntime.Key("ReplicaMode"))
         }
+        if let sourceDBClusterIdentifier = sourceDBClusterIdentifier {
+            try container.encode(sourceDBClusterIdentifier, forKey: ClientRuntime.Key("SourceDBClusterIdentifier"))
+        }
         if let sourceDBInstanceIdentifier = sourceDBInstanceIdentifier {
             try container.encode(sourceDBInstanceIdentifier, forKey: ClientRuntime.Key("SourceDBInstanceIdentifier"))
         }
@@ -7982,8 +7987,6 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
     public var dbParameterGroupName: Swift.String?
     /// Specifies a DB subnet group for the DB instance. The new DB instance is created in the VPC associated with the DB subnet group. If no DB subnet group is specified, then the new DB instance isn't created in a VPC. Constraints:
     ///
-    /// * Can only be specified if the source DB instance identifier specifies a DB instance in another Amazon Web Services Region.
-    ///
     /// * If supplied, must match the name of an existing DBSubnetGroup.
     ///
     /// * The specified DB subnet group must be in the same Amazon Web Services Region in which the operation is running.
@@ -8004,7 +8007,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
     public var deletionProtection: Swift.Bool?
     /// The Active Directory directory ID to create the DB instance in. Currently, only MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances can be created in an Active Directory Domain. For more information, see [ Kerberos Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
     public var domain: Swift.String?
-    /// Specify the name of the IAM role to be used when making API calls to the Directory Service. This setting doesn't apply to RDS Custom.
+    /// The name of the IAM role to be used when making API calls to the Directory Service. This setting doesn't apply to RDS Custom.
     public var domainIAMRoleName: Swift.String?
     /// The list of logs that the new DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see [Publishing Database Logs to Amazon CloudWatch Logs ](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
     public var enableCloudwatchLogsExports: [Swift.String]?
@@ -8016,7 +8019,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
     public var enablePerformanceInsights: Swift.Bool?
     /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance.
     public var iops: Swift.Int?
-    /// The Amazon Web Services KMS key identifier for an encrypted read replica. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you create an encrypted read replica in the same Amazon Web Services Region as the source DB instance, then do not specify a value for this parameter. A read replica in the same Amazon Web Services Region is always encrypted with the same KMS key as the source DB instance. If you create an encrypted read replica in a different Amazon Web Services Region, then you must specify a KMS key identifier for the destination Amazon Web Services Region. KMS keys are specific to the Amazon Web Services Region that they are created in, and you can't use KMS keys from one Amazon Web Services Region in another Amazon Web Services Region. You can't create an encrypted read replica from an unencrypted DB instance. This setting doesn't apply to RDS Custom, which uses the same KMS key as the primary replica.
+    /// The Amazon Web Services KMS key identifier for an encrypted read replica. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you create an encrypted read replica in the same Amazon Web Services Region as the source DB instance or Multi-AZ DB cluster, don't specify a value for this parameter. A read replica in the same Amazon Web Services Region is always encrypted with the same KMS key as the source DB instance or cluster. If you create an encrypted read replica in a different Amazon Web Services Region, then you must specify a KMS key identifier for the destination Amazon Web Services Region. KMS keys are specific to the Amazon Web Services Region that they are created in, and you can't use KMS keys from one Amazon Web Services Region in another Amazon Web Services Region. You can't create an encrypted read replica from an unencrypted DB instance or Multi-AZ DB cluster. This setting doesn't apply to RDS Custom, which uses the same KMS key as the primary replica.
     public var kmsKeyId: Swift.String?
     /// The upper limit in gibibytes (GiB) to which Amazon RDS can automatically scale the storage of the DB instance. For more information about this setting, including limitations that apply to it, see [ Managing capacity automatically with Amazon RDS storage autoscaling](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIOPS.StorageTypes.html#USER_PIOPS.Autoscaling) in the Amazon RDS User Guide.
     public var maxAllocatedStorage: Swift.Int?
@@ -8024,7 +8027,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
     public var monitoringInterval: Swift.Int?
     /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, go to [To create an IAM role for Amazon RDS Enhanced Monitoring](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Monitoring.html#USER_Monitoring.OS.IAMRole) in the Amazon RDS User Guide. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value. This setting doesn't apply to RDS Custom.
     public var monitoringRoleArn: Swift.String?
-    /// A value that indicates whether the read replica is in a Multi-AZ deployment. You can create a read replica as a Multi-AZ DB instance. RDS creates a standby of your replica in another Availability Zone for failover support for the replica. Creating your read replica as a Multi-AZ DB instance is independent of whether the source database is a Multi-AZ DB instance. This setting doesn't apply to RDS Custom.
+    /// A value that indicates whether the read replica is in a Multi-AZ deployment. You can create a read replica as a Multi-AZ DB instance. RDS creates a standby of your replica in another Availability Zone for failover support for the replica. Creating your read replica as a Multi-AZ DB instance is independent of whether the source is a Multi-AZ DB instance or a Multi-AZ DB cluster. This setting doesn't apply to RDS Custom.
     public var multiAZ: Swift.Bool?
     /// The network type of the DB instance. Valid values:
     ///
@@ -8035,7 +8038,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
     ///
     /// The network type is determined by the DBSubnetGroup specified for read replica. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [ Working with a DB instance in a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html) in the Amazon RDS User Guide.
     public var networkType: Swift.String?
-    /// The option group the DB instance is associated with. If omitted, the option group associated with the source instance is used. For SQL Server, you must use the option group associated with the source instance. This setting doesn't apply to RDS Custom.
+    /// The option group the DB instance is associated with. If omitted, the option group associated with the source instance or cluster is used. For SQL Server, you must use the option group associated with the source. This setting doesn't apply to RDS Custom.
     public var optionGroupName: Swift.String?
     /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. This setting doesn't apply to RDS Custom.
     public var performanceInsightsKMSKeyId: Swift.String?
@@ -8063,7 +8066,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
     public var performanceInsightsRetentionPeriod: Swift.Int?
     /// The port number that the DB instance uses for connections. Default: Inherits from the source DB instance Valid Values: 1150-65535
     public var port: Swift.Int?
-    /// When you are creating a read replica from one Amazon Web Services GovCloud (US) Region to another or from one China Amazon Web Services Region to another, the URL that contains a Signature Version 4 signed request for the CreateDBInstanceReadReplica API operation in the source Amazon Web Services Region that contains the source DB instance. This setting applies only to Amazon Web Services GovCloud (US) Regions and China Amazon Web Services Regions. It's ignored in other Amazon Web Services Regions. You must specify this parameter when you create an encrypted read replica from another Amazon Web Services Region by using the Amazon RDS API. Don't specify PreSignedUrl when you are creating an encrypted read replica in the same Amazon Web Services Region. The presigned URL must be a valid request for the CreateDBInstanceReadReplica API operation that can run in the source Amazon Web Services Region that contains the encrypted source DB instance. The presigned URL request must contain the following parameter values:
+    /// When you are creating a read replica from one Amazon Web Services GovCloud (US) Region to another or from one China Amazon Web Services Region to another, the URL that contains a Signature Version 4 signed request for the CreateDBInstanceReadReplica API operation in the source Amazon Web Services Region that contains the source DB instance. This setting applies only to Amazon Web Services GovCloud (US) Regions and China Amazon Web Services Regions. It's ignored in other Amazon Web Services Regions. This setting applies only when replicating from a source DB instance. Source DB clusters aren't supported in Amazon Web Services GovCloud (US) Regions and China Amazon Web Services Regions. You must specify this parameter when you create an encrypted read replica from another Amazon Web Services Region by using the Amazon RDS API. Don't specify PreSignedUrl when you are creating an encrypted read replica in the same Amazon Web Services Region. The presigned URL must be a valid request for the CreateDBInstanceReadReplica API operation that can run in the source Amazon Web Services Region that contains the encrypted source DB instance. The presigned URL request must contain the following parameter values:
     ///
     /// * DestinationRegion - The Amazon Web Services Region that the encrypted read replica is created in. This Amazon Web Services Region is the same one where the CreateDBInstanceReadReplica operation is called that contains this presigned URL. For example, if you create an encrypted DB instance in the us-west-1 Amazon Web Services Region, from a source DB instance in the us-east-2 Amazon Web Services Region, then you call the CreateDBInstanceReadReplica operation in the us-east-1 Amazon Web Services Region and provide a presigned URL that contains a call to the CreateDBInstanceReadReplica operation in the us-west-2 Amazon Web Services Region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 Amazon Web Services Region.
     ///
@@ -8080,24 +8083,31 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
     public var publiclyAccessible: Swift.Bool?
     /// The open mode of the replica database: mounted or read-only. This parameter is only supported for Oracle DB instances. Mounted DB replicas are included in Oracle Database Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. You can create a combination of mounted and read-only DB replicas for the same primary DB instance. For more information, see [Working with Oracle Read Replicas for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. For RDS Custom, you must specify this parameter and set it to mounted. The value won't be set by default. After replica creation, you can manage the open mode manually.
     public var replicaMode: RDSClientTypes.ReplicaMode?
-    /// The identifier of the DB instance that will act as the source for the read replica. Each DB instance can have up to five read replicas. Constraints:
+    /// The identifier of the Multi-AZ DB cluster that will act as the source for the read replica. Each DB cluster can have up to 15 read replicas. Constraints:
+    ///
+    /// * Must be the identifier of an existing Multi-AZ DB cluster.
+    ///
+    /// * Can't be specified if the SourceDBInstanceIdentifier parameter is also specified.
+    ///
+    /// * The specified DB cluster must have automatic backups enabled, that is, its backup retention period must be greater than 0.
+    ///
+    /// * The source DB cluster must be in the same Amazon Web Services Region as the read replica. Cross-Region replication isn't supported.
+    public var sourceDBClusterIdentifier: Swift.String?
+    /// The identifier of the DB instance that will act as the source for the read replica. Each DB instance can have up to 15 read replicas, with the exception of Oracle and SQL Server, which can have up to five. Constraints:
     ///
     /// * Must be the identifier of an existing MySQL, MariaDB, Oracle, PostgreSQL, or SQL Server DB instance.
     ///
-    /// * Can specify a DB instance that is a MySQL read replica only if the source is running MySQL 5.6 or later.
+    /// * Can't be specified if the SourceDBClusterIdentifier parameter is also specified.
     ///
-    /// * For the limitations of Oracle read replicas, see [Read Replica Limitations with Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide.
+    /// * For the limitations of Oracle read replicas, see [Version and licensing considerations for RDS for Oracle replicas](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.limitations.html#oracle-read-replicas.limitations.versions-and-licenses) in the Amazon RDS User Guide.
     ///
-    /// * For the limitations of SQL Server read replicas, see [Read Replica Limitations with Microsoft SQL Server](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/SQLServer.ReadReplicas.Limitations.html) in the Amazon RDS User Guide.
-    ///
-    /// * Can specify a PostgreSQL DB instance only if the source is running PostgreSQL 9.3.5 or later (9.4.7 and higher for cross-Region replication).
+    /// * For the limitations of SQL Server read replicas, see [Read replica limitations with SQL Server](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/SQLServer.ReadReplicas.html#SQLServer.ReadReplicas.Limitations) in the Amazon RDS User Guide.
     ///
     /// * The specified DB instance must have automatic backups enabled, that is, its backup retention period must be greater than 0.
     ///
     /// * If the source DB instance is in the same Amazon Web Services Region as the read replica, specify a valid DB instance identifier.
     ///
     /// * If the source DB instance is in a different Amazon Web Services Region from the read replica, specify a valid DB instance ARN. For more information, see [Constructing an ARN for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.ARN.html#USER_Tagging.ARN.Constructing) in the Amazon RDS User Guide. This doesn't apply to SQL Server or RDS Custom, which don't support cross-Region replicas.
-    /// This member is required.
     public var sourceDBInstanceIdentifier: Swift.String?
     /// Specifies the storage throughput value for the read replica. This setting doesn't apply to RDS Custom or Amazon Aurora.
     public var storageThroughput: Swift.Int?
@@ -8142,6 +8152,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
         processorFeatures: [RDSClientTypes.ProcessorFeature]? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         replicaMode: RDSClientTypes.ReplicaMode? = nil,
+        sourceDBClusterIdentifier: Swift.String? = nil,
         sourceDBInstanceIdentifier: Swift.String? = nil,
         storageThroughput: Swift.Int? = nil,
         storageType: Swift.String? = nil,
@@ -8181,6 +8192,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
         self.processorFeatures = processorFeatures
         self.publiclyAccessible = publiclyAccessible
         self.replicaMode = replicaMode
+        self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
         self.sourceDBInstanceIdentifier = sourceDBInstanceIdentifier
         self.storageThroughput = storageThroughput
         self.storageType = storageType
@@ -8228,6 +8240,7 @@ struct CreateDBInstanceReadReplicaInputBody: Swift.Equatable {
     let storageThroughput: Swift.Int?
     let enableCustomerOwnedIp: Swift.Bool?
     let allocatedStorage: Swift.Int?
+    let sourceDBClusterIdentifier: Swift.String?
 }
 
 extension CreateDBInstanceReadReplicaInputBody: Swift.Decodable {
@@ -8263,6 +8276,7 @@ extension CreateDBInstanceReadReplicaInputBody: Swift.Decodable {
         case processorFeatures = "ProcessorFeatures"
         case publiclyAccessible = "PubliclyAccessible"
         case replicaMode = "ReplicaMode"
+        case sourceDBClusterIdentifier = "SourceDBClusterIdentifier"
         case sourceDBInstanceIdentifier = "SourceDBInstanceIdentifier"
         case storageThroughput = "StorageThroughput"
         case storageType = "StorageType"
@@ -8415,6 +8429,8 @@ extension CreateDBInstanceReadReplicaInputBody: Swift.Decodable {
         enableCustomerOwnedIp = enableCustomerOwnedIpDecoded
         let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
+        let sourceDBClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceDBClusterIdentifier)
+        sourceDBClusterIdentifier = sourceDBClusterIdentifierDecoded
     }
 }
 
@@ -8428,6 +8444,7 @@ extension CreateDBInstanceReadReplicaOutputError: ClientRuntime.HttpResponseBind
 extension CreateDBInstanceReadReplicaOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBInstanceAlreadyExists" : self = .dBInstanceAlreadyExistsFault(try DBInstanceAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBInstanceNotFound" : self = .dBInstanceNotFoundFault(try DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -8438,6 +8455,7 @@ extension CreateDBInstanceReadReplicaOutputError {
         case "DomainNotFoundFault" : self = .domainNotFoundFault(try DomainNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InstanceQuotaExceeded" : self = .instanceQuotaExceededFault(try InstanceQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientDBInstanceCapacity" : self = .insufficientDBInstanceCapacityFault(try InsufficientDBInstanceCapacityFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBInstanceState" : self = .invalidDBInstanceStateFault(try InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBSubnetGroupFault" : self = .invalidDBSubnetGroupFault(try InvalidDBSubnetGroupFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidSubnet" : self = .invalidSubnet(try InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -8454,6 +8472,7 @@ extension CreateDBInstanceReadReplicaOutputError {
 }
 
 public enum CreateDBInstanceReadReplicaOutputError: Swift.Error, Swift.Equatable {
+    case dBClusterNotFoundFault(DBClusterNotFoundFault)
     case dBInstanceAlreadyExistsFault(DBInstanceAlreadyExistsFault)
     case dBInstanceNotFoundFault(DBInstanceNotFoundFault)
     case dBParameterGroupNotFoundFault(DBParameterGroupNotFoundFault)
@@ -8464,6 +8483,7 @@ public enum CreateDBInstanceReadReplicaOutputError: Swift.Error, Swift.Equatable
     case domainNotFoundFault(DomainNotFoundFault)
     case instanceQuotaExceededFault(InstanceQuotaExceededFault)
     case insufficientDBInstanceCapacityFault(InsufficientDBInstanceCapacityFault)
+    case invalidDBClusterStateFault(InvalidDBClusterStateFault)
     case invalidDBInstanceStateFault(InvalidDBInstanceStateFault)
     case invalidDBSubnetGroupFault(InvalidDBSubnetGroupFault)
     case invalidSubnet(InvalidSubnet)
@@ -10194,7 +10214,7 @@ public struct CreateGlobalClusterInput: Swift.Equatable {
     public var engine: Swift.String?
     /// The engine version of the Aurora global database.
     public var engineVersion: Swift.String?
-    /// The cluster identifier of the new global database cluster.
+    /// The cluster identifier of the new global database cluster. This parameter is stored as a lowercase string.
     public var globalClusterIdentifier: Swift.String?
     /// The Amazon Resource Name (ARN) to use as the primary cluster of the global database. This parameter is optional.
     public var sourceDBClusterIdentifier: Swift.String?
@@ -14126,6 +14146,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         case publiclyAccessible = "PubliclyAccessible"
         case readReplicaDBClusterIdentifiers = "ReadReplicaDBClusterIdentifiers"
         case readReplicaDBInstanceIdentifiers = "ReadReplicaDBInstanceIdentifiers"
+        case readReplicaSourceDBClusterIdentifier = "ReadReplicaSourceDBClusterIdentifier"
         case readReplicaSourceDBInstanceIdentifier = "ReadReplicaSourceDBInstanceIdentifier"
         case replicaMode = "ReplicaMode"
         case resumeFullAutomationModeTime = "ResumeFullAutomationModeTime"
@@ -14435,6 +14456,9 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
                 var readReplicaDBInstanceIdentifiersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ReadReplicaDBInstanceIdentifiers"))
                 try readReplicaDBInstanceIdentifiersContainer.encode("", forKey: ClientRuntime.Key(""))
             }
+        }
+        if let readReplicaSourceDBClusterIdentifier = readReplicaSourceDBClusterIdentifier {
+            try container.encode(readReplicaSourceDBClusterIdentifier, forKey: ClientRuntime.Key("ReadReplicaSourceDBClusterIdentifier"))
         }
         if let readReplicaSourceDBInstanceIdentifier = readReplicaSourceDBInstanceIdentifier {
             try container.encode(readReplicaSourceDBInstanceIdentifier, forKey: ClientRuntime.Key("ReadReplicaSourceDBInstanceIdentifier"))
@@ -14884,6 +14908,8 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         masterUserSecret = masterUserSecretDecoded
         let certificateDetailsDecoded = try containerValues.decodeIfPresent(RDSClientTypes.CertificateDetails.self, forKey: .certificateDetails)
         certificateDetails = certificateDetailsDecoded
+        let readReplicaSourceDBClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .readReplicaSourceDBClusterIdentifier)
+        readReplicaSourceDBClusterIdentifier = readReplicaSourceDBClusterIdentifierDecoded
     }
 }
 
@@ -15065,6 +15091,8 @@ extension RDSClientTypes {
         public var readReplicaDBClusterIdentifiers: [Swift.String]?
         /// Contains one or more identifiers of the read replicas associated with this DB instance.
         public var readReplicaDBInstanceIdentifiers: [Swift.String]?
+        /// Contains the identifier of the source DB cluster if this DB instance is a read replica.
+        public var readReplicaSourceDBClusterIdentifier: Swift.String?
         /// Contains the identifier of the source DB instance if this DB instance is a read replica.
         public var readReplicaSourceDBInstanceIdentifier: Swift.String?
         /// The open mode of an Oracle read replica. The default is open-read-only. For more information, see [Working with Oracle Read Replicas for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. This attribute is only supported in RDS for Oracle.
@@ -15159,6 +15187,7 @@ extension RDSClientTypes {
             publiclyAccessible: Swift.Bool = false,
             readReplicaDBClusterIdentifiers: [Swift.String]? = nil,
             readReplicaDBInstanceIdentifiers: [Swift.String]? = nil,
+            readReplicaSourceDBClusterIdentifier: Swift.String? = nil,
             readReplicaSourceDBInstanceIdentifier: Swift.String? = nil,
             replicaMode: RDSClientTypes.ReplicaMode? = nil,
             resumeFullAutomationModeTime: ClientRuntime.Date? = nil,
@@ -15241,6 +15270,7 @@ extension RDSClientTypes {
             self.publiclyAccessible = publiclyAccessible
             self.readReplicaDBClusterIdentifiers = readReplicaDBClusterIdentifiers
             self.readReplicaDBInstanceIdentifiers = readReplicaDBInstanceIdentifiers
+            self.readReplicaSourceDBClusterIdentifier = readReplicaSourceDBClusterIdentifier
             self.readReplicaSourceDBInstanceIdentifier = readReplicaSourceDBInstanceIdentifier
             self.replicaMode = replicaMode
             self.resumeFullAutomationModeTime = resumeFullAutomationModeTime
@@ -19388,7 +19418,7 @@ extension DeleteCustomDBEngineVersionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteCustomDBEngineVersionInput: Swift.Equatable {
-    /// The database engine. The only supported engine is custom-oracle-ee.
+    /// The database engine. The only supported engines are custom-oracle-ee and custom-oracle-ee-cdb.
     /// This member is required.
     public var engine: Swift.String?
     /// The custom engine version (CEV) for your DB instance. This option is required for RDS Custom, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Amazon Web Services Region.
@@ -23674,6 +23704,8 @@ public struct DescribeDBClustersInput: Swift.Equatable {
     /// * clone-group-id - Accepts clone group identifiers. The results list only includes information about the DB clusters associated with these clone groups.
     ///
     /// * db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list only includes information about the DB clusters identified by these ARNs.
+    ///
+    /// * db-cluster-resource-id - Accepts DB cluster resource identifiers. The results list will only include information about the DB clusters identified by these DB cluster resource identifiers.
     ///
     /// * domain - Accepts Active Directory directory IDs. The results list only includes information about the DB clusters associated with these domains.
     ///
@@ -35087,7 +35119,7 @@ extension ModifyCustomDBEngineVersionInput: ClientRuntime.URLPathProvider {
 public struct ModifyCustomDBEngineVersionInput: Swift.Equatable {
     /// An optional description of your CEV.
     public var description: Swift.String?
-    /// The DB engine. The only supported value is custom-oracle-ee.
+    /// The DB engine. The only supported values are custom-oracle-ee and custom-oracle-ee-cdb.
     /// This member is required.
     public var engine: Swift.String?
     /// The custom engine version (CEV) that you want to modify. This option is required for RDS Custom for Oracle, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Amazon Web Services Region.
@@ -36141,7 +36173,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     public var allocatedStorage: Swift.Int?
     /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version. Valid for: Aurora DB clusters only
     public var allowMajorVersionUpgrade: Swift.Bool
-    /// A value that indicates whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is disabled, changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter only affects the EnableIAMDatabaseAuthentication, MasterUserPassword, and NewDBClusterIdentifier values. If the ApplyImmediately parameter is disabled, then changes to the EnableIAMDatabaseAuthentication, MasterUserPassword, and NewDBClusterIdentifier values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. By default, this parameter is disabled. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// A value that indicates whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is disabled, changes to the DB cluster are applied during the next maintenance window. Most modifications can be applied immediately or during the next scheduled maintenance window. Some modifications, such as turning on deletion protection and changing the master password, are applied immediately—regardless of when you choose to apply them. By default, this parameter is disabled. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var applyImmediately: Swift.Bool
     /// A value that indicates whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for: Multi-AZ DB clusters only
     public var autoMinorVersionUpgrade: Swift.Bool?
@@ -36193,7 +36225,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     public var enableIAMDatabaseAuthentication: Swift.Bool?
     /// A value that indicates whether to turn on Performance Insights for the DB cluster. For more information, see [ Using Amazon Performance Insights](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html) in the Amazon RDS User Guide. Valid for: Multi-AZ DB clusters only
     public var enablePerformanceInsights: Swift.Bool?
-    /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. To list all of the available engine versions for Aurora MySQL version 2 (5.7-compatible) and version 3 (MySQL 8.0-compatible), use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for Aurora PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for MySQL, use the following command: aws rds describe-db-engine-versions --engine mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine postgres --query "DBEngineVersions[].EngineVersion" Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. If the cluster that you're modifying has one or more read replicas, all replicas must be running an engine version that's the same or later than the version you specify. To list all of the available engine versions for Aurora MySQL version 2 (5.7-compatible) and version 3 (MySQL 8.0-compatible), use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for MySQL 5.6-compatible Aurora, use the following command: aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for Aurora PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for MySQL, use the following command: aws rds describe-db-engine-versions --engine mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine postgres --query "DBEngineVersions[].EngineVersion" Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var engineVersion: Swift.String?
     /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for each DB instance in the Multi-AZ DB cluster. For information about valid IOPS values, see [Amazon RDS Provisioned IOPS storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS) in the Amazon RDS User Guide. Constraints: Must be a multiple between .5 and 50 of the storage amount for the DB cluster. Valid for: Multi-AZ DB clusters only
     public var iops: Swift.Int?
@@ -37286,7 +37318,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     public var enableIAMDatabaseAuthentication: Swift.Bool?
     /// A value that indicates whether to enable Performance Insights for the DB instance. For more information, see [Using Amazon Performance Insights](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
     public var enablePerformanceInsights: Swift.Bool?
-    /// The version number of the database engine to upgrade to. Changing this parameter results in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. For major version upgrades, if a nondefault DB parameter group is currently in use, a new DB parameter group in the DB parameter group family for the new engine version must be specified. The new DB parameter group can be the default for that DB parameter group family. If you specify only a major version, Amazon RDS will update the DB instance to the default minor version if the current minor version is lower. For information about valid engine versions, see CreateDBInstance, or call DescribeDBEngineVersions. In RDS Custom for Oracle, this parameter is supported for read replicas only if they are in the PATCH_DB_FAILURE lifecycle.
+    /// The version number of the database engine to upgrade to. Changing this parameter results in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. For major version upgrades, if a nondefault DB parameter group is currently in use, a new DB parameter group in the DB parameter group family for the new engine version must be specified. The new DB parameter group can be the default for that DB parameter group family. If you specify only a major version, Amazon RDS will update the DB instance to the default minor version if the current minor version is lower. For information about valid engine versions, see CreateDBInstance, or call DescribeDBEngineVersions. If the instance that you're modifying is acting as a read replica, the engine version that you specify must be the same or later than the version that the source DB instance or cluster is running. In RDS Custom for Oracle, this parameter is supported for read replicas only if they are in the PATCH_DB_FAILURE lifecycle.
     public var engineVersion: Swift.String?
     /// The new Provisioned IOPS (I/O operations per second) value for the RDS instance. Changing this setting doesn't result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. If you are migrating from Provisioned IOPS to standard storage, set this value to 0. The DB instance will require a reboot for the change in storage type to take effect. If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance. Constraints: For MariaDB, MySQL, Oracle, and PostgreSQL, the value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. Default: Uses existing setting
     public var iops: Swift.Int?
@@ -51439,7 +51471,7 @@ extension StopDBInstanceAutomatedBackupsReplicationInput: ClientRuntime.URLPathP
 }
 
 public struct StopDBInstanceAutomatedBackupsReplicationInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the source DB instance for which to stop replicating automated backups, for example, arn:aws:rds:us-west-2:123456789012:db:mydatabase.
+    /// The Amazon Resource Name (ARN) of the source DB instance for which to stop replicating automate backups, for example, arn:aws:rds:us-west-2:123456789012:db:mydatabase.
     /// This member is required.
     public var sourceDBInstanceArn: Swift.String?
 

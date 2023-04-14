@@ -570,7 +570,7 @@ public struct AssociateFileSystemAliasesInput: Swift.Equatable {
     /// For DNS alias names, Amazon FSx stores alphabetic characters as lowercase letters (a-z), regardless of how you specify them: as uppercase letters, lowercase letters, or the corresponding letters in escape codes.
     /// This member is required.
     public var aliases: [Swift.String]?
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// Specifies the file system with which you want to associate one or more DNS aliases.
     /// This member is required.
@@ -730,7 +730,7 @@ extension FSxClientTypes.AutoExportPolicy: Swift.Codable {
 }
 
 extension FSxClientTypes {
-    /// Describes a data repository association's automatic export policy. The AutoExportPolicy defines the types of updated objects on the file system that will be automatically exported to the data repository. As you create, modify, or delete files, Amazon FSx for Lustre automatically exports the defined changes asynchronously once your application finishes modifying the file. This AutoExportPolicy is supported only for Amazon FSx for Lustre file systems with the Persistent_2 deployment type.
+    /// Describes a data repository association's automatic export policy. The AutoExportPolicy defines the types of updated objects on the file system that will be automatically exported to the data repository. As you create, modify, or delete files, Amazon FSx for Lustre automatically exports the defined changes asynchronously once your application finishes modifying the file. The AutoExportPolicy is only supported on Amazon FSx for Lustre file systems with a data repository association.
     public struct AutoExportPolicy: Swift.Equatable {
         /// The AutoExportPolicy can have the following event values:
         ///
@@ -786,7 +786,7 @@ extension FSxClientTypes.AutoImportPolicy: Swift.Codable {
 }
 
 extension FSxClientTypes {
-    /// Describes the data repository association's automatic import policy. The AutoImportPolicy defines how Amazon FSx keeps your file metadata and directory listings up to date by importing changes to your Amazon FSx for Lustre file system as you modify objects in a linked S3 bucket. The AutoImportPolicy is supported only for Amazon FSx for Lustre file systems with the Persistent_2 deployment type.
+    /// Describes the data repository association's automatic import policy. The AutoImportPolicy defines how Amazon FSx keeps your file metadata and directory listings up to date by importing changes to your Amazon FSx for Lustre file system as you modify objects in a linked S3 bucket. The AutoImportPolicy is only supported on Amazon FSx for Lustre file systems with a data repository association.
     public struct AutoImportPolicy: Swift.Equatable {
         /// The AutoImportPolicy can have the following event values:
         ///
@@ -1669,7 +1669,7 @@ extension FSxClientTypes {
         public var enabled: Swift.Bool?
         /// Required if Enabled is set to true. Specifies the format of the CompletionReport. REPORT_CSV_20191124 is the only format currently supported. When Format is set to REPORT_CSV_20191124, the CompletionReport is provided in CSV format, and is delivered to {path}/task-{id}/failures.csv.
         public var format: FSxClientTypes.ReportFormat?
-        /// Required if Enabled is set to true. Specifies the location of the report on the file system's linked S3 data repository. An absolute path that defines where the completion report will be stored in the destination location. The Path you provide must be located within the file system’s ExportPath. An example Path value is "s3://myBucket/myExportPath/optionalPrefix". The report provides the following information for each file in the report: FilePath, FileStatus, and ErrorCode. To learn more about a file system's ExportPath, see .
+        /// Required if Enabled is set to true. Specifies the location of the report on the file system's linked S3 data repository. An absolute path that defines where the completion report will be stored in the destination location. The Path you provide must be located within the file system’s ExportPath. An example Path value is "s3://myBucket/myExportPath/optionalPrefix". The report provides the following information for each file in the report: FilePath, FileStatus, and ErrorCode.
         public var path: Swift.String?
         /// Required if Enabled is set to true. Specifies the scope of the CompletionReport; FAILED_FILES_ONLY is the only scope currently supported. When Scope is set to FAILED_FILES_ONLY, the CompletionReport only contains information about files that the data repository task failed to process.
         public var scope: FSxClientTypes.ReportScope?
@@ -1733,7 +1733,7 @@ extension CopyBackupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CopyBackupInput: Swift.Equatable {
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// A Boolean flag indicating whether tags from the source backup should be copied to the backup copy. This value defaults to false. If you set CopyTags to true and the source backup has existing tags, you can use the Tags parameter to create new tags, provided that the sum of the source backup tags and the new tags doesn't exceed 50. Both sets of tags are merged. If there are tag conflicts (for example, two tags with the same key but different values), the tags created with the Tags parameter take precedence.
     public var copyTags: Swift.Bool?
@@ -1940,7 +1940,7 @@ extension CreateBackupInput: ClientRuntime.URLPathProvider {
 
 /// The request object for the CreateBackup operation.
 public struct CreateBackupInput: Swift.Equatable {
-    /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) A string of up to 63 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The ID of the file system to back up.
     public var fileSystemId: Swift.String?
@@ -2131,7 +2131,7 @@ extension CreateDataRepositoryAssociationInput: ClientRuntime.URLPathProvider {
 public struct CreateDataRepositoryAssociationInput: Swift.Equatable {
     /// Set to true to run an import data repository task to import metadata from the data repository to the file system after the data repository association is created. Default is false.
     public var batchImportMetaDataOnCreate: Swift.Bool?
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The path to the Amazon S3 data repository that will be linked to the file system. The path can be an S3 bucket or prefix in the format s3://myBucket/myPrefix/. This path specifies where in the S3 data repository files will be imported from or exported to.
     /// This member is required.
@@ -2348,7 +2348,7 @@ extension CreateDataRepositoryTaskInput: ClientRuntime.URLPathProvider {
 public struct CreateDataRepositoryTaskInput: Swift.Equatable {
     /// Specifies the amount of data to release, in GiB, by an Amazon File Cache AUTO_RELEASE_DATA task that automatically releases files from the cache.
     public var capacityToRelease: Swift.Int?
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The globally unique ID of the file system, assigned by Amazon FSx.
     /// This member is required.
@@ -2593,7 +2593,7 @@ extension CreateFileCacheInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateFileCacheInput: Swift.Equatable {
-    /// An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK. By using the idempotent operation, you can retry a CreateFileCache operation without the risk of creating an extra cache. This approach can be useful when an initial call fails in a way that makes it unclear whether a cache was created. Examples are if a transport level timeout occurred, or your connection was reset. If you use the same client request token and the initial call created a cache, the client receives success as long as the parameters are the same.
+    /// An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK. By using the idempotent operation, you can retry a CreateFileCache operation without the risk of creating an extra cache. This approach can be useful when an initial call fails in a way that makes it unclear whether a cache was created. Examples are if a transport level timeout occurred, or your connection was reset. If you use the same client request token and the initial call created a cache, the client receives success as long as the parameters are the same.
     public var clientRequestToken: Swift.String?
     /// A boolean flag indicating whether tags for the cache should be copied to data repository associations. This value defaults to false.
     public var copyTagsToDataRepositoryAssociations: Swift.Bool?
@@ -2967,7 +2967,7 @@ public struct CreateFileSystemFromBackupInput: Swift.Equatable {
     /// The ID of the source backup. Specifies the backup that you are copying.
     /// This member is required.
     public var backupId: Swift.String?
-    /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// A string of up to 63 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// Sets the version for the Amazon FSx for Lustre file system that you're creating from a backup. Valid values are 2.10 and 2.12. You don't need to specify FileSystemTypeVersion because it will be applied using the backup's FileSystemTypeVersion setting. If you choose to specify FileSystemTypeVersion when creating from backup, the value must match the backup's FileSystemTypeVersion setting.
     public var fileSystemTypeVersion: Swift.String?
@@ -2984,7 +2984,7 @@ public struct CreateFileSystemFromBackupInput: Swift.Equatable {
     ///
     /// If a KmsKeyId isn't specified, the Amazon FSx-managed KMS key for your account is used. For more information, see [Encrypt](https://docs.aws.amazon.com/kms/latest/APIReference/API_Encrypt.html) in the Key Management Service API Reference.
     public var kmsKeyId: Swift.String?
-    /// The Lustre configuration for the file system being created. The following parameters are not supported for file systems with the Persistent_2 deployment type. Instead, use CreateDataRepositoryAssociation to create a data repository association to link your Lustre file system to a data repository.
+    /// The Lustre configuration for the file system being created. The following parameters are not supported for file systems with a data repository association created with .
     ///
     /// * AutoImportPolicy
     ///
@@ -3292,7 +3292,7 @@ extension CreateFileSystemInput: ClientRuntime.URLPathProvider {
 
 /// The request object used to create a new Amazon FSx file system.
 public struct CreateFileSystemInput: Swift.Equatable {
-    /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// A string of up to 63 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The type of Amazon FSx file system to create. Valid values are WINDOWS, LUSTRE, ONTAP, and OPENZFS.
     /// This member is required.
@@ -3319,7 +3319,7 @@ public struct CreateFileSystemInput: Swift.Equatable {
     ///
     /// If a KmsKeyId isn't specified, the Amazon FSx-managed KMS key for your account is used. For more information, see [Encrypt](https://docs.aws.amazon.com/kms/latest/APIReference/API_Encrypt.html) in the Key Management Service API Reference.
     public var kmsKeyId: Swift.String?
-    /// The Lustre configuration for the file system being created. The following parameters are not supported for file systems with the Persistent_2 deployment type. Instead, use CreateDataRepositoryAssociation to create a data repository association to link your Lustre file system to a data repository.
+    /// The Lustre configuration for the file system being created. The following parameters are not supported for file systems with a data repository association created with .
     ///
     /// * AutoImportPolicy
     ///
@@ -3589,7 +3589,7 @@ extension FSxClientTypes.CreateFileSystemLustreConfiguration: Swift.Codable {
 }
 
 extension FSxClientTypes {
-    /// The Lustre configuration for the file system being created. The following parameters are not supported for file systems with the Persistent_2 deployment type. Instead, use CreateDataRepositoryAssociation to create a data repository association to link your Lustre file system to a data repository.
+    /// The Lustre configuration for the file system being created. The following parameters are not supported for file systems with a data repository association created with .
     ///
     /// * AutoImportPolicy
     ///
@@ -3599,7 +3599,7 @@ extension FSxClientTypes {
     ///
     /// * ImportPath
     public struct CreateFileSystemLustreConfiguration: Swift.Equatable {
-        /// (Optional) Available with Scratch and Persistent_1 deployment types. When you create your file system, your existing S3 objects appear as file and directory listings. Use this property to choose how Amazon FSx keeps your file and directory listings up to date as you add or modify objects in your linked S3 bucket. AutoImportPolicy can have the following values:
+        /// (Optional) When you create your file system, your existing S3 objects appear as file and directory listings. Use this parameter to choose how Amazon FSx keeps your file and directory listings up to date as you add or modify objects in your linked S3 bucket. AutoImportPolicy can have the following values:
         ///
         /// * NONE - (Default) AutoImport is off. Amazon FSx only updates file and directory listings from the linked S3 bucket when the file system is created. FSx does not update file and directory listings for any new or changed objects after choosing this option.
         ///
@@ -3610,7 +3610,7 @@ extension FSxClientTypes {
         /// * NEW_CHANGED_DELETED - AutoImport is on. Amazon FSx automatically imports file and directory listings of any new objects added to the S3 bucket, any existing objects that are changed in the S3 bucket, and any objects that were deleted in the S3 bucket.
         ///
         ///
-        /// For more information, see [ Automatically import updates from your S3 bucket](https://docs.aws.amazon.com/fsx/latest/LustreGuide/older-deployment-types.html#legacy-auto-import-from-s3). This parameter is not supported for file systems with the Persistent_2 deployment type. Instead, use CreateDataRepositoryAssociation to create a data repository association to link your Lustre file system to a data repository.
+        /// For more information, see [ Automatically import updates from your S3 bucket](https://docs.aws.amazon.com/fsx/latest/LustreGuide/older-deployment-types.html#legacy-auto-import-from-s3). This parameter is not supported for file systems with a data repository association.
         public var autoImportPolicy: FSxClientTypes.AutoImportPolicyType?
         /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 0.
         public var automaticBackupRetentionDays: Swift.Int?
@@ -3627,15 +3627,15 @@ extension FSxClientTypes {
         ///
         /// For more information, see [Lustre data compression](https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-compression.html) in the Amazon FSx for Lustre User Guide.
         public var dataCompressionType: FSxClientTypes.DataCompressionType?
-        /// (Optional) Choose SCRATCH_1 and SCRATCH_2 deployment types when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. Choose PERSISTENT_1 for longer-term storage and for throughput-focused workloads that aren’t latency-sensitive. PERSISTENT_1 supports encryption of data in transit, and is available in all Amazon Web Services Regions in which FSx for Lustre is available. Choose PERSISTENT_2 for longer-term storage and for latency-sensitive workloads that require the highest levels of IOPS/throughput. PERSISTENT_2 supports SSD storage, and offers higher PerUnitStorageThroughput (up to 1000 MB/s/TiB). PERSISTENT_2 is available in a limited number of Amazon Web Services Regions. For more information, and an up-to-date list of Amazon Web Services Regions in which PERSISTENT_2 is available, see [File system deployment options for FSx for Lustre](https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-fsx-lustre.html#lustre-deployment-types) in the Amazon FSx for Lustre User Guide. If you choose PERSISTENT_2, and you set FileSystemTypeVersion to 2.10, the CreateFileSystem operation fails. Encryption of data in transit is automatically turned on when you access SCRATCH_2, PERSISTENT_1 and PERSISTENT_2 file systems from Amazon EC2 instances that [support automatic encryption](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/data-                 protection.html) in the Amazon Web Services Regions where they are available. For more information about encryption in transit for FSx for Lustre file systems, see [Encrypting data in transit](https://docs.aws.amazon.com/fsx/latest/LustreGuide/encryption-in-transit-fsxl.html) in the Amazon FSx for Lustre User Guide. (Default = SCRATCH_1)
+        /// (Optional) Choose SCRATCH_1 and SCRATCH_2 deployment types when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. Choose PERSISTENT_1 for longer-term storage and for throughput-focused workloads that aren’t latency-sensitive. PERSISTENT_1 supports encryption of data in transit, and is available in all Amazon Web Services Regions in which FSx for Lustre is available. Choose PERSISTENT_2 for longer-term storage and for latency-sensitive workloads that require the highest levels of IOPS/throughput. PERSISTENT_2 supports SSD storage, and offers higher PerUnitStorageThroughput (up to 1000 MB/s/TiB). PERSISTENT_2 is available in a limited number of Amazon Web Services Regions. For more information, and an up-to-date list of Amazon Web Services Regions in which PERSISTENT_2 is available, see [File system deployment options for FSx for Lustre](https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-fsx-lustre.html#lustre-deployment-types) in the Amazon FSx for Lustre User Guide. If you choose PERSISTENT_2, and you set FileSystemTypeVersion to 2.10, the CreateFileSystem operation fails. Encryption of data in transit is automatically turned on when you access SCRATCH_2, PERSISTENT_1 and PERSISTENT_2 file systems from Amazon EC2 instances that support automatic encryption in the Amazon Web Services Regions where they are available. For more information about encryption in transit for FSx for Lustre file systems, see [Encrypting data in transit](https://docs.aws.amazon.com/fsx/latest/LustreGuide/encryption-in-transit-fsxl.html) in the Amazon FSx for Lustre User Guide. (Default = SCRATCH_1)
         public var deploymentType: FSxClientTypes.LustreDeploymentType?
         /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when storage type is HDD. Set this property to READ to improve the performance for frequently accessed files by caching up to 20% of the total storage capacity of the file system. This parameter is required when StorageType is set to HDD.
         public var driveCacheType: FSxClientTypes.DriveCacheType?
-        /// (Optional) Available with Scratch and Persistent_1 deployment types. Specifies the path in the Amazon S3 bucket where the root of your Amazon FSx file system is exported. The path must use the same Amazon S3 bucket as specified in ImportPath. You can provide an optional prefix to which new and changed data is to be exported from your Amazon FSx for Lustre file system. If an ExportPath value is not provided, Amazon FSx sets a default export path, s3://import-bucket/FSxLustre[creation-timestamp]. The timestamp is in UTC format, for example s3://import-bucket/FSxLustre20181105T222312Z. The Amazon S3 export bucket must be the same as the import bucket specified by ImportPath. If you specify only a bucket name, such as s3://import-bucket, you get a 1:1 mapping of file system objects to S3 bucket objects. This mapping means that the input data in S3 is overwritten on export. If you provide a custom prefix in the export path, such as s3://import-bucket/[custom-optional-prefix], Amazon FSx exports the contents of your file system to that export prefix in the Amazon S3 bucket. This parameter is not supported for file systems with the Persistent_2 deployment type. Instead, use CreateDataRepositoryAssociation to create a data repository association to link your Lustre file system to a data repository.
+        /// (Optional) Specifies the path in the Amazon S3 bucket where the root of your Amazon FSx file system is exported. The path must use the same Amazon S3 bucket as specified in ImportPath. You can provide an optional prefix to which new and changed data is to be exported from your Amazon FSx for Lustre file system. If an ExportPath value is not provided, Amazon FSx sets a default export path, s3://import-bucket/FSxLustre[creation-timestamp]. The timestamp is in UTC format, for example s3://import-bucket/FSxLustre20181105T222312Z. The Amazon S3 export bucket must be the same as the import bucket specified by ImportPath. If you specify only a bucket name, such as s3://import-bucket, you get a 1:1 mapping of file system objects to S3 bucket objects. This mapping means that the input data in S3 is overwritten on export. If you provide a custom prefix in the export path, such as s3://import-bucket/[custom-optional-prefix], Amazon FSx exports the contents of your file system to that export prefix in the Amazon S3 bucket. This parameter is not supported for file systems with a data repository association.
         public var exportPath: Swift.String?
-        /// (Optional) The path to the Amazon S3 bucket (including the optional prefix) that you're using as the data repository for your Amazon FSx for Lustre file system. The root of your FSx for Lustre file system will be mapped to the root of the Amazon S3 bucket you select. An example is s3://import-bucket/optional-prefix. If you specify a prefix after the Amazon S3 bucket name, only object keys with that prefix are loaded into the file system. This parameter is not supported for file systems with the Persistent_2 deployment type. Instead, use CreateDataRepositoryAssociation to create a data repository association to link your Lustre file system to a data repository.
+        /// (Optional) The path to the Amazon S3 bucket (including the optional prefix) that you're using as the data repository for your Amazon FSx for Lustre file system. The root of your FSx for Lustre file system will be mapped to the root of the Amazon S3 bucket you select. An example is s3://import-bucket/optional-prefix. If you specify a prefix after the Amazon S3 bucket name, only object keys with that prefix are loaded into the file system. This parameter is not supported for file systems with a data repository association.
         public var importPath: Swift.String?
-        /// (Optional) For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system. The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB. This parameter is not supported for file systems with the Persistent_2 deployment type. Instead, use CreateDataRepositoryAssociation to create a data repository association to link your Lustre file system to a data repository.
+        /// (Optional) For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system. The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB. This parameter is not supported for file systems with a data repository association.
         public var importedFileChunkSize: Swift.Int?
         /// The Lustre logging configuration used when creating an Amazon FSx for Lustre file system. When logging is enabled, Lustre logs error and warning events for data repositories associated with your file system to Amazon CloudWatch Logs.
         public var logConfiguration: FSxClientTypes.LustreLogCreateConfiguration?
@@ -3797,7 +3797,7 @@ extension FSxClientTypes {
         public var deploymentType: FSxClientTypes.OntapDeploymentType?
         /// The SSD IOPS configuration for the FSx for ONTAP file system.
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
-        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API, Amazon FSx selects an unused IP address range for you from the 198.19.* range. By default in the Amazon FSx console, Amazon FSx chooses the last 64 IP addresses from the VPC’s primary CIDR range to use as the endpoint IP address range for the file system. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables.
+        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API, Amazon FSx selects an unused IP address range for you from the 198.19.* range. By default in the Amazon FSx console, Amazon FSx chooses the last 64 IP addresses from the VPC’s primary CIDR range to use as the endpoint IP address range for the file system. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
         public var endpointIpAddressRange: Swift.String?
         /// The ONTAP administrative password for the fsxadmin user with which you administer your file system using the NetApp ONTAP CLI and REST API.
         public var fsxAdminPassword: Swift.String?
@@ -4292,7 +4292,7 @@ extension FSxClientTypes {
     public struct CreateOntapVolumeConfiguration: Swift.Equatable {
         /// A boolean flag indicating whether tags for the volume should be copied to backups. This value defaults to false. If it's set to true, all tags for the volume are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the volume, regardless of this value.
         public var copyTagsToBackups: Swift.Bool?
-        /// Specifies the location in the SVM's namespace where the volume is mounted. The JunctionPath must have a leading forward slash, such as /vol3.
+        /// Specifies the location in the SVM's namespace where the volume is mounted. This parameter is required. The JunctionPath must have a leading forward slash, such as /vol3.
         public var junctionPath: Swift.String?
         /// Specifies the type of volume you are creating. Valid values are the following:
         ///
@@ -4311,7 +4311,7 @@ extension FSxClientTypes {
         ///
         /// * MIXED if the file system is managed by both UNIX and Windows administrators and users consist of both NFS and SMB clients.
         public var securityStyle: FSxClientTypes.SecurityStyle?
-        /// Specifies the size of the volume, in megabytes (MB), that you are creating.
+        /// Specifies the size of the volume, in megabytes (MB), that you are creating. Provide any whole number in the range of 20–104857600 to specify the size of the volume.
         /// This member is required.
         public var sizeInMegabytes: Swift.Int?
         /// Specifies the snapshot policy for the volume. There are three built-in snapshot policies:
@@ -4325,7 +4325,7 @@ extension FSxClientTypes {
         ///
         /// You can also provide the name of a custom policy that you created with the ONTAP CLI or REST API. For more information, see [Snapshot policies](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snapshots-ontap.html#snapshot-policies) in the Amazon FSx for NetApp ONTAP User Guide.
         public var snapshotPolicy: Swift.String?
-        /// Set to true to enable deduplication, compression, and compaction storage efficiency features on the volume.
+        /// Set to true to enable deduplication, compression, and compaction storage efficiency features on the volume, or set to false to disable them. This parameter is required.
         public var storageEfficiencyEnabled: Swift.Bool?
         /// Specifies the ONTAP SVM in which to create the volume.
         /// This member is required.
@@ -4621,7 +4621,7 @@ extension CreateSnapshotInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateSnapshotInput: Swift.Equatable {
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The name of the snapshot.
     /// This member is required.
@@ -4806,7 +4806,7 @@ extension CreateStorageVirtualMachineInput: ClientRuntime.URLPathProvider {
 public struct CreateStorageVirtualMachineInput: Swift.Equatable {
     /// Describes the self-managed Microsoft Active Directory to which you want to join the SVM. Joining an Active Directory provides user authentication and access control for SMB clients, including Microsoft Windows and macOS client accessing the file system.
     public var activeDirectoryConfiguration: FSxClientTypes.CreateSvmActiveDirectoryConfiguration?
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The globally unique ID of the file system, assigned by Amazon FSx.
     /// This member is required.
@@ -5059,7 +5059,7 @@ public struct CreateVolumeFromBackupInput: Swift.Equatable {
     /// The ID of the source backup. Specifies the backup that you are copying.
     /// This member is required.
     public var backupId: Swift.String?
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The name of the new volume you're creating.
     /// This member is required.
@@ -5246,7 +5246,7 @@ extension CreateVolumeInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateVolumeInput: Swift.Equatable {
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// Specifies the name of the volume that you're creating.
     /// This member is required.
@@ -5576,7 +5576,7 @@ extension FSxClientTypes {
     /// * DescribeDataRepositoryAssociations
     ///
     ///
-    /// Data repository associations are supported only for an Amazon FSx for Lustre file system with the Persistent_2 deployment type and for an Amazon File Cache resource.
+    /// Data repository associations are supported on Amazon File Cache resources and all Amazon FSx for Lustre file systems excluding Scratch_1 deployment types.
     public struct DataRepositoryAssociation: Swift.Equatable {
         /// The system-generated, unique ID of the data repository association.
         public var associationId: Swift.String?
@@ -5779,7 +5779,7 @@ extension FSxClientTypes.DataRepositoryConfiguration: Swift.Codable {
 }
 
 extension FSxClientTypes {
-    /// The data repository configuration object for Lustre file systems returned in the response of the CreateFileSystem operation. This data type is not supported for file systems with the Persistent_2 deployment type. Instead, use .
+    /// The data repository configuration object for Lustre file systems returned in the response of the CreateFileSystem operation. This data type is not supported on file systems with a data repository association. For file systems with a data repository association, see .
     public struct DataRepositoryConfiguration: Swift.Equatable {
         /// Describes the file system's linked S3 data repository's AutoImportPolicy. The AutoImportPolicy configures how Amazon FSx keeps your file and directory listings up to date as you add or modify objects in your linked S3 bucket. AutoImportPolicy can have the following values:
         ///
@@ -6094,6 +6094,8 @@ extension FSxClientTypes {
         /// * IMPORT_METADATA_FROM_REPOSITORY tasks import metadata changes from a linked S3 bucket to your Amazon FSx for Lustre file system.
         ///
         /// * AUTO_RELEASE_DATA tasks automatically release files from an Amazon File Cache resource.
+        ///
+        /// * RELEASE_DATA_FROM_FILESYSTEM tasks are not supported.
         /// This member is required.
         public var type: FSxClientTypes.DataRepositoryTaskType?
 
@@ -6613,7 +6615,7 @@ public struct DeleteBackupInput: Swift.Equatable {
     /// The ID of the backup that you want to delete.
     /// This member is required.
     public var backupId: Swift.String?
-    /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This parameter is automatically filled on your behalf when using the CLI or SDK.
+    /// A string of up to 63 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This parameter is automatically filled on your behalf when using the CLI or SDK.
     public var clientRequestToken: Swift.String?
 
     public init (
@@ -6763,7 +6765,7 @@ public struct DeleteDataRepositoryAssociationInput: Swift.Equatable {
     /// The ID of the data repository association that you want to delete.
     /// This member is required.
     public var associationId: Swift.String?
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// Set to true to delete the data in the file system that corresponds to the data repository association.
     public var deleteDataInFileSystem: Swift.Bool?
@@ -6919,7 +6921,7 @@ extension DeleteFileCacheInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteFileCacheInput: Swift.Equatable {
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The ID of the cache that's being deleted.
     /// This member is required.
@@ -7073,7 +7075,7 @@ extension DeleteFileSystemInput: ClientRuntime.URLPathProvider {
 
 /// The request object for DeleteFileSystem operation.
 public struct DeleteFileSystemInput: Swift.Equatable {
-    /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This token is automatically filled on your behalf when using the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// A string of up to 63 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This token is automatically filled on your behalf when using the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The ID of the file system that you want to delete.
     /// This member is required.
@@ -7691,7 +7693,7 @@ extension DeleteSnapshotInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteSnapshotInput: Swift.Equatable {
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The ID of the snapshot that you want to delete.
     /// This member is required.
@@ -7828,7 +7830,7 @@ extension DeleteStorageVirtualMachineInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteStorageVirtualMachineInput: Swift.Equatable {
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The ID of the SVM that you want to delete.
     /// This member is required.
@@ -7975,7 +7977,7 @@ extension DeleteVolumeInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteVolumeInput: Swift.Equatable {
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// For Amazon FSx for ONTAP volumes, specify whether to take a final backup of the volume and apply tags to the backup. To apply tags to the backup, you must have the fsx:TagResource permission.
     public var ontapConfiguration: FSxClientTypes.DeleteVolumeOntapConfiguration?
@@ -9070,7 +9072,7 @@ extension DescribeFileSystemAliasesInput: ClientRuntime.URLPathProvider {
 
 /// The request object for DescribeFileSystemAliases operation.
 public struct DescribeFileSystemAliasesInput: Swift.Equatable {
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The ID of the file system to return the associated DNS aliases for (String).
     /// This member is required.
@@ -9994,7 +9996,7 @@ public struct DisassociateFileSystemAliasesInput: Swift.Equatable {
     /// An array of one or more DNS alias names to disassociate, or remove, from the file system.
     /// This member is required.
     public var aliases: [Swift.String]?
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// Specifies the file system from which to disassociate the DNS aliases.
     /// This member is required.
@@ -11454,7 +11456,7 @@ extension FSxClientTypes {
         public var ontapConfiguration: FSxClientTypes.OntapFileSystemConfiguration?
         /// The configuration for this Amazon FSx for OpenZFS file system.
         public var openZFSConfiguration: FSxClientTypes.OpenZFSFileSystemConfiguration?
-        /// The Amazon Web Services account that created the file system. If the file system was created by an Identity and Access Management (IAM) user, the Amazon Web Services account to which the IAM user belongs is the owner.
+        /// The Amazon Web Services account that created the file system. If the file system was created by a user in IAM Identity Center, the Amazon Web Services account to which the IAM user belongs is the owner.
         public var ownerId: Swift.String?
         /// The Amazon Resource Name (ARN) of the file system resource.
         public var resourceARN: Swift.String?
@@ -13005,7 +13007,7 @@ extension FSxClientTypes {
         ///
         /// For more information, see [Lustre data compression](https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-compression.html).
         public var dataCompressionType: FSxClientTypes.DataCompressionType?
-        /// The data repository configuration object for Lustre file systems returned in the response of the CreateFileSystem operation. This data type is not supported for file systems with the Persistent_2 deployment type. Instead, use .
+        /// The data repository configuration object for Lustre file systems returned in the response of the CreateFileSystem operation. This data type is not supported on file systems with a data repository association. For file systems with a data repository association, see .
         public var dataRepositoryConfiguration: FSxClientTypes.DataRepositoryConfiguration?
         /// The deployment type of the FSx for Lustre file system. Scratch deployment type is designed for temporary storage and shorter-term processing of data. SCRATCH_1 and SCRATCH_2 deployment types are best suited for when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. The PERSISTENT_1 and PERSISTENT_2 deployment type is used for longer-term storage and workloads and encryption of data in transit. PERSISTENT_2 is built on Lustre v2.12 and offers higher PerUnitStorageThroughput (up to 1000 MB/s/TiB) along with a lower minimum storage capacity requirement (600 GiB). To learn more about FSx for Lustre deployment types, see [ FSx for Lustre deployment options](https://docs.aws.amazon.com/fsx/latest/LustreGuide/lustre-deployment-types.html). The default is SCRATCH_1.
         public var deploymentType: FSxClientTypes.LustreDeploymentType?
@@ -13704,7 +13706,7 @@ extension FSxClientTypes {
         public var deploymentType: FSxClientTypes.OntapDeploymentType?
         /// The SSD IOPS configuration for the ONTAP file system, specifying the number of provisioned IOPS and the provision mode.
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
-        /// (Multi-AZ only) The IP address range in which the endpoints to access your file system are created. The Endpoint IP address range you select for your file system must exist outside the VPC's CIDR range and must be at least /30 or larger. If you do not specify this optional parameter, Amazon FSx will automatically select a CIDR block for you.
+        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API, Amazon FSx selects an unused IP address range for you from the 198.19.* range. By default in the Amazon FSx console, Amazon FSx chooses the last 64 IP addresses from the VPC’s primary CIDR range to use as the endpoint IP address range for the file system. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables.
         public var endpointIpAddressRange: Swift.String?
         /// The Management and Intercluster endpoints that are used to access data or to manage the file system using the NetApp ONTAP CLI, REST API, or NetApp SnapMirror.
         public var endpoints: FSxClientTypes.FileSystemEndpoints?
@@ -14744,7 +14746,7 @@ extension ReleaseFileSystemNfsV3LocksInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ReleaseFileSystemNfsV3LocksInput: Swift.Equatable {
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The globally unique ID of the file system, assigned by Amazon FSx.
     /// This member is required.
@@ -15136,7 +15138,7 @@ extension RestoreVolumeFromSnapshotInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RestoreVolumeFromSnapshotInput: Swift.Equatable {
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The settings used when restoring the specified volume from snapshot.
     ///
@@ -17303,7 +17305,7 @@ public struct UpdateDataRepositoryAssociationInput: Swift.Equatable {
     /// The ID of the data repository association that you are updating.
     /// This member is required.
     public var associationId: Swift.String?
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system. The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB.
     public var importedFileChunkSize: Swift.Int?
@@ -17451,7 +17453,7 @@ extension UpdateFileCacheInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateFileCacheInput: Swift.Equatable {
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The ID of the cache that you are updating.
     /// This member is required.
@@ -17650,7 +17652,7 @@ extension UpdateFileSystemInput: ClientRuntime.URLPathProvider {
 
 /// The request object for the UpdateFileSystem operation.
 public struct UpdateFileSystemInput: Swift.Equatable {
-    /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent updates. This string is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// A string of up to 63 ASCII characters that Amazon FSx uses to ensure idempotent updates. This string is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The ID of the file system that you are updating.
     /// This member is required.
@@ -17661,7 +17663,7 @@ public struct UpdateFileSystemInput: Swift.Equatable {
     public var ontapConfiguration: FSxClientTypes.UpdateFileSystemOntapConfiguration?
     /// The configuration updates for an Amazon FSx for OpenZFS file system.
     public var openZFSConfiguration: FSxClientTypes.UpdateFileSystemOpenZFSConfiguration?
-    /// Use this parameter to increase the storage capacity of an Amazon FSx for Windows File Server, Amazon FSx for Lustre, or Amazon FSx for NetApp ONTAP file system. Specifies the storage capacity target value, in GiB, to increase the storage capacity for the file system that you're updating. You can't make a storage capacity increase request if there is an existing storage capacity increase request in progress. For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html) in the Amazon FSx for Windows File Server User Guide. For Lustre file systems, the storage capacity target value can be the following:
+    /// Use this parameter to increase the storage capacity of an FSx for Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system. Specifies the storage capacity target value, in GiB, to increase the storage capacity for the file system that you're updating. You can't make a storage capacity increase request if there is an existing storage capacity increase request in progress. For Lustre file systems, the storage capacity target value can be the following:
     ///
     /// * For SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 SSD deployment types, valid values are in multiples of 2400 GiB. The value must be greater than the current storage capacity.
     ///
@@ -17670,7 +17672,7 @@ public struct UpdateFileSystemInput: Swift.Equatable {
     /// * For SCRATCH_1 file systems, you can't increase the storage capacity.
     ///
     ///
-    /// For more information, see [Managing storage and throughput capacity](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html) in the Amazon FSx for Lustre User Guide. For ONTAP file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see [Managing storage capacity and provisioned IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-storage-capacity.html) in the Amazon FSx for NetApp ONTAP User Guide.
+    /// For more information, see [Managing storage and throughput capacity](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html) in the FSx for Lustre User Guide. For FSx for OpenZFS file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-storage-capacity.html) in the FSx for OpenZFS User Guide. For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html) in the Amazon FSx for Windows File Server User Guide. For ONTAP file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see [Managing storage capacity and provisioned IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-storage-capacity.html) in the Amazon FSx for NetApp ONTAP User Guide.
     public var storageCapacity: Swift.Int?
     /// The configuration updates for an Amazon FSx for Windows File Server file system.
     public var windowsConfiguration: FSxClientTypes.UpdateFileSystemWindowsConfiguration?
@@ -17804,7 +17806,7 @@ extension FSxClientTypes {
         /// * NEW_CHANGED_DELETED - AutoImport is on. Amazon FSx automatically imports file and directory listings of any new objects added to the S3 bucket, any existing objects that are changed in the S3 bucket, and any objects that were deleted in the S3 bucket.
         ///
         ///
-        /// The AutoImportPolicy parameter is not supported for Lustre file systems with the Persistent_2 deployment type. Instead, use to update a data repository association on your Persistent_2 file system.
+        /// This parameter is not supported for file systems with a data repository association.
         public var autoImportPolicy: FSxClientTypes.AutoImportPolicyType?
         /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 0.
         public var automaticBackupRetentionDays: Swift.Int?
@@ -18501,7 +18503,7 @@ extension UpdateSnapshotInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateSnapshotInput: Swift.Equatable {
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The name of the snapshot to update.
     /// This member is required.
@@ -18652,7 +18654,7 @@ extension UpdateStorageVirtualMachineInput: ClientRuntime.URLPathProvider {
 public struct UpdateStorageVirtualMachineInput: Swift.Equatable {
     /// Updates the Microsoft Active Directory (AD) configuration for an SVM that is joined to an AD.
     public var activeDirectoryConfiguration: FSxClientTypes.UpdateSvmActiveDirectoryConfiguration?
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The ID of the SVM that you want to update, in the format svm-0123456789abcdef0.
     /// This member is required.
@@ -18844,7 +18846,7 @@ extension UpdateVolumeInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateVolumeInput: Swift.Equatable {
-    /// (Optional) An idempotency token for resource creation, in a string of up to 64 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The name of the OpenZFS volume. OpenZFS root volumes are automatically named FSX. Child volume names must be unique among their parent volume's children. The name of the volume is part of the mount string for the OpenZFS volume.
     public var name: Swift.String?

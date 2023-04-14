@@ -1833,6 +1833,7 @@ extension AmplifyUIBuilderClientTypes.CreateFormData: Swift.Codable {
         case dataType
         case fields
         case formActionType
+        case labelDecorator
         case name
         case schemaVersion
         case sectionalElements
@@ -1856,6 +1857,9 @@ extension AmplifyUIBuilderClientTypes.CreateFormData: Swift.Codable {
         }
         if let formActionType = self.formActionType {
             try encodeContainer.encode(formActionType.rawValue, forKey: .formActionType)
+        }
+        if let labelDecorator = self.labelDecorator {
+            try encodeContainer.encode(labelDecorator.rawValue, forKey: .labelDecorator)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -1927,6 +1931,8 @@ extension AmplifyUIBuilderClientTypes.CreateFormData: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let labelDecoratorDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.LabelDecorator.self, forKey: .labelDecorator)
+        labelDecorator = labelDecoratorDecoded
     }
 }
 
@@ -1944,6 +1950,8 @@ extension AmplifyUIBuilderClientTypes {
         /// Specifies whether to perform a create or update action on the form.
         /// This member is required.
         public var formActionType: AmplifyUIBuilderClientTypes.FormActionType?
+        /// Specifies an icon or decoration to display on the form.
+        public var labelDecorator: AmplifyUIBuilderClientTypes.LabelDecorator?
         /// The name of the form.
         /// This member is required.
         public var name: Swift.String?
@@ -1964,6 +1972,7 @@ extension AmplifyUIBuilderClientTypes {
             dataType: AmplifyUIBuilderClientTypes.FormDataTypeConfig? = nil,
             fields: [Swift.String:AmplifyUIBuilderClientTypes.FieldConfig]? = nil,
             formActionType: AmplifyUIBuilderClientTypes.FormActionType? = nil,
+            labelDecorator: AmplifyUIBuilderClientTypes.LabelDecorator? = nil,
             name: Swift.String? = nil,
             schemaVersion: Swift.String? = nil,
             sectionalElements: [Swift.String:AmplifyUIBuilderClientTypes.SectionalElement]? = nil,
@@ -1975,6 +1984,7 @@ extension AmplifyUIBuilderClientTypes {
             self.dataType = dataType
             self.fields = fields
             self.formActionType = formActionType
+            self.labelDecorator = labelDecorator
             self.name = name
             self.schemaVersion = schemaVersion
             self.sectionalElements = sectionalElements
@@ -2904,12 +2914,16 @@ extension ExchangeCodeForTokenOutputResponseBody: Swift.Decodable {
 
 extension AmplifyUIBuilderClientTypes.ExchangeCodeForTokenRequestBody: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientId
         case code
         case redirectUri
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientId = self.clientId {
+            try encodeContainer.encode(clientId, forKey: .clientId)
+        }
         if let code = self.code {
             try encodeContainer.encode(code, forKey: .code)
         }
@@ -2924,17 +2938,21 @@ extension AmplifyUIBuilderClientTypes.ExchangeCodeForTokenRequestBody: Swift.Cod
         code = codeDecoded
         let redirectUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .redirectUri)
         redirectUri = redirectUriDecoded
+        let clientIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientId)
+        clientId = clientIdDecoded
     }
 }
 
 extension AmplifyUIBuilderClientTypes.ExchangeCodeForTokenRequestBody: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ExchangeCodeForTokenRequestBody(redirectUri: \(Swift.String(describing: redirectUri)), code: \"CONTENT_REDACTED\")"}
+        "ExchangeCodeForTokenRequestBody(redirectUri: \(Swift.String(describing: redirectUri)), clientId: \"CONTENT_REDACTED\", code: \"CONTENT_REDACTED\")"}
 }
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the configuration of a request to exchange an access code for a token.
     public struct ExchangeCodeForTokenRequestBody: Swift.Equatable {
+        /// The ID of the client to request the token from.
+        public var clientId: Swift.String?
         /// The access code to send in the request.
         /// This member is required.
         public var code: Swift.String?
@@ -2943,10 +2961,12 @@ extension AmplifyUIBuilderClientTypes {
         public var redirectUri: Swift.String?
 
         public init (
+            clientId: Swift.String? = nil,
             code: Swift.String? = nil,
             redirectUri: Swift.String? = nil
         )
         {
+            self.clientId = clientId
             self.code = code
             self.redirectUri = redirectUri
         }
@@ -3470,6 +3490,7 @@ extension AmplifyUIBuilderClientTypes.FieldInputConfig: Swift.Codable {
         case defaultCountryCode
         case defaultValue
         case descriptiveText
+        case fileUploaderConfig
         case isArray
         case maxValue
         case minValue
@@ -3496,6 +3517,9 @@ extension AmplifyUIBuilderClientTypes.FieldInputConfig: Swift.Codable {
         }
         if let descriptiveText = self.descriptiveText {
             try encodeContainer.encode(descriptiveText, forKey: .descriptiveText)
+        }
+        if let fileUploaderConfig = self.fileUploaderConfig {
+            try encodeContainer.encode(fileUploaderConfig, forKey: .fileUploaderConfig)
         }
         if let isArray = self.isArray {
             try encodeContainer.encode(isArray, forKey: .isArray)
@@ -3564,6 +3588,8 @@ extension AmplifyUIBuilderClientTypes.FieldInputConfig: Swift.Codable {
         value = valueDecoded
         let isArrayDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isArray)
         isArray = isArrayDecoded
+        let fileUploaderConfigDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.FileUploaderFieldConfig.self, forKey: .fileUploaderConfig)
+        fileUploaderConfig = fileUploaderConfigDecoded
     }
 }
 
@@ -3578,6 +3604,8 @@ extension AmplifyUIBuilderClientTypes {
         public var defaultValue: Swift.String?
         /// The text to display to describe the field.
         public var descriptiveText: Swift.String?
+        /// The configuration for the file uploader field.
+        public var fileUploaderConfig: AmplifyUIBuilderClientTypes.FileUploaderFieldConfig?
         /// Specifies whether to render the field as an array. This property is ignored if the dataSourceType for the form is a Data Store.
         public var isArray: Swift.Bool?
         /// The maximum value to display for the field.
@@ -3607,6 +3635,7 @@ extension AmplifyUIBuilderClientTypes {
             defaultCountryCode: Swift.String? = nil,
             defaultValue: Swift.String? = nil,
             descriptiveText: Swift.String? = nil,
+            fileUploaderConfig: AmplifyUIBuilderClientTypes.FileUploaderFieldConfig? = nil,
             isArray: Swift.Bool? = nil,
             maxValue: Swift.Float? = nil,
             minValue: Swift.Float? = nil,
@@ -3624,6 +3653,7 @@ extension AmplifyUIBuilderClientTypes {
             self.defaultCountryCode = defaultCountryCode
             self.defaultValue = defaultValue
             self.descriptiveText = descriptiveText
+            self.fileUploaderConfig = fileUploaderConfig
             self.isArray = isArray
             self.maxValue = maxValue
             self.minValue = minValue
@@ -3787,6 +3817,105 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
+extension AmplifyUIBuilderClientTypes.FileUploaderFieldConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case acceptedFileTypes
+        case accessLevel
+        case isResumable
+        case maxFileCount
+        case maxSize
+        case showThumbnails
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let acceptedFileTypes = acceptedFileTypes {
+            var acceptedFileTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .acceptedFileTypes)
+            for string0 in acceptedFileTypes {
+                try acceptedFileTypesContainer.encode(string0)
+            }
+        }
+        if let accessLevel = self.accessLevel {
+            try encodeContainer.encode(accessLevel.rawValue, forKey: .accessLevel)
+        }
+        if let isResumable = self.isResumable {
+            try encodeContainer.encode(isResumable, forKey: .isResumable)
+        }
+        if let maxFileCount = self.maxFileCount {
+            try encodeContainer.encode(maxFileCount, forKey: .maxFileCount)
+        }
+        if let maxSize = self.maxSize {
+            try encodeContainer.encode(maxSize, forKey: .maxSize)
+        }
+        if let showThumbnails = self.showThumbnails {
+            try encodeContainer.encode(showThumbnails, forKey: .showThumbnails)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accessLevelDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.StorageAccessLevel.self, forKey: .accessLevel)
+        accessLevel = accessLevelDecoded
+        let acceptedFileTypesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .acceptedFileTypes)
+        var acceptedFileTypesDecoded0:[Swift.String]? = nil
+        if let acceptedFileTypesContainer = acceptedFileTypesContainer {
+            acceptedFileTypesDecoded0 = [Swift.String]()
+            for string0 in acceptedFileTypesContainer {
+                if let string0 = string0 {
+                    acceptedFileTypesDecoded0?.append(string0)
+                }
+            }
+        }
+        acceptedFileTypes = acceptedFileTypesDecoded0
+        let showThumbnailsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .showThumbnails)
+        showThumbnails = showThumbnailsDecoded
+        let isResumableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isResumable)
+        isResumable = isResumableDecoded
+        let maxFileCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxFileCount)
+        maxFileCount = maxFileCountDecoded
+        let maxSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxSize)
+        maxSize = maxSizeDecoded
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// Describes the configuration for the file uploader field.
+    public struct FileUploaderFieldConfig: Swift.Equatable {
+        /// The file types that are allowed to be uploaded by the file uploader. Provide this information in an array of strings specifying the valid file extensions.
+        /// This member is required.
+        public var acceptedFileTypes: [Swift.String]?
+        /// The access level to assign to the uploaded files in the Amazon S3 bucket where they are stored. The valid values for this property are private, protected, or public. For detailed information about the permissions associated with each access level, see [File access levels](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js/) in the Amplify documentation.
+        /// This member is required.
+        public var accessLevel: AmplifyUIBuilderClientTypes.StorageAccessLevel?
+        /// Allows the file upload operation to be paused and resumed. The default value is false. When isResumable is set to true, the file uploader uses a multipart upload to break the files into chunks before upload. The progress of the upload isn't continuous, because the file uploader uploads a chunk at a time.
+        public var isResumable: Swift.Bool?
+        /// Specifies the maximum number of files that can be selected to upload. The default value is an unlimited number of files.
+        public var maxFileCount: Swift.Int?
+        /// The maximum file size in bytes that the file uploader will accept. The default value is an unlimited file size.
+        public var maxSize: Swift.Int?
+        /// Specifies whether to display or hide the image preview after selecting a file for upload. The default value is true to display the image preview.
+        public var showThumbnails: Swift.Bool?
+
+        public init (
+            acceptedFileTypes: [Swift.String]? = nil,
+            accessLevel: AmplifyUIBuilderClientTypes.StorageAccessLevel? = nil,
+            isResumable: Swift.Bool? = nil,
+            maxFileCount: Swift.Int? = nil,
+            maxSize: Swift.Int? = nil,
+            showThumbnails: Swift.Bool? = nil
+        )
+        {
+            self.acceptedFileTypes = acceptedFileTypes
+            self.accessLevel = accessLevel
+            self.isResumable = isResumable
+            self.maxFileCount = maxFileCount
+            self.maxSize = maxSize
+            self.showThumbnails = showThumbnails
+        }
+    }
+
+}
+
 extension AmplifyUIBuilderClientTypes {
     public enum FixedPosition: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case first
@@ -3825,6 +3954,7 @@ extension AmplifyUIBuilderClientTypes.Form: Swift.Codable {
         case fields
         case formActionType
         case id
+        case labelDecorator
         case name
         case schemaVersion
         case sectionalElements
@@ -3857,6 +3987,9 @@ extension AmplifyUIBuilderClientTypes.Form: Swift.Codable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let labelDecorator = self.labelDecorator {
+            try encodeContainer.encode(labelDecorator.rawValue, forKey: .labelDecorator)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -3934,6 +4067,8 @@ extension AmplifyUIBuilderClientTypes.Form: Swift.Codable {
         tags = tagsDecoded0
         let ctaDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.FormCTA.self, forKey: .cta)
         cta = ctaDecoded
+        let labelDecoratorDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.LabelDecorator.self, forKey: .labelDecorator)
+        labelDecorator = labelDecoratorDecoded
     }
 }
 
@@ -3960,6 +4095,8 @@ extension AmplifyUIBuilderClientTypes {
         /// The unique ID of the form.
         /// This member is required.
         public var id: Swift.String?
+        /// Specifies an icon or decoration to display on the form.
+        public var labelDecorator: AmplifyUIBuilderClientTypes.LabelDecorator?
         /// The name of the form.
         /// This member is required.
         public var name: Swift.String?
@@ -3983,6 +4120,7 @@ extension AmplifyUIBuilderClientTypes {
             fields: [Swift.String:AmplifyUIBuilderClientTypes.FieldConfig]? = nil,
             formActionType: AmplifyUIBuilderClientTypes.FormActionType? = nil,
             id: Swift.String? = nil,
+            labelDecorator: AmplifyUIBuilderClientTypes.LabelDecorator? = nil,
             name: Swift.String? = nil,
             schemaVersion: Swift.String? = nil,
             sectionalElements: [Swift.String:AmplifyUIBuilderClientTypes.SectionalElement]? = nil,
@@ -3997,6 +4135,7 @@ extension AmplifyUIBuilderClientTypes {
             self.fields = fields
             self.formActionType = formActionType
             self.id = id
+            self.labelDecorator = labelDecorator
             self.name = name
             self.schemaVersion = schemaVersion
             self.sectionalElements = sectionalElements
@@ -4322,13 +4461,104 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
+extension AmplifyUIBuilderClientTypes.FormInputBindingPropertiesValue: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bindingProperties
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bindingProperties = self.bindingProperties {
+            try encodeContainer.encode(bindingProperties, forKey: .bindingProperties)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+        let bindingPropertiesDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.FormInputBindingPropertiesValueProperties.self, forKey: .bindingProperties)
+        bindingProperties = bindingPropertiesDecoded
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// Represents the data binding configuration for a form's input fields at runtime.You can use FormInputBindingPropertiesValue to add exposed properties to a form to allow different values to be entered when a form is reused in different places in an app.
+    public struct FormInputBindingPropertiesValue: Swift.Equatable {
+        /// Describes the properties to customize with data at runtime.
+        public var bindingProperties: AmplifyUIBuilderClientTypes.FormInputBindingPropertiesValueProperties?
+        /// The property type.
+        public var type: Swift.String?
+
+        public init (
+            bindingProperties: AmplifyUIBuilderClientTypes.FormInputBindingPropertiesValueProperties? = nil,
+            type: Swift.String? = nil
+        )
+        {
+            self.bindingProperties = bindingProperties
+            self.type = type
+        }
+    }
+
+}
+
+extension AmplifyUIBuilderClientTypes.FormInputBindingPropertiesValueProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case model
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let model = self.model {
+            try encodeContainer.encode(model, forKey: .model)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .model)
+        model = modelDecoded
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// Represents the data binding configuration for a specific property using data stored in Amazon Web Services. For Amazon Web Services connected properties, you can bind a property to data stored in an Amplify DataStore model.
+    public struct FormInputBindingPropertiesValueProperties: Swift.Equatable {
+        /// An Amplify DataStore model.
+        public var model: Swift.String?
+
+        public init (
+            model: Swift.String? = nil
+        )
+        {
+            self.model = model
+        }
+    }
+
+}
+
 extension AmplifyUIBuilderClientTypes.FormInputValueProperty: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bindingProperties
+        case concat
         case value
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bindingProperties = self.bindingProperties {
+            try encodeContainer.encode(bindingProperties, forKey: .bindingProperties)
+        }
+        if let concat = concat {
+            var concatContainer = encodeContainer.nestedUnkeyedContainer(forKey: .concat)
+            for forminputvalueproperty0 in concat {
+                try concatContainer.encode(forminputvalueproperty0)
+            }
+        }
         if let value = self.value {
             try encodeContainer.encode(value, forKey: .value)
         }
@@ -4338,20 +4568,87 @@ extension AmplifyUIBuilderClientTypes.FormInputValueProperty: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
         value = valueDecoded
+        let bindingPropertiesDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.FormInputValuePropertyBindingProperties.self, forKey: .bindingProperties)
+        bindingProperties = bindingPropertiesDecoded
+        let concatContainer = try containerValues.decodeIfPresent([AmplifyUIBuilderClientTypes.FormInputValueProperty?].self, forKey: .concat)
+        var concatDecoded0:[AmplifyUIBuilderClientTypes.FormInputValueProperty]? = nil
+        if let concatContainer = concatContainer {
+            concatDecoded0 = [AmplifyUIBuilderClientTypes.FormInputValueProperty]()
+            for structure0 in concatContainer {
+                if let structure0 = structure0 {
+                    concatDecoded0?.append(structure0)
+                }
+            }
+        }
+        concat = concatDecoded0
     }
 }
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the configuration for an input field on a form. Use FormInputValueProperty to specify the values to render or bind by default.
     public struct FormInputValueProperty: Swift.Equatable {
+        /// The information to bind fields to data at runtime.
+        public var bindingProperties: AmplifyUIBuilderClientTypes.FormInputValuePropertyBindingProperties?
+        /// A list of form properties to concatenate to create the value to assign to this field property.
+        public var concat: [AmplifyUIBuilderClientTypes.FormInputValueProperty]?
         /// The value to assign to the input field.
         public var value: Swift.String?
 
         public init (
+            bindingProperties: AmplifyUIBuilderClientTypes.FormInputValuePropertyBindingProperties? = nil,
+            concat: [AmplifyUIBuilderClientTypes.FormInputValueProperty]? = nil,
             value: Swift.String? = nil
         )
         {
+            self.bindingProperties = bindingProperties
+            self.concat = concat
             self.value = value
+        }
+    }
+
+}
+
+extension AmplifyUIBuilderClientTypes.FormInputValuePropertyBindingProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case field
+        case property
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let field = self.field {
+            try encodeContainer.encode(field, forKey: .field)
+        }
+        if let property = self.property {
+            try encodeContainer.encode(property, forKey: .property)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let propertyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .property)
+        property = propertyDecoded
+        let fieldDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .field)
+        field = fieldDecoded
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// Associates a form property to a binding property. This enables exposed properties on the top level form to propagate data to the form's property values.
+    public struct FormInputValuePropertyBindingProperties: Swift.Equatable {
+        /// The data field to bind the property to.
+        public var field: Swift.String?
+        /// The form property to bind to the data field.
+        /// This member is required.
+        public var property: Swift.String?
+
+        public init (
+            field: Swift.String? = nil,
+            property: Swift.String? = nil
+        )
+        {
+            self.field = field
+            self.property = property
         }
     }
 
@@ -5116,6 +5413,41 @@ extension InvalidParameterExceptionBody: Swift.Decodable {
     }
 }
 
+extension AmplifyUIBuilderClientTypes {
+    public enum LabelDecorator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `none`
+        case `optional`
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LabelDecorator] {
+            return [
+                .none,
+                .optional,
+                .required,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "none"
+            case .optional: return "optional"
+            case .required: return "required"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LabelDecorator(rawValue: rawValue) ?? LabelDecorator.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ListComponentsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -5626,6 +5958,7 @@ extension AmplifyUIBuilderClientTypes.Predicate: Swift.Codable {
         case and
         case field
         case operand
+        case operandType
         case `operator` = "operator"
         case or
     }
@@ -5643,6 +5976,9 @@ extension AmplifyUIBuilderClientTypes.Predicate: Swift.Codable {
         }
         if let operand = self.operand {
             try encodeContainer.encode(operand, forKey: .operand)
+        }
+        if let operandType = self.operandType {
+            try encodeContainer.encode(operandType, forKey: .operandType)
         }
         if let `operator` = self.`operator` {
             try encodeContainer.encode(`operator`, forKey: .`operator`)
@@ -5685,6 +6021,8 @@ extension AmplifyUIBuilderClientTypes.Predicate: Swift.Codable {
         `operator` = operatorDecoded
         let operandDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operand)
         operand = operandDecoded
+        let operandTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operandType)
+        operandType = operandTypeDecoded
     }
 }
 
@@ -5697,6 +6035,8 @@ extension AmplifyUIBuilderClientTypes {
         public var field: Swift.String?
         /// The value to use when performing the evaluation.
         public var operand: Swift.String?
+        /// The type of value to use when performing the evaluation.
+        public var operandType: Swift.String?
         /// The operator to use to perform the evaluation.
         public var `operator`: Swift.String?
         /// A list of predicates to combine logically.
@@ -5706,6 +6046,7 @@ extension AmplifyUIBuilderClientTypes {
             and: [AmplifyUIBuilderClientTypes.Predicate]? = nil,
             field: Swift.String? = nil,
             operand: Swift.String? = nil,
+            operandType: Swift.String? = nil,
             `operator`: Swift.String? = nil,
             or: [AmplifyUIBuilderClientTypes.Predicate]? = nil
         )
@@ -5713,6 +6054,7 @@ extension AmplifyUIBuilderClientTypes {
             self.and = and
             self.field = field
             self.operand = operand
+            self.operandType = operandType
             self.`operator` = `operator`
             self.or = or
         }
@@ -5740,7 +6082,7 @@ extension AmplifyUIBuilderClientTypes.PutMetadataFlagBody: Swift.Codable {
 }
 
 extension AmplifyUIBuilderClientTypes {
-    /// Stores the metadata information about a feature on a form or view.
+    /// Stores the metadata information about a feature on a form.
     public struct PutMetadataFlagBody: Swift.Equatable {
         /// The new information to store.
         /// This member is required.
@@ -6076,11 +6418,15 @@ extension RefreshTokenOutputResponseBody: Swift.Decodable {
 
 extension AmplifyUIBuilderClientTypes.RefreshTokenRequestBody: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientId
         case token
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientId = self.clientId {
+            try encodeContainer.encode(clientId, forKey: .clientId)
+        }
         if let token = self.token {
             try encodeContainer.encode(token, forKey: .token)
         }
@@ -6090,25 +6436,31 @@ extension AmplifyUIBuilderClientTypes.RefreshTokenRequestBody: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .token)
         token = tokenDecoded
+        let clientIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientId)
+        clientId = clientIdDecoded
     }
 }
 
 extension AmplifyUIBuilderClientTypes.RefreshTokenRequestBody: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RefreshTokenRequestBody(token: \"CONTENT_REDACTED\")"}
+        "RefreshTokenRequestBody(clientId: \"CONTENT_REDACTED\", token: \"CONTENT_REDACTED\")"}
 }
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes a refresh token.
     public struct RefreshTokenRequestBody: Swift.Equatable {
+        /// The ID of the client to request the token from.
+        public var clientId: Swift.String?
         /// The token to use to refresh a previously issued access token that might have expired.
         /// This member is required.
         public var token: Swift.String?
 
         public init (
+            clientId: Swift.String? = nil,
             token: Swift.String? = nil
         )
         {
+            self.clientId = clientId
             self.token = token
         }
     }
@@ -6221,6 +6573,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 
 extension AmplifyUIBuilderClientTypes.SectionalElement: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case excluded
         case level
         case orientation
         case position
@@ -6230,6 +6583,9 @@ extension AmplifyUIBuilderClientTypes.SectionalElement: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let excluded = self.excluded {
+            try encodeContainer.encode(excluded, forKey: .excluded)
+        }
         if let level = self.level {
             try encodeContainer.encode(level, forKey: .level)
         }
@@ -6259,12 +6615,16 @@ extension AmplifyUIBuilderClientTypes.SectionalElement: Swift.Codable {
         level = levelDecoded
         let orientationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .orientation)
         orientation = orientationDecoded
+        let excludedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .excluded)
+        excluded = excludedDecoded
     }
 }
 
 extension AmplifyUIBuilderClientTypes {
     /// Stores the configuration information for a visual helper element for a form. A sectional element can be a header, a text block, or a divider. These elements are static and not associated with any data.
     public struct SectionalElement: Swift.Equatable {
+        /// Excludes a sectional element that was generated by default for a specified data model.
+        public var excluded: Swift.Bool?
         /// Specifies the size of the font for a Heading sectional element. Valid values are 1 | 2 | 3 | 4 | 5 | 6.
         public var level: Swift.Int?
         /// Specifies the orientation for a Divider sectional element. Valid values are horizontal or vertical.
@@ -6278,6 +6638,7 @@ extension AmplifyUIBuilderClientTypes {
         public var type: Swift.String?
 
         public init (
+            excluded: Swift.Bool? = nil,
             level: Swift.Int? = nil,
             orientation: Swift.String? = nil,
             position: AmplifyUIBuilderClientTypes.FieldPosition? = nil,
@@ -6285,6 +6646,7 @@ extension AmplifyUIBuilderClientTypes {
             type: Swift.String? = nil
         )
         {
+            self.excluded = excluded
             self.level = level
             self.orientation = orientation
             self.position = position
@@ -6424,6 +6786,41 @@ extension AmplifyUIBuilderClientTypes {
         }
     }
 
+}
+
+extension AmplifyUIBuilderClientTypes {
+    public enum StorageAccessLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `private`
+        case protected
+        case `public`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageAccessLevel] {
+            return [
+                .private,
+                .protected,
+                .public,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .private: return "private"
+            case .protected: return "protected"
+            case .public: return "public"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = StorageAccessLevel(rawValue: rawValue) ?? StorageAccessLevel.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension AmplifyUIBuilderClientTypes.Theme: Swift.Codable {
@@ -7277,6 +7674,7 @@ extension AmplifyUIBuilderClientTypes.UpdateFormData: Swift.Codable {
         case dataType
         case fields
         case formActionType
+        case labelDecorator
         case name
         case schemaVersion
         case sectionalElements
@@ -7299,6 +7697,9 @@ extension AmplifyUIBuilderClientTypes.UpdateFormData: Swift.Codable {
         }
         if let formActionType = self.formActionType {
             try encodeContainer.encode(formActionType.rawValue, forKey: .formActionType)
+        }
+        if let labelDecorator = self.labelDecorator {
+            try encodeContainer.encode(labelDecorator.rawValue, forKey: .labelDecorator)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -7353,6 +7754,8 @@ extension AmplifyUIBuilderClientTypes.UpdateFormData: Swift.Codable {
         schemaVersion = schemaVersionDecoded
         let ctaDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.FormCTA.self, forKey: .cta)
         cta = ctaDecoded
+        let labelDecoratorDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.LabelDecorator.self, forKey: .labelDecorator)
+        labelDecorator = labelDecoratorDecoded
     }
 }
 
@@ -7367,6 +7770,8 @@ extension AmplifyUIBuilderClientTypes {
         public var fields: [Swift.String:AmplifyUIBuilderClientTypes.FieldConfig]?
         /// Specifies whether to perform a create or update action on the form.
         public var formActionType: AmplifyUIBuilderClientTypes.FormActionType?
+        /// Specifies an icon or decoration to display on the form.
+        public var labelDecorator: AmplifyUIBuilderClientTypes.LabelDecorator?
         /// The name of the form.
         public var name: Swift.String?
         /// The schema version of the form.
@@ -7381,6 +7786,7 @@ extension AmplifyUIBuilderClientTypes {
             dataType: AmplifyUIBuilderClientTypes.FormDataTypeConfig? = nil,
             fields: [Swift.String:AmplifyUIBuilderClientTypes.FieldConfig]? = nil,
             formActionType: AmplifyUIBuilderClientTypes.FormActionType? = nil,
+            labelDecorator: AmplifyUIBuilderClientTypes.LabelDecorator? = nil,
             name: Swift.String? = nil,
             schemaVersion: Swift.String? = nil,
             sectionalElements: [Swift.String:AmplifyUIBuilderClientTypes.SectionalElement]? = nil,
@@ -7391,6 +7797,7 @@ extension AmplifyUIBuilderClientTypes {
             self.dataType = dataType
             self.fields = fields
             self.formActionType = formActionType
+            self.labelDecorator = labelDecorator
             self.name = name
             self.schemaVersion = schemaVersion
             self.sectionalElements = sectionalElements
@@ -7930,11 +8337,18 @@ extension AmplifyUIBuilderClientTypes {
 
 extension AmplifyUIBuilderClientTypes.ValueMappings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bindingProperties
         case values
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bindingProperties = bindingProperties {
+            var bindingPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .bindingProperties)
+            for (dictKey0, formInputBindingProperties0) in bindingProperties {
+                try bindingPropertiesContainer.encode(formInputBindingProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
             for valuemapping0 in values {
@@ -7956,20 +8370,35 @@ extension AmplifyUIBuilderClientTypes.ValueMappings: Swift.Codable {
             }
         }
         values = valuesDecoded0
+        let bindingPropertiesContainer = try containerValues.decodeIfPresent([Swift.String: AmplifyUIBuilderClientTypes.FormInputBindingPropertiesValue?].self, forKey: .bindingProperties)
+        var bindingPropertiesDecoded0: [Swift.String:AmplifyUIBuilderClientTypes.FormInputBindingPropertiesValue]? = nil
+        if let bindingPropertiesContainer = bindingPropertiesContainer {
+            bindingPropertiesDecoded0 = [Swift.String:AmplifyUIBuilderClientTypes.FormInputBindingPropertiesValue]()
+            for (key0, forminputbindingpropertiesvalue0) in bindingPropertiesContainer {
+                if let forminputbindingpropertiesvalue0 = forminputbindingpropertiesvalue0 {
+                    bindingPropertiesDecoded0?[key0] = forminputbindingpropertiesvalue0
+                }
+            }
+        }
+        bindingProperties = bindingPropertiesDecoded0
     }
 }
 
 extension AmplifyUIBuilderClientTypes {
     /// Represents the data binding configuration for a value map.
     public struct ValueMappings: Swift.Equatable {
+        /// The information to bind fields to data at runtime.
+        public var bindingProperties: [Swift.String:AmplifyUIBuilderClientTypes.FormInputBindingPropertiesValue]?
         /// The value and display value pairs.
         /// This member is required.
         public var values: [AmplifyUIBuilderClientTypes.ValueMapping]?
 
         public init (
+            bindingProperties: [Swift.String:AmplifyUIBuilderClientTypes.FormInputBindingPropertiesValue]? = nil,
             values: [AmplifyUIBuilderClientTypes.ValueMapping]? = nil
         )
         {
+            self.bindingProperties = bindingProperties
             self.values = values
         }
     }

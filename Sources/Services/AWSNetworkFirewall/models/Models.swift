@@ -737,7 +737,7 @@ extension CreateFirewallInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if deleteProtection != false {
+        if let deleteProtection = self.deleteProtection {
             try encodeContainer.encode(deleteProtection, forKey: .deleteProtection)
         }
         if let description = self.description {
@@ -752,10 +752,10 @@ extension CreateFirewallInput: Swift.Encodable {
         if let firewallPolicyArn = self.firewallPolicyArn {
             try encodeContainer.encode(firewallPolicyArn, forKey: .firewallPolicyArn)
         }
-        if firewallPolicyChangeProtection != false {
+        if let firewallPolicyChangeProtection = self.firewallPolicyChangeProtection {
             try encodeContainer.encode(firewallPolicyChangeProtection, forKey: .firewallPolicyChangeProtection)
         }
-        if subnetChangeProtection != false {
+        if let subnetChangeProtection = self.subnetChangeProtection {
             try encodeContainer.encode(subnetChangeProtection, forKey: .subnetChangeProtection)
         }
         if let subnetMappings = subnetMappings {
@@ -784,7 +784,7 @@ extension CreateFirewallInput: ClientRuntime.URLPathProvider {
 
 public struct CreateFirewallInput: Swift.Equatable {
     /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
-    public var deleteProtection: Swift.Bool
+    public var deleteProtection: Swift.Bool?
     /// A description of the firewall.
     public var description: Swift.String?
     /// A complex type that contains settings for encryption of your firewall resources.
@@ -796,9 +796,9 @@ public struct CreateFirewallInput: Swift.Equatable {
     /// This member is required.
     public var firewallPolicyArn: Swift.String?
     /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
-    public var firewallPolicyChangeProtection: Swift.Bool
+    public var firewallPolicyChangeProtection: Swift.Bool?
     /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
-    public var subnetChangeProtection: Swift.Bool
+    public var subnetChangeProtection: Swift.Bool?
     /// The public subnets to use for your Network Firewall firewalls. Each subnet must belong to a different Availability Zone in the VPC. Network Firewall creates a firewall endpoint in each subnet.
     /// This member is required.
     public var subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]?
@@ -809,13 +809,13 @@ public struct CreateFirewallInput: Swift.Equatable {
     public var vpcId: Swift.String?
 
     public init (
-        deleteProtection: Swift.Bool = false,
+        deleteProtection: Swift.Bool? = nil,
         description: Swift.String? = nil,
         encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
         firewallName: Swift.String? = nil,
         firewallPolicyArn: Swift.String? = nil,
-        firewallPolicyChangeProtection: Swift.Bool = false,
-        subnetChangeProtection: Swift.Bool = false,
+        firewallPolicyChangeProtection: Swift.Bool? = nil,
+        subnetChangeProtection: Swift.Bool? = nil,
         subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]? = nil,
         tags: [NetworkFirewallClientTypes.Tag]? = nil,
         vpcId: Swift.String? = nil
@@ -839,9 +839,9 @@ struct CreateFirewallInputBody: Swift.Equatable {
     let firewallPolicyArn: Swift.String?
     let vpcId: Swift.String?
     let subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]?
-    let deleteProtection: Swift.Bool
-    let subnetChangeProtection: Swift.Bool
-    let firewallPolicyChangeProtection: Swift.Bool
+    let deleteProtection: Swift.Bool?
+    let subnetChangeProtection: Swift.Bool?
+    let firewallPolicyChangeProtection: Swift.Bool?
     let description: Swift.String?
     let tags: [NetworkFirewallClientTypes.Tag]?
     let encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
@@ -880,11 +880,11 @@ extension CreateFirewallInputBody: Swift.Decodable {
             }
         }
         subnetMappings = subnetMappingsDecoded0
-        let deleteProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteProtection) ?? false
+        let deleteProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteProtection)
         deleteProtection = deleteProtectionDecoded
-        let subnetChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .subnetChangeProtection) ?? false
+        let subnetChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .subnetChangeProtection)
         subnetChangeProtection = subnetChangeProtectionDecoded
-        let firewallPolicyChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .firewallPolicyChangeProtection) ?? false
+        let firewallPolicyChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .firewallPolicyChangeProtection)
         firewallPolicyChangeProtection = firewallPolicyChangeProtectionDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -1002,7 +1002,7 @@ extension CreateFirewallPolicyInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let encryptionConfiguration = self.encryptionConfiguration {
@@ -1033,7 +1033,7 @@ public struct CreateFirewallPolicyInput: Swift.Equatable {
     /// A description of the firewall policy.
     public var description: Swift.String?
     /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request. If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid. If set to FALSE, Network Firewall makes the requested changes to your resources.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// A complex type that contains settings for encryption of your firewall policy resources.
     public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
     /// The rule groups and policy actions to use in the firewall policy.
@@ -1047,7 +1047,7 @@ public struct CreateFirewallPolicyInput: Swift.Equatable {
 
     public init (
         description: Swift.String? = nil,
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
         firewallPolicy: NetworkFirewallClientTypes.FirewallPolicy? = nil,
         firewallPolicyName: Swift.String? = nil,
@@ -1068,7 +1068,7 @@ struct CreateFirewallPolicyInputBody: Swift.Equatable {
     let firewallPolicy: NetworkFirewallClientTypes.FirewallPolicy?
     let description: Swift.String?
     let tags: [NetworkFirewallClientTypes.Tag]?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
     let encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
 }
 
@@ -1101,7 +1101,7 @@ extension CreateFirewallPolicyInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
         let encryptionConfigurationDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.EncryptionConfiguration.self, forKey: .encryptionConfiguration)
         encryptionConfiguration = encryptionConfigurationDecoded
@@ -1213,7 +1213,7 @@ extension CreateRuleGroupInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let encryptionConfiguration = self.encryptionConfiguration {
@@ -1265,7 +1265,7 @@ public struct CreateRuleGroupInput: Swift.Equatable {
     /// A description of the rule group.
     public var description: Swift.String?
     /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request. If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid. If set to FALSE, Network Firewall makes the requested changes to your resources.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// A complex type that contains settings for encryption of your rule group resources.
     public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
     /// An object that defines the rule group rules. You must provide either this rule group setting or a Rules setting, but not both.
@@ -1286,7 +1286,7 @@ public struct CreateRuleGroupInput: Swift.Equatable {
     public init (
         capacity: Swift.Int? = nil,
         description: Swift.String? = nil,
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
         ruleGroup: NetworkFirewallClientTypes.RuleGroup? = nil,
         ruleGroupName: Swift.String? = nil,
@@ -1317,7 +1317,7 @@ struct CreateRuleGroupInputBody: Swift.Equatable {
     let description: Swift.String?
     let capacity: Swift.Int?
     let tags: [NetworkFirewallClientTypes.Tag]?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
     let encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
     let sourceMetadata: NetworkFirewallClientTypes.SourceMetadata?
 }
@@ -1361,7 +1361,7 @@ extension CreateRuleGroupInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
         let encryptionConfigurationDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.EncryptionConfiguration.self, forKey: .encryptionConfiguration)
         encryptionConfiguration = encryptionConfigurationDecoded
@@ -1450,6 +1450,194 @@ extension CreateRuleGroupOutputResponseBody: Swift.Decodable {
         updateToken = updateTokenDecoded
         let ruleGroupResponseDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.RuleGroupResponse.self, forKey: .ruleGroupResponse)
         ruleGroupResponse = ruleGroupResponseDecoded
+    }
+}
+
+extension CreateTLSInspectionConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case encryptionConfiguration = "EncryptionConfiguration"
+        case tlsInspectionConfiguration = "TLSInspectionConfiguration"
+        case tlsInspectionConfigurationName = "TLSInspectionConfigurationName"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let encryptionConfiguration = self.encryptionConfiguration {
+            try encodeContainer.encode(encryptionConfiguration, forKey: .encryptionConfiguration)
+        }
+        if let tlsInspectionConfiguration = self.tlsInspectionConfiguration {
+            try encodeContainer.encode(tlsInspectionConfiguration, forKey: .tlsInspectionConfiguration)
+        }
+        if let tlsInspectionConfigurationName = self.tlsInspectionConfigurationName {
+            try encodeContainer.encode(tlsInspectionConfigurationName, forKey: .tlsInspectionConfigurationName)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateTLSInspectionConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateTLSInspectionConfigurationInput: Swift.Equatable {
+    /// A description of the TLS inspection configuration.
+    public var description: Swift.String?
+    /// A complex type that contains optional Amazon Web Services Key Management Service (KMS) encryption settings for your Network Firewall resources. Your data is encrypted by default with an Amazon Web Services owned key that Amazon Web Services owns and manages for you. You can use either the Amazon Web Services owned key, or provide your own customer managed key. To learn more about KMS encryption of your Network Firewall resources, see [Encryption at rest with Amazon Web Services Key Managment Service](https://docs.aws.amazon.com/kms/latest/developerguide/kms-encryption-at-rest.html) in the Network Firewall Developer Guide.
+    public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
+    /// The key:value pairs to associate with the resource.
+    public var tags: [NetworkFirewallClientTypes.Tag]?
+    /// The object that defines a TLS inspection configuration. This, along with [TLSInspectionConfigurationResponse], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration]. Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
+    /// This member is required.
+    public var tlsInspectionConfiguration: NetworkFirewallClientTypes.TLSInspectionConfiguration?
+    /// The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it.
+    /// This member is required.
+    public var tlsInspectionConfigurationName: Swift.String?
+
+    public init (
+        description: Swift.String? = nil,
+        encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
+        tags: [NetworkFirewallClientTypes.Tag]? = nil,
+        tlsInspectionConfiguration: NetworkFirewallClientTypes.TLSInspectionConfiguration? = nil,
+        tlsInspectionConfigurationName: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.encryptionConfiguration = encryptionConfiguration
+        self.tags = tags
+        self.tlsInspectionConfiguration = tlsInspectionConfiguration
+        self.tlsInspectionConfigurationName = tlsInspectionConfigurationName
+    }
+}
+
+struct CreateTLSInspectionConfigurationInputBody: Swift.Equatable {
+    let tlsInspectionConfigurationName: Swift.String?
+    let tlsInspectionConfiguration: NetworkFirewallClientTypes.TLSInspectionConfiguration?
+    let description: Swift.String?
+    let tags: [NetworkFirewallClientTypes.Tag]?
+    let encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
+}
+
+extension CreateTLSInspectionConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case encryptionConfiguration = "EncryptionConfiguration"
+        case tlsInspectionConfiguration = "TLSInspectionConfiguration"
+        case tlsInspectionConfigurationName = "TLSInspectionConfigurationName"
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tlsInspectionConfigurationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tlsInspectionConfigurationName)
+        tlsInspectionConfigurationName = tlsInspectionConfigurationNameDecoded
+        let tlsInspectionConfigurationDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.TLSInspectionConfiguration.self, forKey: .tlsInspectionConfiguration)
+        tlsInspectionConfiguration = tlsInspectionConfigurationDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([NetworkFirewallClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[NetworkFirewallClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [NetworkFirewallClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let encryptionConfigurationDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.EncryptionConfiguration.self, forKey: .encryptionConfiguration)
+        encryptionConfiguration = encryptionConfigurationDecoded
+    }
+}
+
+extension CreateTLSInspectionConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateTLSInspectionConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateTLSInspectionConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case internalServerError(InternalServerError)
+    case invalidRequestException(InvalidRequestException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateTLSInspectionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateTLSInspectionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.tlsInspectionConfigurationResponse = output.tlsInspectionConfigurationResponse
+            self.updateToken = output.updateToken
+        } else {
+            self.tlsInspectionConfigurationResponse = nil
+            self.updateToken = nil
+        }
+    }
+}
+
+public struct CreateTLSInspectionConfigurationOutputResponse: Swift.Equatable {
+    /// The high-level properties of a TLS inspection configuration. This, along with the [TLSInspectionConfiguration], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration].
+    /// This member is required.
+    public var tlsInspectionConfigurationResponse: NetworkFirewallClientTypes.TLSInspectionConfigurationResponse?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the TLS inspection configuration. The token marks the state of the TLS inspection configuration resource at the time of the request. To make changes to the TLS inspection configuration, you provide the token in your request. Network Firewall uses the token to ensure that the TLS inspection configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the TLS inspection configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    /// This member is required.
+    public var updateToken: Swift.String?
+
+    public init (
+        tlsInspectionConfigurationResponse: NetworkFirewallClientTypes.TLSInspectionConfigurationResponse? = nil,
+        updateToken: Swift.String? = nil
+    )
+    {
+        self.tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponse
+        self.updateToken = updateToken
+    }
+}
+
+struct CreateTLSInspectionConfigurationOutputResponseBody: Swift.Equatable {
+    let updateToken: Swift.String?
+    let tlsInspectionConfigurationResponse: NetworkFirewallClientTypes.TLSInspectionConfigurationResponse?
+}
+
+extension CreateTLSInspectionConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tlsInspectionConfigurationResponse = "TLSInspectionConfigurationResponse"
+        case updateToken = "UpdateToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let updateTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .updateToken)
+        updateToken = updateTokenDecoded
+        let tlsInspectionConfigurationResponseDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.TLSInspectionConfigurationResponse.self, forKey: .tlsInspectionConfigurationResponse)
+        tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponseDecoded
     }
 }
 
@@ -2009,6 +2197,137 @@ extension DeleteRuleGroupOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ruleGroupResponseDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.RuleGroupResponse.self, forKey: .ruleGroupResponse)
         ruleGroupResponse = ruleGroupResponseDecoded
+    }
+}
+
+extension DeleteTLSInspectionConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tlsInspectionConfigurationArn = "TLSInspectionConfigurationArn"
+        case tlsInspectionConfigurationName = "TLSInspectionConfigurationName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tlsInspectionConfigurationArn = self.tlsInspectionConfigurationArn {
+            try encodeContainer.encode(tlsInspectionConfigurationArn, forKey: .tlsInspectionConfigurationArn)
+        }
+        if let tlsInspectionConfigurationName = self.tlsInspectionConfigurationName {
+            try encodeContainer.encode(tlsInspectionConfigurationName, forKey: .tlsInspectionConfigurationName)
+        }
+    }
+}
+
+extension DeleteTLSInspectionConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteTLSInspectionConfigurationInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the TLS inspection configuration. You must specify the ARN or the name, and you can specify both.
+    public var tlsInspectionConfigurationArn: Swift.String?
+    /// The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it. You must specify the ARN or the name, and you can specify both.
+    public var tlsInspectionConfigurationName: Swift.String?
+
+    public init (
+        tlsInspectionConfigurationArn: Swift.String? = nil,
+        tlsInspectionConfigurationName: Swift.String? = nil
+    )
+    {
+        self.tlsInspectionConfigurationArn = tlsInspectionConfigurationArn
+        self.tlsInspectionConfigurationName = tlsInspectionConfigurationName
+    }
+}
+
+struct DeleteTLSInspectionConfigurationInputBody: Swift.Equatable {
+    let tlsInspectionConfigurationArn: Swift.String?
+    let tlsInspectionConfigurationName: Swift.String?
+}
+
+extension DeleteTLSInspectionConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tlsInspectionConfigurationArn = "TLSInspectionConfigurationArn"
+        case tlsInspectionConfigurationName = "TLSInspectionConfigurationName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tlsInspectionConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tlsInspectionConfigurationArn)
+        tlsInspectionConfigurationArn = tlsInspectionConfigurationArnDecoded
+        let tlsInspectionConfigurationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tlsInspectionConfigurationName)
+        tlsInspectionConfigurationName = tlsInspectionConfigurationNameDecoded
+    }
+}
+
+extension DeleteTLSInspectionConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteTLSInspectionConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidOperationException" : self = .invalidOperationException(try InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteTLSInspectionConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case internalServerError(InternalServerError)
+    case invalidOperationException(InvalidOperationException)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteTLSInspectionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DeleteTLSInspectionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.tlsInspectionConfigurationResponse = output.tlsInspectionConfigurationResponse
+        } else {
+            self.tlsInspectionConfigurationResponse = nil
+        }
+    }
+}
+
+public struct DeleteTLSInspectionConfigurationOutputResponse: Swift.Equatable {
+    /// The high-level properties of a TLS inspection configuration. This, along with the [TLSInspectionConfiguration], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration].
+    /// This member is required.
+    public var tlsInspectionConfigurationResponse: NetworkFirewallClientTypes.TLSInspectionConfigurationResponse?
+
+    public init (
+        tlsInspectionConfigurationResponse: NetworkFirewallClientTypes.TLSInspectionConfigurationResponse? = nil
+    )
+    {
+        self.tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponse
+    }
+}
+
+struct DeleteTLSInspectionConfigurationOutputResponseBody: Swift.Equatable {
+    let tlsInspectionConfigurationResponse: NetworkFirewallClientTypes.TLSInspectionConfigurationResponse?
+}
+
+extension DeleteTLSInspectionConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tlsInspectionConfigurationResponse = "TLSInspectionConfigurationResponse"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tlsInspectionConfigurationResponseDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.TLSInspectionConfigurationResponse.self, forKey: .tlsInspectionConfigurationResponse)
+        tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponseDecoded
     }
 }
 
@@ -2929,6 +3248,156 @@ extension DescribeRuleGroupOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeTLSInspectionConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tlsInspectionConfigurationArn = "TLSInspectionConfigurationArn"
+        case tlsInspectionConfigurationName = "TLSInspectionConfigurationName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tlsInspectionConfigurationArn = self.tlsInspectionConfigurationArn {
+            try encodeContainer.encode(tlsInspectionConfigurationArn, forKey: .tlsInspectionConfigurationArn)
+        }
+        if let tlsInspectionConfigurationName = self.tlsInspectionConfigurationName {
+            try encodeContainer.encode(tlsInspectionConfigurationName, forKey: .tlsInspectionConfigurationName)
+        }
+    }
+}
+
+extension DescribeTLSInspectionConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeTLSInspectionConfigurationInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the TLS inspection configuration. You must specify the ARN or the name, and you can specify both.
+    public var tlsInspectionConfigurationArn: Swift.String?
+    /// The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it. You must specify the ARN or the name, and you can specify both.
+    public var tlsInspectionConfigurationName: Swift.String?
+
+    public init (
+        tlsInspectionConfigurationArn: Swift.String? = nil,
+        tlsInspectionConfigurationName: Swift.String? = nil
+    )
+    {
+        self.tlsInspectionConfigurationArn = tlsInspectionConfigurationArn
+        self.tlsInspectionConfigurationName = tlsInspectionConfigurationName
+    }
+}
+
+struct DescribeTLSInspectionConfigurationInputBody: Swift.Equatable {
+    let tlsInspectionConfigurationArn: Swift.String?
+    let tlsInspectionConfigurationName: Swift.String?
+}
+
+extension DescribeTLSInspectionConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tlsInspectionConfigurationArn = "TLSInspectionConfigurationArn"
+        case tlsInspectionConfigurationName = "TLSInspectionConfigurationName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tlsInspectionConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tlsInspectionConfigurationArn)
+        tlsInspectionConfigurationArn = tlsInspectionConfigurationArnDecoded
+        let tlsInspectionConfigurationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tlsInspectionConfigurationName)
+        tlsInspectionConfigurationName = tlsInspectionConfigurationNameDecoded
+    }
+}
+
+extension DescribeTLSInspectionConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeTLSInspectionConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeTLSInspectionConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case internalServerError(InternalServerError)
+    case invalidRequestException(InvalidRequestException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeTLSInspectionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DescribeTLSInspectionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.tlsInspectionConfiguration = output.tlsInspectionConfiguration
+            self.tlsInspectionConfigurationResponse = output.tlsInspectionConfigurationResponse
+            self.updateToken = output.updateToken
+        } else {
+            self.tlsInspectionConfiguration = nil
+            self.tlsInspectionConfigurationResponse = nil
+            self.updateToken = nil
+        }
+    }
+}
+
+public struct DescribeTLSInspectionConfigurationOutputResponse: Swift.Equatable {
+    /// The object that defines a TLS inspection configuration. This, along with [TLSInspectionConfigurationResponse], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration]. Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
+    public var tlsInspectionConfiguration: NetworkFirewallClientTypes.TLSInspectionConfiguration?
+    /// The high-level properties of a TLS inspection configuration. This, along with the [TLSInspectionConfiguration], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration].
+    /// This member is required.
+    public var tlsInspectionConfigurationResponse: NetworkFirewallClientTypes.TLSInspectionConfigurationResponse?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the TLS inspection configuration. The token marks the state of the TLS inspection configuration resource at the time of the request. To make changes to the TLS inspection configuration, you provide the token in your request. Network Firewall uses the token to ensure that the TLS inspection configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the TLS inspection configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    /// This member is required.
+    public var updateToken: Swift.String?
+
+    public init (
+        tlsInspectionConfiguration: NetworkFirewallClientTypes.TLSInspectionConfiguration? = nil,
+        tlsInspectionConfigurationResponse: NetworkFirewallClientTypes.TLSInspectionConfigurationResponse? = nil,
+        updateToken: Swift.String? = nil
+    )
+    {
+        self.tlsInspectionConfiguration = tlsInspectionConfiguration
+        self.tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponse
+        self.updateToken = updateToken
+    }
+}
+
+struct DescribeTLSInspectionConfigurationOutputResponseBody: Swift.Equatable {
+    let updateToken: Swift.String?
+    let tlsInspectionConfiguration: NetworkFirewallClientTypes.TLSInspectionConfiguration?
+    let tlsInspectionConfigurationResponse: NetworkFirewallClientTypes.TLSInspectionConfigurationResponse?
+}
+
+extension DescribeTLSInspectionConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tlsInspectionConfiguration = "TLSInspectionConfiguration"
+        case tlsInspectionConfigurationResponse = "TLSInspectionConfigurationResponse"
+        case updateToken = "UpdateToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let updateTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .updateToken)
+        updateToken = updateTokenDecoded
+        let tlsInspectionConfigurationDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.TLSInspectionConfiguration.self, forKey: .tlsInspectionConfiguration)
+        tlsInspectionConfiguration = tlsInspectionConfigurationDecoded
+        let tlsInspectionConfigurationResponseDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.TLSInspectionConfigurationResponse.self, forKey: .tlsInspectionConfigurationResponse)
+        tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponseDecoded
+    }
+}
+
 extension NetworkFirewallClientTypes.Dimension: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case value = "Value"
@@ -3478,6 +3947,7 @@ extension NetworkFirewallClientTypes.FirewallPolicy: Swift.Codable {
         case statelessDefaultActions = "StatelessDefaultActions"
         case statelessFragmentDefaultActions = "StatelessFragmentDefaultActions"
         case statelessRuleGroupReferences = "StatelessRuleGroupReferences"
+        case tlsInspectionConfigurationArn = "TLSInspectionConfigurationArn"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3520,6 +3990,9 @@ extension NetworkFirewallClientTypes.FirewallPolicy: Swift.Codable {
             for statelessrulegroupreference0 in statelessRuleGroupReferences {
                 try statelessRuleGroupReferencesContainer.encode(statelessrulegroupreference0)
             }
+        }
+        if let tlsInspectionConfigurationArn = self.tlsInspectionConfigurationArn {
+            try encodeContainer.encode(tlsInspectionConfigurationArn, forKey: .tlsInspectionConfigurationArn)
         }
     }
 
@@ -3593,6 +4066,8 @@ extension NetworkFirewallClientTypes.FirewallPolicy: Swift.Codable {
         statefulDefaultActions = statefulDefaultActionsDecoded0
         let statefulEngineOptionsDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.StatefulEngineOptions.self, forKey: .statefulEngineOptions)
         statefulEngineOptions = statefulEngineOptionsDecoded
+        let tlsInspectionConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tlsInspectionConfigurationArn)
+        tlsInspectionConfigurationArn = tlsInspectionConfigurationArnDecoded
     }
 }
 
@@ -3626,6 +4101,8 @@ extension NetworkFirewallClientTypes {
         public var statelessFragmentDefaultActions: [Swift.String]?
         /// References to the stateless rule groups that are used in the policy. These define the matching criteria in stateless rules.
         public var statelessRuleGroupReferences: [NetworkFirewallClientTypes.StatelessRuleGroupReference]?
+        /// The Amazon Resource Name (ARN) of the TLS inspection configuration.
+        public var tlsInspectionConfigurationArn: Swift.String?
 
         public init (
             statefulDefaultActions: [Swift.String]? = nil,
@@ -3634,7 +4111,8 @@ extension NetworkFirewallClientTypes {
             statelessCustomActions: [NetworkFirewallClientTypes.CustomAction]? = nil,
             statelessDefaultActions: [Swift.String]? = nil,
             statelessFragmentDefaultActions: [Swift.String]? = nil,
-            statelessRuleGroupReferences: [NetworkFirewallClientTypes.StatelessRuleGroupReference]? = nil
+            statelessRuleGroupReferences: [NetworkFirewallClientTypes.StatelessRuleGroupReference]? = nil,
+            tlsInspectionConfigurationArn: Swift.String? = nil
         )
         {
             self.statefulDefaultActions = statefulDefaultActions
@@ -3644,6 +4122,7 @@ extension NetworkFirewallClientTypes {
             self.statelessDefaultActions = statelessDefaultActions
             self.statelessFragmentDefaultActions = statelessFragmentDefaultActions
             self.statelessRuleGroupReferences = statelessRuleGroupReferences
+            self.tlsInspectionConfigurationArn = tlsInspectionConfigurationArn
         }
     }
 
@@ -4107,12 +4586,14 @@ extension NetworkFirewallClientTypes {
     public enum IPAddressType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case dualstack
         case ipv4
+        case ipv6
         case sdkUnknown(Swift.String)
 
         public static var allCases: [IPAddressType] {
             return [
                 .dualstack,
                 .ipv4,
+                .ipv6,
                 .sdkUnknown("")
             ]
         }
@@ -4124,6 +4605,7 @@ extension NetworkFirewallClientTypes {
             switch self {
             case .dualstack: return "DUALSTACK"
             case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4238,7 +4720,7 @@ extension NetworkFirewallClientTypes.IPSetReference: Swift.Codable {
 }
 
 extension NetworkFirewallClientTypes {
-    /// Configures one or more IP set references for a Suricata-compatible rule group. This is used in [CreateRuleGroup] or [UpdateRuleGroup]. An IP set reference is a rule variable that references a resource that you create and manage in another Amazon Web Services service, such as an Amazon VPC prefix list. Network Firewall IP set references enable you to dynamically update the contents of your rules. When you create, update, or delete the IP set you are referencing in your rule, Network Firewall automatically updates the rule's content with the changes. For more information about IP set references in Network Firewall, see [Using IP set references](https://docs.aws.amazon.com/network-firewall/latest/developerguide/rule-groups-ip-set-references) in the Network Firewall Developer Guide. Network Firewall currently supports only [Amazon VPC prefix lists](https://docs.aws.amazon.com/vpc/latest/userguide/managed-prefix-lists.html) as IP set references.
+    /// Configures one or more IP set references for a Suricata-compatible rule group. This is used in [CreateRuleGroup] or [UpdateRuleGroup]. An IP set reference is a rule variable that references resources that you create and manage in another Amazon Web Services service, such as an Amazon VPC prefix list. Network Firewall IP set references enable you to dynamically update the contents of your rules. When you create, update, or delete the resource you are referencing in your rule, Network Firewall automatically updates the rule's content with the changes. For more information about IP set references in Network Firewall, see [Using IP set references](https://docs.aws.amazon.com/network-firewall/latest/developerguide/rule-groups-ip-set-references) in the Network Firewall Developer Guide. Network Firewall currently supports [Amazon VPC prefix lists](https://docs.aws.amazon.com/vpc/latest/userguide/managed-prefix-lists.html) and [resource groups](https://docs.aws.amazon.com/network-firewall/latest/developerguide/rule-groups-ip-set-references.html#rule-groups-referencing-resource-groups) in IP set references.
     public struct IPSetReference: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the resource that you are referencing in your rule group.
         public var referenceArn: Swift.String?
@@ -5115,6 +5597,151 @@ extension ListRuleGroupsOutputResponseBody: Swift.Decodable {
             }
         }
         ruleGroups = ruleGroupsDecoded0
+    }
+}
+
+extension ListTLSInspectionConfigurationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListTLSInspectionConfigurationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListTLSInspectionConfigurationsInput: Swift.Equatable {
+    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListTLSInspectionConfigurationsInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListTLSInspectionConfigurationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListTLSInspectionConfigurationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListTLSInspectionConfigurationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListTLSInspectionConfigurationsOutputError: Swift.Error, Swift.Equatable {
+    case internalServerError(InternalServerError)
+    case invalidRequestException(InvalidRequestException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTLSInspectionConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListTLSInspectionConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.tlsInspectionConfigurations = output.tlsInspectionConfigurations
+        } else {
+            self.nextToken = nil
+            self.tlsInspectionConfigurations = nil
+        }
+    }
+}
+
+public struct ListTLSInspectionConfigurationsOutputResponse: Swift.Equatable {
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+    /// The TLS inspection configuration metadata objects that you've defined. Depending on your setting for max results and the number of TLS inspection configurations, this might not be the full list.
+    public var tlsInspectionConfigurations: [NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        tlsInspectionConfigurations: [NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.tlsInspectionConfigurations = tlsInspectionConfigurations
+    }
+}
+
+struct ListTLSInspectionConfigurationsOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let tlsInspectionConfigurations: [NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata]?
+}
+
+extension ListTLSInspectionConfigurationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case tlsInspectionConfigurations = "TLSInspectionConfigurations"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let tlsInspectionConfigurationsContainer = try containerValues.decodeIfPresent([NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata?].self, forKey: .tlsInspectionConfigurations)
+        var tlsInspectionConfigurationsDecoded0:[NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata]? = nil
+        if let tlsInspectionConfigurationsContainer = tlsInspectionConfigurationsContainer {
+            tlsInspectionConfigurationsDecoded0 = [NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata]()
+            for structure0 in tlsInspectionConfigurationsContainer {
+                if let structure0 = structure0 {
+                    tlsInspectionConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tlsInspectionConfigurations = tlsInspectionConfigurationsDecoded0
     }
 }
 
@@ -6903,7 +7530,7 @@ extension NetworkFirewallClientTypes {
         public var rulesSourceList: NetworkFirewallClientTypes.RulesSourceList?
         /// Stateful inspection criteria, provided in Suricata compatible intrusion prevention system (IPS) rules. Suricata is an open-source network IPS that includes a standard rule-based language for network traffic inspection. These rules contain the inspection criteria and the action to take for traffic that matches the criteria, so this type of rule group doesn't have a separate action setting.
         public var rulesString: Swift.String?
-        /// An array of individual stateful rules inspection criteria to be used together in a stateful rule group. Use this option to specify simple Suricata rules with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/rules/intro.html#).
+        /// An array of individual stateful rules inspection criteria to be used together in a stateful rule group. Use this option to specify simple Suricata rules with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.iorules/intro.html#).
         public var statefulRules: [NetworkFirewallClientTypes.StatefulRule]?
         /// Stateless inspection criteria to be used in a stateless rule group.
         public var statelessRulesAndCustomActions: NetworkFirewallClientTypes.StatelessRulesAndCustomActions?
@@ -7005,6 +7632,245 @@ extension NetworkFirewallClientTypes {
             self.generatedRulesType = generatedRulesType
             self.targetTypes = targetTypes
             self.targets = targets
+        }
+    }
+
+}
+
+extension NetworkFirewallClientTypes.ServerCertificate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+    }
+}
+
+extension NetworkFirewallClientTypes {
+    /// Any Certificate Manager Secure Sockets Layer/Transport Layer Security (SSL/TLS) server certificate that's associated with a [ServerCertificateConfiguration] used in a [TLSInspectionConfiguration]. You must request or import a SSL/TLS certificate into ACM for each domain Network Firewall needs to decrypt and inspect. Network Firewall uses the SSL/TLS certificates to decrypt specified inbound SSL/TLS traffic going to your firewall. For information about working with certificates in Certificate Manager, see [Request a public certificate ](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-public.html) or [Importing certificates](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the Certificate Manager User Guide.
+    public struct ServerCertificate: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the Certificate Manager SSL/TLS server certificate.
+        public var resourceArn: Swift.String?
+
+        public init (
+            resourceArn: Swift.String? = nil
+        )
+        {
+            self.resourceArn = resourceArn
+        }
+    }
+
+}
+
+extension NetworkFirewallClientTypes.ServerCertificateConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scopes = "Scopes"
+        case serverCertificates = "ServerCertificates"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scopes = scopes {
+            var scopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scopes)
+            for servercertificatescope0 in scopes {
+                try scopesContainer.encode(servercertificatescope0)
+            }
+        }
+        if let serverCertificates = serverCertificates {
+            var serverCertificatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serverCertificates)
+            for servercertificate0 in serverCertificates {
+                try serverCertificatesContainer.encode(servercertificate0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverCertificatesContainer = try containerValues.decodeIfPresent([NetworkFirewallClientTypes.ServerCertificate?].self, forKey: .serverCertificates)
+        var serverCertificatesDecoded0:[NetworkFirewallClientTypes.ServerCertificate]? = nil
+        if let serverCertificatesContainer = serverCertificatesContainer {
+            serverCertificatesDecoded0 = [NetworkFirewallClientTypes.ServerCertificate]()
+            for structure0 in serverCertificatesContainer {
+                if let structure0 = structure0 {
+                    serverCertificatesDecoded0?.append(structure0)
+                }
+            }
+        }
+        serverCertificates = serverCertificatesDecoded0
+        let scopesContainer = try containerValues.decodeIfPresent([NetworkFirewallClientTypes.ServerCertificateScope?].self, forKey: .scopes)
+        var scopesDecoded0:[NetworkFirewallClientTypes.ServerCertificateScope]? = nil
+        if let scopesContainer = scopesContainer {
+            scopesDecoded0 = [NetworkFirewallClientTypes.ServerCertificateScope]()
+            for structure0 in scopesContainer {
+                if let structure0 = structure0 {
+                    scopesDecoded0?.append(structure0)
+                }
+            }
+        }
+        scopes = scopesDecoded0
+    }
+}
+
+extension NetworkFirewallClientTypes {
+    /// Configures the associated Certificate Manager Secure Sockets Layer/Transport Layer Security (SSL/TLS) server certificates and scope settings Network Firewall uses to decrypt traffic in a [TLSInspectionConfiguration]. For information about working with SSL/TLS certificates for TLS inspection, see [ Requirements for using SSL/TLS server certficiates with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection-certificate-requirements.html) in the Network Firewall Developer Guide. If a server certificate that's associated with your [TLSInspectionConfiguration] is revoked, deleted, or expired it can result in client-side TLS errors.
+    public struct ServerCertificateConfiguration: Swift.Equatable {
+        /// A list of a server certificate configuration's scopes.
+        public var scopes: [NetworkFirewallClientTypes.ServerCertificateScope]?
+        /// The list of a server certificate configuration's Certificate Manager SSL/TLS certificates.
+        public var serverCertificates: [NetworkFirewallClientTypes.ServerCertificate]?
+
+        public init (
+            scopes: [NetworkFirewallClientTypes.ServerCertificateScope]? = nil,
+            serverCertificates: [NetworkFirewallClientTypes.ServerCertificate]? = nil
+        )
+        {
+            self.scopes = scopes
+            self.serverCertificates = serverCertificates
+        }
+    }
+
+}
+
+extension NetworkFirewallClientTypes.ServerCertificateScope: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinationPorts = "DestinationPorts"
+        case destinations = "Destinations"
+        case protocols = "Protocols"
+        case sourcePorts = "SourcePorts"
+        case sources = "Sources"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destinationPorts = destinationPorts {
+            var destinationPortsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinationPorts)
+            for portrange0 in destinationPorts {
+                try destinationPortsContainer.encode(portrange0)
+            }
+        }
+        if let destinations = destinations {
+            var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
+            for address0 in destinations {
+                try destinationsContainer.encode(address0)
+            }
+        }
+        if let protocols = protocols {
+            var protocolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protocols)
+            for protocolnumber0 in protocols {
+                try protocolsContainer.encode(protocolnumber0)
+            }
+        }
+        if let sourcePorts = sourcePorts {
+            var sourcePortsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourcePorts)
+            for portrange0 in sourcePorts {
+                try sourcePortsContainer.encode(portrange0)
+            }
+        }
+        if let sources = sources {
+            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
+            for address0 in sources {
+                try sourcesContainer.encode(address0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourcesContainer = try containerValues.decodeIfPresent([NetworkFirewallClientTypes.Address?].self, forKey: .sources)
+        var sourcesDecoded0:[NetworkFirewallClientTypes.Address]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [NetworkFirewallClientTypes.Address]()
+            for structure0 in sourcesContainer {
+                if let structure0 = structure0 {
+                    sourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        sources = sourcesDecoded0
+        let destinationsContainer = try containerValues.decodeIfPresent([NetworkFirewallClientTypes.Address?].self, forKey: .destinations)
+        var destinationsDecoded0:[NetworkFirewallClientTypes.Address]? = nil
+        if let destinationsContainer = destinationsContainer {
+            destinationsDecoded0 = [NetworkFirewallClientTypes.Address]()
+            for structure0 in destinationsContainer {
+                if let structure0 = structure0 {
+                    destinationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        destinations = destinationsDecoded0
+        let sourcePortsContainer = try containerValues.decodeIfPresent([NetworkFirewallClientTypes.PortRange?].self, forKey: .sourcePorts)
+        var sourcePortsDecoded0:[NetworkFirewallClientTypes.PortRange]? = nil
+        if let sourcePortsContainer = sourcePortsContainer {
+            sourcePortsDecoded0 = [NetworkFirewallClientTypes.PortRange]()
+            for structure0 in sourcePortsContainer {
+                if let structure0 = structure0 {
+                    sourcePortsDecoded0?.append(structure0)
+                }
+            }
+        }
+        sourcePorts = sourcePortsDecoded0
+        let destinationPortsContainer = try containerValues.decodeIfPresent([NetworkFirewallClientTypes.PortRange?].self, forKey: .destinationPorts)
+        var destinationPortsDecoded0:[NetworkFirewallClientTypes.PortRange]? = nil
+        if let destinationPortsContainer = destinationPortsContainer {
+            destinationPortsDecoded0 = [NetworkFirewallClientTypes.PortRange]()
+            for structure0 in destinationPortsContainer {
+                if let structure0 = structure0 {
+                    destinationPortsDecoded0?.append(structure0)
+                }
+            }
+        }
+        destinationPorts = destinationPortsDecoded0
+        let protocolsContainer = try containerValues.decodeIfPresent([Swift.Int?].self, forKey: .protocols)
+        var protocolsDecoded0:[Swift.Int]? = nil
+        if let protocolsContainer = protocolsContainer {
+            protocolsDecoded0 = [Swift.Int]()
+            for integer0 in protocolsContainer {
+                if let integer0 = integer0 {
+                    protocolsDecoded0?.append(integer0)
+                }
+            }
+        }
+        protocols = protocolsDecoded0
+    }
+}
+
+extension NetworkFirewallClientTypes {
+    /// Settings that define the Secure Sockets Layer/Transport Layer Security (SSL/TLS) traffic that Network Firewall should decrypt for inspection by the stateful rule engine.
+    public struct ServerCertificateScope: Swift.Equatable {
+        /// The destination ports to decrypt for inspection, in Transmission Control Protocol (TCP) format. If not specified, this matches with any destination port. You can specify individual ports, for example 1994, and you can specify port ranges, such as 1990:1994.
+        public var destinationPorts: [NetworkFirewallClientTypes.PortRange]?
+        /// The destination IP addresses and address ranges to decrypt for inspection, in CIDR notation. If not specified, this matches with any destination address.
+        public var destinations: [NetworkFirewallClientTypes.Address]?
+        /// The protocols to decrypt for inspection, specified using each protocol's assigned internet protocol number (IANA). Network Firewall currently supports only TCP.
+        public var protocols: [Swift.Int]?
+        /// The source ports to decrypt for inspection, in Transmission Control Protocol (TCP) format. If not specified, this matches with any source port. You can specify individual ports, for example 1994, and you can specify port ranges, such as 1990:1994.
+        public var sourcePorts: [NetworkFirewallClientTypes.PortRange]?
+        /// The source IP addresses and address ranges to decrypt for inspection, in CIDR notation. If not specified, this matches with any source address.
+        public var sources: [NetworkFirewallClientTypes.Address]?
+
+        public init (
+            destinationPorts: [NetworkFirewallClientTypes.PortRange]? = nil,
+            destinations: [NetworkFirewallClientTypes.Address]? = nil,
+            protocols: [Swift.Int]? = nil,
+            sourcePorts: [NetworkFirewallClientTypes.PortRange]? = nil,
+            sources: [NetworkFirewallClientTypes.Address]? = nil
+        )
+        {
+            self.destinationPorts = destinationPorts
+            self.destinations = destinations
+            self.protocols = protocols
+            self.sourcePorts = sourcePorts
+            self.sources = sources
         }
     }
 
@@ -7186,7 +8052,7 @@ extension NetworkFirewallClientTypes.StatefulRule: Swift.Codable {
 }
 
 extension NetworkFirewallClientTypes {
-    /// A single Suricata rules specification, for use in a stateful rule group. Use this option to specify a simple Suricata rule with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/rules/intro.html#).
+    /// A single Suricata rules specification, for use in a stateful rule group. Use this option to specify a simple Suricata rule with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.iorules/intro.html#).
     public struct StatefulRule: Swift.Equatable {
         /// Defines what Network Firewall should do with the packets in a traffic flow when the flow matches the stateful rule criteria. For all actions, Network Firewall performs the specified action and discontinues stateful inspection of the traffic flow. The actions for a stateful rule are defined as follows:
         ///
@@ -7891,6 +8757,250 @@ extension NetworkFirewallClientTypes {
 
 }
 
+extension NetworkFirewallClientTypes.TLSInspectionConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serverCertificateConfigurations = "ServerCertificateConfigurations"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let serverCertificateConfigurations = serverCertificateConfigurations {
+            var serverCertificateConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serverCertificateConfigurations)
+            for servercertificateconfiguration0 in serverCertificateConfigurations {
+                try serverCertificateConfigurationsContainer.encode(servercertificateconfiguration0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverCertificateConfigurationsContainer = try containerValues.decodeIfPresent([NetworkFirewallClientTypes.ServerCertificateConfiguration?].self, forKey: .serverCertificateConfigurations)
+        var serverCertificateConfigurationsDecoded0:[NetworkFirewallClientTypes.ServerCertificateConfiguration]? = nil
+        if let serverCertificateConfigurationsContainer = serverCertificateConfigurationsContainer {
+            serverCertificateConfigurationsDecoded0 = [NetworkFirewallClientTypes.ServerCertificateConfiguration]()
+            for structure0 in serverCertificateConfigurationsContainer {
+                if let structure0 = structure0 {
+                    serverCertificateConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        serverCertificateConfigurations = serverCertificateConfigurationsDecoded0
+    }
+}
+
+extension NetworkFirewallClientTypes {
+    /// The object that defines a TLS inspection configuration. This, along with [TLSInspectionConfigurationResponse], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration]. Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
+    public struct TLSInspectionConfiguration: Swift.Equatable {
+        /// Lists the server certificate configurations that are associated with the TLS configuration.
+        public var serverCertificateConfigurations: [NetworkFirewallClientTypes.ServerCertificateConfiguration]?
+
+        public init (
+            serverCertificateConfigurations: [NetworkFirewallClientTypes.ServerCertificateConfiguration]? = nil
+        )
+        {
+            self.serverCertificateConfigurations = serverCertificateConfigurations
+        }
+    }
+
+}
+
+extension NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+extension NetworkFirewallClientTypes {
+    /// High-level information about a TLS inspection configuration, returned by ListTLSInspectionConfigurations. You can use the information provided in the metadata to retrieve and manage a TLS configuration.
+    public struct TLSInspectionConfigurationMetadata: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the TLS inspection configuration.
+        public var arn: Swift.String?
+        /// The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it.
+        public var name: Swift.String?
+
+        public init (
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.name = name
+        }
+    }
+
+}
+
+extension NetworkFirewallClientTypes.TLSInspectionConfigurationResponse: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificates = "Certificates"
+        case description = "Description"
+        case encryptionConfiguration = "EncryptionConfiguration"
+        case lastModifiedTime = "LastModifiedTime"
+        case numberOfAssociations = "NumberOfAssociations"
+        case tlsInspectionConfigurationArn = "TLSInspectionConfigurationArn"
+        case tlsInspectionConfigurationId = "TLSInspectionConfigurationId"
+        case tlsInspectionConfigurationName = "TLSInspectionConfigurationName"
+        case tlsInspectionConfigurationStatus = "TLSInspectionConfigurationStatus"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let certificates = certificates {
+            var certificatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .certificates)
+            for tlscertificatedata0 in certificates {
+                try certificatesContainer.encode(tlscertificatedata0)
+            }
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let encryptionConfiguration = self.encryptionConfiguration {
+            try encodeContainer.encode(encryptionConfiguration, forKey: .encryptionConfiguration)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+        if let numberOfAssociations = self.numberOfAssociations {
+            try encodeContainer.encode(numberOfAssociations, forKey: .numberOfAssociations)
+        }
+        if let tlsInspectionConfigurationArn = self.tlsInspectionConfigurationArn {
+            try encodeContainer.encode(tlsInspectionConfigurationArn, forKey: .tlsInspectionConfigurationArn)
+        }
+        if let tlsInspectionConfigurationId = self.tlsInspectionConfigurationId {
+            try encodeContainer.encode(tlsInspectionConfigurationId, forKey: .tlsInspectionConfigurationId)
+        }
+        if let tlsInspectionConfigurationName = self.tlsInspectionConfigurationName {
+            try encodeContainer.encode(tlsInspectionConfigurationName, forKey: .tlsInspectionConfigurationName)
+        }
+        if let tlsInspectionConfigurationStatus = self.tlsInspectionConfigurationStatus {
+            try encodeContainer.encode(tlsInspectionConfigurationStatus.rawValue, forKey: .tlsInspectionConfigurationStatus)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tlsInspectionConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tlsInspectionConfigurationArn)
+        tlsInspectionConfigurationArn = tlsInspectionConfigurationArnDecoded
+        let tlsInspectionConfigurationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tlsInspectionConfigurationName)
+        tlsInspectionConfigurationName = tlsInspectionConfigurationNameDecoded
+        let tlsInspectionConfigurationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tlsInspectionConfigurationId)
+        tlsInspectionConfigurationId = tlsInspectionConfigurationIdDecoded
+        let tlsInspectionConfigurationStatusDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.ResourceStatus.self, forKey: .tlsInspectionConfigurationStatus)
+        tlsInspectionConfigurationStatus = tlsInspectionConfigurationStatusDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([NetworkFirewallClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[NetworkFirewallClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [NetworkFirewallClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let numberOfAssociationsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfAssociations)
+        numberOfAssociations = numberOfAssociationsDecoded
+        let encryptionConfigurationDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.EncryptionConfiguration.self, forKey: .encryptionConfiguration)
+        encryptionConfiguration = encryptionConfigurationDecoded
+        let certificatesContainer = try containerValues.decodeIfPresent([NetworkFirewallClientTypes.TlsCertificateData?].self, forKey: .certificates)
+        var certificatesDecoded0:[NetworkFirewallClientTypes.TlsCertificateData]? = nil
+        if let certificatesContainer = certificatesContainer {
+            certificatesDecoded0 = [NetworkFirewallClientTypes.TlsCertificateData]()
+            for structure0 in certificatesContainer {
+                if let structure0 = structure0 {
+                    certificatesDecoded0?.append(structure0)
+                }
+            }
+        }
+        certificates = certificatesDecoded0
+    }
+}
+
+extension NetworkFirewallClientTypes {
+    /// The high-level properties of a TLS inspection configuration. This, along with the TLSInspectionConfiguration, define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling DescribeTLSInspectionConfiguration.
+    public struct TLSInspectionConfigurationResponse: Swift.Equatable {
+        /// A list of the certificates associated with the TLS inspection configuration.
+        public var certificates: [NetworkFirewallClientTypes.TlsCertificateData]?
+        /// A description of the TLS inspection configuration.
+        public var description: Swift.String?
+        /// A complex type that contains the Amazon Web Services KMS encryption configuration settings for your TLS inspection configuration.
+        public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
+        /// The last time that the TLS inspection configuration was changed.
+        public var lastModifiedTime: ClientRuntime.Date?
+        /// The number of firewall policies that use this TLS inspection configuration.
+        public var numberOfAssociations: Swift.Int?
+        /// The key:value pairs to associate with the resource.
+        public var tags: [NetworkFirewallClientTypes.Tag]?
+        /// The Amazon Resource Name (ARN) of the TLS inspection configuration.
+        /// This member is required.
+        public var tlsInspectionConfigurationArn: Swift.String?
+        /// A unique identifier for the TLS inspection configuration. This ID is returned in the responses to create and list commands. You provide it to operations such as update and delete.
+        /// This member is required.
+        public var tlsInspectionConfigurationId: Swift.String?
+        /// The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it.
+        /// This member is required.
+        public var tlsInspectionConfigurationName: Swift.String?
+        /// Detailed information about the current status of a [TLSInspectionConfiguration]. You can retrieve this for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration] and providing the TLS inspection configuration name and ARN.
+        public var tlsInspectionConfigurationStatus: NetworkFirewallClientTypes.ResourceStatus?
+
+        public init (
+            certificates: [NetworkFirewallClientTypes.TlsCertificateData]? = nil,
+            description: Swift.String? = nil,
+            encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
+            numberOfAssociations: Swift.Int? = nil,
+            tags: [NetworkFirewallClientTypes.Tag]? = nil,
+            tlsInspectionConfigurationArn: Swift.String? = nil,
+            tlsInspectionConfigurationId: Swift.String? = nil,
+            tlsInspectionConfigurationName: Swift.String? = nil,
+            tlsInspectionConfigurationStatus: NetworkFirewallClientTypes.ResourceStatus? = nil
+        )
+        {
+            self.certificates = certificates
+            self.description = description
+            self.encryptionConfiguration = encryptionConfiguration
+            self.lastModifiedTime = lastModifiedTime
+            self.numberOfAssociations = numberOfAssociations
+            self.tags = tags
+            self.tlsInspectionConfigurationArn = tlsInspectionConfigurationArn
+            self.tlsInspectionConfigurationId = tlsInspectionConfigurationId
+            self.tlsInspectionConfigurationName = tlsInspectionConfigurationName
+            self.tlsInspectionConfigurationStatus = tlsInspectionConfigurationStatus
+        }
+    }
+
+}
+
 extension NetworkFirewallClientTypes.Tag: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case key = "Key"
@@ -8133,6 +9243,71 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
+extension NetworkFirewallClientTypes.TlsCertificateData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateArn = "CertificateArn"
+        case certificateSerial = "CertificateSerial"
+        case status = "Status"
+        case statusMessage = "StatusMessage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let certificateArn = self.certificateArn {
+            try encodeContainer.encode(certificateArn, forKey: .certificateArn)
+        }
+        if let certificateSerial = self.certificateSerial {
+            try encodeContainer.encode(certificateSerial, forKey: .certificateSerial)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let certificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateArn)
+        certificateArn = certificateArnDecoded
+        let certificateSerialDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateSerial)
+        certificateSerial = certificateSerialDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+    }
+}
+
+extension NetworkFirewallClientTypes {
+    /// Contains metadata about an Certificate Manager certificate.
+    public struct TlsCertificateData: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the certificate.
+        public var certificateArn: Swift.String?
+        /// The serial number of the certificate.
+        public var certificateSerial: Swift.String?
+        /// The status of the certificate.
+        public var status: Swift.String?
+        /// Contains details about the certificate status, including information about certificate errors.
+        public var statusMessage: Swift.String?
+
+        public init (
+            certificateArn: Swift.String? = nil,
+            certificateSerial: Swift.String? = nil,
+            status: Swift.String? = nil,
+            statusMessage: Swift.String? = nil
+        )
+        {
+            self.certificateArn = certificateArn
+            self.certificateSerial = certificateSerial
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+
+}
+
 extension UnsupportedOperationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8306,7 +9481,7 @@ extension UpdateFirewallDeleteProtectionInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if deleteProtection != false {
+        if let deleteProtection = self.deleteProtection {
             try encodeContainer.encode(deleteProtection, forKey: .deleteProtection)
         }
         if let firewallArn = self.firewallArn {
@@ -8330,7 +9505,7 @@ extension UpdateFirewallDeleteProtectionInput: ClientRuntime.URLPathProvider {
 public struct UpdateFirewallDeleteProtectionInput: Swift.Equatable {
     /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
     /// This member is required.
-    public var deleteProtection: Swift.Bool
+    public var deleteProtection: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
@@ -8339,7 +9514,7 @@ public struct UpdateFirewallDeleteProtectionInput: Swift.Equatable {
     public var updateToken: Swift.String?
 
     public init (
-        deleteProtection: Swift.Bool = false,
+        deleteProtection: Swift.Bool? = nil,
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
         updateToken: Swift.String? = nil
@@ -8356,7 +9531,7 @@ struct UpdateFirewallDeleteProtectionInputBody: Swift.Equatable {
     let updateToken: Swift.String?
     let firewallArn: Swift.String?
     let firewallName: Swift.String?
-    let deleteProtection: Swift.Bool
+    let deleteProtection: Swift.Bool?
 }
 
 extension UpdateFirewallDeleteProtectionInputBody: Swift.Decodable {
@@ -8375,7 +9550,7 @@ extension UpdateFirewallDeleteProtectionInputBody: Swift.Decodable {
         firewallArn = firewallArnDecoded
         let firewallNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .firewallName)
         firewallName = firewallNameDecoded
-        let deleteProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteProtection) ?? false
+        let deleteProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteProtection)
         deleteProtection = deleteProtectionDecoded
     }
 }
@@ -8869,7 +10044,7 @@ extension UpdateFirewallPolicyChangeProtectionInput: Swift.Encodable {
         if let firewallName = self.firewallName {
             try encodeContainer.encode(firewallName, forKey: .firewallName)
         }
-        if firewallPolicyChangeProtection != false {
+        if let firewallPolicyChangeProtection = self.firewallPolicyChangeProtection {
             try encodeContainer.encode(firewallPolicyChangeProtection, forKey: .firewallPolicyChangeProtection)
         }
         if let updateToken = self.updateToken {
@@ -8891,14 +10066,14 @@ public struct UpdateFirewallPolicyChangeProtectionInput: Swift.Equatable {
     public var firewallName: Swift.String?
     /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
     /// This member is required.
-    public var firewallPolicyChangeProtection: Swift.Bool
+    public var firewallPolicyChangeProtection: Swift.Bool?
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
 
     public init (
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
-        firewallPolicyChangeProtection: Swift.Bool = false,
+        firewallPolicyChangeProtection: Swift.Bool? = nil,
         updateToken: Swift.String? = nil
     )
     {
@@ -8913,7 +10088,7 @@ struct UpdateFirewallPolicyChangeProtectionInputBody: Swift.Equatable {
     let updateToken: Swift.String?
     let firewallArn: Swift.String?
     let firewallName: Swift.String?
-    let firewallPolicyChangeProtection: Swift.Bool
+    let firewallPolicyChangeProtection: Swift.Bool?
 }
 
 extension UpdateFirewallPolicyChangeProtectionInputBody: Swift.Decodable {
@@ -8932,7 +10107,7 @@ extension UpdateFirewallPolicyChangeProtectionInputBody: Swift.Decodable {
         firewallArn = firewallArnDecoded
         let firewallNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .firewallName)
         firewallName = firewallNameDecoded
-        let firewallPolicyChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .firewallPolicyChangeProtection) ?? false
+        let firewallPolicyChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .firewallPolicyChangeProtection)
         firewallPolicyChangeProtection = firewallPolicyChangeProtectionDecoded
     }
 }
@@ -9056,7 +10231,7 @@ extension UpdateFirewallPolicyInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let encryptionConfiguration = self.encryptionConfiguration {
@@ -9087,7 +10262,7 @@ public struct UpdateFirewallPolicyInput: Swift.Equatable {
     /// A description of the firewall policy.
     public var description: Swift.String?
     /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request. If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid. If set to FALSE, Network Firewall makes the requested changes to your resources.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// A complex type that contains settings for encryption of your firewall policy resources.
     public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
     /// The updated firewall policy to use for the firewall.
@@ -9103,7 +10278,7 @@ public struct UpdateFirewallPolicyInput: Swift.Equatable {
 
     public init (
         description: Swift.String? = nil,
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
         firewallPolicy: NetworkFirewallClientTypes.FirewallPolicy? = nil,
         firewallPolicyArn: Swift.String? = nil,
@@ -9127,7 +10302,7 @@ struct UpdateFirewallPolicyInputBody: Swift.Equatable {
     let firewallPolicyName: Swift.String?
     let firewallPolicy: NetworkFirewallClientTypes.FirewallPolicy?
     let description: Swift.String?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
     let encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
 }
 
@@ -9154,7 +10329,7 @@ extension UpdateFirewallPolicyInputBody: Swift.Decodable {
         firewallPolicy = firewallPolicyDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
         let encryptionConfigurationDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.EncryptionConfiguration.self, forKey: .encryptionConfiguration)
         encryptionConfiguration = encryptionConfigurationDecoded
@@ -9427,7 +10602,7 @@ extension UpdateRuleGroupInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let encryptionConfiguration = self.encryptionConfiguration {
@@ -9467,7 +10642,7 @@ public struct UpdateRuleGroupInput: Swift.Equatable {
     /// A description of the rule group.
     public var description: Swift.String?
     /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request. If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid. If set to FALSE, Network Firewall makes the requested changes to your resources.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// A complex type that contains settings for encryption of your rule group resources.
     public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
     /// An object that defines the rule group rules. You must provide either this rule group setting or a Rules setting, but not both.
@@ -9488,7 +10663,7 @@ public struct UpdateRuleGroupInput: Swift.Equatable {
 
     public init (
         description: Swift.String? = nil,
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
         ruleGroup: NetworkFirewallClientTypes.RuleGroup? = nil,
         ruleGroupArn: Swift.String? = nil,
@@ -9520,7 +10695,7 @@ struct UpdateRuleGroupInputBody: Swift.Equatable {
     let rules: Swift.String?
     let type: NetworkFirewallClientTypes.RuleGroupType?
     let description: Swift.String?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
     let encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
     let sourceMetadata: NetworkFirewallClientTypes.SourceMetadata?
 }
@@ -9555,7 +10730,7 @@ extension UpdateRuleGroupInputBody: Swift.Decodable {
         type = typeDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
         let encryptionConfigurationDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.EncryptionConfiguration.self, forKey: .encryptionConfiguration)
         encryptionConfiguration = encryptionConfigurationDecoded
@@ -9663,7 +10838,7 @@ extension UpdateSubnetChangeProtectionInput: Swift.Encodable {
         if let firewallName = self.firewallName {
             try encodeContainer.encode(firewallName, forKey: .firewallName)
         }
-        if subnetChangeProtection != false {
+        if let subnetChangeProtection = self.subnetChangeProtection {
             try encodeContainer.encode(subnetChangeProtection, forKey: .subnetChangeProtection)
         }
         if let updateToken = self.updateToken {
@@ -9685,14 +10860,14 @@ public struct UpdateSubnetChangeProtectionInput: Swift.Equatable {
     public var firewallName: Swift.String?
     /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
     /// This member is required.
-    public var subnetChangeProtection: Swift.Bool
+    public var subnetChangeProtection: Swift.Bool?
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
 
     public init (
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
-        subnetChangeProtection: Swift.Bool = false,
+        subnetChangeProtection: Swift.Bool? = nil,
         updateToken: Swift.String? = nil
     )
     {
@@ -9707,7 +10882,7 @@ struct UpdateSubnetChangeProtectionInputBody: Swift.Equatable {
     let updateToken: Swift.String?
     let firewallArn: Swift.String?
     let firewallName: Swift.String?
-    let subnetChangeProtection: Swift.Bool
+    let subnetChangeProtection: Swift.Bool?
 }
 
 extension UpdateSubnetChangeProtectionInputBody: Swift.Decodable {
@@ -9726,7 +10901,7 @@ extension UpdateSubnetChangeProtectionInputBody: Swift.Decodable {
         firewallArn = firewallArnDecoded
         let firewallNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .firewallName)
         firewallName = firewallNameDecoded
-        let subnetChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .subnetChangeProtection) ?? false
+        let subnetChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .subnetChangeProtection)
         subnetChangeProtection = subnetChangeProtectionDecoded
     }
 }
@@ -9831,5 +11006,197 @@ extension UpdateSubnetChangeProtectionOutputResponseBody: Swift.Decodable {
         firewallName = firewallNameDecoded
         let subnetChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .subnetChangeProtection) ?? false
         subnetChangeProtection = subnetChangeProtectionDecoded
+    }
+}
+
+extension UpdateTLSInspectionConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case encryptionConfiguration = "EncryptionConfiguration"
+        case tlsInspectionConfiguration = "TLSInspectionConfiguration"
+        case tlsInspectionConfigurationArn = "TLSInspectionConfigurationArn"
+        case tlsInspectionConfigurationName = "TLSInspectionConfigurationName"
+        case updateToken = "UpdateToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let encryptionConfiguration = self.encryptionConfiguration {
+            try encodeContainer.encode(encryptionConfiguration, forKey: .encryptionConfiguration)
+        }
+        if let tlsInspectionConfiguration = self.tlsInspectionConfiguration {
+            try encodeContainer.encode(tlsInspectionConfiguration, forKey: .tlsInspectionConfiguration)
+        }
+        if let tlsInspectionConfigurationArn = self.tlsInspectionConfigurationArn {
+            try encodeContainer.encode(tlsInspectionConfigurationArn, forKey: .tlsInspectionConfigurationArn)
+        }
+        if let tlsInspectionConfigurationName = self.tlsInspectionConfigurationName {
+            try encodeContainer.encode(tlsInspectionConfigurationName, forKey: .tlsInspectionConfigurationName)
+        }
+        if let updateToken = self.updateToken {
+            try encodeContainer.encode(updateToken, forKey: .updateToken)
+        }
+    }
+}
+
+extension UpdateTLSInspectionConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateTLSInspectionConfigurationInput: Swift.Equatable {
+    /// A description of the TLS inspection configuration.
+    public var description: Swift.String?
+    /// A complex type that contains the Amazon Web Services KMS encryption configuration settings for your TLS inspection configuration.
+    public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
+    /// The object that defines a TLS inspection configuration. This, along with [TLSInspectionConfigurationResponse], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration]. Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
+    /// This member is required.
+    public var tlsInspectionConfiguration: NetworkFirewallClientTypes.TLSInspectionConfiguration?
+    /// The Amazon Resource Name (ARN) of the TLS inspection configuration.
+    public var tlsInspectionConfigurationArn: Swift.String?
+    /// The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it.
+    public var tlsInspectionConfigurationName: Swift.String?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the TLS inspection configuration. The token marks the state of the TLS inspection configuration resource at the time of the request. To make changes to the TLS inspection configuration, you provide the token in your request. Network Firewall uses the token to ensure that the TLS inspection configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the TLS inspection configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    /// This member is required.
+    public var updateToken: Swift.String?
+
+    public init (
+        description: Swift.String? = nil,
+        encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
+        tlsInspectionConfiguration: NetworkFirewallClientTypes.TLSInspectionConfiguration? = nil,
+        tlsInspectionConfigurationArn: Swift.String? = nil,
+        tlsInspectionConfigurationName: Swift.String? = nil,
+        updateToken: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.encryptionConfiguration = encryptionConfiguration
+        self.tlsInspectionConfiguration = tlsInspectionConfiguration
+        self.tlsInspectionConfigurationArn = tlsInspectionConfigurationArn
+        self.tlsInspectionConfigurationName = tlsInspectionConfigurationName
+        self.updateToken = updateToken
+    }
+}
+
+struct UpdateTLSInspectionConfigurationInputBody: Swift.Equatable {
+    let tlsInspectionConfigurationArn: Swift.String?
+    let tlsInspectionConfigurationName: Swift.String?
+    let tlsInspectionConfiguration: NetworkFirewallClientTypes.TLSInspectionConfiguration?
+    let description: Swift.String?
+    let encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
+    let updateToken: Swift.String?
+}
+
+extension UpdateTLSInspectionConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case encryptionConfiguration = "EncryptionConfiguration"
+        case tlsInspectionConfiguration = "TLSInspectionConfiguration"
+        case tlsInspectionConfigurationArn = "TLSInspectionConfigurationArn"
+        case tlsInspectionConfigurationName = "TLSInspectionConfigurationName"
+        case updateToken = "UpdateToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tlsInspectionConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tlsInspectionConfigurationArn)
+        tlsInspectionConfigurationArn = tlsInspectionConfigurationArnDecoded
+        let tlsInspectionConfigurationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tlsInspectionConfigurationName)
+        tlsInspectionConfigurationName = tlsInspectionConfigurationNameDecoded
+        let tlsInspectionConfigurationDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.TLSInspectionConfiguration.self, forKey: .tlsInspectionConfiguration)
+        tlsInspectionConfiguration = tlsInspectionConfigurationDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let encryptionConfigurationDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.EncryptionConfiguration.self, forKey: .encryptionConfiguration)
+        encryptionConfiguration = encryptionConfigurationDecoded
+        let updateTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .updateToken)
+        updateToken = updateTokenDecoded
+    }
+}
+
+extension UpdateTLSInspectionConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateTLSInspectionConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerError" : self = .internalServerError(try InternalServerError(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidRequestException" : self = .invalidRequestException(try InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidTokenException" : self = .invalidTokenException(try InvalidTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateTLSInspectionConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case internalServerError(InternalServerError)
+    case invalidRequestException(InvalidRequestException)
+    case invalidTokenException(InvalidTokenException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateTLSInspectionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateTLSInspectionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.tlsInspectionConfigurationResponse = output.tlsInspectionConfigurationResponse
+            self.updateToken = output.updateToken
+        } else {
+            self.tlsInspectionConfigurationResponse = nil
+            self.updateToken = nil
+        }
+    }
+}
+
+public struct UpdateTLSInspectionConfigurationOutputResponse: Swift.Equatable {
+    /// The high-level properties of a TLS inspection configuration. This, along with the [TLSInspectionConfiguration], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration].
+    /// This member is required.
+    public var tlsInspectionConfigurationResponse: NetworkFirewallClientTypes.TLSInspectionConfigurationResponse?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the TLS inspection configuration. The token marks the state of the TLS inspection configuration resource at the time of the request. To make changes to the TLS inspection configuration, you provide the token in your request. Network Firewall uses the token to ensure that the TLS inspection configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the TLS inspection configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    /// This member is required.
+    public var updateToken: Swift.String?
+
+    public init (
+        tlsInspectionConfigurationResponse: NetworkFirewallClientTypes.TLSInspectionConfigurationResponse? = nil,
+        updateToken: Swift.String? = nil
+    )
+    {
+        self.tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponse
+        self.updateToken = updateToken
+    }
+}
+
+struct UpdateTLSInspectionConfigurationOutputResponseBody: Swift.Equatable {
+    let updateToken: Swift.String?
+    let tlsInspectionConfigurationResponse: NetworkFirewallClientTypes.TLSInspectionConfigurationResponse?
+}
+
+extension UpdateTLSInspectionConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tlsInspectionConfigurationResponse = "TLSInspectionConfigurationResponse"
+        case updateToken = "UpdateToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let updateTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .updateToken)
+        updateToken = updateTokenDecoded
+        let tlsInspectionConfigurationResponseDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.TLSInspectionConfigurationResponse.self, forKey: .tlsInspectionConfigurationResponse)
+        tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponseDecoded
     }
 }

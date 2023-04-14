@@ -10775,6 +10775,176 @@ extension CreateNamespaceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateRefreshScheduleInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case schedule = "Schedule"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let schedule = self.schedule {
+            try encodeContainer.encode(schedule, forKey: .schedule)
+        }
+    }
+}
+
+extension CreateRefreshScheduleInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let dataSetId = dataSetId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/refresh-schedules"
+    }
+}
+
+public struct CreateRefreshScheduleInput: Swift.Equatable {
+    /// The Amazon Web Services account ID.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the dataset.
+    /// This member is required.
+    public var dataSetId: Swift.String?
+    /// The refresh schedule.
+    /// This member is required.
+    public var schedule: QuickSightClientTypes.RefreshSchedule?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        dataSetId: Swift.String? = nil,
+        schedule: QuickSightClientTypes.RefreshSchedule? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.dataSetId = dataSetId
+        self.schedule = schedule
+    }
+}
+
+struct CreateRefreshScheduleInputBody: Swift.Equatable {
+    let schedule: QuickSightClientTypes.RefreshSchedule?
+}
+
+extension CreateRefreshScheduleInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case schedule = "Schedule"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scheduleDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RefreshSchedule.self, forKey: .schedule)
+        schedule = scheduleDecoded
+    }
+}
+
+extension CreateRefreshScheduleOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateRefreshScheduleOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PreconditionNotMetException" : self = .preconditionNotMetException(try PreconditionNotMetException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceExistsException" : self = .resourceExistsException(try ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateRefreshScheduleOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case preconditionNotMetException(PreconditionNotMetException)
+    case resourceExistsException(ResourceExistsException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateRefreshScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateRefreshScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.requestId = output.requestId
+            self.scheduleId = output.scheduleId
+        } else {
+            self.arn = nil
+            self.requestId = nil
+            self.scheduleId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct CreateRefreshScheduleOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the refresh schedule.
+    public var arn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The ID of the refresh schedule.
+    public var scheduleId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init (
+        arn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        scheduleId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.arn = arn
+        self.requestId = requestId
+        self.scheduleId = scheduleId
+        self.status = status
+    }
+}
+
+struct CreateRefreshScheduleOutputResponseBody: Swift.Equatable {
+    let status: Swift.Int
+    let requestId: Swift.String?
+    let scheduleId: Swift.String?
+    let arn: Swift.String?
+}
+
+extension CreateRefreshScheduleOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case requestId = "RequestId"
+        case scheduleId = "ScheduleId"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let scheduleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleId)
+        scheduleId = scheduleIdDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
 extension CreateTemplateAliasInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case templateVersionNumber = "TemplateVersionNumber"
@@ -15355,6 +15525,42 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.DataSetRefreshProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case refreshConfiguration = "RefreshConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let refreshConfiguration = self.refreshConfiguration {
+            try encodeContainer.encode(refreshConfiguration, forKey: .refreshConfiguration)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let refreshConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RefreshConfiguration.self, forKey: .refreshConfiguration)
+        refreshConfiguration = refreshConfigurationDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The refresh properties of a dataset.
+    public struct DataSetRefreshProperties: Swift.Equatable {
+        /// The refresh configuration for a dataset.
+        /// This member is required.
+        public var refreshConfiguration: QuickSightClientTypes.RefreshConfiguration?
+
+        public init (
+            refreshConfiguration: QuickSightClientTypes.RefreshConfiguration? = nil
+        )
+        {
+            self.refreshConfiguration = refreshConfiguration
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.DataSetSchema: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case columnSchemaList = "ColumnSchemaList"
@@ -17202,6 +17408,53 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes {
+    public enum DayOfWeek: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case friday
+        case monday
+        case saturday
+        case sunday
+        case thursday
+        case tuesday
+        case wednesday
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DayOfWeek] {
+            return [
+                .friday,
+                .monday,
+                .saturday,
+                .sunday,
+                .thursday,
+                .tuesday,
+                .wednesday,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .friday: return "FRIDAY"
+            case .monday: return "MONDAY"
+            case .saturday: return "SATURDAY"
+            case .sunday: return "SUNDAY"
+            case .thursday: return "THURSDAY"
+            case .tuesday: return "TUESDAY"
+            case .wednesday: return "WEDNESDAY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DayOfWeek(rawValue: rawValue) ?? DayOfWeek.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension QuickSightClientTypes.DecimalDefaultValues: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dynamicValue = "DynamicValue"
@@ -18438,6 +18691,129 @@ extension DeleteDataSetOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DeleteDataSetRefreshPropertiesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let dataSetId = dataSetId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/refresh-properties"
+    }
+}
+
+public struct DeleteDataSetRefreshPropertiesInput: Swift.Equatable {
+    /// The Amazon Web Services account ID.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the dataset.
+    /// This member is required.
+    public var dataSetId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        dataSetId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.dataSetId = dataSetId
+    }
+}
+
+struct DeleteDataSetRefreshPropertiesInputBody: Swift.Equatable {
+}
+
+extension DeleteDataSetRefreshPropertiesInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteDataSetRefreshPropertiesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteDataSetRefreshPropertiesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteDataSetRefreshPropertiesOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteDataSetRefreshPropertiesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DeleteDataSetRefreshPropertiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.requestId = output.requestId
+        } else {
+            self.requestId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct DeleteDataSetRefreshPropertiesOutputResponse: Swift.Equatable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init (
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+struct DeleteDataSetRefreshPropertiesOutputResponseBody: Swift.Equatable {
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension DeleteDataSetRefreshPropertiesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestId = "RequestId"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
 extension DeleteDataSourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let awsAccountId = awsAccountId else {
@@ -19391,6 +19767,155 @@ extension DeleteNamespaceOutputResponseBody: Swift.Decodable {
         requestId = requestIdDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
         status = statusDecoded
+    }
+}
+
+extension DeleteRefreshScheduleInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let dataSetId = dataSetId else {
+            return nil
+        }
+        guard let scheduleId = scheduleId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/refresh-schedules/\(scheduleId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteRefreshScheduleInput: Swift.Equatable {
+    /// The Amazon Web Services account ID.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the dataset.
+    /// This member is required.
+    public var dataSetId: Swift.String?
+    /// The ID of the refresh schedule.
+    /// This member is required.
+    public var scheduleId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        dataSetId: Swift.String? = nil,
+        scheduleId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.dataSetId = dataSetId
+        self.scheduleId = scheduleId
+    }
+}
+
+struct DeleteRefreshScheduleInputBody: Swift.Equatable {
+}
+
+extension DeleteRefreshScheduleInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteRefreshScheduleOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteRefreshScheduleOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteRefreshScheduleOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteRefreshScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DeleteRefreshScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.requestId = output.requestId
+            self.scheduleId = output.scheduleId
+        } else {
+            self.arn = nil
+            self.requestId = nil
+            self.scheduleId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct DeleteRefreshScheduleOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the refresh schedule.
+    public var arn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The ID of the refresh schedule.
+    public var scheduleId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init (
+        arn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        scheduleId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.arn = arn
+        self.requestId = requestId
+        self.scheduleId = scheduleId
+        self.status = status
+    }
+}
+
+struct DeleteRefreshScheduleOutputResponseBody: Swift.Equatable {
+    let status: Swift.Int
+    let requestId: Swift.String?
+    let scheduleId: Swift.String?
+    let arn: Swift.String?
+}
+
+extension DeleteRefreshScheduleOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case requestId = "RequestId"
+        case scheduleId = "ScheduleId"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let scheduleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleId)
+        scheduleId = scheduleIdDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
     }
 }
 
@@ -22084,6 +22609,139 @@ extension DescribeDataSetPermissionsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeDataSetRefreshPropertiesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let dataSetId = dataSetId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/refresh-properties"
+    }
+}
+
+public struct DescribeDataSetRefreshPropertiesInput: Swift.Equatable {
+    /// The Amazon Web Services account ID.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the dataset.
+    /// This member is required.
+    public var dataSetId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        dataSetId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.dataSetId = dataSetId
+    }
+}
+
+struct DescribeDataSetRefreshPropertiesInputBody: Swift.Equatable {
+}
+
+extension DescribeDataSetRefreshPropertiesInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeDataSetRefreshPropertiesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeDataSetRefreshPropertiesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PreconditionNotMetException" : self = .preconditionNotMetException(try PreconditionNotMetException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeDataSetRefreshPropertiesOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case preconditionNotMetException(PreconditionNotMetException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeDataSetRefreshPropertiesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DescribeDataSetRefreshPropertiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.dataSetRefreshProperties = output.dataSetRefreshProperties
+            self.requestId = output.requestId
+        } else {
+            self.dataSetRefreshProperties = nil
+            self.requestId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct DescribeDataSetRefreshPropertiesOutputResponse: Swift.Equatable {
+    /// The dataset refresh properties.
+    public var dataSetRefreshProperties: QuickSightClientTypes.DataSetRefreshProperties?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init (
+        dataSetRefreshProperties: QuickSightClientTypes.DataSetRefreshProperties? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.dataSetRefreshProperties = dataSetRefreshProperties
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+struct DescribeDataSetRefreshPropertiesOutputResponseBody: Swift.Equatable {
+    let requestId: Swift.String?
+    let status: Swift.Int
+    let dataSetRefreshProperties: QuickSightClientTypes.DataSetRefreshProperties?
+}
+
+extension DescribeDataSetRefreshPropertiesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSetRefreshProperties = "DataSetRefreshProperties"
+        case requestId = "RequestId"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+        let dataSetRefreshPropertiesDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DataSetRefreshProperties.self, forKey: .dataSetRefreshProperties)
+        dataSetRefreshProperties = dataSetRefreshPropertiesDecoded
+    }
+}
+
 extension DescribeDataSourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let awsAccountId = awsAccountId else {
@@ -23668,6 +24326,155 @@ extension DescribeNamespaceOutputResponseBody: Swift.Decodable {
         requestId = requestIdDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
         status = statusDecoded
+    }
+}
+
+extension DescribeRefreshScheduleInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let dataSetId = dataSetId else {
+            return nil
+        }
+        guard let scheduleId = scheduleId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/refresh-schedules/\(scheduleId.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeRefreshScheduleInput: Swift.Equatable {
+    /// The Amazon Web Services account ID.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the dataset.
+    /// This member is required.
+    public var dataSetId: Swift.String?
+    /// The ID of the refresh schedule.
+    /// This member is required.
+    public var scheduleId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        dataSetId: Swift.String? = nil,
+        scheduleId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.dataSetId = dataSetId
+        self.scheduleId = scheduleId
+    }
+}
+
+struct DescribeRefreshScheduleInputBody: Swift.Equatable {
+}
+
+extension DescribeRefreshScheduleInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeRefreshScheduleOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeRefreshScheduleOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeRefreshScheduleOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeRefreshScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DescribeRefreshScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.refreshSchedule = output.refreshSchedule
+            self.requestId = output.requestId
+        } else {
+            self.arn = nil
+            self.refreshSchedule = nil
+            self.requestId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct DescribeRefreshScheduleOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the refresh schedule.
+    public var arn: Swift.String?
+    /// The refresh schedule.
+    public var refreshSchedule: QuickSightClientTypes.RefreshSchedule?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init (
+        arn: Swift.String? = nil,
+        refreshSchedule: QuickSightClientTypes.RefreshSchedule? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.arn = arn
+        self.refreshSchedule = refreshSchedule
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+struct DescribeRefreshScheduleOutputResponseBody: Swift.Equatable {
+    let refreshSchedule: QuickSightClientTypes.RefreshSchedule?
+    let status: Swift.Int
+    let requestId: Swift.String?
+    let arn: Swift.String?
+}
+
+extension DescribeRefreshScheduleOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case refreshSchedule = "RefreshSchedule"
+        case requestId = "RequestId"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let refreshScheduleDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RefreshSchedule.self, forKey: .refreshSchedule)
+        refreshSchedule = refreshScheduleDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
     }
 }
 
@@ -34144,6 +34951,42 @@ extension IdentityTypeNotSupportedExceptionBody: Swift.Decodable {
     }
 }
 
+extension QuickSightClientTypes.IncrementalRefresh: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lookbackWindow = "LookbackWindow"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lookbackWindow = self.lookbackWindow {
+            try encodeContainer.encode(lookbackWindow, forKey: .lookbackWindow)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lookbackWindowDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.LookbackWindow.self, forKey: .lookbackWindow)
+        lookbackWindow = lookbackWindowDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The incremental refresh configuration for a dataset.
+    public struct IncrementalRefresh: Swift.Equatable {
+        /// The lookback window setup for an incremental refresh configuration.
+        /// This member is required.
+        public var lookbackWindow: QuickSightClientTypes.LookbackWindow?
+
+        public init (
+            lookbackWindow: QuickSightClientTypes.LookbackWindow? = nil
+        )
+        {
+            self.lookbackWindow = lookbackWindow
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.Ingestion: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
@@ -34295,6 +35138,7 @@ extension QuickSightClientTypes {
         case dataSourceConnectionFailed
         case dataSourceNotFound
         case dataToleranceException
+        case duplicateColumnNamesFound
         case elasticsearchCursorNotEnabled
         case failureToAssumeRole
         case failureToProcessJsonFile
@@ -34343,6 +35187,7 @@ extension QuickSightClientTypes {
                 .dataSourceConnectionFailed,
                 .dataSourceNotFound,
                 .dataToleranceException,
+                .duplicateColumnNamesFound,
                 .elasticsearchCursorNotEnabled,
                 .failureToAssumeRole,
                 .failureToProcessJsonFile,
@@ -34396,6 +35241,7 @@ extension QuickSightClientTypes {
             case .dataSourceConnectionFailed: return "DATA_SOURCE_CONNECTION_FAILED"
             case .dataSourceNotFound: return "DATA_SOURCE_NOT_FOUND"
             case .dataToleranceException: return "DATA_TOLERANCE_EXCEPTION"
+            case .duplicateColumnNamesFound: return "DUPLICATE_COLUMN_NAMES_FOUND"
             case .elasticsearchCursorNotEnabled: return "ELASTICSEARCH_CURSOR_NOT_ENABLED"
             case .failureToAssumeRole: return "FAILURE_TO_ASSUME_ROLE"
             case .failureToProcessJsonFile: return "FAILURE_TO_PROCESS_JSON_FILE"
@@ -40049,6 +40895,146 @@ extension ListNamespacesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListRefreshSchedulesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let dataSetId = dataSetId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/refresh-schedules"
+    }
+}
+
+public struct ListRefreshSchedulesInput: Swift.Equatable {
+    /// The Amazon Web Services account ID.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the dataset.
+    /// This member is required.
+    public var dataSetId: Swift.String?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        dataSetId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.dataSetId = dataSetId
+    }
+}
+
+struct ListRefreshSchedulesInputBody: Swift.Equatable {
+}
+
+extension ListRefreshSchedulesInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListRefreshSchedulesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListRefreshSchedulesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListRefreshSchedulesOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListRefreshSchedulesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListRefreshSchedulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.refreshSchedules = output.refreshSchedules
+            self.requestId = output.requestId
+        } else {
+            self.refreshSchedules = nil
+            self.requestId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct ListRefreshSchedulesOutputResponse: Swift.Equatable {
+    /// The list of refresh schedules for the dataset.
+    public var refreshSchedules: [QuickSightClientTypes.RefreshSchedule]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init (
+        refreshSchedules: [QuickSightClientTypes.RefreshSchedule]? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.refreshSchedules = refreshSchedules
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+struct ListRefreshSchedulesOutputResponseBody: Swift.Equatable {
+    let refreshSchedules: [QuickSightClientTypes.RefreshSchedule]?
+    let status: Swift.Int
+    let requestId: Swift.String?
+}
+
+extension ListRefreshSchedulesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case refreshSchedules = "RefreshSchedules"
+        case requestId = "RequestId"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let refreshSchedulesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.RefreshSchedule?].self, forKey: .refreshSchedules)
+        var refreshSchedulesDecoded0:[QuickSightClientTypes.RefreshSchedule]? = nil
+        if let refreshSchedulesContainer = refreshSchedulesContainer {
+            refreshSchedulesDecoded0 = [QuickSightClientTypes.RefreshSchedule]()
+            for structure0 in refreshSchedulesContainer {
+                if let structure0 = structure0 {
+                    refreshSchedulesDecoded0?.append(structure0)
+                }
+            }
+        }
+        refreshSchedules = refreshSchedulesDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+    }
+}
+
 extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let resourceArn = resourceArn else {
@@ -41833,6 +42819,99 @@ extension QuickSightClientTypes {
         }
     }
 
+}
+
+extension QuickSightClientTypes.LookbackWindow: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case columnName = "ColumnName"
+        case size = "Size"
+        case sizeUnit = "SizeUnit"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let columnName = self.columnName {
+            try encodeContainer.encode(columnName, forKey: .columnName)
+        }
+        if size != 0 {
+            try encodeContainer.encode(size, forKey: .size)
+        }
+        if let sizeUnit = self.sizeUnit {
+            try encodeContainer.encode(sizeUnit.rawValue, forKey: .sizeUnit)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let columnNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .columnName)
+        columnName = columnNameDecoded
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size) ?? 0
+        size = sizeDecoded
+        let sizeUnitDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.LookbackWindowSizeUnit.self, forKey: .sizeUnit)
+        sizeUnit = sizeUnitDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The lookback window setup of an incremental refresh configuration.
+    public struct LookbackWindow: Swift.Equatable {
+        /// The name of the lookback window column.
+        /// This member is required.
+        public var columnName: Swift.String?
+        /// The lookback window column size.
+        /// This member is required.
+        public var size: Swift.Int
+        /// The size unit that is used for the lookback window column. Valid values for this structure are HOUR, DAY, and WEEK.
+        /// This member is required.
+        public var sizeUnit: QuickSightClientTypes.LookbackWindowSizeUnit?
+
+        public init (
+            columnName: Swift.String? = nil,
+            size: Swift.Int = 0,
+            sizeUnit: QuickSightClientTypes.LookbackWindowSizeUnit? = nil
+        )
+        {
+            self.columnName = columnName
+            self.size = size
+            self.sizeUnit = sizeUnit
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum LookbackWindowSizeUnit: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case day
+        case hour
+        case week
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LookbackWindowSizeUnit] {
+            return [
+                .day,
+                .hour,
+                .week,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .day: return "DAY"
+            case .hour: return "HOUR"
+            case .week: return "WEEK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LookbackWindowSizeUnit(rawValue: rawValue) ?? LookbackWindowSizeUnit.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension QuickSightClientTypes.ManifestFileLocation: Swift.Codable {
@@ -47680,6 +48759,156 @@ extension QuickSightClientTypes {
 
 }
 
+extension PutDataSetRefreshPropertiesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSetRefreshProperties = "DataSetRefreshProperties"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSetRefreshProperties = self.dataSetRefreshProperties {
+            try encodeContainer.encode(dataSetRefreshProperties, forKey: .dataSetRefreshProperties)
+        }
+    }
+}
+
+extension PutDataSetRefreshPropertiesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let dataSetId = dataSetId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/refresh-properties"
+    }
+}
+
+public struct PutDataSetRefreshPropertiesInput: Swift.Equatable {
+    /// The Amazon Web Services account ID.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the dataset.
+    /// This member is required.
+    public var dataSetId: Swift.String?
+    /// The dataset refresh properties.
+    /// This member is required.
+    public var dataSetRefreshProperties: QuickSightClientTypes.DataSetRefreshProperties?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        dataSetId: Swift.String? = nil,
+        dataSetRefreshProperties: QuickSightClientTypes.DataSetRefreshProperties? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.dataSetId = dataSetId
+        self.dataSetRefreshProperties = dataSetRefreshProperties
+    }
+}
+
+struct PutDataSetRefreshPropertiesInputBody: Swift.Equatable {
+    let dataSetRefreshProperties: QuickSightClientTypes.DataSetRefreshProperties?
+}
+
+extension PutDataSetRefreshPropertiesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSetRefreshProperties = "DataSetRefreshProperties"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSetRefreshPropertiesDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DataSetRefreshProperties.self, forKey: .dataSetRefreshProperties)
+        dataSetRefreshProperties = dataSetRefreshPropertiesDecoded
+    }
+}
+
+extension PutDataSetRefreshPropertiesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PutDataSetRefreshPropertiesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PreconditionNotMetException" : self = .preconditionNotMetException(try PreconditionNotMetException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum PutDataSetRefreshPropertiesOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case preconditionNotMetException(PreconditionNotMetException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutDataSetRefreshPropertiesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: PutDataSetRefreshPropertiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.requestId = output.requestId
+        } else {
+            self.requestId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct PutDataSetRefreshPropertiesOutputResponse: Swift.Equatable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init (
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+struct PutDataSetRefreshPropertiesOutputResponseBody: Swift.Equatable {
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension PutDataSetRefreshPropertiesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestId = "RequestId"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
 extension QuickSightClientTypes.QueueInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case queuedIngestion = "QueuedIngestion"
@@ -49120,6 +50349,249 @@ extension QuickSightClientTypes {
             self = ReferenceLineValueLabelRelativePosition(rawValue: rawValue) ?? ReferenceLineValueLabelRelativePosition.sdkUnknown(rawValue)
         }
     }
+}
+
+extension QuickSightClientTypes.RefreshConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case incrementalRefresh = "IncrementalRefresh"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let incrementalRefresh = self.incrementalRefresh {
+            try encodeContainer.encode(incrementalRefresh, forKey: .incrementalRefresh)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let incrementalRefreshDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.IncrementalRefresh.self, forKey: .incrementalRefresh)
+        incrementalRefresh = incrementalRefreshDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The refresh configuration of a dataset.
+    public struct RefreshConfiguration: Swift.Equatable {
+        /// The incremental refresh for the dataset.
+        /// This member is required.
+        public var incrementalRefresh: QuickSightClientTypes.IncrementalRefresh?
+
+        public init (
+            incrementalRefresh: QuickSightClientTypes.IncrementalRefresh? = nil
+        )
+        {
+            self.incrementalRefresh = incrementalRefresh
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.RefreshFrequency: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case interval = "Interval"
+        case refreshOnDay = "RefreshOnDay"
+        case timeOfTheDay = "TimeOfTheDay"
+        case timezone = "Timezone"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let interval = self.interval {
+            try encodeContainer.encode(interval.rawValue, forKey: .interval)
+        }
+        if let refreshOnDay = self.refreshOnDay {
+            try encodeContainer.encode(refreshOnDay, forKey: .refreshOnDay)
+        }
+        if let timeOfTheDay = self.timeOfTheDay {
+            try encodeContainer.encode(timeOfTheDay, forKey: .timeOfTheDay)
+        }
+        if let timezone = self.timezone {
+            try encodeContainer.encode(timezone, forKey: .timezone)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let intervalDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RefreshInterval.self, forKey: .interval)
+        interval = intervalDecoded
+        let refreshOnDayDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ScheduleRefreshOnEntity.self, forKey: .refreshOnDay)
+        refreshOnDay = refreshOnDayDecoded
+        let timezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timezone)
+        timezone = timezoneDecoded
+        let timeOfTheDayDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timeOfTheDay)
+        timeOfTheDay = timeOfTheDayDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// Specifies the interval between each scheduled refresh of a dataset.
+    public struct RefreshFrequency: Swift.Equatable {
+        /// The interval between scheduled refreshes. Valid values are as follows:
+        ///
+        /// * MINUTE15: The dataset refreshes every 15 minutes. This value is only supported for incremental refreshes. This interval can only be used for one schedule per dataset.
+        ///
+        /// * MINUTE30:The dataset refreshes every 30 minutes. This value is only supported for incremental refreshes. This interval can only be used for one schedule per dataset.
+        ///
+        /// * HOURLY: The dataset refreshes every hour. This interval can only be used for one schedule per dataset.
+        ///
+        /// * DAILY: The dataset refreshes every day.
+        ///
+        /// * WEEKLY: The dataset refreshes every week.
+        ///
+        /// * MONTHLY: The dataset refreshes every month.
+        /// This member is required.
+        public var interval: QuickSightClientTypes.RefreshInterval?
+        /// The day of the week that you want to schedule the refresh on. This value is required for weekly and monthly refresh intervals.
+        public var refreshOnDay: QuickSightClientTypes.ScheduleRefreshOnEntity?
+        /// The time of day that you want the datset to refresh. This value is expressed in HH:MM format. This field is not required for schedules that refresh hourly.
+        public var timeOfTheDay: Swift.String?
+        /// The timezone that you want the refresh schedule to use. The timezone ID must match a corresponding ID found on java.util.time.getAvailableIDs().
+        public var timezone: Swift.String?
+
+        public init (
+            interval: QuickSightClientTypes.RefreshInterval? = nil,
+            refreshOnDay: QuickSightClientTypes.ScheduleRefreshOnEntity? = nil,
+            timeOfTheDay: Swift.String? = nil,
+            timezone: Swift.String? = nil
+        )
+        {
+            self.interval = interval
+            self.refreshOnDay = refreshOnDay
+            self.timeOfTheDay = timeOfTheDay
+            self.timezone = timezone
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum RefreshInterval: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case daily
+        case hourly
+        case minute15
+        case minute30
+        case monthly
+        case weekly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RefreshInterval] {
+            return [
+                .daily,
+                .hourly,
+                .minute15,
+                .minute30,
+                .monthly,
+                .weekly,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .daily: return "DAILY"
+            case .hourly: return "HOURLY"
+            case .minute15: return "MINUTE15"
+            case .minute30: return "MINUTE30"
+            case .monthly: return "MONTHLY"
+            case .weekly: return "WEEKLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RefreshInterval(rawValue: rawValue) ?? RefreshInterval.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.RefreshSchedule: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case refreshType = "RefreshType"
+        case scheduleFrequency = "ScheduleFrequency"
+        case scheduleId = "ScheduleId"
+        case startAfterDateTime = "StartAfterDateTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let refreshType = self.refreshType {
+            try encodeContainer.encode(refreshType.rawValue, forKey: .refreshType)
+        }
+        if let scheduleFrequency = self.scheduleFrequency {
+            try encodeContainer.encode(scheduleFrequency, forKey: .scheduleFrequency)
+        }
+        if let scheduleId = self.scheduleId {
+            try encodeContainer.encode(scheduleId, forKey: .scheduleId)
+        }
+        if let startAfterDateTime = self.startAfterDateTime {
+            try encodeContainer.encodeTimestamp(startAfterDateTime, format: .epochSeconds, forKey: .startAfterDateTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scheduleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleId)
+        scheduleId = scheduleIdDecoded
+        let scheduleFrequencyDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RefreshFrequency.self, forKey: .scheduleFrequency)
+        scheduleFrequency = scheduleFrequencyDecoded
+        let startAfterDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startAfterDateTime)
+        startAfterDateTime = startAfterDateTimeDecoded
+        let refreshTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.IngestionType.self, forKey: .refreshType)
+        refreshType = refreshTypeDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The refresh schedule of a dataset.
+    public struct RefreshSchedule: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) for the refresh schedule.
+        public var arn: Swift.String?
+        /// The type of refresh that a datset undergoes. Valid values are as follows:
+        ///
+        /// * FULL_REFRESH: A complete refresh of a dataset.
+        ///
+        /// * INCREMENTAL_REFRESH: A partial refresh of some rows of a dataset, based on the time window specified.
+        ///
+        ///
+        /// For more information on full and incremental refreshes, see [Refreshing SPICE data](https://docs.aws.amazon.com/quicksight/latest/user/refreshing-imported-data.html) in the Amazon QuickSight User Guide.
+        /// This member is required.
+        public var refreshType: QuickSightClientTypes.IngestionType?
+        /// The frequency for the refresh schedule.
+        /// This member is required.
+        public var scheduleFrequency: QuickSightClientTypes.RefreshFrequency?
+        /// An identifier for the refresh schedule.
+        /// This member is required.
+        public var scheduleId: Swift.String?
+        /// Time after which the refresh schedule can be started, expressed in YYYY-MM-DDTHH:MM:SS format.
+        public var startAfterDateTime: ClientRuntime.Date?
+
+        public init (
+            arn: Swift.String? = nil,
+            refreshType: QuickSightClientTypes.IngestionType? = nil,
+            scheduleFrequency: QuickSightClientTypes.RefreshFrequency? = nil,
+            scheduleId: Swift.String? = nil,
+            startAfterDateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.arn = arn
+            self.refreshType = refreshType
+            self.scheduleFrequency = scheduleFrequency
+            self.scheduleId = scheduleId
+            self.startAfterDateTime = startAfterDateTime
+        }
+    }
+
 }
 
 extension RegisterUserInput: Swift.Encodable {
@@ -50968,6 +52440,7 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.RowLevelPermissionTagConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case status = "Status"
+        case tagRuleConfigurations = "TagRuleConfigurations"
         case tagRules = "TagRules"
     }
 
@@ -50975,6 +52448,15 @@ extension QuickSightClientTypes.RowLevelPermissionTagConfiguration: Swift.Codabl
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let tagRuleConfigurations = tagRuleConfigurations {
+            var tagRuleConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagRuleConfigurations)
+            for rowlevelpermissiontagruleconfiguration0 in tagRuleConfigurations {
+                var rowlevelpermissiontagruleconfiguration0Container = tagRuleConfigurationsContainer.nestedUnkeyedContainer()
+                for sessiontagkey1 in rowlevelpermissiontagruleconfiguration0 {
+                    try rowlevelpermissiontagruleconfiguration0Container.encode(sessiontagkey1)
+                }
+            }
         }
         if let tagRules = tagRules {
             var tagRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagRules)
@@ -50999,6 +52481,26 @@ extension QuickSightClientTypes.RowLevelPermissionTagConfiguration: Swift.Codabl
             }
         }
         tagRules = tagRulesDecoded0
+        let tagRuleConfigurationsContainer = try containerValues.decodeIfPresent([[Swift.String?]?].self, forKey: .tagRuleConfigurations)
+        var tagRuleConfigurationsDecoded0:[[Swift.String]]? = nil
+        if let tagRuleConfigurationsContainer = tagRuleConfigurationsContainer {
+            tagRuleConfigurationsDecoded0 = [[Swift.String]]()
+            for list0 in tagRuleConfigurationsContainer {
+                var list0Decoded0: [Swift.String]? = nil
+                if let list0 = list0 {
+                    list0Decoded0 = [Swift.String]()
+                    for string1 in list0 {
+                        if let string1 = string1 {
+                            list0Decoded0?.append(string1)
+                        }
+                    }
+                }
+                if let list0Decoded0 = list0Decoded0 {
+                    tagRuleConfigurationsDecoded0?.append(list0Decoded0)
+                }
+            }
+        }
+        tagRuleConfigurations = tagRuleConfigurationsDecoded0
     }
 }
 
@@ -51007,16 +52509,20 @@ extension QuickSightClientTypes {
     public struct RowLevelPermissionTagConfiguration: Swift.Equatable {
         /// The status of row-level security tags. If enabled, the status is ENABLED. If disabled, the status is DISABLED.
         public var status: QuickSightClientTypes.Status?
+        /// A list of tag configuration rules to apply to a dataset. All tag configurations have the OR condition. Tags within each tile will be joined (AND). At least one rule in this structure must have all tag values assigned to it to apply Row-level security (RLS) to the dataset.
+        public var tagRuleConfigurations: [[Swift.String]]?
         /// A set of rules associated with row-level security, such as the tag names and columns that they are assigned to.
         /// This member is required.
         public var tagRules: [QuickSightClientTypes.RowLevelPermissionTagRule]?
 
         public init (
             status: QuickSightClientTypes.Status? = nil,
+            tagRuleConfigurations: [[Swift.String]]? = nil,
             tagRules: [QuickSightClientTypes.RowLevelPermissionTagRule]? = nil
         )
         {
             self.status = status
+            self.tagRuleConfigurations = tagRuleConfigurations
             self.tagRules = tagRules
         }
     }
@@ -52074,6 +53580,51 @@ extension QuickSightClientTypes {
             self.subtitle = subtitle
             self.title = title
             self.visualId = visualId
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.ScheduleRefreshOnEntity: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dayOfMonth = "DayOfMonth"
+        case dayOfWeek = "DayOfWeek"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dayOfMonth = self.dayOfMonth {
+            try encodeContainer.encode(dayOfMonth, forKey: .dayOfMonth)
+        }
+        if let dayOfWeek = self.dayOfWeek {
+            try encodeContainer.encode(dayOfWeek.rawValue, forKey: .dayOfWeek)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dayOfWeekDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DayOfWeek.self, forKey: .dayOfWeek)
+        dayOfWeek = dayOfWeekDecoded
+        let dayOfMonthDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dayOfMonth)
+        dayOfMonth = dayOfMonthDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The refresh on entity for weekly or monthly schedules.
+    public struct ScheduleRefreshOnEntity: Swift.Equatable {
+        /// The day of the month that you want to schedule refresh on.
+        public var dayOfMonth: Swift.String?
+        /// The day of the week that you want to schedule a refresh on.
+        public var dayOfWeek: QuickSightClientTypes.DayOfWeek?
+
+        public init (
+            dayOfMonth: Swift.String? = nil,
+            dayOfWeek: QuickSightClientTypes.DayOfWeek? = nil
+        )
+        {
+            self.dayOfMonth = dayOfMonth
+            self.dayOfWeek = dayOfWeek
         }
     }
 
@@ -65916,6 +67467,174 @@ extension UpdatePublicSharingSettingsOutputResponseBody: Swift.Decodable {
         requestId = requestIdDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
         status = statusDecoded
+    }
+}
+
+extension UpdateRefreshScheduleInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case schedule = "Schedule"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let schedule = self.schedule {
+            try encodeContainer.encode(schedule, forKey: .schedule)
+        }
+    }
+}
+
+extension UpdateRefreshScheduleInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let dataSetId = dataSetId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sets/\(dataSetId.urlPercentEncoding())/refresh-schedules"
+    }
+}
+
+public struct UpdateRefreshScheduleInput: Swift.Equatable {
+    /// The Amazon Web Services account ID.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the dataset.
+    /// This member is required.
+    public var dataSetId: Swift.String?
+    /// The refresh schedule.
+    /// This member is required.
+    public var schedule: QuickSightClientTypes.RefreshSchedule?
+
+    public init (
+        awsAccountId: Swift.String? = nil,
+        dataSetId: Swift.String? = nil,
+        schedule: QuickSightClientTypes.RefreshSchedule? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.dataSetId = dataSetId
+        self.schedule = schedule
+    }
+}
+
+struct UpdateRefreshScheduleInputBody: Swift.Equatable {
+    let schedule: QuickSightClientTypes.RefreshSchedule?
+}
+
+extension UpdateRefreshScheduleInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case schedule = "Schedule"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scheduleDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RefreshSchedule.self, forKey: .schedule)
+        schedule = scheduleDecoded
+    }
+}
+
+extension UpdateRefreshScheduleOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateRefreshScheduleOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalFailureException" : self = .internalFailureException(try InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "PreconditionNotMetException" : self = .preconditionNotMetException(try PreconditionNotMetException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateRefreshScheduleOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalFailureException(InternalFailureException)
+    case invalidParameterValueException(InvalidParameterValueException)
+    case limitExceededException(LimitExceededException)
+    case preconditionNotMetException(PreconditionNotMetException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateRefreshScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateRefreshScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.requestId = output.requestId
+            self.scheduleId = output.scheduleId
+        } else {
+            self.arn = nil
+            self.requestId = nil
+            self.scheduleId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct UpdateRefreshScheduleOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the refresh schedule.
+    public var arn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The ID of the refresh schedule.
+    public var scheduleId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init (
+        arn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        scheduleId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.arn = arn
+        self.requestId = requestId
+        self.scheduleId = scheduleId
+        self.status = status
+    }
+}
+
+struct UpdateRefreshScheduleOutputResponseBody: Swift.Equatable {
+    let status: Swift.Int
+    let requestId: Swift.String?
+    let scheduleId: Swift.String?
+    let arn: Swift.String?
+}
+
+extension UpdateRefreshScheduleOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case requestId = "RequestId"
+        case scheduleId = "ScheduleId"
+        case status = "Status"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let scheduleIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleId)
+        scheduleId = scheduleIdDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
     }
 }
 

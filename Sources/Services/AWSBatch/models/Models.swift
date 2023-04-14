@@ -1766,7 +1766,7 @@ extension BatchClientTypes {
         public var containerInstanceArn: Swift.String?
         /// The environment variables to pass to a container. Environment variables cannot start with "AWS_BATCH". This naming convention is reserved for variables that Batch sets.
         public var environment: [BatchClientTypes.KeyValuePair]?
-        /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate.
+        /// The amount of ephemeral storage allocated for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate.
         public var ephemeralStorage: BatchClientTypes.EphemeralStorage?
         /// The Amazon Resource Name (ARN) of the execution role that Batch can assume. For more information, see [Batch execution IAM role](https://docs.aws.amazon.com/batch/latest/userguide/execution-IAM-role.html) in the Batch User Guide.
         public var executionRoleArn: Swift.String?
@@ -5448,7 +5448,9 @@ extension BatchClientTypes.EksMetadata: Swift.Codable {
 }
 
 extension BatchClientTypes {
+    /// Describes and uniquely identifies Kubernetes resources. For example, the compute environment that a pod runs in or the jobID for a job running in the pod. For more information, see [Understanding Kubernetes Objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/) in the Kubernetes documentation.
     public struct EksMetadata: Swift.Equatable {
+        /// Key-value pairs used to identify, sort, and organize cube resources. Can contain up to 63 uppercase letters, lowercase letters, numbers, hyphens (-), and underscores (_). Labels can be added or modified at any time. Each resource can have multiple labels, but each key must be unique for a given object.
         public var labels: [Swift.String:Swift.String]?
 
         public init (
@@ -5543,6 +5545,7 @@ extension BatchClientTypes {
         public var dnsPolicy: Swift.String?
         /// Indicates if the pod uses the hosts' network IP address. The default value is true. Setting this to false enables the Kubernetes pod networking model. Most Batch workloads are egress-only and don't require the overhead of IP allocation for each pod for incoming connections. For more information, see [Host namespaces](https://kubernetes.io/docs/concepts/security/pod-security-policy/#host-namespaces) and [Pod networking](https://kubernetes.io/docs/concepts/workloads/pods/#pod-networking) in the Kubernetes documentation.
         public var hostNetwork: Swift.Bool?
+        /// Metadata about the Kubernetes pod. For more information, see [Understanding Kubernetes Objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/) in the Kubernetes documentation.
         public var metadata: BatchClientTypes.EksMetadata?
         /// The name of the service account that's used to run the pod. For more information, see [Kubernetes service accounts](https://docs.aws.amazon.com/eks/latest/userguide/service-accounts.html) and [Configure a Kubernetes service account to assume an IAM role](https://docs.aws.amazon.com/eks/latest/userguide/associate-service-account-role.html) in the Amazon EKS User Guide and [Configure service accounts for pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) in the Kubernetes documentation.
         public var serviceAccountName: Swift.String?
@@ -5574,6 +5577,7 @@ extension BatchClientTypes.EksPodPropertiesDetail: Swift.Codable {
         case containers
         case dnsPolicy
         case hostNetwork
+        case metadata
         case nodeName
         case podName
         case serviceAccountName
@@ -5593,6 +5597,9 @@ extension BatchClientTypes.EksPodPropertiesDetail: Swift.Codable {
         }
         if let hostNetwork = self.hostNetwork {
             try encodeContainer.encode(hostNetwork, forKey: .hostNetwork)
+        }
+        if let metadata = self.metadata {
+            try encodeContainer.encode(metadata, forKey: .metadata)
         }
         if let nodeName = self.nodeName {
             try encodeContainer.encode(nodeName, forKey: .nodeName)
@@ -5645,6 +5652,8 @@ extension BatchClientTypes.EksPodPropertiesDetail: Swift.Codable {
         podName = podNameDecoded
         let nodeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeName)
         nodeName = nodeNameDecoded
+        let metadataDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EksMetadata.self, forKey: .metadata)
+        metadata = metadataDecoded
     }
 }
 
@@ -5657,6 +5666,8 @@ extension BatchClientTypes {
         public var dnsPolicy: Swift.String?
         /// Indicates if the pod uses the hosts' network IP address. The default value is true. Setting this to false enables the Kubernetes pod networking model. Most Batch workloads are egress-only and don't require the overhead of IP allocation for each pod for incoming connections. For more information, see [Host namespaces](https://kubernetes.io/docs/concepts/security/pod-security-policy/#host-namespaces) and [Pod networking](https://kubernetes.io/docs/concepts/workloads/pods/#pod-networking) in the Kubernetes documentation.
         public var hostNetwork: Swift.Bool?
+        /// Describes and uniquely identifies Kubernetes resources. For example, the compute environment that a pod runs in or the jobID for a job running in the pod. For more information, see [Understanding Kubernetes Objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/) in the Kubernetes documentation.
+        public var metadata: BatchClientTypes.EksMetadata?
         /// The name of the node for this job.
         public var nodeName: Swift.String?
         /// The name of the pod for this job.
@@ -5670,6 +5681,7 @@ extension BatchClientTypes {
             containers: [BatchClientTypes.EksContainerDetail]? = nil,
             dnsPolicy: Swift.String? = nil,
             hostNetwork: Swift.Bool? = nil,
+            metadata: BatchClientTypes.EksMetadata? = nil,
             nodeName: Swift.String? = nil,
             podName: Swift.String? = nil,
             serviceAccountName: Swift.String? = nil,
@@ -5679,6 +5691,7 @@ extension BatchClientTypes {
             self.containers = containers
             self.dnsPolicy = dnsPolicy
             self.hostNetwork = hostNetwork
+            self.metadata = metadata
             self.nodeName = nodeName
             self.podName = podName
             self.serviceAccountName = serviceAccountName
@@ -5730,6 +5743,7 @@ extension BatchClientTypes {
     public struct EksPodPropertiesOverride: Swift.Equatable {
         /// The overrides for the container that's used on the Amazon EKS pod.
         public var containers: [BatchClientTypes.EksContainerOverride]?
+        /// Metadata about the overrides for the container that's used on the Amazon EKS pod.
         public var metadata: BatchClientTypes.EksMetadata?
 
         public init (

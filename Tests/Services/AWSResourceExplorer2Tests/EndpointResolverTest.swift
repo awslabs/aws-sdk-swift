@@ -185,4 +185,20 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
+    /// Missing region
+    func testResolve10() throws {
+        let endpointParams = EndpointParams(
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: Missing Region", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
 }

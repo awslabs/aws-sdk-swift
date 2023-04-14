@@ -171,7 +171,7 @@ extension IdentitystoreClientTypes.AlternateIdentifier: Swift.Codable {
 }
 
 extension IdentitystoreClientTypes {
-    /// A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute. For example, a unique GroupDisplayName.
+    /// A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute.
     public enum AlternateIdentifier: Swift.Equatable {
         /// The identifier issued to this resource by an external identity provider.
         case externalid(IdentitystoreClientTypes.ExternalId)
@@ -375,7 +375,7 @@ extension CreateGroupInput: ClientRuntime.URLPathProvider {
 public struct CreateGroupInput: Swift.Equatable {
     /// A string containing the description of the group.
     public var description: Swift.String?
-    /// A string containing the name of the group. This value is commonly displayed when the group is referenced.
+    /// A string containing the name of the group. This value is commonly displayed when the group is referenced. "Administrator" and "AWSAdministrators" are reserved names and can't be used for users or groups.
     public var displayName: Swift.String?
     /// The globally unique identifier for the identity store.
     /// This member is required.
@@ -741,16 +741,16 @@ extension CreateUserInput: ClientRuntime.URLPathProvider {
 public struct CreateUserInput: Swift.Equatable {
     /// A list of Address objects containing addresses associated with the user.
     public var addresses: [IdentitystoreClientTypes.Address]?
-    /// A string containing the user's name. This value is typically formatted for display when the user is referenced. For example, "John Doe."
+    /// A string containing the name of the user. This value is typically formatted for display when the user is referenced. For example, "John Doe."
     public var displayName: Swift.String?
     /// A list of Email objects containing email addresses associated with the user.
     public var emails: [IdentitystoreClientTypes.Email]?
     /// The globally unique identifier for the identity store.
     /// This member is required.
     public var identityStoreId: Swift.String?
-    /// A string containing the user's geographical region or location.
+    /// A string containing the geographical region or location of the user.
     public var locale: Swift.String?
-    /// An object containing the user's name.
+    /// An object containing the name of the user.
     public var name: IdentitystoreClientTypes.Name?
     /// A string containing an alternate name for the user.
     public var nickName: Swift.String?
@@ -758,15 +758,15 @@ public struct CreateUserInput: Swift.Equatable {
     public var phoneNumbers: [IdentitystoreClientTypes.PhoneNumber]?
     /// A string containing the preferred language of the user. For example, "American English" or "en-us."
     public var preferredLanguage: Swift.String?
-    /// A string containing a URL that may be associated with the user.
+    /// A string containing a URL that might be associated with the user.
     public var profileUrl: Swift.String?
-    /// A string containing the user's time zone.
+    /// A string containing the time zone of the user.
     public var timezone: Swift.String?
-    /// A string containing the user's title. Possible values are left unspecified given that they depend on each customer's specific needs.
+    /// A string containing the title of the user. Possible values are left unspecified. The value can vary based on your specific use case.
     public var title: Swift.String?
-    /// A unique string used to identify the user. The length limit is 128 characters. This value can consist of letters, accented characters, symbols, numbers, and punctuation. This value is specified at the time the user is created and stored as an attribute of the user object in the identity store.
+    /// A unique string used to identify the user. The length limit is 128 characters. This value can consist of letters, accented characters, symbols, numbers, and punctuation. This value is specified at the time the user is created and stored as an attribute of the user object in the identity store. "Administrator" and "AWSAdministrators" are reserved names and can't be used for users or groups.
     public var userName: Swift.String?
-    /// A string indicating the user's type. Possible values depend on each customer's specific needs, so they are left unspecified.
+    /// A string indicating the type of user. Possible values are left unspecified. The value can vary based on your specific use case.
     public var userType: Swift.String?
 
     public init (
@@ -1746,18 +1746,18 @@ extension DescribeUserOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DescribeUserOutputResponse: Swift.Equatable {
-    /// The user's physical address.
+    /// The physical address of the user.
     public var addresses: [IdentitystoreClientTypes.Address]?
-    /// The user's name value for display.
+    /// The display name of the user.
     public var displayName: Swift.String?
-    /// The user's email value.
+    /// The email address of the user.
     public var emails: [IdentitystoreClientTypes.Email]?
     /// A list of ExternalId objects that contains the identifiers issued to this resource by an external identity provider.
     public var externalIds: [IdentitystoreClientTypes.ExternalId]?
     /// The globally unique identifier for the identity store.
     /// This member is required.
     public var identityStoreId: Swift.String?
-    /// A string containing the user's geographical region or location.
+    /// A string containing the geographical region or location of the user.
     public var locale: Swift.String?
     /// The name of the user.
     public var name: IdentitystoreClientTypes.Name?
@@ -1771,14 +1771,14 @@ public struct DescribeUserOutputResponse: Swift.Equatable {
     public var profileUrl: Swift.String?
     /// The time zone for a user.
     public var timezone: Swift.String?
-    /// A string containing the user's title.
+    /// A string containing the title of the user.
     public var title: Swift.String?
     /// The identifier for a user in the identity store.
     /// This member is required.
     public var userId: Swift.String?
     /// A unique string used to identify the user. The length limit is 128 characters. This value can consist of letters, accented characters, symbols, numbers, and punctuation. This value is specified at the time the user is created and stored as an attribute of the user object in the identity store.
     public var userName: Swift.String?
-    /// A string indicating the user's type.
+    /// A string indicating the type of user.
     public var userType: Swift.String?
 
     public init (
@@ -2119,7 +2119,7 @@ extension GetGroupIdInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetGroupIdInput: Swift.Equatable {
-    /// A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute. For example, a unique GroupDisplayName.
+    /// A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute. For the unique attribute, the only valid path is displayName.
     /// This member is required.
     public var alternateIdentifier: IdentitystoreClientTypes.AlternateIdentifier?
     /// The globally unique identifier for the identity store.
@@ -2408,7 +2408,7 @@ extension GetUserIdInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetUserIdInput: Swift.Equatable {
-    /// A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute. For example, a unique UserDisplayName.
+    /// A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute. For the unique attribute, the only valid paths are userName and emails.value.
     /// This member is required.
     public var alternateIdentifier: IdentitystoreClientTypes.AlternateIdentifier?
     /// The globally unique identifier for the identity store.
@@ -2583,11 +2583,11 @@ extension IdentitystoreClientTypes.Group: Swift.CustomDebugStringConvertible {
 }
 
 extension IdentitystoreClientTypes {
-    /// A group object that contains a specified group’s metadata and attributes.
+    /// A group object that contains the metadata and attributes for a specified group.
     public struct Group: Swift.Equatable {
         /// A string containing a description of the specified group.
         public var description: Swift.String?
-        /// The group’s display name value. The length limit is 1,024 characters. This value can consist of letters, accented characters, symbols, numbers, punctuation, tab, new line, carriage return, space, and nonbreaking space in this attribute. This value is specified at the time the group is created and stored as an attribute of the group object in the identity store.
+        /// The display name value for the group. The length limit is 1,024 characters. This value can consist of letters, accented characters, symbols, numbers, punctuation, tab, new line, carriage return, space, and nonbreaking space in this attribute. This value is specified at the time the group is created and stored as an attribute of the group object in the identity store.
         public var displayName: Swift.String?
         /// A list of ExternalId objects that contains the identifiers issued to this resource by an external identity provider.
         public var externalIds: [IdentitystoreClientTypes.ExternalId]?
@@ -2754,7 +2754,7 @@ public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swi
     public var message: Swift.String?
     /// The identifier for each request. This value is a globally unique ID that is generated by the identity store service for each sent request, and is then returned inside the exception if the request fails.
     public var requestId: Swift.String?
-    /// The number of seconds that you would like to wait before retrying the next request.
+    /// The number of seconds to wait before retrying the next request.
     public var retryAfterSeconds: Swift.Int
 
     public init (
@@ -4015,7 +4015,7 @@ public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var message: Swift.String?
     /// The identifier for each request. This value is a globally unique ID that is generated by the identity store service for each sent request, and is then returned inside the exception if the request fails.
     public var requestId: Swift.String?
-    /// The number of seconds that you would like to wait before retrying the next request.
+    /// The number of seconds to wait before retrying the next request.
     public var retryAfterSeconds: Swift.Int
 
     public init (
@@ -4488,11 +4488,11 @@ extension IdentitystoreClientTypes.User: Swift.CustomDebugStringConvertible {
 }
 
 extension IdentitystoreClientTypes {
-    /// A user object that contains a specified user’s metadata and attributes.
+    /// A user object that contains the metadata and attributes for a specified user.
     public struct User: Swift.Equatable {
         /// A list of Address objects containing addresses associated with the user.
         public var addresses: [IdentitystoreClientTypes.Address]?
-        /// A string containing the user's name that's formatted for display when the user is referenced. For example, "John Doe."
+        /// A string containing the name of the user that is formatted for display when the user is referenced. For example, "John Doe."
         public var displayName: Swift.String?
         /// A list of Email objects containing email addresses associated with the user.
         public var emails: [IdentitystoreClientTypes.Email]?
@@ -4501,9 +4501,9 @@ extension IdentitystoreClientTypes {
         /// The globally unique identifier for the identity store.
         /// This member is required.
         public var identityStoreId: Swift.String?
-        /// A string containing the user's geographical region or location.
+        /// A string containing the geographical region or location of the user.
         public var locale: Swift.String?
-        /// An object containing the user's name.
+        /// An object containing the name of the user.
         public var name: IdentitystoreClientTypes.Name?
         /// A string containing an alternate name for the user.
         public var nickName: Swift.String?
@@ -4511,18 +4511,18 @@ extension IdentitystoreClientTypes {
         public var phoneNumbers: [IdentitystoreClientTypes.PhoneNumber]?
         /// A string containing the preferred language of the user. For example, "American English" or "en-us."
         public var preferredLanguage: Swift.String?
-        /// A string containing a URL that may be associated with the user.
+        /// A string containing a URL that might be associated with the user.
         public var profileUrl: Swift.String?
-        /// A string containing the user's time zone.
+        /// A string containing the time zone of the user.
         public var timezone: Swift.String?
-        /// A string containing the user's title. Possible values depend on each customer's specific needs, so they are left unspecified.
+        /// A string containing the title of the user. Possible values are left unspecified. The value can vary based on your specific use case.
         public var title: Swift.String?
         /// The identifier for a user in the identity store.
         /// This member is required.
         public var userId: Swift.String?
         /// A unique string used to identify the user. The length limit is 128 characters. This value can consist of letters, accented characters, symbols, numbers, and punctuation. This value is specified at the time the user is created and stored as an attribute of the user object in the identity store.
         public var userName: Swift.String?
-        /// A string indicating the user's type. Possible values depend on each customer's specific needs, so they are left unspecified.
+        /// A string indicating the type of user. Possible values are left unspecified. The value can vary based on your specific use case.
         public var userType: Swift.String?
 
         public init (

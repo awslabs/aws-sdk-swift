@@ -10658,7 +10658,7 @@ extension DocDBClientTypes {
         public var globalClusterIdentifier: Swift.String?
         /// The list of cluster IDs for secondary clusters within the global cluster. Currently limited to one item.
         public var globalClusterMembers: [DocDBClientTypes.GlobalClusterMember]?
-        /// The Amazon Web Services Region-unique, immutable identifier for the global database cluster. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS customer master key (CMK) for the cluster is accessed.
+        /// The Amazon Web Services Region-unique, immutable identifier for the global database cluster. This identifier is found in CloudTrail log entries whenever the KMS customer master key (CMK) for the cluster is accessed.
         public var globalClusterResourceId: Swift.String?
         /// Specifies the current state of this global cluster.
         public var status: Swift.String?
@@ -14824,6 +14824,9 @@ extension RestoreDBClusterFromSnapshotInput: Swift.Encodable {
         if let dbClusterIdentifier = dbClusterIdentifier {
             try container.encode(dbClusterIdentifier, forKey: ClientRuntime.Key("DBClusterIdentifier"))
         }
+        if let dbClusterParameterGroupName = dbClusterParameterGroupName {
+            try container.encode(dbClusterParameterGroupName, forKey: ClientRuntime.Key("DBClusterParameterGroupName"))
+        }
         if let dbSubnetGroupName = dbSubnetGroupName {
             try container.encode(dbSubnetGroupName, forKey: ClientRuntime.Key("DBSubnetGroupName"))
         }
@@ -14908,6 +14911,8 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Equatable {
     /// Example: my-snapshot-id
     /// This member is required.
     public var dbClusterIdentifier: Swift.String?
+    /// The name of the DB cluster parameter group to associate with this DB cluster. Type: String. Required: No. If this argument is omitted, the default DB cluster parameter group is used. If supplied, must match the name of an existing default DB cluster parameter group. The string must consist of from 1 to 255 letters, numbers or hyphens. Its first character must be a letter, and it cannot end with a hyphen or contain two consecutive hyphens.
+    public var dbClusterParameterGroupName: Swift.String?
     /// The name of the subnet group to use for the new cluster. Constraints: If provided, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup
     public var dbSubnetGroupName: Swift.String?
     /// Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
@@ -14940,6 +14945,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Equatable {
     public init (
         availabilityZones: [Swift.String]? = nil,
         dbClusterIdentifier: Swift.String? = nil,
+        dbClusterParameterGroupName: Swift.String? = nil,
         dbSubnetGroupName: Swift.String? = nil,
         deletionProtection: Swift.Bool? = nil,
         enableCloudwatchLogsExports: [Swift.String]? = nil,
@@ -14954,6 +14960,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Equatable {
     {
         self.availabilityZones = availabilityZones
         self.dbClusterIdentifier = dbClusterIdentifier
+        self.dbClusterParameterGroupName = dbClusterParameterGroupName
         self.dbSubnetGroupName = dbSubnetGroupName
         self.deletionProtection = deletionProtection
         self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
@@ -14980,12 +14987,14 @@ struct RestoreDBClusterFromSnapshotInputBody: Swift.Equatable {
     let kmsKeyId: Swift.String?
     let enableCloudwatchLogsExports: [Swift.String]?
     let deletionProtection: Swift.Bool?
+    let dbClusterParameterGroupName: Swift.String?
 }
 
 extension RestoreDBClusterFromSnapshotInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case availabilityZones = "AvailabilityZones"
         case dbClusterIdentifier = "DBClusterIdentifier"
+        case dbClusterParameterGroupName = "DBClusterParameterGroupName"
         case dbSubnetGroupName = "DBSubnetGroupName"
         case deletionProtection = "DeletionProtection"
         case enableCloudwatchLogsExports = "EnableCloudwatchLogsExports"
@@ -15092,6 +15101,8 @@ extension RestoreDBClusterFromSnapshotInputBody: Swift.Decodable {
         }
         let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection)
         deletionProtection = deletionProtectionDecoded
+        let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
+        dbClusterParameterGroupName = dbClusterParameterGroupNameDecoded
     }
 }
 
@@ -15309,7 +15320,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
     /// * copy-on-write - The new DB cluster is restored as a clone of the source DB cluster.
     ///
     ///
-    /// If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster.
+    /// Constraints: You can't specify copy-on-write if the engine version of the source DB cluster is earlier than 1.11. If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster.
     public var restoreType: Swift.String?
     /// The identifier of the source cluster from which to restore. Constraints:
     ///

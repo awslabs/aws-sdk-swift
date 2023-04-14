@@ -74,7 +74,7 @@ extension AcceptPageInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AcceptPageInput: Swift.Equatable {
-    /// The accept code is a 6-digit code used to acknowledge the page.
+    /// A 6-digit code used to acknowledge the page.
     /// This member is required.
     public var acceptCode: Swift.String?
     /// An optional field that Incident Manager uses to ENFORCEAcceptCode validation when acknowledging an page. Acknowledgement can occur by replying to a page, or when entering the AcceptCode in the console. Enforcing AcceptCode validation causes Incident Manager to verify that the code entered by the user matches the code sent by Incident Manager with the page. Incident Manager can also IGNOREAcceptCode validation. Ignoring AcceptCode validation causes Incident Manager to accept any value entered for the AcceptCode.
@@ -489,10 +489,12 @@ extension ConflictException {
             let responseDecoder = decoder {
             let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.dependentEntities = output.dependentEntities
             self.message = output.message
             self.resourceId = output.resourceId
             self.resourceType = output.resourceType
         } else {
+            self.dependentEntities = nil
             self.message = nil
             self.resourceId = nil
             self.resourceType = nil
@@ -513,21 +515,25 @@ public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equ
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// List of dependent entities containing information on relation type and resourceArns linked to the resource in use
+    public var dependentEntities: [SSMContactsClientTypes.DependentEntity]?
     /// This member is required.
     public var message: Swift.String?
     /// Identifier of the resource in use
     /// This member is required.
     public var resourceId: Swift.String?
-    /// ype of the resource in use
+    /// Type of the resource in use
     /// This member is required.
     public var resourceType: Swift.String?
 
     public init (
+        dependentEntities: [SSMContactsClientTypes.DependentEntity]? = nil,
         message: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
     )
     {
+        self.dependentEntities = dependentEntities
         self.message = message
         self.resourceId = resourceId
         self.resourceType = resourceType
@@ -538,10 +544,12 @@ struct ConflictExceptionBody: Swift.Equatable {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
+    let dependentEntities: [SSMContactsClientTypes.DependentEntity]?
 }
 
 extension ConflictExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dependentEntities = "DependentEntities"
         case message = "Message"
         case resourceId = "ResourceId"
         case resourceType = "ResourceType"
@@ -555,6 +563,17 @@ extension ConflictExceptionBody: Swift.Decodable {
         resourceId = resourceIdDecoded
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
+        let dependentEntitiesContainer = try containerValues.decodeIfPresent([SSMContactsClientTypes.DependentEntity?].self, forKey: .dependentEntities)
+        var dependentEntitiesDecoded0:[SSMContactsClientTypes.DependentEntity]? = nil
+        if let dependentEntitiesContainer = dependentEntitiesContainer {
+            dependentEntitiesDecoded0 = [SSMContactsClientTypes.DependentEntity]()
+            for structure0 in dependentEntitiesContainer {
+                if let structure0 = structure0 {
+                    dependentEntitiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        dependentEntities = dependentEntitiesDecoded0
     }
 }
 
@@ -812,12 +831,14 @@ extension SSMContactsClientTypes {
 extension SSMContactsClientTypes {
     public enum ContactType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case escalation
+        case oncallSchedule
         case personal
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ContactType] {
             return [
                 .escalation,
+                .oncallSchedule,
                 .personal,
                 .sdkUnknown("")
             ]
@@ -829,6 +850,7 @@ extension SSMContactsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .escalation: return "ESCALATION"
+            case .oncallSchedule: return "ONCALL_SCHEDULE"
             case .personal: return "PERSONAL"
             case let .sdkUnknown(s): return s
             }
@@ -839,6 +861,51 @@ extension SSMContactsClientTypes {
             self = ContactType(rawValue: rawValue) ?? ContactType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension SSMContactsClientTypes.CoverageTime: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case end = "End"
+        case start = "Start"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let end = self.end {
+            try encodeContainer.encode(end, forKey: .end)
+        }
+        if let start = self.start {
+            try encodeContainer.encode(start, forKey: .start)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startDecoded = try containerValues.decodeIfPresent(SSMContactsClientTypes.HandOffTime.self, forKey: .start)
+        start = startDecoded
+        let endDecoded = try containerValues.decodeIfPresent(SSMContactsClientTypes.HandOffTime.self, forKey: .end)
+        end = endDecoded
+    }
+}
+
+extension SSMContactsClientTypes {
+    /// Information about when an on-call shift begins and ends.
+    public struct CoverageTime: Swift.Equatable {
+        /// Information about when the on-call rotation shift ends.
+        public var end: SSMContactsClientTypes.HandOffTime?
+        /// Information about when the on-call rotation shift begins.
+        public var start: SSMContactsClientTypes.HandOffTime?
+
+        public init (
+            end: SSMContactsClientTypes.HandOffTime? = nil,
+            start: SSMContactsClientTypes.HandOffTime? = nil
+        )
+        {
+            self.end = end
+            self.start = start
+        }
+    }
+
 }
 
 extension CreateContactChannelInput: Swift.Encodable {
@@ -1236,6 +1303,412 @@ extension CreateContactOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateRotationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactIds = "ContactIds"
+        case idempotencyToken = "IdempotencyToken"
+        case name = "Name"
+        case recurrence = "Recurrence"
+        case startTime = "StartTime"
+        case tags = "Tags"
+        case timeZoneId = "TimeZoneId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contactIds = contactIds {
+            var contactIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contactIds)
+            for ssmcontactsarn0 in contactIds {
+                try contactIdsContainer.encode(ssmcontactsarn0)
+            }
+        }
+        if let idempotencyToken = self.idempotencyToken {
+            try encodeContainer.encode(idempotencyToken, forKey: .idempotencyToken)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let recurrence = self.recurrence {
+            try encodeContainer.encode(recurrence, forKey: .recurrence)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+        if let timeZoneId = self.timeZoneId {
+            try encodeContainer.encode(timeZoneId, forKey: .timeZoneId)
+        }
+    }
+}
+
+extension CreateRotationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateRotationInput: Swift.Equatable {
+    /// The Amazon Resource Names (ARNs) of the contacts to add to the rotation. The order that you list the contacts in is their shift order in the rotation schedule. To change the order of the contact's shifts, use the [UpdateRotation] operation.
+    /// This member is required.
+    public var contactIds: [Swift.String]?
+    /// A token that ensures that the operation is called only once with the specified details.
+    public var idempotencyToken: Swift.String?
+    /// The name of the rotation.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Information about the rule that specifies when a shift's team members rotate.
+    /// This member is required.
+    public var recurrence: SSMContactsClientTypes.RecurrenceSettings?
+    /// The date and time that the rotation goes into effect.
+    public var startTime: ClientRuntime.Date?
+    /// Optional metadata to assign to the rotation. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For more information, see [Tagging Incident Manager resources](https://docs.aws.amazon.com/incident-manager/latest/userguide/tagging.html) in the Incident Manager User Guide.
+    public var tags: [SSMContactsClientTypes.Tag]?
+    /// The time zone to base the rotation’s activity on in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the [Time Zone Database](https://www.iana.org/time-zones) on the IANA website. Designators for time zones that don’t support Daylight Savings Time rules, such as Pacific Standard Time (PST) and Pacific Daylight Time (PDT), are not supported.
+    /// This member is required.
+    public var timeZoneId: Swift.String?
+
+    public init (
+        contactIds: [Swift.String]? = nil,
+        idempotencyToken: Swift.String? = nil,
+        name: Swift.String? = nil,
+        recurrence: SSMContactsClientTypes.RecurrenceSettings? = nil,
+        startTime: ClientRuntime.Date? = nil,
+        tags: [SSMContactsClientTypes.Tag]? = nil,
+        timeZoneId: Swift.String? = nil
+    )
+    {
+        self.contactIds = contactIds
+        self.idempotencyToken = idempotencyToken
+        self.name = name
+        self.recurrence = recurrence
+        self.startTime = startTime
+        self.tags = tags
+        self.timeZoneId = timeZoneId
+    }
+}
+
+struct CreateRotationInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let contactIds: [Swift.String]?
+    let startTime: ClientRuntime.Date?
+    let timeZoneId: Swift.String?
+    let recurrence: SSMContactsClientTypes.RecurrenceSettings?
+    let tags: [SSMContactsClientTypes.Tag]?
+    let idempotencyToken: Swift.String?
+}
+
+extension CreateRotationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactIds = "ContactIds"
+        case idempotencyToken = "IdempotencyToken"
+        case name = "Name"
+        case recurrence = "Recurrence"
+        case startTime = "StartTime"
+        case tags = "Tags"
+        case timeZoneId = "TimeZoneId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let contactIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .contactIds)
+        var contactIdsDecoded0:[Swift.String]? = nil
+        if let contactIdsContainer = contactIdsContainer {
+            contactIdsDecoded0 = [Swift.String]()
+            for string0 in contactIdsContainer {
+                if let string0 = string0 {
+                    contactIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        contactIds = contactIdsDecoded0
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let timeZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timeZoneId)
+        timeZoneId = timeZoneIdDecoded
+        let recurrenceDecoded = try containerValues.decodeIfPresent(SSMContactsClientTypes.RecurrenceSettings.self, forKey: .recurrence)
+        recurrence = recurrenceDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([SSMContactsClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[SSMContactsClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [SSMContactsClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let idempotencyTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idempotencyToken)
+        idempotencyToken = idempotencyTokenDecoded
+    }
+}
+
+extension CreateRotationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateRotationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateRotationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateRotationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateRotationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.rotationArn = output.rotationArn
+        } else {
+            self.rotationArn = nil
+        }
+    }
+}
+
+public struct CreateRotationOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the created rotation.
+    /// This member is required.
+    public var rotationArn: Swift.String?
+
+    public init (
+        rotationArn: Swift.String? = nil
+    )
+    {
+        self.rotationArn = rotationArn
+    }
+}
+
+struct CreateRotationOutputResponseBody: Swift.Equatable {
+    let rotationArn: Swift.String?
+}
+
+extension CreateRotationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rotationArn = "RotationArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rotationArn)
+        rotationArn = rotationArnDecoded
+    }
+}
+
+extension CreateRotationOverrideInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime = "EndTime"
+        case idempotencyToken = "IdempotencyToken"
+        case newContactIds = "NewContactIds"
+        case rotationId = "RotationId"
+        case startTime = "StartTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let idempotencyToken = self.idempotencyToken {
+            try encodeContainer.encode(idempotencyToken, forKey: .idempotencyToken)
+        }
+        if let newContactIds = newContactIds {
+            var newContactIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .newContactIds)
+            for ssmcontactsarn0 in newContactIds {
+                try newContactIdsContainer.encode(ssmcontactsarn0)
+            }
+        }
+        if let rotationId = self.rotationId {
+            try encodeContainer.encode(rotationId, forKey: .rotationId)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+    }
+}
+
+extension CreateRotationOverrideInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateRotationOverrideInput: Swift.Equatable {
+    /// The date and time when the override ends.
+    /// This member is required.
+    public var endTime: ClientRuntime.Date?
+    /// A token that ensures that the operation is called only once with the specified details.
+    public var idempotencyToken: Swift.String?
+    /// The Amazon Resource Names (ARNs) of the contacts to replace those in the current on-call rotation with. If you want to include any current team members in the override shift, you must include their ARNs in the new contact ID list.
+    /// This member is required.
+    public var newContactIds: [Swift.String]?
+    /// The Amazon Resource Name (ARN) of the rotation to create an override for.
+    /// This member is required.
+    public var rotationId: Swift.String?
+    /// The date and time when the override goes into effect.
+    /// This member is required.
+    public var startTime: ClientRuntime.Date?
+
+    public init (
+        endTime: ClientRuntime.Date? = nil,
+        idempotencyToken: Swift.String? = nil,
+        newContactIds: [Swift.String]? = nil,
+        rotationId: Swift.String? = nil,
+        startTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.endTime = endTime
+        self.idempotencyToken = idempotencyToken
+        self.newContactIds = newContactIds
+        self.rotationId = rotationId
+        self.startTime = startTime
+    }
+}
+
+struct CreateRotationOverrideInputBody: Swift.Equatable {
+    let rotationId: Swift.String?
+    let newContactIds: [Swift.String]?
+    let startTime: ClientRuntime.Date?
+    let endTime: ClientRuntime.Date?
+    let idempotencyToken: Swift.String?
+}
+
+extension CreateRotationOverrideInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime = "EndTime"
+        case idempotencyToken = "IdempotencyToken"
+        case newContactIds = "NewContactIds"
+        case rotationId = "RotationId"
+        case startTime = "StartTime"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rotationId)
+        rotationId = rotationIdDecoded
+        let newContactIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .newContactIds)
+        var newContactIdsDecoded0:[Swift.String]? = nil
+        if let newContactIdsContainer = newContactIdsContainer {
+            newContactIdsDecoded0 = [Swift.String]()
+            for string0 in newContactIdsContainer {
+                if let string0 = string0 {
+                    newContactIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        newContactIds = newContactIdsDecoded0
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let idempotencyTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .idempotencyToken)
+        idempotencyToken = idempotencyTokenDecoded
+    }
+}
+
+extension CreateRotationOverrideOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateRotationOverrideOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateRotationOverrideOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateRotationOverrideOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateRotationOverrideOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.rotationOverrideId = output.rotationOverrideId
+        } else {
+            self.rotationOverrideId = nil
+        }
+    }
+}
+
+public struct CreateRotationOverrideOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the created rotation override.
+    /// This member is required.
+    public var rotationOverrideId: Swift.String?
+
+    public init (
+        rotationOverrideId: Swift.String? = nil
+    )
+    {
+        self.rotationOverrideId = rotationOverrideId
+    }
+}
+
+struct CreateRotationOverrideOutputResponseBody: Swift.Equatable {
+    let rotationOverrideId: Swift.String?
+}
+
+extension CreateRotationOverrideOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rotationOverrideId = "RotationOverrideId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationOverrideIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rotationOverrideId)
+        rotationOverrideId = rotationOverrideIdDecoded
+    }
+}
+
 extension DataEncryptionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1286,6 +1759,53 @@ extension DataEncryptionExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension SSMContactsClientTypes {
+    public enum DayOfWeek: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fri
+        case mon
+        case sat
+        case sun
+        case thu
+        case tue
+        case wed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DayOfWeek] {
+            return [
+                .fri,
+                .mon,
+                .sat,
+                .sun,
+                .thu,
+                .tue,
+                .wed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fri: return "FRI"
+            case .mon: return "MON"
+            case .sat: return "SAT"
+            case .sun: return "SUN"
+            case .thu: return "THU"
+            case .tue: return "TUE"
+            case .wed: return "WED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DayOfWeek(rawValue: rawValue) ?? DayOfWeek.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -1525,6 +2045,7 @@ extension DeleteContactOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -1536,6 +2057,7 @@ extension DeleteContactOutputError {
 
 public enum DeleteContactOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
     case throttlingException(ThrottlingException)
@@ -1551,6 +2073,256 @@ extension DeleteContactOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DeleteContactOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension DeleteRotationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rotationId = "RotationId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let rotationId = self.rotationId {
+            try encodeContainer.encode(rotationId, forKey: .rotationId)
+        }
+    }
+}
+
+extension DeleteRotationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteRotationInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the on-call rotation to delete.
+    /// This member is required.
+    public var rotationId: Swift.String?
+
+    public init (
+        rotationId: Swift.String? = nil
+    )
+    {
+        self.rotationId = rotationId
+    }
+}
+
+struct DeleteRotationInputBody: Swift.Equatable {
+    let rotationId: Swift.String?
+}
+
+extension DeleteRotationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rotationId = "RotationId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rotationId)
+        rotationId = rotationIdDecoded
+    }
+}
+
+extension DeleteRotationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteRotationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteRotationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteRotationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteRotationOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension DeleteRotationOverrideInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rotationId = "RotationId"
+        case rotationOverrideId = "RotationOverrideId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let rotationId = self.rotationId {
+            try encodeContainer.encode(rotationId, forKey: .rotationId)
+        }
+        if let rotationOverrideId = self.rotationOverrideId {
+            try encodeContainer.encode(rotationOverrideId, forKey: .rotationOverrideId)
+        }
+    }
+}
+
+extension DeleteRotationOverrideInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteRotationOverrideInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the rotation that was overridden.
+    /// This member is required.
+    public var rotationId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the on-call rotation override to delete.
+    /// This member is required.
+    public var rotationOverrideId: Swift.String?
+
+    public init (
+        rotationId: Swift.String? = nil,
+        rotationOverrideId: Swift.String? = nil
+    )
+    {
+        self.rotationId = rotationId
+        self.rotationOverrideId = rotationOverrideId
+    }
+}
+
+struct DeleteRotationOverrideInputBody: Swift.Equatable {
+    let rotationId: Swift.String?
+    let rotationOverrideId: Swift.String?
+}
+
+extension DeleteRotationOverrideInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rotationId = "RotationId"
+        case rotationOverrideId = "RotationOverrideId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rotationId)
+        rotationId = rotationIdDecoded
+        let rotationOverrideIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rotationOverrideId)
+        rotationOverrideId = rotationOverrideIdDecoded
+    }
+}
+
+extension DeleteRotationOverrideOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteRotationOverrideOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteRotationOverrideOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteRotationOverrideOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteRotationOverrideOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension SSMContactsClientTypes.DependentEntity: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dependentResourceIds = "DependentResourceIds"
+        case relationType = "RelationType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dependentResourceIds = dependentResourceIds {
+            var dependentResourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dependentResourceIds)
+            for ssmcontactsarn0 in dependentResourceIds {
+                try dependentResourceIdsContainer.encode(ssmcontactsarn0)
+            }
+        }
+        if let relationType = self.relationType {
+            try encodeContainer.encode(relationType, forKey: .relationType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let relationTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .relationType)
+        relationType = relationTypeDecoded
+        let dependentResourceIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dependentResourceIds)
+        var dependentResourceIdsDecoded0:[Swift.String]? = nil
+        if let dependentResourceIdsContainer = dependentResourceIdsContainer {
+            dependentResourceIdsDecoded0 = [Swift.String]()
+            for string0 in dependentResourceIdsContainer {
+                if let string0 = string0 {
+                    dependentResourceIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        dependentResourceIds = dependentResourceIdsDecoded0
+    }
+}
+
+extension SSMContactsClientTypes {
+    /// Information about a resource that another resource is related to or depends on. For example, if a contact is a member of a rotation, the rotation is a dependent entity of the contact.
+    public struct DependentEntity: Swift.Equatable {
+        /// The Amazon Resource Names (ARNs) of the dependent resources.
+        /// This member is required.
+        public var dependentResourceIds: [Swift.String]?
+        /// The type of relationship between one resource and the other resource that it is related to or depends on.
+        /// This member is required.
+        public var relationType: Swift.String?
+
+        public init (
+            dependentResourceIds: [Swift.String]? = nil,
+            relationType: Swift.String? = nil
+        )
+        {
+            self.dependentResourceIds = dependentResourceIds
+            self.relationType = relationType
+        }
+    }
+
 }
 
 extension DescribeEngagementInput: Swift.Encodable {
@@ -2564,6 +3336,428 @@ extension GetContactPolicyOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetRotationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rotationId = "RotationId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let rotationId = self.rotationId {
+            try encodeContainer.encode(rotationId, forKey: .rotationId)
+        }
+    }
+}
+
+extension GetRotationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetRotationInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the on-call rotation to retrieve information about.
+    /// This member is required.
+    public var rotationId: Swift.String?
+
+    public init (
+        rotationId: Swift.String? = nil
+    )
+    {
+        self.rotationId = rotationId
+    }
+}
+
+struct GetRotationInputBody: Swift.Equatable {
+    let rotationId: Swift.String?
+}
+
+extension GetRotationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rotationId = "RotationId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rotationId)
+        rotationId = rotationIdDecoded
+    }
+}
+
+extension GetRotationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetRotationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetRotationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetRotationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetRotationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.contactIds = output.contactIds
+            self.name = output.name
+            self.recurrence = output.recurrence
+            self.rotationArn = output.rotationArn
+            self.startTime = output.startTime
+            self.timeZoneId = output.timeZoneId
+        } else {
+            self.contactIds = nil
+            self.name = nil
+            self.recurrence = nil
+            self.rotationArn = nil
+            self.startTime = nil
+            self.timeZoneId = nil
+        }
+    }
+}
+
+public struct GetRotationOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Names (ARNs) of the contacts assigned to the on-call rotation team.
+    /// This member is required.
+    public var contactIds: [Swift.String]?
+    /// The name of the on-call rotation.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Specifies how long a rotation lasts before restarting at the beginning of the shift order.
+    /// This member is required.
+    public var recurrence: SSMContactsClientTypes.RecurrenceSettings?
+    /// The Amazon Resource Name (ARN) of the on-call rotation.
+    /// This member is required.
+    public var rotationArn: Swift.String?
+    /// The specified start time for the on-call rotation.
+    /// This member is required.
+    public var startTime: ClientRuntime.Date?
+    /// The time zone that the rotation’s activity is based on, in Internet Assigned Numbers Authority (IANA) format.
+    /// This member is required.
+    public var timeZoneId: Swift.String?
+
+    public init (
+        contactIds: [Swift.String]? = nil,
+        name: Swift.String? = nil,
+        recurrence: SSMContactsClientTypes.RecurrenceSettings? = nil,
+        rotationArn: Swift.String? = nil,
+        startTime: ClientRuntime.Date? = nil,
+        timeZoneId: Swift.String? = nil
+    )
+    {
+        self.contactIds = contactIds
+        self.name = name
+        self.recurrence = recurrence
+        self.rotationArn = rotationArn
+        self.startTime = startTime
+        self.timeZoneId = timeZoneId
+    }
+}
+
+struct GetRotationOutputResponseBody: Swift.Equatable {
+    let rotationArn: Swift.String?
+    let name: Swift.String?
+    let contactIds: [Swift.String]?
+    let startTime: ClientRuntime.Date?
+    let timeZoneId: Swift.String?
+    let recurrence: SSMContactsClientTypes.RecurrenceSettings?
+}
+
+extension GetRotationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactIds = "ContactIds"
+        case name = "Name"
+        case recurrence = "Recurrence"
+        case rotationArn = "RotationArn"
+        case startTime = "StartTime"
+        case timeZoneId = "TimeZoneId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rotationArn)
+        rotationArn = rotationArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let contactIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .contactIds)
+        var contactIdsDecoded0:[Swift.String]? = nil
+        if let contactIdsContainer = contactIdsContainer {
+            contactIdsDecoded0 = [Swift.String]()
+            for string0 in contactIdsContainer {
+                if let string0 = string0 {
+                    contactIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        contactIds = contactIdsDecoded0
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let timeZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timeZoneId)
+        timeZoneId = timeZoneIdDecoded
+        let recurrenceDecoded = try containerValues.decodeIfPresent(SSMContactsClientTypes.RecurrenceSettings.self, forKey: .recurrence)
+        recurrence = recurrenceDecoded
+    }
+}
+
+extension GetRotationOverrideInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rotationId = "RotationId"
+        case rotationOverrideId = "RotationOverrideId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let rotationId = self.rotationId {
+            try encodeContainer.encode(rotationId, forKey: .rotationId)
+        }
+        if let rotationOverrideId = self.rotationOverrideId {
+            try encodeContainer.encode(rotationOverrideId, forKey: .rotationOverrideId)
+        }
+    }
+}
+
+extension GetRotationOverrideInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetRotationOverrideInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the overridden rotation to retrieve information about.
+    /// This member is required.
+    public var rotationId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the on-call rotation override to retrieve information about.
+    /// This member is required.
+    public var rotationOverrideId: Swift.String?
+
+    public init (
+        rotationId: Swift.String? = nil,
+        rotationOverrideId: Swift.String? = nil
+    )
+    {
+        self.rotationId = rotationId
+        self.rotationOverrideId = rotationOverrideId
+    }
+}
+
+struct GetRotationOverrideInputBody: Swift.Equatable {
+    let rotationId: Swift.String?
+    let rotationOverrideId: Swift.String?
+}
+
+extension GetRotationOverrideInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rotationId = "RotationId"
+        case rotationOverrideId = "RotationOverrideId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rotationId)
+        rotationId = rotationIdDecoded
+        let rotationOverrideIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rotationOverrideId)
+        rotationOverrideId = rotationOverrideIdDecoded
+    }
+}
+
+extension GetRotationOverrideOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetRotationOverrideOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetRotationOverrideOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetRotationOverrideOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetRotationOverrideOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.createTime = output.createTime
+            self.endTime = output.endTime
+            self.newContactIds = output.newContactIds
+            self.rotationArn = output.rotationArn
+            self.rotationOverrideId = output.rotationOverrideId
+            self.startTime = output.startTime
+        } else {
+            self.createTime = nil
+            self.endTime = nil
+            self.newContactIds = nil
+            self.rotationArn = nil
+            self.rotationOverrideId = nil
+            self.startTime = nil
+        }
+    }
+}
+
+public struct GetRotationOverrideOutputResponse: Swift.Equatable {
+    /// The date and time when the override was created.
+    public var createTime: ClientRuntime.Date?
+    /// The date and time when the override ends.
+    public var endTime: ClientRuntime.Date?
+    /// The Amazon Resource Names (ARNs) of the contacts assigned to the override of the on-call rotation.
+    public var newContactIds: [Swift.String]?
+    /// The Amazon Resource Name (ARN) of the on-call rotation that was overridden.
+    public var rotationArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the override to an on-call rotation.
+    public var rotationOverrideId: Swift.String?
+    /// The date and time when the override goes into effect.
+    public var startTime: ClientRuntime.Date?
+
+    public init (
+        createTime: ClientRuntime.Date? = nil,
+        endTime: ClientRuntime.Date? = nil,
+        newContactIds: [Swift.String]? = nil,
+        rotationArn: Swift.String? = nil,
+        rotationOverrideId: Swift.String? = nil,
+        startTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.createTime = createTime
+        self.endTime = endTime
+        self.newContactIds = newContactIds
+        self.rotationArn = rotationArn
+        self.rotationOverrideId = rotationOverrideId
+        self.startTime = startTime
+    }
+}
+
+struct GetRotationOverrideOutputResponseBody: Swift.Equatable {
+    let rotationOverrideId: Swift.String?
+    let rotationArn: Swift.String?
+    let newContactIds: [Swift.String]?
+    let startTime: ClientRuntime.Date?
+    let endTime: ClientRuntime.Date?
+    let createTime: ClientRuntime.Date?
+}
+
+extension GetRotationOverrideOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createTime = "CreateTime"
+        case endTime = "EndTime"
+        case newContactIds = "NewContactIds"
+        case rotationArn = "RotationArn"
+        case rotationOverrideId = "RotationOverrideId"
+        case startTime = "StartTime"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationOverrideIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rotationOverrideId)
+        rotationOverrideId = rotationOverrideIdDecoded
+        let rotationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rotationArn)
+        rotationArn = rotationArnDecoded
+        let newContactIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .newContactIds)
+        var newContactIdsDecoded0:[Swift.String]? = nil
+        if let newContactIdsContainer = newContactIdsContainer {
+            newContactIdsDecoded0 = [Swift.String]()
+            for string0 in newContactIdsContainer {
+                if let string0 = string0 {
+                    newContactIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        newContactIds = newContactIdsDecoded0
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createTime)
+        createTime = createTimeDecoded
+    }
+}
+
+extension SSMContactsClientTypes.HandOffTime: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hourOfDay = "HourOfDay"
+        case minuteOfHour = "MinuteOfHour"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if hourOfDay != 0 {
+            try encodeContainer.encode(hourOfDay, forKey: .hourOfDay)
+        }
+        if minuteOfHour != 0 {
+            try encodeContainer.encode(minuteOfHour, forKey: .minuteOfHour)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hourOfDayDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .hourOfDay) ?? 0
+        hourOfDay = hourOfDayDecoded
+        let minuteOfHourDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minuteOfHour) ?? 0
+        minuteOfHour = minuteOfHourDecoded
+    }
+}
+
+extension SSMContactsClientTypes {
+    /// Details about when an on-call rotation shift begins or ends.
+    public struct HandOffTime: Swift.Equatable {
+        /// The hour when an on-call rotation shift begins or ends.
+        /// This member is required.
+        public var hourOfDay: Swift.Int
+        /// The minute when an on-call rotation shift begins or ends.
+        /// This member is required.
+        public var minuteOfHour: Swift.Int
+
+        public init (
+            hourOfDay: Swift.Int = 0,
+            minuteOfHour: Swift.Int = 0
+        )
+        {
+            self.hourOfDay = hourOfDay
+            self.minuteOfHour = minuteOfHour
+        }
+    }
+
+}
+
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
@@ -3296,6 +4490,157 @@ extension ListPageReceiptsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListPageResolutionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case pageId = "PageId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let pageId = self.pageId {
+            try encodeContainer.encode(pageId, forKey: .pageId)
+        }
+    }
+}
+
+extension ListPageResolutionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListPageResolutionsInput: Swift.Equatable {
+    /// A token to start the list. Use this token to get the next set of results.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the contact engaged for the incident.
+    /// This member is required.
+    public var pageId: Swift.String?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        pageId: Swift.String? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.pageId = pageId
+    }
+}
+
+struct ListPageResolutionsInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let pageId: Swift.String?
+}
+
+extension ListPageResolutionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case pageId = "PageId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let pageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageId)
+        pageId = pageIdDecoded
+    }
+}
+
+extension ListPageResolutionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListPageResolutionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListPageResolutionsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListPageResolutionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListPageResolutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.pageResolutions = output.pageResolutions
+        } else {
+            self.nextToken = nil
+            self.pageResolutions = nil
+        }
+    }
+}
+
+public struct ListPageResolutionsOutputResponse: Swift.Equatable {
+    /// The token for the next set of items to return. Use this token to get the next set of results.
+    public var nextToken: Swift.String?
+    /// Information about the resolution for an engagement.
+    /// This member is required.
+    public var pageResolutions: [SSMContactsClientTypes.ResolutionContact]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        pageResolutions: [SSMContactsClientTypes.ResolutionContact]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.pageResolutions = pageResolutions
+    }
+}
+
+struct ListPageResolutionsOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let pageResolutions: [SSMContactsClientTypes.ResolutionContact]?
+}
+
+extension ListPageResolutionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case pageResolutions = "PageResolutions"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let pageResolutionsContainer = try containerValues.decodeIfPresent([SSMContactsClientTypes.ResolutionContact?].self, forKey: .pageResolutions)
+        var pageResolutionsDecoded0:[SSMContactsClientTypes.ResolutionContact]? = nil
+        if let pageResolutionsContainer = pageResolutionsContainer {
+            pageResolutionsDecoded0 = [SSMContactsClientTypes.ResolutionContact]()
+            for structure0 in pageResolutionsContainer {
+                if let structure0 = structure0 {
+                    pageResolutionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        pageResolutions = pageResolutionsDecoded0
+    }
+}
+
 extension ListPagesByContactInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contactId = "ContactId"
@@ -3622,6 +4967,804 @@ extension ListPagesByEngagementOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListPreviewRotationShiftsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime = "EndTime"
+        case maxResults = "MaxResults"
+        case members = "Members"
+        case nextToken = "NextToken"
+        case overrides = "Overrides"
+        case recurrence = "Recurrence"
+        case rotationStartTime = "RotationStartTime"
+        case startTime = "StartTime"
+        case timeZoneId = "TimeZoneId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let members = members {
+            var membersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .members)
+            for member0 in members {
+                try membersContainer.encode(member0)
+            }
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let overrides = overrides {
+            var overridesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .overrides)
+            for previewoverride0 in overrides {
+                try overridesContainer.encode(previewoverride0)
+            }
+        }
+        if let recurrence = self.recurrence {
+            try encodeContainer.encode(recurrence, forKey: .recurrence)
+        }
+        if let rotationStartTime = self.rotationStartTime {
+            try encodeContainer.encodeTimestamp(rotationStartTime, format: .epochSeconds, forKey: .rotationStartTime)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let timeZoneId = self.timeZoneId {
+            try encodeContainer.encode(timeZoneId, forKey: .timeZoneId)
+        }
+    }
+}
+
+extension ListPreviewRotationShiftsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListPreviewRotationShiftsInput: Swift.Equatable {
+    /// The date and time a rotation shift would end.
+    /// This member is required.
+    public var endTime: ClientRuntime.Date?
+    /// The maximum number of items to return for this call. The call also returns a token that can be specified in a subsequent call to get the next set of results.
+    public var maxResults: Swift.Int?
+    /// The contacts that would be assigned to a rotation.
+    /// This member is required.
+    public var members: [Swift.String]?
+    /// A token to start the list. This token is used to get the next set of results.
+    public var nextToken: Swift.String?
+    /// Information about changes that would be made in a rotation override.
+    public var overrides: [SSMContactsClientTypes.PreviewOverride]?
+    /// Information about how long a rotation would last before restarting at the beginning of the shift order.
+    /// This member is required.
+    public var recurrence: SSMContactsClientTypes.RecurrenceSettings?
+    /// The date and time a rotation would begin. The first shift is calculated from this date and time.
+    public var rotationStartTime: ClientRuntime.Date?
+    /// Used to filter the range of calculated shifts before sending the response back to the user.
+    public var startTime: ClientRuntime.Date?
+    /// The time zone the rotation’s activity would be based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul".
+    /// This member is required.
+    public var timeZoneId: Swift.String?
+
+    public init (
+        endTime: ClientRuntime.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        members: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil,
+        overrides: [SSMContactsClientTypes.PreviewOverride]? = nil,
+        recurrence: SSMContactsClientTypes.RecurrenceSettings? = nil,
+        rotationStartTime: ClientRuntime.Date? = nil,
+        startTime: ClientRuntime.Date? = nil,
+        timeZoneId: Swift.String? = nil
+    )
+    {
+        self.endTime = endTime
+        self.maxResults = maxResults
+        self.members = members
+        self.nextToken = nextToken
+        self.overrides = overrides
+        self.recurrence = recurrence
+        self.rotationStartTime = rotationStartTime
+        self.startTime = startTime
+        self.timeZoneId = timeZoneId
+    }
+}
+
+struct ListPreviewRotationShiftsInputBody: Swift.Equatable {
+    let rotationStartTime: ClientRuntime.Date?
+    let startTime: ClientRuntime.Date?
+    let endTime: ClientRuntime.Date?
+    let members: [Swift.String]?
+    let timeZoneId: Swift.String?
+    let recurrence: SSMContactsClientTypes.RecurrenceSettings?
+    let overrides: [SSMContactsClientTypes.PreviewOverride]?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListPreviewRotationShiftsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime = "EndTime"
+        case maxResults = "MaxResults"
+        case members = "Members"
+        case nextToken = "NextToken"
+        case overrides = "Overrides"
+        case recurrence = "Recurrence"
+        case rotationStartTime = "RotationStartTime"
+        case startTime = "StartTime"
+        case timeZoneId = "TimeZoneId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .rotationStartTime)
+        rotationStartTime = rotationStartTimeDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let membersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .members)
+        var membersDecoded0:[Swift.String]? = nil
+        if let membersContainer = membersContainer {
+            membersDecoded0 = [Swift.String]()
+            for string0 in membersContainer {
+                if let string0 = string0 {
+                    membersDecoded0?.append(string0)
+                }
+            }
+        }
+        members = membersDecoded0
+        let timeZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timeZoneId)
+        timeZoneId = timeZoneIdDecoded
+        let recurrenceDecoded = try containerValues.decodeIfPresent(SSMContactsClientTypes.RecurrenceSettings.self, forKey: .recurrence)
+        recurrence = recurrenceDecoded
+        let overridesContainer = try containerValues.decodeIfPresent([SSMContactsClientTypes.PreviewOverride?].self, forKey: .overrides)
+        var overridesDecoded0:[SSMContactsClientTypes.PreviewOverride]? = nil
+        if let overridesContainer = overridesContainer {
+            overridesDecoded0 = [SSMContactsClientTypes.PreviewOverride]()
+            for structure0 in overridesContainer {
+                if let structure0 = structure0 {
+                    overridesDecoded0?.append(structure0)
+                }
+            }
+        }
+        overrides = overridesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListPreviewRotationShiftsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListPreviewRotationShiftsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListPreviewRotationShiftsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListPreviewRotationShiftsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListPreviewRotationShiftsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.rotationShifts = output.rotationShifts
+        } else {
+            self.nextToken = nil
+            self.rotationShifts = nil
+        }
+    }
+}
+
+public struct ListPreviewRotationShiftsOutputResponse: Swift.Equatable {
+    /// The token for the next set of items to return. This token is used to get the next set of results.
+    public var nextToken: Swift.String?
+    /// Details about a rotation shift, including times, types, and contacts.
+    public var rotationShifts: [SSMContactsClientTypes.RotationShift]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        rotationShifts: [SSMContactsClientTypes.RotationShift]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.rotationShifts = rotationShifts
+    }
+}
+
+struct ListPreviewRotationShiftsOutputResponseBody: Swift.Equatable {
+    let rotationShifts: [SSMContactsClientTypes.RotationShift]?
+    let nextToken: Swift.String?
+}
+
+extension ListPreviewRotationShiftsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case rotationShifts = "RotationShifts"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationShiftsContainer = try containerValues.decodeIfPresent([SSMContactsClientTypes.RotationShift?].self, forKey: .rotationShifts)
+        var rotationShiftsDecoded0:[SSMContactsClientTypes.RotationShift]? = nil
+        if let rotationShiftsContainer = rotationShiftsContainer {
+            rotationShiftsDecoded0 = [SSMContactsClientTypes.RotationShift]()
+            for structure0 in rotationShiftsContainer {
+                if let structure0 = structure0 {
+                    rotationShiftsDecoded0?.append(structure0)
+                }
+            }
+        }
+        rotationShifts = rotationShiftsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListRotationOverridesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime = "EndTime"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case rotationId = "RotationId"
+        case startTime = "StartTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let rotationId = self.rotationId {
+            try encodeContainer.encode(rotationId, forKey: .rotationId)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+    }
+}
+
+extension ListRotationOverridesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListRotationOverridesInput: Swift.Equatable {
+    /// The date and time for the end of a time range for listing overrides.
+    /// This member is required.
+    public var endTime: ClientRuntime.Date?
+    /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    public var maxResults: Swift.Int?
+    /// A token to start the list. Use this token to get the next set of results.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the rotation to retrieve information about.
+    /// This member is required.
+    public var rotationId: Swift.String?
+    /// The date and time for the beginning of a time range for listing overrides.
+    /// This member is required.
+    public var startTime: ClientRuntime.Date?
+
+    public init (
+        endTime: ClientRuntime.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        rotationId: Swift.String? = nil,
+        startTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.endTime = endTime
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.rotationId = rotationId
+        self.startTime = startTime
+    }
+}
+
+struct ListRotationOverridesInputBody: Swift.Equatable {
+    let rotationId: Swift.String?
+    let startTime: ClientRuntime.Date?
+    let endTime: ClientRuntime.Date?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListRotationOverridesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime = "EndTime"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case rotationId = "RotationId"
+        case startTime = "StartTime"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rotationId)
+        rotationId = rotationIdDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListRotationOverridesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListRotationOverridesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListRotationOverridesOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListRotationOverridesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListRotationOverridesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.rotationOverrides = output.rotationOverrides
+        } else {
+            self.nextToken = nil
+            self.rotationOverrides = nil
+        }
+    }
+}
+
+public struct ListRotationOverridesOutputResponse: Swift.Equatable {
+    /// The token for the next set of items to return. Use this token to get the next set of results.
+    public var nextToken: Swift.String?
+    /// A list of rotation overrides in the specified time range.
+    public var rotationOverrides: [SSMContactsClientTypes.RotationOverride]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        rotationOverrides: [SSMContactsClientTypes.RotationOverride]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.rotationOverrides = rotationOverrides
+    }
+}
+
+struct ListRotationOverridesOutputResponseBody: Swift.Equatable {
+    let rotationOverrides: [SSMContactsClientTypes.RotationOverride]?
+    let nextToken: Swift.String?
+}
+
+extension ListRotationOverridesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case rotationOverrides = "RotationOverrides"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationOverridesContainer = try containerValues.decodeIfPresent([SSMContactsClientTypes.RotationOverride?].self, forKey: .rotationOverrides)
+        var rotationOverridesDecoded0:[SSMContactsClientTypes.RotationOverride]? = nil
+        if let rotationOverridesContainer = rotationOverridesContainer {
+            rotationOverridesDecoded0 = [SSMContactsClientTypes.RotationOverride]()
+            for structure0 in rotationOverridesContainer {
+                if let structure0 = structure0 {
+                    rotationOverridesDecoded0?.append(structure0)
+                }
+            }
+        }
+        rotationOverrides = rotationOverridesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListRotationShiftsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime = "EndTime"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case rotationId = "RotationId"
+        case startTime = "StartTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let rotationId = self.rotationId {
+            try encodeContainer.encode(rotationId, forKey: .rotationId)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+    }
+}
+
+extension ListRotationShiftsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListRotationShiftsInput: Swift.Equatable {
+    /// The date and time for the end of the time range to list shifts for.
+    /// This member is required.
+    public var endTime: ClientRuntime.Date?
+    /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    public var maxResults: Swift.Int?
+    /// A token to start the list. Use this token to get the next set of results.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the rotation to retrieve shift information about.
+    /// This member is required.
+    public var rotationId: Swift.String?
+    /// The date and time for the beginning of the time range to list shifts for.
+    public var startTime: ClientRuntime.Date?
+
+    public init (
+        endTime: ClientRuntime.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        rotationId: Swift.String? = nil,
+        startTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.endTime = endTime
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.rotationId = rotationId
+        self.startTime = startTime
+    }
+}
+
+struct ListRotationShiftsInputBody: Swift.Equatable {
+    let rotationId: Swift.String?
+    let startTime: ClientRuntime.Date?
+    let endTime: ClientRuntime.Date?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListRotationShiftsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime = "EndTime"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case rotationId = "RotationId"
+        case startTime = "StartTime"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rotationId)
+        rotationId = rotationIdDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListRotationShiftsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListRotationShiftsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListRotationShiftsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListRotationShiftsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListRotationShiftsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.rotationShifts = output.rotationShifts
+        } else {
+            self.nextToken = nil
+            self.rotationShifts = nil
+        }
+    }
+}
+
+public struct ListRotationShiftsOutputResponse: Swift.Equatable {
+    /// The token for the next set of items to return. Use this token to get the next set of results.
+    public var nextToken: Swift.String?
+    /// Information about shifts that meet the filter criteria.
+    public var rotationShifts: [SSMContactsClientTypes.RotationShift]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        rotationShifts: [SSMContactsClientTypes.RotationShift]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.rotationShifts = rotationShifts
+    }
+}
+
+struct ListRotationShiftsOutputResponseBody: Swift.Equatable {
+    let rotationShifts: [SSMContactsClientTypes.RotationShift]?
+    let nextToken: Swift.String?
+}
+
+extension ListRotationShiftsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case rotationShifts = "RotationShifts"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationShiftsContainer = try containerValues.decodeIfPresent([SSMContactsClientTypes.RotationShift?].self, forKey: .rotationShifts)
+        var rotationShiftsDecoded0:[SSMContactsClientTypes.RotationShift]? = nil
+        if let rotationShiftsContainer = rotationShiftsContainer {
+            rotationShiftsDecoded0 = [SSMContactsClientTypes.RotationShift]()
+            for structure0 in rotationShiftsContainer {
+                if let structure0 = structure0 {
+                    rotationShiftsDecoded0?.append(structure0)
+                }
+            }
+        }
+        rotationShifts = rotationShiftsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListRotationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case rotationNamePrefix = "RotationNamePrefix"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let rotationNamePrefix = self.rotationNamePrefix {
+            try encodeContainer.encode(rotationNamePrefix, forKey: .rotationNamePrefix)
+        }
+    }
+}
+
+extension ListRotationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListRotationsInput: Swift.Equatable {
+    /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    public var maxResults: Swift.Int?
+    /// A token to start the list. Use this token to get the next set of results.
+    public var nextToken: Swift.String?
+    /// A filter to include rotations in list results based on their common prefix. For example, entering prod returns a list of all rotation names that begin with prod, such as production and prod-1.
+    public var rotationNamePrefix: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        rotationNamePrefix: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.rotationNamePrefix = rotationNamePrefix
+    }
+}
+
+struct ListRotationsInputBody: Swift.Equatable {
+    let rotationNamePrefix: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListRotationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case rotationNamePrefix = "RotationNamePrefix"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationNamePrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rotationNamePrefix)
+        rotationNamePrefix = rotationNamePrefixDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListRotationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListRotationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListRotationsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListRotationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListRotationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.rotations = output.rotations
+        } else {
+            self.nextToken = nil
+            self.rotations = nil
+        }
+    }
+}
+
+public struct ListRotationsOutputResponse: Swift.Equatable {
+    /// The token for the next set of items to return. Use this token to get the next set of results.
+    public var nextToken: Swift.String?
+    /// Information about rotations that meet the filter criteria.
+    /// This member is required.
+    public var rotations: [SSMContactsClientTypes.Rotation]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        rotations: [SSMContactsClientTypes.Rotation]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.rotations = rotations
+    }
+}
+
+struct ListRotationsOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let rotations: [SSMContactsClientTypes.Rotation]?
+}
+
+extension ListRotationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case rotations = "Rotations"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let rotationsContainer = try containerValues.decodeIfPresent([SSMContactsClientTypes.Rotation?].self, forKey: .rotations)
+        var rotationsDecoded0:[SSMContactsClientTypes.Rotation]? = nil
+        if let rotationsContainer = rotationsContainer {
+            rotationsDecoded0 = [SSMContactsClientTypes.Rotation]()
+            for structure0 in rotationsContainer {
+                if let structure0 = structure0 {
+                    rotationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        rotations = rotationsDecoded0
+    }
+}
+
 extension ListTagsForResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceARN = "ResourceARN"
@@ -3750,6 +5893,53 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension SSMContactsClientTypes.MonthlySetting: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dayOfMonth = "DayOfMonth"
+        case handOffTime = "HandOffTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dayOfMonth = self.dayOfMonth {
+            try encodeContainer.encode(dayOfMonth, forKey: .dayOfMonth)
+        }
+        if let handOffTime = self.handOffTime {
+            try encodeContainer.encode(handOffTime, forKey: .handOffTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dayOfMonthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dayOfMonth)
+        dayOfMonth = dayOfMonthDecoded
+        let handOffTimeDecoded = try containerValues.decodeIfPresent(SSMContactsClientTypes.HandOffTime.self, forKey: .handOffTime)
+        handOffTime = handOffTimeDecoded
+    }
+}
+
+extension SSMContactsClientTypes {
+    /// Information about on-call rotations that recur monthly.
+    public struct MonthlySetting: Swift.Equatable {
+        /// The day of the month when monthly recurring on-call rotations begin.
+        /// This member is required.
+        public var dayOfMonth: Swift.Int?
+        /// The time of day when a monthly recurring on-call shift rotation begins.
+        /// This member is required.
+        public var handOffTime: SSMContactsClientTypes.HandOffTime?
+
+        public init (
+            dayOfMonth: Swift.Int? = nil,
+            handOffTime: SSMContactsClientTypes.HandOffTime? = nil
+        )
+        {
+            self.dayOfMonth = dayOfMonth
+            self.handOffTime = handOffTime
+        }
+    }
+
+}
+
 extension SSMContactsClientTypes.Page: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contactArn = "ContactArn"
@@ -3861,11 +6051,18 @@ extension SSMContactsClientTypes {
 
 extension SSMContactsClientTypes.Plan: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rotationIds = "RotationIds"
         case stages = "Stages"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let rotationIds = rotationIds {
+            var rotationIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rotationIds)
+            for ssmcontactsarn0 in rotationIds {
+                try rotationIdsContainer.encode(ssmcontactsarn0)
+            }
+        }
         if let stages = stages {
             var stagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stages)
             for stage0 in stages {
@@ -3887,21 +6084,102 @@ extension SSMContactsClientTypes.Plan: Swift.Codable {
             }
         }
         stages = stagesDecoded0
+        let rotationIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .rotationIds)
+        var rotationIdsDecoded0:[Swift.String]? = nil
+        if let rotationIdsContainer = rotationIdsContainer {
+            rotationIdsDecoded0 = [Swift.String]()
+            for string0 in rotationIdsContainer {
+                if let string0 = string0 {
+                    rotationIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        rotationIds = rotationIdsDecoded0
     }
 }
 
 extension SSMContactsClientTypes {
-    /// The stages that an escalation plan or engagement plan engages contacts and contact methods in.
+    /// Information about the stages and on-call rotation teams associated with an escalation plan or engagement plan.
     public struct Plan: Swift.Equatable {
+        /// The Amazon Resource Names (ARNs) of the on-call rotations associated with the plan.
+        public var rotationIds: [Swift.String]?
         /// A list of stages that the escalation plan or engagement plan uses to engage contacts and contact methods.
-        /// This member is required.
         public var stages: [SSMContactsClientTypes.Stage]?
 
         public init (
+            rotationIds: [Swift.String]? = nil,
             stages: [SSMContactsClientTypes.Stage]? = nil
         )
         {
+            self.rotationIds = rotationIds
             self.stages = stages
+        }
+    }
+
+}
+
+extension SSMContactsClientTypes.PreviewOverride: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime = "EndTime"
+        case newMembers = "NewMembers"
+        case startTime = "StartTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let newMembers = newMembers {
+            var newMembersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .newMembers)
+            for member0 in newMembers {
+                try newMembersContainer.encode(member0)
+            }
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let newMembersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .newMembers)
+        var newMembersDecoded0:[Swift.String]? = nil
+        if let newMembersContainer = newMembersContainer {
+            newMembersDecoded0 = [Swift.String]()
+            for string0 in newMembersContainer {
+                if let string0 = string0 {
+                    newMembersDecoded0?.append(string0)
+                }
+            }
+        }
+        newMembers = newMembersDecoded0
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+    }
+}
+
+extension SSMContactsClientTypes {
+    /// Information about contacts and times that an on-call override replaces.
+    public struct PreviewOverride: Swift.Equatable {
+        /// Information about the time a rotation override would end.
+        public var endTime: ClientRuntime.Date?
+        /// Information about contacts to add to an on-call rotation override.
+        public var newMembers: [Swift.String]?
+        /// Information about the time a rotation override would begin.
+        public var startTime: ClientRuntime.Date?
+
+        public init (
+            endTime: ClientRuntime.Date? = nil,
+            newMembers: [Swift.String]? = nil,
+            startTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.endTime = endTime
+            self.newMembers = newMembers
+            self.startTime = startTime
         }
     }
 
@@ -4118,6 +6396,208 @@ extension SSMContactsClientTypes {
     }
 }
 
+extension SSMContactsClientTypes.RecurrenceSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dailySettings = "DailySettings"
+        case monthlySettings = "MonthlySettings"
+        case numberOfOnCalls = "NumberOfOnCalls"
+        case recurrenceMultiplier = "RecurrenceMultiplier"
+        case shiftCoverages = "ShiftCoverages"
+        case weeklySettings = "WeeklySettings"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dailySettings = dailySettings {
+            var dailySettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dailySettings)
+            for handofftime0 in dailySettings {
+                try dailySettingsContainer.encode(handofftime0)
+            }
+        }
+        if let monthlySettings = monthlySettings {
+            var monthlySettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .monthlySettings)
+            for monthlysetting0 in monthlySettings {
+                try monthlySettingsContainer.encode(monthlysetting0)
+            }
+        }
+        if let numberOfOnCalls = self.numberOfOnCalls {
+            try encodeContainer.encode(numberOfOnCalls, forKey: .numberOfOnCalls)
+        }
+        if let recurrenceMultiplier = self.recurrenceMultiplier {
+            try encodeContainer.encode(recurrenceMultiplier, forKey: .recurrenceMultiplier)
+        }
+        if let shiftCoverages = shiftCoverages {
+            var shiftCoveragesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .shiftCoverages)
+            for (dictKey0, shiftCoveragesMap0) in shiftCoverages {
+                var shiftCoveragesMap0Container = shiftCoveragesContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for coveragetime1 in shiftCoveragesMap0 {
+                    try shiftCoveragesMap0Container.encode(coveragetime1)
+                }
+            }
+        }
+        if let weeklySettings = weeklySettings {
+            var weeklySettingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .weeklySettings)
+            for weeklysetting0 in weeklySettings {
+                try weeklySettingsContainer.encode(weeklysetting0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let monthlySettingsContainer = try containerValues.decodeIfPresent([SSMContactsClientTypes.MonthlySetting?].self, forKey: .monthlySettings)
+        var monthlySettingsDecoded0:[SSMContactsClientTypes.MonthlySetting]? = nil
+        if let monthlySettingsContainer = monthlySettingsContainer {
+            monthlySettingsDecoded0 = [SSMContactsClientTypes.MonthlySetting]()
+            for structure0 in monthlySettingsContainer {
+                if let structure0 = structure0 {
+                    monthlySettingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        monthlySettings = monthlySettingsDecoded0
+        let weeklySettingsContainer = try containerValues.decodeIfPresent([SSMContactsClientTypes.WeeklySetting?].self, forKey: .weeklySettings)
+        var weeklySettingsDecoded0:[SSMContactsClientTypes.WeeklySetting]? = nil
+        if let weeklySettingsContainer = weeklySettingsContainer {
+            weeklySettingsDecoded0 = [SSMContactsClientTypes.WeeklySetting]()
+            for structure0 in weeklySettingsContainer {
+                if let structure0 = structure0 {
+                    weeklySettingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        weeklySettings = weeklySettingsDecoded0
+        let dailySettingsContainer = try containerValues.decodeIfPresent([SSMContactsClientTypes.HandOffTime?].self, forKey: .dailySettings)
+        var dailySettingsDecoded0:[SSMContactsClientTypes.HandOffTime]? = nil
+        if let dailySettingsContainer = dailySettingsContainer {
+            dailySettingsDecoded0 = [SSMContactsClientTypes.HandOffTime]()
+            for structure0 in dailySettingsContainer {
+                if let structure0 = structure0 {
+                    dailySettingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dailySettings = dailySettingsDecoded0
+        let numberOfOnCallsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfOnCalls)
+        numberOfOnCalls = numberOfOnCallsDecoded
+        let shiftCoveragesContainer = try containerValues.decodeIfPresent([Swift.String: [SSMContactsClientTypes.CoverageTime?]?].self, forKey: .shiftCoverages)
+        var shiftCoveragesDecoded0: [Swift.String:[SSMContactsClientTypes.CoverageTime]]? = nil
+        if let shiftCoveragesContainer = shiftCoveragesContainer {
+            shiftCoveragesDecoded0 = [Swift.String:[SSMContactsClientTypes.CoverageTime]]()
+            for (key0, coveragetimes0) in shiftCoveragesContainer {
+                var coveragetimes0Decoded0: [SSMContactsClientTypes.CoverageTime]? = nil
+                if let coveragetimes0 = coveragetimes0 {
+                    coveragetimes0Decoded0 = [SSMContactsClientTypes.CoverageTime]()
+                    for structure1 in coveragetimes0 {
+                        if let structure1 = structure1 {
+                            coveragetimes0Decoded0?.append(structure1)
+                        }
+                    }
+                }
+                shiftCoveragesDecoded0?[key0] = coveragetimes0Decoded0
+            }
+        }
+        shiftCoverages = shiftCoveragesDecoded0
+        let recurrenceMultiplierDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .recurrenceMultiplier)
+        recurrenceMultiplier = recurrenceMultiplierDecoded
+    }
+}
+
+extension SSMContactsClientTypes {
+    /// Information about when an on-call rotation is in effect and how long the rotation period lasts.
+    public struct RecurrenceSettings: Swift.Equatable {
+        /// Information about on-call rotations that recur daily.
+        public var dailySettings: [SSMContactsClientTypes.HandOffTime]?
+        /// Information about on-call rotations that recur monthly.
+        public var monthlySettings: [SSMContactsClientTypes.MonthlySetting]?
+        /// The number of contacts, or shift team members designated to be on call concurrently during a shift. For example, in an on-call schedule containing ten contacts, a value of 2 designates that two of them are on call at any given time.
+        /// This member is required.
+        public var numberOfOnCalls: Swift.Int?
+        /// The number of days, weeks, or months a single rotation lasts.
+        /// This member is required.
+        public var recurrenceMultiplier: Swift.Int?
+        /// Information about the days of the week included in on-call rotation coverage.
+        public var shiftCoverages: [Swift.String:[SSMContactsClientTypes.CoverageTime]]?
+        /// Information about on-call rotations that recur weekly.
+        public var weeklySettings: [SSMContactsClientTypes.WeeklySetting]?
+
+        public init (
+            dailySettings: [SSMContactsClientTypes.HandOffTime]? = nil,
+            monthlySettings: [SSMContactsClientTypes.MonthlySetting]? = nil,
+            numberOfOnCalls: Swift.Int? = nil,
+            recurrenceMultiplier: Swift.Int? = nil,
+            shiftCoverages: [Swift.String:[SSMContactsClientTypes.CoverageTime]]? = nil,
+            weeklySettings: [SSMContactsClientTypes.WeeklySetting]? = nil
+        )
+        {
+            self.dailySettings = dailySettings
+            self.monthlySettings = monthlySettings
+            self.numberOfOnCalls = numberOfOnCalls
+            self.recurrenceMultiplier = recurrenceMultiplier
+            self.shiftCoverages = shiftCoverages
+            self.weeklySettings = weeklySettings
+        }
+    }
+
+}
+
+extension SSMContactsClientTypes.ResolutionContact: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactArn = "ContactArn"
+        case stageIndex = "StageIndex"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contactArn = self.contactArn {
+            try encodeContainer.encode(contactArn, forKey: .contactArn)
+        }
+        if let stageIndex = self.stageIndex {
+            try encodeContainer.encode(stageIndex, forKey: .stageIndex)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contactArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactArn)
+        contactArn = contactArnDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(SSMContactsClientTypes.ContactType.self, forKey: .type)
+        type = typeDecoded
+        let stageIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .stageIndex)
+        stageIndex = stageIndexDecoded
+    }
+}
+
+extension SSMContactsClientTypes {
+    /// Information about the engagement resolution steps. The resolution starts from the first contact, which can be an escalation plan, then resolves to an on-call rotation, and finally to a personal contact. The ResolutionContact structure describes the information for each node or step in that process. It contains information about different contact types, such as the escalation, rotation, and personal contacts.
+    public struct ResolutionContact: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of a contact in the engagement resolution process.
+        /// This member is required.
+        public var contactArn: Swift.String?
+        /// The stage in the escalation plan that resolves to this contact.
+        public var stageIndex: Swift.Int?
+        /// The type of contact for a resolution step.
+        /// This member is required.
+        public var type: SSMContactsClientTypes.ContactType?
+
+        public init (
+            contactArn: Swift.String? = nil,
+            stageIndex: Swift.Int? = nil,
+            type: SSMContactsClientTypes.ContactType? = nil
+        )
+        {
+            self.contactArn = contactArn
+            self.stageIndex = stageIndex
+            self.type = type
+        }
+    }
+
+}
+
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4191,6 +6671,286 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
     }
+}
+
+extension SSMContactsClientTypes.Rotation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactIds = "ContactIds"
+        case name = "Name"
+        case recurrence = "Recurrence"
+        case rotationArn = "RotationArn"
+        case startTime = "StartTime"
+        case timeZoneId = "TimeZoneId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contactIds = contactIds {
+            var contactIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contactIds)
+            for ssmcontactsarn0 in contactIds {
+                try contactIdsContainer.encode(ssmcontactsarn0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let recurrence = self.recurrence {
+            try encodeContainer.encode(recurrence, forKey: .recurrence)
+        }
+        if let rotationArn = self.rotationArn {
+            try encodeContainer.encode(rotationArn, forKey: .rotationArn)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let timeZoneId = self.timeZoneId {
+            try encodeContainer.encode(timeZoneId, forKey: .timeZoneId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rotationArn)
+        rotationArn = rotationArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let contactIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .contactIds)
+        var contactIdsDecoded0:[Swift.String]? = nil
+        if let contactIdsContainer = contactIdsContainer {
+            contactIdsDecoded0 = [Swift.String]()
+            for string0 in contactIdsContainer {
+                if let string0 = string0 {
+                    contactIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        contactIds = contactIdsDecoded0
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let timeZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timeZoneId)
+        timeZoneId = timeZoneIdDecoded
+        let recurrenceDecoded = try containerValues.decodeIfPresent(SSMContactsClientTypes.RecurrenceSettings.self, forKey: .recurrence)
+        recurrence = recurrenceDecoded
+    }
+}
+
+extension SSMContactsClientTypes {
+    /// Information about a rotation in an on-call schedule.
+    public struct Rotation: Swift.Equatable {
+        /// The Amazon Resource Names (ARNs) of the contacts assigned to the rotation team.
+        public var contactIds: [Swift.String]?
+        /// The name of the rotation.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Information about when an on-call rotation is in effect and how long the rotation period lasts.
+        public var recurrence: SSMContactsClientTypes.RecurrenceSettings?
+        /// The Amazon Resource Name (ARN) of the rotation.
+        /// This member is required.
+        public var rotationArn: Swift.String?
+        /// The date and time the rotation becomes active.
+        public var startTime: ClientRuntime.Date?
+        /// The time zone the rotation’s activity is based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul".
+        public var timeZoneId: Swift.String?
+
+        public init (
+            contactIds: [Swift.String]? = nil,
+            name: Swift.String? = nil,
+            recurrence: SSMContactsClientTypes.RecurrenceSettings? = nil,
+            rotationArn: Swift.String? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            timeZoneId: Swift.String? = nil
+        )
+        {
+            self.contactIds = contactIds
+            self.name = name
+            self.recurrence = recurrence
+            self.rotationArn = rotationArn
+            self.startTime = startTime
+            self.timeZoneId = timeZoneId
+        }
+    }
+
+}
+
+extension SSMContactsClientTypes.RotationOverride: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createTime = "CreateTime"
+        case endTime = "EndTime"
+        case newContactIds = "NewContactIds"
+        case rotationOverrideId = "RotationOverrideId"
+        case startTime = "StartTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createTime = self.createTime {
+            try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let newContactIds = newContactIds {
+            var newContactIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .newContactIds)
+            for ssmcontactsarn0 in newContactIds {
+                try newContactIdsContainer.encode(ssmcontactsarn0)
+            }
+        }
+        if let rotationOverrideId = self.rotationOverrideId {
+            try encodeContainer.encode(rotationOverrideId, forKey: .rotationOverrideId)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationOverrideIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rotationOverrideId)
+        rotationOverrideId = rotationOverrideIdDecoded
+        let newContactIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .newContactIds)
+        var newContactIdsDecoded0:[Swift.String]? = nil
+        if let newContactIdsContainer = newContactIdsContainer {
+            newContactIdsDecoded0 = [Swift.String]()
+            for string0 in newContactIdsContainer {
+                if let string0 = string0 {
+                    newContactIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        newContactIds = newContactIdsDecoded0
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createTime)
+        createTime = createTimeDecoded
+    }
+}
+
+extension SSMContactsClientTypes {
+    /// Information about an override specified for an on-call rotation.
+    public struct RotationOverride: Swift.Equatable {
+        /// The time a rotation override was created.
+        /// This member is required.
+        public var createTime: ClientRuntime.Date?
+        /// The time a rotation override ends.
+        /// This member is required.
+        public var endTime: ClientRuntime.Date?
+        /// The Amazon Resource Names (ARNs) of the contacts assigned to the override of the on-call rotation.
+        /// This member is required.
+        public var newContactIds: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the override to an on-call rotation.
+        /// This member is required.
+        public var rotationOverrideId: Swift.String?
+        /// The time a rotation override begins.
+        /// This member is required.
+        public var startTime: ClientRuntime.Date?
+
+        public init (
+            createTime: ClientRuntime.Date? = nil,
+            endTime: ClientRuntime.Date? = nil,
+            newContactIds: [Swift.String]? = nil,
+            rotationOverrideId: Swift.String? = nil,
+            startTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.createTime = createTime
+            self.endTime = endTime
+            self.newContactIds = newContactIds
+            self.rotationOverrideId = rotationOverrideId
+            self.startTime = startTime
+        }
+    }
+
+}
+
+extension SSMContactsClientTypes.RotationShift: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactIds = "ContactIds"
+        case endTime = "EndTime"
+        case shiftDetails = "ShiftDetails"
+        case startTime = "StartTime"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contactIds = contactIds {
+            var contactIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contactIds)
+            for ssmcontactsarn0 in contactIds {
+                try contactIdsContainer.encode(ssmcontactsarn0)
+            }
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let shiftDetails = self.shiftDetails {
+            try encodeContainer.encode(shiftDetails, forKey: .shiftDetails)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contactIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .contactIds)
+        var contactIdsDecoded0:[Swift.String]? = nil
+        if let contactIdsContainer = contactIdsContainer {
+            contactIdsDecoded0 = [Swift.String]()
+            for string0 in contactIdsContainer {
+                if let string0 = string0 {
+                    contactIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        contactIds = contactIdsDecoded0
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(SSMContactsClientTypes.ShiftType.self, forKey: .type)
+        type = typeDecoded
+        let shiftDetailsDecoded = try containerValues.decodeIfPresent(SSMContactsClientTypes.ShiftDetails.self, forKey: .shiftDetails)
+        shiftDetails = shiftDetailsDecoded
+    }
+}
+
+extension SSMContactsClientTypes {
+    /// Information about a shift that belongs to an on-call rotation.
+    public struct RotationShift: Swift.Equatable {
+        /// The Amazon Resource Names (ARNs) of the contacts who are part of the shift rotation.
+        public var contactIds: [Swift.String]?
+        /// The time a shift rotation ends.
+        /// This member is required.
+        public var endTime: ClientRuntime.Date?
+        /// Additional information about an on-call rotation shift.
+        public var shiftDetails: SSMContactsClientTypes.ShiftDetails?
+        /// The time a shift rotation begins.
+        /// This member is required.
+        public var startTime: ClientRuntime.Date?
+        /// The type of shift rotation.
+        public var type: SSMContactsClientTypes.ShiftType?
+
+        public init (
+            contactIds: [Swift.String]? = nil,
+            endTime: ClientRuntime.Date? = nil,
+            shiftDetails: SSMContactsClientTypes.ShiftDetails? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            type: SSMContactsClientTypes.ShiftType? = nil
+        )
+        {
+            self.contactIds = contactIds
+            self.endTime = endTime
+            self.shiftDetails = shiftDetails
+            self.startTime = startTime
+            self.type = type
+        }
+    }
+
 }
 
 extension SendActivationCodeInput: Swift.Encodable {
@@ -4377,6 +7137,86 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
         quotaCode = quotaCodeDecoded
         let serviceCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceCode)
         serviceCode = serviceCodeDecoded
+    }
+}
+
+extension SSMContactsClientTypes.ShiftDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case overriddenContactIds = "OverriddenContactIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let overriddenContactIds = overriddenContactIds {
+            var overriddenContactIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .overriddenContactIds)
+            for ssmcontactsarn0 in overriddenContactIds {
+                try overriddenContactIdsContainer.encode(ssmcontactsarn0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let overriddenContactIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .overriddenContactIds)
+        var overriddenContactIdsDecoded0:[Swift.String]? = nil
+        if let overriddenContactIdsContainer = overriddenContactIdsContainer {
+            overriddenContactIdsDecoded0 = [Swift.String]()
+            for string0 in overriddenContactIdsContainer {
+                if let string0 = string0 {
+                    overriddenContactIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        overriddenContactIds = overriddenContactIdsDecoded0
+    }
+}
+
+extension SSMContactsClientTypes {
+    /// Information about overrides to an on-call rotation shift.
+    public struct ShiftDetails: Swift.Equatable {
+        /// The Amazon Resources Names (ARNs) of the contacts who were replaced in a shift when an override was created. If the override is deleted, these contacts are restored to the shift.
+        /// This member is required.
+        public var overriddenContactIds: [Swift.String]?
+
+        public init (
+            overriddenContactIds: [Swift.String]? = nil
+        )
+        {
+            self.overriddenContactIds = overriddenContactIds
+        }
+    }
+
+}
+
+extension SSMContactsClientTypes {
+    public enum ShiftType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case overridden
+        case regular
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ShiftType] {
+            return [
+                .overridden,
+                .regular,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .overridden: return "OVERRIDDEN"
+            case .regular: return "REGULAR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ShiftType(rawValue: rawValue) ?? ShiftType.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -5425,6 +8265,157 @@ public struct UpdateContactOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension UpdateRotationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactIds = "ContactIds"
+        case recurrence = "Recurrence"
+        case rotationId = "RotationId"
+        case startTime = "StartTime"
+        case timeZoneId = "TimeZoneId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contactIds = contactIds {
+            var contactIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contactIds)
+            for ssmcontactsarn0 in contactIds {
+                try contactIdsContainer.encode(ssmcontactsarn0)
+            }
+        }
+        if let recurrence = self.recurrence {
+            try encodeContainer.encode(recurrence, forKey: .recurrence)
+        }
+        if let rotationId = self.rotationId {
+            try encodeContainer.encode(rotationId, forKey: .rotationId)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+        if let timeZoneId = self.timeZoneId {
+            try encodeContainer.encode(timeZoneId, forKey: .timeZoneId)
+        }
+    }
+}
+
+extension UpdateRotationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateRotationInput: Swift.Equatable {
+    /// The Amazon Resource Names (ARNs) of the contacts to include in the updated rotation. The order in which you list the contacts is their shift order in the rotation schedule.
+    public var contactIds: [Swift.String]?
+    /// Information about how long the updated rotation lasts before restarting at the beginning of the shift order.
+    /// This member is required.
+    public var recurrence: SSMContactsClientTypes.RecurrenceSettings?
+    /// The Amazon Resource Name (ARN) of the rotation to update.
+    /// This member is required.
+    public var rotationId: Swift.String?
+    /// The date and time the rotation goes into effect.
+    public var startTime: ClientRuntime.Date?
+    /// The time zone to base the updated rotation’s activity on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the [Time Zone Database](https://www.iana.org/time-zones) on the IANA website. Designators for time zones that don’t support Daylight Savings Time Rules, such as Pacific Standard Time (PST) and Pacific Daylight Time (PDT), aren't supported.
+    public var timeZoneId: Swift.String?
+
+    public init (
+        contactIds: [Swift.String]? = nil,
+        recurrence: SSMContactsClientTypes.RecurrenceSettings? = nil,
+        rotationId: Swift.String? = nil,
+        startTime: ClientRuntime.Date? = nil,
+        timeZoneId: Swift.String? = nil
+    )
+    {
+        self.contactIds = contactIds
+        self.recurrence = recurrence
+        self.rotationId = rotationId
+        self.startTime = startTime
+        self.timeZoneId = timeZoneId
+    }
+}
+
+struct UpdateRotationInputBody: Swift.Equatable {
+    let rotationId: Swift.String?
+    let contactIds: [Swift.String]?
+    let startTime: ClientRuntime.Date?
+    let timeZoneId: Swift.String?
+    let recurrence: SSMContactsClientTypes.RecurrenceSettings?
+}
+
+extension UpdateRotationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactIds = "ContactIds"
+        case recurrence = "Recurrence"
+        case rotationId = "RotationId"
+        case startTime = "StartTime"
+        case timeZoneId = "TimeZoneId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rotationId)
+        rotationId = rotationIdDecoded
+        let contactIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .contactIds)
+        var contactIdsDecoded0:[Swift.String]? = nil
+        if let contactIdsContainer = contactIdsContainer {
+            contactIdsDecoded0 = [Swift.String]()
+            for string0 in contactIdsContainer {
+                if let string0 = string0 {
+                    contactIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        contactIds = contactIdsDecoded0
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let timeZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timeZoneId)
+        timeZoneId = timeZoneIdDecoded
+        let recurrenceDecoded = try containerValues.decodeIfPresent(SSMContactsClientTypes.RecurrenceSettings.self, forKey: .recurrence)
+        recurrence = recurrenceDecoded
+    }
+}
+
+extension UpdateRotationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateRotationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateRotationOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateRotationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UpdateRotationOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -5590,4 +8581,51 @@ extension SSMContactsClientTypes {
             self = ValidationExceptionReason(rawValue: rawValue) ?? ValidationExceptionReason.sdkUnknown(rawValue)
         }
     }
+}
+
+extension SSMContactsClientTypes.WeeklySetting: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dayOfWeek = "DayOfWeek"
+        case handOffTime = "HandOffTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dayOfWeek = self.dayOfWeek {
+            try encodeContainer.encode(dayOfWeek.rawValue, forKey: .dayOfWeek)
+        }
+        if let handOffTime = self.handOffTime {
+            try encodeContainer.encode(handOffTime, forKey: .handOffTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dayOfWeekDecoded = try containerValues.decodeIfPresent(SSMContactsClientTypes.DayOfWeek.self, forKey: .dayOfWeek)
+        dayOfWeek = dayOfWeekDecoded
+        let handOffTimeDecoded = try containerValues.decodeIfPresent(SSMContactsClientTypes.HandOffTime.self, forKey: .handOffTime)
+        handOffTime = handOffTimeDecoded
+    }
+}
+
+extension SSMContactsClientTypes {
+    /// Information about rotations that recur weekly.
+    public struct WeeklySetting: Swift.Equatable {
+        /// The day of the week when weekly recurring on-call shift rotations begins.
+        /// This member is required.
+        public var dayOfWeek: SSMContactsClientTypes.DayOfWeek?
+        /// The time of day when a weekly recurring on-call shift rotation begins.
+        /// This member is required.
+        public var handOffTime: SSMContactsClientTypes.HandOffTime?
+
+        public init (
+            dayOfWeek: SSMContactsClientTypes.DayOfWeek? = nil,
+            handOffTime: SSMContactsClientTypes.HandOffTime? = nil
+        )
+        {
+            self.dayOfWeek = dayOfWeek
+            self.handOffTime = handOffTime
+        }
+    }
+
 }

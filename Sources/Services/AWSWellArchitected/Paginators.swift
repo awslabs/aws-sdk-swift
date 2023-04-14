@@ -3,6 +3,29 @@
 import ClientRuntime
 
 extension WellArchitectedClient {
+    /// Paginate over `[GetConsolidatedReportOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetConsolidatedReportInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetConsolidatedReportOutputResponse`
+    public func getConsolidatedReportPaginated(input: GetConsolidatedReportInput) -> ClientRuntime.PaginatorSequence<GetConsolidatedReportInput, GetConsolidatedReportOutputResponse> {
+        return ClientRuntime.PaginatorSequence<GetConsolidatedReportInput, GetConsolidatedReportOutputResponse>(input: input, inputKey: \GetConsolidatedReportInput.nextToken, outputKey: \GetConsolidatedReportOutputResponse.nextToken, paginationFunction: self.getConsolidatedReport(input:))
+    }
+}
+
+extension GetConsolidatedReportInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetConsolidatedReportInput {
+        return GetConsolidatedReportInput(
+            format: self.format,
+            includeSharedResources: self.includeSharedResources,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+extension WellArchitectedClient {
     /// Paginate over `[ListAnswersOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

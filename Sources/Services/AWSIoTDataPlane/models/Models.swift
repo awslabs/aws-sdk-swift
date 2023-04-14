@@ -716,7 +716,7 @@ extension ListRetainedMessagesInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -733,12 +733,12 @@ extension ListRetainedMessagesInput: ClientRuntime.URLPathProvider {
 
 public struct ListRetainedMessagesInput: Swift.Equatable {
     /// The maximum number of results to return at one time.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -996,11 +996,11 @@ extension PublishInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if qos != 0 {
+            if let qos = qos {
                 let qosQueryItem = ClientRuntime.URLQueryItem(name: "qos".urlPercentEncoding(), value: Swift.String(qos).urlPercentEncoding())
                 items.append(qosQueryItem)
             }
-            if retain != false {
+            if let retain = retain {
                 let retainQueryItem = ClientRuntime.URLQueryItem(name: "retain".urlPercentEncoding(), value: Swift.String(retain).urlPercentEncoding())
                 items.append(retainQueryItem)
             }
@@ -1012,7 +1012,7 @@ extension PublishInput: ClientRuntime.QueryItemProvider {
                 let contentTypeQueryItem = ClientRuntime.URLQueryItem(name: "contentType".urlPercentEncoding(), value: Swift.String(contentType).urlPercentEncoding())
                 items.append(contentTypeQueryItem)
             }
-            if messageExpiry != 0 {
+            if let messageExpiry = messageExpiry {
                 let messageExpiryQueryItem = ClientRuntime.URLQueryItem(name: "messageExpiry".urlPercentEncoding(), value: Swift.String(messageExpiry).urlPercentEncoding())
                 items.append(messageExpiryQueryItem)
             }
@@ -1037,17 +1037,17 @@ public struct PublishInput: Swift.Equatable {
     /// The base64-encoded binary data used by the sender of the request message to identify which request the response message is for when it's received. correlationData is an HTTP header value in the API.
     public var correlationData: Swift.String?
     /// A user-defined integer value that represents the message expiry interval in seconds. If absent, the message doesn't expire. For more information about the limits of messageExpiry, see [Amazon Web Services IoT Core message broker and protocol limits and quotas ](https://docs.aws.amazon.com/general/latest/gr/iot-core.html#message-broker-limits) from the Amazon Web Services Reference Guide.
-    public var messageExpiry: Swift.Int
+    public var messageExpiry: Swift.Int?
     /// The message body. MQTT accepts text, binary, and empty (null) message payloads. Publishing an empty (null) payload with retain = true deletes the retained message identified by topic from Amazon Web Services IoT Core.
     public var payload: ClientRuntime.Data?
     /// An Enum string value that indicates whether the payload is formatted as UTF-8. payloadFormatIndicator is an HTTP header value in the API.
     public var payloadFormatIndicator: IoTDataPlaneClientTypes.PayloadFormatIndicator?
     /// The Quality of Service (QoS) level. The default QoS level is 0.
-    public var qos: Swift.Int
+    public var qos: Swift.Int?
     /// A UTF-8 encoded string that's used as the topic name for a response message. The response topic is used to describe the topic which the receiver should publish to as part of the request-response flow. The topic must not contain wildcard characters.
     public var responseTopic: Swift.String?
     /// A Boolean value that determines whether to set the RETAIN flag when the message is published. Setting the RETAIN flag causes the message to be retained and sent to new subscribers to the topic. Valid values: true | false Default value: false
-    public var retain: Swift.Bool
+    public var retain: Swift.Bool?
     /// The name of the MQTT topic.
     /// This member is required.
     public var topic: Swift.String?
@@ -1057,12 +1057,12 @@ public struct PublishInput: Swift.Equatable {
     public init (
         contentType: Swift.String? = nil,
         correlationData: Swift.String? = nil,
-        messageExpiry: Swift.Int = 0,
+        messageExpiry: Swift.Int? = nil,
         payload: ClientRuntime.Data? = nil,
         payloadFormatIndicator: IoTDataPlaneClientTypes.PayloadFormatIndicator? = nil,
-        qos: Swift.Int = 0,
+        qos: Swift.Int? = nil,
         responseTopic: Swift.String? = nil,
-        retain: Swift.Bool = false,
+        retain: Swift.Bool? = nil,
         topic: Swift.String? = nil,
         userProperties: Swift.String? = nil
     )

@@ -21649,7 +21649,7 @@ extension ConfigClientTypes {
         public var resourceType: Swift.String?
         /// Maximum time in seconds that Config runs auto-remediation. If you do not select a number, the default is 60 seconds. For example, if you specify RetryAttemptSeconds as 50 seconds and MaximumAutomaticAttempts as 5, Config will run auto-remediations 5 times within 50 seconds before throwing an exception.
         public var retryAttemptSeconds: Swift.Int?
-        /// Target ID is the name of the public document.
+        /// Target ID is the name of the SSM document.
         /// This member is required.
         public var targetId: Swift.String?
         /// The type of the target. Target executes remediation. For example, SSM document.
@@ -22964,6 +22964,7 @@ extension ConfigClientTypes {
         case appconfigapplication
         case appconfigconfigurationprofile
         case appconfigenvironment
+        case appstreamdirectoryconfig
         case appsyncgraphqlapi
         case application
         case applicationversion
@@ -22971,6 +22972,7 @@ extension ConfigClientTypes {
         case athenadatacatalog
         case athenaworkgroup
         case autoscalinggroup
+        case autoscalingwarmpool
         case backupplan
         case backuprecoverypoint
         case backupreportplan
@@ -22994,7 +22996,9 @@ extension ConfigClientTypes {
         case codedeploydeploymentgroup
         case codegurureviewerrepositoryassociation
         case conformancepackcompliance
+        case connectphonenumber
         case customergateway
+        case customerprofilesdomain
         case dbcluster
         case dbclustersnapshot
         case dbinstance
@@ -23017,6 +23021,10 @@ extension ConfigClientTypes {
         case devicefarmtestgridproject
         case distribution
         case domain
+        case ec2dhcpoptions
+        case ec2ipam
+        case ec2networkinsightspath
+        case ec2trafficmirrorfilter
         case ec2trafficmirrorsession
         case ec2trafficmirrortarget
         case ecrpublicrepository
@@ -23046,6 +23054,7 @@ extension ConfigClientTypes {
         case eventsconnection
         case eventsendpoint
         case eventseventbus
+        case eventsrule
         case fisexperimenttemplate
         case filedata
         case flowlog
@@ -23065,6 +23074,7 @@ extension ConfigClientTypes {
         case guarddutyfilter
         case guarddutyipset
         case guarddutythreatintelset
+        case healthlakefhirdatastore
         case host
         case ipsetv2
         case ivschannel
@@ -23097,11 +23107,13 @@ extension ConfigClientTypes {
         case iotsitewiseportal
         case iotsitewiseproject
         case iottwinmakerentity
+        case iottwinmakerscene
         case iottwinmakerworkspace
         case key
         case kinesisanalyticsv2application
         case kinesisstream
         case kinesisstreamconsumer
+        case kinesisvideosignalingchannel
         case launchconfiguration
         case launchtemplate
         case lexbot
@@ -23114,6 +23126,7 @@ extension ConfigClientTypes {
         case loadbalancer
         case loadbalancerv2
         case lookoutmetricsalert
+        case lookoutvisionproject
         case mskcluster
         case managedinstanceinventory
         case managedrulesetv2
@@ -23126,8 +23139,11 @@ extension ConfigClientTypes {
         case networkfirewallrulegroup
         case networkinsightsaccessscopeanalysis
         case networkinterface
+        case networkmanagertransitgatewayregistration
         case opensearchdomain
         case patchcompliance
+        case pinpointapplicationsettings
+        case pinpointsegment
         case pipeline
         case policy
         case portfolio
@@ -23149,12 +23165,19 @@ extension ConfigClientTypes {
         case resiliencehubresiliencypolicy
         case resourcecompliance
         case restapi
+        case robomakerrobotapplication
         case robomakerrobotapplicationversion
+        case robomakersimulationapplication
         case role
         case route53hostedzone
+        case route53recoverycontrolcluster
+        case route53recoverycontrolcontrolpanel
+        case route53recoverycontrolroutingcontrol
+        case route53recoverycontrolsafetyrule
         case route53recoveryreadinesscell
         case route53recoveryreadinessreadinesscheck
         case route53recoveryreadinessrecoverygroup
+        case route53recoveryreadinessresourceset
         case route53resolverfirewalldomainlist
         case route53resolverresolverendpoint
         case route53resolverresolverrule
@@ -23219,6 +23242,7 @@ extension ConfigClientTypes {
                 .appconfigapplication,
                 .appconfigconfigurationprofile,
                 .appconfigenvironment,
+                .appstreamdirectoryconfig,
                 .appsyncgraphqlapi,
                 .application,
                 .applicationversion,
@@ -23226,6 +23250,7 @@ extension ConfigClientTypes {
                 .athenadatacatalog,
                 .athenaworkgroup,
                 .autoscalinggroup,
+                .autoscalingwarmpool,
                 .backupplan,
                 .backuprecoverypoint,
                 .backupreportplan,
@@ -23249,7 +23274,9 @@ extension ConfigClientTypes {
                 .codedeploydeploymentgroup,
                 .codegurureviewerrepositoryassociation,
                 .conformancepackcompliance,
+                .connectphonenumber,
                 .customergateway,
+                .customerprofilesdomain,
                 .dbcluster,
                 .dbclustersnapshot,
                 .dbinstance,
@@ -23272,6 +23299,10 @@ extension ConfigClientTypes {
                 .devicefarmtestgridproject,
                 .distribution,
                 .domain,
+                .ec2dhcpoptions,
+                .ec2ipam,
+                .ec2networkinsightspath,
+                .ec2trafficmirrorfilter,
                 .ec2trafficmirrorsession,
                 .ec2trafficmirrortarget,
                 .ecrpublicrepository,
@@ -23301,6 +23332,7 @@ extension ConfigClientTypes {
                 .eventsconnection,
                 .eventsendpoint,
                 .eventseventbus,
+                .eventsrule,
                 .fisexperimenttemplate,
                 .filedata,
                 .flowlog,
@@ -23320,6 +23352,7 @@ extension ConfigClientTypes {
                 .guarddutyfilter,
                 .guarddutyipset,
                 .guarddutythreatintelset,
+                .healthlakefhirdatastore,
                 .host,
                 .ipsetv2,
                 .ivschannel,
@@ -23352,11 +23385,13 @@ extension ConfigClientTypes {
                 .iotsitewiseportal,
                 .iotsitewiseproject,
                 .iottwinmakerentity,
+                .iottwinmakerscene,
                 .iottwinmakerworkspace,
                 .key,
                 .kinesisanalyticsv2application,
                 .kinesisstream,
                 .kinesisstreamconsumer,
+                .kinesisvideosignalingchannel,
                 .launchconfiguration,
                 .launchtemplate,
                 .lexbot,
@@ -23369,6 +23404,7 @@ extension ConfigClientTypes {
                 .loadbalancer,
                 .loadbalancerv2,
                 .lookoutmetricsalert,
+                .lookoutvisionproject,
                 .mskcluster,
                 .managedinstanceinventory,
                 .managedrulesetv2,
@@ -23381,8 +23417,11 @@ extension ConfigClientTypes {
                 .networkfirewallrulegroup,
                 .networkinsightsaccessscopeanalysis,
                 .networkinterface,
+                .networkmanagertransitgatewayregistration,
                 .opensearchdomain,
                 .patchcompliance,
+                .pinpointapplicationsettings,
+                .pinpointsegment,
                 .pipeline,
                 .policy,
                 .portfolio,
@@ -23404,12 +23443,19 @@ extension ConfigClientTypes {
                 .resiliencehubresiliencypolicy,
                 .resourcecompliance,
                 .restapi,
+                .robomakerrobotapplication,
                 .robomakerrobotapplicationversion,
+                .robomakersimulationapplication,
                 .role,
                 .route53hostedzone,
+                .route53recoverycontrolcluster,
+                .route53recoverycontrolcontrolpanel,
+                .route53recoverycontrolroutingcontrol,
+                .route53recoverycontrolsafetyrule,
                 .route53recoveryreadinesscell,
                 .route53recoveryreadinessreadinesscheck,
                 .route53recoveryreadinessrecoverygroup,
+                .route53recoveryreadinessresourceset,
                 .route53resolverfirewalldomainlist,
                 .route53resolverresolverendpoint,
                 .route53resolverresolverrule,
@@ -23479,6 +23525,7 @@ extension ConfigClientTypes {
             case .appconfigapplication: return "AWS::AppConfig::Application"
             case .appconfigconfigurationprofile: return "AWS::AppConfig::ConfigurationProfile"
             case .appconfigenvironment: return "AWS::AppConfig::Environment"
+            case .appstreamdirectoryconfig: return "AWS::AppStream::DirectoryConfig"
             case .appsyncgraphqlapi: return "AWS::AppSync::GraphQLApi"
             case .application: return "AWS::ElasticBeanstalk::Application"
             case .applicationversion: return "AWS::ElasticBeanstalk::ApplicationVersion"
@@ -23486,6 +23533,7 @@ extension ConfigClientTypes {
             case .athenadatacatalog: return "AWS::Athena::DataCatalog"
             case .athenaworkgroup: return "AWS::Athena::WorkGroup"
             case .autoscalinggroup: return "AWS::AutoScaling::AutoScalingGroup"
+            case .autoscalingwarmpool: return "AWS::AutoScaling::WarmPool"
             case .backupplan: return "AWS::Backup::BackupPlan"
             case .backuprecoverypoint: return "AWS::Backup::RecoveryPoint"
             case .backupreportplan: return "AWS::Backup::ReportPlan"
@@ -23509,7 +23557,9 @@ extension ConfigClientTypes {
             case .codedeploydeploymentgroup: return "AWS::CodeDeploy::DeploymentGroup"
             case .codegurureviewerrepositoryassociation: return "AWS::CodeGuruReviewer::RepositoryAssociation"
             case .conformancepackcompliance: return "AWS::Config::ConformancePackCompliance"
+            case .connectphonenumber: return "AWS::Connect::PhoneNumber"
             case .customergateway: return "AWS::EC2::CustomerGateway"
+            case .customerprofilesdomain: return "AWS::CustomerProfiles::Domain"
             case .dbcluster: return "AWS::RDS::DBCluster"
             case .dbclustersnapshot: return "AWS::RDS::DBClusterSnapshot"
             case .dbinstance: return "AWS::RDS::DBInstance"
@@ -23532,6 +23582,10 @@ extension ConfigClientTypes {
             case .devicefarmtestgridproject: return "AWS::DeviceFarm::TestGridProject"
             case .distribution: return "AWS::CloudFront::Distribution"
             case .domain: return "AWS::Elasticsearch::Domain"
+            case .ec2dhcpoptions: return "AWS::EC2::DHCPOptions"
+            case .ec2ipam: return "AWS::EC2::IPAM"
+            case .ec2networkinsightspath: return "AWS::EC2::NetworkInsightsPath"
+            case .ec2trafficmirrorfilter: return "AWS::EC2::TrafficMirrorFilter"
             case .ec2trafficmirrorsession: return "AWS::EC2::TrafficMirrorSession"
             case .ec2trafficmirrortarget: return "AWS::EC2::TrafficMirrorTarget"
             case .ecrpublicrepository: return "AWS::ECR::PublicRepository"
@@ -23561,6 +23615,7 @@ extension ConfigClientTypes {
             case .eventsconnection: return "AWS::Events::Connection"
             case .eventsendpoint: return "AWS::Events::Endpoint"
             case .eventseventbus: return "AWS::Events::EventBus"
+            case .eventsrule: return "AWS::Events::Rule"
             case .fisexperimenttemplate: return "AWS::FIS::ExperimentTemplate"
             case .filedata: return "AWS::SSM::FileData"
             case .flowlog: return "AWS::EC2::FlowLog"
@@ -23580,6 +23635,7 @@ extension ConfigClientTypes {
             case .guarddutyfilter: return "AWS::GuardDuty::Filter"
             case .guarddutyipset: return "AWS::GuardDuty::IPSet"
             case .guarddutythreatintelset: return "AWS::GuardDuty::ThreatIntelSet"
+            case .healthlakefhirdatastore: return "AWS::HealthLake::FHIRDatastore"
             case .host: return "AWS::EC2::Host"
             case .ipsetv2: return "AWS::WAFv2::IPSet"
             case .ivschannel: return "AWS::IVS::Channel"
@@ -23612,11 +23668,13 @@ extension ConfigClientTypes {
             case .iotsitewiseportal: return "AWS::IoTSiteWise::Portal"
             case .iotsitewiseproject: return "AWS::IoTSiteWise::Project"
             case .iottwinmakerentity: return "AWS::IoTTwinMaker::Entity"
+            case .iottwinmakerscene: return "AWS::IoTTwinMaker::Scene"
             case .iottwinmakerworkspace: return "AWS::IoTTwinMaker::Workspace"
             case .key: return "AWS::KMS::Key"
             case .kinesisanalyticsv2application: return "AWS::KinesisAnalyticsV2::Application"
             case .kinesisstream: return "AWS::Kinesis::Stream"
             case .kinesisstreamconsumer: return "AWS::Kinesis::StreamConsumer"
+            case .kinesisvideosignalingchannel: return "AWS::KinesisVideo::SignalingChannel"
             case .launchconfiguration: return "AWS::AutoScaling::LaunchConfiguration"
             case .launchtemplate: return "AWS::EC2::LaunchTemplate"
             case .lexbot: return "AWS::Lex::Bot"
@@ -23629,6 +23687,7 @@ extension ConfigClientTypes {
             case .loadbalancer: return "AWS::ElasticLoadBalancing::LoadBalancer"
             case .loadbalancerv2: return "AWS::ElasticLoadBalancingV2::LoadBalancer"
             case .lookoutmetricsalert: return "AWS::LookoutMetrics::Alert"
+            case .lookoutvisionproject: return "AWS::LookoutVision::Project"
             case .mskcluster: return "AWS::MSK::Cluster"
             case .managedinstanceinventory: return "AWS::SSM::ManagedInstanceInventory"
             case .managedrulesetv2: return "AWS::WAFv2::ManagedRuleSet"
@@ -23641,8 +23700,11 @@ extension ConfigClientTypes {
             case .networkfirewallrulegroup: return "AWS::NetworkFirewall::RuleGroup"
             case .networkinsightsaccessscopeanalysis: return "AWS::EC2::NetworkInsightsAccessScopeAnalysis"
             case .networkinterface: return "AWS::EC2::NetworkInterface"
+            case .networkmanagertransitgatewayregistration: return "AWS::NetworkManager::TransitGatewayRegistration"
             case .opensearchdomain: return "AWS::OpenSearch::Domain"
             case .patchcompliance: return "AWS::SSM::PatchCompliance"
+            case .pinpointapplicationsettings: return "AWS::Pinpoint::ApplicationSettings"
+            case .pinpointsegment: return "AWS::Pinpoint::Segment"
             case .pipeline: return "AWS::CodePipeline::Pipeline"
             case .policy: return "AWS::IAM::Policy"
             case .portfolio: return "AWS::ServiceCatalog::Portfolio"
@@ -23664,12 +23726,19 @@ extension ConfigClientTypes {
             case .resiliencehubresiliencypolicy: return "AWS::ResilienceHub::ResiliencyPolicy"
             case .resourcecompliance: return "AWS::Config::ResourceCompliance"
             case .restapi: return "AWS::ApiGateway::RestApi"
+            case .robomakerrobotapplication: return "AWS::RoboMaker::RobotApplication"
             case .robomakerrobotapplicationversion: return "AWS::RoboMaker::RobotApplicationVersion"
+            case .robomakersimulationapplication: return "AWS::RoboMaker::SimulationApplication"
             case .role: return "AWS::IAM::Role"
             case .route53hostedzone: return "AWS::Route53::HostedZone"
+            case .route53recoverycontrolcluster: return "AWS::Route53RecoveryControl::Cluster"
+            case .route53recoverycontrolcontrolpanel: return "AWS::Route53RecoveryControl::ControlPanel"
+            case .route53recoverycontrolroutingcontrol: return "AWS::Route53RecoveryControl::RoutingControl"
+            case .route53recoverycontrolsafetyrule: return "AWS::Route53RecoveryControl::SafetyRule"
             case .route53recoveryreadinesscell: return "AWS::Route53RecoveryReadiness::Cell"
             case .route53recoveryreadinessreadinesscheck: return "AWS::Route53RecoveryReadiness::ReadinessCheck"
             case .route53recoveryreadinessrecoverygroup: return "AWS::Route53RecoveryReadiness::RecoveryGroup"
+            case .route53recoveryreadinessresourceset: return "AWS::Route53RecoveryReadiness::ResourceSet"
             case .route53resolverfirewalldomainlist: return "AWS::Route53Resolver::FirewallDomainList"
             case .route53resolverresolverendpoint: return "AWS::Route53Resolver::ResolverEndpoint"
             case .route53resolverresolverrule: return "AWS::Route53Resolver::ResolverRule"

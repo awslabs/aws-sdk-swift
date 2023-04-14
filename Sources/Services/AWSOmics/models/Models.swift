@@ -17161,7 +17161,6 @@ extension OmicsClientTypes {
         case creating
         case deleted
         case failed
-        case inactive
         case updating
         case sdkUnknown(Swift.String)
 
@@ -17171,7 +17170,6 @@ extension OmicsClientTypes {
                 .creating,
                 .deleted,
                 .failed,
-                .inactive,
                 .updating,
                 .sdkUnknown("")
             ]
@@ -17186,7 +17184,6 @@ extension OmicsClientTypes {
             case .creating: return "CREATING"
             case .deleted: return "DELETED"
             case .failed: return "FAILED"
-            case .inactive: return "INACTIVE"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
@@ -17202,13 +17199,11 @@ extension OmicsClientTypes {
 extension OmicsClientTypes {
     public enum WorkflowType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `private`
-        case service
         case sdkUnknown(Swift.String)
 
         public static var allCases: [WorkflowType] {
             return [
                 .private,
-                .service,
                 .sdkUnknown("")
             ]
         }
@@ -17219,7 +17214,6 @@ extension OmicsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .private: return "PRIVATE"
-            case .service: return "SERVICE"
             case let .sdkUnknown(s): return s
             }
         }

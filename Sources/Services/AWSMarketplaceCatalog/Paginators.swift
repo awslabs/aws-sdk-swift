@@ -48,6 +48,7 @@ extension ListEntitiesInput: ClientRuntime.PaginateToken {
             filterList: self.filterList,
             maxResults: self.maxResults,
             nextToken: token,
+            ownershipType: self.ownershipType,
             sort: self.sort
         )}
 }

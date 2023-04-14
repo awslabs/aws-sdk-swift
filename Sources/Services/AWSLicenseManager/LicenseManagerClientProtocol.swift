@@ -13,9 +13,9 @@ public protocol LicenseManagerClientProtocol {
     func checkoutBorrowLicense(input: CheckoutBorrowLicenseInput) async throws -> CheckoutBorrowLicenseOutputResponse
     /// Checks out the specified license. If the account that created the license is the same that is performing the check out, you must specify the account as the beneficiary.
     func checkoutLicense(input: CheckoutLicenseInput) async throws -> CheckoutLicenseOutputResponse
-    /// Creates a grant for the specified license. A grant shares the use of license entitlements with specific Amazon Web Services accounts.
+    /// Creates a grant for the specified license. A grant shares the use of license entitlements with a specific Amazon Web Services account, an organization, or an organizational unit (OU). For more information, see [Granted licenses in License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html) in the License Manager User Guide.
     func createGrant(input: CreateGrantInput) async throws -> CreateGrantOutputResponse
-    /// Creates a new version of the specified grant.
+    /// Creates a new version of the specified grant. For more information, see [Granted licenses in License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html) in the License Manager User Guide.
     func createGrantVersion(input: CreateGrantVersionInput) async throws -> CreateGrantVersionOutputResponse
     /// Creates a license.
     func createLicense(input: CreateLicenseInput) async throws -> CreateLicenseOutputResponse
@@ -75,7 +75,7 @@ public protocol LicenseManagerClientProtocol {
     func listLicenseSpecificationsForResource(input: ListLicenseSpecificationsForResourceInput) async throws -> ListLicenseSpecificationsForResourceOutputResponse
     /// Lists all versions of the specified license.
     func listLicenseVersions(input: ListLicenseVersionsInput) async throws -> ListLicenseVersionsOutputResponse
-    /// Lists grants that are received but not accepted.
+    /// Lists grants that are received. Received grants are grants created while specifying the recipient as this Amazon Web Services account, your organization, or an organizational unit (OU) to which this member account belongs.
     func listReceivedGrants(input: ListReceivedGrantsInput) async throws -> ListReceivedGrantsOutputResponse
     /// Lists the grants received for all accounts in the organization.
     func listReceivedGrantsForOrganization(input: ListReceivedGrantsForOrganizationInput) async throws -> ListReceivedGrantsForOrganizationOutputResponse

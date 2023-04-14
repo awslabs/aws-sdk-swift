@@ -928,7 +928,7 @@ public struct AttachTrafficSourcesInput: Swift.Equatable {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
-    /// The unique identifiers of one or more traffic sources. You can specify up to 10 traffic sources. Currently, you must specify an Amazon Resource Name (ARN) for an existing VPC Lattice target group. Amazon EC2 Auto Scaling registers the running instances with the attached target groups. The target groups receive incoming traffic and route requests to one or more registered targets.
+    /// The unique identifiers of one or more traffic sources. You can specify up to 10 traffic sources.
     /// This member is required.
     public var trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]?
 
@@ -1495,7 +1495,7 @@ extension AutoScalingClientTypes {
         public var enabledMetrics: [AutoScalingClientTypes.EnabledMetric]?
         /// The duration of the health check grace period, in seconds.
         public var healthCheckGracePeriod: Swift.Int?
-        /// Determines whether any additional health checks are performed on the instances in this group. Amazon EC2 health checks are always on. The valid values are EC2 (default), ELB, and VPC_LATTICE. The VPC_LATTICE health check type is reserved for use with VPC Lattice, which is in preview release and is subject to change.
+        /// A comma-separated value string of one or more health check types.
         /// This member is required.
         public var healthCheckType: Swift.String?
         /// The EC2 instances associated with the group.
@@ -1534,7 +1534,7 @@ extension AutoScalingClientTypes {
         public var targetGroupARNs: [Swift.String]?
         /// The termination policies for the group.
         public var terminationPolicies: [Swift.String]?
-        /// Reserved for use with Amazon VPC Lattice, which is in preview release and is subject to change. Do not use this parameter for production workloads. It is also subject to change. The unique identifiers of the traffic sources.
+        /// The traffic sources associated with this Auto Scaling group.
         public var trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]?
         /// One or more subnet IDs, if applicable, separated by commas.
         public var vpcZoneIdentifier: Swift.String?
@@ -1701,7 +1701,7 @@ extension AutoScalingClientTypes {
         /// The Availability Zone for the instance.
         /// This member is required.
         public var availabilityZone: Swift.String?
-        /// The last reported health status of this instance. "Healthy" means that the instance is healthy and should remain in service. "Unhealthy" means that the instance is unhealthy and Amazon EC2 Auto Scaling should terminate and replace it.
+        /// The last reported health status of this instance. Healthy means that the instance is healthy and should remain in service. Unhealthy means that the instance is unhealthy and Amazon EC2 Auto Scaling should terminate and replace it.
         /// This member is required.
         public var healthStatus: Swift.String?
         /// The ID of the instance.
@@ -2811,7 +2811,7 @@ public struct CreateAutoScalingGroupInput: Swift.Equatable {
     public var desiredCapacityType: Swift.String?
     /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. This is useful if your instances do not immediately pass their health checks after they enter the InService state. For more information, see [Set the health check grace period for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/health-check-grace-period.html) in the Amazon EC2 Auto Scaling User Guide. Default: 0 seconds
     public var healthCheckGracePeriod: Swift.Int?
-    /// Determines whether any additional health checks are performed on the instances in this group. Amazon EC2 health checks are always on. For more information, see [Health checks for Auto Scaling instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/healthcheck.html) in the Amazon EC2 Auto Scaling User Guide. The valid values are EC2 (default), ELB, and VPC_LATTICE. The VPC_LATTICE health check type is reserved for use with VPC Lattice, which is in preview release and is subject to change.
+    /// A comma-separated value string of one or more health check types. The valid values are EC2, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see [Health checks for Auto Scaling instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/healthcheck.html) in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
     public var healthCheckType: Swift.String?
     /// The ID of the instance used to base the launch configuration on. If specified, Amazon EC2 Auto Scaling uses the configuration values from the specified instance to create a new launch configuration. To get the instance ID, use the Amazon EC2 [DescribeInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html) API operation. For more information, see [Creating an Auto Scaling group using an EC2 instance](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-from-instance.html) in the Amazon EC2 Auto Scaling User Guide.
     public var instanceId: Swift.String?
@@ -2821,7 +2821,7 @@ public struct CreateAutoScalingGroupInput: Swift.Equatable {
     public var launchTemplate: AutoScalingClientTypes.LaunchTemplateSpecification?
     /// One or more lifecycle hooks to add to the Auto Scaling group before instances are launched.
     public var lifecycleHookSpecificationList: [AutoScalingClientTypes.LifecycleHookSpecification]?
-    /// A list of Classic Load Balancers associated with this Auto Scaling group. For Application Load Balancers, Network Load Balancers, and Gateway Load Balancer, specify the TargetGroupARNs property instead.
+    /// A list of Classic Load Balancers associated with this Auto Scaling group. For Application Load Balancers, Network Load Balancers, and Gateway Load Balancers, specify the TargetGroupARNs property instead.
     public var loadBalancerNames: [Swift.String]?
     /// The maximum amount of time, in seconds, that an instance can be in service. The default is null. If specified, the value must be either 0 or a number equal to or greater than 86,400 seconds (1 day). For more information, see [Replacing Auto Scaling instances based on maximum instance lifetime](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-max-instance-lifetime.html) in the Amazon EC2 Auto Scaling User Guide.
     public var maxInstanceLifetime: Swift.Int?
@@ -2845,7 +2845,7 @@ public struct CreateAutoScalingGroupInput: Swift.Equatable {
     public var targetGroupARNs: [Swift.String]?
     /// A policy or a list of policies that are used to select the instance to terminate. These policies are executed in the order that you list them. For more information, see [Work with Amazon EC2 Auto Scaling termination policies](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-termination-policies.html) in the Amazon EC2 Auto Scaling User Guide. Valid values: Default | AllocationStrategy | ClosestToNextInstanceHour | NewestInstance | OldestInstance | OldestLaunchConfiguration | OldestLaunchTemplate | arn:aws:lambda:region:account-id:function:my-function:my-alias
     public var terminationPolicies: [Swift.String]?
-    /// Reserved for use with Amazon VPC Lattice, which is in preview release and is subject to change. Do not use this parameter for production workloads. It is also subject to change. The unique identifiers of one or more traffic sources. Currently, you must specify an Amazon Resource Name (ARN) for an existing VPC Lattice target group. Amazon EC2 Auto Scaling registers the running instances with the attached target groups. The target groups receive incoming traffic and route requests to one or more registered targets.
+    /// The list of traffic sources to attach to this Auto Scaling group. You can use any of the following as traffic sources for an Auto Scaling group: Classic Load Balancer, Application Load Balancer, Gateway Load Balancer, Network Load Balancer, and VPC Lattice.
     public var trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]?
     /// A comma-separated list of subnet IDs for a virtual private cloud (VPC) where instances in the Auto Scaling group can be created. If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you specify must reside in those Availability Zones.
     public var vpcZoneIdentifier: Swift.String?
@@ -7596,8 +7596,13 @@ public struct DescribeTrafficSourcesInput: Swift.Equatable {
     public var maxRecords: Swift.Int?
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
-    /// The type of traffic source you are describing. Currently, the only valid value is vpc-lattice.
-    /// This member is required.
+    /// The traffic source type that you want to describe. The following lists the valid values:
+    ///
+    /// * elb if the traffic source is a Classic Load Balancer.
+    ///
+    /// * elbv2 if the traffic source is a Application Load Balancer, Gateway Load Balancer, or Network Load Balancer.
+    ///
+    /// * vpc-lattice if the traffic source is VPC Lattice.
     public var trafficSourceType: Swift.String?
 
     public init (
@@ -8389,7 +8394,7 @@ public struct DetachTrafficSourcesInput: Swift.Equatable {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
-    /// The unique identifiers of one or more traffic sources you are detaching. You can specify up to 10 traffic sources. Currently, you must specify an Amazon Resource Name (ARN) for an existing VPC Lattice target group. When you detach a target group, it enters the Removing state while deregistering the instances in the group. When all instances are deregistered, then you can no longer describe the target group using the [DescribeTrafficSources] API call. The instances continue to run.
+    /// The unique identifiers of one or more traffic sources. You can specify up to 10 traffic sources.
     /// This member is required.
     public var trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]?
 
@@ -9861,7 +9866,7 @@ extension AutoScalingClientTypes {
         /// The Availability Zone in which the instance is running.
         /// This member is required.
         public var availabilityZone: Swift.String?
-        /// The last reported health status of the instance. "Healthy" means that the instance is healthy and should remain in service. "Unhealthy" means that the instance is unhealthy and that Amazon EC2 Auto Scaling should terminate and replace it.
+        /// The last reported health status of the instance. Healthy means that the instance is healthy and should remain in service. Unhealthy means that the instance is unhealthy and that Amazon EC2 Auto Scaling should terminate and replace it.
         /// This member is required.
         public var healthStatus: Swift.String?
         /// The ID of the instance.
@@ -10194,7 +10199,7 @@ extension AutoScalingClientTypes {
         public var instancesToUpdate: Swift.Int?
         /// The percentage of the instance refresh that is complete. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and is added to the percentage complete. PercentageComplete does not include instances that are replaced during a rollback. This value gradually goes back down to zero during a rollback.
         public var percentageComplete: Swift.Int?
-        /// Describes the preferences for an instance refresh.
+        /// The preferences for an instance refresh.
         public var preferences: AutoScalingClientTypes.RefreshPreferences?
         /// Additional progress details for an Auto Scaling group that has a warm pool.
         public var progressDetails: AutoScalingClientTypes.InstanceRefreshProgressDetails?
@@ -15735,6 +15740,7 @@ extension AutoScalingClientTypes {
         case pendingspotbidplacement
         case preinservice
         case successful
+        case waitingforconnectiondraining
         case waitingforelbconnectiondraining
         case waitingforinstanceid
         case waitingforinstancewarmup
@@ -15751,6 +15757,7 @@ extension AutoScalingClientTypes {
                 .pendingspotbidplacement,
                 .preinservice,
                 .successful,
+                .waitingforconnectiondraining,
                 .waitingforelbconnectiondraining,
                 .waitingforinstanceid,
                 .waitingforinstancewarmup,
@@ -15772,6 +15779,7 @@ extension AutoScalingClientTypes {
             case .pendingspotbidplacement: return "PendingSpotBidPlacement"
             case .preinservice: return "PreInService"
             case .successful: return "Successful"
+            case .waitingforconnectiondraining: return "WaitingForConnectionDraining"
             case .waitingforelbconnectiondraining: return "WaitingForELBConnectionDraining"
             case .waitingforinstanceid: return "WaitingForInstanceId"
             case .waitingforinstancewarmup: return "WaitingForInstanceWarmup"
@@ -17428,12 +17436,12 @@ extension AutoScalingClientTypes.TargetTrackingMetricStat: Swift.Codable {
 }
 
 extension AutoScalingClientTypes {
-    /// This structure defines the CloudWatch metric to return, along with the statistic, period, and unit. For more information about the CloudWatch terminology below, see [Amazon CloudWatch concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html) in the Amazon CloudWatch User Guide.
+    /// This structure defines the CloudWatch metric to return, along with the statistic and unit. For more information about the CloudWatch terminology below, see [Amazon CloudWatch concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html) in the Amazon CloudWatch User Guide.
     public struct TargetTrackingMetricStat: Swift.Equatable {
-        /// Represents a specific metric.
+        /// The metric to use.
         /// This member is required.
         public var metric: AutoScalingClientTypes.Metric?
-        /// The statistic to return. It can include any CloudWatch statistic or extended statistic. For a list of valid values, see the table in [Statistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Statistic) in the Amazon CloudWatch User Guide. The most commonly used metrics for scaling is Average
+        /// The statistic to return. It can include any CloudWatch statistic or extended statistic. For a list of valid values, see the table in [Statistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Statistic) in the Amazon CloudWatch User Guide. The most commonly used metric for scaling is Average.
         /// This member is required.
         public var stat: Swift.String?
         /// The unit to use for the returned data points. For a complete list of the units that CloudWatch supports, see the [MetricDatum](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html) data type in the Amazon CloudWatch API Reference.
@@ -17624,6 +17632,7 @@ extension AutoScalingClientTypes {
 extension AutoScalingClientTypes.TrafficSourceIdentifier: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case identifier = "Identifier"
+        case type = "Type"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -17631,26 +17640,54 @@ extension AutoScalingClientTypes.TrafficSourceIdentifier: Swift.Codable {
         if let identifier = identifier {
             try container.encode(identifier, forKey: ClientRuntime.Key("Identifier"))
         }
+        if let type = type {
+            try container.encode(type, forKey: ClientRuntime.Key("Type"))
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
         identifier = identifierDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
     }
 }
 
 extension AutoScalingClientTypes {
-    /// Describes the identifier of a traffic source. Currently, you must specify an Amazon Resource Name (ARN) for an existing VPC Lattice target group.
+    /// Identifying information for a traffic source.
     public struct TrafficSourceIdentifier: Swift.Equatable {
-        /// The unique identifier of the traffic source.
+        /// Identifies the traffic source. For Application Load Balancers, Gateway Load Balancers, Network Load Balancers, and VPC Lattice, this will be the Amazon Resource Name (ARN) for a target group in this account and Region. For Classic Load Balancers, this will be the name of the Classic Load Balancer in this account and Region. For example:
+        ///
+        /// * Application Load Balancer ARN: arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/1234567890123456
+        ///
+        /// * Classic Load Balancer name: my-classic-load-balancer
+        ///
+        /// * VPC Lattice ARN: arn:aws:vpc-lattice:us-west-2:123456789012:targetgroup/tg-1234567890123456
+        ///
+        ///
+        /// To get the ARN of a target group for a Application Load Balancer, Gateway Load Balancer, or Network Load Balancer, or the name of a Classic Load Balancer, use the Elastic Load Balancing [DescribeTargetGroups](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html) and [DescribeLoadBalancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html) API operations. To get the ARN of a target group for VPC Lattice, use the VPC Lattice [GetTargetGroup](https://docs.aws.amazon.com/vpc-lattice/latest/APIReference/API_GetTargetGroup.html) API operation.
+        /// This member is required.
         public var identifier: Swift.String?
+        /// Provides additional context for the value of Identifier. The following lists the valid values:
+        ///
+        /// * elb if Identifier is the name of a Classic Load Balancer.
+        ///
+        /// * elbv2 if Identifier is the ARN of an Application Load Balancer, Gateway Load Balancer, or Network Load Balancer target group.
+        ///
+        /// * vpc-lattice if Identifier is the ARN of a VPC Lattice target group.
+        ///
+        ///
+        /// Required if the identifier is the name of a Classic Load Balancer.
+        public var type: Swift.String?
 
         public init (
-            identifier: Swift.String? = nil
+            identifier: Swift.String? = nil,
+            type: Swift.String? = nil
         )
         {
             self.identifier = identifier
+            self.type = type
         }
     }
 
@@ -17658,17 +17695,25 @@ extension AutoScalingClientTypes {
 
 extension AutoScalingClientTypes.TrafficSourceState: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case identifier = "Identifier"
         case state = "State"
         case trafficSource = "TrafficSource"
+        case type = "Type"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let identifier = identifier {
+            try container.encode(identifier, forKey: ClientRuntime.Key("Identifier"))
+        }
         if let state = state {
             try container.encode(state, forKey: ClientRuntime.Key("State"))
         }
         if let trafficSource = trafficSource {
             try container.encode(trafficSource, forKey: ClientRuntime.Key("TrafficSource"))
+        }
+        if let type = type {
+            try container.encode(type, forKey: ClientRuntime.Key("Type"))
         }
     }
 
@@ -17678,34 +17723,56 @@ extension AutoScalingClientTypes.TrafficSourceState: Swift.Codable {
         trafficSource = trafficSourceDecoded
         let stateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .state)
         state = stateDecoded
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
+        identifier = identifierDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
     }
 }
 
 extension AutoScalingClientTypes {
     /// Describes the state of a traffic source.
     public struct TrafficSourceState: Swift.Equatable {
-        /// The following are the possible states for a VPC Lattice target group:
+        /// The unique identifier of the traffic source.
+        public var identifier: Swift.String?
+        /// Describes the current state of a traffic source. The state values are as follows:
         ///
-        /// * Adding - The Auto Scaling instances are being registered with the target group.
+        /// * Adding - The Auto Scaling instances are being registered with the load balancer or target group.
         ///
-        /// * Added - All Auto Scaling instances are registered with the target group.
+        /// * Added - All Auto Scaling instances are registered with the load balancer or target group.
         ///
-        /// * InService - At least one Auto Scaling instance passed the VPC_LATTICE health check.
+        /// * InService - For an Elastic Load Balancing load balancer or target group, at least one Auto Scaling instance passed an ELB health check. For VPC Lattice, at least one Auto Scaling instance passed an VPC_LATTICE health check.
         ///
-        /// * Removing - The Auto Scaling instances are being deregistered from the target group. If connection draining is enabled, VPC Lattice waits for in-flight requests to complete before deregistering the instances.
+        /// * Removing - The Auto Scaling instances are being deregistered from the load balancer or target group. If connection draining (deregistration delay) is enabled, Elastic Load Balancing or VPC Lattice waits for in-flight requests to complete before deregistering the instances.
         ///
-        /// * Removed - All Auto Scaling instances are deregistered from the target group.
+        /// * Removed - All Auto Scaling instances are deregistered from the load balancer or target group.
         public var state: Swift.String?
-        /// The unique identifier of the traffic source. Currently, this is the Amazon Resource Name (ARN) for a VPC Lattice target group.
+        /// This is replaced by Identifier.
+        @available(*, deprecated, message: "TrafficSource has been replaced by Identifier")
         public var trafficSource: Swift.String?
+        /// Provides additional context for the value of Identifier. The following lists the valid values:
+        ///
+        /// * elb if Identifier is the name of a Classic Load Balancer.
+        ///
+        /// * elbv2 if Identifier is the ARN of an Application Load Balancer, Gateway Load Balancer, or Network Load Balancer target group.
+        ///
+        /// * vpc-lattice if Identifier is the ARN of a VPC Lattice target group.
+        ///
+        ///
+        /// Required if the identifier is the name of a Classic Load Balancer.
+        public var type: Swift.String?
 
         public init (
+            identifier: Swift.String? = nil,
             state: Swift.String? = nil,
-            trafficSource: Swift.String? = nil
+            trafficSource: Swift.String? = nil,
+            type: Swift.String? = nil
         )
         {
+            self.identifier = identifier
             self.state = state
             self.trafficSource = trafficSource
+            self.type = type
         }
     }
 
@@ -17826,7 +17893,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Equatable {
     public var desiredCapacityType: Swift.String?
     /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. This is useful if your instances do not immediately pass their health checks after they enter the InService state. For more information, see [Set the health check grace period for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/health-check-grace-period.html) in the Amazon EC2 Auto Scaling User Guide.
     public var healthCheckGracePeriod: Swift.Int?
-    /// Determines whether any additional health checks are performed on the instances in this group. Amazon EC2 health checks are always on. The valid values are EC2 (default), ELB, and VPC_LATTICE. The VPC_LATTICE health check type is reserved for use with VPC Lattice, which is in preview release and is subject to change.
+    /// A comma-separated value string of one or more health check types. The valid values are EC2, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see [Health checks for Auto Scaling instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/healthcheck.html) in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
     public var healthCheckType: Swift.String?
     /// The name of the launch configuration. If you specify LaunchConfigurationName in your update request, you can't specify LaunchTemplate or MixedInstancesPolicy.
     public var launchConfigurationName: Swift.String?

@@ -165,7 +165,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         return result
     }
 
-    /// Create a lens share. The owner of a lens can share it with other Amazon Web Services accounts, IAM users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Shared access to a lens is not removed until the lens invitation is deleted. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
+    /// Create a lens share. The owner of a lens can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared. Shared access to a lens is not removed until the lens invitation is deleted. If you share a lens with an organization or OU, all accounts in the organization or OU are granted access to the lens. For more information, see [Sharing a custom lens](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-sharing.html) in the Well-Architected Tool User Guide. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     public func createLensShare(input: CreateLensShareInput) async throws -> CreateLensShareOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -208,7 +208,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         return result
     }
 
-    /// Create a new lens version. A lens can have up to 100 versions. After a lens has been imported, create a new lens version to publish it. The owner of a lens can share the lens with other Amazon Web Services accounts and IAM users in the same Amazon Web Services Region. Only the owner of a lens can delete it.
+    /// Create a new lens version. A lens can have up to 100 versions. Use this operation to publish a new lens version after you have imported a lens. The LensAlias is used to identify the lens to be published. The owner of a lens can share the lens with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a lens can delete it.
     public func createLensVersion(input: CreateLensVersionInput) async throws -> CreateLensVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -294,7 +294,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         return result
     }
 
-    /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, IAM users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see [Defining a Workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/define-workload.html) in the Well-Architected Tool User Guide.
+    /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see [Defining a Workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/define-workload.html) in the Well-Architected Tool User Guide. Either AwsRegions, NonAwsRegions, or both must be specified when creating a workload. You also must specify ReviewOwner, even though the parameter is listed as not being required in the following section.
     public func createWorkload(input: CreateWorkloadInput) async throws -> CreateWorkloadOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -337,7 +337,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         return result
     }
 
-    /// Create a workload share. The owner of a workload can share it with other Amazon Web Services accounts and IAM users in the same Amazon Web Services Region. Shared access to a workload is not removed until the workload invitation is deleted. For more information, see [Sharing a Workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/workloads-sharing.html) in the Well-Architected Tool User Guide.
+    /// Create a workload share. The owner of a workload can share it with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Shared access to a workload is not removed until the workload invitation is deleted. If you share a workload with an organization or OU, all accounts in the organization or OU are granted access to the workload. For more information, see [Sharing a workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/workloads-sharing.html) in the Well-Architected Tool User Guide.
     public func createWorkloadShare(input: CreateWorkloadShareInput) async throws -> CreateWorkloadShareOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -380,7 +380,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         return result
     }
 
-    /// Delete an existing lens. Only the owner of a lens can delete it. After the lens is deleted, Amazon Web Services accounts and IAM users that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
+    /// Delete an existing lens. Only the owner of a lens can delete it. After the lens is deleted, Amazon Web Services accounts and users that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     public func deleteLens(input: DeleteLensInput) async throws -> DeleteLensOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -421,7 +421,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         return result
     }
 
-    /// Delete a lens share. After the lens share is deleted, Amazon Web Services accounts, IAM users, organizations, and organizational units (OUs) that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
+    /// Delete a lens share. After the lens share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     public func deleteLensShare(input: DeleteLensShareInput) async throws -> DeleteLensShareOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -579,7 +579,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         return result
     }
 
-    /// Export an existing lens. Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html) in the Well-Architected Tool User Guide. Only the owner of a lens can export it. Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
+    /// Export an existing lens. Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be exported. Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html) in the Well-Architected Tool User Guide. Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
     public func exportLens(input: ExportLensInput) async throws -> ExportLensOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -641,6 +641,39 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAnswerOutputResponse, GetAnswerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAnswerOutputResponse, GetAnswerOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAnswerOutputResponse, GetAnswerOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Get a consolidated report of your workloads. You can optionally choose to include workloads that have been shared with you.
+    public func getConsolidatedReport(input: GetConsolidatedReportInput) async throws -> GetConsolidatedReportOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getConsolidatedReport")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "wellarchitected")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<GetConsolidatedReportInput, GetConsolidatedReportOutputResponse, GetConsolidatedReportOutputError>(id: "getConsolidatedReport")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConsolidatedReportInput, GetConsolidatedReportOutputResponse, GetConsolidatedReportOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConsolidatedReportInput, GetConsolidatedReportOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConsolidatedReportOutputResponse, GetConsolidatedReportOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetConsolidatedReportInput, GetConsolidatedReportOutputResponse>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetConsolidatedReportOutputResponse, GetConsolidatedReportOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConsolidatedReportOutputResponse, GetConsolidatedReportOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConsolidatedReportOutputResponse, GetConsolidatedReportOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConsolidatedReportOutputResponse, GetConsolidatedReportOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -841,7 +874,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         return result
     }
 
-    /// Import a new lens. The lens cannot be applied to workloads or shared with other Amazon Web Services accounts until it's published with [CreateLensVersion] Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html) in the Well-Architected Tool User Guide. A custom lens cannot exceed 500 KB in size. Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
+    /// Import a new custom lens or update an existing custom lens. To update an existing custom lens, specify its ARN as the LensAlias. If no ARN is specified, a new custom lens is created. The new or updated lens will have a status of DRAFT. The lens cannot be applied to workloads or shared with other Amazon Web Services accounts until it's published with [CreateLensVersion]. Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html) in the Well-Architected Tool User Guide. A custom lens cannot exceed 500 KB in size. Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
     public func importLens(input: ImportLensInput) async throws -> ImportLensOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -884,7 +917,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         return result
     }
 
-    /// List of answers.
+    /// List of answers for a particular workload and lens.
     public func listAnswers(input: ListAnswersInput) async throws -> ListAnswersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1020,7 +1053,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         return result
     }
 
-    /// List lens reviews.
+    /// List lens reviews for a particular workload.
     public func listLensReviews(input: ListLensReviewsInput) async throws -> ListLensReviewsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1287,7 +1320,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         return result
     }
 
-    /// List workloads. Paginated.
+    /// Paginated list of workloads.
     public func listWorkloads(input: ListWorkloadsInput) async throws -> ListWorkloadsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1460,7 +1493,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         return result
     }
 
-    /// Update lens review.
+    /// Update lens review for a particular workload.
     public func updateLensReview(input: UpdateLensReviewInput) async throws -> UpdateLensReviewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1600,7 +1633,7 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         return result
     }
 
-    /// Upgrade lens review.
+    /// Upgrade lens review for a particular workload.
     public func upgradeLensReview(input: UpgradeLensReviewInput) async throws -> UpgradeLensReviewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

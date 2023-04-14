@@ -18574,7 +18574,7 @@ extension MediaConvertClientTypes {
         public var priority: Swift.Int?
         /// Optional unless the job is submitted on the default queue. When you set up a job to use queue hopping, you can specify a destination queue. This queue cannot be the original queue to which the job is submitted. If the original queue isn't the default queue and you don't specify the destination queue, the job will move to the default queue.
         public var queue: Swift.String?
-        /// Required for setting up a job to use queue hopping. Minimum wait time in minutes until the job can hop to the destination queue. Valid range is 1 to 1440 minutes, inclusive.
+        /// Required for setting up a job to use queue hopping. Minimum wait time in minutes until the job can hop to the destination queue. Valid range is 1 to 4320 minutes, inclusive.
         public var waitMinutes: Swift.Int?
 
         public init (
@@ -20015,6 +20015,7 @@ extension MediaConvertClientTypes.Job: Swift.Codable {
         case accelerationStatus = "accelerationStatus"
         case arn = "arn"
         case billingTagsSource = "billingTagsSource"
+        case clientRequestToken = "clientRequestToken"
         case createdAt = "createdAt"
         case currentPhase = "currentPhase"
         case errorCode = "errorCode"
@@ -20036,6 +20037,7 @@ extension MediaConvertClientTypes.Job: Swift.Codable {
         case statusUpdateInterval = "statusUpdateInterval"
         case timing = "timing"
         case userMetadata = "userMetadata"
+        case warnings = "warnings"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -20051,6 +20053,9 @@ extension MediaConvertClientTypes.Job: Swift.Codable {
         }
         if let billingTagsSource = self.billingTagsSource {
             try encodeContainer.encode(billingTagsSource.rawValue, forKey: .billingTagsSource)
+        }
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
         }
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
@@ -20127,6 +20132,12 @@ extension MediaConvertClientTypes.Job: Swift.Codable {
                 try userMetadataContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
+        if let warnings = warnings {
+            var warningsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .warnings)
+            for warninggroup0 in warnings {
+                try warningsContainer.encode(warninggroup0)
+            }
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -20139,6 +20150,8 @@ extension MediaConvertClientTypes.Job: Swift.Codable {
         arn = arnDecoded
         let billingTagsSourceDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.BillingTagsSource.self, forKey: .billingTagsSource)
         billingTagsSource = billingTagsSourceDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
         createdAt = createdAtDecoded
         let currentPhaseDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.JobPhase.self, forKey: .currentPhase)
@@ -20217,6 +20230,17 @@ extension MediaConvertClientTypes.Job: Swift.Codable {
             }
         }
         userMetadata = userMetadataDecoded0
+        let warningsContainer = try containerValues.decodeIfPresent([MediaConvertClientTypes.WarningGroup?].self, forKey: .warnings)
+        var warningsDecoded0:[MediaConvertClientTypes.WarningGroup]? = nil
+        if let warningsContainer = warningsContainer {
+            warningsDecoded0 = [MediaConvertClientTypes.WarningGroup]()
+            for structure0 in warningsContainer {
+                if let structure0 = structure0 {
+                    warningsDecoded0?.append(structure0)
+                }
+            }
+        }
+        warnings = warningsDecoded0
     }
 }
 
@@ -20231,6 +20255,8 @@ extension MediaConvertClientTypes {
         public var arn: Swift.String?
         /// The tag type that AWS Billing and Cost Management will use to sort your AWS Elemental MediaConvert costs on any billing report that you set up.
         public var billingTagsSource: MediaConvertClientTypes.BillingTagsSource?
+        /// Prevent duplicate jobs from being created and ensure idempotency for your requests. A client request token can be any string that includes up to 64 ASCII characters. If you reuse a client request token within one minute of a successful request, the API returns the job details of the original request instead. For more information see https://docs.aws.amazon.com/mediaconvert/latest/apireference/idempotency.html.
+        public var clientRequestToken: Swift.String?
         /// The time, in Unix epoch format in seconds, when the job got created.
         public var createdAt: ClientRuntime.Date?
         /// A job's phase can be PROBING, TRANSCODING OR UPLOADING
@@ -20275,12 +20301,15 @@ extension MediaConvertClientTypes {
         public var timing: MediaConvertClientTypes.Timing?
         /// User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs.
         public var userMetadata: [Swift.String:Swift.String]?
+        /// Contains any warning messages for the job. Use to help identify potential issues with your input, output, or job. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/warning_codes.html
+        public var warnings: [MediaConvertClientTypes.WarningGroup]?
 
         public init (
             accelerationSettings: MediaConvertClientTypes.AccelerationSettings? = nil,
             accelerationStatus: MediaConvertClientTypes.AccelerationStatus? = nil,
             arn: Swift.String? = nil,
             billingTagsSource: MediaConvertClientTypes.BillingTagsSource? = nil,
+            clientRequestToken: Swift.String? = nil,
             createdAt: ClientRuntime.Date? = nil,
             currentPhase: MediaConvertClientTypes.JobPhase? = nil,
             errorCode: Swift.Int? = nil,
@@ -20301,13 +20330,15 @@ extension MediaConvertClientTypes {
             status: MediaConvertClientTypes.JobStatus? = nil,
             statusUpdateInterval: MediaConvertClientTypes.StatusUpdateInterval? = nil,
             timing: MediaConvertClientTypes.Timing? = nil,
-            userMetadata: [Swift.String:Swift.String]? = nil
+            userMetadata: [Swift.String:Swift.String]? = nil,
+            warnings: [MediaConvertClientTypes.WarningGroup]? = nil
         )
         {
             self.accelerationSettings = accelerationSettings
             self.accelerationStatus = accelerationStatus
             self.arn = arn
             self.billingTagsSource = billingTagsSource
+            self.clientRequestToken = clientRequestToken
             self.createdAt = createdAt
             self.currentPhase = currentPhase
             self.errorCode = errorCode
@@ -20329,6 +20360,7 @@ extension MediaConvertClientTypes {
             self.statusUpdateInterval = statusUpdateInterval
             self.timing = timing
             self.userMetadata = userMetadata
+            self.warnings = warnings
         }
     }
 
@@ -33903,6 +33935,53 @@ extension MediaConvertClientTypes {
             self.parNumerator = parNumerator
             self.qualityTuningLevel = qualityTuningLevel
             self.rateControlMode = rateControlMode
+        }
+    }
+
+}
+
+extension MediaConvertClientTypes.WarningGroup: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code = "code"
+        case count = "count"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let count = self.count {
+            try encodeContainer.encode(count, forKey: .count)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .code)
+        code = codeDecoded
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count)
+        count = countDecoded
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// Contains any warning codes and their count for the job.
+    public struct WarningGroup: Swift.Equatable {
+        /// Warning code that identifies a specific warning in the job. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/warning_codes.html
+        /// This member is required.
+        public var code: Swift.Int?
+        /// The number of times this warning occurred in the job.
+        /// This member is required.
+        public var count: Swift.Int?
+
+        public init (
+            code: Swift.Int? = nil,
+            count: Swift.Int? = nil
+        )
+        {
+            self.code = code
+            self.count = count
         }
     }
 

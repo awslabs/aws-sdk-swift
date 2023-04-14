@@ -95,6 +95,10 @@ public protocol ProtonClientProtocol {
     func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutputResponse
     /// Create an Proton service. An Proton service is an instantiation of a service template and often includes several service instances and pipeline. For more information, see [Services](https://docs.aws.amazon.com/proton/latest/userguide/ag-services.html) in the Proton User Guide.
     func createService(input: CreateServiceInput) async throws -> CreateServiceOutputResponse
+    /// Create a service instance.
+    func createServiceInstance(input: CreateServiceInstanceInput) async throws -> CreateServiceInstanceOutputResponse
+    /// Create the Proton Ops configuration file.
+    func createServiceSyncConfig(input: CreateServiceSyncConfigInput) async throws -> CreateServiceSyncConfigOutputResponse
     /// Create a service template. The administrator creates a service template to define standardized infrastructure and an optional CI/CD service pipeline. Developers, in turn, select the service template from Proton. If the selected service template includes a service pipeline definition, they provide a link to their source code repository. Proton then deploys and manages the infrastructure defined by the selected service template. For more information, see [Proton templates](https://docs.aws.amazon.com/proton/latest/userguide/ag-templates.html) in the Proton User Guide.
     func createServiceTemplate(input: CreateServiceTemplateInput) async throws -> CreateServiceTemplateOutputResponse
     /// Create a new major or minor version of a service template. A major version of a service template is a version that isn't backward compatible. A minor version of a service template is a version that's backward compatible within its major version.
@@ -115,6 +119,8 @@ public protocol ProtonClientProtocol {
     func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutputResponse
     /// Delete a service, with its instances and pipeline. You can't delete a service if it has any service instances that have components attached to them. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     func deleteService(input: DeleteServiceInput) async throws -> DeleteServiceOutputResponse
+    /// Delete the Proton Ops file.
+    func deleteServiceSyncConfig(input: DeleteServiceSyncConfigInput) async throws -> DeleteServiceSyncConfigOutputResponse
     /// If no other major or minor versions of the service template exist, delete the service template.
     func deleteServiceTemplate(input: DeleteServiceTemplateInput) async throws -> DeleteServiceTemplateOutputResponse
     /// If no other minor versions of a service template exist, delete a major version of the service template if it's not the Recommended version. Delete the Recommended version of the service template if no other major versions or minor versions of the service template exist. A major version of a service template is a version that isn't backwards compatible. Delete a minor version of a service template if it's not the Recommended version. Delete a Recommended minor version of the service template if no other minor versions of the service template exist. A minor version of a service template is a version that's backwards compatible.
@@ -137,12 +143,18 @@ public protocol ProtonClientProtocol {
     func getRepository(input: GetRepositoryInput) async throws -> GetRepositoryOutputResponse
     /// Get the sync status of a repository used for Proton template sync. For more information about template sync, see . A repository sync status isn't tied to the Proton Repository resource (or any other Proton resource). Therefore, tags on an Proton Repository resource have no effect on this action. Specifically, you can't use these tags to control access to this action using Attribute-based access control (ABAC). For more information about ABAC, see [ABAC](https://docs.aws.amazon.com/proton/latest/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-tags) in the Proton User Guide.
     func getRepositorySyncStatus(input: GetRepositorySyncStatusInput) async throws -> GetRepositorySyncStatusOutputResponse
-    /// Get counts of Proton resources. For infrastructure-provisioning resources (environments, services, service instances, pipelines), the action returns staleness counts. A resource is stale when it's behind the recommended version of the Proton template that it uses and it needs an update to become current. The action returns staleness counts (counts of resources that are up-to-date, behind a template major version, or behind a template minor version), the total number of resources, and the number of resources that are in a failed state, grouped by resource type. Components, environments, and service templates are exceptions—see the components, environments, and serviceTemplates field descriptions. For context, the action also returns the total number of each type of Proton template in the Amazon Web Services account. For more information, see [Proton dashboard](https://docs.aws.amazon.com/proton/latest/userguide/monitoring-dashboard.html) in the Proton User Guide.
+    /// Get counts of Proton resources. For infrastructure-provisioning resources (environments, services, service instances, pipelines), the action returns staleness counts. A resource is stale when it's behind the recommended version of the Proton template that it uses and it needs an update to become current. The action returns staleness counts (counts of resources that are up-to-date, behind a template major version, or behind a template minor version), the total number of resources, and the number of resources that are in a failed state, grouped by resource type. Components, environments, and service templates return less information - see the components, environments, and serviceTemplates field descriptions. For context, the action also returns the total number of each type of Proton template in the Amazon Web Services account. For more information, see [Proton dashboard](https://docs.aws.amazon.com/proton/latest/userguide/monitoring-dashboard.html) in the Proton User Guide.
     func getResourcesSummary(input: GetResourcesSummaryInput) async throws -> GetResourcesSummaryOutputResponse
     /// Get detailed data for a service.
     func getService(input: GetServiceInput) async throws -> GetServiceOutputResponse
     /// Get detailed data for a service instance. A service instance is an instantiation of service template and it runs in a specific environment.
     func getServiceInstance(input: GetServiceInstanceInput) async throws -> GetServiceInstanceOutputResponse
+    /// Get the status of the synced service instance.
+    func getServiceInstanceSyncStatus(input: GetServiceInstanceSyncStatusInput) async throws -> GetServiceInstanceSyncStatusOutputResponse
+    /// Get detailed data for the service sync blocker summary.
+    func getServiceSyncBlockerSummary(input: GetServiceSyncBlockerSummaryInput) async throws -> GetServiceSyncBlockerSummaryOutputResponse
+    /// Get detailed information for the service sync configuration.
+    func getServiceSyncConfig(input: GetServiceSyncConfigInput) async throws -> GetServiceSyncConfigOutputResponse
     /// Get detailed data for a service template.
     func getServiceTemplate(input: GetServiceTemplateInput) async throws -> GetServiceTemplateOutputResponse
     /// Get detailed data for a major or minor version of a service template.
@@ -217,6 +229,10 @@ public protocol ProtonClientProtocol {
     func updateServiceInstance(input: UpdateServiceInstanceInput) async throws -> UpdateServiceInstanceOutputResponse
     /// Update the service pipeline. There are four modes for updating a service pipeline. The deploymentType field defines the mode. NONE In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated. CURRENT_VERSION In this mode, the service pipeline is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment-type. MINOR_VERSION In this mode, the service pipeline is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can specify a different minor version of the current major version in use. MAJOR_VERSION In this mode, the service pipeline is deployed and updated with the published, recommended (latest) major and minor version of the current template by default. You can specify a different major version that's higher than the major version in use and a minor version.
     func updateServicePipeline(input: UpdateServicePipelineInput) async throws -> UpdateServicePipelineOutputResponse
+    /// Update the service sync blocker by resolving it.
+    func updateServiceSyncBlocker(input: UpdateServiceSyncBlockerInput) async throws -> UpdateServiceSyncBlockerOutputResponse
+    /// Update the Proton Ops config file.
+    func updateServiceSyncConfig(input: UpdateServiceSyncConfigInput) async throws -> UpdateServiceSyncConfigOutputResponse
     /// Update a service template.
     func updateServiceTemplate(input: UpdateServiceTemplateInput) async throws -> UpdateServiceTemplateOutputResponse
     /// Update a major or minor version of a service template.
