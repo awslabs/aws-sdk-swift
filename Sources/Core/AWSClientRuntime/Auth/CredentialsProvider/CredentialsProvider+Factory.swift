@@ -77,7 +77,7 @@ public extension CredentialsProvider {
         public let configFilePath: String?
         /// The path to the shared credentials file to use. If not provided it will be resolved internally via the `AWS_SHARED_CREDENTIALS_FILE` environment variable or defaulted `~/.aws/credentials` if not configured.
         public let credentialsFilePath: String?
-        
+
         /// Creates options to configure the profile credentials provider
         ///
         /// - Parameters:
@@ -94,7 +94,7 @@ public extension CredentialsProvider {
             self.credentialsFilePath = credentialsFilePath
         }
     }
-    
+
     /// A credentials provider that gets credentials from a profile in `~/.aws/config` or the shared credentials file `~/.aws/credentials`.
     /// The locations of these files are configurable via environment variables or via `ProfileOptions`.
     ///
@@ -135,7 +135,7 @@ public extension CredentialsProvider {
                 configFilePath: options.configFilePath,
                 credentialsFilePath: options.credentialsFilePath
             )
-            
+
             return try CRTCredentialsProvider(source: .profile(
                 bootstrap: bootstrap,
                 fileBasedConfiguration: fileBasedConfiguration,
@@ -152,18 +152,18 @@ public extension CredentialsProvider {
     struct STSOptions {
         /// The underlying credentials provider to be used to sign the requests made to STS
         public let credentialsProvider: CredentialsProvider
-        
+
         /// The ARN of the target role to assume, e.g. `arn:aws:iam:123456789:role/example`
         public let roleArn: String
-        
+
         /// The name to associate with the session. This is used to uniquely identify a session when the same role is assumed by different principals
         /// or for different reasons. In cross-account scenarios, the session name is visible to, and can be logged by the account that owns the role.
         /// The role session name is also in the ARN of the assumed role principal.
         public let sessionName: String
-        
+
         /// The expiry duration of the STS credentials. Defaults to 15 minutes if not set.
         public let durationSeconds: TimeInterval
-        
+
         /// Creates options to connfigure a STS assume role credential provider
         ///
         /// - Parameters:
@@ -183,7 +183,7 @@ public extension CredentialsProvider {
             self.durationSeconds = durationSeconds
         }
     }
-    
+
     /// Creates a credential provider that uses another provider to assume a role from the AWS Security Token Service (STS).
     ///
     /// When asked to provide credentials, this provider will first invoke the inner credentials provider to get AWS credentials for STS.
@@ -198,9 +198,9 @@ public extension CredentialsProvider {
         .makeWithCRTCredentialsProvider(identifier: "STS Assume Role") { configuration in
             var provider = options.credentialsProvider
             try await provider.configure(configuration)
-            
+
             let adapter = CredentialsProviderCRTAdapter(credentialsProvider: provider)
-                        
+
             return try CRTCredentialsProvider(source: .sts(
                 bootstrap: bootstrap,
                 tlsContext: tlsContext,
@@ -222,7 +222,7 @@ public extension CredentialsProvider {
         public let configFilePath: String?
         /// The path to the shared credentials file to use. If not provided it will be resolved internally via the `AWS_SHARED_CREDENTIALS_FILE` environment variable or defaulted `~/.aws/credentials` if not configured.
         public let credentialsFilePath: String?
-        
+
         /// Creates options to configure a STS Web Identity credential provider
         ///
         /// - Parameters:
@@ -236,7 +236,7 @@ public extension CredentialsProvider {
             self.credentialsFilePath = credentialsFilePath
         }
     }
-    
+
     /// Creates a credential provider that exchanges a Web Identity Token for credentials from the AWS Security Token Service (STS).
     ///
     /// It depends on the following values sourced from either environment variables or the configuration file"
@@ -256,7 +256,7 @@ public extension CredentialsProvider {
                 configFilePath: options.configFilePath,
                 credentialsFilePath: options.credentialsFilePath
             )
-            
+
             return try CRTCredentialsProvider(source: .stsWebIdentity(
                 bootstrap: bootstrap,
                 tlsContext: tlsContext,
@@ -270,7 +270,7 @@ public extension CredentialsProvider {
 // MARK: - Container
 
 // TODO uncomment when CRT fixes https://github.com/awslabs/aws-crt-swift/issues/174
-//public extension CredentialsProvider {
+// public extension CredentialsProvider {
 //
 //    struct ContainerOptions {
 //        public let pathAndQuery: String
@@ -320,7 +320,7 @@ public extension CredentialsProvider {
 //            ))
 //        }
 //    }
-//}
+// }
 
 // MARK: - Cached
 
@@ -329,11 +329,11 @@ public extension CredentialsProvider {
     struct CachedOptions {
         /// The source credentials provider to get the credentials.
         public let source: CredentialsProvider
-        
+
         /// The number of seconds that must pass before new credentials will be fetched again.
         /// If the credentials are queried during this time period, then the cached credentials are returned.
         public let refreshTime: TimeInterval
-        
+
         /// Creates options to configure  a cached credentials provider
         ///
         /// - Parameters:
@@ -359,9 +359,9 @@ public extension CredentialsProvider {
         .makeWithCRTCredentialsProvider(identifier: "Cached") { configuration in
             var provider = options.source
             try await provider.configure(configuration)
-            
+
             let adapter = CredentialsProviderCRTAdapter(credentialsProvider: provider)
-            
+
             return try CRTCredentialsProvider(source: .cached(
                 source: .init(provider: adapter),
                 refreshTime: options.refreshTime
@@ -389,7 +389,7 @@ public extension CredentialsProvider {
     static func fromDefaultChain() throws -> CredentialsProvider {
         .makeWithCRTCredentialsProvider(identifier: "Default Chain") { dependencies in
             let fileBasedConfiguration = try await dependencies.fileBasedConfigurationStore._fileBasedConfiguration()
-            
+
             return try CRTCredentialsProvider(source: .defaultChain(
                 bootstrap: bootstrap,
                 fileBasedConfiguration: fileBasedConfiguration

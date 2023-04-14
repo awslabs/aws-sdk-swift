@@ -18,7 +18,7 @@ public extension Credentials {
         guard let accessKey = crtCredentials.getAccessKey() else {
             throw ClientError.authError("Failed to get access key.")
         }
-        
+
         guard let secret = crtCredentials.getSecret() else {
             throw ClientError.authError("Failed to get secret.")
         }
