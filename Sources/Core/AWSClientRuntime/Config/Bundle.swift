@@ -17,3 +17,4 @@ public struct Bundle {
     public static var main: Bundle = Bundle()
 }
 #endif
+// swiftlint:enable discouraged_direct_init

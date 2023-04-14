@@ -10,11 +10,11 @@ public struct FileBasedConfigurationKey: RawRepresentable, ExpressibleByStringLi
     public typealias RawValue = String
     public typealias StringLiteralType = String
     public var rawValue: String
-    
+
     public init(rawValue: String) {
         self.rawValue = rawValue
     }
-    
+
     public init(stringLiteral value: String) {
         self.rawValue = value
     }
