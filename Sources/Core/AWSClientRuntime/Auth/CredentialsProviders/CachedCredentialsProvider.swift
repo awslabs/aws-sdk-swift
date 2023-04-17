@@ -12,7 +12,7 @@ import Foundation
 ///  A credentials provider that caches the credentials sourced from the provided credentials provider.
 public struct CachedCredentialsProvider: CredentialsSourcedByCRT {
     let crtCredentialsProvider: CRTCredentialsProvider
-    
+
     /// Creates a credentials provider that caches the credentials sourced from the provided credentials provider.
     /// Credentials sourced through this provider will be cached within it until their expiration time.
     /// When the cached credentials expire, new credentials will be fetched when next queried.

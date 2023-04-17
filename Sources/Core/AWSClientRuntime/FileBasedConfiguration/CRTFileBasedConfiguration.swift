@@ -33,7 +33,7 @@ extension CRTFileBasedConfiguration: FileBasedConfiguration {
         let credentialsFilePath = try credentialsFilePath ?? CRTFileBasedConfiguration.resolveConfigPath(sourceType: .credentials)
         return try CRTFileBasedConfiguration(configFilePath: configFilePath, credentialsFilePath: credentialsFilePath)
     }
-    
+
     public static func makeAsync(
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil
@@ -46,7 +46,7 @@ extension CRTFileBasedConfiguration: FileBasedConfiguration {
         }
         return try await task.value
     }
-    
+
     public func section(
         for name: String,
         type: FileBasedConfigurationSectionType

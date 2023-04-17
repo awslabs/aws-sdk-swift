@@ -12,7 +12,7 @@ import Foundation
 /// Creates a credentials provider that uses the provided the object confirming to `CredentialsProviding` to source the credentials.
 struct CustomCredentialsProvider: CredentialsSourcedByCRT {
     let crtCredentialsProvider: CRTCredentialsProvider
-    
+
     /// Creates a credentials provider that uses the provided the object confirming to `CredentialsProviding` to source the credentials.
     ///
     /// - Parameter provider: An object confirming to `CredentialsProviding` to source the credentials.

@@ -20,7 +20,7 @@ import Foundation
 /// For more information see [AssumeRoleWithWebIdentity](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoleWithWebIdentity.html)
 public struct STSWebIdentityCredentialsProvider: CredentialsSourcedByCRT {
     let crtCredentialsProvider: CRTCredentialsProvider
-    
+
     /// Creates a credential provider that exchanges a Web Identity Token for credentials from the AWS Security Token Service (STS).
     ///
     /// - Parameters:

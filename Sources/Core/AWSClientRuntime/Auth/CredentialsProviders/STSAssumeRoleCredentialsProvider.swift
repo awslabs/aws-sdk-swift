@@ -17,7 +17,7 @@ import Foundation
 /// For more information see [Assume role credential provider](https://docs.aws.amazon.com/sdkref/latest/guide/feature-assume-role-credentials.html)
 public struct STSAssumeRoleCredentialsProvider: CredentialsSourcedByCRT {
     let crtCredentialsProvider: CRTCredentialsProvider
-    
+
     /// Creates a credential provider that uses another provider to assume a role from the AWS Security Token Service (STS).
     ///
     /// - Parameters:

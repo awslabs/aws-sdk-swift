@@ -15,7 +15,7 @@ import Foundation
 /// - `AWS_SESSION_TOKEN`
 public struct EnvironmentCredentialsProvider: CredentialsSourcedByCRT {
     let crtCredentialsProvider: CRTCredentialsProvider
-    
+
     /// Creates a credentials provider that sources credentials from the following environment variables:
     /// - `AWS_ACCESS_KEY_ID`
     /// - `AWS_SECRET_ACCESS_KEY`

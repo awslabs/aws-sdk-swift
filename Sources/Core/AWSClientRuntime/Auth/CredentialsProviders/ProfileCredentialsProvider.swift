@@ -41,7 +41,7 @@ import Foundation
 /// For more complex configurations see [Configuration and credential file settings](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html)
 public struct ProfileCredentialsProvider: CredentialsSourcedByCRT {
     let crtCredentialsProvider: CRTCredentialsProvider
-    
+
     /// Creates a credentials provider that gets credentials from a profile in `~/.aws/config` or the shared credentials file `~/.aws/credentials`.
     ///
     /// - Parameters:

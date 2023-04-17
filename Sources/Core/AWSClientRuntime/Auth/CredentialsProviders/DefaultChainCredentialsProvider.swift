@@ -22,13 +22,13 @@ import Foundation
 /// The credentials retrieved from the chain are cached for 15 minutes.
 public struct DefaultChainCredentialsProvider: CredentialsSourcedByCRT {
     let crtCredentialsProvider: CRTCredentialsProvider
-    
+
     /// Creates a credential provider that uses the default AWS credential provider chain used by most AWS SDKs.
     public init() throws {
         let fileBasedConfig = try CRTFileBasedConfiguration()
         try self.init(fileBasedConfig: fileBasedConfig)
     }
-    
+
     @_spi(FileBasedConfig)
     public init(fileBasedConfig: CRTFileBasedConfiguration) throws {
         self.crtCredentialsProvider = try CRTCredentialsProvider(source: .defaultChain(

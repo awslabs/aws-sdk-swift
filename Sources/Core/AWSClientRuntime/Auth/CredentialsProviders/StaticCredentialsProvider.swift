@@ -13,7 +13,7 @@ import Foundation
 public struct StaticCredentialsProvider: CredentialsSourcedByCRT {
     private let credentials: Credentials
     let crtCredentialsProvider: CRTCredentialsProvider
-    
+
     /// Creates a credentials provider for a fixed set of credentials
     ///
     /// - Parameter credentials: The credentials that this provider will provide.

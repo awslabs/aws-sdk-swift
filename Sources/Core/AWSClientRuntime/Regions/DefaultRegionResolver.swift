@@ -48,7 +48,7 @@ public struct StaticRegionResolver: RegionResolver {
     public init(_ region: String) {
         self.region = region
     }
-    
+
     public func resolveRegion() async -> String? {
         return region
     }
