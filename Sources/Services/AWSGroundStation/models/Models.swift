@@ -4,6 +4,7 @@ import ClientRuntime
 
 extension GroundStationClientTypes.AgentDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentCpuCores
         case agentVersion
         case componentVersions
         case instanceId
@@ -13,6 +14,12 @@ extension GroundStationClientTypes.AgentDetails: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentCpuCores = agentCpuCores {
+            var agentCpuCoresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agentCpuCores)
+            for integer0 in agentCpuCores {
+                try agentCpuCoresContainer.encode(integer0)
+            }
+        }
         if let agentVersion = self.agentVersion {
             try encodeContainer.encode(agentVersion, forKey: .agentVersion)
         }
@@ -55,6 +62,17 @@ extension GroundStationClientTypes.AgentDetails: Swift.Codable {
             }
         }
         reservedCpuCores = reservedCpuCoresDecoded0
+        let agentCpuCoresContainer = try containerValues.decodeIfPresent([Swift.Int?].self, forKey: .agentCpuCores)
+        var agentCpuCoresDecoded0:[Swift.Int]? = nil
+        if let agentCpuCoresContainer = agentCpuCoresContainer {
+            agentCpuCoresDecoded0 = [Swift.Int]()
+            for integer0 in agentCpuCoresContainer {
+                if let integer0 = integer0 {
+                    agentCpuCoresDecoded0?.append(integer0)
+                }
+            }
+        }
+        agentCpuCores = agentCpuCoresDecoded0
         let componentVersionsContainer = try containerValues.decodeIfPresent([GroundStationClientTypes.ComponentVersion?].self, forKey: .componentVersions)
         var componentVersionsDecoded0:[GroundStationClientTypes.ComponentVersion]? = nil
         if let componentVersionsContainer = componentVersionsContainer {
@@ -72,6 +90,8 @@ extension GroundStationClientTypes.AgentDetails: Swift.Codable {
 extension GroundStationClientTypes {
     /// Detailed information about the agent.
     public struct AgentDetails: Swift.Equatable {
+        /// List of CPU cores reserved for the agent.
+        public var agentCpuCores: [Swift.Int]?
         /// Current agent version.
         /// This member is required.
         public var agentVersion: Swift.String?
@@ -84,11 +104,11 @@ extension GroundStationClientTypes {
         /// Type of EC2 instance agent is running on.
         /// This member is required.
         public var instanceType: Swift.String?
-        /// Number of Cpu cores reserved for agent.
-        /// This member is required.
+        /// This field should not be used. Use agentCpuCores instead. List of CPU cores reserved for processes other than the agent running on the EC2 instance.
         public var reservedCpuCores: [Swift.Int]?
 
         public init (
+            agentCpuCores: [Swift.Int]? = nil,
             agentVersion: Swift.String? = nil,
             componentVersions: [GroundStationClientTypes.ComponentVersion]? = nil,
             instanceId: Swift.String? = nil,
@@ -96,6 +116,7 @@ extension GroundStationClientTypes {
             reservedCpuCores: [Swift.Int]? = nil
         )
         {
+            self.agentCpuCores = agentCpuCores
             self.agentVersion = agentVersion
             self.componentVersions = componentVersions
             self.instanceId = instanceId
@@ -665,6 +686,85 @@ extension CancelContactOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GroundStationClientTypes {
+    public enum CapabilityHealth: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case healthy
+        case unhealthy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapabilityHealth] {
+            return [
+                .healthy,
+                .unhealthy,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .healthy: return "HEALTHY"
+            case .unhealthy: return "UNHEALTHY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CapabilityHealth(rawValue: rawValue) ?? CapabilityHealth.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+    public enum CapabilityHealthReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dataplaneFailure
+        case healthy
+        case initializingDataplane
+        case invalidIpOwnership
+        case notAuthorizedToCreateSlr
+        case noRegisteredAgent
+        case unverifiedIpOwnership
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapabilityHealthReason] {
+            return [
+                .dataplaneFailure,
+                .healthy,
+                .initializingDataplane,
+                .invalidIpOwnership,
+                .notAuthorizedToCreateSlr,
+                .noRegisteredAgent,
+                .unverifiedIpOwnership,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dataplaneFailure: return "DATAPLANE_FAILURE"
+            case .healthy: return "HEALTHY"
+            case .initializingDataplane: return "INITIALIZING_DATAPLANE"
+            case .invalidIpOwnership: return "INVALID_IP_OWNERSHIP"
+            case .notAuthorizedToCreateSlr: return "NOT_AUTHORIZED_TO_CREATE_SLR"
+            case .noRegisteredAgent: return "NO_REGISTERED_AGENT"
+            case .unverifiedIpOwnership: return "UNVERIFIED_IP_OWNERSHIP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CapabilityHealthReason(rawValue: rawValue) ?? CapabilityHealthReason.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension GroundStationClientTypes.ComponentStatusData: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bytesReceived
@@ -688,7 +788,7 @@ extension GroundStationClientTypes.ComponentStatusData: Swift.Codable {
             try encodeContainer.encode(capabilityArn, forKey: .capabilityArn)
         }
         if let componentType = self.componentType {
-            try encodeContainer.encode(componentType.rawValue, forKey: .componentType)
+            try encodeContainer.encode(componentType, forKey: .componentType)
         }
         if let dataflowId = self.dataflowId {
             try encodeContainer.encode(dataflowId, forKey: .dataflowId)
@@ -703,7 +803,7 @@ extension GroundStationClientTypes.ComponentStatusData: Swift.Codable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let componentTypeDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.ComponentType.self, forKey: .componentType)
+        let componentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentType)
         componentType = componentTypeDecoded
         let capabilityArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .capabilityArn)
         capabilityArn = capabilityArnDecoded
@@ -732,7 +832,7 @@ extension GroundStationClientTypes {
         public var capabilityArn: Swift.String?
         /// The Component type.
         /// This member is required.
-        public var componentType: GroundStationClientTypes.ComponentType?
+        public var componentType: Swift.String?
         /// Dataflow UUID associated with the component.
         /// This member is required.
         public var dataflowId: Swift.String?
@@ -746,7 +846,7 @@ extension GroundStationClientTypes {
             bytesReceived: Swift.Int? = nil,
             bytesSent: Swift.Int? = nil,
             capabilityArn: Swift.String? = nil,
-            componentType: GroundStationClientTypes.ComponentType? = nil,
+            componentType: Swift.String? = nil,
             dataflowId: Swift.String? = nil,
             packetsDropped: Swift.Int? = nil,
             status: GroundStationClientTypes.AgentStatus? = nil
@@ -764,41 +864,6 @@ extension GroundStationClientTypes {
 
 }
 
-extension GroundStationClientTypes {
-    public enum ComponentType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case digitizer
-        case laminarFlow
-        case prism
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ComponentType] {
-            return [
-                .digitizer,
-                .laminarFlow,
-                .prism,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .digitizer: return "DIGITIZER"
-            case .laminarFlow: return "LAMINAR_FLOW"
-            case .prism: return "PRISM"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = ComponentType(rawValue: rawValue) ?? ComponentType.sdkUnknown(rawValue)
-        }
-    }
-}
-
 extension GroundStationClientTypes.ComponentVersion: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case componentType
@@ -808,7 +873,7 @@ extension GroundStationClientTypes.ComponentVersion: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let componentType = self.componentType {
-            try encodeContainer.encode(componentType.rawValue, forKey: .componentType)
+            try encodeContainer.encode(componentType, forKey: .componentType)
         }
         if let versions = versions {
             var versionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .versions)
@@ -820,7 +885,7 @@ extension GroundStationClientTypes.ComponentVersion: Swift.Codable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let componentTypeDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.ComponentType.self, forKey: .componentType)
+        let componentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .componentType)
         componentType = componentTypeDecoded
         let versionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .versions)
         var versionsDecoded0:[Swift.String]? = nil
@@ -841,13 +906,13 @@ extension GroundStationClientTypes {
     public struct ComponentVersion: Swift.Equatable {
         /// Component type.
         /// This member is required.
-        public var componentType: GroundStationClientTypes.ComponentType?
+        public var componentType: Swift.String?
         /// List of versions.
         /// This member is required.
         public var versions: [Swift.String]?
 
         public init (
-            componentType: GroundStationClientTypes.ComponentType? = nil,
+            componentType: Swift.String? = nil,
             versions: [Swift.String]? = nil
         )
         {
@@ -1617,9 +1682,9 @@ extension CreateDataflowEndpointGroupInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct CreateDataflowEndpointGroupInput: Swift.Equatable {
-    /// Amount of time, in seconds, after a contact ends for the contact to remain in a POSTPASS state. A CloudWatch event is emitted when the contact enters and exits the POSTPASS state.
+    /// Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
     public var contactPostPassDurationSeconds: Swift.Int?
-    /// Amount of time, in seconds, prior to contact start for the contact to remain in a PREPASS state. A CloudWatch event is emitted when the contact enters and exits the PREPASS state.
+    /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
     public var contactPrePassDurationSeconds: Swift.Int?
     /// Endpoint details of each endpoint in the dataflow endpoint group.
     /// This member is required.
@@ -3756,6 +3821,8 @@ extension GroundStationClientTypes.EndpointDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case awsGroundStationAgentEndpoint
         case endpoint
+        case healthReasons
+        case healthStatus
         case securityDetails
     }
 
@@ -3766,6 +3833,15 @@ extension GroundStationClientTypes.EndpointDetails: Swift.Codable {
         }
         if let endpoint = self.endpoint {
             try encodeContainer.encode(endpoint, forKey: .endpoint)
+        }
+        if let healthReasons = healthReasons {
+            var healthReasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .healthReasons)
+            for capabilityhealthreason0 in healthReasons {
+                try healthReasonsContainer.encode(capabilityhealthreason0.rawValue)
+            }
+        }
+        if let healthStatus = self.healthStatus {
+            try encodeContainer.encode(healthStatus.rawValue, forKey: .healthStatus)
         }
         if let securityDetails = self.securityDetails {
             try encodeContainer.encode(securityDetails, forKey: .securityDetails)
@@ -3780,6 +3856,19 @@ extension GroundStationClientTypes.EndpointDetails: Swift.Codable {
         endpoint = endpointDecoded
         let awsGroundStationAgentEndpointDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.AwsGroundStationAgentEndpoint.self, forKey: .awsGroundStationAgentEndpoint)
         awsGroundStationAgentEndpoint = awsGroundStationAgentEndpointDecoded
+        let healthStatusDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.CapabilityHealth.self, forKey: .healthStatus)
+        healthStatus = healthStatusDecoded
+        let healthReasonsContainer = try containerValues.decodeIfPresent([GroundStationClientTypes.CapabilityHealthReason?].self, forKey: .healthReasons)
+        var healthReasonsDecoded0:[GroundStationClientTypes.CapabilityHealthReason]? = nil
+        if let healthReasonsContainer = healthReasonsContainer {
+            healthReasonsDecoded0 = [GroundStationClientTypes.CapabilityHealthReason]()
+            for string0 in healthReasonsContainer {
+                if let string0 = string0 {
+                    healthReasonsDecoded0?.append(string0)
+                }
+            }
+        }
+        healthReasons = healthReasonsDecoded0
     }
 }
 
@@ -3790,17 +3879,25 @@ extension GroundStationClientTypes {
         public var awsGroundStationAgentEndpoint: GroundStationClientTypes.AwsGroundStationAgentEndpoint?
         /// A dataflow endpoint.
         public var endpoint: GroundStationClientTypes.DataflowEndpoint?
+        /// Health reasons for a dataflow endpoint. This field is ignored when calling CreateDataflowEndpointGroup.
+        public var healthReasons: [GroundStationClientTypes.CapabilityHealthReason]?
+        /// A dataflow endpoint health status. This field is ignored when calling CreateDataflowEndpointGroup.
+        public var healthStatus: GroundStationClientTypes.CapabilityHealth?
         /// Endpoint security details including a list of subnets, a list of security groups and a role to connect streams to instances.
         public var securityDetails: GroundStationClientTypes.SecurityDetails?
 
         public init (
             awsGroundStationAgentEndpoint: GroundStationClientTypes.AwsGroundStationAgentEndpoint? = nil,
             endpoint: GroundStationClientTypes.DataflowEndpoint? = nil,
+            healthReasons: [GroundStationClientTypes.CapabilityHealthReason]? = nil,
+            healthStatus: GroundStationClientTypes.CapabilityHealth? = nil,
             securityDetails: GroundStationClientTypes.SecurityDetails? = nil
         )
         {
             self.awsGroundStationAgentEndpoint = awsGroundStationAgentEndpoint
             self.endpoint = endpoint
+            self.healthReasons = healthReasons
+            self.healthStatus = healthStatus
             self.securityDetails = securityDetails
         }
     }
@@ -4767,9 +4864,9 @@ extension GetDataflowEndpointGroupOutputResponse: ClientRuntime.HttpResponseBind
 
 ///
 public struct GetDataflowEndpointGroupOutputResponse: Swift.Equatable {
-    /// Amount of time, in seconds, after a contact ends for the contact to remain in a POSTPASS state. A CloudWatch event is emitted when the contact enters and exits the POSTPASS state.
+    /// Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
     public var contactPostPassDurationSeconds: Swift.Int?
-    /// Amount of time, in seconds, prior to contact start for the contact to remain in a PREPASS state. A CloudWatch event is emitted when the contact enters and exits the PREPASS state.
+    /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
     public var contactPrePassDurationSeconds: Swift.Int?
     /// ARN of a dataflow endpoint group.
     public var dataflowEndpointGroupArn: Swift.String?
@@ -7124,7 +7221,7 @@ public struct RegisterAgentInput: Swift.Equatable {
     /// Detailed information about the agent being registered.
     /// This member is required.
     public var agentDetails: GroundStationClientTypes.AgentDetails?
-    /// Data for associating and agent with the capabilities it is managing.
+    /// Data for associating an agent with the capabilities it is managing.
     /// This member is required.
     public var discoveryData: GroundStationClientTypes.DiscoveryData?
 

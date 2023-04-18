@@ -1819,6 +1819,7 @@ extension CreateSipMediaApplicationInput: Swift.Encodable {
         case awsRegion = "AwsRegion"
         case endpoints = "Endpoints"
         case name = "Name"
+        case tags = "Tags"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1834,6 +1835,12 @@ extension CreateSipMediaApplicationInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
         }
     }
 }
@@ -1854,16 +1861,20 @@ public struct CreateSipMediaApplicationInput: Swift.Equatable {
     /// The SIP media application's name.
     /// This member is required.
     public var name: Swift.String?
+    /// The tags assigned to the SIP media application.
+    public var tags: [ChimeSDKVoiceClientTypes.Tag]?
 
     public init (
         awsRegion: Swift.String? = nil,
         endpoints: [ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint]? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        tags: [ChimeSDKVoiceClientTypes.Tag]? = nil
     )
     {
         self.awsRegion = awsRegion
         self.endpoints = endpoints
         self.name = name
+        self.tags = tags
     }
 }
 
@@ -1871,6 +1882,7 @@ struct CreateSipMediaApplicationInputBody: Swift.Equatable {
     let awsRegion: Swift.String?
     let name: Swift.String?
     let endpoints: [ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint]?
+    let tags: [ChimeSDKVoiceClientTypes.Tag]?
 }
 
 extension CreateSipMediaApplicationInputBody: Swift.Decodable {
@@ -1878,6 +1890,7 @@ extension CreateSipMediaApplicationInputBody: Swift.Decodable {
         case awsRegion = "AwsRegion"
         case endpoints = "Endpoints"
         case name = "Name"
+        case tags = "Tags"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -1897,6 +1910,17 @@ extension CreateSipMediaApplicationInputBody: Swift.Decodable {
             }
         }
         endpoints = endpointsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([ChimeSDKVoiceClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[ChimeSDKVoiceClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [ChimeSDKVoiceClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -2322,6 +2346,7 @@ extension CreateVoiceConnectorInput: Swift.Encodable {
         case awsRegion = "AwsRegion"
         case name = "Name"
         case requireEncryption = "RequireEncryption"
+        case tags = "Tags"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2334,6 +2359,12 @@ extension CreateVoiceConnectorInput: Swift.Encodable {
         }
         if let requireEncryption = self.requireEncryption {
             try encodeContainer.encode(requireEncryption, forKey: .requireEncryption)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
         }
     }
 }
@@ -2353,16 +2384,20 @@ public struct CreateVoiceConnectorInput: Swift.Equatable {
     /// Enables or disables encryption for the Voice Connector.
     /// This member is required.
     public var requireEncryption: Swift.Bool?
+    /// The tags assigned to the Voice Connector.
+    public var tags: [ChimeSDKVoiceClientTypes.Tag]?
 
     public init (
         awsRegion: ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion? = nil,
         name: Swift.String? = nil,
-        requireEncryption: Swift.Bool? = nil
+        requireEncryption: Swift.Bool? = nil,
+        tags: [ChimeSDKVoiceClientTypes.Tag]? = nil
     )
     {
         self.awsRegion = awsRegion
         self.name = name
         self.requireEncryption = requireEncryption
+        self.tags = tags
     }
 }
 
@@ -2370,6 +2405,7 @@ struct CreateVoiceConnectorInputBody: Swift.Equatable {
     let name: Swift.String?
     let awsRegion: ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion?
     let requireEncryption: Swift.Bool?
+    let tags: [ChimeSDKVoiceClientTypes.Tag]?
 }
 
 extension CreateVoiceConnectorInputBody: Swift.Decodable {
@@ -2377,6 +2413,7 @@ extension CreateVoiceConnectorInputBody: Swift.Decodable {
         case awsRegion = "AwsRegion"
         case name = "Name"
         case requireEncryption = "RequireEncryption"
+        case tags = "Tags"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -2387,6 +2424,17 @@ extension CreateVoiceConnectorInputBody: Swift.Decodable {
         awsRegion = awsRegionDecoded
         let requireEncryptionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireEncryption)
         requireEncryption = requireEncryptionDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([ChimeSDKVoiceClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[ChimeSDKVoiceClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [ChimeSDKVoiceClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -8920,7 +8968,7 @@ extension ChimeSDKVoiceClientTypes {
     public struct LoggingConfiguration: Swift.Equatable {
         /// Enables or disables media metrics logging.
         public var enableMediaMetricLogs: Swift.Bool?
-        /// Boolean that enables sending SIP message logs to Amazon CloudWatch logs.
+        /// Boolean that enables sending SIP message logs to Amazon CloudWatch.
         public var enableSIPLogs: Swift.Bool?
 
         public init (
@@ -12272,6 +12320,7 @@ extension ChimeSDKVoiceClientTypes.SipMediaApplication: Swift.Codable {
         case createdTimestamp = "CreatedTimestamp"
         case endpoints = "Endpoints"
         case name = "Name"
+        case sipMediaApplicationArn = "SipMediaApplicationArn"
         case sipMediaApplicationId = "SipMediaApplicationId"
         case updatedTimestamp = "UpdatedTimestamp"
     }
@@ -12292,6 +12341,9 @@ extension ChimeSDKVoiceClientTypes.SipMediaApplication: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let sipMediaApplicationArn = self.sipMediaApplicationArn {
+            try encodeContainer.encode(sipMediaApplicationArn, forKey: .sipMediaApplicationArn)
         }
         if let sipMediaApplicationId = self.sipMediaApplicationId {
             try encodeContainer.encode(sipMediaApplicationId, forKey: .sipMediaApplicationId)
@@ -12324,6 +12376,8 @@ extension ChimeSDKVoiceClientTypes.SipMediaApplication: Swift.Codable {
         createdTimestamp = createdTimestampDecoded
         let updatedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedTimestamp)
         updatedTimestamp = updatedTimestampDecoded
+        let sipMediaApplicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sipMediaApplicationArn)
+        sipMediaApplicationArn = sipMediaApplicationArnDecoded
     }
 }
 
@@ -12334,10 +12388,12 @@ extension ChimeSDKVoiceClientTypes {
         public var awsRegion: Swift.String?
         /// The SIP media application creation timestamp, in ISO 8601 format.
         public var createdTimestamp: ClientRuntime.Date?
-        /// List of endpoints for SIP media application. Currently, only one endpoint per SIP media application is permitted.
+        /// List of endpoints for a SIP media application. Currently, only one endpoint per SIP media application is permitted.
         public var endpoints: [ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint]?
         /// The SIP media application's name.
         public var name: Swift.String?
+        /// The ARN of the SIP media application.
+        public var sipMediaApplicationArn: Swift.String?
         /// A SIP media application's ID.
         public var sipMediaApplicationId: Swift.String?
         /// The time at which the SIP media application was updated.
@@ -12348,6 +12404,7 @@ extension ChimeSDKVoiceClientTypes {
             createdTimestamp: ClientRuntime.Date? = nil,
             endpoints: [ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint]? = nil,
             name: Swift.String? = nil,
+            sipMediaApplicationArn: Swift.String? = nil,
             sipMediaApplicationId: Swift.String? = nil,
             updatedTimestamp: ClientRuntime.Date? = nil
         )
@@ -12356,6 +12413,7 @@ extension ChimeSDKVoiceClientTypes {
             self.createdTimestamp = createdTimestamp
             self.endpoints = endpoints
             self.name = name
+            self.sipMediaApplicationArn = sipMediaApplicationArn
             self.sipMediaApplicationId = sipMediaApplicationId
             self.updatedTimestamp = updatedTimestamp
         }

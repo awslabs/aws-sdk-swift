@@ -29,8 +29,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
-                        "signingRegion": "us-east-1",
-                        "signingName": "cloudfront"
+                        "signingName": "cloudfront",
+                        "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -57,8 +57,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
-                        "signingRegion": "us-east-1",
-                        "signingName": "cloudfront"
+                        "signingName": "cloudfront",
+                        "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -105,8 +105,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
-                        "signingRegion": "us-east-1",
-                        "signingName": "cloudfront"
+                        "signingName": "cloudfront",
+                        "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -153,8 +153,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
-                        "signingRegion": "us-east-1",
-                        "signingName": "cloudfront"
+                        "signingName": "cloudfront",
+                        "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -181,8 +181,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
-                        "signingRegion": "cn-northwest-1",
-                        "signingName": "cloudfront"
+                        "signingName": "cloudfront",
+                        "signingRegion": "cn-northwest-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -269,8 +269,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
-                        "signingRegion": "cn-northwest-1",
-                        "signingName": "cloudfront"
+                        "signingName": "cloudfront",
+                        "signingRegion": "cn-northwest-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]

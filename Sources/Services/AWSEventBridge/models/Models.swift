@@ -3990,7 +3990,7 @@ extension DeleteRuleInput: Swift.Encodable {
         if let eventBusName = self.eventBusName {
             try encodeContainer.encode(eventBusName, forKey: .eventBusName)
         }
-        if force != false {
+        if let force = self.force {
             try encodeContainer.encode(force, forKey: .force)
         }
         if let name = self.name {
@@ -4009,14 +4009,14 @@ public struct DeleteRuleInput: Swift.Equatable {
     /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
     public var eventBusName: Swift.String?
     /// If this is a managed rule, created by an Amazon Web Services service on your behalf, you must specify Force as True to delete the rule. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
-    public var force: Swift.Bool
+    public var force: Swift.Bool?
     /// The name of the rule.
     /// This member is required.
     public var name: Swift.String?
 
     public init (
         eventBusName: Swift.String? = nil,
-        force: Swift.Bool = false,
+        force: Swift.Bool? = nil,
         name: Swift.String? = nil
     )
     {
@@ -4029,7 +4029,7 @@ public struct DeleteRuleInput: Swift.Equatable {
 struct DeleteRuleInputBody: Swift.Equatable {
     let name: Swift.String?
     let eventBusName: Swift.String?
-    let force: Swift.Bool
+    let force: Swift.Bool?
 }
 
 extension DeleteRuleInputBody: Swift.Decodable {
@@ -4045,7 +4045,7 @@ extension DeleteRuleInputBody: Swift.Decodable {
         name = nameDecoded
         let eventBusNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventBusName)
         eventBusName = eventBusNameDecoded
-        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force) ?? false
+        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force)
         force = forceDecoded
     }
 }
@@ -11051,6 +11051,7 @@ extension EventBridgeClientTypes.RedshiftDataParameters: Swift.Codable {
         case dbUser = "DbUser"
         case secretManagerArn = "SecretManagerArn"
         case sql = "Sql"
+        case sqls = "Sqls"
         case statementName = "StatementName"
         case withEvent = "WithEvent"
     }
@@ -11068,6 +11069,12 @@ extension EventBridgeClientTypes.RedshiftDataParameters: Swift.Codable {
         }
         if let sql = self.sql {
             try encodeContainer.encode(sql, forKey: .sql)
+        }
+        if let sqls = sqls {
+            var sqlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sqls)
+            for sql0 in sqls {
+                try sqlsContainer.encode(sql0)
+            }
         }
         if let statementName = self.statementName {
             try encodeContainer.encode(statementName, forKey: .statementName)
@@ -11091,7 +11098,23 @@ extension EventBridgeClientTypes.RedshiftDataParameters: Swift.Codable {
         statementName = statementNameDecoded
         let withEventDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .withEvent) ?? false
         withEvent = withEventDecoded
+        let sqlsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .sqls)
+        var sqlsDecoded0:[Swift.String]? = nil
+        if let sqlsContainer = sqlsContainer {
+            sqlsDecoded0 = [Swift.String]()
+            for string0 in sqlsContainer {
+                if let string0 = string0 {
+                    sqlsDecoded0?.append(string0)
+                }
+            }
+        }
+        sqls = sqlsDecoded0
     }
+}
+
+extension EventBridgeClientTypes.RedshiftDataParameters: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RedshiftDataParameters(database: \(Swift.String(describing: database)), dbUser: \(Swift.String(describing: dbUser)), secretManagerArn: \(Swift.String(describing: secretManagerArn)), statementName: \(Swift.String(describing: statementName)), withEvent: \(Swift.String(describing: withEvent)), sql: \"CONTENT_REDACTED\", sqls: \"CONTENT_REDACTED\")"}
 }
 
 extension EventBridgeClientTypes {
@@ -11105,8 +11128,9 @@ extension EventBridgeClientTypes {
         /// The name or ARN of the secret that enables access to the database. Required when authenticating using Amazon Web Services Secrets Manager.
         public var secretManagerArn: Swift.String?
         /// The SQL statement text to run.
-        /// This member is required.
         public var sql: Swift.String?
+        /// A list of SQLs.
+        public var sqls: [Swift.String]?
         /// The name of the SQL statement. You can name the SQL statement when you create it to identify the query.
         public var statementName: Swift.String?
         /// Indicates whether to send an event back to EventBridge after the SQL statement runs.
@@ -11117,6 +11141,7 @@ extension EventBridgeClientTypes {
             dbUser: Swift.String? = nil,
             secretManagerArn: Swift.String? = nil,
             sql: Swift.String? = nil,
+            sqls: [Swift.String]? = nil,
             statementName: Swift.String? = nil,
             withEvent: Swift.Bool = false
         )
@@ -11125,6 +11150,7 @@ extension EventBridgeClientTypes {
             self.dbUser = dbUser
             self.secretManagerArn = secretManagerArn
             self.sql = sql
+            self.sqls = sqls
             self.statementName = statementName
             self.withEvent = withEvent
         }
@@ -11144,7 +11170,7 @@ extension RemovePermissionInput: Swift.Encodable {
         if let eventBusName = self.eventBusName {
             try encodeContainer.encode(eventBusName, forKey: .eventBusName)
         }
-        if removeAllPermissions != false {
+        if let removeAllPermissions = self.removeAllPermissions {
             try encodeContainer.encode(removeAllPermissions, forKey: .removeAllPermissions)
         }
         if let statementId = self.statementId {
@@ -11163,13 +11189,13 @@ public struct RemovePermissionInput: Swift.Equatable {
     /// The name of the event bus to revoke permissions for. If you omit this, the default event bus is used.
     public var eventBusName: Swift.String?
     /// Specifies whether to remove all permissions.
-    public var removeAllPermissions: Swift.Bool
+    public var removeAllPermissions: Swift.Bool?
     /// The statement ID corresponding to the account that is no longer allowed to put events to the default event bus.
     public var statementId: Swift.String?
 
     public init (
         eventBusName: Swift.String? = nil,
-        removeAllPermissions: Swift.Bool = false,
+        removeAllPermissions: Swift.Bool? = nil,
         statementId: Swift.String? = nil
     )
     {
@@ -11181,7 +11207,7 @@ public struct RemovePermissionInput: Swift.Equatable {
 
 struct RemovePermissionInputBody: Swift.Equatable {
     let statementId: Swift.String?
-    let removeAllPermissions: Swift.Bool
+    let removeAllPermissions: Swift.Bool?
     let eventBusName: Swift.String?
 }
 
@@ -11196,7 +11222,7 @@ extension RemovePermissionInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let statementIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statementId)
         statementId = statementIdDecoded
-        let removeAllPermissionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .removeAllPermissions) ?? false
+        let removeAllPermissionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .removeAllPermissions)
         removeAllPermissions = removeAllPermissionsDecoded
         let eventBusNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventBusName)
         eventBusName = eventBusNameDecoded
@@ -11254,7 +11280,7 @@ extension RemoveTargetsInput: Swift.Encodable {
         if let eventBusName = self.eventBusName {
             try encodeContainer.encode(eventBusName, forKey: .eventBusName)
         }
-        if force != false {
+        if let force = self.force {
             try encodeContainer.encode(force, forKey: .force)
         }
         if let ids = ids {
@@ -11279,7 +11305,7 @@ public struct RemoveTargetsInput: Swift.Equatable {
     /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
     public var eventBusName: Swift.String?
     /// If this is a managed rule, created by an Amazon Web Services service on your behalf, you must specify Force as True to remove targets. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
-    public var force: Swift.Bool
+    public var force: Swift.Bool?
     /// The IDs of the targets to remove from the rule.
     /// This member is required.
     public var ids: [Swift.String]?
@@ -11289,7 +11315,7 @@ public struct RemoveTargetsInput: Swift.Equatable {
 
     public init (
         eventBusName: Swift.String? = nil,
-        force: Swift.Bool = false,
+        force: Swift.Bool? = nil,
         ids: [Swift.String]? = nil,
         rule: Swift.String? = nil
     )
@@ -11305,7 +11331,7 @@ struct RemoveTargetsInputBody: Swift.Equatable {
     let rule: Swift.String?
     let eventBusName: Swift.String?
     let ids: [Swift.String]?
-    let force: Swift.Bool
+    let force: Swift.Bool?
 }
 
 extension RemoveTargetsInputBody: Swift.Decodable {
@@ -11333,7 +11359,7 @@ extension RemoveTargetsInputBody: Swift.Decodable {
             }
         }
         ids = idsDecoded0
-        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force) ?? false
+        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force)
         force = forceDecoded
     }
 }

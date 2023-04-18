@@ -80,7 +80,7 @@ extension WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet: Swift.Codable {
 extension WAFV2ClientTypes {
     /// Details for your use of the Bot Control managed rule group, AWSManagedRulesBotControlRuleSet. This configuration is used in ManagedRuleGroupConfig.
     public struct AWSManagedRulesBotControlRuleSet: Swift.Equatable {
-        /// The inspection level to use for the Bot Control rule group. The common level is the least expensive. The targeted level includes all common level rules and adds rules with more advanced inspection criteria. For details, see [WAF Bot Control rule group](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html).
+        /// The inspection level to use for the Bot Control rule group. The common level is the least expensive. The targeted level includes all common level rules and adds rules with more advanced inspection criteria. For details, see [WAF Bot Control rule group](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html) in the WAF Developer Guide.
         /// This member is required.
         public var inspectionLevel: WAFV2ClientTypes.InspectionLevel?
 
@@ -236,7 +236,7 @@ extension WAFV2ClientTypes.AllowAction: Swift.Codable {
 extension WAFV2ClientTypes {
     /// Specifies that WAF should allow the request and optionally defines additional custom handling for the request. This is used in the context of other settings, for example to specify values for [RuleAction] and web ACL [DefaultAction].
     public struct AllowAction: Swift.Equatable {
-        /// Defines custom handling for the web request. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+        /// Defines custom handling for the web request. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide.
         public var customRequestHandling: WAFV2ClientTypes.CustomRequestHandling?
 
         public init (
@@ -323,15 +323,15 @@ extension AssociateWebACLInput: ClientRuntime.URLPathProvider {
 public struct AssociateWebACLInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the resource to associate with the web ACL. The ARN must be in one of the following formats:
     ///
-    /// * For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id
+    /// * For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id
     ///
-    /// * For an Amazon API Gateway REST API: arn:aws:apigateway:region::/restapis/api-id/stages/stage-name
+    /// * For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name
     ///
-    /// * For an AppSync GraphQL API: arn:aws:appsync:region:account-id:apis/GraphQLApiId
+    /// * For an AppSync GraphQL API: arn:partition:appsync:region:account-id:apis/GraphQLApiId
     ///
-    /// * For an Amazon Cognito user pool: arn:aws:cognito-idp:region:account-id:userpool/user-pool-id
+    /// * For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id
     ///
-    /// * For an App Runner service: arn:aws:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id
+    /// * For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
@@ -408,6 +408,82 @@ public struct AssociateWebACLOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension WAFV2ClientTypes {
+    public enum AssociatedResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cloudfront
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssociatedResourceType] {
+            return [
+                .cloudfront,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudfront: return "CLOUDFRONT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AssociatedResourceType(rawValue: rawValue) ?? AssociatedResourceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WAFV2ClientTypes.AssociationConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestBody = "RequestBody"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let requestBody = requestBody {
+            var requestBodyContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestBody)
+            for (dictKey0, requestBody0) in requestBody {
+                try requestBodyContainer.encode(requestBody0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestBodyContainer = try containerValues.decodeIfPresent([Swift.String: WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig?].self, forKey: .requestBody)
+        var requestBodyDecoded0: [Swift.String:WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig]? = nil
+        if let requestBodyContainer = requestBodyContainer {
+            requestBodyDecoded0 = [Swift.String:WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig]()
+            for (key0, requestbodyassociatedresourcetypeconfig0) in requestBodyContainer {
+                if let requestbodyassociatedresourcetypeconfig0 = requestbodyassociatedresourcetypeconfig0 {
+                    requestBodyDecoded0?[key0] = requestbodyassociatedresourcetypeconfig0
+                }
+            }
+        }
+        requestBody = requestBodyDecoded0
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default is 16 KB (16,384 kilobytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
+    public struct AssociationConfig: Swift.Equatable {
+        /// Customizes the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default size is 16 KB (16,384 kilobytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
+        public var requestBody: [Swift.String:WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig]?
+
+        public init (
+            requestBody: [Swift.String:WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig]? = nil
+        )
+        {
+            self.requestBody = requestBody
+        }
+    }
+
+}
+
 extension WAFV2ClientTypes.BlockAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customResponse = "CustomResponse"
@@ -430,7 +506,7 @@ extension WAFV2ClientTypes.BlockAction: Swift.Codable {
 extension WAFV2ClientTypes {
     /// Specifies that WAF should block the request and optionally defines additional custom handling for the response to the web request. This is used in the context of other settings, for example to specify values for [RuleAction] and web ACL [DefaultAction].
     public struct BlockAction: Swift.Equatable {
-        /// Defines a custom response for the web request. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+        /// Defines a custom response for the web request. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide.
         public var customResponse: WAFV2ClientTypes.CustomResponse?
 
         public init (
@@ -465,7 +541,7 @@ extension WAFV2ClientTypes.Body: Swift.Codable {
 extension WAFV2ClientTypes {
     /// Inspect the body of the web request. The body immediately follows the request headers. This is used to indicate the web request component to inspect, in the [FieldToMatch] specification.
     public struct Body: Swift.Equatable {
-        /// What WAF should do if the body is larger than WAF can inspect. WAF does not support inspecting the entire contents of the body of a web request when the body exceeds 8 KB (8192 bytes). Only the first 8 KB of the request body are forwarded to WAF by the underlying host service. The options for oversize handling are the following:
+        /// What WAF should do if the body is larger than WAF can inspect. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. If the body is larger than the limit, the underlying host service only forwards the contents that are below the limit to WAF for inspection. The default limit is 8 KB (8,192 kilobytes) for regional resources and 16 KB (16,384 kilobytes) for CloudFront distributions. For CloudFront distributions, you can increase the limit in the web ACL AssociationConfig, for additional processing fees. The options for oversize handling are the following:
         ///
         /// * CONTINUE - Inspect the body normally, according to the rule inspection criteria.
         ///
@@ -474,7 +550,7 @@ extension WAFV2ClientTypes {
         /// * NO_MATCH - Treat the web request as not matching the rule statement.
         ///
         ///
-        /// You can combine the MATCH or NO_MATCH settings for oversize handling with your rule and web ACL action settings, so that you block any request whose body is over 8 KB. Default: CONTINUE
+        /// You can combine the MATCH or NO_MATCH settings for oversize handling with your rule and web ACL action settings, so that you block any request whose body is over the limit. Default: CONTINUE
         public var oversizeHandling: WAFV2ClientTypes.OversizeHandling?
 
         public init (
@@ -655,7 +731,7 @@ extension WAFV2ClientTypes {
     ///
     /// You can configure the expiration time in the CaptchaConfigImmunityTimeProperty setting at the rule and web ACL level. The rule setting overrides the web ACL setting. This action option is available for rules. It isn't available for web ACL default actions.
     public struct CaptchaAction: Swift.Equatable {
-        /// Defines custom handling for the web request, used when the CAPTCHA inspection determines that the request's token is valid and unexpired. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+        /// Defines custom handling for the web request, used when the CAPTCHA inspection determines that the request's token is valid and unexpired. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide.
         public var customRequestHandling: WAFV2ClientTypes.CustomRequestHandling?
 
         public init (
@@ -796,7 +872,7 @@ extension WAFV2ClientTypes {
     ///
     /// You can configure the expiration time in the ChallengeConfigImmunityTimeProperty setting at the rule and web ACL level. The rule setting overrides the web ACL setting. This action option is available for rules. It isn't available for web ACL default actions.
     public struct ChallengeAction: Swift.Equatable {
-        /// Defines custom handling for the web request, used when the challenge inspection determines that the request's token is valid and unexpired. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+        /// Defines custom handling for the web request, used when the challenge inspection determines that the request's token is valid and unexpired. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide.
         public var customRequestHandling: WAFV2ClientTypes.CustomRequestHandling?
 
         public init (
@@ -929,7 +1005,7 @@ public struct CheckCapacityInput: Swift.Equatable {
     /// An array of [Rule] that you're configuring to use in a rule group or web ACL.
     /// This member is required.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -1309,7 +1385,7 @@ extension WAFV2ClientTypes.CountAction: Swift.Codable {
 extension WAFV2ClientTypes {
     /// Specifies that WAF should count the request. Optionally defines additional custom handling for the request. This is used in the context of other settings, for example to specify values for [RuleAction] and web ACL [DefaultAction].
     public struct CountAction: Swift.Equatable {
-        /// Defines custom handling for the web request. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+        /// Defines custom handling for the web request. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide.
         public var customRequestHandling: WAFV2ClientTypes.CustomRequestHandling?
 
         public init (
@@ -2174,7 +2250,7 @@ public struct CreateIPSetInput: Swift.Equatable {
     /// The name of the IP set. You cannot change the name of an IPSet after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -2383,7 +2459,7 @@ public struct CreateRegexPatternSetInput: Swift.Equatable {
     /// Array of regular expression strings.
     /// This member is required.
     public var regularExpressionList: [WAFV2ClientTypes.Regex]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -2593,10 +2669,10 @@ extension CreateRuleGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateRuleGroupInput: Swift.Equatable {
-    /// The web ACL capacity units (WCUs) required for this rule group. When you create your own rule group, you define this, and you cannot change it after creation. When you add or modify the rules in a rule group, WAF enforces this limit. You can check the capacity for a set of rules using [CheckCapacity]. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. The WCU limit for web ACLs is 1,500.
+    /// The web ACL capacity units (WCUs) required for this rule group. When you create your own rule group, you define this, and you cannot change it after creation. When you add or modify the rules in a rule group, WAF enforces this limit. You can check the capacity for a set of rules using [CheckCapacity]. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. For more information, see [WAF web ACL capacity units (WCU)](https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html) in the WAF Developer Guide.
     /// This member is required.
     public var capacity: Swift.Int?
-    /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the rule group, and then use them in the rules that you define in the rule group. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+    /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the rule group, and then use them in the rules that you define in the rule group. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
     public var customResponseBodies: [Swift.String:WAFV2ClientTypes.CustomResponseBody]?
     /// A description of the rule group that helps with identification.
     public var description: Swift.String?
@@ -2605,7 +2681,7 @@ public struct CreateRuleGroupInput: Swift.Equatable {
     public var name: Swift.String?
     /// The [Rule] statements used to identify the web requests that you want to allow, block, or count. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -2796,6 +2872,7 @@ extension CreateRuleGroupOutputResponseBody: Swift.Decodable {
 
 extension CreateWebACLInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationConfig = "AssociationConfig"
         case captchaConfig = "CaptchaConfig"
         case challengeConfig = "ChallengeConfig"
         case customResponseBodies = "CustomResponseBodies"
@@ -2811,6 +2888,9 @@ extension CreateWebACLInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let associationConfig = self.associationConfig {
+            try encodeContainer.encode(associationConfig, forKey: .associationConfig)
+        }
         if let captchaConfig = self.captchaConfig {
             try encodeContainer.encode(captchaConfig, forKey: .captchaConfig)
         }
@@ -2866,11 +2946,13 @@ extension CreateWebACLInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateWebACLInput: Swift.Equatable {
+    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default is 16 KB (16,384 kilobytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
+    public var associationConfig: WAFV2ClientTypes.AssociationConfig?
     /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
     public var captchaConfig: WAFV2ClientTypes.CaptchaConfig?
     /// Specifies how WAF should handle challenge evaluations for rules that don't have their own ChallengeConfig settings. If you don't specify this, WAF uses its default settings for ChallengeConfig.
     public var challengeConfig: WAFV2ClientTypes.ChallengeConfig?
-    /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+    /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
     public var customResponseBodies: [Swift.String:WAFV2ClientTypes.CustomResponseBody]?
     /// The action to perform if none of the Rules contained in the WebACL match.
     /// This member is required.
@@ -2882,7 +2964,7 @@ public struct CreateWebACLInput: Swift.Equatable {
     public var name: Swift.String?
     /// The [Rule] statements used to identify the web requests that you want to allow, block, or count. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -2898,6 +2980,7 @@ public struct CreateWebACLInput: Swift.Equatable {
     public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
     public init (
+        associationConfig: WAFV2ClientTypes.AssociationConfig? = nil,
         captchaConfig: WAFV2ClientTypes.CaptchaConfig? = nil,
         challengeConfig: WAFV2ClientTypes.ChallengeConfig? = nil,
         customResponseBodies: [Swift.String:WAFV2ClientTypes.CustomResponseBody]? = nil,
@@ -2911,6 +2994,7 @@ public struct CreateWebACLInput: Swift.Equatable {
         visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
     )
     {
+        self.associationConfig = associationConfig
         self.captchaConfig = captchaConfig
         self.challengeConfig = challengeConfig
         self.customResponseBodies = customResponseBodies
@@ -2937,10 +3021,12 @@ struct CreateWebACLInputBody: Swift.Equatable {
     let captchaConfig: WAFV2ClientTypes.CaptchaConfig?
     let challengeConfig: WAFV2ClientTypes.ChallengeConfig?
     let tokenDomains: [Swift.String]?
+    let associationConfig: WAFV2ClientTypes.AssociationConfig?
 }
 
 extension CreateWebACLInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationConfig = "AssociationConfig"
         case captchaConfig = "CaptchaConfig"
         case challengeConfig = "ChallengeConfig"
         case customResponseBodies = "CustomResponseBodies"
@@ -3014,6 +3100,8 @@ extension CreateWebACLInputBody: Swift.Decodable {
             }
         }
         tokenDomains = tokenDomainsDecoded0
+        let associationConfigDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.AssociationConfig.self, forKey: .associationConfig)
+        associationConfig = associationConfigDecoded
     }
 }
 
@@ -3185,9 +3273,9 @@ extension WAFV2ClientTypes.CustomRequestHandling: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// Custom request handling behavior that inserts custom headers into a web request. You can add custom request handling for WAF to use when the rule action doesn't block the request. For example, CaptchaAction for requests with valid t okens, and AllowAction. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+    /// Custom request handling behavior that inserts custom headers into a web request. You can add custom request handling for WAF to use when the rule action doesn't block the request. For example, CaptchaAction for requests with valid t okens, and AllowAction. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide.
     public struct CustomRequestHandling: Swift.Equatable {
-        /// The HTTP headers to insert into the request. Duplicate header names are not allowed. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+        /// The HTTP headers to insert into the request. Duplicate header names are not allowed. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
         /// This member is required.
         public var insertHeaders: [WAFV2ClientTypes.CustomHTTPHeader]?
 
@@ -3245,14 +3333,14 @@ extension WAFV2ClientTypes.CustomResponse: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// A custom response to send to the client. You can define a custom response for rule actions and default web ACL actions that are set to [BlockAction]. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+    /// A custom response to send to the client. You can define a custom response for rule actions and default web ACL actions that are set to [BlockAction]. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide.
     public struct CustomResponse: Swift.Equatable {
         /// References the response body that you want WAF to return to the web request client. You can define a custom response for a rule action or a default web ACL action that is set to block. To do this, you first define the response body key and value in the CustomResponseBodies setting for the [WebACL] or [RuleGroup] where you want to use it. Then, in the rule action or web ACL default action BlockAction setting, you reference the response body using this key.
         public var customResponseBodyKey: Swift.String?
-        /// The HTTP status code to return to the client. For a list of status codes that you can use in your custom responses, see [Supported status codes for custom response](https://docs.aws.amazon.com/waf/latest/developerguide/customizing-the-response-status-codes.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+        /// The HTTP status code to return to the client. For a list of status codes that you can use in your custom responses, see [Supported status codes for custom response](https://docs.aws.amazon.com/waf/latest/developerguide/customizing-the-response-status-codes.html) in the WAF Developer Guide.
         /// This member is required.
         public var responseCode: Swift.Int?
-        /// The HTTP headers to use in the response. Duplicate header names are not allowed. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+        /// The HTTP headers to use in the response. Duplicate header names are not allowed. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
         public var responseHeaders: [WAFV2ClientTypes.CustomHTTPHeader]?
 
         public init (
@@ -3297,7 +3385,7 @@ extension WAFV2ClientTypes.CustomResponseBody: Swift.Codable {
 extension WAFV2ClientTypes {
     /// The response body to use in a custom response to a web request. This is referenced by key from [CustomResponse]CustomResponseBodyKey.
     public struct CustomResponseBody: Swift.Equatable {
-        /// The payload of the custom response. You can use JSON escape strings in JSON content. To do this, you must specify JSON content in the ContentType setting. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+        /// The payload of the custom response. You can use JSON escape strings in JSON content. To do this, you must specify JSON content in the ContentType setting. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
         /// This member is required.
         public var content: Swift.String?
         /// The type of content in the payload that you are defining in the Content string.
@@ -3534,7 +3622,7 @@ public struct DeleteIPSetInput: Swift.Equatable {
     /// The name of the IP set. You cannot change the name of an IPSet after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -3843,7 +3931,7 @@ public struct DeleteRegexPatternSetInput: Swift.Equatable {
     /// The name of the set. You cannot change the name after you create the set.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -3980,7 +4068,7 @@ public struct DeleteRuleGroupInput: Swift.Equatable {
     /// The name of the rule group. You cannot change the name of a rule group after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4117,7 +4205,7 @@ public struct DeleteWebACLInput: Swift.Equatable {
     /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4248,7 +4336,7 @@ public struct DescribeManagedRuleGroupInput: Swift.Equatable {
     /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4363,7 +4451,7 @@ extension DescribeManagedRuleGroupOutputResponse: ClientRuntime.HttpResponseBind
 public struct DescribeManagedRuleGroupOutputResponse: Swift.Equatable {
     /// The labels that one or more rules in this rule group add to matching web requests. These labels are defined in the RuleLabels for a [Rule].
     public var availableLabels: [WAFV2ClientTypes.LabelSummary]?
-    /// The web ACL capacity units (WCUs) required for this rule group. WAF uses web ACL capacity units (WCU) to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect each rule's relative cost. Rule group capacity is fixed at creation, so users can plan their web ACL WCU usage when they use a rule group. The WCU limit for web ACLs is 1,500.
+    /// The web ACL capacity units (WCUs) required for this rule group. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. For more information, see [WAF web ACL capacity units (WCU)](https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html) in the WAF Developer Guide.
     public var capacity: Swift.Int
     /// The labels that one or more rules in this rule group match against in label match statements. These labels are defined in a LabelMatchStatement specification, in the [Statement] definition of a rule.
     public var consumedLabels: [WAFV2ClientTypes.LabelSummary]?
@@ -4489,15 +4577,15 @@ extension DisassociateWebACLInput: ClientRuntime.URLPathProvider {
 public struct DisassociateWebACLInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the resource to disassociate from the web ACL. The ARN must be in one of the following formats:
     ///
-    /// * For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id
+    /// * For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id
     ///
-    /// * For an Amazon API Gateway REST API: arn:aws:apigateway:region::/restapis/api-id/stages/stage-name
+    /// * For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name
     ///
-    /// * For an AppSync GraphQL API: arn:aws:appsync:region:account-id:apis/GraphQLApiId
+    /// * For an AppSync GraphQL API: arn:partition:appsync:region:account-id:apis/GraphQLApiId
     ///
-    /// * For an Amazon Cognito user pool: arn:aws:cognito-idp:region:account-id:userpool/user-pool-id
+    /// * For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id
     ///
-    /// * For an App Runner service: arn:aws:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id
+    /// * For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -4747,13 +4835,13 @@ extension WAFV2ClientTypes {
     public struct FieldToMatch: Swift.Equatable {
         /// Inspect all query arguments.
         public var allQueryArguments: WAFV2ClientTypes.AllQueryArguments?
-        /// Inspect the request body as plain text. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. Only the first 8 KB (8192 bytes) of the request body are forwarded to WAF for inspection by the underlying host service. For information about how to handle oversized request bodies, see the Body object configuration.
+        /// Inspect the request body as plain text. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. A limited amount of the request body is forwarded to WAF for inspection by the underlying host service. For regional resources, the limit is 8 KB (8,192 kilobytes) and for CloudFront distributions, the limit is 16 KB (16,384 kilobytes). For CloudFront distributions, you can increase the limit in the web ACL's AssociationConfig, for additional processing fees. For information about how to handle oversized request bodies, see the Body object configuration.
         public var body: WAFV2ClientTypes.Body?
         /// Inspect the request cookies. You must configure scope and pattern matching filters in the Cookies object, to define the set of cookies and the parts of the cookies that WAF inspects. Only the first 8 KB (8192 bytes) of a request's cookies and only the first 200 cookies are forwarded to WAF for inspection by the underlying host service. You must configure how to handle any oversize cookie content in the Cookies object. WAF applies the pattern matching filters to the cookies that it receives from the underlying host service.
         public var cookies: WAFV2ClientTypes.Cookies?
         /// Inspect the request headers. You must configure scope and pattern matching filters in the Headers object, to define the set of headers to and the parts of the headers that WAF inspects. Only the first 8 KB (8192 bytes) of a request's headers and only the first 200 headers are forwarded to WAF for inspection by the underlying host service. You must configure how to handle any oversize header content in the Headers object. WAF applies the pattern matching filters to the headers that it receives from the underlying host service.
         public var headers: WAFV2ClientTypes.Headers?
-        /// Inspect the request body as JSON. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. Only the first 8 KB (8192 bytes) of the request body are forwarded to WAF for inspection by the underlying host service. For information about how to handle oversized request bodies, see the JsonBody object configuration.
+        /// Inspect the request body as JSON. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. A limited amount of the request body is forwarded to WAF for inspection by the underlying host service. For regional resources, the limit is 8 KB (8,192 kilobytes) and for CloudFront distributions, the limit is 16 KB (16,384 kilobytes). For CloudFront distributions, you can increase the limit in the web ACL's AssociationConfig, for additional processing fees. For information about how to handle oversized request bodies, see the JsonBody object configuration.
         public var jsonBody: WAFV2ClientTypes.JsonBody?
         /// Inspect the HTTP method. The method indicates the type of operation that the request is asking the origin to perform.
         public var method: WAFV2ClientTypes.Method?
@@ -5034,11 +5122,11 @@ extension WAFV2ClientTypes.FirewallManagerStatement: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// The processing guidance for an Firewall Manager rule. This is like a regular rule [Statement], but it can only contain a rule group reference.
+    /// The processing guidance for an Firewall Manager rule. This is like a regular rule [Statement], but it can only contain a single rule group reference.
     public struct FirewallManagerStatement: Swift.Equatable {
-        /// A rule statement used to run the rules that are defined in a managed rule group. To use this, provide the vendor name and the name of the rule group in this statement. You can retrieve the required names by calling [ListAvailableManagedRuleGroups]. You cannot nest a ManagedRuleGroupStatement, for example for use inside a NotStatement or OrStatement. It can only be referenced as a top-level statement within a rule. You are charged additional fees when you use the WAF Bot Control managed rule group AWSManagedRulesBotControlRuleSet or the WAF Fraud Control account takeover prevention (ATP) managed rule group AWSManagedRulesATPRuleSet. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
+        /// A statement used by Firewall Manager to run the rules that are defined in a managed rule group. This is managed by Firewall Manager for an Firewall Manager WAF policy.
         public var managedRuleGroupStatement: WAFV2ClientTypes.ManagedRuleGroupStatement?
-        /// A rule statement used to run the rules that are defined in a [RuleGroup]. To use this, create a rule group with your rules, then provide the ARN of the rule group in this statement. You cannot nest a RuleGroupReferenceStatement, for example for use inside a NotStatement or OrStatement. You can only use a rule group reference statement at the top level inside a web ACL.
+        /// A statement used by Firewall Manager to run the rules that are defined in a rule group. This is managed by Firewall Manager for an Firewall Manager WAF policy.
         public var ruleGroupReferenceStatement: WAFV2ClientTypes.RuleGroupReferenceStatement?
 
         public init (
@@ -5367,7 +5455,7 @@ public struct GetIPSetInput: Swift.Equatable {
     /// The name of the IP set. You cannot change the name of an IPSet after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5641,7 +5729,7 @@ public struct GetManagedRuleSetInput: Swift.Equatable {
     /// The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6050,7 +6138,7 @@ public struct GetRateBasedStatementManagedKeysInput: Swift.Equatable {
     /// The name of the rate-based rule to get the keys for. If you have the rule defined inside a rule group that you're using in your web ACL, also provide the name of the rule group reference statement in the request parameter RuleGroupRuleName.
     /// This member is required.
     public var ruleName: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6225,7 +6313,7 @@ public struct GetRegexPatternSetInput: Swift.Equatable {
     /// The name of the set. You cannot change the name after you create the set.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6386,7 +6474,7 @@ public struct GetRuleGroupInput: Swift.Equatable {
     public var id: Swift.String?
     /// The name of the rule group. You cannot change the name of a rule group after you create it.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6556,7 +6644,7 @@ public struct GetSampledRequestsInput: Swift.Equatable {
     /// The metric name assigned to the Rule or RuleGroup dimension for which you want a sample of requests.
     /// This member is required.
     public var ruleMetricName: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6736,15 +6824,15 @@ extension GetWebACLForResourceInput: ClientRuntime.URLPathProvider {
 public struct GetWebACLForResourceInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the resource whose web ACL you want to retrieve. The ARN must be in one of the following formats:
     ///
-    /// * For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id
+    /// * For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id
     ///
-    /// * For an Amazon API Gateway REST API: arn:aws:apigateway:region::/restapis/api-id/stages/stage-name
+    /// * For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name
     ///
-    /// * For an AppSync GraphQL API: arn:aws:appsync:region:account-id:apis/GraphQLApiId
+    /// * For an AppSync GraphQL API: arn:partition:appsync:region:account-id:apis/GraphQLApiId
     ///
-    /// * For an Amazon Cognito user pool: arn:aws:cognito-idp:region:account-id:userpool/user-pool-id
+    /// * For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id
     ///
-    /// * For an App Runner service: arn:aws:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id
+    /// * For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -6877,7 +6965,7 @@ public struct GetWebACLInput: Swift.Equatable {
     /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7772,7 +7860,7 @@ extension WAFV2ClientTypes {
         /// The parts of the JSON to match against using the MatchPattern. If you specify All, WAF matches against keys and values.
         /// This member is required.
         public var matchScope: WAFV2ClientTypes.JsonMatchScope?
-        /// What WAF should do if the body is larger than WAF can inspect. WAF does not support inspecting the entire contents of the body of a web request when the body exceeds 8 KB (8192 bytes). Only the first 8 KB of the request body are forwarded to WAF by the underlying host service. The options for oversize handling are the following:
+        /// What WAF should do if the body is larger than WAF can inspect. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. If the body is larger than the limit, the underlying host service only forwards the contents that are below the limit to WAF for inspection. The default limit is 8 KB (8,192 kilobytes) for regional resources and 16 KB (16,384 kilobytes) for CloudFront distributions. For CloudFront distributions, you can increase the limit in the web ACL AssociationConfig, for additional processing fees. The options for oversize handling are the following:
         ///
         /// * CONTINUE - Inspect the body normally, according to the rule inspection criteria.
         ///
@@ -7781,7 +7869,7 @@ extension WAFV2ClientTypes {
         /// * NO_MATCH - Treat the web request as not matching the rule statement.
         ///
         ///
-        /// You can combine the MATCH or NO_MATCH settings for oversize handling with your rule and web ACL action settings, so that you block any request whose body is over 8 KB. Default: CONTINUE
+        /// You can combine the MATCH or NO_MATCH settings for oversize handling with your rule and web ACL action settings, so that you block any request whose body is over the limit. Default: CONTINUE
         public var oversizeHandling: WAFV2ClientTypes.OversizeHandling?
 
         public init (
@@ -8132,7 +8220,7 @@ public struct ListAvailableManagedRuleGroupVersionsInput: Swift.Equatable {
     public var name: Swift.String?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -8321,7 +8409,7 @@ public struct ListAvailableManagedRuleGroupsInput: Swift.Equatable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -8483,7 +8571,7 @@ public struct ListIPSetsInput: Swift.Equatable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -8645,7 +8733,7 @@ public struct ListLoggingConfigurationsInput: Swift.Equatable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -8807,7 +8895,7 @@ public struct ListManagedRuleSetsInput: Swift.Equatable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -9127,7 +9215,7 @@ public struct ListRegexPatternSetsInput: Swift.Equatable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -9281,7 +9369,7 @@ extension ListResourcesForWebACLInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListResourcesForWebACLInput: Swift.Equatable {
-    /// Used for web ACLs that are scoped for regional applications. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. If you don't provide a resource type, the call uses the resource type APPLICATION_LOAD_BALANCER. Default: APPLICATION_LOAD_BALANCER
+    /// Used for web ACLs that are scoped for regional applications. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. If you don't provide a resource type, the call uses the resource type APPLICATION_LOAD_BALANCER. Default: APPLICATION_LOAD_BALANCER
     public var resourceType: WAFV2ClientTypes.ResourceType?
     /// The Amazon Resource Name (ARN) of the web ACL.
     /// This member is required.
@@ -9427,7 +9515,7 @@ public struct ListRuleGroupsInput: Swift.Equatable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -9744,7 +9832,7 @@ public struct ListWebACLsInput: Swift.Equatable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -10630,7 +10718,7 @@ extension WAFV2ClientTypes {
     public struct ManagedRuleSetVersion: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the vendor rule group that's used to define the published version of your managed rule group.
         public var associatedRuleGroupArn: Swift.String?
-        /// The web ACL capacity units (WCUs) required for this rule group. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. The WCU limit for web ACLs is 1,500.
+        /// The web ACL capacity units (WCUs) required for this rule group. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. For more information, see [WAF web ACL capacity units (WCU)](https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html) in the WAF Developer Guide.
         public var capacity: Swift.Int
         /// The time that this version is set to expire. Times are in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z".
         public var expiryTimestamp: ClientRuntime.Date?
@@ -10981,6 +11069,7 @@ extension WAFV2ClientTypes {
     public enum ParameterExceptionField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case andStatement
         case associableResource
+        case associatedResourceType
         case atpRuleSetResponseInspection
         case bodyParsingFallbackBehavior
         case byteMatchStatement
@@ -11051,6 +11140,7 @@ extension WAFV2ClientTypes {
             return [
                 .andStatement,
                 .associableResource,
+                .associatedResourceType,
                 .atpRuleSetResponseInspection,
                 .bodyParsingFallbackBehavior,
                 .byteMatchStatement,
@@ -11126,6 +11216,7 @@ extension WAFV2ClientTypes {
             switch self {
             case .andStatement: return "AND_STATEMENT"
             case .associableResource: return "ASSOCIABLE_RESOURCE"
+            case .associatedResourceType: return "ASSOCIATED_RESOURCE_TYPE"
             case .atpRuleSetResponseInspection: return "ATP_RULE_SET_RESPONSE_INSPECTION"
             case .bodyParsingFallbackBehavior: return "BODY_PARSING_FALLBACK_BEHAVIOR"
             case .byteMatchStatement: return "BYTE_MATCH_STATEMENT"
@@ -11521,7 +11612,7 @@ public struct PutManagedRuleSetVersionsInput: Swift.Equatable {
     public var name: Swift.String?
     /// The version of the named managed rule group that you'd like your customers to choose, from among your version offerings.
     public var recommendedVersion: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -11691,7 +11782,7 @@ extension PutPermissionPolicyInput: ClientRuntime.URLPathProvider {
 public struct PutPermissionPolicyInput: Swift.Equatable {
     /// The policy to attach to the specified rule group. The policy specifications must conform to the following:
     ///
-    /// * The policy must be composed using IAM Policy version 2012-10-17 or version 2015-01-01.
+    /// * The policy must be composed using IAM Policy version 2012-10-17.
     ///
     /// * The policy must include specifications for Effect, Action, and Principal.
     ///
@@ -12341,6 +12432,42 @@ extension WAFV2ClientTypes {
         {
             self.releaseVersion = releaseVersion
             self.timestamp = timestamp
+        }
+    }
+
+}
+
+extension WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultSizeInspectionLimit = "DefaultSizeInspectionLimit"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultSizeInspectionLimit = self.defaultSizeInspectionLimit {
+            try encodeContainer.encode(defaultSizeInspectionLimit.rawValue, forKey: .defaultSizeInspectionLimit)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let defaultSizeInspectionLimitDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.SizeInspectionLimit.self, forKey: .defaultSizeInspectionLimit)
+        defaultSizeInspectionLimit = defaultSizeInspectionLimitDecoded
+    }
+}
+
+extension WAFV2ClientTypes {
+    /// Customizes the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default size is 16 KB (16,384 kilobytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). This is used in the AssociationConfig of the web ACL.
+    public struct RequestBodyAssociatedResourceTypeConfig: Swift.Equatable {
+        /// Specifies the maximum size of the web request body component that an associated CloudFront distribution should send to WAF for inspection. This applies to statements in the web ACL that inspect the body or JSON body. Default: 16 KB (16,384 kilobytes)
+        /// This member is required.
+        public var defaultSizeInspectionLimit: WAFV2ClientTypes.SizeInspectionLimit?
+
+        public init (
+            defaultSizeInspectionLimit: WAFV2ClientTypes.SizeInspectionLimit? = nil
+        )
+        {
+            self.defaultSizeInspectionLimit = defaultSizeInspectionLimit
         }
     }
 
@@ -13262,12 +13389,12 @@ extension WAFV2ClientTypes {
         public var arn: Swift.String?
         /// The labels that one or more rules in this rule group add to matching web requests. These labels are defined in the RuleLabels for a [Rule].
         public var availableLabels: [WAFV2ClientTypes.LabelSummary]?
-        /// The web ACL capacity units (WCUs) required for this rule group. When you create your own rule group, you define this, and you cannot change it after creation. When you add or modify the rules in a rule group, WAF enforces this limit. You can check the capacity for a set of rules using [CheckCapacity]. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. The WCU limit for web ACLs is 1,500.
+        /// The web ACL capacity units (WCUs) required for this rule group. When you create your own rule group, you define this, and you cannot change it after creation. When you add or modify the rules in a rule group, WAF enforces this limit. You can check the capacity for a set of rules using [CheckCapacity]. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. For more information, see [WAF web ACL capacity units (WCU)](https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html) in the WAF Developer Guide.
         /// This member is required.
         public var capacity: Swift.Int
         /// The labels that one or more rules in this rule group match against in label match statements. These labels are defined in a LabelMatchStatement specification, in the [Statement] definition of a rule.
         public var consumedLabels: [WAFV2ClientTypes.LabelSummary]?
-        /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the rule group, and then use them in the rules that you define in the rule group. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+        /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the rule group, and then use them in the rules that you define in the rule group. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
         public var customResponseBodies: [Swift.String:WAFV2ClientTypes.CustomResponseBody]?
         /// A description of the rule group that helps with identification.
         public var description: Swift.String?
@@ -13866,7 +13993,7 @@ extension WAFV2ClientTypes.SizeConstraintStatement: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// A rule statement that compares a number of bytes against the size of a request component, using a comparison operator, such as greater than (>) or less than (<). For example, you can use a size constraint statement to look for query strings that are longer than 100 bytes. If you configure WAF to inspect the request body, WAF inspects only the first 8192 bytes (8 KB). If the request body for your web requests never exceeds 8192 bytes, you could use a size constraint statement to block requests that have a request body greater than 8192 bytes. If you choose URI for the value of Part of the request to filter on, the slash (/) in the URI counts as one character. For example, the URI /logo.jpg is nine characters long.
+    /// A rule statement that compares a number of bytes against the size of a request component, using a comparison operator, such as greater than (>) or less than (<). For example, you can use a size constraint statement to look for query strings that are longer than 100 bytes. If you configure WAF to inspect the request body, WAF inspects only the number of bytes of the body up to the limit for the web ACL. By default, for regional web ACLs, this limit is 8 KB (8,192 kilobytes) and for CloudFront web ACLs, this limit is 16 KB (16,384 kilobytes). For CloudFront web ACLs, you can increase the limit in the web ACL AssociationConfig, for additional fees. If you know that the request body for your web requests should never exceed the inspection limit, you could use a size constraint statement to block requests that have a larger request body size. If you choose URI for the value of Part of the request to filter on, the slash (/) in the URI counts as one character. For example, the URI /logo.jpg is nine characters long.
     public struct SizeConstraintStatement: Swift.Equatable {
         /// The operator to use to compare the request part to the size setting.
         /// This member is required.
@@ -13895,6 +14022,44 @@ extension WAFV2ClientTypes {
         }
     }
 
+}
+
+extension WAFV2ClientTypes {
+    public enum SizeInspectionLimit: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case kb16
+        case kb32
+        case kb48
+        case kb64
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SizeInspectionLimit] {
+            return [
+                .kb16,
+                .kb32,
+                .kb48,
+                .kb64,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .kb16: return "KB_16"
+            case .kb32: return "KB_32"
+            case .kb48: return "KB_48"
+            case .kb64: return "KB_64"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SizeInspectionLimit(rawValue: rawValue) ?? SizeInspectionLimit.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension WAFV2ClientTypes.SqliMatchStatement: Swift.Codable {
@@ -14110,7 +14275,7 @@ extension WAFV2ClientTypes {
         public var regexPatternSetReferenceStatement: WAFV2ClientTypes.RegexPatternSetReferenceStatement?
         /// A rule statement used to run the rules that are defined in a [RuleGroup]. To use this, create a rule group with your rules, then provide the ARN of the rule group in this statement. You cannot nest a RuleGroupReferenceStatement, for example for use inside a NotStatement or OrStatement. You can only use a rule group reference statement at the top level inside a web ACL.
         public var ruleGroupReferenceStatement: WAFV2ClientTypes.RuleGroupReferenceStatement?
-        /// A rule statement that compares a number of bytes against the size of a request component, using a comparison operator, such as greater than (>) or less than (<). For example, you can use a size constraint statement to look for query strings that are longer than 100 bytes. If you configure WAF to inspect the request body, WAF inspects only the first 8192 bytes (8 KB). If the request body for your web requests never exceeds 8192 bytes, you could use a size constraint statement to block requests that have a request body greater than 8192 bytes. If you choose URI for the value of Part of the request to filter on, the slash (/) in the URI counts as one character. For example, the URI /logo.jpg is nine characters long.
+        /// A rule statement that compares a number of bytes against the size of a request component, using a comparison operator, such as greater than (>) or less than (<). For example, you can use a size constraint statement to look for query strings that are longer than 100 bytes. If you configure WAF to inspect the request body, WAF inspects only the number of bytes of the body up to the limit for the web ACL. By default, for regional web ACLs, this limit is 8 KB (8,192 kilobytes) and for CloudFront web ACLs, this limit is 16 KB (16,384 kilobytes). For CloudFront web ACLs, you can increase the limit in the web ACL AssociationConfig, for additional fees. If you know that the request body for your web requests should never exceed the inspection limit, you could use a size constraint statement to block requests that have a larger request body size. If you choose URI for the value of Part of the request to filter on, the slash (/) in the URI counts as one character. For example, the URI /logo.jpg is nine characters long.
         public var sizeConstraintStatement: WAFV2ClientTypes.SizeConstraintStatement?
         /// A rule statement that inspects for malicious SQL code. Attackers insert malicious SQL code into web requests to do things like modify your database or extract data from it.
         public var sqliMatchStatement: WAFV2ClientTypes.SqliMatchStatement?
@@ -14796,7 +14961,7 @@ public struct UpdateIPSetInput: Swift.Equatable {
     /// The name of the IP set. You cannot change the name of an IPSet after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -14994,7 +15159,7 @@ public struct UpdateManagedRuleSetVersionExpiryDateInput: Swift.Equatable {
     /// The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -15207,7 +15372,7 @@ public struct UpdateRegexPatternSetInput: Swift.Equatable {
     ///
     /// This member is required.
     public var regularExpressionList: [WAFV2ClientTypes.Regex]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -15407,7 +15572,7 @@ extension UpdateRuleGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateRuleGroupInput: Swift.Equatable {
-    /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the rule group, and then use them in the rules that you define in the rule group. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+    /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the rule group, and then use them in the rules that you define in the rule group. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
     public var customResponseBodies: [Swift.String:WAFV2ClientTypes.CustomResponseBody]?
     /// A description of the rule group that helps with identification.
     public var description: Swift.String?
@@ -15422,7 +15587,7 @@ public struct UpdateRuleGroupInput: Swift.Equatable {
     public var name: Swift.String?
     /// The [Rule] statements used to identify the web requests that you want to allow, block, or count. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -15600,6 +15765,7 @@ extension UpdateRuleGroupOutputResponseBody: Swift.Decodable {
 
 extension UpdateWebACLInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationConfig = "AssociationConfig"
         case captchaConfig = "CaptchaConfig"
         case challengeConfig = "ChallengeConfig"
         case customResponseBodies = "CustomResponseBodies"
@@ -15616,6 +15782,9 @@ extension UpdateWebACLInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let associationConfig = self.associationConfig {
+            try encodeContainer.encode(associationConfig, forKey: .associationConfig)
+        }
         if let captchaConfig = self.captchaConfig {
             try encodeContainer.encode(captchaConfig, forKey: .captchaConfig)
         }
@@ -15671,11 +15840,13 @@ extension UpdateWebACLInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateWebACLInput: Swift.Equatable {
+    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default is 16 KB (16,384 kilobytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
+    public var associationConfig: WAFV2ClientTypes.AssociationConfig?
     /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
     public var captchaConfig: WAFV2ClientTypes.CaptchaConfig?
     /// Specifies how WAF should handle challenge evaluations for rules that don't have their own ChallengeConfig settings. If you don't specify this, WAF uses its default settings for ChallengeConfig.
     public var challengeConfig: WAFV2ClientTypes.ChallengeConfig?
-    /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+    /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
     public var customResponseBodies: [Swift.String:WAFV2ClientTypes.CustomResponseBody]?
     /// The action to perform if none of the Rules contained in the WebACL match.
     /// This member is required.
@@ -15693,7 +15864,7 @@ public struct UpdateWebACLInput: Swift.Equatable {
     public var name: Swift.String?
     /// The [Rule] statements used to identify the web requests that you want to allow, block, or count. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, a Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -15707,6 +15878,7 @@ public struct UpdateWebACLInput: Swift.Equatable {
     public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
     public init (
+        associationConfig: WAFV2ClientTypes.AssociationConfig? = nil,
         captchaConfig: WAFV2ClientTypes.CaptchaConfig? = nil,
         challengeConfig: WAFV2ClientTypes.ChallengeConfig? = nil,
         customResponseBodies: [Swift.String:WAFV2ClientTypes.CustomResponseBody]? = nil,
@@ -15721,6 +15893,7 @@ public struct UpdateWebACLInput: Swift.Equatable {
         visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
     )
     {
+        self.associationConfig = associationConfig
         self.captchaConfig = captchaConfig
         self.challengeConfig = challengeConfig
         self.customResponseBodies = customResponseBodies
@@ -15749,10 +15922,12 @@ struct UpdateWebACLInputBody: Swift.Equatable {
     let captchaConfig: WAFV2ClientTypes.CaptchaConfig?
     let challengeConfig: WAFV2ClientTypes.ChallengeConfig?
     let tokenDomains: [Swift.String]?
+    let associationConfig: WAFV2ClientTypes.AssociationConfig?
 }
 
 extension UpdateWebACLInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationConfig = "AssociationConfig"
         case captchaConfig = "CaptchaConfig"
         case challengeConfig = "ChallengeConfig"
         case customResponseBodies = "CustomResponseBodies"
@@ -15820,6 +15995,8 @@ extension UpdateWebACLInputBody: Swift.Decodable {
             }
         }
         tokenDomains = tokenDomainsDecoded0
+        let associationConfigDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.AssociationConfig.self, forKey: .associationConfig)
+        associationConfig = associationConfigDecoded
     }
 }
 
@@ -16043,7 +16220,7 @@ extension WAFV2ClientTypes.VisibilityConfig: Swift.Codable {
 extension WAFV2ClientTypes {
     /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
     public struct VisibilityConfig: Swift.Equatable {
-        /// A boolean indicating whether the associated resource sends metrics to Amazon CloudWatch. For the list of available metrics, see [WAF Metrics](https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#waf-metrics).
+        /// A boolean indicating whether the associated resource sends metrics to Amazon CloudWatch. For the list of available metrics, see [WAF Metrics](https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#waf-metrics) in the WAF Developer Guide.
         /// This member is required.
         public var cloudWatchMetricsEnabled: Swift.Bool
         /// A name of the Amazon CloudWatch metric dimension. The name can contain only the characters: A-Z, a-z, 0-9, - (hyphen), and _ (underscore). The name can be from one to 128 characters long. It can't contain whitespace or metric names that are reserved for WAF, for example All and Default_Action.
@@ -16488,7 +16665,7 @@ extension WAFInvalidPermissionPolicyException {
 
 /// The operation failed because the specified policy isn't in the proper format. The policy specifications must conform to the following:
 ///
-/// * The policy must be composed using IAM Policy version 2012-10-17 or version 2015-01-01.
+/// * The policy must be composed using IAM Policy version 2012-10-17.
 ///
 /// * The policy must include specifications for Effect, Action, and Principal.
 ///
@@ -17057,6 +17234,7 @@ extension WAFUnavailableEntityExceptionBody: Swift.Decodable {
 extension WAFV2ClientTypes.WebACL: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
+        case associationConfig = "AssociationConfig"
         case capacity = "Capacity"
         case captchaConfig = "CaptchaConfig"
         case challengeConfig = "ChallengeConfig"
@@ -17078,6 +17256,9 @@ extension WAFV2ClientTypes.WebACL: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let associationConfig = self.associationConfig {
+            try encodeContainer.encode(associationConfig, forKey: .associationConfig)
         }
         if capacity != 0 {
             try encodeContainer.encode(capacity, forKey: .capacity)
@@ -17220,22 +17401,26 @@ extension WAFV2ClientTypes.WebACL: Swift.Codable {
             }
         }
         tokenDomains = tokenDomainsDecoded0
+        let associationConfigDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.AssociationConfig.self, forKey: .associationConfig)
+        associationConfig = associationConfigDecoded
     }
 }
 
 extension WAFV2ClientTypes {
-    /// A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has an action defined (allow, block, or count) for requests that match the statement of the rule. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resources can be an Amazon CloudFront distribution, an Amazon API Gateway REST API, an Application Load Balancer, an AppSync GraphQL API, Amazon Cognito user pool, or an App Runner service.
+    /// A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has an action defined (allow, block, or count) for requests that match the statement of the rule. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resources can be an Amazon CloudFront distribution, an Amazon API Gateway REST API, an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, or an App Runner service.
     public struct WebACL: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
         /// This member is required.
         public var arn: Swift.String?
-        /// The web ACL capacity units (WCUs) currently being used by this web ACL. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. The WCU limit for web ACLs is 1,500.
+        /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default is 16 KB (16,384 kilobytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
+        public var associationConfig: WAFV2ClientTypes.AssociationConfig?
+        /// The web ACL capacity units (WCUs) currently being used by this web ACL. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. For more information, see [WAF web ACL capacity units (WCU)](https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html) in the WAF Developer Guide.
         public var capacity: Swift.Int
         /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
         public var captchaConfig: WAFV2ClientTypes.CaptchaConfig?
         /// Specifies how WAF should handle challenge evaluations for rules that don't have their own ChallengeConfig settings. If you don't specify this, WAF uses its default settings for ChallengeConfig.
         public var challengeConfig: WAFV2ClientTypes.ChallengeConfig?
-        /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+        /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
         public var customResponseBodies: [Swift.String:WAFV2ClientTypes.CustomResponseBody]?
         /// The action to perform if none of the Rules contained in the WebACL match.
         /// This member is required.
@@ -17270,6 +17455,7 @@ extension WAFV2ClientTypes {
 
         public init (
             arn: Swift.String? = nil,
+            associationConfig: WAFV2ClientTypes.AssociationConfig? = nil,
             capacity: Swift.Int = 0,
             captchaConfig: WAFV2ClientTypes.CaptchaConfig? = nil,
             challengeConfig: WAFV2ClientTypes.ChallengeConfig? = nil,
@@ -17288,6 +17474,7 @@ extension WAFV2ClientTypes {
         )
         {
             self.arn = arn
+            self.associationConfig = associationConfig
             self.capacity = capacity
             self.captchaConfig = captchaConfig
             self.challengeConfig = challengeConfig

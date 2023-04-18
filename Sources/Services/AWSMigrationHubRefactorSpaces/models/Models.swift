@@ -2930,7 +2930,7 @@ extension MigrationHubRefactorSpacesClientTypes {
         public var state: MigrationHubRefactorSpacesClientTypes.EnvironmentState?
         /// The tags assigned to the environment.
         public var tags: [Swift.String:Swift.String]?
-        /// The ID of the transit gateway set up by the environment.
+        /// The ID of the Transit Gateway set up by the environment.
         public var transitGatewayId: Swift.String?
 
         public init (
@@ -3692,7 +3692,7 @@ public struct GetEnvironmentOutputResponse: Swift.Equatable {
     public var state: MigrationHubRefactorSpacesClientTypes.EnvironmentState?
     /// The tags to assign to the environment. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key-value pair.
     public var tags: [Swift.String:Swift.String]?
-    /// The ID of the transit gateway set up by the environment.
+    /// The ID of the Transit Gateway set up by the environment, if applicable.
     public var transitGatewayId: Swift.String?
 
     public init (

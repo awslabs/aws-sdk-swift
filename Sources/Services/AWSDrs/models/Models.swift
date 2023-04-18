@@ -485,6 +485,203 @@ extension CreateExtendedSourceServerOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateLaunchConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateLaunchConfigurationTemplateInput(copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateLaunchConfigurationTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case copyPrivateIp
+        case copyTags
+        case launchDisposition
+        case licensing
+        case tags
+        case targetInstanceTypeRightSizingMethod
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let copyPrivateIp = self.copyPrivateIp {
+            try encodeContainer.encode(copyPrivateIp, forKey: .copyPrivateIp)
+        }
+        if let copyTags = self.copyTags {
+            try encodeContainer.encode(copyTags, forKey: .copyTags)
+        }
+        if let launchDisposition = self.launchDisposition {
+            try encodeContainer.encode(launchDisposition.rawValue, forKey: .launchDisposition)
+        }
+        if let licensing = self.licensing {
+            try encodeContainer.encode(licensing, forKey: .licensing)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let targetInstanceTypeRightSizingMethod = self.targetInstanceTypeRightSizingMethod {
+            try encodeContainer.encode(targetInstanceTypeRightSizingMethod.rawValue, forKey: .targetInstanceTypeRightSizingMethod)
+        }
+    }
+}
+
+extension CreateLaunchConfigurationTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/CreateLaunchConfigurationTemplate"
+    }
+}
+
+public struct CreateLaunchConfigurationTemplateInput: Swift.Equatable {
+    /// Copy private IP.
+    public var copyPrivateIp: Swift.Bool?
+    /// Copy tags.
+    public var copyTags: Swift.Bool?
+    /// Launch disposition.
+    public var launchDisposition: DrsClientTypes.LaunchDisposition?
+    /// Licensing.
+    public var licensing: DrsClientTypes.Licensing?
+    /// Request to associate tags during creation of a Launch Configuration Template.
+    public var tags: [Swift.String:Swift.String]?
+    /// Target instance type right-sizing method.
+    public var targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod?
+
+    public init (
+        copyPrivateIp: Swift.Bool? = nil,
+        copyTags: Swift.Bool? = nil,
+        launchDisposition: DrsClientTypes.LaunchDisposition? = nil,
+        licensing: DrsClientTypes.Licensing? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
+    )
+    {
+        self.copyPrivateIp = copyPrivateIp
+        self.copyTags = copyTags
+        self.launchDisposition = launchDisposition
+        self.licensing = licensing
+        self.tags = tags
+        self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
+    }
+}
+
+struct CreateLaunchConfigurationTemplateInputBody: Swift.Equatable {
+    let tags: [Swift.String:Swift.String]?
+    let launchDisposition: DrsClientTypes.LaunchDisposition?
+    let targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod?
+    let copyPrivateIp: Swift.Bool?
+    let copyTags: Swift.Bool?
+    let licensing: DrsClientTypes.Licensing?
+}
+
+extension CreateLaunchConfigurationTemplateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case copyPrivateIp
+        case copyTags
+        case launchDisposition
+        case licensing
+        case tags
+        case targetInstanceTypeRightSizingMethod
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let launchDispositionDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchDisposition.self, forKey: .launchDisposition)
+        launchDisposition = launchDispositionDecoded
+        let targetInstanceTypeRightSizingMethodDecoded = try containerValues.decodeIfPresent(DrsClientTypes.TargetInstanceTypeRightSizingMethod.self, forKey: .targetInstanceTypeRightSizingMethod)
+        targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethodDecoded
+        let copyPrivateIpDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyPrivateIp)
+        copyPrivateIp = copyPrivateIpDecoded
+        let copyTagsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyTags)
+        copyTags = copyTagsDecoded
+        let licensingDecoded = try containerValues.decodeIfPresent(DrsClientTypes.Licensing.self, forKey: .licensing)
+        licensing = licensingDecoded
+    }
+}
+
+extension CreateLaunchConfigurationTemplateOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateLaunchConfigurationTemplateOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UninitializedAccountException" : self = .uninitializedAccountException(try UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateLaunchConfigurationTemplateOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case uninitializedAccountException(UninitializedAccountException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateLaunchConfigurationTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateLaunchConfigurationTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.launchConfigurationTemplate = output.launchConfigurationTemplate
+        } else {
+            self.launchConfigurationTemplate = nil
+        }
+    }
+}
+
+public struct CreateLaunchConfigurationTemplateOutputResponse: Swift.Equatable {
+    /// Created Launch Configuration Template.
+    public var launchConfigurationTemplate: DrsClientTypes.LaunchConfigurationTemplate?
+
+    public init (
+        launchConfigurationTemplate: DrsClientTypes.LaunchConfigurationTemplate? = nil
+    )
+    {
+        self.launchConfigurationTemplate = launchConfigurationTemplate
+    }
+}
+
+struct CreateLaunchConfigurationTemplateOutputResponseBody: Swift.Equatable {
+    let launchConfigurationTemplate: DrsClientTypes.LaunchConfigurationTemplate?
+}
+
+extension CreateLaunchConfigurationTemplateOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case launchConfigurationTemplate
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let launchConfigurationTemplateDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchConfigurationTemplate.self, forKey: .launchConfigurationTemplate)
+        launchConfigurationTemplate = launchConfigurationTemplateDecoded
+    }
+}
+
 extension CreateReplicationConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CreateReplicationConfigurationTemplateInput(associateDefaultSecurityGroup: \(Swift.String(describing: associateDefaultSecurityGroup)), autoReplicateNewDisks: \(Swift.String(describing: autoReplicateNewDisks)), bandwidthThrottling: \(Swift.String(describing: bandwidthThrottling)), createPublicIP: \(Swift.String(describing: createPublicIP)), dataPlaneRouting: \(Swift.String(describing: dataPlaneRouting)), defaultLargeStagingDiskType: \(Swift.String(describing: defaultLargeStagingDiskType)), ebsEncryption: \(Swift.String(describing: ebsEncryption)), ebsEncryptionKeyArn: \(Swift.String(describing: ebsEncryptionKeyArn)), pitPolicy: \(Swift.String(describing: pitPolicy)), replicationServerInstanceType: \(Swift.String(describing: replicationServerInstanceType)), replicationServersSecurityGroupsIDs: \(Swift.String(describing: replicationServersSecurityGroupsIDs)), stagingAreaSubnetId: \(Swift.String(describing: stagingAreaSubnetId)), useDedicatedReplicationServer: \(Swift.String(describing: useDedicatedReplicationServer)), stagingAreaTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
@@ -1691,6 +1888,94 @@ public struct DeleteJobOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension DeleteLaunchConfigurationTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case launchConfigurationTemplateID
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let launchConfigurationTemplateID = self.launchConfigurationTemplateID {
+            try encodeContainer.encode(launchConfigurationTemplateID, forKey: .launchConfigurationTemplateID)
+        }
+    }
+}
+
+extension DeleteLaunchConfigurationTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/DeleteLaunchConfigurationTemplate"
+    }
+}
+
+public struct DeleteLaunchConfigurationTemplateInput: Swift.Equatable {
+    /// The ID of the Launch Configuration Template to be deleted.
+    /// This member is required.
+    public var launchConfigurationTemplateID: Swift.String?
+
+    public init (
+        launchConfigurationTemplateID: Swift.String? = nil
+    )
+    {
+        self.launchConfigurationTemplateID = launchConfigurationTemplateID
+    }
+}
+
+struct DeleteLaunchConfigurationTemplateInputBody: Swift.Equatable {
+    let launchConfigurationTemplateID: Swift.String?
+}
+
+extension DeleteLaunchConfigurationTemplateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case launchConfigurationTemplateID
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let launchConfigurationTemplateIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .launchConfigurationTemplateID)
+        launchConfigurationTemplateID = launchConfigurationTemplateIDDecoded
+    }
+}
+
+extension DeleteLaunchConfigurationTemplateOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteLaunchConfigurationTemplateOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UninitializedAccountException" : self = .uninitializedAccountException(try UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteLaunchConfigurationTemplateOutputError: Swift.Error, Swift.Equatable {
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case uninitializedAccountException(UninitializedAccountException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteLaunchConfigurationTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteLaunchConfigurationTemplateOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension DeleteRecoveryInstanceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case recoveryInstanceID
@@ -2339,6 +2624,179 @@ extension DrsClientTypes {
         }
     }
 
+}
+
+extension DescribeLaunchConfigurationTemplatesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case launchConfigurationTemplateIDs
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let launchConfigurationTemplateIDs = launchConfigurationTemplateIDs {
+            var launchConfigurationTemplateIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .launchConfigurationTemplateIDs)
+            for launchconfigurationtemplateid0 in launchConfigurationTemplateIDs {
+                try launchConfigurationTemplateIDsContainer.encode(launchconfigurationtemplateid0)
+            }
+        }
+        if maxResults != 0 {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension DescribeLaunchConfigurationTemplatesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/DescribeLaunchConfigurationTemplates"
+    }
+}
+
+public struct DescribeLaunchConfigurationTemplatesInput: Swift.Equatable {
+    /// Request to filter Launch Configuration Templates list by Launch Configuration Template ID.
+    public var launchConfigurationTemplateIDs: [Swift.String]?
+    /// Maximum results to be returned in DescribeLaunchConfigurationTemplates.
+    public var maxResults: Swift.Int
+    /// The token of the next Launch Configuration Template to retrieve.
+    public var nextToken: Swift.String?
+
+    public init (
+        launchConfigurationTemplateIDs: [Swift.String]? = nil,
+        maxResults: Swift.Int = 0,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.launchConfigurationTemplateIDs = launchConfigurationTemplateIDs
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeLaunchConfigurationTemplatesInputBody: Swift.Equatable {
+    let launchConfigurationTemplateIDs: [Swift.String]?
+    let maxResults: Swift.Int
+    let nextToken: Swift.String?
+}
+
+extension DescribeLaunchConfigurationTemplatesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case launchConfigurationTemplateIDs
+        case maxResults
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let launchConfigurationTemplateIDsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .launchConfigurationTemplateIDs)
+        var launchConfigurationTemplateIDsDecoded0:[Swift.String]? = nil
+        if let launchConfigurationTemplateIDsContainer = launchConfigurationTemplateIDsContainer {
+            launchConfigurationTemplateIDsDecoded0 = [Swift.String]()
+            for string0 in launchConfigurationTemplateIDsContainer {
+                if let string0 = string0 {
+                    launchConfigurationTemplateIDsDecoded0?.append(string0)
+                }
+            }
+        }
+        launchConfigurationTemplateIDs = launchConfigurationTemplateIDsDecoded0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension DescribeLaunchConfigurationTemplatesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeLaunchConfigurationTemplatesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UninitializedAccountException" : self = .uninitializedAccountException(try UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeLaunchConfigurationTemplatesOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case uninitializedAccountException(UninitializedAccountException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeLaunchConfigurationTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DescribeLaunchConfigurationTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.items = output.items
+            self.nextToken = output.nextToken
+        } else {
+            self.items = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct DescribeLaunchConfigurationTemplatesOutputResponse: Swift.Equatable {
+    /// List of items returned by DescribeLaunchConfigurationTemplates.
+    public var items: [DrsClientTypes.LaunchConfigurationTemplate]?
+    /// The token of the next Launch Configuration Template to retrieve.
+    public var nextToken: Swift.String?
+
+    public init (
+        items: [DrsClientTypes.LaunchConfigurationTemplate]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeLaunchConfigurationTemplatesOutputResponseBody: Swift.Equatable {
+    let items: [DrsClientTypes.LaunchConfigurationTemplate]?
+    let nextToken: Swift.String?
+}
+
+extension DescribeLaunchConfigurationTemplatesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemsContainer = try containerValues.decodeIfPresent([DrsClientTypes.LaunchConfigurationTemplate?].self, forKey: .items)
+        var itemsDecoded0:[DrsClientTypes.LaunchConfigurationTemplate]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [DrsClientTypes.LaunchConfigurationTemplate]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
 }
 
 extension DescribeRecoveryInstancesInput: Swift.Encodable {
@@ -5213,6 +5671,128 @@ extension DrsClientTypes {
             self = LastLaunchType(rawValue: rawValue) ?? LastLaunchType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension DrsClientTypes.LaunchConfigurationTemplate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case copyPrivateIp
+        case copyTags
+        case launchConfigurationTemplateID
+        case launchDisposition
+        case licensing
+        case tags
+        case targetInstanceTypeRightSizingMethod
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let copyPrivateIp = self.copyPrivateIp {
+            try encodeContainer.encode(copyPrivateIp, forKey: .copyPrivateIp)
+        }
+        if let copyTags = self.copyTags {
+            try encodeContainer.encode(copyTags, forKey: .copyTags)
+        }
+        if let launchConfigurationTemplateID = self.launchConfigurationTemplateID {
+            try encodeContainer.encode(launchConfigurationTemplateID, forKey: .launchConfigurationTemplateID)
+        }
+        if let launchDisposition = self.launchDisposition {
+            try encodeContainer.encode(launchDisposition.rawValue, forKey: .launchDisposition)
+        }
+        if let licensing = self.licensing {
+            try encodeContainer.encode(licensing, forKey: .licensing)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let targetInstanceTypeRightSizingMethod = self.targetInstanceTypeRightSizingMethod {
+            try encodeContainer.encode(targetInstanceTypeRightSizingMethod.rawValue, forKey: .targetInstanceTypeRightSizingMethod)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let launchConfigurationTemplateIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .launchConfigurationTemplateID)
+        launchConfigurationTemplateID = launchConfigurationTemplateIDDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let launchDispositionDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchDisposition.self, forKey: .launchDisposition)
+        launchDisposition = launchDispositionDecoded
+        let targetInstanceTypeRightSizingMethodDecoded = try containerValues.decodeIfPresent(DrsClientTypes.TargetInstanceTypeRightSizingMethod.self, forKey: .targetInstanceTypeRightSizingMethod)
+        targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethodDecoded
+        let copyPrivateIpDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyPrivateIp)
+        copyPrivateIp = copyPrivateIpDecoded
+        let copyTagsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyTags)
+        copyTags = copyTagsDecoded
+        let licensingDecoded = try containerValues.decodeIfPresent(DrsClientTypes.Licensing.self, forKey: .licensing)
+        licensing = licensingDecoded
+    }
+}
+
+extension DrsClientTypes.LaunchConfigurationTemplate: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "LaunchConfigurationTemplate(arn: \(Swift.String(describing: arn)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
+}
+
+extension DrsClientTypes {
+    /// Account level Launch Configuration Template.
+    public struct LaunchConfigurationTemplate: Swift.Equatable {
+        /// ARN of the Launch Configuration Template.
+        public var arn: Swift.String?
+        /// Copy private IP.
+        public var copyPrivateIp: Swift.Bool?
+        /// Copy tags.
+        public var copyTags: Swift.Bool?
+        /// ID of the Launch Configuration Template.
+        public var launchConfigurationTemplateID: Swift.String?
+        /// Launch disposition.
+        public var launchDisposition: DrsClientTypes.LaunchDisposition?
+        /// Licensing.
+        public var licensing: DrsClientTypes.Licensing?
+        /// Tags of the Launch Configuration Template.
+        public var tags: [Swift.String:Swift.String]?
+        /// Target instance type right-sizing method.
+        public var targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod?
+
+        public init (
+            arn: Swift.String? = nil,
+            copyPrivateIp: Swift.Bool? = nil,
+            copyTags: Swift.Bool? = nil,
+            launchConfigurationTemplateID: Swift.String? = nil,
+            launchDisposition: DrsClientTypes.LaunchDisposition? = nil,
+            licensing: DrsClientTypes.Licensing? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
+            targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
+        )
+        {
+            self.arn = arn
+            self.copyPrivateIp = copyPrivateIp
+            self.copyTags = copyTags
+            self.launchConfigurationTemplateID = launchConfigurationTemplateID
+            self.launchDisposition = launchDisposition
+            self.licensing = licensing
+            self.tags = tags
+            self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
+        }
+    }
+
 }
 
 extension DrsClientTypes {
@@ -8472,6 +9052,7 @@ extension DrsClientTypes.SourceProperties: Swift.Codable {
         case os
         case ramBytes
         case recommendedInstanceType
+        case supportsNitroInstances
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -8508,6 +9089,9 @@ extension DrsClientTypes.SourceProperties: Swift.Codable {
         }
         if let recommendedInstanceType = self.recommendedInstanceType {
             try encodeContainer.encode(recommendedInstanceType, forKey: .recommendedInstanceType)
+        }
+        if let supportsNitroInstances = self.supportsNitroInstances {
+            try encodeContainer.encode(supportsNitroInstances, forKey: .supportsNitroInstances)
         }
     }
 
@@ -8556,6 +9140,8 @@ extension DrsClientTypes.SourceProperties: Swift.Codable {
         ramBytes = ramBytesDecoded
         let osDecoded = try containerValues.decodeIfPresent(DrsClientTypes.OS.self, forKey: .os)
         os = osDecoded
+        let supportsNitroInstancesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsNitroInstances)
+        supportsNitroInstances = supportsNitroInstancesDecoded
     }
 }
 
@@ -8578,6 +9164,8 @@ extension DrsClientTypes {
         public var ramBytes: Swift.Int
         /// The recommended EC2 instance type that will be used when recovering the Source Server.
         public var recommendedInstanceType: Swift.String?
+        /// Are EC2 nitro instance types supported when recovering the Source Server.
+        public var supportsNitroInstances: Swift.Bool?
 
         public init (
             cpus: [DrsClientTypes.CPU]? = nil,
@@ -8587,7 +9175,8 @@ extension DrsClientTypes {
             networkInterfaces: [DrsClientTypes.NetworkInterface]? = nil,
             os: DrsClientTypes.OS? = nil,
             ramBytes: Swift.Int = 0,
-            recommendedInstanceType: Swift.String? = nil
+            recommendedInstanceType: Swift.String? = nil,
+            supportsNitroInstances: Swift.Bool? = nil
         )
         {
             self.cpus = cpus
@@ -8598,6 +9187,7 @@ extension DrsClientTypes {
             self.os = os
             self.ramBytes = ramBytes
             self.recommendedInstanceType = recommendedInstanceType
+            self.supportsNitroInstances = supportsNitroInstances
         }
     }
 
@@ -10506,6 +11096,187 @@ extension UpdateLaunchConfigurationOutputResponseBody: Swift.Decodable {
         copyTags = copyTagsDecoded
         let licensingDecoded = try containerValues.decodeIfPresent(DrsClientTypes.Licensing.self, forKey: .licensing)
         licensing = licensingDecoded
+    }
+}
+
+extension UpdateLaunchConfigurationTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case copyPrivateIp
+        case copyTags
+        case launchConfigurationTemplateID
+        case launchDisposition
+        case licensing
+        case targetInstanceTypeRightSizingMethod
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let copyPrivateIp = self.copyPrivateIp {
+            try encodeContainer.encode(copyPrivateIp, forKey: .copyPrivateIp)
+        }
+        if let copyTags = self.copyTags {
+            try encodeContainer.encode(copyTags, forKey: .copyTags)
+        }
+        if let launchConfigurationTemplateID = self.launchConfigurationTemplateID {
+            try encodeContainer.encode(launchConfigurationTemplateID, forKey: .launchConfigurationTemplateID)
+        }
+        if let launchDisposition = self.launchDisposition {
+            try encodeContainer.encode(launchDisposition.rawValue, forKey: .launchDisposition)
+        }
+        if let licensing = self.licensing {
+            try encodeContainer.encode(licensing, forKey: .licensing)
+        }
+        if let targetInstanceTypeRightSizingMethod = self.targetInstanceTypeRightSizingMethod {
+            try encodeContainer.encode(targetInstanceTypeRightSizingMethod.rawValue, forKey: .targetInstanceTypeRightSizingMethod)
+        }
+    }
+}
+
+extension UpdateLaunchConfigurationTemplateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/UpdateLaunchConfigurationTemplate"
+    }
+}
+
+public struct UpdateLaunchConfigurationTemplateInput: Swift.Equatable {
+    /// Copy private IP.
+    public var copyPrivateIp: Swift.Bool?
+    /// Copy tags.
+    public var copyTags: Swift.Bool?
+    /// Launch Configuration Template ID.
+    /// This member is required.
+    public var launchConfigurationTemplateID: Swift.String?
+    /// Launch disposition.
+    public var launchDisposition: DrsClientTypes.LaunchDisposition?
+    /// Licensing.
+    public var licensing: DrsClientTypes.Licensing?
+    /// Target instance type right-sizing method.
+    public var targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod?
+
+    public init (
+        copyPrivateIp: Swift.Bool? = nil,
+        copyTags: Swift.Bool? = nil,
+        launchConfigurationTemplateID: Swift.String? = nil,
+        launchDisposition: DrsClientTypes.LaunchDisposition? = nil,
+        licensing: DrsClientTypes.Licensing? = nil,
+        targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
+    )
+    {
+        self.copyPrivateIp = copyPrivateIp
+        self.copyTags = copyTags
+        self.launchConfigurationTemplateID = launchConfigurationTemplateID
+        self.launchDisposition = launchDisposition
+        self.licensing = licensing
+        self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
+    }
+}
+
+struct UpdateLaunchConfigurationTemplateInputBody: Swift.Equatable {
+    let launchConfigurationTemplateID: Swift.String?
+    let launchDisposition: DrsClientTypes.LaunchDisposition?
+    let targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod?
+    let copyPrivateIp: Swift.Bool?
+    let copyTags: Swift.Bool?
+    let licensing: DrsClientTypes.Licensing?
+}
+
+extension UpdateLaunchConfigurationTemplateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case copyPrivateIp
+        case copyTags
+        case launchConfigurationTemplateID
+        case launchDisposition
+        case licensing
+        case targetInstanceTypeRightSizingMethod
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let launchConfigurationTemplateIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .launchConfigurationTemplateID)
+        launchConfigurationTemplateID = launchConfigurationTemplateIDDecoded
+        let launchDispositionDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchDisposition.self, forKey: .launchDisposition)
+        launchDisposition = launchDispositionDecoded
+        let targetInstanceTypeRightSizingMethodDecoded = try containerValues.decodeIfPresent(DrsClientTypes.TargetInstanceTypeRightSizingMethod.self, forKey: .targetInstanceTypeRightSizingMethod)
+        targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethodDecoded
+        let copyPrivateIpDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyPrivateIp)
+        copyPrivateIp = copyPrivateIpDecoded
+        let copyTagsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyTags)
+        copyTags = copyTagsDecoded
+        let licensingDecoded = try containerValues.decodeIfPresent(DrsClientTypes.Licensing.self, forKey: .licensing)
+        licensing = licensingDecoded
+    }
+}
+
+extension UpdateLaunchConfigurationTemplateOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateLaunchConfigurationTemplateOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UninitializedAccountException" : self = .uninitializedAccountException(try UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateLaunchConfigurationTemplateOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case uninitializedAccountException(UninitializedAccountException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateLaunchConfigurationTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateLaunchConfigurationTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.launchConfigurationTemplate = output.launchConfigurationTemplate
+        } else {
+            self.launchConfigurationTemplate = nil
+        }
+    }
+}
+
+public struct UpdateLaunchConfigurationTemplateOutputResponse: Swift.Equatable {
+    /// Updated Launch Configuration Template.
+    public var launchConfigurationTemplate: DrsClientTypes.LaunchConfigurationTemplate?
+
+    public init (
+        launchConfigurationTemplate: DrsClientTypes.LaunchConfigurationTemplate? = nil
+    )
+    {
+        self.launchConfigurationTemplate = launchConfigurationTemplate
+    }
+}
+
+struct UpdateLaunchConfigurationTemplateOutputResponseBody: Swift.Equatable {
+    let launchConfigurationTemplate: DrsClientTypes.LaunchConfigurationTemplate?
+}
+
+extension UpdateLaunchConfigurationTemplateOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case launchConfigurationTemplate
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let launchConfigurationTemplateDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchConfigurationTemplate.self, forKey: .launchConfigurationTemplate)
+        launchConfigurationTemplate = launchConfigurationTemplateDecoded
     }
 }
 

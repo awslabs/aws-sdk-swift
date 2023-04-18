@@ -7,10 +7,14 @@ import ClientRuntime
 public protocol DrsClientProtocol {
     /// Create an extended source server in the target Account based on the source server in staging account.
     func createExtendedSourceServer(input: CreateExtendedSourceServerInput) async throws -> CreateExtendedSourceServerOutputResponse
+    /// Creates a new Launch Configuration Template.
+    func createLaunchConfigurationTemplate(input: CreateLaunchConfigurationTemplateInput) async throws -> CreateLaunchConfigurationTemplateOutputResponse
     /// Creates a new ReplicationConfigurationTemplate.
     func createReplicationConfigurationTemplate(input: CreateReplicationConfigurationTemplateInput) async throws -> CreateReplicationConfigurationTemplateOutputResponse
     /// Deletes a single Job by ID.
     func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutputResponse
+    /// Deletes a single Launch Configuration Template by ID.
+    func deleteLaunchConfigurationTemplate(input: DeleteLaunchConfigurationTemplateInput) async throws -> DeleteLaunchConfigurationTemplateOutputResponse
     /// Deletes a single Recovery Instance by ID. This deletes the Recovery Instance resource from Elastic Disaster Recovery. The Recovery Instance must be disconnected first in order to delete it.
     func deleteRecoveryInstance(input: DeleteRecoveryInstanceInput) async throws -> DeleteRecoveryInstanceOutputResponse
     /// Deletes a single Replication Configuration Template by ID
@@ -21,6 +25,8 @@ public protocol DrsClientProtocol {
     func describeJobLogItems(input: DescribeJobLogItemsInput) async throws -> DescribeJobLogItemsOutputResponse
     /// Returns a list of Jobs. Use the JobsID and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are created by the StartRecovery, TerminateRecoveryInstances and StartFailbackLaunch APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
     func describeJobs(input: DescribeJobsInput) async throws -> DescribeJobsOutputResponse
+    /// Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
+    func describeLaunchConfigurationTemplates(input: DescribeLaunchConfigurationTemplatesInput) async throws -> DescribeLaunchConfigurationTemplatesOutputResponse
     /// Lists all Recovery Instances or multiple Recovery Instances by ID.
     func describeRecoveryInstances(input: DescribeRecoveryInstancesInput) async throws -> DescribeRecoveryInstancesOutputResponse
     /// Lists all Recovery Snapshots for a single Source Server.
@@ -72,6 +78,8 @@ public protocol DrsClientProtocol {
     func updateFailbackReplicationConfiguration(input: UpdateFailbackReplicationConfigurationInput) async throws -> UpdateFailbackReplicationConfigurationOutputResponse
     /// Updates a LaunchConfiguration by Source Server ID.
     func updateLaunchConfiguration(input: UpdateLaunchConfigurationInput) async throws -> UpdateLaunchConfigurationOutputResponse
+    /// Updates an existing Launch Configuration Template by ID.
+    func updateLaunchConfigurationTemplate(input: UpdateLaunchConfigurationTemplateInput) async throws -> UpdateLaunchConfigurationTemplateOutputResponse
     /// Allows you to update a ReplicationConfiguration by Source Server ID.
     func updateReplicationConfiguration(input: UpdateReplicationConfigurationInput) async throws -> UpdateReplicationConfigurationOutputResponse
     /// Updates a ReplicationConfigurationTemplate by ID.

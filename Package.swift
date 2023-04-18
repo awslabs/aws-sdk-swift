@@ -108,7 +108,7 @@ func addServiceTarget(_ name: String) {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.17.0",
+    clientRuntimeVersion: "0.18.0",
     crtVersion: "0.9.0"
 )
 

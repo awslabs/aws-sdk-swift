@@ -36033,6 +36033,9 @@ extension ModifyDBClusterInput: Swift.Encodable {
         if let allocatedStorage = allocatedStorage {
             try container.encode(allocatedStorage, forKey: ClientRuntime.Key("AllocatedStorage"))
         }
+        if allowEngineModeChange != false {
+            try container.encode(allowEngineModeChange, forKey: ClientRuntime.Key("AllowEngineModeChange"))
+        }
         if allowMajorVersionUpgrade != false {
             try container.encode(allowMajorVersionUpgrade, forKey: ClientRuntime.Key("AllowMajorVersionUpgrade"))
         }
@@ -36086,6 +36089,9 @@ extension ModifyDBClusterInput: Swift.Encodable {
         }
         if let enablePerformanceInsights = enablePerformanceInsights {
             try container.encode(enablePerformanceInsights, forKey: ClientRuntime.Key("EnablePerformanceInsights"))
+        }
+        if let engineMode = engineMode {
+            try container.encode(engineMode, forKey: ClientRuntime.Key("EngineMode"))
         }
         if let engineVersion = engineVersion {
             try container.encode(engineVersion, forKey: ClientRuntime.Key("EngineVersion"))
@@ -36169,8 +36175,10 @@ extension ModifyDBClusterInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct ModifyDBClusterInput: Swift.Equatable {
-    /// The amount of storage in gibibytes (GiB) to allocate to each DB instance in the Multi-AZ DB cluster. Type: Integer Valid for: Multi-AZ DB clusters only
+    /// The amount of storage in gibibytes (GiB) to allocate to each DB instance in the Multi-AZ DB cluster. Valid for: Multi-AZ DB clusters only
     public var allocatedStorage: Swift.Int?
+    /// A value that indicates whether engine mode changes from serverless to provisioned are allowed. Constraints: You must allow engine mode changes when specifying a different value for the EngineMode parameter from the DB cluster's current engine mode. Valid for: Aurora Serverless v1 DB clusters only
+    public var allowEngineModeChange: Swift.Bool
     /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version. Valid for: Aurora DB clusters only
     public var allowMajorVersionUpgrade: Swift.Bool
     /// A value that indicates whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is disabled, changes to the DB cluster are applied during the next maintenance window. Most modifications can be applied immediately or during the next scheduled maintenance window. Some modifications, such as turning on deletion protection and changing the master password, are applied immediately—regardless of when you choose to apply them. By default, this parameter is disabled. Valid for: Aurora DB clusters and Multi-AZ DB clusters
@@ -36225,6 +36233,8 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     public var enableIAMDatabaseAuthentication: Swift.Bool?
     /// A value that indicates whether to turn on Performance Insights for the DB cluster. For more information, see [ Using Amazon Performance Insights](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html) in the Amazon RDS User Guide. Valid for: Multi-AZ DB clusters only
     public var enablePerformanceInsights: Swift.Bool?
+    /// The DB engine mode of the DB cluster, either provisioned or serverless. The DB engine mode can be modified only from serverless to provisioned. For more information, see [ CreateDBCluster](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBCluster.html). Valid for: Aurora DB clusters only
+    public var engineMode: Swift.String?
     /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. If the cluster that you're modifying has one or more read replicas, all replicas must be running an engine version that's the same or later than the version you specify. To list all of the available engine versions for Aurora MySQL version 2 (5.7-compatible) and version 3 (MySQL 8.0-compatible), use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for MySQL 5.6-compatible Aurora, use the following command: aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for Aurora PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for MySQL, use the following command: aws rds describe-db-engine-versions --engine mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine postgres --query "DBEngineVersions[].EngineVersion" Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var engineVersion: Swift.String?
     /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for each DB instance in the Multi-AZ DB cluster. For information about valid IOPS values, see [Amazon RDS Provisioned IOPS storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS) in the Amazon RDS User Guide. Constraints: Must be a multiple between .5 and 50 of the storage amount for the DB cluster. Valid for: Multi-AZ DB clusters only
@@ -36334,6 +36344,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
 
     public init (
         allocatedStorage: Swift.Int? = nil,
+        allowEngineModeChange: Swift.Bool = false,
         allowMajorVersionUpgrade: Swift.Bool = false,
         applyImmediately: Swift.Bool = false,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
@@ -36352,6 +36363,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
         enableHttpEndpoint: Swift.Bool? = nil,
         enableIAMDatabaseAuthentication: Swift.Bool? = nil,
         enablePerformanceInsights: Swift.Bool? = nil,
+        engineMode: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         iops: Swift.Int? = nil,
         manageMasterUserPassword: Swift.Bool? = nil,
@@ -36375,6 +36387,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     )
     {
         self.allocatedStorage = allocatedStorage
+        self.allowEngineModeChange = allowEngineModeChange
         self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
         self.applyImmediately = applyImmediately
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -36393,6 +36406,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
         self.enableHttpEndpoint = enableHttpEndpoint
         self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
         self.enablePerformanceInsights = enablePerformanceInsights
+        self.engineMode = engineMode
         self.engineVersion = engineVersion
         self.iops = iops
         self.manageMasterUserPassword = manageMasterUserPassword
@@ -36456,11 +36470,14 @@ struct ModifyDBClusterInputBody: Swift.Equatable {
     let manageMasterUserPassword: Swift.Bool?
     let rotateMasterUserPassword: Swift.Bool?
     let masterUserSecretKmsKeyId: Swift.String?
+    let engineMode: Swift.String?
+    let allowEngineModeChange: Swift.Bool
 }
 
 extension ModifyDBClusterInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allocatedStorage = "AllocatedStorage"
+        case allowEngineModeChange = "AllowEngineModeChange"
         case allowMajorVersionUpgrade = "AllowMajorVersionUpgrade"
         case applyImmediately = "ApplyImmediately"
         case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
@@ -36479,6 +36496,7 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         case enableHttpEndpoint = "EnableHttpEndpoint"
         case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
         case enablePerformanceInsights = "EnablePerformanceInsights"
+        case engineMode = "EngineMode"
         case engineVersion = "EngineVersion"
         case iops = "Iops"
         case manageMasterUserPassword = "ManageMasterUserPassword"
@@ -36598,6 +36616,10 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         rotateMasterUserPassword = rotateMasterUserPasswordDecoded
         let masterUserSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUserSecretKmsKeyId)
         masterUserSecretKmsKeyId = masterUserSecretKmsKeyIdDecoded
+        let engineModeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineMode)
+        engineMode = engineModeDecoded
+        let allowEngineModeChangeDecoded = try containerValues.decode(Swift.Bool.self, forKey: .allowEngineModeChange)
+        allowEngineModeChange = allowEngineModeChangeDecoded
     }
 }
 
@@ -36614,6 +36636,7 @@ extension ModifyDBClusterOutputError {
         case "DBClusterAlreadyExistsFault" : self = .dBClusterAlreadyExistsFault(try DBClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBClusterParameterGroupNotFound" : self = .dBClusterParameterGroupNotFoundFault(try DBClusterParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DBInstanceAlreadyExists" : self = .dBInstanceAlreadyExistsFault(try DBInstanceAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBSubnetGroupNotFoundFault" : self = .dBSubnetGroupNotFoundFault(try DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DomainNotFoundFault" : self = .domainNotFoundFault(try DomainNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidDBClusterStateFault" : self = .invalidDBClusterStateFault(try InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -36632,6 +36655,7 @@ public enum ModifyDBClusterOutputError: Swift.Error, Swift.Equatable {
     case dBClusterAlreadyExistsFault(DBClusterAlreadyExistsFault)
     case dBClusterNotFoundFault(DBClusterNotFoundFault)
     case dBClusterParameterGroupNotFoundFault(DBClusterParameterGroupNotFoundFault)
+    case dBInstanceAlreadyExistsFault(DBInstanceAlreadyExistsFault)
     case dBSubnetGroupNotFoundFault(DBSubnetGroupNotFoundFault)
     case domainNotFoundFault(DomainNotFoundFault)
     case invalidDBClusterStateFault(InvalidDBClusterStateFault)

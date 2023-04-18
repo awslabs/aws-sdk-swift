@@ -221,6 +221,7 @@ extension CreateMonitorInput: Swift.Encodable {
         case monitorName = "MonitorName"
         case resources = "Resources"
         case tags = "Tags"
+        case trafficPercentageToMonitor = "TrafficPercentageToMonitor"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -249,6 +250,9 @@ extension CreateMonitorInput: Swift.Encodable {
                 try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
+        if trafficPercentageToMonitor != 0 {
+            try encodeContainer.encode(trafficPercentageToMonitor, forKey: .trafficPercentageToMonitor)
+        }
     }
 }
 
@@ -261,10 +265,9 @@ extension CreateMonitorInput: ClientRuntime.URLPathProvider {
 public struct CreateMonitorInput: Swift.Equatable {
     /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for other API requests.
     public var clientToken: Swift.String?
-    /// Publish internet measurements for Internet Monitor to another location, such as an Amazon S3 bucket. The measurements are also published to Amazon CloudWatch Logs.
+    /// Publish internet measurements for Internet Monitor to an Amazon S3 bucket in addition to CloudWatch Logs.
     public var internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
     /// The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and the network or ASN, such as an internet service provider (ISP), that clients access the resources through. This limit helps control billing costs. To learn more, see [Choosing a city-network maximum value ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
-    /// This member is required.
     public var maxCityNetworksToMonitor: Swift.Int
     /// The name of the monitor.
     /// This member is required.
@@ -273,6 +276,8 @@ public struct CreateMonitorInput: Swift.Equatable {
     public var resources: [Swift.String]?
     /// The tags for a monitor. You can add a maximum of 50 tags in Internet Monitor.
     public var tags: [Swift.String:Swift.String]?
+    /// The percentage of the internet-facing traffic for your application that you want to monitor with this monitor.
+    public var trafficPercentageToMonitor: Swift.Int
 
     public init (
         clientToken: Swift.String? = nil,
@@ -280,7 +285,8 @@ public struct CreateMonitorInput: Swift.Equatable {
         maxCityNetworksToMonitor: Swift.Int = 0,
         monitorName: Swift.String? = nil,
         resources: [Swift.String]? = nil,
-        tags: [Swift.String:Swift.String]? = nil
+        tags: [Swift.String:Swift.String]? = nil,
+        trafficPercentageToMonitor: Swift.Int = 0
     )
     {
         self.clientToken = clientToken
@@ -289,6 +295,7 @@ public struct CreateMonitorInput: Swift.Equatable {
         self.monitorName = monitorName
         self.resources = resources
         self.tags = tags
+        self.trafficPercentageToMonitor = trafficPercentageToMonitor
     }
 }
 
@@ -299,6 +306,7 @@ struct CreateMonitorInputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let maxCityNetworksToMonitor: Swift.Int
     let internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
+    let trafficPercentageToMonitor: Swift.Int
 }
 
 extension CreateMonitorInputBody: Swift.Decodable {
@@ -309,6 +317,7 @@ extension CreateMonitorInputBody: Swift.Decodable {
         case monitorName = "MonitorName"
         case resources = "Resources"
         case tags = "Tags"
+        case trafficPercentageToMonitor = "TrafficPercentageToMonitor"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -343,6 +352,8 @@ extension CreateMonitorInputBody: Swift.Decodable {
         maxCityNetworksToMonitor = maxCityNetworksToMonitorDecoded
         let internetMeasurementsLogDeliveryDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.InternetMeasurementsLogDelivery.self, forKey: .internetMeasurementsLogDelivery)
         internetMeasurementsLogDelivery = internetMeasurementsLogDeliveryDecoded
+        let trafficPercentageToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .trafficPercentageToMonitor) ?? 0
+        trafficPercentageToMonitor = trafficPercentageToMonitorDecoded
     }
 }
 
@@ -790,6 +801,7 @@ extension GetMonitorOutputResponse: ClientRuntime.HttpResponseBinding {
             self.resources = output.resources
             self.status = output.status
             self.tags = output.tags
+            self.trafficPercentageToMonitor = output.trafficPercentageToMonitor
         } else {
             self.createdAt = nil
             self.internetMeasurementsLogDelivery = nil
@@ -802,6 +814,7 @@ extension GetMonitorOutputResponse: ClientRuntime.HttpResponseBinding {
             self.resources = nil
             self.status = nil
             self.tags = nil
+            self.trafficPercentageToMonitor = 0
         }
     }
 }
@@ -813,7 +826,6 @@ public struct GetMonitorOutputResponse: Swift.Equatable {
     /// Publish internet measurements for Internet Monitor to another location, such as an Amazon S3 bucket. The measurements are also published to Amazon CloudWatch Logs.
     public var internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
     /// The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and the network or ASN, such as an internet service provider (ISP), that clients access the resources through. This limit helps control billing costs. To learn more, see [Choosing a city-network maximum value ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
-    /// This member is required.
     public var maxCityNetworksToMonitor: Swift.Int
     /// The last time that the monitor was modified.
     /// This member is required.
@@ -836,6 +848,8 @@ public struct GetMonitorOutputResponse: Swift.Equatable {
     public var status: InternetMonitorClientTypes.MonitorConfigState?
     /// The tags that have been added to monitor.
     public var tags: [Swift.String:Swift.String]?
+    /// The percentage of the internet-facing traffic for your application that you want to monitor with this monitor.
+    public var trafficPercentageToMonitor: Swift.Int
 
     public init (
         createdAt: ClientRuntime.Date? = nil,
@@ -848,7 +862,8 @@ public struct GetMonitorOutputResponse: Swift.Equatable {
         processingStatusInfo: Swift.String? = nil,
         resources: [Swift.String]? = nil,
         status: InternetMonitorClientTypes.MonitorConfigState? = nil,
-        tags: [Swift.String:Swift.String]? = nil
+        tags: [Swift.String:Swift.String]? = nil,
+        trafficPercentageToMonitor: Swift.Int = 0
     )
     {
         self.createdAt = createdAt
@@ -862,6 +877,7 @@ public struct GetMonitorOutputResponse: Swift.Equatable {
         self.resources = resources
         self.status = status
         self.tags = tags
+        self.trafficPercentageToMonitor = trafficPercentageToMonitor
     }
 }
 
@@ -877,6 +893,7 @@ struct GetMonitorOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let maxCityNetworksToMonitor: Swift.Int
     let internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
+    let trafficPercentageToMonitor: Swift.Int
 }
 
 extension GetMonitorOutputResponseBody: Swift.Decodable {
@@ -892,6 +909,7 @@ extension GetMonitorOutputResponseBody: Swift.Decodable {
         case resources = "Resources"
         case status = "Status"
         case tags = "Tags"
+        case trafficPercentageToMonitor = "TrafficPercentageToMonitor"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -936,6 +954,8 @@ extension GetMonitorOutputResponseBody: Swift.Decodable {
         maxCityNetworksToMonitor = maxCityNetworksToMonitorDecoded
         let internetMeasurementsLogDeliveryDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.InternetMeasurementsLogDelivery.self, forKey: .internetMeasurementsLogDelivery)
         internetMeasurementsLogDelivery = internetMeasurementsLogDeliveryDecoded
+        let trafficPercentageToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .trafficPercentageToMonitor) ?? 0
+        trafficPercentageToMonitor = trafficPercentageToMonitorDecoded
     }
 }
 
@@ -1485,7 +1505,7 @@ extension InternetMonitorClientTypes.InternetMeasurementsLogDelivery: Swift.Coda
 }
 
 extension InternetMonitorClientTypes {
-    /// Configuration information for other locations that you choose to publish Amazon CloudWatch Internet Monitor internet measurements to, such as Amazon S3. The measurements are also published to Amazon CloudWatch Logs.
+    /// Publish internet measurements to an Amazon S3 bucket in addition to CloudWatch Logs.
     public struct InternetMeasurementsLogDelivery: Swift.Equatable {
         /// The configuration information for publishing Internet Monitor internet measurements to Amazon S3. The configuration includes the bucket name and (optionally) prefix for the S3 bucket to store the measurements, and the delivery status. The delivery status is ENABLED or DISABLED, depending on whether you choose to deliver internet measurements to S3 logs.
         public var s3Config: InternetMonitorClientTypes.S3Config?
@@ -2912,6 +2932,7 @@ extension UpdateMonitorInput: Swift.Encodable {
         case resourcesToAdd = "ResourcesToAdd"
         case resourcesToRemove = "ResourcesToRemove"
         case status = "Status"
+        case trafficPercentageToMonitor = "TrafficPercentageToMonitor"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2939,6 +2960,9 @@ extension UpdateMonitorInput: Swift.Encodable {
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if trafficPercentageToMonitor != 0 {
+            try encodeContainer.encode(trafficPercentageToMonitor, forKey: .trafficPercentageToMonitor)
         }
     }
 }
@@ -2968,6 +2992,8 @@ public struct UpdateMonitorInput: Swift.Equatable {
     public var resourcesToRemove: [Swift.String]?
     /// The status for a monitor. The accepted values for Status with the UpdateMonitor API call are the following: ACTIVE and INACTIVE. The following values are not accepted: PENDING, and ERROR.
     public var status: InternetMonitorClientTypes.MonitorConfigState?
+    /// The percentage of the internet-facing traffic for your application that you want to monitor with this monitor.
+    public var trafficPercentageToMonitor: Swift.Int
 
     public init (
         clientToken: Swift.String? = nil,
@@ -2976,7 +3002,8 @@ public struct UpdateMonitorInput: Swift.Equatable {
         monitorName: Swift.String? = nil,
         resourcesToAdd: [Swift.String]? = nil,
         resourcesToRemove: [Swift.String]? = nil,
-        status: InternetMonitorClientTypes.MonitorConfigState? = nil
+        status: InternetMonitorClientTypes.MonitorConfigState? = nil,
+        trafficPercentageToMonitor: Swift.Int = 0
     )
     {
         self.clientToken = clientToken
@@ -2986,6 +3013,7 @@ public struct UpdateMonitorInput: Swift.Equatable {
         self.resourcesToAdd = resourcesToAdd
         self.resourcesToRemove = resourcesToRemove
         self.status = status
+        self.trafficPercentageToMonitor = trafficPercentageToMonitor
     }
 }
 
@@ -2996,6 +3024,7 @@ struct UpdateMonitorInputBody: Swift.Equatable {
     let clientToken: Swift.String?
     let maxCityNetworksToMonitor: Swift.Int
     let internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
+    let trafficPercentageToMonitor: Swift.Int
 }
 
 extension UpdateMonitorInputBody: Swift.Decodable {
@@ -3006,6 +3035,7 @@ extension UpdateMonitorInputBody: Swift.Decodable {
         case resourcesToAdd = "ResourcesToAdd"
         case resourcesToRemove = "ResourcesToRemove"
         case status = "Status"
+        case trafficPercentageToMonitor = "TrafficPercentageToMonitor"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -3040,6 +3070,8 @@ extension UpdateMonitorInputBody: Swift.Decodable {
         maxCityNetworksToMonitor = maxCityNetworksToMonitorDecoded
         let internetMeasurementsLogDeliveryDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.InternetMeasurementsLogDelivery.self, forKey: .internetMeasurementsLogDelivery)
         internetMeasurementsLogDelivery = internetMeasurementsLogDeliveryDecoded
+        let trafficPercentageToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .trafficPercentageToMonitor) ?? 0
+        trafficPercentageToMonitor = trafficPercentageToMonitorDecoded
     }
 }
 

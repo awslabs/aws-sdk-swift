@@ -494,7 +494,7 @@ extension GroundStationClient: GroundStationClientProtocol {
         return result
     }
 
-    /// Gets the latest configuration information for a registered agent.
+    /// For use by AWS Ground Station Agent and shouldn't be called directly. Gets the latest configuration information for a registered agent.
     public func getAgentConfiguration(input: GetAgentConfigurationInput) async throws -> GetAgentConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -957,7 +957,7 @@ extension GroundStationClient: GroundStationClientProtocol {
         return result
     }
 
-    /// Registers a new agent with AWS Groundstation.
+    /// For use by AWS Ground Station Agent and shouldn't be called directly. Registers a new agent with AWS Ground Station.
     public func registerAgent(input: RegisterAgentInput) async throws -> RegisterAgentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1095,7 +1095,7 @@ extension GroundStationClient: GroundStationClientProtocol {
         return result
     }
 
-    /// Update the status of the agent.
+    /// For use by AWS Ground Station Agent and shouldn't be called directly. Update the status of the agent.
     public func updateAgentStatus(input: UpdateAgentStatusInput) async throws -> UpdateAgentStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

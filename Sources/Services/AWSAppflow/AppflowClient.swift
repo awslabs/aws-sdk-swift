@@ -147,6 +147,14 @@ extension AppflowClient: AppflowClientProtocol {
                       .withSigningName(value: "appflow")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<CreateConnectorProfileInput, CreateConnectorProfileOutputResponse, CreateConnectorProfileOutputError>(id: "createConnectorProfile")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateConnectorProfileOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.clientToken == nil {
+                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConnectorProfileInput, CreateConnectorProfileOutputResponse, CreateConnectorProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConnectorProfileInput, CreateConnectorProfileOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -182,6 +190,14 @@ extension AppflowClient: AppflowClientProtocol {
                       .withSigningName(value: "appflow")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<CreateFlowInput, CreateFlowOutputResponse, CreateFlowOutputError>(id: "createFlow")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateFlowOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.clientToken == nil {
+                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFlowInput, CreateFlowOutputResponse, CreateFlowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFlowInput, CreateFlowOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -634,6 +650,14 @@ extension AppflowClient: AppflowClientProtocol {
                       .withSigningName(value: "appflow")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<RegisterConnectorInput, RegisterConnectorOutputResponse, RegisterConnectorOutputError>(id: "registerConnector")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<RegisterConnectorOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.clientToken == nil {
+                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterConnectorInput, RegisterConnectorOutputResponse, RegisterConnectorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterConnectorInput, RegisterConnectorOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -669,6 +693,14 @@ extension AppflowClient: AppflowClientProtocol {
                       .withSigningName(value: "appflow")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<StartFlowInput, StartFlowOutputResponse, StartFlowOutputError>(id: "startFlow")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartFlowOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.clientToken == nil {
+                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartFlowInput, StartFlowOutputResponse, StartFlowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartFlowInput, StartFlowOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -842,6 +874,14 @@ extension AppflowClient: AppflowClientProtocol {
                       .withSigningName(value: "appflow")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<UpdateConnectorProfileInput, UpdateConnectorProfileOutputResponse, UpdateConnectorProfileOutputError>(id: "updateConnectorProfile")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateConnectorProfileOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.clientToken == nil {
+                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConnectorProfileInput, UpdateConnectorProfileOutputResponse, UpdateConnectorProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConnectorProfileInput, UpdateConnectorProfileOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -881,6 +921,14 @@ extension AppflowClient: AppflowClientProtocol {
                       .withSigningName(value: "appflow")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<UpdateConnectorRegistrationInput, UpdateConnectorRegistrationOutputResponse, UpdateConnectorRegistrationOutputError>(id: "updateConnectorRegistration")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateConnectorRegistrationOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.clientToken == nil {
+                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConnectorRegistrationInput, UpdateConnectorRegistrationOutputResponse, UpdateConnectorRegistrationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConnectorRegistrationInput, UpdateConnectorRegistrationOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
@@ -916,6 +964,14 @@ extension AppflowClient: AppflowClientProtocol {
                       .withSigningName(value: "appflow")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<UpdateFlowInput, UpdateFlowOutputResponse, UpdateFlowOutputError>(id: "updateFlow")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateFlowOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.clientToken == nil {
+                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFlowInput, UpdateFlowOutputResponse, UpdateFlowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFlowInput, UpdateFlowOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)

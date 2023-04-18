@@ -2930,6 +2930,7 @@ extension AppflowClientTypes {
 
 extension CreateConnectorProfileInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case connectionMode
         case connectorLabel
         case connectorProfileConfig
@@ -2940,6 +2941,9 @@ extension CreateConnectorProfileInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
         if let connectionMode = self.connectionMode {
             try encodeContainer.encode(connectionMode.rawValue, forKey: .connectionMode)
         }
@@ -2968,6 +2972,8 @@ extension CreateConnectorProfileInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateConnectorProfileInput: Swift.Equatable {
+    /// The clientToken parameter is an idempotency token. It ensures that your CreateConnectorProfile request completes only once. You choose the value to pass. For example, if you don't receive a response from your request, you can safely retry the request with the same clientToken parameter value. If you omit a clientToken value, the Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can safely retry requests multiple times after a network error. You must provide your own value for other use cases. If you specify input parameters that differ from your first request, an error occurs. If you use a different value for clientToken, Amazon AppFlow considers it a new call to CreateConnectorProfile. The token is active for 8 hours.
+    public var clientToken: Swift.String?
     /// Indicates the connection mode and specifies whether it is public or private. Private flows use Amazon Web Services PrivateLink to route data over Amazon Web Services infrastructure without exposing it to the public internet.
     /// This member is required.
     public var connectionMode: AppflowClientTypes.ConnectionMode?
@@ -2986,6 +2992,7 @@ public struct CreateConnectorProfileInput: Swift.Equatable {
     public var kmsArn: Swift.String?
 
     public init (
+        clientToken: Swift.String? = nil,
         connectionMode: AppflowClientTypes.ConnectionMode? = nil,
         connectorLabel: Swift.String? = nil,
         connectorProfileConfig: AppflowClientTypes.ConnectorProfileConfig? = nil,
@@ -2994,6 +3001,7 @@ public struct CreateConnectorProfileInput: Swift.Equatable {
         kmsArn: Swift.String? = nil
     )
     {
+        self.clientToken = clientToken
         self.connectionMode = connectionMode
         self.connectorLabel = connectorLabel
         self.connectorProfileConfig = connectorProfileConfig
@@ -3010,10 +3018,12 @@ struct CreateConnectorProfileInputBody: Swift.Equatable {
     let connectorLabel: Swift.String?
     let connectionMode: AppflowClientTypes.ConnectionMode?
     let connectorProfileConfig: AppflowClientTypes.ConnectorProfileConfig?
+    let clientToken: Swift.String?
 }
 
 extension CreateConnectorProfileInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case connectionMode
         case connectorLabel
         case connectorProfileConfig
@@ -3036,6 +3046,8 @@ extension CreateConnectorProfileInputBody: Swift.Decodable {
         connectionMode = connectionModeDecoded
         let connectorProfileConfigDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.ConnectorProfileConfig.self, forKey: .connectorProfileConfig)
         connectorProfileConfig = connectorProfileConfigDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
     }
 }
 
@@ -3112,6 +3124,7 @@ extension CreateConnectorProfileOutputResponseBody: Swift.Decodable {
 
 extension CreateFlowInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case description
         case destinationFlowConfigList
         case flowName
@@ -3125,6 +3138,9 @@ extension CreateFlowInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
@@ -3171,6 +3187,8 @@ extension CreateFlowInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateFlowInput: Swift.Equatable {
+    /// The clientToken parameter is an idempotency token. It ensures that your CreateFlow request completes only once. You choose the value to pass. For example, if you don't receive a response from your request, you can safely retry the request with the same clientToken parameter value. If you omit a clientToken value, the Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can safely retry requests multiple times after a network error. You must provide your own value for other use cases. If you specify input parameters that differ from your first request, an error occurs. If you use a different value for clientToken, Amazon AppFlow considers it a new call to CreateFlow. The token is active for 8 hours.
+    public var clientToken: Swift.String?
     /// A description of the flow you want to create.
     public var description: Swift.String?
     /// The configuration that controls how Amazon AppFlow places data in the destination connector.
@@ -3196,6 +3214,7 @@ public struct CreateFlowInput: Swift.Equatable {
     public var triggerConfig: AppflowClientTypes.TriggerConfig?
 
     public init (
+        clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         destinationFlowConfigList: [AppflowClientTypes.DestinationFlowConfig]? = nil,
         flowName: Swift.String? = nil,
@@ -3207,6 +3226,7 @@ public struct CreateFlowInput: Swift.Equatable {
         triggerConfig: AppflowClientTypes.TriggerConfig? = nil
     )
     {
+        self.clientToken = clientToken
         self.description = description
         self.destinationFlowConfigList = destinationFlowConfigList
         self.flowName = flowName
@@ -3229,10 +3249,12 @@ struct CreateFlowInputBody: Swift.Equatable {
     let tasks: [AppflowClientTypes.Task]?
     let tags: [Swift.String:Swift.String]?
     let metadataCatalogConfig: AppflowClientTypes.MetadataCatalogConfig?
+    let clientToken: Swift.String?
 }
 
 extension CreateFlowInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case description
         case destinationFlowConfigList
         case flowName
@@ -3291,6 +3313,8 @@ extension CreateFlowInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let metadataCatalogConfigDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.MetadataCatalogConfig.self, forKey: .metadataCatalogConfig)
         metadataCatalogConfig = metadataCatalogConfigDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
     }
 }
 
@@ -10329,6 +10353,7 @@ extension AppflowClientTypes {
 
 extension RegisterConnectorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case connectorLabel
         case connectorProvisioningConfig
         case connectorProvisioningType
@@ -10337,6 +10362,9 @@ extension RegisterConnectorInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
         if let connectorLabel = self.connectorLabel {
             try encodeContainer.encode(connectorLabel, forKey: .connectorLabel)
         }
@@ -10359,6 +10387,8 @@ extension RegisterConnectorInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RegisterConnectorInput: Swift.Equatable {
+    /// The clientToken parameter is an idempotency token. It ensures that your RegisterConnector request completes only once. You choose the value to pass. For example, if you don't receive a response from your request, you can safely retry the request with the same clientToken parameter value. If you omit a clientToken value, the Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can safely retry requests multiple times after a network error. You must provide your own value for other use cases. If you specify input parameters that differ from your first request, an error occurs. If you use a different value for clientToken, Amazon AppFlow considers it a new call to RegisterConnector. The token is active for 8 hours.
+    public var clientToken: Swift.String?
     /// The name of the connector. The name is unique for each ConnectorRegistration in your Amazon Web Services account.
     public var connectorLabel: Swift.String?
     /// The provisioning type of the connector. Currently the only supported value is LAMBDA.
@@ -10369,12 +10399,14 @@ public struct RegisterConnectorInput: Swift.Equatable {
     public var description: Swift.String?
 
     public init (
+        clientToken: Swift.String? = nil,
         connectorLabel: Swift.String? = nil,
         connectorProvisioningConfig: AppflowClientTypes.ConnectorProvisioningConfig? = nil,
         connectorProvisioningType: AppflowClientTypes.ConnectorProvisioningType? = nil,
         description: Swift.String? = nil
     )
     {
+        self.clientToken = clientToken
         self.connectorLabel = connectorLabel
         self.connectorProvisioningConfig = connectorProvisioningConfig
         self.connectorProvisioningType = connectorProvisioningType
@@ -10387,10 +10419,12 @@ struct RegisterConnectorInputBody: Swift.Equatable {
     let description: Swift.String?
     let connectorProvisioningType: AppflowClientTypes.ConnectorProvisioningType?
     let connectorProvisioningConfig: AppflowClientTypes.ConnectorProvisioningConfig?
+    let clientToken: Swift.String?
 }
 
 extension RegisterConnectorInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case connectorLabel
         case connectorProvisioningConfig
         case connectorProvisioningType
@@ -10407,6 +10441,8 @@ extension RegisterConnectorInputBody: Swift.Decodable {
         connectorProvisioningType = connectorProvisioningTypeDecoded
         let connectorProvisioningConfigDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.ConnectorProvisioningConfig.self, forKey: .connectorProvisioningConfig)
         connectorProvisioningConfig = connectorProvisioningConfigDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
     }
 }
 
@@ -13303,11 +13339,15 @@ extension AppflowClientTypes {
 
 extension StartFlowInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case flowName
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
         if let flowName = self.flowName {
             try encodeContainer.encode(flowName, forKey: .flowName)
         }
@@ -13321,24 +13361,30 @@ extension StartFlowInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartFlowInput: Swift.Equatable {
+    /// The clientToken parameter is an idempotency token. It ensures that your StartFlow request completes only once. You choose the value to pass. For example, if you don't receive a response from your request, you can safely retry the request with the same clientToken parameter value. If you omit a clientToken value, the Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can safely retry requests multiple times after a network error. You must provide your own value for other use cases. If you specify input parameters that differ from your first request, an error occurs for flows that run on a schedule or based on an event. However, the error doesn't occur for flows that run on demand. You set the conditions that initiate your flow for the triggerConfig parameter. If you use a different value for clientToken, Amazon AppFlow considers it a new call to StartFlow. The token is active for 8 hours.
+    public var clientToken: Swift.String?
     /// The specified name of the flow. Spaces are not allowed. Use underscores (_) or hyphens (-) only.
     /// This member is required.
     public var flowName: Swift.String?
 
     public init (
+        clientToken: Swift.String? = nil,
         flowName: Swift.String? = nil
     )
     {
+        self.clientToken = clientToken
         self.flowName = flowName
     }
 }
 
 struct StartFlowInputBody: Swift.Equatable {
     let flowName: Swift.String?
+    let clientToken: Swift.String?
 }
 
 extension StartFlowInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case flowName
     }
 
@@ -13346,6 +13392,8 @@ extension StartFlowInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flowNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowName)
         flowName = flowNameDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
     }
 }
 
@@ -14499,6 +14547,7 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
 
 extension UpdateConnectorProfileInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case connectionMode
         case connectorProfileConfig
         case connectorProfileName
@@ -14506,6 +14555,9 @@ extension UpdateConnectorProfileInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
         if let connectionMode = self.connectionMode {
             try encodeContainer.encode(connectionMode.rawValue, forKey: .connectionMode)
         }
@@ -14525,6 +14577,8 @@ extension UpdateConnectorProfileInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateConnectorProfileInput: Swift.Equatable {
+    /// The clientToken parameter is an idempotency token. It ensures that your UpdateConnectorProfile request completes only once. You choose the value to pass. For example, if you don't receive a response from your request, you can safely retry the request with the same clientToken parameter value. If you omit a clientToken value, the Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can safely retry requests multiple times after a network error. You must provide your own value for other use cases. If you specify input parameters that differ from your first request, an error occurs. If you use a different value for clientToken, Amazon AppFlow considers it a new call to UpdateConnectorProfile. The token is active for 8 hours.
+    public var clientToken: Swift.String?
     /// Indicates the connection mode and if it is public or private.
     /// This member is required.
     public var connectionMode: AppflowClientTypes.ConnectionMode?
@@ -14536,11 +14590,13 @@ public struct UpdateConnectorProfileInput: Swift.Equatable {
     public var connectorProfileName: Swift.String?
 
     public init (
+        clientToken: Swift.String? = nil,
         connectionMode: AppflowClientTypes.ConnectionMode? = nil,
         connectorProfileConfig: AppflowClientTypes.ConnectorProfileConfig? = nil,
         connectorProfileName: Swift.String? = nil
     )
     {
+        self.clientToken = clientToken
         self.connectionMode = connectionMode
         self.connectorProfileConfig = connectorProfileConfig
         self.connectorProfileName = connectorProfileName
@@ -14551,10 +14607,12 @@ struct UpdateConnectorProfileInputBody: Swift.Equatable {
     let connectorProfileName: Swift.String?
     let connectionMode: AppflowClientTypes.ConnectionMode?
     let connectorProfileConfig: AppflowClientTypes.ConnectorProfileConfig?
+    let clientToken: Swift.String?
 }
 
 extension UpdateConnectorProfileInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case connectionMode
         case connectorProfileConfig
         case connectorProfileName
@@ -14568,6 +14626,8 @@ extension UpdateConnectorProfileInputBody: Swift.Decodable {
         connectionMode = connectionModeDecoded
         let connectorProfileConfigDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.ConnectorProfileConfig.self, forKey: .connectorProfileConfig)
         connectorProfileConfig = connectorProfileConfigDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
     }
 }
 
@@ -14644,6 +14704,7 @@ extension UpdateConnectorProfileOutputResponseBody: Swift.Decodable {
 
 extension UpdateConnectorRegistrationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case connectorLabel
         case connectorProvisioningConfig
         case description
@@ -14651,6 +14712,9 @@ extension UpdateConnectorRegistrationInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
         if let connectorLabel = self.connectorLabel {
             try encodeContainer.encode(connectorLabel, forKey: .connectorLabel)
         }
@@ -14670,6 +14734,8 @@ extension UpdateConnectorRegistrationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateConnectorRegistrationInput: Swift.Equatable {
+    /// The clientToken parameter is an idempotency token. It ensures that your UpdateConnectorRegistration request completes only once. You choose the value to pass. For example, if you don't receive a response from your request, you can safely retry the request with the same clientToken parameter value. If you omit a clientToken value, the Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can safely retry requests multiple times after a network error. You must provide your own value for other use cases. If you specify input parameters that differ from your first request, an error occurs. If you use a different value for clientToken, Amazon AppFlow considers it a new call to UpdateConnectorRegistration. The token is active for 8 hours.
+    public var clientToken: Swift.String?
     /// The name of the connector. The name is unique for each connector registration in your AWS account.
     /// This member is required.
     public var connectorLabel: Swift.String?
@@ -14679,11 +14745,13 @@ public struct UpdateConnectorRegistrationInput: Swift.Equatable {
     public var description: Swift.String?
 
     public init (
+        clientToken: Swift.String? = nil,
         connectorLabel: Swift.String? = nil,
         connectorProvisioningConfig: AppflowClientTypes.ConnectorProvisioningConfig? = nil,
         description: Swift.String? = nil
     )
     {
+        self.clientToken = clientToken
         self.connectorLabel = connectorLabel
         self.connectorProvisioningConfig = connectorProvisioningConfig
         self.description = description
@@ -14694,10 +14762,12 @@ struct UpdateConnectorRegistrationInputBody: Swift.Equatable {
     let connectorLabel: Swift.String?
     let description: Swift.String?
     let connectorProvisioningConfig: AppflowClientTypes.ConnectorProvisioningConfig?
+    let clientToken: Swift.String?
 }
 
 extension UpdateConnectorRegistrationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case connectorLabel
         case connectorProvisioningConfig
         case description
@@ -14711,6 +14781,8 @@ extension UpdateConnectorRegistrationInputBody: Swift.Decodable {
         description = descriptionDecoded
         let connectorProvisioningConfigDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.ConnectorProvisioningConfig.self, forKey: .connectorProvisioningConfig)
         connectorProvisioningConfig = connectorProvisioningConfigDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
     }
 }
 
@@ -14795,6 +14867,7 @@ extension UpdateConnectorRegistrationOutputResponseBody: Swift.Decodable {
 
 extension UpdateFlowInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case description
         case destinationFlowConfigList
         case flowName
@@ -14806,6 +14879,9 @@ extension UpdateFlowInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
@@ -14843,6 +14919,8 @@ extension UpdateFlowInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateFlowInput: Swift.Equatable {
+    /// The clientToken parameter is an idempotency token. It ensures that your UpdateFlow request completes only once. You choose the value to pass. For example, if you don't receive a response from your request, you can safely retry the request with the same clientToken parameter value. If you omit a clientToken value, the Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can safely retry requests multiple times after a network error. You must provide your own value for other use cases. If you specify input parameters that differ from your first request, an error occurs. If you use a different value for clientToken, Amazon AppFlow considers it a new call to UpdateFlow. The token is active for 8 hours.
+    public var clientToken: Swift.String?
     /// A description of the flow.
     public var description: Swift.String?
     /// The configuration that controls how Amazon AppFlow transfers data to the destination connector.
@@ -14864,6 +14942,7 @@ public struct UpdateFlowInput: Swift.Equatable {
     public var triggerConfig: AppflowClientTypes.TriggerConfig?
 
     public init (
+        clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         destinationFlowConfigList: [AppflowClientTypes.DestinationFlowConfig]? = nil,
         flowName: Swift.String? = nil,
@@ -14873,6 +14952,7 @@ public struct UpdateFlowInput: Swift.Equatable {
         triggerConfig: AppflowClientTypes.TriggerConfig? = nil
     )
     {
+        self.clientToken = clientToken
         self.description = description
         self.destinationFlowConfigList = destinationFlowConfigList
         self.flowName = flowName
@@ -14891,10 +14971,12 @@ struct UpdateFlowInputBody: Swift.Equatable {
     let destinationFlowConfigList: [AppflowClientTypes.DestinationFlowConfig]?
     let tasks: [AppflowClientTypes.Task]?
     let metadataCatalogConfig: AppflowClientTypes.MetadataCatalogConfig?
+    let clientToken: Swift.String?
 }
 
 extension UpdateFlowInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case description
         case destinationFlowConfigList
         case flowName
@@ -14938,6 +15020,8 @@ extension UpdateFlowInputBody: Swift.Decodable {
         tasks = tasksDecoded0
         let metadataCatalogConfigDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.MetadataCatalogConfig.self, forKey: .metadataCatalogConfig)
         metadataCatalogConfig = metadataCatalogConfigDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
     }
 }
 

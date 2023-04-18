@@ -265,7 +265,7 @@ public struct BatchDeleteImageInput: Swift.Equatable {
     /// A list of image ID references that correspond to images to delete. The format of the imageIds reference is imageTag=tag or imageDigest=digest.
     /// This member is required.
     public var imageIds: [ECRPUBLICClientTypes.ImageIdentifier]?
-    /// The Amazon Web Services account ID that's associated with the registry that contains the image to delete. If you do not specify a registry, the default public registry is assumed.
+    /// The Amazon Web Services account ID, or registry alias, that's associated with the registry that contains the image to delete. If you do not specify a registry, the default public registry is assumed.
     public var registryId: Swift.String?
     /// The repository in a public registry that contains the image to delete.
     /// This member is required.
@@ -800,7 +800,7 @@ extension DeleteRepositoryInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if force != false {
+        if let force = self.force {
             try encodeContainer.encode(force, forKey: .force)
         }
         if let registryId = self.registryId {
@@ -820,7 +820,7 @@ extension DeleteRepositoryInput: ClientRuntime.URLPathProvider {
 
 public struct DeleteRepositoryInput: Swift.Equatable {
     /// The force option can be used to delete a repository that contains images. If the force option is not used, the repository must be empty prior to deletion.
-    public var force: Swift.Bool
+    public var force: Swift.Bool?
     /// The Amazon Web Services account ID that's associated with the public registry that contains the repository to delete. If you do not specify a registry, the default public registry is assumed.
     public var registryId: Swift.String?
     /// The name of the repository to delete.
@@ -828,7 +828,7 @@ public struct DeleteRepositoryInput: Swift.Equatable {
     public var repositoryName: Swift.String?
 
     public init (
-        force: Swift.Bool = false,
+        force: Swift.Bool? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
     )
@@ -842,7 +842,7 @@ public struct DeleteRepositoryInput: Swift.Equatable {
 struct DeleteRepositoryInputBody: Swift.Equatable {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
-    let force: Swift.Bool
+    let force: Swift.Bool?
 }
 
 extension DeleteRepositoryInputBody: Swift.Decodable {
@@ -858,7 +858,7 @@ extension DeleteRepositoryInputBody: Swift.Decodable {
         registryId = registryIdDecoded
         let repositoryNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryName)
         repositoryName = repositoryNameDecoded
-        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force) ?? false
+        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force)
         force = forceDecoded
     }
 }
@@ -5312,7 +5312,7 @@ extension SetRepositoryPolicyInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if force != false {
+        if let force = self.force {
             try encodeContainer.encode(force, forKey: .force)
         }
         if let policyText = self.policyText {
@@ -5335,7 +5335,7 @@ extension SetRepositoryPolicyInput: ClientRuntime.URLPathProvider {
 
 public struct SetRepositoryPolicyInput: Swift.Equatable {
     /// If the policy that you want to set on a repository policy would prevent you from setting another policy in the future, you must force the [SetRepositoryPolicy] operation. This prevents accidental repository lockouts.
-    public var force: Swift.Bool
+    public var force: Swift.Bool?
     /// The JSON repository policy text to apply to the repository. For more information, see [Amazon ECR Repository Policies](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policy-examples.html) in the Amazon Elastic Container Registry User Guide.
     /// This member is required.
     public var policyText: Swift.String?
@@ -5346,7 +5346,7 @@ public struct SetRepositoryPolicyInput: Swift.Equatable {
     public var repositoryName: Swift.String?
 
     public init (
-        force: Swift.Bool = false,
+        force: Swift.Bool? = nil,
         policyText: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
@@ -5363,7 +5363,7 @@ struct SetRepositoryPolicyInputBody: Swift.Equatable {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let policyText: Swift.String?
-    let force: Swift.Bool
+    let force: Swift.Bool?
 }
 
 extension SetRepositoryPolicyInputBody: Swift.Decodable {
@@ -5382,7 +5382,7 @@ extension SetRepositoryPolicyInputBody: Swift.Decodable {
         repositoryName = repositoryNameDecoded
         let policyTextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyText)
         policyText = policyTextDecoded
-        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force) ?? false
+        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force)
         force = forceDecoded
     }
 }

@@ -136,7 +136,7 @@ extension ManagedBlockchainClientTypes {
         public var status: ManagedBlockchainClientTypes.AccessorStatus?
         /// The tags assigned to the Accessor. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public var tags: [Swift.String:Swift.String]?
-        /// The type of the accessor. Currently accessor type is restricted to BILLING_TOKEN.
+        /// The type of the accessor. Currently, accessor type is restricted to BILLING_TOKEN.
         public var type: ManagedBlockchainClientTypes.AccessorType?
 
         public init (
@@ -386,7 +386,7 @@ extension CreateAccessorInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateAccessorInput: Swift.Equatable {
-    /// The type of accessor. Currently accessor type is restricted to BILLING_TOKEN.
+    /// The type of accessor. Currently, accessor type is restricted to BILLING_TOKEN.
     /// This member is required.
     public var accessorType: ManagedBlockchainClientTypes.AccessorType?
     /// This is a unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the Amazon Web Services CLI.
@@ -982,8 +982,6 @@ public struct CreateNodeInput: Swift.Equatable {
     /// * n-ethereum-goerli
     ///
     /// * n-ethereum-rinkeby
-    ///
-    /// * n-ethereum-ropsten
     /// This member is required.
     public var networkId: Swift.String?
     /// The properties of a node configuration.
@@ -1504,8 +1502,6 @@ public struct DeleteNodeInput: Swift.Equatable {
     /// * n-ethereum-goerli
     ///
     /// * n-ethereum-rinkeby
-    ///
-    /// * n-ethereum-ropsten
     /// This member is required.
     public var networkId: Swift.String?
     /// The unique identifier of the node.
@@ -4069,9 +4065,9 @@ extension ManagedBlockchainClientTypes.MemberFabricConfiguration: Swift.CustomDe
 }
 
 extension ManagedBlockchainClientTypes {
-    /// Configuration properties for Hyperledger Fabric for a member in a Managed Blockchain network using the Hyperledger Fabric framework.
+    /// Configuration properties for Hyperledger Fabric for a member in a Managed Blockchain network that is using the Hyperledger Fabric framework.
     public struct MemberFabricConfiguration: Swift.Equatable {
-        /// The password for the member's initial administrative user. The AdminPassword must be at least eight characters long and no more than 32 characters. It must contain at least one uppercase letter, one lowercase letter, and one digit. It cannot have a single quotation mark (‘), a double quotation marks (“), a forward slash(/), a backward slash(\), @, or a space.
+        /// The password for the member's initial administrative user. The AdminPassword must be at least 8 characters long and no more than 32 characters. It must contain at least one uppercase letter, one lowercase letter, and one digit. It cannot have a single quotation mark (‘), a double quotation marks (“), a forward slash(/), a backward slash(\), @, or a space.
         /// This member is required.
         public var adminPassword: Swift.String?
         /// The user name for the member's initial administrative user.
@@ -4506,7 +4502,7 @@ extension ManagedBlockchainClientTypes {
         public var status: ManagedBlockchainClientTypes.NetworkStatus?
         /// Tags assigned to the network. Each tag consists of a key and optional value. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
         public var tags: [Swift.String:Swift.String]?
-        /// The voting rules for the network to decide if a proposal is accepted.
+        /// The voting rules that the network uses to decide if a proposal is accepted.
         public var votingPolicy: ManagedBlockchainClientTypes.VotingPolicy?
         /// The VPC endpoint service name of the VPC endpoint service of the network. Members use the VPC endpoint service name to create a VPC endpoint to access network resources.
         public var vpcEndpointServiceName: Swift.String?
@@ -4572,8 +4568,6 @@ extension ManagedBlockchainClientTypes {
         /// * goerli = 5
         ///
         /// * rinkeby = 4
-        ///
-        /// * ropsten = 3
         public var chainId: Swift.String?
 
         public init (

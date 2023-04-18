@@ -1846,10 +1846,12 @@ extension EMRServerlessClientTypes.JobRun: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationId
         case arn
+        case billedResourceUtilization
         case configurationOverrides
         case createdAt
         case createdBy
         case executionRole
+        case executionTimeoutMinutes
         case jobDriver
         case jobRunId
         case name
@@ -1871,6 +1873,9 @@ extension EMRServerlessClientTypes.JobRun: Swift.Codable {
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
+        if let billedResourceUtilization = self.billedResourceUtilization {
+            try encodeContainer.encode(billedResourceUtilization, forKey: .billedResourceUtilization)
+        }
         if let configurationOverrides = self.configurationOverrides {
             try encodeContainer.encode(configurationOverrides, forKey: .configurationOverrides)
         }
@@ -1882,6 +1887,9 @@ extension EMRServerlessClientTypes.JobRun: Swift.Codable {
         }
         if let executionRole = self.executionRole {
             try encodeContainer.encode(executionRole, forKey: .executionRole)
+        }
+        if let executionTimeoutMinutes = self.executionTimeoutMinutes {
+            try encodeContainer.encode(executionTimeoutMinutes, forKey: .executionTimeoutMinutes)
         }
         if let jobDriver = self.jobDriver {
             try encodeContainer.encode(jobDriver, forKey: .jobDriver)
@@ -1966,6 +1974,10 @@ extension EMRServerlessClientTypes.JobRun: Swift.Codable {
         networkConfiguration = networkConfigurationDecoded
         let totalExecutionDurationSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalExecutionDurationSeconds)
         totalExecutionDurationSeconds = totalExecutionDurationSecondsDecoded
+        let executionTimeoutMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .executionTimeoutMinutes)
+        executionTimeoutMinutes = executionTimeoutMinutesDecoded
+        let billedResourceUtilizationDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.ResourceUtilization.self, forKey: .billedResourceUtilization)
+        billedResourceUtilization = billedResourceUtilizationDecoded
     }
 }
 
@@ -1978,6 +1990,8 @@ extension EMRServerlessClientTypes {
         /// The execution role ARN of the job run.
         /// This member is required.
         public var arn: Swift.String?
+        /// The aggregate vCPU, memory, and storage that AWS has billed for the job run. The billed resources include a 1-minute minimum usage for workers, plus additional storage over 20 GB per worker. Note that billed resources do not include usage for idle pre-initialized workers.
+        public var billedResourceUtilization: EMRServerlessClientTypes.ResourceUtilization?
         /// The configuration settings that are used to override default configuration.
         public var configurationOverrides: EMRServerlessClientTypes.ConfigurationOverrides?
         /// The date and time when the job run was created.
@@ -1989,6 +2003,8 @@ extension EMRServerlessClientTypes {
         /// The execution role ARN of the job run.
         /// This member is required.
         public var executionRole: Swift.String?
+        /// Returns the job run timeout value from the StartJobRun call. If no timeout was specified, then it returns the default timeout of 720 minutes.
+        public var executionTimeoutMinutes: Swift.Int?
         /// The job driver for the job run.
         /// This member is required.
         public var jobDriver: EMRServerlessClientTypes.JobDriver?
@@ -2012,7 +2028,7 @@ extension EMRServerlessClientTypes {
         public var tags: [Swift.String:Swift.String]?
         /// The job run total execution duration in seconds. This field is only available for job runs in a COMPLETED, FAILED, or CANCELLED state.
         public var totalExecutionDurationSeconds: Swift.Int?
-        /// The aggregate vCPU, memory, and storage resources used from the time job start executing till the time job is terminated, rounded up to the nearest second.
+        /// The aggregate vCPU, memory, and storage resources used from the time the job starts to execute, until the time the job terminates, rounded up to the nearest second.
         public var totalResourceUtilization: EMRServerlessClientTypes.TotalResourceUtilization?
         /// The date and time when the job run was updated.
         /// This member is required.
@@ -2021,10 +2037,12 @@ extension EMRServerlessClientTypes {
         public init (
             applicationId: Swift.String? = nil,
             arn: Swift.String? = nil,
+            billedResourceUtilization: EMRServerlessClientTypes.ResourceUtilization? = nil,
             configurationOverrides: EMRServerlessClientTypes.ConfigurationOverrides? = nil,
             createdAt: ClientRuntime.Date? = nil,
             createdBy: Swift.String? = nil,
             executionRole: Swift.String? = nil,
+            executionTimeoutMinutes: Swift.Int? = nil,
             jobDriver: EMRServerlessClientTypes.JobDriver? = nil,
             jobRunId: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -2040,10 +2058,12 @@ extension EMRServerlessClientTypes {
         {
             self.applicationId = applicationId
             self.arn = arn
+            self.billedResourceUtilization = billedResourceUtilization
             self.configurationOverrides = configurationOverrides
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.executionRole = executionRole
+            self.executionTimeoutMinutes = executionTimeoutMinutes
             self.jobDriver = jobDriver
             self.jobRunId = jobRunId
             self.name = name
@@ -2951,6 +2971,61 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension EMRServerlessClientTypes.ResourceUtilization: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case memoryGBHour
+        case storageGBHour
+        case vCPUHour
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let memoryGBHour = self.memoryGBHour {
+            try encodeContainer.encode(memoryGBHour, forKey: .memoryGBHour)
+        }
+        if let storageGBHour = self.storageGBHour {
+            try encodeContainer.encode(storageGBHour, forKey: .storageGBHour)
+        }
+        if let vCPUHour = self.vCPUHour {
+            try encodeContainer.encode(vCPUHour, forKey: .vCPUHour)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vCPUHourDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .vCPUHour)
+        vCPUHour = vCPUHourDecoded
+        let memoryGBHourDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .memoryGBHour)
+        memoryGBHour = memoryGBHourDecoded
+        let storageGBHourDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .storageGBHour)
+        storageGBHour = storageGBHourDecoded
+    }
+}
+
+extension EMRServerlessClientTypes {
+    /// The resource utilization for memory, storage, and vCPU for jobs.
+    public struct ResourceUtilization: Swift.Equatable {
+        /// The aggregated memory used per hour from the time the job starts executing until the job is terminated.
+        public var memoryGBHour: Swift.Double?
+        /// The aggregated storage used per hour from the time the job starts executing until the job is terminated.
+        public var storageGBHour: Swift.Double?
+        /// The aggregated vCPU used per hour from the time the job starts executing until the job is terminated.
+        public var vCPUHour: Swift.Double?
+
+        public init (
+            memoryGBHour: Swift.Double? = nil,
+            storageGBHour: Swift.Double? = nil,
+            vCPUHour: Swift.Double? = nil
+        )
+        {
+            self.memoryGBHour = memoryGBHour
+            self.storageGBHour = storageGBHour
+            self.vCPUHour = vCPUHour
+        }
+    }
+
+}
+
 extension EMRServerlessClientTypes.S3MonitoringConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case encryptionKeyArn
@@ -3381,7 +3456,7 @@ public struct StartJobRunOutputResponse: Swift.Equatable {
     /// This output displays the application ID on which the job run was submitted.
     /// This member is required.
     public var applicationId: Swift.String?
-    /// The output lists the execution role ARN of the job run.
+    /// This output displays the ARN of the job run..
     /// This member is required.
     public var arn: Swift.String?
     /// The output contains the ID of the started job run.
@@ -4000,7 +4075,7 @@ extension ValidationException {
     }
 }
 
-/// The input fails to satisfy the constraints specified by an AWS service.
+/// The input fails to satisfy the constraints specified by an Amazon Web Services service.
 public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?

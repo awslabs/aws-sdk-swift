@@ -32,9 +32,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -66,9 +66,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -100,9 +100,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -134,9 +134,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "cn-north-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -168,9 +168,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -202,9 +202,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -236,9 +236,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-gov-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -270,9 +270,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "cn-north-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -304,9 +304,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "cn-north-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -338,9 +338,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-gov-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -372,9 +372,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "af-south-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -406,9 +406,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "af-south-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -440,9 +440,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-gov-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -474,9 +474,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-east-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -506,9 +506,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-east-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -537,9 +537,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-east-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -569,9 +569,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-east-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -600,9 +600,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-east-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -632,9 +632,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-east-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -794,9 +794,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-west-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -827,9 +827,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -885,9 +885,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-west-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -918,9 +918,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -997,9 +997,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1029,9 +1029,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1064,9 +1064,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-east-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1097,9 +1097,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-east-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1130,9 +1130,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-east-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1206,9 +1206,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1239,9 +1239,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1272,9 +1272,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-gov-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1305,9 +1305,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-gov-west-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1338,9 +1338,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-east-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1392,9 +1392,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "cn-north-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1425,9 +1425,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1458,9 +1458,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-gov-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1491,9 +1491,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-gov-west-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1524,9 +1524,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-east-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1578,9 +1578,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "af-south-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1611,9 +1611,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1644,9 +1644,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-gov-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1677,9 +1677,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-gov-west-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1710,9 +1710,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-east-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1848,9 +1848,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-west-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1879,9 +1879,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1910,9 +1910,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1941,9 +1941,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1968,9 +1968,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1996,9 +1996,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2024,9 +2024,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2053,9 +2053,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2080,9 +2080,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "cn-north-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2130,9 +2130,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2182,9 +2182,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2213,9 +2213,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2243,9 +2243,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2331,9 +2331,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2360,9 +2360,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2389,9 +2389,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2418,9 +2418,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2590,9 +2590,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3",
                         "signingRegion": "us-west-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2622,9 +2622,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2787,9 +2787,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2865,9 +2865,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2898,9 +2898,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2999,9 +2999,9 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
+                        "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
-                        "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts"
+                        "disableDoubleEncoding": true
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]

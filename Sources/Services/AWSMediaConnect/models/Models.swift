@@ -2,6 +2,675 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension MediaConnectClientTypes.AddBridgeFlowSourceRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flowArn = "flowArn"
+        case flowVpcInterfaceAttachment = "flowVpcInterfaceAttachment"
+        case name = "name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let flowArn = self.flowArn {
+            try encodeContainer.encode(flowArn, forKey: .flowArn)
+        }
+        if let flowVpcInterfaceAttachment = self.flowVpcInterfaceAttachment {
+            try encodeContainer.encode(flowVpcInterfaceAttachment, forKey: .flowVpcInterfaceAttachment)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flowArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowArn)
+        flowArn = flowArnDecoded
+        let flowVpcInterfaceAttachmentDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.VpcInterfaceAttachment.self, forKey: .flowVpcInterfaceAttachment)
+        flowVpcInterfaceAttachment = flowVpcInterfaceAttachmentDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// Add a flow source to an existing bridge.
+    public struct AddBridgeFlowSourceRequest: Swift.Equatable {
+        /// The Amazon Resource Number (ARN) of the cloud flow to use as a source of this bridge.
+        /// This member is required.
+        public var flowArn: Swift.String?
+        /// The name of the VPC interface attachment to use for this source.
+        public var flowVpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment?
+        /// The name of the flow source. This name is used to reference the source and must be unique among sources in this bridge.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init (
+            flowArn: Swift.String? = nil,
+            flowVpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.flowArn = flowArn
+            self.flowVpcInterfaceAttachment = flowVpcInterfaceAttachment
+            self.name = name
+        }
+    }
+
+}
+
+extension MediaConnectClientTypes.AddBridgeNetworkOutputRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ipAddress = "ipAddress"
+        case name = "name"
+        case networkName = "networkName"
+        case port = "port"
+        case `protocol` = "protocol"
+        case ttl = "ttl"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ipAddress = self.ipAddress {
+            try encodeContainer.encode(ipAddress, forKey: .ipAddress)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let networkName = self.networkName {
+            try encodeContainer.encode(networkName, forKey: .networkName)
+        }
+        if let port = self.port {
+            try encodeContainer.encode(port, forKey: .port)
+        }
+        if let `protocol` = self.`protocol` {
+            try encodeContainer.encode(`protocol`.rawValue, forKey: .`protocol`)
+        }
+        if let ttl = self.ttl {
+            try encodeContainer.encode(ttl, forKey: .ttl)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ipAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddress)
+        ipAddress = ipAddressDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let networkNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkName)
+        networkName = networkNameDecoded
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
+        port = portDecoded
+        let protocolDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.ModelProtocol.self, forKey: .protocol)
+        `protocol` = protocolDecoded
+        let ttlDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ttl)
+        ttl = ttlDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// Add a network output to an existing bridge.
+    public struct AddBridgeNetworkOutputRequest: Swift.Equatable {
+        /// The network output IP Address.
+        /// This member is required.
+        public var ipAddress: Swift.String?
+        /// The network output name. This name is used to reference the output and must be unique among outputs in this bridge.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The network output's gateway network name.
+        /// This member is required.
+        public var networkName: Swift.String?
+        /// The network output port.
+        /// This member is required.
+        public var port: Swift.Int?
+        /// The network output protocol.
+        /// This member is required.
+        public var `protocol`: MediaConnectClientTypes.ModelProtocol?
+        /// The network output TTL.
+        /// This member is required.
+        public var ttl: Swift.Int?
+
+        public init (
+            ipAddress: Swift.String? = nil,
+            name: Swift.String? = nil,
+            networkName: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
+            ttl: Swift.Int? = nil
+        )
+        {
+            self.ipAddress = ipAddress
+            self.name = name
+            self.networkName = networkName
+            self.port = port
+            self.`protocol` = `protocol`
+            self.ttl = ttl
+        }
+    }
+
+}
+
+extension MediaConnectClientTypes.AddBridgeNetworkSourceRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case multicastIp = "multicastIp"
+        case name = "name"
+        case networkName = "networkName"
+        case port = "port"
+        case `protocol` = "protocol"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let multicastIp = self.multicastIp {
+            try encodeContainer.encode(multicastIp, forKey: .multicastIp)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let networkName = self.networkName {
+            try encodeContainer.encode(networkName, forKey: .networkName)
+        }
+        if let port = self.port {
+            try encodeContainer.encode(port, forKey: .port)
+        }
+        if let `protocol` = self.`protocol` {
+            try encodeContainer.encode(`protocol`.rawValue, forKey: .`protocol`)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let multicastIpDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .multicastIp)
+        multicastIp = multicastIpDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let networkNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkName)
+        networkName = networkNameDecoded
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
+        port = portDecoded
+        let protocolDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.ModelProtocol.self, forKey: .protocol)
+        `protocol` = protocolDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// Add a network source to an existing bridge.
+    public struct AddBridgeNetworkSourceRequest: Swift.Equatable {
+        /// The network source multicast IP.
+        /// This member is required.
+        public var multicastIp: Swift.String?
+        /// The name of the network source. This name is used to reference the source and must be unique among sources in this bridge.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The network source's gateway network name.
+        /// This member is required.
+        public var networkName: Swift.String?
+        /// The network source port.
+        /// This member is required.
+        public var port: Swift.Int?
+        /// The network source protocol.
+        /// This member is required.
+        public var `protocol`: MediaConnectClientTypes.ModelProtocol?
+
+        public init (
+            multicastIp: Swift.String? = nil,
+            name: Swift.String? = nil,
+            networkName: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            `protocol`: MediaConnectClientTypes.ModelProtocol? = nil
+        )
+        {
+            self.multicastIp = multicastIp
+            self.name = name
+            self.networkName = networkName
+            self.port = port
+            self.`protocol` = `protocol`
+        }
+    }
+
+}
+
+extension MediaConnectClientTypes.AddBridgeOutputRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case networkOutput = "networkOutput"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let networkOutput = self.networkOutput {
+            try encodeContainer.encode(networkOutput, forKey: .networkOutput)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let networkOutputDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.AddBridgeNetworkOutputRequest.self, forKey: .networkOutput)
+        networkOutput = networkOutputDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// Add an output to a bridge.
+    public struct AddBridgeOutputRequest: Swift.Equatable {
+        /// Add a network output to an existing bridge.
+        public var networkOutput: MediaConnectClientTypes.AddBridgeNetworkOutputRequest?
+
+        public init (
+            networkOutput: MediaConnectClientTypes.AddBridgeNetworkOutputRequest? = nil
+        )
+        {
+            self.networkOutput = networkOutput
+        }
+    }
+
+}
+
+extension AddBridgeOutputsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case outputs = "outputs"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let outputs = outputs {
+            var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
+            for addbridgeoutputrequest0 in outputs {
+                try outputsContainer.encode(addbridgeoutputrequest0)
+            }
+        }
+    }
+}
+
+extension AddBridgeOutputsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let bridgeArn = bridgeArn else {
+            return nil
+        }
+        return "/v1/bridges/\(bridgeArn.urlPercentEncoding())/outputs"
+    }
+}
+
+/// A request to add outputs to the specified bridge.
+public struct AddBridgeOutputsInput: Swift.Equatable {
+    /// The ARN of the bridge that you want to update.
+    /// This member is required.
+    public var bridgeArn: Swift.String?
+    /// The outputs that you want to add to this bridge.
+    /// This member is required.
+    public var outputs: [MediaConnectClientTypes.AddBridgeOutputRequest]?
+
+    public init (
+        bridgeArn: Swift.String? = nil,
+        outputs: [MediaConnectClientTypes.AddBridgeOutputRequest]? = nil
+    )
+    {
+        self.bridgeArn = bridgeArn
+        self.outputs = outputs
+    }
+}
+
+struct AddBridgeOutputsInputBody: Swift.Equatable {
+    let outputs: [MediaConnectClientTypes.AddBridgeOutputRequest]?
+}
+
+extension AddBridgeOutputsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case outputs = "outputs"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let outputsContainer = try containerValues.decodeIfPresent([MediaConnectClientTypes.AddBridgeOutputRequest?].self, forKey: .outputs)
+        var outputsDecoded0:[MediaConnectClientTypes.AddBridgeOutputRequest]? = nil
+        if let outputsContainer = outputsContainer {
+            outputsDecoded0 = [MediaConnectClientTypes.AddBridgeOutputRequest]()
+            for structure0 in outputsContainer {
+                if let structure0 = structure0 {
+                    outputsDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputs = outputsDecoded0
+    }
+}
+
+extension AddBridgeOutputsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension AddBridgeOutputsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum AddBridgeOutputsOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case notFoundException(NotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AddBridgeOutputsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: AddBridgeOutputsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.bridgeArn = output.bridgeArn
+            self.outputs = output.outputs
+        } else {
+            self.bridgeArn = nil
+            self.outputs = nil
+        }
+    }
+}
+
+public struct AddBridgeOutputsOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Number (ARN) of the bridge.
+    public var bridgeArn: Swift.String?
+    /// The outputs that you added to this bridge.
+    public var outputs: [MediaConnectClientTypes.BridgeOutput]?
+
+    public init (
+        bridgeArn: Swift.String? = nil,
+        outputs: [MediaConnectClientTypes.BridgeOutput]? = nil
+    )
+    {
+        self.bridgeArn = bridgeArn
+        self.outputs = outputs
+    }
+}
+
+struct AddBridgeOutputsOutputResponseBody: Swift.Equatable {
+    let bridgeArn: Swift.String?
+    let outputs: [MediaConnectClientTypes.BridgeOutput]?
+}
+
+extension AddBridgeOutputsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridgeArn = "bridgeArn"
+        case outputs = "outputs"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bridgeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bridgeArn)
+        bridgeArn = bridgeArnDecoded
+        let outputsContainer = try containerValues.decodeIfPresent([MediaConnectClientTypes.BridgeOutput?].self, forKey: .outputs)
+        var outputsDecoded0:[MediaConnectClientTypes.BridgeOutput]? = nil
+        if let outputsContainer = outputsContainer {
+            outputsDecoded0 = [MediaConnectClientTypes.BridgeOutput]()
+            for structure0 in outputsContainer {
+                if let structure0 = structure0 {
+                    outputsDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputs = outputsDecoded0
+    }
+}
+
+extension MediaConnectClientTypes.AddBridgeSourceRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flowSource = "flowSource"
+        case networkSource = "networkSource"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let flowSource = self.flowSource {
+            try encodeContainer.encode(flowSource, forKey: .flowSource)
+        }
+        if let networkSource = self.networkSource {
+            try encodeContainer.encode(networkSource, forKey: .networkSource)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flowSourceDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.AddBridgeFlowSourceRequest.self, forKey: .flowSource)
+        flowSource = flowSourceDecoded
+        let networkSourceDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.AddBridgeNetworkSourceRequest.self, forKey: .networkSource)
+        networkSource = networkSourceDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// Add a source to an existing bridge.
+    public struct AddBridgeSourceRequest: Swift.Equatable {
+        /// Add a flow source to an existing bridge.
+        public var flowSource: MediaConnectClientTypes.AddBridgeFlowSourceRequest?
+        /// Add a network source to an existing bridge.
+        public var networkSource: MediaConnectClientTypes.AddBridgeNetworkSourceRequest?
+
+        public init (
+            flowSource: MediaConnectClientTypes.AddBridgeFlowSourceRequest? = nil,
+            networkSource: MediaConnectClientTypes.AddBridgeNetworkSourceRequest? = nil
+        )
+        {
+            self.flowSource = flowSource
+            self.networkSource = networkSource
+        }
+    }
+
+}
+
+extension AddBridgeSourcesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sources = "sources"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sources = sources {
+            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
+            for addbridgesourcerequest0 in sources {
+                try sourcesContainer.encode(addbridgesourcerequest0)
+            }
+        }
+    }
+}
+
+extension AddBridgeSourcesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let bridgeArn = bridgeArn else {
+            return nil
+        }
+        return "/v1/bridges/\(bridgeArn.urlPercentEncoding())/sources"
+    }
+}
+
+/// A request to add sources to the specified bridge.
+public struct AddBridgeSourcesInput: Swift.Equatable {
+    /// The ARN of the bridge that you want to update.
+    /// This member is required.
+    public var bridgeArn: Swift.String?
+    /// The sources that you want to add to this bridge.
+    /// This member is required.
+    public var sources: [MediaConnectClientTypes.AddBridgeSourceRequest]?
+
+    public init (
+        bridgeArn: Swift.String? = nil,
+        sources: [MediaConnectClientTypes.AddBridgeSourceRequest]? = nil
+    )
+    {
+        self.bridgeArn = bridgeArn
+        self.sources = sources
+    }
+}
+
+struct AddBridgeSourcesInputBody: Swift.Equatable {
+    let sources: [MediaConnectClientTypes.AddBridgeSourceRequest]?
+}
+
+extension AddBridgeSourcesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sources = "sources"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourcesContainer = try containerValues.decodeIfPresent([MediaConnectClientTypes.AddBridgeSourceRequest?].self, forKey: .sources)
+        var sourcesDecoded0:[MediaConnectClientTypes.AddBridgeSourceRequest]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [MediaConnectClientTypes.AddBridgeSourceRequest]()
+            for structure0 in sourcesContainer {
+                if let structure0 = structure0 {
+                    sourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        sources = sourcesDecoded0
+    }
+}
+
+extension AddBridgeSourcesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension AddBridgeSourcesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum AddBridgeSourcesOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case notFoundException(NotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AddBridgeSourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: AddBridgeSourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.bridgeArn = output.bridgeArn
+            self.sources = output.sources
+        } else {
+            self.bridgeArn = nil
+            self.sources = nil
+        }
+    }
+}
+
+public struct AddBridgeSourcesOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Number (ARN) of the bridge.
+    public var bridgeArn: Swift.String?
+    /// The sources that you added to this bridge.
+    public var sources: [MediaConnectClientTypes.BridgeSource]?
+
+    public init (
+        bridgeArn: Swift.String? = nil,
+        sources: [MediaConnectClientTypes.BridgeSource]? = nil
+    )
+    {
+        self.bridgeArn = bridgeArn
+        self.sources = sources
+    }
+}
+
+struct AddBridgeSourcesOutputResponseBody: Swift.Equatable {
+    let bridgeArn: Swift.String?
+    let sources: [MediaConnectClientTypes.BridgeSource]?
+}
+
+extension AddBridgeSourcesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridgeArn = "bridgeArn"
+        case sources = "sources"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bridgeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bridgeArn)
+        bridgeArn = bridgeArnDecoded
+        let sourcesContainer = try containerValues.decodeIfPresent([MediaConnectClientTypes.BridgeSource?].self, forKey: .sources)
+        var sourcesDecoded0:[MediaConnectClientTypes.BridgeSource]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [MediaConnectClientTypes.BridgeSource]()
+            for structure0 in sourcesContainer {
+                if let structure0 = structure0 {
+                    sourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        sources = sourcesDecoded0
+    }
+}
+
+extension MediaConnectClientTypes.AddEgressGatewayBridgeRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxBitrate = "maxBitrate"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxBitrate = self.maxBitrate {
+            try encodeContainer.encode(maxBitrate, forKey: .maxBitrate)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxBitrateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBitrate)
+        maxBitrate = maxBitrateDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    public struct AddEgressGatewayBridgeRequest: Swift.Equatable {
+        /// The maximum expected bitrate (in bps).
+        /// This member is required.
+        public var maxBitrate: Swift.Int?
+
+        public init (
+            maxBitrate: Swift.Int? = nil
+        )
+        {
+            self.maxBitrate = maxBitrate
+        }
+    }
+
+}
+
 extension AddFlowMediaStreamsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case mediaStreams = "mediaStreams"
@@ -702,6 +1371,52 @@ extension AddFlowVpcInterfacesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension MediaConnectClientTypes.AddIngressGatewayBridgeRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxBitrate = "maxBitrate"
+        case maxOutputs = "maxOutputs"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxBitrate = self.maxBitrate {
+            try encodeContainer.encode(maxBitrate, forKey: .maxBitrate)
+        }
+        if let maxOutputs = self.maxOutputs {
+            try encodeContainer.encode(maxOutputs, forKey: .maxOutputs)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxBitrateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBitrate)
+        maxBitrate = maxBitrateDecoded
+        let maxOutputsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxOutputs)
+        maxOutputs = maxOutputsDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    public struct AddIngressGatewayBridgeRequest: Swift.Equatable {
+        /// The maximum expected bitrate (in bps).
+        /// This member is required.
+        public var maxBitrate: Swift.Int?
+        /// The maximum number of expected outputs.
+        /// This member is required.
+        public var maxOutputs: Swift.Int?
+
+        public init (
+            maxBitrate: Swift.Int? = nil,
+            maxOutputs: Swift.Int? = nil
+        )
+        {
+            self.maxBitrate = maxBitrate
+            self.maxOutputs = maxOutputs
+        }
+    }
+
+}
+
 extension MediaConnectClientTypes.AddMaintenance: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maintenanceDay = "maintenanceDay"
@@ -983,7 +1698,7 @@ extension MediaConnectClientTypes {
         public var description: Swift.String?
         /// The IP address from which video will be sent to output destinations.
         public var destination: Swift.String?
-        /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
+        /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key). Allowable encryption types: static-key.
         public var encryption: MediaConnectClientTypes.Encryption?
         /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
         public var maxLatency: Swift.Int?
@@ -1004,7 +1719,7 @@ extension MediaConnectClientTypes {
         public var senderControlPort: Swift.Int?
         /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
         public var smoothingLatency: Swift.Int?
-        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
+        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
         public var streamId: Swift.String?
         /// The name of the VPC interface attachment to use for this output.
         public var vpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment?
@@ -1136,6 +1851,647 @@ extension BadRequestExceptionBody: Swift.Decodable {
     }
 }
 
+extension MediaConnectClientTypes.Bridge: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridgeArn = "bridgeArn"
+        case bridgeMessages = "bridgeMessages"
+        case bridgeState = "bridgeState"
+        case egressGatewayBridge = "egressGatewayBridge"
+        case ingressGatewayBridge = "ingressGatewayBridge"
+        case name = "name"
+        case outputs = "outputs"
+        case placementArn = "placementArn"
+        case sourceFailoverConfig = "sourceFailoverConfig"
+        case sources = "sources"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bridgeArn = self.bridgeArn {
+            try encodeContainer.encode(bridgeArn, forKey: .bridgeArn)
+        }
+        if let bridgeMessages = bridgeMessages {
+            var bridgeMessagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bridgeMessages)
+            for messagedetail0 in bridgeMessages {
+                try bridgeMessagesContainer.encode(messagedetail0)
+            }
+        }
+        if let bridgeState = self.bridgeState {
+            try encodeContainer.encode(bridgeState.rawValue, forKey: .bridgeState)
+        }
+        if let egressGatewayBridge = self.egressGatewayBridge {
+            try encodeContainer.encode(egressGatewayBridge, forKey: .egressGatewayBridge)
+        }
+        if let ingressGatewayBridge = self.ingressGatewayBridge {
+            try encodeContainer.encode(ingressGatewayBridge, forKey: .ingressGatewayBridge)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let outputs = outputs {
+            var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
+            for bridgeoutput0 in outputs {
+                try outputsContainer.encode(bridgeoutput0)
+            }
+        }
+        if let placementArn = self.placementArn {
+            try encodeContainer.encode(placementArn, forKey: .placementArn)
+        }
+        if let sourceFailoverConfig = self.sourceFailoverConfig {
+            try encodeContainer.encode(sourceFailoverConfig, forKey: .sourceFailoverConfig)
+        }
+        if let sources = sources {
+            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
+            for bridgesource0 in sources {
+                try sourcesContainer.encode(bridgesource0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bridgeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bridgeArn)
+        bridgeArn = bridgeArnDecoded
+        let bridgeMessagesContainer = try containerValues.decodeIfPresent([MediaConnectClientTypes.MessageDetail?].self, forKey: .bridgeMessages)
+        var bridgeMessagesDecoded0:[MediaConnectClientTypes.MessageDetail]? = nil
+        if let bridgeMessagesContainer = bridgeMessagesContainer {
+            bridgeMessagesDecoded0 = [MediaConnectClientTypes.MessageDetail]()
+            for structure0 in bridgeMessagesContainer {
+                if let structure0 = structure0 {
+                    bridgeMessagesDecoded0?.append(structure0)
+                }
+            }
+        }
+        bridgeMessages = bridgeMessagesDecoded0
+        let bridgeStateDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.BridgeState.self, forKey: .bridgeState)
+        bridgeState = bridgeStateDecoded
+        let egressGatewayBridgeDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.EgressGatewayBridge.self, forKey: .egressGatewayBridge)
+        egressGatewayBridge = egressGatewayBridgeDecoded
+        let ingressGatewayBridgeDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.IngressGatewayBridge.self, forKey: .ingressGatewayBridge)
+        ingressGatewayBridge = ingressGatewayBridgeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let outputsContainer = try containerValues.decodeIfPresent([MediaConnectClientTypes.BridgeOutput?].self, forKey: .outputs)
+        var outputsDecoded0:[MediaConnectClientTypes.BridgeOutput]? = nil
+        if let outputsContainer = outputsContainer {
+            outputsDecoded0 = [MediaConnectClientTypes.BridgeOutput]()
+            for structure0 in outputsContainer {
+                if let structure0 = structure0 {
+                    outputsDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputs = outputsDecoded0
+        let placementArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .placementArn)
+        placementArn = placementArnDecoded
+        let sourceFailoverConfigDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.FailoverConfig.self, forKey: .sourceFailoverConfig)
+        sourceFailoverConfig = sourceFailoverConfigDecoded
+        let sourcesContainer = try containerValues.decodeIfPresent([MediaConnectClientTypes.BridgeSource?].self, forKey: .sources)
+        var sourcesDecoded0:[MediaConnectClientTypes.BridgeSource]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [MediaConnectClientTypes.BridgeSource]()
+            for structure0 in sourcesContainer {
+                if let structure0 = structure0 {
+                    sourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        sources = sourcesDecoded0
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// A Bridge is the connection between your datacenter's Instances and the AWS cloud. A bridge can be used to send video from the AWS cloud to your datacenter or from your datacenter to the AWS cloud.
+    public struct Bridge: Swift.Equatable {
+        /// The Amazon Resource Number (ARN) of the bridge.
+        /// This member is required.
+        public var bridgeArn: Swift.String?
+        public var bridgeMessages: [MediaConnectClientTypes.MessageDetail]?
+        /// This member is required.
+        public var bridgeState: MediaConnectClientTypes.BridgeState?
+        public var egressGatewayBridge: MediaConnectClientTypes.EgressGatewayBridge?
+        public var ingressGatewayBridge: MediaConnectClientTypes.IngressGatewayBridge?
+        /// The name of the bridge.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The outputs on this bridge.
+        public var outputs: [MediaConnectClientTypes.BridgeOutput]?
+        /// The placement Amazon Resource Number (ARN) of the bridge.
+        /// This member is required.
+        public var placementArn: Swift.String?
+        /// The settings for source failover.
+        public var sourceFailoverConfig: MediaConnectClientTypes.FailoverConfig?
+        /// The sources on this bridge.
+        public var sources: [MediaConnectClientTypes.BridgeSource]?
+
+        public init (
+            bridgeArn: Swift.String? = nil,
+            bridgeMessages: [MediaConnectClientTypes.MessageDetail]? = nil,
+            bridgeState: MediaConnectClientTypes.BridgeState? = nil,
+            egressGatewayBridge: MediaConnectClientTypes.EgressGatewayBridge? = nil,
+            ingressGatewayBridge: MediaConnectClientTypes.IngressGatewayBridge? = nil,
+            name: Swift.String? = nil,
+            outputs: [MediaConnectClientTypes.BridgeOutput]? = nil,
+            placementArn: Swift.String? = nil,
+            sourceFailoverConfig: MediaConnectClientTypes.FailoverConfig? = nil,
+            sources: [MediaConnectClientTypes.BridgeSource]? = nil
+        )
+        {
+            self.bridgeArn = bridgeArn
+            self.bridgeMessages = bridgeMessages
+            self.bridgeState = bridgeState
+            self.egressGatewayBridge = egressGatewayBridge
+            self.ingressGatewayBridge = ingressGatewayBridge
+            self.name = name
+            self.outputs = outputs
+            self.placementArn = placementArn
+            self.sourceFailoverConfig = sourceFailoverConfig
+            self.sources = sources
+        }
+    }
+
+}
+
+extension MediaConnectClientTypes.BridgeFlowOutput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flowArn = "flowArn"
+        case flowSourceArn = "flowSourceArn"
+        case name = "name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let flowArn = self.flowArn {
+            try encodeContainer.encode(flowArn, forKey: .flowArn)
+        }
+        if let flowSourceArn = self.flowSourceArn {
+            try encodeContainer.encode(flowSourceArn, forKey: .flowSourceArn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flowArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowArn)
+        flowArn = flowArnDecoded
+        let flowSourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowSourceArn)
+        flowSourceArn = flowSourceArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// The output of the bridge. A flow output is delivered to the AWS cloud.
+    public struct BridgeFlowOutput: Swift.Equatable {
+        /// The Amazon Resource Number (ARN) of the cloud flow.
+        /// This member is required.
+        public var flowArn: Swift.String?
+        /// The Amazon Resource Number (ARN) of the flow source.
+        /// This member is required.
+        public var flowSourceArn: Swift.String?
+        /// The name of the bridge's output.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init (
+            flowArn: Swift.String? = nil,
+            flowSourceArn: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.flowArn = flowArn
+            self.flowSourceArn = flowSourceArn
+            self.name = name
+        }
+    }
+
+}
+
+extension MediaConnectClientTypes.BridgeFlowSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flowArn = "flowArn"
+        case flowVpcInterfaceAttachment = "flowVpcInterfaceAttachment"
+        case name = "name"
+        case outputArn = "outputArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let flowArn = self.flowArn {
+            try encodeContainer.encode(flowArn, forKey: .flowArn)
+        }
+        if let flowVpcInterfaceAttachment = self.flowVpcInterfaceAttachment {
+            try encodeContainer.encode(flowVpcInterfaceAttachment, forKey: .flowVpcInterfaceAttachment)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let outputArn = self.outputArn {
+            try encodeContainer.encode(outputArn, forKey: .outputArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flowArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowArn)
+        flowArn = flowArnDecoded
+        let flowVpcInterfaceAttachmentDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.VpcInterfaceAttachment.self, forKey: .flowVpcInterfaceAttachment)
+        flowVpcInterfaceAttachment = flowVpcInterfaceAttachmentDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let outputArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outputArn)
+        outputArn = outputArnDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// The source of the bridge. A flow source originates in MediaConnect as an existing cloud flow.
+    public struct BridgeFlowSource: Swift.Equatable {
+        /// The ARN of the cloud flow used as a source of this bridge.
+        /// This member is required.
+        public var flowArn: Swift.String?
+        /// The name of the VPC interface attachment to use for this source.
+        public var flowVpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment?
+        /// The name of the flow source.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Resource Number (ARN) of the output.
+        public var outputArn: Swift.String?
+
+        public init (
+            flowArn: Swift.String? = nil,
+            flowVpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil,
+            name: Swift.String? = nil,
+            outputArn: Swift.String? = nil
+        )
+        {
+            self.flowArn = flowArn
+            self.flowVpcInterfaceAttachment = flowVpcInterfaceAttachment
+            self.name = name
+            self.outputArn = outputArn
+        }
+    }
+
+}
+
+extension MediaConnectClientTypes.BridgeNetworkOutput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ipAddress = "ipAddress"
+        case name = "name"
+        case networkName = "networkName"
+        case port = "port"
+        case `protocol` = "protocol"
+        case ttl = "ttl"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ipAddress = self.ipAddress {
+            try encodeContainer.encode(ipAddress, forKey: .ipAddress)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let networkName = self.networkName {
+            try encodeContainer.encode(networkName, forKey: .networkName)
+        }
+        if let port = self.port {
+            try encodeContainer.encode(port, forKey: .port)
+        }
+        if let `protocol` = self.`protocol` {
+            try encodeContainer.encode(`protocol`.rawValue, forKey: .`protocol`)
+        }
+        if let ttl = self.ttl {
+            try encodeContainer.encode(ttl, forKey: .ttl)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ipAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddress)
+        ipAddress = ipAddressDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let networkNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkName)
+        networkName = networkNameDecoded
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
+        port = portDecoded
+        let protocolDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.ModelProtocol.self, forKey: .protocol)
+        `protocol` = protocolDecoded
+        let ttlDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ttl)
+        ttl = ttlDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// The output of the bridge. A network output is delivered to your premises.
+    public struct BridgeNetworkOutput: Swift.Equatable {
+        /// The network output IP Address.
+        /// This member is required.
+        public var ipAddress: Swift.String?
+        /// The network output name.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The network output's gateway network name.
+        /// This member is required.
+        public var networkName: Swift.String?
+        /// The network output port.
+        /// This member is required.
+        public var port: Swift.Int?
+        /// The network output protocol.
+        /// This member is required.
+        public var `protocol`: MediaConnectClientTypes.ModelProtocol?
+        /// The network output TTL.
+        /// This member is required.
+        public var ttl: Swift.Int?
+
+        public init (
+            ipAddress: Swift.String? = nil,
+            name: Swift.String? = nil,
+            networkName: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
+            ttl: Swift.Int? = nil
+        )
+        {
+            self.ipAddress = ipAddress
+            self.name = name
+            self.networkName = networkName
+            self.port = port
+            self.`protocol` = `protocol`
+            self.ttl = ttl
+        }
+    }
+
+}
+
+extension MediaConnectClientTypes.BridgeNetworkSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case multicastIp = "multicastIp"
+        case name = "name"
+        case networkName = "networkName"
+        case port = "port"
+        case `protocol` = "protocol"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let multicastIp = self.multicastIp {
+            try encodeContainer.encode(multicastIp, forKey: .multicastIp)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let networkName = self.networkName {
+            try encodeContainer.encode(networkName, forKey: .networkName)
+        }
+        if let port = self.port {
+            try encodeContainer.encode(port, forKey: .port)
+        }
+        if let `protocol` = self.`protocol` {
+            try encodeContainer.encode(`protocol`.rawValue, forKey: .`protocol`)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let multicastIpDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .multicastIp)
+        multicastIp = multicastIpDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let networkNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkName)
+        networkName = networkNameDecoded
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
+        port = portDecoded
+        let protocolDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.ModelProtocol.self, forKey: .protocol)
+        `protocol` = protocolDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// The source of the bridge. A network source originates at your premises.
+    public struct BridgeNetworkSource: Swift.Equatable {
+        /// The network source multicast IP.
+        /// This member is required.
+        public var multicastIp: Swift.String?
+        /// The name of the network source.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The network source's gateway network name.
+        /// This member is required.
+        public var networkName: Swift.String?
+        /// The network source port.
+        /// This member is required.
+        public var port: Swift.Int?
+        /// The network source protocol.
+        /// This member is required.
+        public var `protocol`: MediaConnectClientTypes.ModelProtocol?
+
+        public init (
+            multicastIp: Swift.String? = nil,
+            name: Swift.String? = nil,
+            networkName: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            `protocol`: MediaConnectClientTypes.ModelProtocol? = nil
+        )
+        {
+            self.multicastIp = multicastIp
+            self.name = name
+            self.networkName = networkName
+            self.port = port
+            self.`protocol` = `protocol`
+        }
+    }
+
+}
+
+extension MediaConnectClientTypes.BridgeOutput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flowOutput = "flowOutput"
+        case networkOutput = "networkOutput"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let flowOutput = self.flowOutput {
+            try encodeContainer.encode(flowOutput, forKey: .flowOutput)
+        }
+        if let networkOutput = self.networkOutput {
+            try encodeContainer.encode(networkOutput, forKey: .networkOutput)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flowOutputDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.BridgeFlowOutput.self, forKey: .flowOutput)
+        flowOutput = flowOutputDecoded
+        let networkOutputDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.BridgeNetworkOutput.self, forKey: .networkOutput)
+        networkOutput = networkOutputDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// The output of the bridge.
+    public struct BridgeOutput: Swift.Equatable {
+        /// The output of the bridge. A flow output is delivered to the AWS cloud.
+        public var flowOutput: MediaConnectClientTypes.BridgeFlowOutput?
+        /// The output of the bridge. A network output is delivered to your premises.
+        public var networkOutput: MediaConnectClientTypes.BridgeNetworkOutput?
+
+        public init (
+            flowOutput: MediaConnectClientTypes.BridgeFlowOutput? = nil,
+            networkOutput: MediaConnectClientTypes.BridgeNetworkOutput? = nil
+        )
+        {
+            self.flowOutput = flowOutput
+            self.networkOutput = networkOutput
+        }
+    }
+
+}
+
+extension MediaConnectClientTypes {
+    public enum BridgePlacement: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case available
+        case locked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BridgePlacement] {
+            return [
+                .available,
+                .locked,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .locked: return "LOCKED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BridgePlacement(rawValue: rawValue) ?? BridgePlacement.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConnectClientTypes.BridgeSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flowSource = "flowSource"
+        case networkSource = "networkSource"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let flowSource = self.flowSource {
+            try encodeContainer.encode(flowSource, forKey: .flowSource)
+        }
+        if let networkSource = self.networkSource {
+            try encodeContainer.encode(networkSource, forKey: .networkSource)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flowSourceDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.BridgeFlowSource.self, forKey: .flowSource)
+        flowSource = flowSourceDecoded
+        let networkSourceDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.BridgeNetworkSource.self, forKey: .networkSource)
+        networkSource = networkSourceDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// The bridge's source.
+    public struct BridgeSource: Swift.Equatable {
+        /// The source of the bridge. A flow source originates in MediaConnect as an existing cloud flow.
+        public var flowSource: MediaConnectClientTypes.BridgeFlowSource?
+        /// The source of the bridge. A network source originates at your premises.
+        public var networkSource: MediaConnectClientTypes.BridgeNetworkSource?
+
+        public init (
+            flowSource: MediaConnectClientTypes.BridgeFlowSource? = nil,
+            networkSource: MediaConnectClientTypes.BridgeNetworkSource? = nil
+        )
+        {
+            self.flowSource = flowSource
+            self.networkSource = networkSource
+        }
+    }
+
+}
+
+extension MediaConnectClientTypes {
+    public enum BridgeState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case creating
+        case deleted
+        case deleting
+        case deploying
+        case standby
+        case starting
+        case startFailed
+        case startPending
+        case stopping
+        case stopFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BridgeState] {
+            return [
+                .active,
+                .creating,
+                .deleted,
+                .deleting,
+                .deploying,
+                .standby,
+                .starting,
+                .startFailed,
+                .startPending,
+                .stopping,
+                .stopFailed,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .deleting: return "DELETING"
+            case .deploying: return "DEPLOYING"
+            case .standby: return "STANDBY"
+            case .starting: return "STARTING"
+            case .startFailed: return "START_FAILED"
+            case .startPending: return "START_PENDING"
+            case .stopping: return "STOPPING"
+            case .stopFailed: return "STOP_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BridgeState(rawValue: rawValue) ?? BridgeState.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension MediaConnectClientTypes {
     public enum Colorimetry: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case bt2020
@@ -1180,6 +2536,368 @@ extension MediaConnectClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = Colorimetry(rawValue: rawValue) ?? Colorimetry.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension ConflictException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// The error message returned by AWS Elemental MediaConnect.
+    /// This member is required.
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct ConflictExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ConflictExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    public enum ConnectionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case connected
+        case disconnected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectionStatus] {
+            return [
+                .connected,
+                .disconnected,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .connected: return "CONNECTED"
+            case .disconnected: return "DISCONNECTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ConnectionStatus(rawValue: rawValue) ?? ConnectionStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CreateBridge420Exception {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateBridge420ExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+public struct CreateBridge420Exception: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// The error message returned by AWS Elemental MediaConnect.
+    /// This member is required.
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct CreateBridge420ExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension CreateBridge420ExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension CreateBridgeInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case egressGatewayBridge = "egressGatewayBridge"
+        case ingressGatewayBridge = "ingressGatewayBridge"
+        case name = "name"
+        case outputs = "outputs"
+        case placementArn = "placementArn"
+        case sourceFailoverConfig = "sourceFailoverConfig"
+        case sources = "sources"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let egressGatewayBridge = self.egressGatewayBridge {
+            try encodeContainer.encode(egressGatewayBridge, forKey: .egressGatewayBridge)
+        }
+        if let ingressGatewayBridge = self.ingressGatewayBridge {
+            try encodeContainer.encode(ingressGatewayBridge, forKey: .ingressGatewayBridge)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let outputs = outputs {
+            var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
+            for addbridgeoutputrequest0 in outputs {
+                try outputsContainer.encode(addbridgeoutputrequest0)
+            }
+        }
+        if let placementArn = self.placementArn {
+            try encodeContainer.encode(placementArn, forKey: .placementArn)
+        }
+        if let sourceFailoverConfig = self.sourceFailoverConfig {
+            try encodeContainer.encode(sourceFailoverConfig, forKey: .sourceFailoverConfig)
+        }
+        if let sources = sources {
+            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
+            for addbridgesourcerequest0 in sources {
+                try sourcesContainer.encode(addbridgesourcerequest0)
+            }
+        }
+    }
+}
+
+extension CreateBridgeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/v1/bridges"
+    }
+}
+
+/// Creates a new bridge. The request must include one source.
+public struct CreateBridgeInput: Swift.Equatable {
+    /// Create a bridge with the egress bridge type. An egress bridge is a cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is delivered to your premises.
+    public var egressGatewayBridge: MediaConnectClientTypes.AddEgressGatewayBridgeRequest?
+    /// Create a bridge with the ingress bridge type. An ingress bridge is a ground-to-cloud bridge. The content originates at your premises and is delivered to the cloud.
+    public var ingressGatewayBridge: MediaConnectClientTypes.AddIngressGatewayBridgeRequest?
+    /// The name of the bridge. This name can not be modified after the bridge is created.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The outputs that you want to add to this bridge.
+    public var outputs: [MediaConnectClientTypes.AddBridgeOutputRequest]?
+    /// The bridge placement Amazon Resource Number (ARN).
+    /// This member is required.
+    public var placementArn: Swift.String?
+    /// The settings for source failover.
+    public var sourceFailoverConfig: MediaConnectClientTypes.FailoverConfig?
+    /// The sources that you want to add to this bridge.
+    /// This member is required.
+    public var sources: [MediaConnectClientTypes.AddBridgeSourceRequest]?
+
+    public init (
+        egressGatewayBridge: MediaConnectClientTypes.AddEgressGatewayBridgeRequest? = nil,
+        ingressGatewayBridge: MediaConnectClientTypes.AddIngressGatewayBridgeRequest? = nil,
+        name: Swift.String? = nil,
+        outputs: [MediaConnectClientTypes.AddBridgeOutputRequest]? = nil,
+        placementArn: Swift.String? = nil,
+        sourceFailoverConfig: MediaConnectClientTypes.FailoverConfig? = nil,
+        sources: [MediaConnectClientTypes.AddBridgeSourceRequest]? = nil
+    )
+    {
+        self.egressGatewayBridge = egressGatewayBridge
+        self.ingressGatewayBridge = ingressGatewayBridge
+        self.name = name
+        self.outputs = outputs
+        self.placementArn = placementArn
+        self.sourceFailoverConfig = sourceFailoverConfig
+        self.sources = sources
+    }
+}
+
+struct CreateBridgeInputBody: Swift.Equatable {
+    let egressGatewayBridge: MediaConnectClientTypes.AddEgressGatewayBridgeRequest?
+    let ingressGatewayBridge: MediaConnectClientTypes.AddIngressGatewayBridgeRequest?
+    let name: Swift.String?
+    let outputs: [MediaConnectClientTypes.AddBridgeOutputRequest]?
+    let placementArn: Swift.String?
+    let sourceFailoverConfig: MediaConnectClientTypes.FailoverConfig?
+    let sources: [MediaConnectClientTypes.AddBridgeSourceRequest]?
+}
+
+extension CreateBridgeInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case egressGatewayBridge = "egressGatewayBridge"
+        case ingressGatewayBridge = "ingressGatewayBridge"
+        case name = "name"
+        case outputs = "outputs"
+        case placementArn = "placementArn"
+        case sourceFailoverConfig = "sourceFailoverConfig"
+        case sources = "sources"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let egressGatewayBridgeDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.AddEgressGatewayBridgeRequest.self, forKey: .egressGatewayBridge)
+        egressGatewayBridge = egressGatewayBridgeDecoded
+        let ingressGatewayBridgeDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.AddIngressGatewayBridgeRequest.self, forKey: .ingressGatewayBridge)
+        ingressGatewayBridge = ingressGatewayBridgeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let outputsContainer = try containerValues.decodeIfPresent([MediaConnectClientTypes.AddBridgeOutputRequest?].self, forKey: .outputs)
+        var outputsDecoded0:[MediaConnectClientTypes.AddBridgeOutputRequest]? = nil
+        if let outputsContainer = outputsContainer {
+            outputsDecoded0 = [MediaConnectClientTypes.AddBridgeOutputRequest]()
+            for structure0 in outputsContainer {
+                if let structure0 = structure0 {
+                    outputsDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputs = outputsDecoded0
+        let placementArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .placementArn)
+        placementArn = placementArnDecoded
+        let sourceFailoverConfigDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.FailoverConfig.self, forKey: .sourceFailoverConfig)
+        sourceFailoverConfig = sourceFailoverConfigDecoded
+        let sourcesContainer = try containerValues.decodeIfPresent([MediaConnectClientTypes.AddBridgeSourceRequest?].self, forKey: .sources)
+        var sourcesDecoded0:[MediaConnectClientTypes.AddBridgeSourceRequest]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [MediaConnectClientTypes.AddBridgeSourceRequest]()
+            for structure0 in sourcesContainer {
+                if let structure0 = structure0 {
+                    sourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        sources = sourcesDecoded0
+    }
+}
+
+extension CreateBridgeOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateBridgeOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "CreateBridge420Exception" : self = .createBridge420Exception(try CreateBridge420Exception(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateBridgeOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case createBridge420Exception(CreateBridge420Exception)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateBridgeOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateBridgeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.bridge = output.bridge
+        } else {
+            self.bridge = nil
+        }
+    }
+}
+
+public struct CreateBridgeOutputResponse: Swift.Equatable {
+    /// A Bridge is the connection between your datacenter's Instances and the AWS cloud. A bridge can be used to send video from the AWS cloud to your datacenter or from your datacenter to the AWS cloud.
+    public var bridge: MediaConnectClientTypes.Bridge?
+
+    public init (
+        bridge: MediaConnectClientTypes.Bridge? = nil
+    )
+    {
+        self.bridge = bridge
+    }
+}
+
+struct CreateBridgeOutputResponseBody: Swift.Equatable {
+    let bridge: MediaConnectClientTypes.Bridge?
+}
+
+extension CreateBridgeOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridge = "bridge"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bridgeDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.Bridge.self, forKey: .bridge)
+        bridge = bridgeDecoded
     }
 }
 
@@ -1526,6 +3244,340 @@ extension CreateFlowOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateGateway420Exception {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateGateway420ExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+public struct CreateGateway420Exception: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// The error message returned by AWS Elemental MediaConnect.
+    /// This member is required.
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct CreateGateway420ExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension CreateGateway420ExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension CreateGatewayInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case egressCidrBlocks = "egressCidrBlocks"
+        case name = "name"
+        case networks = "networks"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let egressCidrBlocks = egressCidrBlocks {
+            var egressCidrBlocksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .egressCidrBlocks)
+            for __string0 in egressCidrBlocks {
+                try egressCidrBlocksContainer.encode(__string0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let networks = networks {
+            var networksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networks)
+            for gatewaynetwork0 in networks {
+                try networksContainer.encode(gatewaynetwork0)
+            }
+        }
+    }
+}
+
+extension CreateGatewayInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/v1/gateways"
+    }
+}
+
+/// Creates a new gateway. The request must include at least one network (up to 4).
+public struct CreateGatewayInput: Swift.Equatable {
+    /// The range of IP addresses that are allowed to contribute content or initiate output requests for flows communicating with this gateway. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+    /// This member is required.
+    public var egressCidrBlocks: [Swift.String]?
+    /// The name of the gateway. This name can not be modified after the gateway is created.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The list of networks that you want to add.
+    /// This member is required.
+    public var networks: [MediaConnectClientTypes.GatewayNetwork]?
+
+    public init (
+        egressCidrBlocks: [Swift.String]? = nil,
+        name: Swift.String? = nil,
+        networks: [MediaConnectClientTypes.GatewayNetwork]? = nil
+    )
+    {
+        self.egressCidrBlocks = egressCidrBlocks
+        self.name = name
+        self.networks = networks
+    }
+}
+
+struct CreateGatewayInputBody: Swift.Equatable {
+    let egressCidrBlocks: [Swift.String]?
+    let name: Swift.String?
+    let networks: [MediaConnectClientTypes.GatewayNetwork]?
+}
+
+extension CreateGatewayInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case egressCidrBlocks = "egressCidrBlocks"
+        case name = "name"
+        case networks = "networks"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let egressCidrBlocksContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .egressCidrBlocks)
+        var egressCidrBlocksDecoded0:[Swift.String]? = nil
+        if let egressCidrBlocksContainer = egressCidrBlocksContainer {
+            egressCidrBlocksDecoded0 = [Swift.String]()
+            for string0 in egressCidrBlocksContainer {
+                if let string0 = string0 {
+                    egressCidrBlocksDecoded0?.append(string0)
+                }
+            }
+        }
+        egressCidrBlocks = egressCidrBlocksDecoded0
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let networksContainer = try containerValues.decodeIfPresent([MediaConnectClientTypes.GatewayNetwork?].self, forKey: .networks)
+        var networksDecoded0:[MediaConnectClientTypes.GatewayNetwork]? = nil
+        if let networksContainer = networksContainer {
+            networksDecoded0 = [MediaConnectClientTypes.GatewayNetwork]()
+            for structure0 in networksContainer {
+                if let structure0 = structure0 {
+                    networksDecoded0?.append(structure0)
+                }
+            }
+        }
+        networks = networksDecoded0
+    }
+}
+
+extension CreateGatewayOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateGatewayOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "CreateGateway420Exception" : self = .createGateway420Exception(try CreateGateway420Exception(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateGatewayOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case createGateway420Exception(CreateGateway420Exception)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.gateway = output.gateway
+        } else {
+            self.gateway = nil
+        }
+    }
+}
+
+public struct CreateGatewayOutputResponse: Swift.Equatable {
+    /// The settings for a gateway, including its networks.
+    public var gateway: MediaConnectClientTypes.Gateway?
+
+    public init (
+        gateway: MediaConnectClientTypes.Gateway? = nil
+    )
+    {
+        self.gateway = gateway
+    }
+}
+
+struct CreateGatewayOutputResponseBody: Swift.Equatable {
+    let gateway: MediaConnectClientTypes.Gateway?
+}
+
+extension CreateGatewayOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gateway = "gateway"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gatewayDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.Gateway.self, forKey: .gateway)
+        gateway = gatewayDecoded
+    }
+}
+
+extension DeleteBridgeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let bridgeArn = bridgeArn else {
+            return nil
+        }
+        return "/v1/bridges/\(bridgeArn.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteBridgeInput: Swift.Equatable {
+    /// The ARN of the bridge that you want to delete.
+    /// This member is required.
+    public var bridgeArn: Swift.String?
+
+    public init (
+        bridgeArn: Swift.String? = nil
+    )
+    {
+        self.bridgeArn = bridgeArn
+    }
+}
+
+struct DeleteBridgeInputBody: Swift.Equatable {
+}
+
+extension DeleteBridgeInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteBridgeOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteBridgeOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteBridgeOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case notFoundException(NotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteBridgeOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DeleteBridgeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.bridgeArn = output.bridgeArn
+        } else {
+            self.bridgeArn = nil
+        }
+    }
+}
+
+public struct DeleteBridgeOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Number (ARN) of the deleted bridge.
+    public var bridgeArn: Swift.String?
+
+    public init (
+        bridgeArn: Swift.String? = nil
+    )
+    {
+        self.bridgeArn = bridgeArn
+    }
+}
+
+struct DeleteBridgeOutputResponseBody: Swift.Equatable {
+    let bridgeArn: Swift.String?
+}
+
+extension DeleteBridgeOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridgeArn = "bridgeArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bridgeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bridgeArn)
+        bridgeArn = bridgeArnDecoded
+    }
+}
+
 extension DeleteFlowInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let flowArn = flowArn else {
@@ -1637,6 +3689,351 @@ extension DeleteFlowOutputResponseBody: Swift.Decodable {
         flowArn = flowArnDecoded
         let statusDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.Status.self, forKey: .status)
         status = statusDecoded
+    }
+}
+
+extension DeleteGatewayInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let gatewayArn = gatewayArn else {
+            return nil
+        }
+        return "/v1/gateways/\(gatewayArn.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteGatewayInput: Swift.Equatable {
+    /// The ARN of the gateway that you want to delete.
+    /// This member is required.
+    public var gatewayArn: Swift.String?
+
+    public init (
+        gatewayArn: Swift.String? = nil
+    )
+    {
+        self.gatewayArn = gatewayArn
+    }
+}
+
+struct DeleteGatewayInputBody: Swift.Equatable {
+}
+
+extension DeleteGatewayInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteGatewayOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteGatewayOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteGatewayOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case notFoundException(NotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DeleteGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.gatewayArn = output.gatewayArn
+        } else {
+            self.gatewayArn = nil
+        }
+    }
+}
+
+public struct DeleteGatewayOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the gateway that was deleted.
+    public var gatewayArn: Swift.String?
+
+    public init (
+        gatewayArn: Swift.String? = nil
+    )
+    {
+        self.gatewayArn = gatewayArn
+    }
+}
+
+struct DeleteGatewayOutputResponseBody: Swift.Equatable {
+    let gatewayArn: Swift.String?
+}
+
+extension DeleteGatewayOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gatewayArn = "gatewayArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gatewayArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayArn)
+        gatewayArn = gatewayArnDecoded
+    }
+}
+
+extension DeregisterGatewayInstanceInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let force = force {
+                let forceQueryItem = ClientRuntime.URLQueryItem(name: "force".urlPercentEncoding(), value: Swift.String(force).urlPercentEncoding())
+                items.append(forceQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension DeregisterGatewayInstanceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let gatewayInstanceArn = gatewayInstanceArn else {
+            return nil
+        }
+        return "/v1/gateway-instances/\(gatewayInstanceArn.urlPercentEncoding())"
+    }
+}
+
+public struct DeregisterGatewayInstanceInput: Swift.Equatable {
+    /// Force the deregistration of an instance. Force will deregister an instance, even if there are bridges running on it.
+    public var force: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the gateway that contains the instance that you want to deregister.
+    /// This member is required.
+    public var gatewayInstanceArn: Swift.String?
+
+    public init (
+        force: Swift.Bool? = nil,
+        gatewayInstanceArn: Swift.String? = nil
+    )
+    {
+        self.force = force
+        self.gatewayInstanceArn = gatewayInstanceArn
+    }
+}
+
+struct DeregisterGatewayInstanceInputBody: Swift.Equatable {
+}
+
+extension DeregisterGatewayInstanceInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeregisterGatewayInstanceOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeregisterGatewayInstanceOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeregisterGatewayInstanceOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case notFoundException(NotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeregisterGatewayInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DeregisterGatewayInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.gatewayInstanceArn = output.gatewayInstanceArn
+            self.instanceState = output.instanceState
+        } else {
+            self.gatewayInstanceArn = nil
+            self.instanceState = nil
+        }
+    }
+}
+
+public struct DeregisterGatewayInstanceOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the instance.
+    public var gatewayInstanceArn: Swift.String?
+    /// The status of the instance.
+    public var instanceState: MediaConnectClientTypes.InstanceState?
+
+    public init (
+        gatewayInstanceArn: Swift.String? = nil,
+        instanceState: MediaConnectClientTypes.InstanceState? = nil
+    )
+    {
+        self.gatewayInstanceArn = gatewayInstanceArn
+        self.instanceState = instanceState
+    }
+}
+
+struct DeregisterGatewayInstanceOutputResponseBody: Swift.Equatable {
+    let gatewayInstanceArn: Swift.String?
+    let instanceState: MediaConnectClientTypes.InstanceState?
+}
+
+extension DeregisterGatewayInstanceOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gatewayInstanceArn = "gatewayInstanceArn"
+        case instanceState = "instanceState"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gatewayInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayInstanceArn)
+        gatewayInstanceArn = gatewayInstanceArnDecoded
+        let instanceStateDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.InstanceState.self, forKey: .instanceState)
+        instanceState = instanceStateDecoded
+    }
+}
+
+extension DescribeBridgeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let bridgeArn = bridgeArn else {
+            return nil
+        }
+        return "/v1/bridges/\(bridgeArn.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeBridgeInput: Swift.Equatable {
+    /// The ARN of the bridge that you want to describe.
+    /// This member is required.
+    public var bridgeArn: Swift.String?
+
+    public init (
+        bridgeArn: Swift.String? = nil
+    )
+    {
+        self.bridgeArn = bridgeArn
+    }
+}
+
+struct DescribeBridgeInputBody: Swift.Equatable {
+}
+
+extension DescribeBridgeInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeBridgeOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeBridgeOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeBridgeOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case notFoundException(NotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeBridgeOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DescribeBridgeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.bridge = output.bridge
+        } else {
+            self.bridge = nil
+        }
+    }
+}
+
+public struct DescribeBridgeOutputResponse: Swift.Equatable {
+    /// A Bridge is the connection between your datacenter's Instances and the AWS cloud. A bridge can be used to send video from the AWS cloud to your datacenter or from your datacenter to the AWS cloud.
+    public var bridge: MediaConnectClientTypes.Bridge?
+
+    public init (
+        bridge: MediaConnectClientTypes.Bridge? = nil
+    )
+    {
+        self.bridge = bridge
+    }
+}
+
+struct DescribeBridgeOutputResponseBody: Swift.Equatable {
+    let bridge: MediaConnectClientTypes.Bridge?
+}
+
+extension DescribeBridgeOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridge = "bridge"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bridgeDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.Bridge.self, forKey: .bridge)
+        bridge = bridgeDecoded
     }
 }
 
@@ -1768,6 +4165,218 @@ extension DescribeFlowOutputResponseBody: Swift.Decodable {
         flow = flowDecoded
         let messagesDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.Messages.self, forKey: .messages)
         messages = messagesDecoded
+    }
+}
+
+extension DescribeGatewayInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let gatewayArn = gatewayArn else {
+            return nil
+        }
+        return "/v1/gateways/\(gatewayArn.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeGatewayInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the gateway that you want to describe.
+    /// This member is required.
+    public var gatewayArn: Swift.String?
+
+    public init (
+        gatewayArn: Swift.String? = nil
+    )
+    {
+        self.gatewayArn = gatewayArn
+    }
+}
+
+struct DescribeGatewayInputBody: Swift.Equatable {
+}
+
+extension DescribeGatewayInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeGatewayInstanceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let gatewayInstanceArn = gatewayInstanceArn else {
+            return nil
+        }
+        return "/v1/gateway-instances/\(gatewayInstanceArn.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeGatewayInstanceInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the gateway instance that you want to describe.
+    /// This member is required.
+    public var gatewayInstanceArn: Swift.String?
+
+    public init (
+        gatewayInstanceArn: Swift.String? = nil
+    )
+    {
+        self.gatewayInstanceArn = gatewayInstanceArn
+    }
+}
+
+struct DescribeGatewayInstanceInputBody: Swift.Equatable {
+}
+
+extension DescribeGatewayInstanceInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeGatewayInstanceOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeGatewayInstanceOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeGatewayInstanceOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case notFoundException(NotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeGatewayInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DescribeGatewayInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.gatewayInstance = output.gatewayInstance
+        } else {
+            self.gatewayInstance = nil
+        }
+    }
+}
+
+public struct DescribeGatewayInstanceOutputResponse: Swift.Equatable {
+    /// The settings for an instance in a gateway.
+    public var gatewayInstance: MediaConnectClientTypes.GatewayInstance?
+
+    public init (
+        gatewayInstance: MediaConnectClientTypes.GatewayInstance? = nil
+    )
+    {
+        self.gatewayInstance = gatewayInstance
+    }
+}
+
+struct DescribeGatewayInstanceOutputResponseBody: Swift.Equatable {
+    let gatewayInstance: MediaConnectClientTypes.GatewayInstance?
+}
+
+extension DescribeGatewayInstanceOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gatewayInstance = "gatewayInstance"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gatewayInstanceDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.GatewayInstance.self, forKey: .gatewayInstance)
+        gatewayInstance = gatewayInstanceDecoded
+    }
+}
+
+extension DescribeGatewayOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeGatewayOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeGatewayOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case notFoundException(NotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DescribeGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.gateway = output.gateway
+        } else {
+            self.gateway = nil
+        }
+    }
+}
+
+public struct DescribeGatewayOutputResponse: Swift.Equatable {
+    /// The settings for a gateway, including its networks.
+    public var gateway: MediaConnectClientTypes.Gateway?
+
+    public init (
+        gateway: MediaConnectClientTypes.Gateway? = nil
+    )
+    {
+        self.gateway = gateway
+    }
+}
+
+struct DescribeGatewayOutputResponseBody: Swift.Equatable {
+    let gateway: MediaConnectClientTypes.Gateway?
+}
+
+extension DescribeGatewayOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gateway = "gateway"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gatewayDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.Gateway.self, forKey: .gateway)
+        gateway = gatewayDecoded
     }
 }
 
@@ -1975,6 +4584,41 @@ extension DescribeReservationOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension MediaConnectClientTypes {
+    public enum DesiredState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case deleted
+        case standby
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DesiredState] {
+            return [
+                .active,
+                .deleted,
+                .standby,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deleted: return "DELETED"
+            case .standby: return "STANDBY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DesiredState(rawValue: rawValue) ?? DesiredState.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension MediaConnectClientTypes.DestinationConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destinationIp = "destinationIp"
@@ -2129,6 +4773,51 @@ extension MediaConnectClientTypes {
             self = DurationUnits(rawValue: rawValue) ?? DurationUnits.sdkUnknown(rawValue)
         }
     }
+}
+
+extension MediaConnectClientTypes.EgressGatewayBridge: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "instanceId"
+        case maxBitrate = "maxBitrate"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+        if let maxBitrate = self.maxBitrate {
+            try encodeContainer.encode(maxBitrate, forKey: .maxBitrate)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let maxBitrateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBitrate)
+        maxBitrate = maxBitrateDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    public struct EgressGatewayBridge: Swift.Equatable {
+        /// The ID of the instance running this bridge.
+        public var instanceId: Swift.String?
+        /// The maximum expected bitrate (in bps) of the egress bridge.
+        /// This member is required.
+        public var maxBitrate: Swift.Int?
+
+        public init (
+            instanceId: Swift.String? = nil,
+            maxBitrate: Swift.Int? = nil
+        )
+        {
+            self.instanceId = instanceId
+            self.maxBitrate = maxBitrate
+        }
+    }
+
 }
 
 extension MediaConnectClientTypes {
@@ -2819,7 +5508,7 @@ extension MediaConnectClientTypes {
         /// The entitlements in this flow.
         /// This member is required.
         public var entitlements: [MediaConnectClientTypes.Entitlement]?
-        /// The Amazon Resource Name (ARN), a unique identifier for any AWS resource, of the flow.
+        /// The Amazon Resource Name (ARN) of the flow.
         /// This member is required.
         public var flowArn: Swift.String?
         /// The maintenance setting of a flow
@@ -3124,6 +5813,390 @@ extension ForbiddenExceptionBody: Swift.Decodable {
     }
 }
 
+extension MediaConnectClientTypes.Gateway: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case egressCidrBlocks = "egressCidrBlocks"
+        case gatewayArn = "gatewayArn"
+        case gatewayMessages = "gatewayMessages"
+        case gatewayState = "gatewayState"
+        case name = "name"
+        case networks = "networks"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let egressCidrBlocks = egressCidrBlocks {
+            var egressCidrBlocksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .egressCidrBlocks)
+            for __string0 in egressCidrBlocks {
+                try egressCidrBlocksContainer.encode(__string0)
+            }
+        }
+        if let gatewayArn = self.gatewayArn {
+            try encodeContainer.encode(gatewayArn, forKey: .gatewayArn)
+        }
+        if let gatewayMessages = gatewayMessages {
+            var gatewayMessagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gatewayMessages)
+            for messagedetail0 in gatewayMessages {
+                try gatewayMessagesContainer.encode(messagedetail0)
+            }
+        }
+        if let gatewayState = self.gatewayState {
+            try encodeContainer.encode(gatewayState.rawValue, forKey: .gatewayState)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let networks = networks {
+            var networksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networks)
+            for gatewaynetwork0 in networks {
+                try networksContainer.encode(gatewaynetwork0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let egressCidrBlocksContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .egressCidrBlocks)
+        var egressCidrBlocksDecoded0:[Swift.String]? = nil
+        if let egressCidrBlocksContainer = egressCidrBlocksContainer {
+            egressCidrBlocksDecoded0 = [Swift.String]()
+            for string0 in egressCidrBlocksContainer {
+                if let string0 = string0 {
+                    egressCidrBlocksDecoded0?.append(string0)
+                }
+            }
+        }
+        egressCidrBlocks = egressCidrBlocksDecoded0
+        let gatewayArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayArn)
+        gatewayArn = gatewayArnDecoded
+        let gatewayMessagesContainer = try containerValues.decodeIfPresent([MediaConnectClientTypes.MessageDetail?].self, forKey: .gatewayMessages)
+        var gatewayMessagesDecoded0:[MediaConnectClientTypes.MessageDetail]? = nil
+        if let gatewayMessagesContainer = gatewayMessagesContainer {
+            gatewayMessagesDecoded0 = [MediaConnectClientTypes.MessageDetail]()
+            for structure0 in gatewayMessagesContainer {
+                if let structure0 = structure0 {
+                    gatewayMessagesDecoded0?.append(structure0)
+                }
+            }
+        }
+        gatewayMessages = gatewayMessagesDecoded0
+        let gatewayStateDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.GatewayState.self, forKey: .gatewayState)
+        gatewayState = gatewayStateDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let networksContainer = try containerValues.decodeIfPresent([MediaConnectClientTypes.GatewayNetwork?].self, forKey: .networks)
+        var networksDecoded0:[MediaConnectClientTypes.GatewayNetwork]? = nil
+        if let networksContainer = networksContainer {
+            networksDecoded0 = [MediaConnectClientTypes.GatewayNetwork]()
+            for structure0 in networksContainer {
+                if let structure0 = structure0 {
+                    networksDecoded0?.append(structure0)
+                }
+            }
+        }
+        networks = networksDecoded0
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// The settings for a gateway, including its networks.
+    public struct Gateway: Swift.Equatable {
+        /// The range of IP addresses that contribute content or initiate output requests for flows communicating with this gateway. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        /// This member is required.
+        public var egressCidrBlocks: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the gateway.
+        /// This member is required.
+        public var gatewayArn: Swift.String?
+        public var gatewayMessages: [MediaConnectClientTypes.MessageDetail]?
+        /// The current status of the gateway.
+        public var gatewayState: MediaConnectClientTypes.GatewayState?
+        /// The name of the gateway. This name can not be modified after the gateway is created.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The list of networks in the gateway.
+        /// This member is required.
+        public var networks: [MediaConnectClientTypes.GatewayNetwork]?
+
+        public init (
+            egressCidrBlocks: [Swift.String]? = nil,
+            gatewayArn: Swift.String? = nil,
+            gatewayMessages: [MediaConnectClientTypes.MessageDetail]? = nil,
+            gatewayState: MediaConnectClientTypes.GatewayState? = nil,
+            name: Swift.String? = nil,
+            networks: [MediaConnectClientTypes.GatewayNetwork]? = nil
+        )
+        {
+            self.egressCidrBlocks = egressCidrBlocks
+            self.gatewayArn = gatewayArn
+            self.gatewayMessages = gatewayMessages
+            self.gatewayState = gatewayState
+            self.name = name
+            self.networks = networks
+        }
+    }
+
+}
+
+extension MediaConnectClientTypes.GatewayBridgeSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridgeArn = "bridgeArn"
+        case vpcInterfaceAttachment = "vpcInterfaceAttachment"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bridgeArn = self.bridgeArn {
+            try encodeContainer.encode(bridgeArn, forKey: .bridgeArn)
+        }
+        if let vpcInterfaceAttachment = self.vpcInterfaceAttachment {
+            try encodeContainer.encode(vpcInterfaceAttachment, forKey: .vpcInterfaceAttachment)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bridgeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bridgeArn)
+        bridgeArn = bridgeArnDecoded
+        let vpcInterfaceAttachmentDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.VpcInterfaceAttachment.self, forKey: .vpcInterfaceAttachment)
+        vpcInterfaceAttachment = vpcInterfaceAttachmentDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// The source configuration for cloud flows receiving a stream from a bridge.
+    public struct GatewayBridgeSource: Swift.Equatable {
+        /// The ARN of the bridge feeding this flow.
+        /// This member is required.
+        public var bridgeArn: Swift.String?
+        /// The name of the VPC interface attachment to use for this bridge source.
+        public var vpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment?
+
+        public init (
+            bridgeArn: Swift.String? = nil,
+            vpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil
+        )
+        {
+            self.bridgeArn = bridgeArn
+            self.vpcInterfaceAttachment = vpcInterfaceAttachment
+        }
+    }
+
+}
+
+extension MediaConnectClientTypes.GatewayInstance: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridgePlacement = "bridgePlacement"
+        case connectionStatus = "connectionStatus"
+        case gatewayArn = "gatewayArn"
+        case gatewayInstanceArn = "gatewayInstanceArn"
+        case instanceId = "instanceId"
+        case instanceMessages = "instanceMessages"
+        case instanceState = "instanceState"
+        case runningBridgeCount = "runningBridgeCount"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bridgePlacement = self.bridgePlacement {
+            try encodeContainer.encode(bridgePlacement.rawValue, forKey: .bridgePlacement)
+        }
+        if let connectionStatus = self.connectionStatus {
+            try encodeContainer.encode(connectionStatus.rawValue, forKey: .connectionStatus)
+        }
+        if let gatewayArn = self.gatewayArn {
+            try encodeContainer.encode(gatewayArn, forKey: .gatewayArn)
+        }
+        if let gatewayInstanceArn = self.gatewayInstanceArn {
+            try encodeContainer.encode(gatewayInstanceArn, forKey: .gatewayInstanceArn)
+        }
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+        if let instanceMessages = instanceMessages {
+            var instanceMessagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceMessages)
+            for messagedetail0 in instanceMessages {
+                try instanceMessagesContainer.encode(messagedetail0)
+            }
+        }
+        if let instanceState = self.instanceState {
+            try encodeContainer.encode(instanceState.rawValue, forKey: .instanceState)
+        }
+        if let runningBridgeCount = self.runningBridgeCount {
+            try encodeContainer.encode(runningBridgeCount, forKey: .runningBridgeCount)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bridgePlacementDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.BridgePlacement.self, forKey: .bridgePlacement)
+        bridgePlacement = bridgePlacementDecoded
+        let connectionStatusDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.ConnectionStatus.self, forKey: .connectionStatus)
+        connectionStatus = connectionStatusDecoded
+        let gatewayArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayArn)
+        gatewayArn = gatewayArnDecoded
+        let gatewayInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayInstanceArn)
+        gatewayInstanceArn = gatewayInstanceArnDecoded
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let instanceMessagesContainer = try containerValues.decodeIfPresent([MediaConnectClientTypes.MessageDetail?].self, forKey: .instanceMessages)
+        var instanceMessagesDecoded0:[MediaConnectClientTypes.MessageDetail]? = nil
+        if let instanceMessagesContainer = instanceMessagesContainer {
+            instanceMessagesDecoded0 = [MediaConnectClientTypes.MessageDetail]()
+            for structure0 in instanceMessagesContainer {
+                if let structure0 = structure0 {
+                    instanceMessagesDecoded0?.append(structure0)
+                }
+            }
+        }
+        instanceMessages = instanceMessagesDecoded0
+        let instanceStateDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.InstanceState.self, forKey: .instanceState)
+        instanceState = instanceStateDecoded
+        let runningBridgeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .runningBridgeCount)
+        runningBridgeCount = runningBridgeCountDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// The settings for an instance in a gateway.
+    public struct GatewayInstance: Swift.Equatable {
+        /// The availability of the instance to host new bridges. The bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can be deployed to this instance. If it is AVAILABLE, new bridges can be added to this instance.
+        /// This member is required.
+        public var bridgePlacement: MediaConnectClientTypes.BridgePlacement?
+        /// The connection state of the instance.
+        /// This member is required.
+        public var connectionStatus: MediaConnectClientTypes.ConnectionStatus?
+        /// The Amazon Resource Name (ARN) of the instance.
+        /// This member is required.
+        public var gatewayArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the gateway.
+        /// This member is required.
+        public var gatewayInstanceArn: Swift.String?
+        /// The managed instance ID generated by the SSM install. This will begin with "mi-".
+        /// This member is required.
+        public var instanceId: Swift.String?
+        public var instanceMessages: [MediaConnectClientTypes.MessageDetail]?
+        /// The status of the instance.
+        /// This member is required.
+        public var instanceState: MediaConnectClientTypes.InstanceState?
+        /// The running bridge count.
+        /// This member is required.
+        public var runningBridgeCount: Swift.Int?
+
+        public init (
+            bridgePlacement: MediaConnectClientTypes.BridgePlacement? = nil,
+            connectionStatus: MediaConnectClientTypes.ConnectionStatus? = nil,
+            gatewayArn: Swift.String? = nil,
+            gatewayInstanceArn: Swift.String? = nil,
+            instanceId: Swift.String? = nil,
+            instanceMessages: [MediaConnectClientTypes.MessageDetail]? = nil,
+            instanceState: MediaConnectClientTypes.InstanceState? = nil,
+            runningBridgeCount: Swift.Int? = nil
+        )
+        {
+            self.bridgePlacement = bridgePlacement
+            self.connectionStatus = connectionStatus
+            self.gatewayArn = gatewayArn
+            self.gatewayInstanceArn = gatewayInstanceArn
+            self.instanceId = instanceId
+            self.instanceMessages = instanceMessages
+            self.instanceState = instanceState
+            self.runningBridgeCount = runningBridgeCount
+        }
+    }
+
+}
+
+extension MediaConnectClientTypes.GatewayNetwork: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cidrBlock = "cidrBlock"
+        case name = "name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cidrBlock = self.cidrBlock {
+            try encodeContainer.encode(cidrBlock, forKey: .cidrBlock)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cidrBlockDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cidrBlock)
+        cidrBlock = cidrBlockDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// The network settings for a gateway.
+    public struct GatewayNetwork: Swift.Equatable {
+        /// A unique IP address range to use for this network. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        /// This member is required.
+        public var cidrBlock: Swift.String?
+        /// The name of the network. This name is used to reference the network and must be unique among networks in this gateway.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init (
+            cidrBlock: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.cidrBlock = cidrBlock
+            self.name = name
+        }
+    }
+
+}
+
+extension MediaConnectClientTypes {
+    public enum GatewayState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case creating
+        case deleted
+        case deleting
+        case error
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GatewayState] {
+            return [
+                .active,
+                .creating,
+                .deleted,
+                .deleting,
+                .error,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .deleting: return "DELETING"
+            case .error: return "ERROR"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GatewayState(rawValue: rawValue) ?? GatewayState.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension MediaConnectClientTypes.GrantEntitlementRequest: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
@@ -3192,7 +6265,7 @@ extension MediaConnectClientTypes {
         public var dataTransferSubscriberFeePercent: Swift.Int?
         /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
         public var description: Swift.String?
-        /// The type of encryption that will be used on the output that is associated with this entitlement.
+        /// The type of encryption that will be used on the output that is associated with this entitlement. Allowable encryption types: static-key, speke.
         public var encryption: MediaConnectClientTypes.Encryption?
         /// An indication of whether the new entitlement should be enabled or disabled as soon as it is created. If you don’t specify the entitlementStatus field in your request, MediaConnect sets it to ENABLED.
         public var entitlementStatus: MediaConnectClientTypes.EntitlementStatus?
@@ -3439,6 +6512,62 @@ extension GrantFlowEntitlementsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension MediaConnectClientTypes.IngressGatewayBridge: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "instanceId"
+        case maxBitrate = "maxBitrate"
+        case maxOutputs = "maxOutputs"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+        if let maxBitrate = self.maxBitrate {
+            try encodeContainer.encode(maxBitrate, forKey: .maxBitrate)
+        }
+        if let maxOutputs = self.maxOutputs {
+            try encodeContainer.encode(maxOutputs, forKey: .maxOutputs)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let maxBitrateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBitrate)
+        maxBitrate = maxBitrateDecoded
+        let maxOutputsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxOutputs)
+        maxOutputs = maxOutputsDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    public struct IngressGatewayBridge: Swift.Equatable {
+        /// The ID of the instance running this bridge.
+        public var instanceId: Swift.String?
+        /// The maximum expected bitrate (in bps) of the ingress bridge.
+        /// This member is required.
+        public var maxBitrate: Swift.Int?
+        /// The maximum number of outputs on the ingress bridge.
+        /// This member is required.
+        public var maxOutputs: Swift.Int?
+
+        public init (
+            instanceId: Swift.String? = nil,
+            maxBitrate: Swift.Int? = nil,
+            maxOutputs: Swift.Int? = nil
+        )
+        {
+            self.instanceId = instanceId
+            self.maxBitrate = maxBitrate
+            self.maxOutputs = maxOutputs
+        }
+    }
+
+}
+
 extension MediaConnectClientTypes.InputConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case inputIp = "inputIp"
@@ -3542,6 +6671,50 @@ extension MediaConnectClientTypes {
         }
     }
 
+}
+
+extension MediaConnectClientTypes {
+    public enum InstanceState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case deregistered
+        case deregistering
+        case deregistrationError
+        case registering
+        case registrationError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceState] {
+            return [
+                .active,
+                .deregistered,
+                .deregistering,
+                .deregistrationError,
+                .registering,
+                .registrationError,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deregistered: return "DEREGISTERED"
+            case .deregistering: return "DEREGISTERING"
+            case .deregistrationError: return "DEREGISTRATION_ERROR"
+            case .registering: return "REGISTERING"
+            case .registrationError: return "REGISTRATION_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InstanceState(rawValue: rawValue) ?? InstanceState.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension MediaConnectClientTypes.Interface: Swift.Codable {
@@ -3702,6 +6875,152 @@ extension MediaConnectClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = KeyType(rawValue: rawValue) ?? KeyType.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension ListBridgesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let filterArn = filterArn {
+                let filterArnQueryItem = ClientRuntime.URLQueryItem(name: "filterArn".urlPercentEncoding(), value: Swift.String(filterArn).urlPercentEncoding())
+                items.append(filterArnQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListBridgesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/v1/bridges"
+    }
+}
+
+public struct ListBridgesInput: Swift.Equatable {
+    /// Filter the list results to display only the bridges associated with the selected Amazon Resource Name (ARN).
+    public var filterArn: Swift.String?
+    /// The maximum number of results to return per API request. For example, you submit a ListBridges request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+    public var maxResults: Swift.Int?
+    /// The token that identifies which batch of results that you want to see. For example, you submit a ListBridges request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListBridges request a second time and specify the NextToken value.
+    public var nextToken: Swift.String?
+
+    public init (
+        filterArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filterArn = filterArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListBridgesInputBody: Swift.Equatable {
+}
+
+extension ListBridgesInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListBridgesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListBridgesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListBridgesOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case internalServerErrorException(InternalServerErrorException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListBridgesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListBridgesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.bridges = output.bridges
+            self.nextToken = output.nextToken
+        } else {
+            self.bridges = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListBridgesOutputResponse: Swift.Equatable {
+    /// A list of bridge summaries.
+    public var bridges: [MediaConnectClientTypes.ListedBridge]?
+    /// The token that identifies which batch of results that you want to see. For example, you submit a ListBridges request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListBridges request a second time and specify the NextToken value.
+    public var nextToken: Swift.String?
+
+    public init (
+        bridges: [MediaConnectClientTypes.ListedBridge]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.bridges = bridges
+        self.nextToken = nextToken
+    }
+}
+
+struct ListBridgesOutputResponseBody: Swift.Equatable {
+    let bridges: [MediaConnectClientTypes.ListedBridge]?
+    let nextToken: Swift.String?
+}
+
+extension ListBridgesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridges = "bridges"
+        case nextToken = "nextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bridgesContainer = try containerValues.decodeIfPresent([MediaConnectClientTypes.ListedBridge?].self, forKey: .bridges)
+        var bridgesDecoded0:[MediaConnectClientTypes.ListedBridge]? = nil
+        if let bridgesContainer = bridgesContainer {
+            bridgesDecoded0 = [MediaConnectClientTypes.ListedBridge]()
+            for structure0 in bridgesContainer {
+                if let structure0 = structure0 {
+                    bridgesDecoded0?.append(structure0)
+                }
+            }
+        }
+        bridges = bridgesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -3972,6 +7291,290 @@ extension ListFlowsOutputResponseBody: Swift.Decodable {
             }
         }
         flows = flowsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListGatewayInstancesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let filterArn = filterArn {
+                let filterArnQueryItem = ClientRuntime.URLQueryItem(name: "filterArn".urlPercentEncoding(), value: Swift.String(filterArn).urlPercentEncoding())
+                items.append(filterArnQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListGatewayInstancesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/v1/gateway-instances"
+    }
+}
+
+public struct ListGatewayInstancesInput: Swift.Equatable {
+    /// Filter the list results to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
+    public var filterArn: Swift.String?
+    /// The maximum number of results to return per API request. For example, you submit a ListInstances request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+    public var maxResults: Swift.Int?
+    /// The token that identifies which batch of results that you want to see. For example, you submit a ListInstances request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListInstances request a second time and specify the NextToken value.
+    public var nextToken: Swift.String?
+
+    public init (
+        filterArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filterArn = filterArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListGatewayInstancesInputBody: Swift.Equatable {
+}
+
+extension ListGatewayInstancesInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListGatewayInstancesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListGatewayInstancesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListGatewayInstancesOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case internalServerErrorException(InternalServerErrorException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListGatewayInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListGatewayInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.instances = output.instances
+            self.nextToken = output.nextToken
+        } else {
+            self.instances = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListGatewayInstancesOutputResponse: Swift.Equatable {
+    /// A list of instance summaries.
+    public var instances: [MediaConnectClientTypes.ListedGatewayInstance]?
+    /// The token that identifies which batch of results that you want to see. For example, you submit a ListInstances request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListInstances request a second time and specify the NextToken value.
+    public var nextToken: Swift.String?
+
+    public init (
+        instances: [MediaConnectClientTypes.ListedGatewayInstance]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.instances = instances
+        self.nextToken = nextToken
+    }
+}
+
+struct ListGatewayInstancesOutputResponseBody: Swift.Equatable {
+    let instances: [MediaConnectClientTypes.ListedGatewayInstance]?
+    let nextToken: Swift.String?
+}
+
+extension ListGatewayInstancesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instances = "instances"
+        case nextToken = "nextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instancesContainer = try containerValues.decodeIfPresent([MediaConnectClientTypes.ListedGatewayInstance?].self, forKey: .instances)
+        var instancesDecoded0:[MediaConnectClientTypes.ListedGatewayInstance]? = nil
+        if let instancesContainer = instancesContainer {
+            instancesDecoded0 = [MediaConnectClientTypes.ListedGatewayInstance]()
+            for structure0 in instancesContainer {
+                if let structure0 = structure0 {
+                    instancesDecoded0?.append(structure0)
+                }
+            }
+        }
+        instances = instancesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListGatewaysInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListGatewaysInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/v1/gateways"
+    }
+}
+
+public struct ListGatewaysInput: Swift.Equatable {
+    /// The maximum number of results to return per API request. For example, you submit a ListGateways request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+    public var maxResults: Swift.Int?
+    /// The token that identifies which batch of results that you want to see. For example, you submit a ListGateways request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListGateways request a second time and specify the NextToken value.
+    public var nextToken: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListGatewaysInputBody: Swift.Equatable {
+}
+
+extension ListGatewaysInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListGatewaysOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListGatewaysOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListGatewaysOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case internalServerErrorException(InternalServerErrorException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListGatewaysOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListGatewaysOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.gateways = output.gateways
+            self.nextToken = output.nextToken
+        } else {
+            self.gateways = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListGatewaysOutputResponse: Swift.Equatable {
+    /// A list of gateway summaries.
+    public var gateways: [MediaConnectClientTypes.ListedGateway]?
+    /// The token that identifies which batch of results that you want to see. For example, you submit a ListGateways request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListGateways request a second time and specify the NextToken value.
+    public var nextToken: Swift.String?
+
+    public init (
+        gateways: [MediaConnectClientTypes.ListedGateway]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.gateways = gateways
+        self.nextToken = nextToken
+    }
+}
+
+struct ListGatewaysOutputResponseBody: Swift.Equatable {
+    let gateways: [MediaConnectClientTypes.ListedGateway]?
+    let nextToken: Swift.String?
+}
+
+extension ListGatewaysOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gateways = "gateways"
+        case nextToken = "nextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gatewaysContainer = try containerValues.decodeIfPresent([MediaConnectClientTypes.ListedGateway?].self, forKey: .gateways)
+        var gatewaysDecoded0:[MediaConnectClientTypes.ListedGateway]? = nil
+        if let gatewaysContainer = gatewaysContainer {
+            gatewaysDecoded0 = [MediaConnectClientTypes.ListedGateway]()
+            for structure0 in gatewaysContainer {
+                if let structure0 = structure0 {
+                    gatewaysDecoded0?.append(structure0)
+                }
+            }
+        }
+        gateways = gatewaysDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -4356,6 +7959,85 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension MediaConnectClientTypes.ListedBridge: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridgeArn = "bridgeArn"
+        case bridgeState = "bridgeState"
+        case bridgeType = "bridgeType"
+        case name = "name"
+        case placementArn = "placementArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bridgeArn = self.bridgeArn {
+            try encodeContainer.encode(bridgeArn, forKey: .bridgeArn)
+        }
+        if let bridgeState = self.bridgeState {
+            try encodeContainer.encode(bridgeState.rawValue, forKey: .bridgeState)
+        }
+        if let bridgeType = self.bridgeType {
+            try encodeContainer.encode(bridgeType, forKey: .bridgeType)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let placementArn = self.placementArn {
+            try encodeContainer.encode(placementArn, forKey: .placementArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bridgeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bridgeArn)
+        bridgeArn = bridgeArnDecoded
+        let bridgeStateDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.BridgeState.self, forKey: .bridgeState)
+        bridgeState = bridgeStateDecoded
+        let bridgeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bridgeType)
+        bridgeType = bridgeTypeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let placementArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .placementArn)
+        placementArn = placementArnDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// Displays details of the selected bridge.
+    public struct ListedBridge: Swift.Equatable {
+        /// The ARN of the bridge.
+        /// This member is required.
+        public var bridgeArn: Swift.String?
+        /// This member is required.
+        public var bridgeState: MediaConnectClientTypes.BridgeState?
+        /// The type of the bridge.
+        /// This member is required.
+        public var bridgeType: Swift.String?
+        /// The name of the bridge.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The ARN of the gateway associated with the bridge.
+        /// This member is required.
+        public var placementArn: Swift.String?
+
+        public init (
+            bridgeArn: Swift.String? = nil,
+            bridgeState: MediaConnectClientTypes.BridgeState? = nil,
+            bridgeType: Swift.String? = nil,
+            name: Swift.String? = nil,
+            placementArn: Swift.String? = nil
+        )
+        {
+            self.bridgeArn = bridgeArn
+            self.bridgeState = bridgeState
+            self.bridgeType = bridgeType
+            self.name = name
+            self.placementArn = placementArn
+        }
+    }
+
+}
+
 extension MediaConnectClientTypes.ListedEntitlement: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
@@ -4509,6 +8191,131 @@ extension MediaConnectClientTypes {
             self.name = name
             self.sourceType = sourceType
             self.status = status
+        }
+    }
+
+}
+
+extension MediaConnectClientTypes.ListedGateway: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gatewayArn = "gatewayArn"
+        case gatewayState = "gatewayState"
+        case name = "name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let gatewayArn = self.gatewayArn {
+            try encodeContainer.encode(gatewayArn, forKey: .gatewayArn)
+        }
+        if let gatewayState = self.gatewayState {
+            try encodeContainer.encode(gatewayState.rawValue, forKey: .gatewayState)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gatewayArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayArn)
+        gatewayArn = gatewayArnDecoded
+        let gatewayStateDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.GatewayState.self, forKey: .gatewayState)
+        gatewayState = gatewayStateDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// Provides a summary of a gateway, including its name, ARN, and status.
+    public struct ListedGateway: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the gateway.
+        /// This member is required.
+        public var gatewayArn: Swift.String?
+        /// This member is required.
+        public var gatewayState: MediaConnectClientTypes.GatewayState?
+        /// The name of the gateway.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init (
+            gatewayArn: Swift.String? = nil,
+            gatewayState: MediaConnectClientTypes.GatewayState? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.gatewayArn = gatewayArn
+            self.gatewayState = gatewayState
+            self.name = name
+        }
+    }
+
+}
+
+extension MediaConnectClientTypes.ListedGatewayInstance: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gatewayArn = "gatewayArn"
+        case gatewayInstanceArn = "gatewayInstanceArn"
+        case instanceId = "instanceId"
+        case instanceState = "instanceState"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let gatewayArn = self.gatewayArn {
+            try encodeContainer.encode(gatewayArn, forKey: .gatewayArn)
+        }
+        if let gatewayInstanceArn = self.gatewayInstanceArn {
+            try encodeContainer.encode(gatewayInstanceArn, forKey: .gatewayInstanceArn)
+        }
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+        if let instanceState = self.instanceState {
+            try encodeContainer.encode(instanceState.rawValue, forKey: .instanceState)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gatewayArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayArn)
+        gatewayArn = gatewayArnDecoded
+        let gatewayInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayInstanceArn)
+        gatewayInstanceArn = gatewayInstanceArnDecoded
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let instanceStateDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.InstanceState.self, forKey: .instanceState)
+        instanceState = instanceStateDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// Provides a summary of an instance.
+    public struct ListedGatewayInstance: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the gateway.
+        /// This member is required.
+        public var gatewayArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the instance.
+        /// This member is required.
+        public var gatewayInstanceArn: Swift.String?
+        /// The managed instance ID generated by the SSM install. This will begin with "mi-".
+        /// This member is required.
+        public var instanceId: Swift.String?
+        /// The status of the instance.
+        public var instanceState: MediaConnectClientTypes.InstanceState?
+
+        public init (
+            gatewayArn: Swift.String? = nil,
+            gatewayInstanceArn: Swift.String? = nil,
+            instanceId: Swift.String? = nil,
+            instanceState: MediaConnectClientTypes.InstanceState? = nil
+        )
+        {
+            self.gatewayArn = gatewayArn
+            self.gatewayInstanceArn = gatewayInstanceArn
+            self.instanceId = instanceId
+            self.instanceState = instanceState
         }
     }
 
@@ -5157,6 +8964,62 @@ extension MediaConnectClientTypes {
     }
 }
 
+extension MediaConnectClientTypes.MessageDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code = "code"
+        case message = "message"
+        case resourceName = "resourceName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let resourceName = self.resourceName {
+            try encodeContainer.encode(resourceName, forKey: .resourceName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    public struct MessageDetail: Swift.Equatable {
+        /// The error code.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The specific error message that MediaConnect returns to help you understand the reason that the request did not succeed.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The name of the resource.
+        public var resourceName: Swift.String?
+
+        public init (
+            code: Swift.String? = nil,
+            message: Swift.String? = nil,
+            resourceName: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.message = message
+            self.resourceName = resourceName
+        }
+    }
+
+}
+
 extension MediaConnectClientTypes.Messages: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errors = "errors"
@@ -5406,6 +9269,8 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes.Output: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridgeArn = "bridgeArn"
+        case bridgePorts = "bridgePorts"
         case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
         case description = "description"
         case destination = "destination"
@@ -5423,6 +9288,15 @@ extension MediaConnectClientTypes.Output: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bridgeArn = self.bridgeArn {
+            try encodeContainer.encode(bridgeArn, forKey: .bridgeArn)
+        }
+        if let bridgePorts = bridgePorts {
+            var bridgePortsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bridgePorts)
+            for __integer0 in bridgePorts {
+                try bridgePortsContainer.encode(__integer0)
+            }
+        }
         if let dataTransferSubscriberFeePercent = self.dataTransferSubscriberFeePercent {
             try encodeContainer.encode(dataTransferSubscriberFeePercent, forKey: .dataTransferSubscriberFeePercent)
         }
@@ -5504,12 +9378,29 @@ extension MediaConnectClientTypes.Output: Swift.Codable {
         transport = transportDecoded
         let vpcInterfaceAttachmentDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.VpcInterfaceAttachment.self, forKey: .vpcInterfaceAttachment)
         vpcInterfaceAttachment = vpcInterfaceAttachmentDecoded
+        let bridgeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bridgeArn)
+        bridgeArn = bridgeArnDecoded
+        let bridgePortsContainer = try containerValues.decodeIfPresent([Swift.Int?].self, forKey: .bridgePorts)
+        var bridgePortsDecoded0:[Swift.Int]? = nil
+        if let bridgePortsContainer = bridgePortsContainer {
+            bridgePortsDecoded0 = [Swift.Int]()
+            for integer0 in bridgePortsContainer {
+                if let integer0 = integer0 {
+                    bridgePortsDecoded0?.append(integer0)
+                }
+            }
+        }
+        bridgePorts = bridgePortsDecoded0
     }
 }
 
 extension MediaConnectClientTypes {
     /// The settings for an output.
     public struct Output: Swift.Equatable {
+        /// The ARN of the bridge that added this output.
+        public var bridgeArn: Swift.String?
+        /// The bridge output ports currently in use.
+        public var bridgePorts: [Swift.Int]?
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public var dataTransferSubscriberFeePercent: Swift.Int?
         /// A description of the output.
@@ -5540,6 +9431,8 @@ extension MediaConnectClientTypes {
         public var vpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment?
 
         public init (
+            bridgeArn: Swift.String? = nil,
+            bridgePorts: [Swift.Int]? = nil,
             dataTransferSubscriberFeePercent: Swift.Int? = nil,
             description: Swift.String? = nil,
             destination: Swift.String? = nil,
@@ -5555,6 +9448,8 @@ extension MediaConnectClientTypes {
             vpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil
         )
         {
+            self.bridgeArn = bridgeArn
+            self.bridgePorts = bridgePorts
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
             self.destination = destination
@@ -5612,6 +9507,7 @@ extension MediaConnectClientTypes {
         case srtCaller
         case srtListener
         case st2110Jpegxs
+        case udp
         case zixiPull
         case zixiPush
         case sdkUnknown(Swift.String)
@@ -5626,6 +9522,7 @@ extension MediaConnectClientTypes {
                 .srtCaller,
                 .srtListener,
                 .st2110Jpegxs,
+                .udp,
                 .zixiPull,
                 .zixiPush,
                 .sdkUnknown("")
@@ -5645,6 +9542,7 @@ extension MediaConnectClientTypes {
             case .srtCaller: return "srt-caller"
             case .srtListener: return "srt-listener"
             case .st2110Jpegxs: return "st2110-jpegxs"
+            case .udp: return "udp"
             case .zixiPull: return "zixi-pull"
             case .zixiPush: return "zixi-push"
             case let .sdkUnknown(s): return s
@@ -5833,6 +9731,250 @@ extension MediaConnectClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = Range(rawValue: rawValue) ?? Range.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension RemoveBridgeOutputInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let bridgeArn = bridgeArn else {
+            return nil
+        }
+        guard let outputName = outputName else {
+            return nil
+        }
+        return "/v1/bridges/\(bridgeArn.urlPercentEncoding())/outputs/\(outputName.urlPercentEncoding())"
+    }
+}
+
+public struct RemoveBridgeOutputInput: Swift.Equatable {
+    /// The ARN of the bridge that you want to update.
+    /// This member is required.
+    public var bridgeArn: Swift.String?
+    /// The name of the bridge output that you want to remove.
+    /// This member is required.
+    public var outputName: Swift.String?
+
+    public init (
+        bridgeArn: Swift.String? = nil,
+        outputName: Swift.String? = nil
+    )
+    {
+        self.bridgeArn = bridgeArn
+        self.outputName = outputName
+    }
+}
+
+struct RemoveBridgeOutputInputBody: Swift.Equatable {
+}
+
+extension RemoveBridgeOutputInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension RemoveBridgeOutputOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension RemoveBridgeOutputOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum RemoveBridgeOutputOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case notFoundException(NotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RemoveBridgeOutputOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: RemoveBridgeOutputOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.bridgeArn = output.bridgeArn
+            self.outputName = output.outputName
+        } else {
+            self.bridgeArn = nil
+            self.outputName = nil
+        }
+    }
+}
+
+public struct RemoveBridgeOutputOutputResponse: Swift.Equatable {
+    public var bridgeArn: Swift.String?
+    public var outputName: Swift.String?
+
+    public init (
+        bridgeArn: Swift.String? = nil,
+        outputName: Swift.String? = nil
+    )
+    {
+        self.bridgeArn = bridgeArn
+        self.outputName = outputName
+    }
+}
+
+struct RemoveBridgeOutputOutputResponseBody: Swift.Equatable {
+    let bridgeArn: Swift.String?
+    let outputName: Swift.String?
+}
+
+extension RemoveBridgeOutputOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridgeArn = "bridgeArn"
+        case outputName = "outputName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bridgeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bridgeArn)
+        bridgeArn = bridgeArnDecoded
+        let outputNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outputName)
+        outputName = outputNameDecoded
+    }
+}
+
+extension RemoveBridgeSourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let bridgeArn = bridgeArn else {
+            return nil
+        }
+        guard let sourceName = sourceName else {
+            return nil
+        }
+        return "/v1/bridges/\(bridgeArn.urlPercentEncoding())/sources/\(sourceName.urlPercentEncoding())"
+    }
+}
+
+public struct RemoveBridgeSourceInput: Swift.Equatable {
+    /// The ARN of the bridge that you want to update.
+    /// This member is required.
+    public var bridgeArn: Swift.String?
+    /// The name of the bridge source that you want to remove.
+    /// This member is required.
+    public var sourceName: Swift.String?
+
+    public init (
+        bridgeArn: Swift.String? = nil,
+        sourceName: Swift.String? = nil
+    )
+    {
+        self.bridgeArn = bridgeArn
+        self.sourceName = sourceName
+    }
+}
+
+struct RemoveBridgeSourceInputBody: Swift.Equatable {
+}
+
+extension RemoveBridgeSourceInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension RemoveBridgeSourceOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension RemoveBridgeSourceOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum RemoveBridgeSourceOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case notFoundException(NotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RemoveBridgeSourceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: RemoveBridgeSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.bridgeArn = output.bridgeArn
+            self.sourceName = output.sourceName
+        } else {
+            self.bridgeArn = nil
+            self.sourceName = nil
+        }
+    }
+}
+
+public struct RemoveBridgeSourceOutputResponse: Swift.Equatable {
+    public var bridgeArn: Swift.String?
+    public var sourceName: Swift.String?
+
+    public init (
+        bridgeArn: Swift.String? = nil,
+        sourceName: Swift.String? = nil
+    )
+    {
+        self.bridgeArn = bridgeArn
+        self.sourceName = sourceName
+    }
+}
+
+struct RemoveBridgeSourceOutputResponseBody: Swift.Equatable {
+    let bridgeArn: Swift.String?
+    let sourceName: Swift.String?
+}
+
+extension RemoveBridgeSourceOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridgeArn = "bridgeArn"
+        case sourceName = "sourceName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bridgeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bridgeArn)
+        bridgeArn = bridgeArnDecoded
+        let sourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceName)
+        sourceName = sourceNameDecoded
     }
 }
 
@@ -6835,11 +10977,58 @@ extension ServiceUnavailableExceptionBody: Swift.Decodable {
     }
 }
 
+extension MediaConnectClientTypes.SetGatewayBridgeSourceRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridgeArn = "bridgeArn"
+        case vpcInterfaceAttachment = "vpcInterfaceAttachment"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bridgeArn = self.bridgeArn {
+            try encodeContainer.encode(bridgeArn, forKey: .bridgeArn)
+        }
+        if let vpcInterfaceAttachment = self.vpcInterfaceAttachment {
+            try encodeContainer.encode(vpcInterfaceAttachment, forKey: .vpcInterfaceAttachment)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bridgeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bridgeArn)
+        bridgeArn = bridgeArnDecoded
+        let vpcInterfaceAttachmentDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.VpcInterfaceAttachment.self, forKey: .vpcInterfaceAttachment)
+        vpcInterfaceAttachment = vpcInterfaceAttachmentDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// The source configuration for cloud flows receiving a stream from a bridge.
+    public struct SetGatewayBridgeSourceRequest: Swift.Equatable {
+        /// The ARN of the bridge feeding this flow.
+        /// This member is required.
+        public var bridgeArn: Swift.String?
+        /// The name of the VPC interface attachment to use for this bridge source.
+        public var vpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment?
+
+        public init (
+            bridgeArn: Swift.String? = nil,
+            vpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil
+        )
+        {
+            self.bridgeArn = bridgeArn
+            self.vpcInterfaceAttachment = vpcInterfaceAttachment
+        }
+    }
+
+}
+
 extension MediaConnectClientTypes.SetSourceRequest: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case decryption = "decryption"
         case description = "description"
         case entitlementArn = "entitlementArn"
+        case gatewayBridgeSource = "gatewayBridgeSource"
         case ingestPort = "ingestPort"
         case maxBitrate = "maxBitrate"
         case maxLatency = "maxLatency"
@@ -6867,6 +11056,9 @@ extension MediaConnectClientTypes.SetSourceRequest: Swift.Codable {
         }
         if let entitlementArn = self.entitlementArn {
             try encodeContainer.encode(entitlementArn, forKey: .entitlementArn)
+        }
+        if let gatewayBridgeSource = self.gatewayBridgeSource {
+            try encodeContainer.encode(gatewayBridgeSource, forKey: .gatewayBridgeSource)
         }
         if let ingestPort = self.ingestPort {
             try encodeContainer.encode(ingestPort, forKey: .ingestPort)
@@ -6965,21 +11157,25 @@ extension MediaConnectClientTypes.SetSourceRequest: Swift.Codable {
         vpcInterfaceName = vpcInterfaceNameDecoded
         let whitelistCidrDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .whitelistCidr)
         whitelistCidr = whitelistCidrDecoded
+        let gatewayBridgeSourceDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.SetGatewayBridgeSourceRequest.self, forKey: .gatewayBridgeSource)
+        gatewayBridgeSource = gatewayBridgeSourceDecoded
     }
 }
 
 extension MediaConnectClientTypes {
     /// The settings for the source of the flow.
     public struct SetSourceRequest: Swift.Equatable {
-        /// The type of encryption that is used on the content ingested from this source.
+        /// The type of encryption that is used on the content ingested from this source. Allowable encryption types: static-key.
         public var decryption: MediaConnectClientTypes.Encryption?
         /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
         public var description: Swift.String?
         /// The ARN of the entitlement that allows you to subscribe to this flow. The entitlement is set by the flow originator, and the ARN is generated as part of the originator's flow.
         public var entitlementArn: Swift.String?
+        /// The source configuration for cloud flows receiving a stream from a bridge.
+        public var gatewayBridgeSource: MediaConnectClientTypes.SetGatewayBridgeSourceRequest?
         /// The port that the flow will be listening on for incoming content.
         public var ingestPort: Swift.Int?
-        /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
+        /// The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
         public var maxBitrate: Swift.Int?
         /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
         public var maxLatency: Swift.Int?
@@ -7001,7 +11197,7 @@ extension MediaConnectClientTypes {
         public var sourceListenerAddress: Swift.String?
         /// Source port for SRT-caller protocol.
         public var sourceListenerPort: Swift.Int?
-        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
+        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
         public var streamId: Swift.String?
         /// The name of the VPC interface to use for this source.
         public var vpcInterfaceName: Swift.String?
@@ -7012,6 +11208,7 @@ extension MediaConnectClientTypes {
             decryption: MediaConnectClientTypes.Encryption? = nil,
             description: Swift.String? = nil,
             entitlementArn: Swift.String? = nil,
+            gatewayBridgeSource: MediaConnectClientTypes.SetGatewayBridgeSourceRequest? = nil,
             ingestPort: Swift.Int? = nil,
             maxBitrate: Swift.Int? = nil,
             maxLatency: Swift.Int? = nil,
@@ -7032,6 +11229,7 @@ extension MediaConnectClientTypes {
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
+            self.gatewayBridgeSource = gatewayBridgeSource
             self.ingestPort = ingestPort
             self.maxBitrate = maxBitrate
             self.maxLatency = maxLatency
@@ -7058,6 +11256,7 @@ extension MediaConnectClientTypes.Source: Swift.Codable {
         case decryption = "decryption"
         case description = "description"
         case entitlementArn = "entitlementArn"
+        case gatewayBridgeSource = "gatewayBridgeSource"
         case ingestIp = "ingestIp"
         case ingestPort = "ingestPort"
         case mediaStreamSourceConfigurations = "mediaStreamSourceConfigurations"
@@ -7083,6 +11282,9 @@ extension MediaConnectClientTypes.Source: Swift.Codable {
         }
         if let entitlementArn = self.entitlementArn {
             try encodeContainer.encode(entitlementArn, forKey: .entitlementArn)
+        }
+        if let gatewayBridgeSource = self.gatewayBridgeSource {
+            try encodeContainer.encode(gatewayBridgeSource, forKey: .gatewayBridgeSource)
         }
         if let ingestIp = self.ingestIp {
             try encodeContainer.encode(ingestIp, forKey: .ingestIp)
@@ -7158,6 +11360,8 @@ extension MediaConnectClientTypes.Source: Swift.Codable {
         vpcInterfaceName = vpcInterfaceNameDecoded
         let whitelistCidrDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .whitelistCidr)
         whitelistCidr = whitelistCidrDecoded
+        let gatewayBridgeSourceDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.GatewayBridgeSource.self, forKey: .gatewayBridgeSource)
+        gatewayBridgeSource = gatewayBridgeSourceDecoded
     }
 }
 
@@ -7172,6 +11376,8 @@ extension MediaConnectClientTypes {
         public var description: Swift.String?
         /// The ARN of the entitlement that allows you to subscribe to content that comes from another AWS account. The entitlement is set by the content originator and the ARN is generated as part of the originator's flow.
         public var entitlementArn: Swift.String?
+        /// The source configuration for cloud flows receiving a stream from a bridge.
+        public var gatewayBridgeSource: MediaConnectClientTypes.GatewayBridgeSource?
         /// The IP address that the flow will be listening on for incoming content.
         public var ingestIp: Swift.String?
         /// The port that the flow will be listening on for incoming content.
@@ -7200,6 +11406,7 @@ extension MediaConnectClientTypes {
             decryption: MediaConnectClientTypes.Encryption? = nil,
             description: Swift.String? = nil,
             entitlementArn: Swift.String? = nil,
+            gatewayBridgeSource: MediaConnectClientTypes.GatewayBridgeSource? = nil,
             ingestIp: Swift.String? = nil,
             ingestPort: Swift.Int? = nil,
             mediaStreamSourceConfigurations: [MediaConnectClientTypes.MediaStreamSourceConfiguration]? = nil,
@@ -7216,6 +11423,7 @@ extension MediaConnectClientTypes {
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
+            self.gatewayBridgeSource = gatewayBridgeSource
             self.ingestIp = ingestIp
             self.ingestPort = ingestPort
             self.mediaStreamSourceConfigurations = mediaStreamSourceConfigurations
@@ -7925,7 +12133,7 @@ extension MediaConnectClientTypes {
     public struct Transport: Swift.Equatable {
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public var cidrAllowList: [Swift.String]?
-        /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
+        /// The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
         public var maxBitrate: Swift.Int?
         /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
         public var maxLatency: Swift.Int?
@@ -7948,7 +12156,7 @@ extension MediaConnectClientTypes {
         public var sourceListenerAddress: Swift.String?
         /// Source port for SRT-caller protocol.
         public var sourceListenerPort: Swift.Int?
-        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
+        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
         public var streamId: Swift.String?
 
         public init (
@@ -8072,6 +12280,829 @@ extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension MediaConnectClientTypes.UpdateBridgeFlowSourceRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flowArn = "flowArn"
+        case flowVpcInterfaceAttachment = "flowVpcInterfaceAttachment"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let flowArn = self.flowArn {
+            try encodeContainer.encode(flowArn, forKey: .flowArn)
+        }
+        if let flowVpcInterfaceAttachment = self.flowVpcInterfaceAttachment {
+            try encodeContainer.encode(flowVpcInterfaceAttachment, forKey: .flowVpcInterfaceAttachment)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flowArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowArn)
+        flowArn = flowArnDecoded
+        let flowVpcInterfaceAttachmentDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.VpcInterfaceAttachment.self, forKey: .flowVpcInterfaceAttachment)
+        flowVpcInterfaceAttachment = flowVpcInterfaceAttachmentDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// Update the flow source of the bridge.
+    public struct UpdateBridgeFlowSourceRequest: Swift.Equatable {
+        /// The ARN of the cloud flow to use as a source of this bridge.
+        public var flowArn: Swift.String?
+        /// The name of the VPC interface attachment to use for this source.
+        public var flowVpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment?
+
+        public init (
+            flowArn: Swift.String? = nil,
+            flowVpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil
+        )
+        {
+            self.flowArn = flowArn
+            self.flowVpcInterfaceAttachment = flowVpcInterfaceAttachment
+        }
+    }
+
+}
+
+extension UpdateBridgeInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case egressGatewayBridge = "egressGatewayBridge"
+        case ingressGatewayBridge = "ingressGatewayBridge"
+        case sourceFailoverConfig = "sourceFailoverConfig"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let egressGatewayBridge = self.egressGatewayBridge {
+            try encodeContainer.encode(egressGatewayBridge, forKey: .egressGatewayBridge)
+        }
+        if let ingressGatewayBridge = self.ingressGatewayBridge {
+            try encodeContainer.encode(ingressGatewayBridge, forKey: .ingressGatewayBridge)
+        }
+        if let sourceFailoverConfig = self.sourceFailoverConfig {
+            try encodeContainer.encode(sourceFailoverConfig, forKey: .sourceFailoverConfig)
+        }
+    }
+}
+
+extension UpdateBridgeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let bridgeArn = bridgeArn else {
+            return nil
+        }
+        return "/v1/bridges/\(bridgeArn.urlPercentEncoding())"
+    }
+}
+
+/// A request to update the bridge.
+public struct UpdateBridgeInput: Swift.Equatable {
+    /// The Amazon Resource Number (ARN) of the bridge that you want to update.
+    /// This member is required.
+    public var bridgeArn: Swift.String?
+    public var egressGatewayBridge: MediaConnectClientTypes.UpdateEgressGatewayBridgeRequest?
+    public var ingressGatewayBridge: MediaConnectClientTypes.UpdateIngressGatewayBridgeRequest?
+    /// The settings for source failover.
+    public var sourceFailoverConfig: MediaConnectClientTypes.UpdateFailoverConfig?
+
+    public init (
+        bridgeArn: Swift.String? = nil,
+        egressGatewayBridge: MediaConnectClientTypes.UpdateEgressGatewayBridgeRequest? = nil,
+        ingressGatewayBridge: MediaConnectClientTypes.UpdateIngressGatewayBridgeRequest? = nil,
+        sourceFailoverConfig: MediaConnectClientTypes.UpdateFailoverConfig? = nil
+    )
+    {
+        self.bridgeArn = bridgeArn
+        self.egressGatewayBridge = egressGatewayBridge
+        self.ingressGatewayBridge = ingressGatewayBridge
+        self.sourceFailoverConfig = sourceFailoverConfig
+    }
+}
+
+struct UpdateBridgeInputBody: Swift.Equatable {
+    let egressGatewayBridge: MediaConnectClientTypes.UpdateEgressGatewayBridgeRequest?
+    let ingressGatewayBridge: MediaConnectClientTypes.UpdateIngressGatewayBridgeRequest?
+    let sourceFailoverConfig: MediaConnectClientTypes.UpdateFailoverConfig?
+}
+
+extension UpdateBridgeInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case egressGatewayBridge = "egressGatewayBridge"
+        case ingressGatewayBridge = "ingressGatewayBridge"
+        case sourceFailoverConfig = "sourceFailoverConfig"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let egressGatewayBridgeDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.UpdateEgressGatewayBridgeRequest.self, forKey: .egressGatewayBridge)
+        egressGatewayBridge = egressGatewayBridgeDecoded
+        let ingressGatewayBridgeDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.UpdateIngressGatewayBridgeRequest.self, forKey: .ingressGatewayBridge)
+        ingressGatewayBridge = ingressGatewayBridgeDecoded
+        let sourceFailoverConfigDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.UpdateFailoverConfig.self, forKey: .sourceFailoverConfig)
+        sourceFailoverConfig = sourceFailoverConfigDecoded
+    }
+}
+
+extension MediaConnectClientTypes.UpdateBridgeNetworkOutputRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ipAddress = "ipAddress"
+        case networkName = "networkName"
+        case port = "port"
+        case `protocol` = "protocol"
+        case ttl = "ttl"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ipAddress = self.ipAddress {
+            try encodeContainer.encode(ipAddress, forKey: .ipAddress)
+        }
+        if let networkName = self.networkName {
+            try encodeContainer.encode(networkName, forKey: .networkName)
+        }
+        if let port = self.port {
+            try encodeContainer.encode(port, forKey: .port)
+        }
+        if let `protocol` = self.`protocol` {
+            try encodeContainer.encode(`protocol`.rawValue, forKey: .`protocol`)
+        }
+        if let ttl = self.ttl {
+            try encodeContainer.encode(ttl, forKey: .ttl)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ipAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddress)
+        ipAddress = ipAddressDecoded
+        let networkNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkName)
+        networkName = networkNameDecoded
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
+        port = portDecoded
+        let protocolDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.ModelProtocol.self, forKey: .protocol)
+        `protocol` = protocolDecoded
+        let ttlDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ttl)
+        ttl = ttlDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// Update an existing network output.
+    public struct UpdateBridgeNetworkOutputRequest: Swift.Equatable {
+        /// The network output IP Address.
+        public var ipAddress: Swift.String?
+        /// The network output's gateway network name.
+        public var networkName: Swift.String?
+        /// The network output port.
+        public var port: Swift.Int?
+        /// The network output protocol.
+        public var `protocol`: MediaConnectClientTypes.ModelProtocol?
+        /// The network output TTL.
+        public var ttl: Swift.Int?
+
+        public init (
+            ipAddress: Swift.String? = nil,
+            networkName: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
+            ttl: Swift.Int? = nil
+        )
+        {
+            self.ipAddress = ipAddress
+            self.networkName = networkName
+            self.port = port
+            self.`protocol` = `protocol`
+            self.ttl = ttl
+        }
+    }
+
+}
+
+extension MediaConnectClientTypes.UpdateBridgeNetworkSourceRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case multicastIp = "multicastIp"
+        case networkName = "networkName"
+        case port = "port"
+        case `protocol` = "protocol"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let multicastIp = self.multicastIp {
+            try encodeContainer.encode(multicastIp, forKey: .multicastIp)
+        }
+        if let networkName = self.networkName {
+            try encodeContainer.encode(networkName, forKey: .networkName)
+        }
+        if let port = self.port {
+            try encodeContainer.encode(port, forKey: .port)
+        }
+        if let `protocol` = self.`protocol` {
+            try encodeContainer.encode(`protocol`.rawValue, forKey: .`protocol`)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let multicastIpDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .multicastIp)
+        multicastIp = multicastIpDecoded
+        let networkNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkName)
+        networkName = networkNameDecoded
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
+        port = portDecoded
+        let protocolDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.ModelProtocol.self, forKey: .protocol)
+        `protocol` = protocolDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// Update the network source of the bridge.
+    public struct UpdateBridgeNetworkSourceRequest: Swift.Equatable {
+        /// The network source multicast IP.
+        public var multicastIp: Swift.String?
+        /// The network source's gateway network name.
+        public var networkName: Swift.String?
+        /// The network source port.
+        public var port: Swift.Int?
+        /// The network source protocol.
+        public var `protocol`: MediaConnectClientTypes.ModelProtocol?
+
+        public init (
+            multicastIp: Swift.String? = nil,
+            networkName: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            `protocol`: MediaConnectClientTypes.ModelProtocol? = nil
+        )
+        {
+            self.multicastIp = multicastIp
+            self.networkName = networkName
+            self.port = port
+            self.`protocol` = `protocol`
+        }
+    }
+
+}
+
+extension UpdateBridgeOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateBridgeOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateBridgeOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case notFoundException(NotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateBridgeOutputInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case networkOutput = "networkOutput"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let networkOutput = self.networkOutput {
+            try encodeContainer.encode(networkOutput, forKey: .networkOutput)
+        }
+    }
+}
+
+extension UpdateBridgeOutputInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let bridgeArn = bridgeArn else {
+            return nil
+        }
+        guard let outputName = outputName else {
+            return nil
+        }
+        return "/v1/bridges/\(bridgeArn.urlPercentEncoding())/outputs/\(outputName.urlPercentEncoding())"
+    }
+}
+
+/// The fields that you want to update in the bridge output.
+public struct UpdateBridgeOutputInput: Swift.Equatable {
+    /// The ARN of the bridge that you want to update.
+    /// This member is required.
+    public var bridgeArn: Swift.String?
+    /// Update an existing network output.
+    public var networkOutput: MediaConnectClientTypes.UpdateBridgeNetworkOutputRequest?
+    /// The name of the bridge output that you want to update.
+    /// This member is required.
+    public var outputName: Swift.String?
+
+    public init (
+        bridgeArn: Swift.String? = nil,
+        networkOutput: MediaConnectClientTypes.UpdateBridgeNetworkOutputRequest? = nil,
+        outputName: Swift.String? = nil
+    )
+    {
+        self.bridgeArn = bridgeArn
+        self.networkOutput = networkOutput
+        self.outputName = outputName
+    }
+}
+
+struct UpdateBridgeOutputInputBody: Swift.Equatable {
+    let networkOutput: MediaConnectClientTypes.UpdateBridgeNetworkOutputRequest?
+}
+
+extension UpdateBridgeOutputInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case networkOutput = "networkOutput"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let networkOutputDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.UpdateBridgeNetworkOutputRequest.self, forKey: .networkOutput)
+        networkOutput = networkOutputDecoded
+    }
+}
+
+extension UpdateBridgeOutputOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateBridgeOutputOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateBridgeOutputOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case notFoundException(NotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateBridgeOutputOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateBridgeOutputOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.bridgeArn = output.bridgeArn
+            self.output = output.output
+        } else {
+            self.bridgeArn = nil
+            self.output = nil
+        }
+    }
+}
+
+public struct UpdateBridgeOutputOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Number (ARN) of the bridge.
+    public var bridgeArn: Swift.String?
+    /// The output that you updated.
+    public var output: MediaConnectClientTypes.BridgeOutput?
+
+    public init (
+        bridgeArn: Swift.String? = nil,
+        output: MediaConnectClientTypes.BridgeOutput? = nil
+    )
+    {
+        self.bridgeArn = bridgeArn
+        self.output = output
+    }
+}
+
+struct UpdateBridgeOutputOutputResponseBody: Swift.Equatable {
+    let bridgeArn: Swift.String?
+    let output: MediaConnectClientTypes.BridgeOutput?
+}
+
+extension UpdateBridgeOutputOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridgeArn = "bridgeArn"
+        case output = "output"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bridgeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bridgeArn)
+        bridgeArn = bridgeArnDecoded
+        let outputDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.BridgeOutput.self, forKey: .output)
+        output = outputDecoded
+    }
+}
+
+extension UpdateBridgeOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateBridgeOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.bridge = output.bridge
+        } else {
+            self.bridge = nil
+        }
+    }
+}
+
+public struct UpdateBridgeOutputResponse: Swift.Equatable {
+    /// A Bridge is the connection between your datacenter's Instances and the AWS cloud. A bridge can be used to send video from the AWS cloud to your datacenter or from your datacenter to the AWS cloud.
+    public var bridge: MediaConnectClientTypes.Bridge?
+
+    public init (
+        bridge: MediaConnectClientTypes.Bridge? = nil
+    )
+    {
+        self.bridge = bridge
+    }
+}
+
+struct UpdateBridgeOutputResponseBody: Swift.Equatable {
+    let bridge: MediaConnectClientTypes.Bridge?
+}
+
+extension UpdateBridgeOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridge = "bridge"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bridgeDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.Bridge.self, forKey: .bridge)
+        bridge = bridgeDecoded
+    }
+}
+
+extension UpdateBridgeSourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flowSource = "flowSource"
+        case networkSource = "networkSource"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let flowSource = self.flowSource {
+            try encodeContainer.encode(flowSource, forKey: .flowSource)
+        }
+        if let networkSource = self.networkSource {
+            try encodeContainer.encode(networkSource, forKey: .networkSource)
+        }
+    }
+}
+
+extension UpdateBridgeSourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let bridgeArn = bridgeArn else {
+            return nil
+        }
+        guard let sourceName = sourceName else {
+            return nil
+        }
+        return "/v1/bridges/\(bridgeArn.urlPercentEncoding())/sources/\(sourceName.urlPercentEncoding())"
+    }
+}
+
+/// The fields that you want to update in the bridge source.
+public struct UpdateBridgeSourceInput: Swift.Equatable {
+    /// The ARN of the bridge that you want to update.
+    /// This member is required.
+    public var bridgeArn: Swift.String?
+    /// Update the flow source of the bridge.
+    public var flowSource: MediaConnectClientTypes.UpdateBridgeFlowSourceRequest?
+    /// Update the network source of the bridge.
+    public var networkSource: MediaConnectClientTypes.UpdateBridgeNetworkSourceRequest?
+    /// The name of the source that you want to update.
+    /// This member is required.
+    public var sourceName: Swift.String?
+
+    public init (
+        bridgeArn: Swift.String? = nil,
+        flowSource: MediaConnectClientTypes.UpdateBridgeFlowSourceRequest? = nil,
+        networkSource: MediaConnectClientTypes.UpdateBridgeNetworkSourceRequest? = nil,
+        sourceName: Swift.String? = nil
+    )
+    {
+        self.bridgeArn = bridgeArn
+        self.flowSource = flowSource
+        self.networkSource = networkSource
+        self.sourceName = sourceName
+    }
+}
+
+struct UpdateBridgeSourceInputBody: Swift.Equatable {
+    let flowSource: MediaConnectClientTypes.UpdateBridgeFlowSourceRequest?
+    let networkSource: MediaConnectClientTypes.UpdateBridgeNetworkSourceRequest?
+}
+
+extension UpdateBridgeSourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flowSource = "flowSource"
+        case networkSource = "networkSource"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flowSourceDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.UpdateBridgeFlowSourceRequest.self, forKey: .flowSource)
+        flowSource = flowSourceDecoded
+        let networkSourceDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.UpdateBridgeNetworkSourceRequest.self, forKey: .networkSource)
+        networkSource = networkSourceDecoded
+    }
+}
+
+extension UpdateBridgeSourceOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateBridgeSourceOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateBridgeSourceOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case notFoundException(NotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateBridgeSourceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateBridgeSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.bridgeArn = output.bridgeArn
+            self.source = output.source
+        } else {
+            self.bridgeArn = nil
+            self.source = nil
+        }
+    }
+}
+
+public struct UpdateBridgeSourceOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Number (ARN) of the bridge.
+    public var bridgeArn: Swift.String?
+    /// The bridge's source.
+    public var source: MediaConnectClientTypes.BridgeSource?
+
+    public init (
+        bridgeArn: Swift.String? = nil,
+        source: MediaConnectClientTypes.BridgeSource? = nil
+    )
+    {
+        self.bridgeArn = bridgeArn
+        self.source = source
+    }
+}
+
+struct UpdateBridgeSourceOutputResponseBody: Swift.Equatable {
+    let bridgeArn: Swift.String?
+    let source: MediaConnectClientTypes.BridgeSource?
+}
+
+extension UpdateBridgeSourceOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridgeArn = "bridgeArn"
+        case source = "source"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bridgeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bridgeArn)
+        bridgeArn = bridgeArnDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.BridgeSource.self, forKey: .source)
+        source = sourceDecoded
+    }
+}
+
+extension UpdateBridgeStateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case desiredState = "desiredState"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let desiredState = self.desiredState {
+            try encodeContainer.encode(desiredState.rawValue, forKey: .desiredState)
+        }
+    }
+}
+
+extension UpdateBridgeStateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let bridgeArn = bridgeArn else {
+            return nil
+        }
+        return "/v1/bridges/\(bridgeArn.urlPercentEncoding())/state"
+    }
+}
+
+/// A request to update the bridge state.
+public struct UpdateBridgeStateInput: Swift.Equatable {
+    /// The ARN of the bridge that you want to update.
+    /// This member is required.
+    public var bridgeArn: Swift.String?
+    /// This member is required.
+    public var desiredState: MediaConnectClientTypes.DesiredState?
+
+    public init (
+        bridgeArn: Swift.String? = nil,
+        desiredState: MediaConnectClientTypes.DesiredState? = nil
+    )
+    {
+        self.bridgeArn = bridgeArn
+        self.desiredState = desiredState
+    }
+}
+
+struct UpdateBridgeStateInputBody: Swift.Equatable {
+    let desiredState: MediaConnectClientTypes.DesiredState?
+}
+
+extension UpdateBridgeStateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case desiredState = "desiredState"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let desiredStateDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.DesiredState.self, forKey: .desiredState)
+        desiredState = desiredStateDecoded
+    }
+}
+
+extension UpdateBridgeStateOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateBridgeStateOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateBridgeStateOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case notFoundException(NotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateBridgeStateOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateBridgeStateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.bridgeArn = output.bridgeArn
+            self.desiredState = output.desiredState
+        } else {
+            self.bridgeArn = nil
+            self.desiredState = nil
+        }
+    }
+}
+
+public struct UpdateBridgeStateOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Number (ARN) of the bridge.
+    public var bridgeArn: Swift.String?
+    /// The state of the bridge. ACTIVE or STANDBY.
+    public var desiredState: MediaConnectClientTypes.DesiredState?
+
+    public init (
+        bridgeArn: Swift.String? = nil,
+        desiredState: MediaConnectClientTypes.DesiredState? = nil
+    )
+    {
+        self.bridgeArn = bridgeArn
+        self.desiredState = desiredState
+    }
+}
+
+struct UpdateBridgeStateOutputResponseBody: Swift.Equatable {
+    let bridgeArn: Swift.String?
+    let desiredState: MediaConnectClientTypes.DesiredState?
+}
+
+extension UpdateBridgeStateOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridgeArn = "bridgeArn"
+        case desiredState = "desiredState"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bridgeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bridgeArn)
+        bridgeArn = bridgeArnDecoded
+        let desiredStateDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.DesiredState.self, forKey: .desiredState)
+        desiredState = desiredStateDecoded
+    }
+}
+
+extension MediaConnectClientTypes.UpdateEgressGatewayBridgeRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxBitrate = "maxBitrate"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxBitrate = self.maxBitrate {
+            try encodeContainer.encode(maxBitrate, forKey: .maxBitrate)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxBitrateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBitrate)
+        maxBitrate = maxBitrateDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    public struct UpdateEgressGatewayBridgeRequest: Swift.Equatable {
+        /// Update an existing egress-type bridge.
+        public var maxBitrate: Swift.Int?
+
+        public init (
+            maxBitrate: Swift.Int? = nil
+        )
+        {
+            self.maxBitrate = maxBitrate
+        }
+    }
+
 }
 
 extension MediaConnectClientTypes.UpdateEncryption: Swift.Codable {
@@ -8297,7 +13328,7 @@ extension UpdateFlowEntitlementInput: ClientRuntime.URLPathProvider {
 public struct UpdateFlowEntitlementInput: Swift.Equatable {
     /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
     public var description: Swift.String?
-    /// The type of encryption that will be used on the output associated with this entitlement.
+    /// The type of encryption that will be used on the output associated with this entitlement. Allowable encryption types: static-key, speke.
     public var encryption: MediaConnectClientTypes.UpdateEncryption?
     /// The ARN of the entitlement that you want to update.
     /// This member is required.
@@ -8838,7 +13869,7 @@ public struct UpdateFlowOutputInput: Swift.Equatable {
     public var description: Swift.String?
     /// The IP address where you want to send the output.
     public var destination: Swift.String?
-    /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
+    /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key). Allowable encryption types: static-key.
     public var encryption: MediaConnectClientTypes.UpdateEncryption?
     /// The flow that is associated with the output that you want to update.
     /// This member is required.
@@ -8864,7 +13895,7 @@ public struct UpdateFlowOutputInput: Swift.Equatable {
     public var senderIpAddress: Swift.String?
     /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
     public var smoothingLatency: Swift.Int?
-    /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
+    /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
     public var streamId: Swift.String?
     /// The name of the VPC interface attachment to use for this output.
     public var vpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment?
@@ -9128,6 +14159,7 @@ extension UpdateFlowSourceInput: Swift.Encodable {
         case decryption = "decryption"
         case description = "description"
         case entitlementArn = "entitlementArn"
+        case gatewayBridgeSource = "gatewayBridgeSource"
         case ingestPort = "ingestPort"
         case maxBitrate = "maxBitrate"
         case maxLatency = "maxLatency"
@@ -9154,6 +14186,9 @@ extension UpdateFlowSourceInput: Swift.Encodable {
         }
         if let entitlementArn = self.entitlementArn {
             try encodeContainer.encode(entitlementArn, forKey: .entitlementArn)
+        }
+        if let gatewayBridgeSource = self.gatewayBridgeSource {
+            try encodeContainer.encode(gatewayBridgeSource, forKey: .gatewayBridgeSource)
         }
         if let ingestPort = self.ingestPort {
             try encodeContainer.encode(ingestPort, forKey: .ingestPort)
@@ -9217,7 +14252,7 @@ extension UpdateFlowSourceInput: ClientRuntime.URLPathProvider {
 
 /// A request to update the source of a flow.
 public struct UpdateFlowSourceInput: Swift.Equatable {
-    /// The type of encryption used on the content ingested from this source.
+    /// The type of encryption used on the content ingested from this source. Allowable encryption types: static-key.
     public var decryption: MediaConnectClientTypes.UpdateEncryption?
     /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
     public var description: Swift.String?
@@ -9226,9 +14261,11 @@ public struct UpdateFlowSourceInput: Swift.Equatable {
     /// The flow that is associated with the source that you want to update.
     /// This member is required.
     public var flowArn: Swift.String?
+    /// The source configuration for cloud flows receiving a stream from a bridge.
+    public var gatewayBridgeSource: MediaConnectClientTypes.UpdateGatewayBridgeSourceRequest?
     /// The port that the flow will be listening on for incoming content.
     public var ingestPort: Swift.Int?
-    /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
+    /// The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
     public var maxBitrate: Swift.Int?
     /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
     public var maxLatency: Swift.Int?
@@ -9251,7 +14288,7 @@ public struct UpdateFlowSourceInput: Swift.Equatable {
     public var sourceListenerAddress: Swift.String?
     /// Source port for SRT-caller protocol.
     public var sourceListenerPort: Swift.Int?
-    /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
+    /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
     public var streamId: Swift.String?
     /// The name of the VPC interface to use for this source.
     public var vpcInterfaceName: Swift.String?
@@ -9263,6 +14300,7 @@ public struct UpdateFlowSourceInput: Swift.Equatable {
         description: Swift.String? = nil,
         entitlementArn: Swift.String? = nil,
         flowArn: Swift.String? = nil,
+        gatewayBridgeSource: MediaConnectClientTypes.UpdateGatewayBridgeSourceRequest? = nil,
         ingestPort: Swift.Int? = nil,
         maxBitrate: Swift.Int? = nil,
         maxLatency: Swift.Int? = nil,
@@ -9284,6 +14322,7 @@ public struct UpdateFlowSourceInput: Swift.Equatable {
         self.description = description
         self.entitlementArn = entitlementArn
         self.flowArn = flowArn
+        self.gatewayBridgeSource = gatewayBridgeSource
         self.ingestPort = ingestPort
         self.maxBitrate = maxBitrate
         self.maxLatency = maxLatency
@@ -9320,6 +14359,7 @@ struct UpdateFlowSourceInputBody: Swift.Equatable {
     let streamId: Swift.String?
     let vpcInterfaceName: Swift.String?
     let whitelistCidr: Swift.String?
+    let gatewayBridgeSource: MediaConnectClientTypes.UpdateGatewayBridgeSourceRequest?
 }
 
 extension UpdateFlowSourceInputBody: Swift.Decodable {
@@ -9327,6 +14367,7 @@ extension UpdateFlowSourceInputBody: Swift.Decodable {
         case decryption = "decryption"
         case description = "description"
         case entitlementArn = "entitlementArn"
+        case gatewayBridgeSource = "gatewayBridgeSource"
         case ingestPort = "ingestPort"
         case maxBitrate = "maxBitrate"
         case maxLatency = "maxLatency"
@@ -9388,6 +14429,8 @@ extension UpdateFlowSourceInputBody: Swift.Decodable {
         vpcInterfaceName = vpcInterfaceNameDecoded
         let whitelistCidrDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .whitelistCidr)
         whitelistCidr = whitelistCidrDecoded
+        let gatewayBridgeSourceDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.UpdateGatewayBridgeSourceRequest.self, forKey: .gatewayBridgeSource)
+        gatewayBridgeSource = gatewayBridgeSourceDecoded
     }
 }
 
@@ -9472,6 +14515,236 @@ extension UpdateFlowSourceOutputResponseBody: Swift.Decodable {
         let sourceDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.Source.self, forKey: .source)
         source = sourceDecoded
     }
+}
+
+extension MediaConnectClientTypes.UpdateGatewayBridgeSourceRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridgeArn = "bridgeArn"
+        case vpcInterfaceAttachment = "vpcInterfaceAttachment"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bridgeArn = self.bridgeArn {
+            try encodeContainer.encode(bridgeArn, forKey: .bridgeArn)
+        }
+        if let vpcInterfaceAttachment = self.vpcInterfaceAttachment {
+            try encodeContainer.encode(vpcInterfaceAttachment, forKey: .vpcInterfaceAttachment)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bridgeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bridgeArn)
+        bridgeArn = bridgeArnDecoded
+        let vpcInterfaceAttachmentDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.VpcInterfaceAttachment.self, forKey: .vpcInterfaceAttachment)
+        vpcInterfaceAttachment = vpcInterfaceAttachmentDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    /// The source configuration for cloud flows receiving a stream from a bridge.
+    public struct UpdateGatewayBridgeSourceRequest: Swift.Equatable {
+        /// The ARN of the bridge feeding this flow.
+        public var bridgeArn: Swift.String?
+        /// The name of the VPC interface attachment to use for this bridge source.
+        public var vpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment?
+
+        public init (
+            bridgeArn: Swift.String? = nil,
+            vpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil
+        )
+        {
+            self.bridgeArn = bridgeArn
+            self.vpcInterfaceAttachment = vpcInterfaceAttachment
+        }
+    }
+
+}
+
+extension UpdateGatewayInstanceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridgePlacement = "bridgePlacement"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bridgePlacement = self.bridgePlacement {
+            try encodeContainer.encode(bridgePlacement.rawValue, forKey: .bridgePlacement)
+        }
+    }
+}
+
+extension UpdateGatewayInstanceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let gatewayInstanceArn = gatewayInstanceArn else {
+            return nil
+        }
+        return "/v1/gateway-instances/\(gatewayInstanceArn.urlPercentEncoding())"
+    }
+}
+
+/// A request to update gateway instance state.
+public struct UpdateGatewayInstanceInput: Swift.Equatable {
+    /// The availability of the instance to host new bridges. The bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can be deployed to this instance. If it is AVAILABLE, new bridges can be added to this instance.
+    public var bridgePlacement: MediaConnectClientTypes.BridgePlacement?
+    /// The Amazon Resource Name (ARN) of the instance that you want to update.
+    /// This member is required.
+    public var gatewayInstanceArn: Swift.String?
+
+    public init (
+        bridgePlacement: MediaConnectClientTypes.BridgePlacement? = nil,
+        gatewayInstanceArn: Swift.String? = nil
+    )
+    {
+        self.bridgePlacement = bridgePlacement
+        self.gatewayInstanceArn = gatewayInstanceArn
+    }
+}
+
+struct UpdateGatewayInstanceInputBody: Swift.Equatable {
+    let bridgePlacement: MediaConnectClientTypes.BridgePlacement?
+}
+
+extension UpdateGatewayInstanceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridgePlacement = "bridgePlacement"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bridgePlacementDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.BridgePlacement.self, forKey: .bridgePlacement)
+        bridgePlacement = bridgePlacementDecoded
+    }
+}
+
+extension UpdateGatewayInstanceOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateGatewayInstanceOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateGatewayInstanceOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case notFoundException(NotFoundException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateGatewayInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateGatewayInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.bridgePlacement = output.bridgePlacement
+            self.gatewayInstanceArn = output.gatewayInstanceArn
+        } else {
+            self.bridgePlacement = nil
+            self.gatewayInstanceArn = nil
+        }
+    }
+}
+
+public struct UpdateGatewayInstanceOutputResponse: Swift.Equatable {
+    /// The availability of the instance to host new bridges. The bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can be deployed to this instance. If it is AVAILABLE, new bridges can be added to this instance.
+    public var bridgePlacement: MediaConnectClientTypes.BridgePlacement?
+    /// The Amazon Resource Name (ARN) of the instance.
+    public var gatewayInstanceArn: Swift.String?
+
+    public init (
+        bridgePlacement: MediaConnectClientTypes.BridgePlacement? = nil,
+        gatewayInstanceArn: Swift.String? = nil
+    )
+    {
+        self.bridgePlacement = bridgePlacement
+        self.gatewayInstanceArn = gatewayInstanceArn
+    }
+}
+
+struct UpdateGatewayInstanceOutputResponseBody: Swift.Equatable {
+    let bridgePlacement: MediaConnectClientTypes.BridgePlacement?
+    let gatewayInstanceArn: Swift.String?
+}
+
+extension UpdateGatewayInstanceOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bridgePlacement = "bridgePlacement"
+        case gatewayInstanceArn = "gatewayInstanceArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bridgePlacementDecoded = try containerValues.decodeIfPresent(MediaConnectClientTypes.BridgePlacement.self, forKey: .bridgePlacement)
+        bridgePlacement = bridgePlacementDecoded
+        let gatewayInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayInstanceArn)
+        gatewayInstanceArn = gatewayInstanceArnDecoded
+    }
+}
+
+extension MediaConnectClientTypes.UpdateIngressGatewayBridgeRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxBitrate = "maxBitrate"
+        case maxOutputs = "maxOutputs"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxBitrate = self.maxBitrate {
+            try encodeContainer.encode(maxBitrate, forKey: .maxBitrate)
+        }
+        if let maxOutputs = self.maxOutputs {
+            try encodeContainer.encode(maxOutputs, forKey: .maxOutputs)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxBitrateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxBitrate)
+        maxBitrate = maxBitrateDecoded
+        let maxOutputsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxOutputs)
+        maxOutputs = maxOutputsDecoded
+    }
+}
+
+extension MediaConnectClientTypes {
+    public struct UpdateIngressGatewayBridgeRequest: Swift.Equatable {
+        /// The maximum expected bitrate (in bps).
+        public var maxBitrate: Swift.Int?
+        /// The maximum number of expected outputs.
+        public var maxOutputs: Swift.Int?
+
+        public init (
+            maxBitrate: Swift.Int? = nil,
+            maxOutputs: Swift.Int? = nil
+        )
+        {
+            self.maxBitrate = maxBitrate
+            self.maxOutputs = maxOutputs
+        }
+    }
+
 }
 
 extension MediaConnectClientTypes.UpdateMaintenance: Swift.Codable {
@@ -9664,9 +14937,9 @@ extension MediaConnectClientTypes.VpcInterfaceAttachment: Swift.Codable {
 }
 
 extension MediaConnectClientTypes {
-    /// The settings for attaching a VPC interface to an output.
+    /// The settings for attaching a VPC interface to an resource.
     public struct VpcInterfaceAttachment: Swift.Equatable {
-        /// The name of the VPC interface to use for this output.
+        /// The name of the VPC interface to use for this resource.
         public var vpcInterfaceName: Swift.String?
 
         public init (

@@ -256,11 +256,13 @@ extension GetRetainedMessageOutputResponse: ClientRuntime.HttpResponseBinding {
             self.payload = output.payload
             self.qos = output.qos
             self.topic = output.topic
+            self.userProperties = output.userProperties
         } else {
             self.lastModifiedTime = 0
             self.payload = nil
             self.qos = 0
             self.topic = nil
+            self.userProperties = nil
         }
     }
 }
@@ -275,18 +277,22 @@ public struct GetRetainedMessageOutputResponse: Swift.Equatable {
     public var qos: Swift.Int
     /// The topic name to which the retained message was published.
     public var topic: Swift.String?
+    /// A base64-encoded JSON string that includes an array of JSON objects, or null if the retained message doesn't include any user properties. The following example userProperties parameter is a JSON string that represents two user properties. Note that it will be base64-encoded: [{"deviceName": "alpha"}, {"deviceCnt": "45"}]
+    public var userProperties: ClientRuntime.Data?
 
     public init (
         lastModifiedTime: Swift.Int = 0,
         payload: ClientRuntime.Data? = nil,
         qos: Swift.Int = 0,
-        topic: Swift.String? = nil
+        topic: Swift.String? = nil,
+        userProperties: ClientRuntime.Data? = nil
     )
     {
         self.lastModifiedTime = lastModifiedTime
         self.payload = payload
         self.qos = qos
         self.topic = topic
+        self.userProperties = userProperties
     }
 }
 
@@ -295,6 +301,7 @@ struct GetRetainedMessageOutputResponseBody: Swift.Equatable {
     let payload: ClientRuntime.Data?
     let qos: Swift.Int
     let lastModifiedTime: Swift.Int
+    let userProperties: ClientRuntime.Data?
 }
 
 extension GetRetainedMessageOutputResponseBody: Swift.Decodable {
@@ -303,6 +310,7 @@ extension GetRetainedMessageOutputResponseBody: Swift.Decodable {
         case payload
         case qos
         case topic
+        case userProperties
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -315,6 +323,8 @@ extension GetRetainedMessageOutputResponseBody: Swift.Decodable {
         qos = qosDecoded
         let lastModifiedTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastModifiedTime) ?? 0
         lastModifiedTime = lastModifiedTimeDecoded
+        let userPropertiesDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .userProperties)
+        userProperties = userPropertiesDecoded
     }
 }
 

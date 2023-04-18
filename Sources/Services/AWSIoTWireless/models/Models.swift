@@ -14108,6 +14108,7 @@ extension IoTWirelessClientTypes.LoRaWANGateway: Swift.Codable {
         case beaconing = "Beaconing"
         case gatewayEui = "GatewayEui"
         case joinEuiFilters = "JoinEuiFilters"
+        case maxEirp = "MaxEirp"
         case netIdFilters = "NetIdFilters"
         case rfRegion = "RfRegion"
         case subBands = "SubBands"
@@ -14129,6 +14130,9 @@ extension IoTWirelessClientTypes.LoRaWANGateway: Swift.Codable {
                     try joineuirange0Container.encode(joineui1)
                 }
             }
+        }
+        if let maxEirp = self.maxEirp {
+            try encodeContainer.encode(maxEirp, forKey: .maxEirp)
         }
         if let netIdFilters = netIdFilters {
             var netIdFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .netIdFilters)
@@ -14197,6 +14201,8 @@ extension IoTWirelessClientTypes.LoRaWANGateway: Swift.Codable {
         subBands = subBandsDecoded0
         let beaconingDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.Beaconing.self, forKey: .beaconing)
         beaconing = beaconingDecoded
+        let maxEirpDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .maxEirp)
+        maxEirp = maxEirpDecoded
     }
 }
 
@@ -14209,6 +14215,8 @@ extension IoTWirelessClientTypes {
         public var gatewayEui: Swift.String?
         /// A list of JoinEuiRange used by LoRa gateways to filter LoRa frames.
         public var joinEuiFilters: [[Swift.String]]?
+        /// The MaxEIRP value.
+        public var maxEirp: Swift.Float?
         /// A list of NetId values that are used by LoRa gateways to filter the uplink frames.
         public var netIdFilters: [Swift.String]?
         /// The frequency band (RFRegion) value.
@@ -14220,6 +14228,7 @@ extension IoTWirelessClientTypes {
             beaconing: IoTWirelessClientTypes.Beaconing? = nil,
             gatewayEui: Swift.String? = nil,
             joinEuiFilters: [[Swift.String]]? = nil,
+            maxEirp: Swift.Float? = nil,
             netIdFilters: [Swift.String]? = nil,
             rfRegion: Swift.String? = nil,
             subBands: [Swift.Int]? = nil
@@ -14228,6 +14237,7 @@ extension IoTWirelessClientTypes {
             self.beaconing = beaconing
             self.gatewayEui = gatewayEui
             self.joinEuiFilters = joinEuiFilters
+            self.maxEirp = maxEirp
             self.netIdFilters = netIdFilters
             self.rfRegion = rfRegion
             self.subBands = subBands
@@ -14850,6 +14860,7 @@ extension IoTWirelessClientTypes.LoRaWANMulticastSession: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dlDr = "DlDr"
         case dlFreq = "DlFreq"
+        case pingSlotPeriod = "PingSlotPeriod"
         case sessionStartTime = "SessionStartTime"
         case sessionTimeout = "SessionTimeout"
     }
@@ -14861,6 +14872,9 @@ extension IoTWirelessClientTypes.LoRaWANMulticastSession: Swift.Codable {
         }
         if let dlFreq = self.dlFreq {
             try encodeContainer.encode(dlFreq, forKey: .dlFreq)
+        }
+        if let pingSlotPeriod = self.pingSlotPeriod {
+            try encodeContainer.encode(pingSlotPeriod, forKey: .pingSlotPeriod)
         }
         if let sessionStartTime = self.sessionStartTime {
             try encodeContainer.encodeTimestamp(sessionStartTime, format: .dateTime, forKey: .sessionStartTime)
@@ -14880,6 +14894,8 @@ extension IoTWirelessClientTypes.LoRaWANMulticastSession: Swift.Codable {
         sessionStartTime = sessionStartTimeDecoded
         let sessionTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sessionTimeout)
         sessionTimeout = sessionTimeoutDecoded
+        let pingSlotPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pingSlotPeriod)
+        pingSlotPeriod = pingSlotPeriodDecoded
     }
 }
 
@@ -14890,6 +14906,8 @@ extension IoTWirelessClientTypes {
         public var dlDr: Swift.Int?
         /// Downlink frequency.
         public var dlFreq: Swift.Int?
+        /// The PingSlotPeriod value.
+        public var pingSlotPeriod: Swift.Int?
         /// Timestamp of when the multicast group session is to start.
         public var sessionStartTime: ClientRuntime.Date?
         /// How long before a multicast group session is to timeout.
@@ -14898,12 +14916,14 @@ extension IoTWirelessClientTypes {
         public init (
             dlDr: Swift.Int? = nil,
             dlFreq: Swift.Int? = nil,
+            pingSlotPeriod: Swift.Int? = nil,
             sessionStartTime: ClientRuntime.Date? = nil,
             sessionTimeout: Swift.Int? = nil
         )
         {
             self.dlDr = dlDr
             self.dlFreq = dlFreq
+            self.pingSlotPeriod = pingSlotPeriod
             self.sessionStartTime = sessionStartTime
             self.sessionTimeout = sessionTimeout
         }
@@ -14961,6 +14981,8 @@ extension IoTWirelessClientTypes.LoRaWANServiceProfile: Swift.Codable {
         case addGwMetadata = "AddGwMetadata"
         case drMax = "DrMax"
         case drMin = "DrMin"
+        case prAllowed = "PrAllowed"
+        case raAllowed = "RaAllowed"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -14974,6 +14996,12 @@ extension IoTWirelessClientTypes.LoRaWANServiceProfile: Swift.Codable {
         if let drMin = self.drMin {
             try encodeContainer.encode(drMin, forKey: .drMin)
         }
+        if prAllowed != false {
+            try encodeContainer.encode(prAllowed, forKey: .prAllowed)
+        }
+        if raAllowed != false {
+            try encodeContainer.encode(raAllowed, forKey: .raAllowed)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -14984,6 +15012,10 @@ extension IoTWirelessClientTypes.LoRaWANServiceProfile: Swift.Codable {
         drMin = drMinDecoded
         let drMaxDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .drMax)
         drMax = drMaxDecoded
+        let prAllowedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .prAllowed) ?? false
+        prAllowed = prAllowedDecoded
+        let raAllowedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .raAllowed) ?? false
+        raAllowed = raAllowedDecoded
     }
 }
 
@@ -14996,16 +15028,24 @@ extension IoTWirelessClientTypes {
         public var drMax: Swift.Int?
         /// The DrMin value.
         public var drMin: Swift.Int?
+        /// The PRAllowed value that describes whether passive roaming is allowed.
+        public var prAllowed: Swift.Bool
+        /// The RAAllowed value that describes whether roaming activation is allowed.
+        public var raAllowed: Swift.Bool
 
         public init (
             addGwMetadata: Swift.Bool = false,
             drMax: Swift.Int? = nil,
-            drMin: Swift.Int? = nil
+            drMin: Swift.Int? = nil,
+            prAllowed: Swift.Bool = false,
+            raAllowed: Swift.Bool = false
         )
         {
             self.addGwMetadata = addGwMetadata
             self.drMax = drMax
             self.drMin = drMin
+            self.prAllowed = prAllowed
+            self.raAllowed = raAllowed
         }
     }
 
@@ -21944,6 +21984,7 @@ extension UpdateWirelessGatewayInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
         case joinEuiFilters = "JoinEuiFilters"
+        case maxEirp = "MaxEirp"
         case name = "Name"
         case netIdFilters = "NetIdFilters"
     }
@@ -21961,6 +22002,9 @@ extension UpdateWirelessGatewayInput: Swift.Encodable {
                     try joineuirange0Container.encode(joineui1)
                 }
             }
+        }
+        if let maxEirp = self.maxEirp {
+            try encodeContainer.encode(maxEirp, forKey: .maxEirp)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -21991,6 +22035,8 @@ public struct UpdateWirelessGatewayInput: Swift.Equatable {
     public var id: Swift.String?
     /// A list of JoinEuiRange used by LoRa gateways to filter LoRa frames.
     public var joinEuiFilters: [[Swift.String]]?
+    /// The MaxEIRP value.
+    public var maxEirp: Swift.Float?
     /// The new name of the resource.
     public var name: Swift.String?
     /// A list of NetId values that are used by LoRa gateways to filter the uplink frames.
@@ -22000,6 +22046,7 @@ public struct UpdateWirelessGatewayInput: Swift.Equatable {
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         joinEuiFilters: [[Swift.String]]? = nil,
+        maxEirp: Swift.Float? = nil,
         name: Swift.String? = nil,
         netIdFilters: [Swift.String]? = nil
     )
@@ -22007,6 +22054,7 @@ public struct UpdateWirelessGatewayInput: Swift.Equatable {
         self.description = description
         self.id = id
         self.joinEuiFilters = joinEuiFilters
+        self.maxEirp = maxEirp
         self.name = name
         self.netIdFilters = netIdFilters
     }
@@ -22017,12 +22065,14 @@ struct UpdateWirelessGatewayInputBody: Swift.Equatable {
     let description: Swift.String?
     let joinEuiFilters: [[Swift.String]]?
     let netIdFilters: [Swift.String]?
+    let maxEirp: Swift.Float?
 }
 
 extension UpdateWirelessGatewayInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
         case joinEuiFilters = "JoinEuiFilters"
+        case maxEirp = "MaxEirp"
         case name = "Name"
         case netIdFilters = "NetIdFilters"
     }
@@ -22064,6 +22114,8 @@ extension UpdateWirelessGatewayInputBody: Swift.Decodable {
             }
         }
         netIdFilters = netIdFiltersDecoded0
+        let maxEirpDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .maxEirp)
+        maxEirp = maxEirpDecoded
     }
 }
 
