@@ -408,9 +408,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-gov-east-1",
                         "name": "sigv4",
-                        "signingName": "greengrass"
+                        "signingName": "greengrass",
+                        "signingRegion": "us-gov-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -436,9 +436,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-gov-west-1",
                         "name": "sigv4",
-                        "signingName": "greengrass"
+                        "signingName": "greengrass",
+                        "signingRegion": "us-gov-west-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]

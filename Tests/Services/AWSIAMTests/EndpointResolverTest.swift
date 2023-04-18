@@ -28,9 +28,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
                         "name": "sigv4",
-                        "signingName": "iam"
+                        "signingName": "iam",
+                        "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -56,9 +56,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
                         "name": "sigv4",
-                        "signingName": "iam"
+                        "signingName": "iam",
+                        "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -104,9 +104,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
                         "name": "sigv4",
-                        "signingName": "iam"
+                        "signingName": "iam",
+                        "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -152,9 +152,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
                         "name": "sigv4",
-                        "signingName": "iam"
+                        "signingName": "iam",
+                        "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -180,9 +180,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "cn-north-1",
                         "name": "sigv4",
-                        "signingName": "iam"
+                        "signingName": "iam",
+                        "signingRegion": "cn-north-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -268,9 +268,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "cn-north-1",
                         "name": "sigv4",
-                        "signingName": "iam"
+                        "signingName": "iam",
+                        "signingRegion": "cn-north-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -296,9 +296,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-gov-west-1",
                         "name": "sigv4",
-                        "signingName": "iam"
+                        "signingName": "iam",
+                        "signingRegion": "us-gov-west-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -324,9 +324,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-gov-west-1",
                         "name": "sigv4",
-                        "signingName": "iam"
+                        "signingName": "iam",
+                        "signingRegion": "us-gov-west-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -372,9 +372,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-gov-west-1",
                         "name": "sigv4",
-                        "signingName": "iam"
+                        "signingName": "iam",
+                        "signingRegion": "us-gov-west-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -420,9 +420,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-gov-west-1",
                         "name": "sigv4",
-                        "signingName": "iam"
+                        "signingName": "iam",
+                        "signingRegion": "us-gov-west-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -448,9 +448,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-iso-east-1",
                         "name": "sigv4",
-                        "signingName": "iam"
+                        "signingName": "iam",
+                        "signingRegion": "us-iso-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -534,9 +534,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-iso-east-1",
                         "name": "sigv4",
-                        "signingName": "iam"
+                        "signingName": "iam",
+                        "signingRegion": "us-iso-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -562,9 +562,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-isob-east-1",
                         "name": "sigv4",
-                        "signingName": "iam"
+                        "signingName": "iam",
+                        "signingRegion": "us-isob-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -648,9 +648,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-isob-east-1",
                         "name": "sigv4",
-                        "signingName": "iam"
+                        "signingName": "iam",
+                        "signingRegion": "us-isob-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
