@@ -8026,14 +8026,8 @@ public enum GetCoverageStatisticsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCoverageStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-<<<<<<< HEAD
-        if case .stream(let reader) = httpResponse.body,
-            let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
-=======
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
->>>>>>> e9e9f86da6 (chore: regen models)
             let output: GetCoverageStatisticsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coverageStatistics = output.coverageStatistics
         } else {
@@ -11440,14 +11434,8 @@ public enum ListCoverageOutputError: Swift.Error, Swift.Equatable {
 
 extension ListCoverageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-<<<<<<< HEAD
-        if case .stream(let reader) = httpResponse.body,
-            let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
-=======
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
->>>>>>> e9e9f86da6 (chore: regen models)
             let output: ListCoverageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.resources = output.resources

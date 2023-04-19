@@ -10860,9 +10860,8 @@ public enum CreateRefreshScheduleOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateRefreshScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateRefreshScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.requestId = output.requestId
@@ -18740,9 +18739,8 @@ public enum DeleteDataSetRefreshPropertiesOutputError: Swift.Error, Swift.Equata
 
 extension DeleteDataSetRefreshPropertiesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteDataSetRefreshPropertiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.requestId = output.requestId
         } else {
@@ -19818,9 +19816,8 @@ public enum DeleteRefreshScheduleOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteRefreshScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteRefreshScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.requestId = output.requestId
@@ -22634,9 +22631,8 @@ public enum DescribeDataSetRefreshPropertiesOutputError: Swift.Error, Swift.Equa
 
 extension DescribeDataSetRefreshPropertiesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDataSetRefreshPropertiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dataSetRefreshProperties = output.dataSetRefreshProperties
             self.requestId = output.requestId
@@ -24349,9 +24345,8 @@ public enum DescribeRefreshScheduleOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeRefreshScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeRefreshScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.refreshSchedule = output.refreshSchedule
@@ -40875,9 +40870,8 @@ public enum ListRefreshSchedulesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRefreshSchedulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRefreshSchedulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.refreshSchedules = output.refreshSchedules
             self.requestId = output.requestId
@@ -48758,9 +48752,8 @@ public enum PutDataSetRefreshPropertiesOutputError: Swift.Error, Swift.Equatable
 
 extension PutDataSetRefreshPropertiesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutDataSetRefreshPropertiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.requestId = output.requestId
         } else {
@@ -67432,9 +67425,8 @@ public enum UpdateRefreshScheduleOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateRefreshScheduleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateRefreshScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.requestId = output.requestId

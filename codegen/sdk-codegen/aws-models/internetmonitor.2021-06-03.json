@@ -150,7 +150,6 @@
                     "target": "com.amazonaws.internetmonitor#MaxCityNetworksToMonitor",
                     "traits": {
                         "smithy.api#default": 0,
-<<<<<<< HEAD
                         "smithy.api#documentation": "<p>The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and \n\t\t\tthe network or ASN, such as an internet service provider (ISP), that clients access the resources through. This limit helps control billing costs.</p>\n         <p>To learn more, see <a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html\">Choosing a city-network maximum value\n\t\t</a> in the Amazon CloudWatch Internet Monitor section of the <i>CloudWatch User Guide</i>.</p>"
                     }
                 },
@@ -165,16 +164,6 @@
                     "traits": {
                         "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The percentage of the internet-facing traffic for your application that you want to monitor with this monitor.</p>"
-=======
-                        "smithy.api#documentation": "<p>The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and \n\t\t\tthe network or ASN, such as an internet service provider (ISP), that clients access the resources through. This limit helps control billing costs.</p>\n         <p>To learn more, see <a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html\">Choosing a city-network maximum value\n\t\t</a> in the Amazon CloudWatch Internet Monitor section of the <i>CloudWatch User Guide</i>.</p>",
-                        "smithy.api#required": {}
->>>>>>> e9e9f86da6 (chore: regen models)
-                    }
-                },
-                "InternetMeasurementsLogDelivery": {
-                    "target": "com.amazonaws.internetmonitor#InternetMeasurementsLogDelivery",
-                    "traits": {
-                        "smithy.api#documentation": "<p>Publish internet measurements for Internet Monitor to another location, such as an Amazon S3 bucket. The measurements are also published to Amazon CloudWatch Logs.</p>"
                     }
                 }
             }
@@ -487,7 +476,6 @@
                     "target": "com.amazonaws.internetmonitor#MaxCityNetworksToMonitor",
                     "traits": {
                         "smithy.api#default": 0,
-<<<<<<< HEAD
                         "smithy.api#documentation": "<p>The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and \n\t\t\tthe network or ASN, such as an internet service provider (ISP), that clients access the resources through. This limit helps control billing costs.</p>\n         <p>To learn more, see <a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html\">Choosing a city-network maximum value\n\t\t</a> in the Amazon CloudWatch Internet Monitor section of the <i>CloudWatch User Guide</i>.</p>"
                     }
                 },
@@ -502,16 +490,6 @@
                     "traits": {
                         "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The percentage of the internet-facing traffic for your application that you want to monitor with this monitor.</p>"
-=======
-                        "smithy.api#documentation": "<p>The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and \n\t\t\tthe network or ASN, such as an internet service provider (ISP), that clients access the resources through. This limit helps control billing costs.</p>\n         <p>To learn more, see <a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html\">Choosing a city-network maximum value\n\t\t</a> in the Amazon CloudWatch Internet Monitor section of the <i>CloudWatch User Guide</i>.</p>",
-                        "smithy.api#required": {}
->>>>>>> e9e9f86da6 (chore: regen models)
-                    }
-                },
-                "InternetMeasurementsLogDelivery": {
-                    "target": "com.amazonaws.internetmonitor#InternetMeasurementsLogDelivery",
-                    "traits": {
-                        "smithy.api#documentation": "<p>Publish internet measurements for Internet Monitor to another location, such as an Amazon S3 bucket. The measurements are also published to Amazon CloudWatch Logs.</p>"
                     }
                 }
             }
@@ -825,11 +803,7 @@
                 }
             },
             "traits": {
-<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Publish internet measurements to an Amazon S3 bucket in addition to CloudWatch Logs.</p>"
-=======
-                "smithy.api#documentation": "<p>Configuration information for other locations that you choose to publish Amazon CloudWatch Internet Monitor internet measurements to, such as Amazon S3. \n\t\t\tThe measurements are also published to Amazon CloudWatch Logs.</p>"
->>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.internetmonitor#InternetMonitor20210603": {
@@ -2260,7 +2234,6 @@
                     "target": "com.amazonaws.internetmonitor#InternetMeasurementsLogDelivery",
                     "traits": {
                         "smithy.api#documentation": "<p>Publish internet measurements for Internet Monitor to another location, such as an Amazon S3 bucket. The measurements are also published to Amazon CloudWatch Logs.</p>"
-<<<<<<< HEAD
                     }
                 },
                 "TrafficPercentageToMonitor": {
@@ -2268,8 +2241,6 @@
                     "traits": {
                         "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The percentage of the internet-facing traffic for your application that you want to monitor with this monitor.</p>"
-=======
->>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 }
             }

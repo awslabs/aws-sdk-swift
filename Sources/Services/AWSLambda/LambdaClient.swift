@@ -1452,6 +1452,7 @@ extension LambdaClient: LambdaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lambda")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutputResponse, InvokeWithResponseStreamOutputError>(id: "invokeWithResponseStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutputResponse, InvokeWithResponseStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutputResponse>())
@@ -1469,7 +1470,7 @@ extension LambdaClient: LambdaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InvokeWithResponseStreamOutputResponse, InvokeWithResponseStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InvokeWithResponseStreamOutputResponse, InvokeWithResponseStreamOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InvokeWithResponseStreamOutputResponse, InvokeWithResponseStreamOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

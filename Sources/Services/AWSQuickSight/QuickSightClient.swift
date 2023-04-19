@@ -704,6 +704,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRefreshScheduleInput, CreateRefreshScheduleOutputResponse, CreateRefreshScheduleOutputError>(id: "createRefreshSchedule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRefreshScheduleInput, CreateRefreshScheduleOutputResponse, CreateRefreshScheduleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRefreshScheduleInput, CreateRefreshScheduleOutputResponse>())
@@ -719,7 +720,7 @@ extension QuickSightClient: QuickSightClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRefreshScheduleOutputResponse, CreateRefreshScheduleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRefreshScheduleOutputResponse, CreateRefreshScheduleOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRefreshScheduleOutputResponse, CreateRefreshScheduleOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1051,6 +1052,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDataSetRefreshPropertiesInput, DeleteDataSetRefreshPropertiesOutputResponse, DeleteDataSetRefreshPropertiesOutputError>(id: "deleteDataSetRefreshProperties")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDataSetRefreshPropertiesInput, DeleteDataSetRefreshPropertiesOutputResponse, DeleteDataSetRefreshPropertiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDataSetRefreshPropertiesInput, DeleteDataSetRefreshPropertiesOutputResponse>())
@@ -1063,7 +1065,7 @@ extension QuickSightClient: QuickSightClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDataSetRefreshPropertiesOutputResponse, DeleteDataSetRefreshPropertiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDataSetRefreshPropertiesOutputResponse, DeleteDataSetRefreshPropertiesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDataSetRefreshPropertiesOutputResponse, DeleteDataSetRefreshPropertiesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1314,6 +1316,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRefreshScheduleInput, DeleteRefreshScheduleOutputResponse, DeleteRefreshScheduleOutputError>(id: "deleteRefreshSchedule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRefreshScheduleInput, DeleteRefreshScheduleOutputResponse, DeleteRefreshScheduleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRefreshScheduleInput, DeleteRefreshScheduleOutputResponse>())
@@ -1326,7 +1329,7 @@ extension QuickSightClient: QuickSightClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRefreshScheduleOutputResponse, DeleteRefreshScheduleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRefreshScheduleOutputResponse, DeleteRefreshScheduleOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRefreshScheduleOutputResponse, DeleteRefreshScheduleOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1929,6 +1932,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDataSetRefreshPropertiesInput, DescribeDataSetRefreshPropertiesOutputResponse, DescribeDataSetRefreshPropertiesOutputError>(id: "describeDataSetRefreshProperties")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDataSetRefreshPropertiesInput, DescribeDataSetRefreshPropertiesOutputResponse, DescribeDataSetRefreshPropertiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDataSetRefreshPropertiesInput, DescribeDataSetRefreshPropertiesOutputResponse>())
@@ -1941,7 +1945,7 @@ extension QuickSightClient: QuickSightClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDataSetRefreshPropertiesOutputResponse, DescribeDataSetRefreshPropertiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDataSetRefreshPropertiesOutputResponse, DescribeDataSetRefreshPropertiesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDataSetRefreshPropertiesOutputResponse, DescribeDataSetRefreshPropertiesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2324,6 +2328,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeRefreshScheduleInput, DescribeRefreshScheduleOutputResponse, DescribeRefreshScheduleOutputError>(id: "describeRefreshSchedule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRefreshScheduleInput, DescribeRefreshScheduleOutputResponse, DescribeRefreshScheduleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRefreshScheduleInput, DescribeRefreshScheduleOutputResponse>())
@@ -2336,7 +2341,7 @@ extension QuickSightClient: QuickSightClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRefreshScheduleOutputResponse, DescribeRefreshScheduleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRefreshScheduleOutputResponse, DescribeRefreshScheduleOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRefreshScheduleOutputResponse, DescribeRefreshScheduleOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3243,6 +3248,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRefreshSchedulesInput, ListRefreshSchedulesOutputResponse, ListRefreshSchedulesOutputError>(id: "listRefreshSchedules")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRefreshSchedulesInput, ListRefreshSchedulesOutputResponse, ListRefreshSchedulesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRefreshSchedulesInput, ListRefreshSchedulesOutputResponse>())
@@ -3255,7 +3261,7 @@ extension QuickSightClient: QuickSightClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRefreshSchedulesOutputResponse, ListRefreshSchedulesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRefreshSchedulesOutputResponse, ListRefreshSchedulesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRefreshSchedulesOutputResponse, ListRefreshSchedulesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3580,6 +3586,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutDataSetRefreshPropertiesInput, PutDataSetRefreshPropertiesOutputResponse, PutDataSetRefreshPropertiesOutputError>(id: "putDataSetRefreshProperties")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutDataSetRefreshPropertiesInput, PutDataSetRefreshPropertiesOutputResponse, PutDataSetRefreshPropertiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutDataSetRefreshPropertiesInput, PutDataSetRefreshPropertiesOutputResponse>())
@@ -3595,7 +3602,7 @@ extension QuickSightClient: QuickSightClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutDataSetRefreshPropertiesOutputResponse, PutDataSetRefreshPropertiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutDataSetRefreshPropertiesOutputResponse, PutDataSetRefreshPropertiesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutDataSetRefreshPropertiesOutputResponse, PutDataSetRefreshPropertiesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4585,6 +4592,7 @@ extension QuickSightClient: QuickSightClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "quicksight")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateRefreshScheduleInput, UpdateRefreshScheduleOutputResponse, UpdateRefreshScheduleOutputError>(id: "updateRefreshSchedule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRefreshScheduleInput, UpdateRefreshScheduleOutputResponse, UpdateRefreshScheduleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRefreshScheduleInput, UpdateRefreshScheduleOutputResponse>())
@@ -4600,7 +4608,7 @@ extension QuickSightClient: QuickSightClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRefreshScheduleOutputResponse, UpdateRefreshScheduleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRefreshScheduleOutputResponse, UpdateRefreshScheduleOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRefreshScheduleOutputResponse, UpdateRefreshScheduleOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

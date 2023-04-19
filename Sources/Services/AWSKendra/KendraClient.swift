@@ -340,42 +340,6 @@ extension KendraClient: KendraClientProtocol {
         return result
     }
 
-    /// Removes one or more sets of featured results. Features results are placed above all other results for certain queries. If there's an exact match of a query, then one or more specific documents are featured in the search results.
-    public func batchDeleteFeaturedResultsSet(input: BatchDeleteFeaturedResultsSetInput) async throws -> BatchDeleteFeaturedResultsSetOutputResponse
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "batchDeleteFeaturedResultsSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "kendra")
-                      .withSigningRegion(value: config.signingRegion)
-        var operation = ClientRuntime.OperationStack<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutputResponse, BatchDeleteFeaturedResultsSetOutputError>(id: "batchDeleteFeaturedResultsSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutputResponse, BatchDeleteFeaturedResultsSetOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDeleteFeaturedResultsSetOutputResponse, BatchDeleteFeaturedResultsSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutputResponse>(xAmzTarget: "AWSKendraFrontendService.BatchDeleteFeaturedResultsSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutputResponse>(xmlName: "BatchDeleteFeaturedResultsSetRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchDeleteFeaturedResultsSetInput, BatchDeleteFeaturedResultsSetOutputResponse>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<BatchDeleteFeaturedResultsSetOutputResponse, BatchDeleteFeaturedResultsSetOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeleteFeaturedResultsSetOutputResponse, BatchDeleteFeaturedResultsSetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteFeaturedResultsSetOutputResponse, BatchDeleteFeaturedResultsSetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteFeaturedResultsSetOutputResponse, BatchDeleteFeaturedResultsSetOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-        return result
-    }
-
     /// Returns the indexing status for one or more documents submitted with the [ BatchPutDocument](https://docs.aws.amazon.com/kendra/latest/dg/API_BatchPutDocument.html) API. When you use the BatchPutDocument API, documents are indexed asynchronously. You can use the BatchGetDocumentStatus API to get the current status of a list of documents so that you can determine if they have been successfully indexed. You can also use the BatchGetDocumentStatus API to check the status of the [ BatchDeleteDocument](https://docs.aws.amazon.com/kendra/latest/dg/API_BatchDeleteDocument.html) API. When a document is deleted from the index, Amazon Kendra returns NOT_FOUND as the status.
     public func batchGetDocumentStatus(input: BatchGetDocumentStatusInput) async throws -> BatchGetDocumentStatusOutputResponse
     {
@@ -701,42 +665,6 @@ extension KendraClient: KendraClientProtocol {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFeaturedResultsSetOutputResponse, CreateFeaturedResultsSetOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFeaturedResultsSetOutputResponse, CreateFeaturedResultsSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
-    /// Creates a set of featured results to display at the top of the search results page. Featured results are placed above all other results for certain queries. You map specific queries to specific documents for featuring in the results. If a query contains an exact match, then one or more specific documents are featured in the search results. You can create up to 50 sets of featured results per index. You can request to increase this limit by contacting [Support](http://aws.amazon.com/contact-us/).
-    public func createFeaturedResultsSet(input: CreateFeaturedResultsSetInput) async throws -> CreateFeaturedResultsSetOutputResponse
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "createFeaturedResultsSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "kendra")
-                      .withSigningRegion(value: config.signingRegion)
-        var operation = ClientRuntime.OperationStack<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutputResponse, CreateFeaturedResultsSetOutputError>(id: "createFeaturedResultsSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutputResponse, CreateFeaturedResultsSetOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFeaturedResultsSetOutputResponse, CreateFeaturedResultsSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutputResponse>(xAmzTarget: "AWSKendraFrontendService.CreateFeaturedResultsSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutputResponse>(xmlName: "CreateFeaturedResultsSetRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFeaturedResultsSetInput, CreateFeaturedResultsSetOutputResponse>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateFeaturedResultsSetOutputResponse, CreateFeaturedResultsSetOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFeaturedResultsSetOutputResponse, CreateFeaturedResultsSetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFeaturedResultsSetOutputResponse, CreateFeaturedResultsSetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFeaturedResultsSetOutputResponse, CreateFeaturedResultsSetOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
@@ -1353,42 +1281,6 @@ extension KendraClient: KendraClientProtocol {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFeaturedResultsSetOutputResponse, DescribeFeaturedResultsSetOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFeaturedResultsSetOutputResponse, DescribeFeaturedResultsSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
-    /// Gets information about a set of featured results. Features results are placed above all other results for certain queries. If there's an exact match of a query, then one or more specific documents are featured in the search results.
-    public func describeFeaturedResultsSet(input: DescribeFeaturedResultsSetInput) async throws -> DescribeFeaturedResultsSetOutputResponse
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "describeFeaturedResultsSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "kendra")
-                      .withSigningRegion(value: config.signingRegion)
-        var operation = ClientRuntime.OperationStack<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutputResponse, DescribeFeaturedResultsSetOutputError>(id: "describeFeaturedResultsSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutputResponse, DescribeFeaturedResultsSetOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeFeaturedResultsSetOutputResponse, DescribeFeaturedResultsSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutputResponse>(xAmzTarget: "AWSKendraFrontendService.DescribeFeaturedResultsSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutputResponse>(xmlName: "DescribeFeaturedResultsSetRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeFeaturedResultsSetInput, DescribeFeaturedResultsSetOutputResponse>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeFeaturedResultsSetOutputResponse, DescribeFeaturedResultsSetOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFeaturedResultsSetOutputResponse, DescribeFeaturedResultsSetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFeaturedResultsSetOutputResponse, DescribeFeaturedResultsSetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFeaturedResultsSetOutputResponse, DescribeFeaturedResultsSetOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
@@ -2021,42 +1913,6 @@ extension KendraClient: KendraClientProtocol {
         return result
     }
 
-    /// Lists all your sets of featured results for a given index. Features results are placed above all other results for certain queries. If there's an exact match of a query, then one or more specific documents are featured in the search results.
-    public func listFeaturedResultsSets(input: ListFeaturedResultsSetsInput) async throws -> ListFeaturedResultsSetsOutputResponse
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "listFeaturedResultsSets")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "kendra")
-                      .withSigningRegion(value: config.signingRegion)
-        var operation = ClientRuntime.OperationStack<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutputResponse, ListFeaturedResultsSetsOutputError>(id: "listFeaturedResultsSets")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutputResponse, ListFeaturedResultsSetsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFeaturedResultsSetsOutputResponse, ListFeaturedResultsSetsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutputResponse>(xAmzTarget: "AWSKendraFrontendService.ListFeaturedResultsSets"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutputResponse>(xmlName: "ListFeaturedResultsSetsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListFeaturedResultsSetsInput, ListFeaturedResultsSetsOutputResponse>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListFeaturedResultsSetsOutputResponse, ListFeaturedResultsSetsOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFeaturedResultsSetsOutputResponse, ListFeaturedResultsSetsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFeaturedResultsSetsOutputResponse, ListFeaturedResultsSetsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFeaturedResultsSetsOutputResponse, ListFeaturedResultsSetsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-        return result
-    }
-
     /// Provides a list of groups that are mapped to users before a given ordering or timestamp identifier. ListGroupsOlderThanOrderingId is currently not supported in the Amazon Web Services GovCloud (US-West) region.
     public func listGroupsOlderThanOrderingId(input: ListGroupsOlderThanOrderingIdInput) async throws -> ListGroupsOlderThanOrderingIdOutputResponse
     {
@@ -2655,42 +2511,6 @@ extension KendraClient: KendraClientProtocol {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFeaturedResultsSetOutputResponse, UpdateFeaturedResultsSetOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFeaturedResultsSetOutputResponse, UpdateFeaturedResultsSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
-    /// Updates a set of featured results. Features results are placed above all other results for certain queries. You map specific queries to specific documents for featuring in the results. If a query contains an exact match of a query, then one or more specific documents are featured in the search results.
-    public func updateFeaturedResultsSet(input: UpdateFeaturedResultsSetInput) async throws -> UpdateFeaturedResultsSetOutputResponse
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "updateFeaturedResultsSet")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "kendra")
-                      .withSigningRegion(value: config.signingRegion)
-        var operation = ClientRuntime.OperationStack<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutputResponse, UpdateFeaturedResultsSetOutputError>(id: "updateFeaturedResultsSet")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutputResponse, UpdateFeaturedResultsSetOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFeaturedResultsSetOutputResponse, UpdateFeaturedResultsSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutputResponse>(xAmzTarget: "AWSKendraFrontendService.UpdateFeaturedResultsSet"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutputResponse>(xmlName: "UpdateFeaturedResultsSetRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFeaturedResultsSetInput, UpdateFeaturedResultsSetOutputResponse>(contentType: "application/x-amz-json-1.1"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateFeaturedResultsSetOutputResponse, UpdateFeaturedResultsSetOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFeaturedResultsSetOutputResponse, UpdateFeaturedResultsSetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFeaturedResultsSetOutputResponse, UpdateFeaturedResultsSetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFeaturedResultsSetOutputResponse, UpdateFeaturedResultsSetOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 

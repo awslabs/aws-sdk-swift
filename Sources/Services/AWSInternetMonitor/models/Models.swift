@@ -262,16 +262,9 @@ extension CreateMonitorInput: ClientRuntime.URLPathProvider {
 public struct CreateMonitorInput: Swift.Equatable {
     /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for other API requests.
     public var clientToken: Swift.String?
-<<<<<<< HEAD
     /// Publish internet measurements for Internet Monitor to an Amazon S3 bucket in addition to CloudWatch Logs.
     public var internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
     /// The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and the network or ASN, such as an internet service provider (ISP), that clients access the resources through. This limit helps control billing costs. To learn more, see [Choosing a city-network maximum value ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
-=======
-    /// Publish internet measurements for Internet Monitor to another location, such as an Amazon S3 bucket. The measurements are also published to Amazon CloudWatch Logs.
-    public var internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
-    /// The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and the network or ASN, such as an internet service provider (ISP), that clients access the resources through. This limit helps control billing costs. To learn more, see [Choosing a city-network maximum value ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
-    /// This member is required.
->>>>>>> e9e9f86da6 (chore: regen models)
     public var maxCityNetworksToMonitor: Swift.Int
     /// The name of the monitor.
     /// This member is required.
@@ -310,10 +303,7 @@ struct CreateMonitorInputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let maxCityNetworksToMonitor: Swift.Int
     let internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
-<<<<<<< HEAD
     let trafficPercentageToMonitor: Swift.Int
-=======
->>>>>>> e9e9f86da6 (chore: regen models)
 }
 
 extension CreateMonitorInputBody: Swift.Decodable {
@@ -359,11 +349,8 @@ extension CreateMonitorInputBody: Swift.Decodable {
         maxCityNetworksToMonitor = maxCityNetworksToMonitorDecoded
         let internetMeasurementsLogDeliveryDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.InternetMeasurementsLogDelivery.self, forKey: .internetMeasurementsLogDelivery)
         internetMeasurementsLogDelivery = internetMeasurementsLogDeliveryDecoded
-<<<<<<< HEAD
         let trafficPercentageToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .trafficPercentageToMonitor) ?? 0
         trafficPercentageToMonitor = trafficPercentageToMonitorDecoded
-=======
->>>>>>> e9e9f86da6 (chore: regen models)
     }
 }
 
@@ -833,10 +820,6 @@ public struct GetMonitorOutputResponse: Swift.Equatable {
     /// Publish internet measurements for Internet Monitor to another location, such as an Amazon S3 bucket. The measurements are also published to Amazon CloudWatch Logs.
     public var internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
     /// The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and the network or ASN, such as an internet service provider (ISP), that clients access the resources through. This limit helps control billing costs. To learn more, see [Choosing a city-network maximum value ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
-<<<<<<< HEAD
-=======
-    /// This member is required.
->>>>>>> e9e9f86da6 (chore: regen models)
     public var maxCityNetworksToMonitor: Swift.Int
     /// The last time that the monitor was modified.
     /// This member is required.
@@ -904,10 +887,7 @@ struct GetMonitorOutputResponseBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let maxCityNetworksToMonitor: Swift.Int
     let internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
-<<<<<<< HEAD
     let trafficPercentageToMonitor: Swift.Int
-=======
->>>>>>> e9e9f86da6 (chore: regen models)
 }
 
 extension GetMonitorOutputResponseBody: Swift.Decodable {
@@ -968,11 +948,8 @@ extension GetMonitorOutputResponseBody: Swift.Decodable {
         maxCityNetworksToMonitor = maxCityNetworksToMonitorDecoded
         let internetMeasurementsLogDeliveryDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.InternetMeasurementsLogDelivery.self, forKey: .internetMeasurementsLogDelivery)
         internetMeasurementsLogDelivery = internetMeasurementsLogDeliveryDecoded
-<<<<<<< HEAD
         let trafficPercentageToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .trafficPercentageToMonitor) ?? 0
         trafficPercentageToMonitor = trafficPercentageToMonitorDecoded
-=======
->>>>>>> e9e9f86da6 (chore: regen models)
     }
 }
 
@@ -1520,11 +1497,7 @@ extension InternetMonitorClientTypes.InternetMeasurementsLogDelivery: Swift.Coda
 }
 
 extension InternetMonitorClientTypes {
-<<<<<<< HEAD
     /// Publish internet measurements to an Amazon S3 bucket in addition to CloudWatch Logs.
-=======
-    /// Configuration information for other locations that you choose to publish Amazon CloudWatch Internet Monitor internet measurements to, such as Amazon S3. The measurements are also published to Amazon CloudWatch Logs.
->>>>>>> e9e9f86da6 (chore: regen models)
     public struct InternetMeasurementsLogDelivery: Swift.Equatable {
         /// The configuration information for publishing Internet Monitor internet measurements to Amazon S3. The configuration includes the bucket name and (optionally) prefix for the S3 bucket to store the measurements, and the delivery status. The delivery status is ENABLED or DISABLED, depending on whether you choose to deliver internet measurements to S3 logs.
         public var s3Config: InternetMonitorClientTypes.S3Config?
@@ -3035,10 +3008,7 @@ struct UpdateMonitorInputBody: Swift.Equatable {
     let clientToken: Swift.String?
     let maxCityNetworksToMonitor: Swift.Int
     let internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
-<<<<<<< HEAD
     let trafficPercentageToMonitor: Swift.Int
-=======
->>>>>>> e9e9f86da6 (chore: regen models)
 }
 
 extension UpdateMonitorInputBody: Swift.Decodable {
@@ -3084,11 +3054,8 @@ extension UpdateMonitorInputBody: Swift.Decodable {
         maxCityNetworksToMonitor = maxCityNetworksToMonitorDecoded
         let internetMeasurementsLogDeliveryDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.InternetMeasurementsLogDelivery.self, forKey: .internetMeasurementsLogDelivery)
         internetMeasurementsLogDelivery = internetMeasurementsLogDeliveryDecoded
-<<<<<<< HEAD
         let trafficPercentageToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .trafficPercentageToMonitor) ?? 0
         trafficPercentageToMonitor = trafficPercentageToMonitorDecoded
-=======
->>>>>>> e9e9f86da6 (chore: regen models)
     }
 }
 

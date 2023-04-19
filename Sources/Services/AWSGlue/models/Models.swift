@@ -21434,14 +21434,8 @@ extension GlueClientTypes {
 
 extension FederatedResourceAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-<<<<<<< HEAD
-        if case .stream(let reader) = httpResponse.body,
-            let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
-=======
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
->>>>>>> e9e9f86da6 (chore: regen models)
             let output: FederatedResourceAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.associatedGlueResource = output.associatedGlueResource
             self.message = output.message
@@ -21457,11 +21451,7 @@ extension FederatedResourceAlreadyExistsException {
 }
 
 /// A federated resource already exists.
-<<<<<<< HEAD
-public struct FederatedResourceAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
-=======
 public struct FederatedResourceAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
->>>>>>> e9e9f86da6 (chore: regen models)
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -21602,14 +21592,8 @@ extension GlueClientTypes {
 
 extension FederationSourceException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-<<<<<<< HEAD
-        if case .stream(let reader) = httpResponse.body,
-            let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
-=======
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
->>>>>>> e9e9f86da6 (chore: regen models)
             let output: FederationSourceExceptionBody = try responseDecoder.decode(responseBody: data)
             self.federationSourceErrorCode = output.federationSourceErrorCode
             self.message = output.message
@@ -21625,11 +21609,7 @@ extension FederationSourceException {
 }
 
 /// A federation source failed.
-<<<<<<< HEAD
-public struct FederationSourceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
-=======
 public struct FederationSourceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
->>>>>>> e9e9f86da6 (chore: regen models)
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -21674,14 +21654,8 @@ extension FederationSourceExceptionBody: Swift.Decodable {
 
 extension FederationSourceRetryableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-<<<<<<< HEAD
-        if case .stream(let reader) = httpResponse.body,
-            let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
-=======
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
->>>>>>> e9e9f86da6 (chore: regen models)
             let output: FederationSourceRetryableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -21694,11 +21668,7 @@ extension FederationSourceRetryableException {
     }
 }
 
-<<<<<<< HEAD
-public struct FederationSourceRetryableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
-=======
 public struct FederationSourceRetryableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
->>>>>>> e9e9f86da6 (chore: regen models)
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -43515,11 +43485,7 @@ extension PermissionTypeMismatchException {
 }
 
 /// The operation timed out.
-<<<<<<< HEAD
-public struct PermissionTypeMismatchException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
-=======
 public struct PermissionTypeMismatchException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
->>>>>>> e9e9f86da6 (chore: regen models)
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

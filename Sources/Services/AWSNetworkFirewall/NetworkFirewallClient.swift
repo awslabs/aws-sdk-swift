@@ -414,42 +414,6 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         return result
     }
 
-    /// Creates an Network Firewall TLS inspection configuration. A TLS inspection configuration contains the Certificate Manager certificate references that Network Firewall uses to decrypt and re-encrypt inbound traffic. After you create a TLS inspection configuration, you associate it with a firewall policy. To update the settings for a TLS inspection configuration, use [UpdateTLSInspectionConfiguration]. To manage a TLS inspection configuration's tags, use the standard Amazon Web Services resource tagging operations, [ListTagsForResource], [TagResource], and [UntagResource]. To retrieve information about TLS inspection configurations, use [ListTLSInspectionConfigurations] and [DescribeTLSInspectionConfiguration]. For more information about TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
-    public func createTLSInspectionConfiguration(input: CreateTLSInspectionConfigurationInput) async throws -> CreateTLSInspectionConfigurationOutputResponse
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "createTLSInspectionConfiguration")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "network-firewall")
-                      .withSigningRegion(value: config.signingRegion)
-        var operation = ClientRuntime.OperationStack<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutputResponse, CreateTLSInspectionConfigurationOutputError>(id: "createTLSInspectionConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutputResponse, CreateTLSInspectionConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTLSInspectionConfigurationOutputResponse, CreateTLSInspectionConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutputResponse>(xAmzTarget: "NetworkFirewall_20201112.CreateTLSInspectionConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutputResponse>(xmlName: "CreateTLSInspectionConfigurationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutputResponse>(contentType: "application/x-amz-json-1.0"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateTLSInspectionConfigurationOutputResponse, CreateTLSInspectionConfigurationOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTLSInspectionConfigurationOutputResponse, CreateTLSInspectionConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTLSInspectionConfigurationOutputResponse, CreateTLSInspectionConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTLSInspectionConfigurationOutputResponse, CreateTLSInspectionConfigurationOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-        return result
-    }
-
     /// Deletes the specified [Firewall] and its [FirewallStatus]. This operation requires the firewall's DeleteProtection flag to be FALSE. You can't revert this operation. You can check whether a firewall is in use by reviewing the route tables for the Availability Zones where you have firewall subnet mappings. Retrieve the subnet mappings by calling [DescribeFirewall]. You define and update the route tables through Amazon VPC. As needed, update the route tables for the zones to remove the firewall endpoints. When the route tables no longer use the firewall endpoints, you can remove the firewall safely. To delete a firewall, remove the delete protection if you need to using [UpdateFirewallDeleteProtection], then delete the firewall by calling [DeleteFirewall].
     public func deleteFirewall(input: DeleteFirewallInput) async throws -> DeleteFirewallOutputResponse
     {
@@ -632,42 +596,6 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTLSInspectionConfigurationOutputResponse, DeleteTLSInspectionConfigurationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTLSInspectionConfigurationOutputResponse, DeleteTLSInspectionConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
-    /// Deletes the specified [TLSInspectionConfiguration].
-    public func deleteTLSInspectionConfiguration(input: DeleteTLSInspectionConfigurationInput) async throws -> DeleteTLSInspectionConfigurationOutputResponse
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "deleteTLSInspectionConfiguration")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "network-firewall")
-                      .withSigningRegion(value: config.signingRegion)
-        var operation = ClientRuntime.OperationStack<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutputResponse, DeleteTLSInspectionConfigurationOutputError>(id: "deleteTLSInspectionConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutputResponse, DeleteTLSInspectionConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTLSInspectionConfigurationOutputResponse, DeleteTLSInspectionConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutputResponse>(xAmzTarget: "NetworkFirewall_20201112.DeleteTLSInspectionConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutputResponse>(xmlName: "DeleteTLSInspectionConfigurationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutputResponse>(contentType: "application/x-amz-json-1.0"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteTLSInspectionConfigurationOutputResponse, DeleteTLSInspectionConfigurationOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTLSInspectionConfigurationOutputResponse, DeleteTLSInspectionConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTLSInspectionConfigurationOutputResponse, DeleteTLSInspectionConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTLSInspectionConfigurationOutputResponse, DeleteTLSInspectionConfigurationOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
@@ -930,42 +858,6 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         return result
     }
 
-    /// Returns the data objects for the specified TLS inspection configuration.
-    public func describeTLSInspectionConfiguration(input: DescribeTLSInspectionConfigurationInput) async throws -> DescribeTLSInspectionConfigurationOutputResponse
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "describeTLSInspectionConfiguration")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "network-firewall")
-                      .withSigningRegion(value: config.signingRegion)
-        var operation = ClientRuntime.OperationStack<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutputResponse, DescribeTLSInspectionConfigurationOutputError>(id: "describeTLSInspectionConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutputResponse, DescribeTLSInspectionConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTLSInspectionConfigurationOutputResponse, DescribeTLSInspectionConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutputResponse>(xAmzTarget: "NetworkFirewall_20201112.DescribeTLSInspectionConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutputResponse>(xmlName: "DescribeTLSInspectionConfigurationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutputResponse>(contentType: "application/x-amz-json-1.0"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeTLSInspectionConfigurationOutputResponse, DescribeTLSInspectionConfigurationOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTLSInspectionConfigurationOutputResponse, DescribeTLSInspectionConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTLSInspectionConfigurationOutputResponse, DescribeTLSInspectionConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTLSInspectionConfigurationOutputResponse, DescribeTLSInspectionConfigurationOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-        return result
-    }
-
     /// Removes the specified subnet associations from the firewall. This removes the firewall endpoints from the subnets and removes any network filtering protections that the endpoints were providing.
     public func disassociateSubnets(input: DisassociateSubnetsInput) async throws -> DisassociateSubnetsOutputResponse
     {
@@ -1148,42 +1040,6 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTLSInspectionConfigurationsOutputResponse, ListTLSInspectionConfigurationsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTLSInspectionConfigurationsOutputResponse, ListTLSInspectionConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
-    /// Retrieves the metadata for the TLS inspection configurations that you have defined. Depending on your setting for max results and the number of TLS inspection configurations, a single call might not return the full list.
-    public func listTLSInspectionConfigurations(input: ListTLSInspectionConfigurationsInput) async throws -> ListTLSInspectionConfigurationsOutputResponse
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "listTLSInspectionConfigurations")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "network-firewall")
-                      .withSigningRegion(value: config.signingRegion)
-        var operation = ClientRuntime.OperationStack<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutputResponse, ListTLSInspectionConfigurationsOutputError>(id: "listTLSInspectionConfigurations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutputResponse, ListTLSInspectionConfigurationsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTLSInspectionConfigurationsOutputResponse, ListTLSInspectionConfigurationsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutputResponse>(xAmzTarget: "NetworkFirewall_20201112.ListTLSInspectionConfigurations"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutputResponse>(xmlName: "ListTLSInspectionConfigurationsRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutputResponse>(contentType: "application/x-amz-json-1.0"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListTLSInspectionConfigurationsOutputResponse, ListTLSInspectionConfigurationsOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTLSInspectionConfigurationsOutputResponse, ListTLSInspectionConfigurationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTLSInspectionConfigurationsOutputResponse, ListTLSInspectionConfigurationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTLSInspectionConfigurationsOutputResponse, ListTLSInspectionConfigurationsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
@@ -1681,42 +1537,6 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTLSInspectionConfigurationOutputResponse, UpdateTLSInspectionConfigurationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTLSInspectionConfigurationOutputResponse, UpdateTLSInspectionConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
-    /// Updates the TLS inspection configuration settings for the specified TLS inspection configuration. You use a TLS inspection configuration by reference in one or more firewall policies. When you modify a TLS inspection configuration, you modify all firewall policies that use the TLS inspection configuration. To update a TLS inspection configuration, first call [DescribeTLSInspectionConfiguration] to retrieve the current [TLSInspectionConfiguration] object, update the object as needed, and then provide the updated object to this call.
-    public func updateTLSInspectionConfiguration(input: UpdateTLSInspectionConfigurationInput) async throws -> UpdateTLSInspectionConfigurationOutputResponse
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "updateTLSInspectionConfiguration")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "network-firewall")
-                      .withSigningRegion(value: config.signingRegion)
-        var operation = ClientRuntime.OperationStack<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutputResponse, UpdateTLSInspectionConfigurationOutputError>(id: "updateTLSInspectionConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutputResponse, UpdateTLSInspectionConfigurationOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTLSInspectionConfigurationOutputResponse, UpdateTLSInspectionConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutputResponse>(xAmzTarget: "NetworkFirewall_20201112.UpdateTLSInspectionConfiguration"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutputResponse>(xmlName: "UpdateTLSInspectionConfigurationRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutputResponse>(contentType: "application/x-amz-json-1.0"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateTLSInspectionConfigurationOutputResponse, UpdateTLSInspectionConfigurationOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTLSInspectionConfigurationOutputResponse, UpdateTLSInspectionConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTLSInspectionConfigurationOutputResponse, UpdateTLSInspectionConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTLSInspectionConfigurationOutputResponse, UpdateTLSInspectionConfigurationOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 

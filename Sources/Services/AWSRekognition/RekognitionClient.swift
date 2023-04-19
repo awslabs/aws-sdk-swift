@@ -356,6 +356,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutputResponse, CreateFaceLivenessSessionOutputError>(id: "createFaceLivenessSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutputResponse, CreateFaceLivenessSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFaceLivenessSessionInput, CreateFaceLivenessSessionOutputResponse>())
@@ -372,7 +373,7 @@ extension RekognitionClient: RekognitionClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFaceLivenessSessionOutputResponse, CreateFaceLivenessSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFaceLivenessSessionOutputResponse, CreateFaceLivenessSessionOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFaceLivenessSessionOutputResponse, CreateFaceLivenessSessionOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1411,6 +1412,7 @@ extension RekognitionClient: RekognitionClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rekognition")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutputResponse, GetFaceLivenessSessionResultsOutputError>(id: "getFaceLivenessSessionResults")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutputResponse, GetFaceLivenessSessionResultsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFaceLivenessSessionResultsInput, GetFaceLivenessSessionResultsOutputResponse>())
@@ -1427,7 +1429,7 @@ extension RekognitionClient: RekognitionClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFaceLivenessSessionResultsOutputResponse, GetFaceLivenessSessionResultsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFaceLivenessSessionResultsOutputResponse, GetFaceLivenessSessionResultsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFaceLivenessSessionResultsOutputResponse, GetFaceLivenessSessionResultsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

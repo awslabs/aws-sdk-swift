@@ -640,9 +640,8 @@ public enum CreateLaunchConfigurationTemplateOutputError: Swift.Error, Swift.Equ
 
 extension CreateLaunchConfigurationTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateLaunchConfigurationTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.launchConfigurationTemplate = output.launchConfigurationTemplate
         } else {
@@ -2735,9 +2734,8 @@ public enum DescribeLaunchConfigurationTemplatesOutputError: Swift.Error, Swift.
 
 extension DescribeLaunchConfigurationTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeLaunchConfigurationTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -11211,9 +11209,8 @@ public enum UpdateLaunchConfigurationTemplateOutputError: Swift.Error, Swift.Equ
 
 extension UpdateLaunchConfigurationTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateLaunchConfigurationTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.launchConfigurationTemplate = output.launchConfigurationTemplate
         } else {

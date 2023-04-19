@@ -208,6 +208,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddBridgeOutputsInput, AddBridgeOutputsOutputResponse, AddBridgeOutputsOutputError>(id: "addBridgeOutputs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddBridgeOutputsInput, AddBridgeOutputsOutputResponse, AddBridgeOutputsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddBridgeOutputsInput, AddBridgeOutputsOutputResponse>())
@@ -223,7 +224,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddBridgeOutputsOutputResponse, AddBridgeOutputsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddBridgeOutputsOutputResponse, AddBridgeOutputsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddBridgeOutputsOutputResponse, AddBridgeOutputsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -243,6 +244,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddBridgeSourcesInput, AddBridgeSourcesOutputResponse, AddBridgeSourcesOutputError>(id: "addBridgeSources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddBridgeSourcesInput, AddBridgeSourcesOutputResponse, AddBridgeSourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddBridgeSourcesInput, AddBridgeSourcesOutputResponse>())
@@ -258,7 +260,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddBridgeSourcesOutputResponse, AddBridgeSourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddBridgeSourcesOutputResponse, AddBridgeSourcesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddBridgeSourcesOutputResponse, AddBridgeSourcesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -422,6 +424,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateBridgeInput, CreateBridgeOutputResponse, CreateBridgeOutputError>(id: "createBridge")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBridgeInput, CreateBridgeOutputResponse, CreateBridgeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBridgeInput, CreateBridgeOutputResponse>())
@@ -437,7 +440,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBridgeOutputResponse, CreateBridgeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBridgeOutputResponse, CreateBridgeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBridgeOutputResponse, CreateBridgeOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -493,6 +496,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateGatewayInput, CreateGatewayOutputResponse, CreateGatewayOutputError>(id: "createGateway")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGatewayInput, CreateGatewayOutputResponse, CreateGatewayOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGatewayInput, CreateGatewayOutputResponse>())
@@ -508,7 +512,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGatewayOutputResponse, CreateGatewayOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGatewayOutputResponse, CreateGatewayOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGatewayOutputResponse, CreateGatewayOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -528,6 +532,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBridgeInput, DeleteBridgeOutputResponse, DeleteBridgeOutputError>(id: "deleteBridge")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBridgeInput, DeleteBridgeOutputResponse, DeleteBridgeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBridgeInput, DeleteBridgeOutputResponse>())
@@ -540,7 +545,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBridgeOutputResponse, DeleteBridgeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBridgeOutputResponse, DeleteBridgeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteBridgeOutputResponse, DeleteBridgeOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -593,6 +598,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteGatewayInput, DeleteGatewayOutputResponse, DeleteGatewayOutputError>(id: "deleteGateway")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGatewayInput, DeleteGatewayOutputResponse, DeleteGatewayOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGatewayInput, DeleteGatewayOutputResponse>())
@@ -605,7 +611,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGatewayOutputResponse, DeleteGatewayOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGatewayOutputResponse, DeleteGatewayOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGatewayOutputResponse, DeleteGatewayOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -625,6 +631,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterGatewayInstanceInput, DeregisterGatewayInstanceOutputResponse, DeregisterGatewayInstanceOutputError>(id: "deregisterGatewayInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterGatewayInstanceInput, DeregisterGatewayInstanceOutputResponse, DeregisterGatewayInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterGatewayInstanceInput, DeregisterGatewayInstanceOutputResponse>())
@@ -638,7 +645,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterGatewayInstanceOutputResponse, DeregisterGatewayInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterGatewayInstanceOutputResponse, DeregisterGatewayInstanceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterGatewayInstanceOutputResponse, DeregisterGatewayInstanceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -658,6 +665,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeBridgeInput, DescribeBridgeOutputResponse, DescribeBridgeOutputError>(id: "describeBridge")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeBridgeInput, DescribeBridgeOutputResponse, DescribeBridgeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeBridgeInput, DescribeBridgeOutputResponse>())
@@ -670,7 +678,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeBridgeOutputResponse, DescribeBridgeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeBridgeOutputResponse, DescribeBridgeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeBridgeOutputResponse, DescribeBridgeOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -723,6 +731,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeGatewayInput, DescribeGatewayOutputResponse, DescribeGatewayOutputError>(id: "describeGateway")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGatewayInput, DescribeGatewayOutputResponse, DescribeGatewayOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeGatewayInput, DescribeGatewayOutputResponse>())
@@ -735,7 +744,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGatewayOutputResponse, DescribeGatewayOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGatewayOutputResponse, DescribeGatewayOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeGatewayOutputResponse, DescribeGatewayOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -755,6 +764,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeGatewayInstanceInput, DescribeGatewayInstanceOutputResponse, DescribeGatewayInstanceOutputError>(id: "describeGatewayInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGatewayInstanceInput, DescribeGatewayInstanceOutputResponse, DescribeGatewayInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeGatewayInstanceInput, DescribeGatewayInstanceOutputResponse>())
@@ -767,7 +777,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGatewayInstanceOutputResponse, DescribeGatewayInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGatewayInstanceOutputResponse, DescribeGatewayInstanceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeGatewayInstanceOutputResponse, DescribeGatewayInstanceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -889,6 +899,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListBridgesInput, ListBridgesOutputResponse, ListBridgesOutputError>(id: "listBridges")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBridgesInput, ListBridgesOutputResponse, ListBridgesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBridgesInput, ListBridgesOutputResponse>())
@@ -902,7 +913,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBridgesOutputResponse, ListBridgesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBridgesOutputResponse, ListBridgesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBridgesOutputResponse, ListBridgesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -990,6 +1001,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGatewayInstancesInput, ListGatewayInstancesOutputResponse, ListGatewayInstancesOutputError>(id: "listGatewayInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGatewayInstancesInput, ListGatewayInstancesOutputResponse, ListGatewayInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGatewayInstancesInput, ListGatewayInstancesOutputResponse>())
@@ -1003,7 +1015,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGatewayInstancesOutputResponse, ListGatewayInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGatewayInstancesOutputResponse, ListGatewayInstancesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGatewayInstancesOutputResponse, ListGatewayInstancesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1023,6 +1035,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGatewaysInput, ListGatewaysOutputResponse, ListGatewaysOutputError>(id: "listGateways")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGatewaysInput, ListGatewaysOutputResponse, ListGatewaysOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGatewaysInput, ListGatewaysOutputResponse>())
@@ -1036,7 +1049,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGatewaysOutputResponse, ListGatewaysOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGatewaysOutputResponse, ListGatewaysOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGatewaysOutputResponse, ListGatewaysOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1193,6 +1206,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveBridgeOutputInput, RemoveBridgeOutputOutputResponse, RemoveBridgeOutputOutputError>(id: "removeBridgeOutput")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveBridgeOutputInput, RemoveBridgeOutputOutputResponse, RemoveBridgeOutputOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveBridgeOutputInput, RemoveBridgeOutputOutputResponse>())
@@ -1205,7 +1219,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveBridgeOutputOutputResponse, RemoveBridgeOutputOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveBridgeOutputOutputResponse, RemoveBridgeOutputOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveBridgeOutputOutputResponse, RemoveBridgeOutputOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1225,6 +1239,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveBridgeSourceInput, RemoveBridgeSourceOutputResponse, RemoveBridgeSourceOutputError>(id: "removeBridgeSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveBridgeSourceInput, RemoveBridgeSourceOutputResponse, RemoveBridgeSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveBridgeSourceInput, RemoveBridgeSourceOutputResponse>())
@@ -1237,7 +1252,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveBridgeSourceOutputResponse, RemoveBridgeSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveBridgeSourceOutputResponse, RemoveBridgeSourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveBridgeSourceOutputResponse, RemoveBridgeSourceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1558,6 +1573,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateBridgeInput, UpdateBridgeOutputResponse, UpdateBridgeOutputError>(id: "updateBridge")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBridgeInput, UpdateBridgeOutputResponse, UpdateBridgeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBridgeInput, UpdateBridgeOutputResponse>())
@@ -1573,7 +1589,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBridgeOutputResponse, UpdateBridgeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBridgeOutputResponse, UpdateBridgeOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBridgeOutputResponse, UpdateBridgeOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1593,6 +1609,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateBridgeOutputInput, UpdateBridgeOutputOutputResponse, UpdateBridgeOutputOutputError>(id: "updateBridgeOutput")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBridgeOutputInput, UpdateBridgeOutputOutputResponse, UpdateBridgeOutputOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBridgeOutputInput, UpdateBridgeOutputOutputResponse>())
@@ -1608,7 +1625,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBridgeOutputOutputResponse, UpdateBridgeOutputOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBridgeOutputOutputResponse, UpdateBridgeOutputOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBridgeOutputOutputResponse, UpdateBridgeOutputOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1628,6 +1645,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateBridgeSourceInput, UpdateBridgeSourceOutputResponse, UpdateBridgeSourceOutputError>(id: "updateBridgeSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBridgeSourceInput, UpdateBridgeSourceOutputResponse, UpdateBridgeSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBridgeSourceInput, UpdateBridgeSourceOutputResponse>())
@@ -1643,7 +1661,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBridgeSourceOutputResponse, UpdateBridgeSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBridgeSourceOutputResponse, UpdateBridgeSourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBridgeSourceOutputResponse, UpdateBridgeSourceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1663,6 +1681,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateBridgeStateInput, UpdateBridgeStateOutputResponse, UpdateBridgeStateOutputError>(id: "updateBridgeState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBridgeStateInput, UpdateBridgeStateOutputResponse, UpdateBridgeStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBridgeStateInput, UpdateBridgeStateOutputResponse>())
@@ -1678,7 +1697,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBridgeStateOutputResponse, UpdateBridgeStateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBridgeStateOutputResponse, UpdateBridgeStateOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBridgeStateOutputResponse, UpdateBridgeStateOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1878,6 +1897,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateGatewayInstanceInput, UpdateGatewayInstanceOutputResponse, UpdateGatewayInstanceOutputError>(id: "updateGatewayInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGatewayInstanceInput, UpdateGatewayInstanceOutputResponse, UpdateGatewayInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGatewayInstanceInput, UpdateGatewayInstanceOutputResponse>())
@@ -1893,7 +1913,7 @@ extension MediaConnectClient: MediaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGatewayInstanceOutputResponse, UpdateGatewayInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGatewayInstanceOutputResponse, UpdateGatewayInstanceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGatewayInstanceOutputResponse, UpdateGatewayInstanceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

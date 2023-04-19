@@ -754,39 +754,6 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
         return result
     }
 
-    /// Get a consolidated report of your workloads. You can optionally choose to include workloads that have been shared with you.
-    public func getConsolidatedReport(input: GetConsolidatedReportInput) async throws -> GetConsolidatedReportOutputResponse
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .get)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "getConsolidatedReport")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "wellarchitected")
-                      .withSigningRegion(value: config.signingRegion)
-        var operation = ClientRuntime.OperationStack<GetConsolidatedReportInput, GetConsolidatedReportOutputResponse, GetConsolidatedReportOutputError>(id: "getConsolidatedReport")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConsolidatedReportInput, GetConsolidatedReportOutputResponse, GetConsolidatedReportOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConsolidatedReportInput, GetConsolidatedReportOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetConsolidatedReportOutputResponse, GetConsolidatedReportOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetConsolidatedReportInput, GetConsolidatedReportOutputResponse>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetConsolidatedReportOutputResponse, GetConsolidatedReportOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConsolidatedReportOutputResponse, GetConsolidatedReportOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConsolidatedReportOutputResponse, GetConsolidatedReportOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConsolidatedReportOutputResponse, GetConsolidatedReportOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-        return result
-    }
-
     /// Get an existing lens.
     public func getLens(input: GetLensInput) async throws -> GetLensOutputResponse
     {

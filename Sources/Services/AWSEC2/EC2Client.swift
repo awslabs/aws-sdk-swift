@@ -16856,41 +16856,6 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Get details of available tunnel endpoint maintenance.
-    public func getVpnTunnelReplacementStatus(input: GetVpnTunnelReplacementStatusInput) async throws -> GetVpnTunnelReplacementStatusOutputResponse
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "getVpnTunnelReplacementStatus")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "ec2")
-                      .withSigningRegion(value: config.signingRegion)
-        var operation = ClientRuntime.OperationStack<GetVpnTunnelReplacementStatusInput, GetVpnTunnelReplacementStatusOutputResponse, GetVpnTunnelReplacementStatusOutputError>(id: "getVpnTunnelReplacementStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVpnTunnelReplacementStatusInput, GetVpnTunnelReplacementStatusOutputResponse, GetVpnTunnelReplacementStatusOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVpnTunnelReplacementStatusInput, GetVpnTunnelReplacementStatusOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVpnTunnelReplacementStatusOutputResponse, GetVpnTunnelReplacementStatusOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetVpnTunnelReplacementStatusInput, GetVpnTunnelReplacementStatusOutputResponse>(xmlName: "GetVpnTunnelReplacementStatusRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetVpnTunnelReplacementStatusInput, GetVpnTunnelReplacementStatusOutputResponse>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetVpnTunnelReplacementStatusOutputResponse, GetVpnTunnelReplacementStatusOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVpnTunnelReplacementStatusOutputResponse, GetVpnTunnelReplacementStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVpnTunnelReplacementStatusOutputResponse, GetVpnTunnelReplacementStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVpnTunnelReplacementStatusOutputResponse, GetVpnTunnelReplacementStatusOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-        return result
-    }
-
     /// Uploads a client certificate revocation list to the specified Client VPN endpoint. Uploading a client certificate revocation list overwrites the existing client certificate revocation list. Uploading a client certificate revocation list resets existing client connections.
     public func importClientVpnClientCertificateRevocationList(input: ImportClientVpnClientCertificateRevocationListInput) async throws -> ImportClientVpnClientCertificateRevocationListOutputResponse
     {
@@ -20647,41 +20612,6 @@ extension EC2Client: EC2ClientProtocol {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReplaceVpnTunnelOutputResponse, ReplaceVpnTunnelOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReplaceVpnTunnelOutputResponse, ReplaceVpnTunnelOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
-    /// Trigger replacement of specified VPN tunnel.
-    public func replaceVpnTunnel(input: ReplaceVpnTunnelInput) async throws -> ReplaceVpnTunnelOutputResponse
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "replaceVpnTunnel")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "ec2")
-                      .withSigningRegion(value: config.signingRegion)
-        var operation = ClientRuntime.OperationStack<ReplaceVpnTunnelInput, ReplaceVpnTunnelOutputResponse, ReplaceVpnTunnelOutputError>(id: "replaceVpnTunnel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReplaceVpnTunnelInput, ReplaceVpnTunnelOutputResponse, ReplaceVpnTunnelOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReplaceVpnTunnelInput, ReplaceVpnTunnelOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ReplaceVpnTunnelOutputResponse, ReplaceVpnTunnelOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ReplaceVpnTunnelInput, ReplaceVpnTunnelOutputResponse>(xmlName: "ReplaceVpnTunnelRequest"))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ReplaceVpnTunnelInput, ReplaceVpnTunnelOutputResponse>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ReplaceVpnTunnelOutputResponse, ReplaceVpnTunnelOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReplaceVpnTunnelOutputResponse, ReplaceVpnTunnelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReplaceVpnTunnelOutputResponse, ReplaceVpnTunnelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReplaceVpnTunnelOutputResponse, ReplaceVpnTunnelOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 

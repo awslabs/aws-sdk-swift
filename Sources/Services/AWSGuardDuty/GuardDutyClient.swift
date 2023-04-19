@@ -1213,41 +1213,6 @@ extension GuardDutyClient: GuardDutyClientProtocol {
         return result
     }
 
-    /// Retrieves aggregated statistics for your account. If you are a GuardDuty administrator, you can retrieve the statistics for all the resources associated with the active member accounts in your organization who have enabled EKS Runtime Monitoring and have the GuardDuty agent running on their EKS nodes.
-    public func getCoverageStatistics(input: GetCoverageStatisticsInput) async throws -> GetCoverageStatisticsOutputResponse
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "getCoverageStatistics")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "guardduty")
-                      .withSigningRegion(value: config.signingRegion)
-        var operation = ClientRuntime.OperationStack<GetCoverageStatisticsInput, GetCoverageStatisticsOutputResponse, GetCoverageStatisticsOutputError>(id: "getCoverageStatistics")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCoverageStatisticsInput, GetCoverageStatisticsOutputResponse, GetCoverageStatisticsOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCoverageStatisticsInput, GetCoverageStatisticsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCoverageStatisticsOutputResponse, GetCoverageStatisticsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCoverageStatisticsInput, GetCoverageStatisticsOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCoverageStatisticsInput, GetCoverageStatisticsOutputResponse>(xmlName: "GetCoverageStatisticsRequest"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetCoverageStatisticsOutputResponse, GetCoverageStatisticsOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCoverageStatisticsOutputResponse, GetCoverageStatisticsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCoverageStatisticsOutputResponse, GetCoverageStatisticsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCoverageStatisticsOutputResponse, GetCoverageStatisticsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-        return result
-    }
-
     /// Retrieves an Amazon GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     public func getDetector(input: GetDetectorInput) async throws -> GetDetectorOutputResponse
     {
@@ -1765,41 +1730,6 @@ extension GuardDutyClient: GuardDutyClientProtocol {
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCoverageOutputResponse, ListCoverageOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCoverageOutputResponse, ListCoverageOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
-        return result
-    }
-
-    /// Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have EKS Runtime Monitoring enabled and GuardDuty agent running on their EKS nodes.
-    public func listCoverage(input: ListCoverageInput) async throws -> ListCoverageOutputResponse
-    {
-        let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
-                      .withMethod(value: .post)
-                      .withServiceName(value: serviceName)
-                      .withOperation(value: "listCoverage")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withCredentialsProvider(value: config.credentialsProvider)
-                      .withRegion(value: config.region)
-                      .withSigningName(value: "guardduty")
-                      .withSigningRegion(value: config.signingRegion)
-        var operation = ClientRuntime.OperationStack<ListCoverageInput, ListCoverageOutputResponse, ListCoverageOutputError>(id: "listCoverage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCoverageInput, ListCoverageOutputResponse, ListCoverageOutputError>())
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCoverageInput, ListCoverageOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCoverageOutputResponse, ListCoverageOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListCoverageInput, ListCoverageOutputResponse>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListCoverageInput, ListCoverageOutputResponse>(xmlName: "ListCoverageRequest"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListCoverageOutputResponse, ListCoverageOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCoverageOutputResponse, ListCoverageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCoverageOutputResponse, ListCoverageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCoverageOutputResponse, ListCoverageOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 

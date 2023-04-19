@@ -244,6 +244,7 @@ extension DrsClient: DrsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "drs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLaunchConfigurationTemplateInput, CreateLaunchConfigurationTemplateOutputResponse, CreateLaunchConfigurationTemplateOutputError>(id: "createLaunchConfigurationTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLaunchConfigurationTemplateInput, CreateLaunchConfigurationTemplateOutputResponse, CreateLaunchConfigurationTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLaunchConfigurationTemplateInput, CreateLaunchConfigurationTemplateOutputResponse>())
@@ -259,7 +260,7 @@ extension DrsClient: DrsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLaunchConfigurationTemplateOutputResponse, CreateLaunchConfigurationTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLaunchConfigurationTemplateOutputResponse, CreateLaunchConfigurationTemplateOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLaunchConfigurationTemplateOutputResponse, CreateLaunchConfigurationTemplateOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -351,6 +352,7 @@ extension DrsClient: DrsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "drs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLaunchConfigurationTemplateInput, DeleteLaunchConfigurationTemplateOutputResponse, DeleteLaunchConfigurationTemplateOutputError>(id: "deleteLaunchConfigurationTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLaunchConfigurationTemplateInput, DeleteLaunchConfigurationTemplateOutputResponse, DeleteLaunchConfigurationTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLaunchConfigurationTemplateInput, DeleteLaunchConfigurationTemplateOutputResponse>())
@@ -366,7 +368,7 @@ extension DrsClient: DrsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLaunchConfigurationTemplateOutputResponse, DeleteLaunchConfigurationTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLaunchConfigurationTemplateOutputResponse, DeleteLaunchConfigurationTemplateOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLaunchConfigurationTemplateOutputResponse, DeleteLaunchConfigurationTemplateOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -566,6 +568,7 @@ extension DrsClient: DrsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "drs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLaunchConfigurationTemplatesInput, DescribeLaunchConfigurationTemplatesOutputResponse, DescribeLaunchConfigurationTemplatesOutputError>(id: "describeLaunchConfigurationTemplates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLaunchConfigurationTemplatesInput, DescribeLaunchConfigurationTemplatesOutputResponse, DescribeLaunchConfigurationTemplatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLaunchConfigurationTemplatesInput, DescribeLaunchConfigurationTemplatesOutputResponse>())
@@ -581,7 +584,7 @@ extension DrsClient: DrsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLaunchConfigurationTemplatesOutputResponse, DescribeLaunchConfigurationTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLaunchConfigurationTemplatesOutputResponse, DescribeLaunchConfigurationTemplatesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLaunchConfigurationTemplatesOutputResponse, DescribeLaunchConfigurationTemplatesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1492,6 +1495,7 @@ extension DrsClient: DrsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "drs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateLaunchConfigurationTemplateInput, UpdateLaunchConfigurationTemplateOutputResponse, UpdateLaunchConfigurationTemplateOutputError>(id: "updateLaunchConfigurationTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLaunchConfigurationTemplateInput, UpdateLaunchConfigurationTemplateOutputResponse, UpdateLaunchConfigurationTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLaunchConfigurationTemplateInput, UpdateLaunchConfigurationTemplateOutputResponse>())
@@ -1507,7 +1511,7 @@ extension DrsClient: DrsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLaunchConfigurationTemplateOutputResponse, UpdateLaunchConfigurationTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLaunchConfigurationTemplateOutputResponse, UpdateLaunchConfigurationTemplateOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLaunchConfigurationTemplateOutputResponse, UpdateLaunchConfigurationTemplateOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

@@ -33,7 +33,6 @@
                 }
             }
         },
-<<<<<<< HEAD
         "com.amazonaws.groundstation#AgentCpuCoresList": {
             "type": "list",
             "member": {
@@ -46,8 +45,6 @@
                 }
             }
         },
-=======
->>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.groundstation#AgentDetails": {
             "type": "structure",
             "members": {
@@ -73,7 +70,6 @@
                     }
                 },
                 "reservedCpuCores": {
-<<<<<<< HEAD
                     "target": "com.amazonaws.groundstation#AgentCpuCoresList",
                     "traits": {
                         "smithy.api#documentation": "<note>\n            <p>This field should not be used. Use agentCpuCores instead.</p>\n         </note>\n         <p>List of CPU cores reserved for processes other than the agent running on the EC2 instance.</p>"
@@ -83,12 +79,6 @@
                     "target": "com.amazonaws.groundstation#AgentCpuCoresList",
                     "traits": {
                         "smithy.api#documentation": "<p>List of CPU cores reserved for the agent.</p>"
-=======
-                    "target": "com.amazonaws.groundstation#ReservedCpuCoresList",
-                    "traits": {
-                        "smithy.api#documentation": "<p>Number of Cpu cores reserved for agent.</p>",
-                        "smithy.api#required": {}
->>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "componentVersions": {
@@ -407,7 +397,6 @@
                 }
             }
         },
-<<<<<<< HEAD
         "com.amazonaws.groundstation#CapabilityHealth": {
             "type": "string",
             "traits": {
@@ -470,17 +459,11 @@
                 }
             }
         },
-=======
->>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.groundstation#ComponentStatusData": {
             "type": "structure",
             "members": {
                 "componentType": {
-<<<<<<< HEAD
                     "target": "com.amazonaws.groundstation#ComponentTypeString",
-=======
-                    "target": "com.amazonaws.groundstation#ComponentType",
->>>>>>> e9e9f86da6 (chore: regen models)
                     "traits": {
                         "smithy.api#documentation": "<p>The Component type.</p>",
                         "smithy.api#required": {}
@@ -540,50 +523,22 @@
             },
             "traits": {
                 "smithy.api#length": {
-<<<<<<< HEAD
                     "min": 0,
-=======
-                    "min": 1,
->>>>>>> e9e9f86da6 (chore: regen models)
                     "max": 20
                 }
             }
         },
-<<<<<<< HEAD
         "com.amazonaws.groundstation#ComponentTypeString": {
             "type": "string",
             "traits": {
                 "smithy.api#pattern": "^[a-zA-Z0-9_]{1,64}$"
-=======
-        "com.amazonaws.groundstation#ComponentType": {
-            "type": "string",
-            "traits": {
-                "smithy.api#enum": [
-                    {
-                        "value": "LAMINAR_FLOW",
-                        "name": "LAMINAR_FLOW"
-                    },
-                    {
-                        "value": "PRISM",
-                        "name": "PRISM"
-                    },
-                    {
-                        "value": "DIGITIZER",
-                        "name": "DIGITIZER"
-                    }
-                ]
->>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.groundstation#ComponentVersion": {
             "type": "structure",
             "members": {
                 "componentType": {
-<<<<<<< HEAD
                     "target": "com.amazonaws.groundstation#ComponentTypeString",
-=======
-                    "target": "com.amazonaws.groundstation#ComponentType",
->>>>>>> e9e9f86da6 (chore: regen models)
                     "traits": {
                         "smithy.api#documentation": "<p>Component type.</p>",
                         "smithy.api#required": {}
@@ -1146,21 +1101,13 @@
                 "contactPrePassDurationSeconds": {
                     "target": "com.amazonaws.groundstation#DataflowEndpointGroupDurationInSeconds",
                     "traits": {
-<<<<<<< HEAD
                         "smithy.api#documentation": "<p>Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a <code>PREPASS</code> state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the <code>PREPASS</code> state.</p>"
-=======
-                        "smithy.api#documentation": "<p>Amount of time, in seconds, prior to contact start for the contact to remain in a <code>PREPASS</code> state. A CloudWatch event is emitted when the contact enters and exits the <code>PREPASS</code> state.</p>"
->>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "contactPostPassDurationSeconds": {
                     "target": "com.amazonaws.groundstation#DataflowEndpointGroupDurationInSeconds",
                     "traits": {
-<<<<<<< HEAD
                         "smithy.api#documentation": "<p>Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a <code>POSTPASS</code> state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the <code>POSTPASS</code> state.</p>"
-=======
-                        "smithy.api#documentation": "<p>Amount of time, in seconds, after a contact ends for the contact to remain in a <code>POSTPASS</code> state. A CloudWatch event is emitted when the contact enters and exits the <code>POSTPASS</code> state.</p>"
->>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 }
             },
@@ -2222,7 +2169,6 @@
                     "traits": {
                         "smithy.api#documentation": "<p>An agent endpoint.</p>"
                     }
-<<<<<<< HEAD
                 },
                 "healthStatus": {
                     "target": "com.amazonaws.groundstation#CapabilityHealth",
@@ -2235,8 +2181,6 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Health reasons for a dataflow endpoint. This field is ignored when calling <code>CreateDataflowEndpointGroup</code>.</p>"
                     }
-=======
->>>>>>> e9e9f86da6 (chore: regen models)
                 }
             },
             "traits": {
@@ -2647,11 +2591,7 @@
                 }
             ],
             "traits": {
-<<<<<<< HEAD
                 "smithy.api#documentation": "<note>\n            <p> For use by AWS Ground Station Agent and shouldn't be called directly.</p>\n         </note>\n         <p>Gets the latest configuration information for a registered agent.</p>",
-=======
-                "smithy.api#documentation": "<p>Gets the latest configuration information for a registered agent.</p>",
->>>>>>> e9e9f86da6 (chore: regen models)
                 "smithy.api#http": {
                     "method": "GET",
                     "uri": "/agent/{agentId}/configuration"
@@ -2863,21 +2803,13 @@
                 "contactPrePassDurationSeconds": {
                     "target": "com.amazonaws.groundstation#DataflowEndpointGroupDurationInSeconds",
                     "traits": {
-<<<<<<< HEAD
                         "smithy.api#documentation": "<p>Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a <code>PREPASS</code> state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the <code>PREPASS</code> state.</p>"
-=======
-                        "smithy.api#documentation": "<p>Amount of time, in seconds, prior to contact start for the contact to remain in a <code>PREPASS</code> state. A CloudWatch event is emitted when the contact enters and exits the <code>PREPASS</code> state.</p>"
->>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "contactPostPassDurationSeconds": {
                     "target": "com.amazonaws.groundstation#DataflowEndpointGroupDurationInSeconds",
                     "traits": {
-<<<<<<< HEAD
                         "smithy.api#documentation": "<p>Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a <code>POSTPASS</code> state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the <code>POSTPASS</code> state.</p>"
-=======
-                        "smithy.api#documentation": "<p>Amount of time, in seconds, after a contact ends for the contact to remain in a <code>POSTPASS</code> state. A CloudWatch event is emitted when the contact enters and exits the <code>POSTPASS</code> state.</p>"
->>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 }
             },
@@ -3606,15 +3538,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": false,
                                 "Region": "af-south-1"
-=======
-                                "Region": "af-south-1",
-                                "UseFIPS": false,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3625,15 +3551,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": false,
                                 "Region": "ap-northeast-2"
-=======
-                                "Region": "ap-northeast-2",
-                                "UseFIPS": false,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3644,15 +3564,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": false,
                                 "Region": "ap-southeast-2"
-=======
-                                "Region": "ap-southeast-2",
-                                "UseFIPS": false,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3663,15 +3577,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": false,
                                 "Region": "eu-central-1"
-=======
-                                "Region": "eu-central-1",
-                                "UseFIPS": false,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3682,15 +3590,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": false,
                                 "Region": "eu-north-1"
-=======
-                                "Region": "eu-north-1",
-                                "UseFIPS": false,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3701,15 +3603,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": false,
                                 "Region": "eu-west-1"
-=======
-                                "Region": "eu-west-1",
-                                "UseFIPS": false,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3720,15 +3616,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": false,
                                 "Region": "me-south-1"
-=======
-                                "Region": "me-south-1",
-                                "UseFIPS": false,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3739,15 +3629,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": false,
                                 "Region": "sa-east-1"
-=======
-                                "Region": "sa-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3758,15 +3642,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": false,
                                 "Region": "us-east-1"
-=======
-                                "Region": "us-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3777,15 +3655,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "UseDualStack": false,
                                 "Region": "us-east-1"
-=======
-                                "Region": "us-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3796,15 +3668,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": false,
                                 "Region": "us-east-2"
-=======
-                                "Region": "us-east-2",
-                                "UseFIPS": false,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3815,15 +3681,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "UseDualStack": false,
                                 "Region": "us-east-2"
-=======
-                                "Region": "us-east-2",
-                                "UseFIPS": true,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3834,15 +3694,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": false,
                                 "Region": "us-west-2"
-=======
-                                "Region": "us-west-2",
-                                "UseFIPS": false,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3853,15 +3707,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "UseDualStack": false,
                                 "Region": "us-west-2"
-=======
-                                "Region": "us-west-2",
-                                "UseFIPS": true,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3872,15 +3720,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "UseDualStack": true,
                                 "Region": "us-east-1"
-=======
-                                "Region": "us-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3891,15 +3733,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": true,
                                 "Region": "us-east-1"
-=======
-                                "Region": "us-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3910,15 +3746,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "UseDualStack": true,
                                 "Region": "cn-north-1"
-=======
-                                "Region": "cn-north-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3929,15 +3759,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "UseDualStack": false,
                                 "Region": "cn-north-1"
-=======
-                                "Region": "cn-north-1",
-                                "UseFIPS": true,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3948,15 +3772,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": true,
                                 "Region": "cn-north-1"
-=======
-                                "Region": "cn-north-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3967,15 +3785,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": false,
                                 "Region": "cn-north-1"
-=======
-                                "Region": "cn-north-1",
-                                "UseFIPS": false,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3986,15 +3798,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "UseDualStack": true,
                                 "Region": "us-gov-east-1"
-=======
-                                "Region": "us-gov-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -4005,15 +3811,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "UseDualStack": false,
                                 "Region": "us-gov-east-1"
-=======
-                                "Region": "us-gov-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -4024,15 +3824,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": true,
                                 "Region": "us-gov-east-1"
-=======
-                                "Region": "us-gov-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -4043,15 +3837,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": false,
                                 "Region": "us-gov-east-1"
-=======
-                                "Region": "us-gov-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -4060,15 +3848,9 @@
                                 "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "UseDualStack": true,
                                 "Region": "us-iso-east-1"
-=======
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -4079,15 +3861,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "UseDualStack": false,
                                 "Region": "us-iso-east-1"
-=======
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -4096,15 +3872,9 @@
                                 "error": "DualStack is enabled but this partition does not support DualStack"
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": true,
                                 "Region": "us-iso-east-1"
-=======
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -4115,15 +3885,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": false,
                                 "Region": "us-iso-east-1"
-=======
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -4132,15 +3896,9 @@
                                 "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "UseDualStack": true,
                                 "Region": "us-isob-east-1"
-=======
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -4151,15 +3909,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "UseDualStack": false,
                                 "Region": "us-isob-east-1"
-=======
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -4168,15 +3920,9 @@
                                 "error": "DualStack is enabled but this partition does not support DualStack"
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": true,
                                 "Region": "us-isob-east-1"
-=======
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -4187,15 +3933,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": false,
                                 "Region": "us-isob-east-1"
-=======
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": false
->>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -4206,15 +3946,9 @@
                                 }
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": false,
                                 "Region": "us-east-1",
-=======
-                                "Region": "us-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": false,
->>>>>>> e9e9f86da6 (chore: regen models)
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -4237,15 +3971,9 @@
                                 "error": "Invalid Configuration: FIPS and custom endpoint are not supported"
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "UseDualStack": false,
                                 "Region": "us-east-1",
-=======
-                                "Region": "us-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": false,
->>>>>>> e9e9f86da6 (chore: regen models)
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -4255,15 +3983,9 @@
                                 "error": "Invalid Configuration: Dualstack and custom endpoint are not supported"
                             },
                             "params": {
-<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "UseDualStack": true,
                                 "Region": "us-east-1",
-=======
-                                "Region": "us-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true,
->>>>>>> e9e9f86da6 (chore: regen models)
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -5367,11 +5089,7 @@
                 }
             ],
             "traits": {
-<<<<<<< HEAD
                 "smithy.api#documentation": "<note>\n            <p> For use by AWS Ground Station Agent and shouldn't be called directly.</p>\n         </note>\n         <p> Registers a new agent with AWS Ground Station. </p>",
-=======
-                "smithy.api#documentation": "<p>Registers a new agent with AWS Groundstation.</p>",
->>>>>>> e9e9f86da6 (chore: regen models)
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/agent"
@@ -5384,11 +5102,7 @@
                 "discoveryData": {
                     "target": "com.amazonaws.groundstation#DiscoveryData",
                     "traits": {
-<<<<<<< HEAD
                         "smithy.api#documentation": "<p>Data for associating an agent with the capabilities it is managing.</p>",
-=======
-                        "smithy.api#documentation": "<p>Data for associating and agent with the capabilities it is managing.</p>",
->>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#required": {}
                     }
                 },
@@ -5488,21 +5202,6 @@
                 "smithy.api#documentation": "<p/>"
             }
         },
-<<<<<<< HEAD
-=======
-        "com.amazonaws.groundstation#ReservedCpuCoresList": {
-            "type": "list",
-            "member": {
-                "target": "smithy.api#Integer"
-            },
-            "traits": {
-                "smithy.api#length": {
-                    "min": 1,
-                    "max": 256
-                }
-            }
-        },
->>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.groundstation#ResourceLimitExceededException": {
             "type": "structure",
             "members": {
@@ -6154,11 +5853,7 @@
                 }
             ],
             "traits": {
-<<<<<<< HEAD
                 "smithy.api#documentation": "<note>\n            <p> For use by AWS Ground Station Agent and shouldn't be called directly.</p>\n         </note>\n         <p>Update the status of the agent.</p>",
-=======
-                "smithy.api#documentation": "<p>Update the status of the agent.</p>",
->>>>>>> e9e9f86da6 (chore: regen models)
                 "smithy.api#http": {
                     "method": "PUT",
                     "uri": "/agent/{agentId}"
@@ -6535,8 +6230,4 @@
             }
         }
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> e9e9f86da6 (chore: regen models)

@@ -31,17 +31,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-west-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -72,17 +65,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -113,17 +99,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-west-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -154,17 +133,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "cn-north-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "cn-north-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -195,17 +167,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-west-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -236,17 +201,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-west-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -277,17 +235,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-gov-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-gov-east-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -318,17 +269,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "cn-north-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "cn-north-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -359,17 +303,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "cn-north-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "cn-north-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -400,17 +337,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-gov-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-gov-east-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -441,17 +371,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "af-south-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -482,17 +405,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "af-south-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -523,17 +439,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-gov-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-gov-east-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -564,17 +473,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -603,17 +505,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -641,17 +536,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-east-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-2",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -680,17 +568,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -718,17 +599,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-east-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-2",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -757,17 +631,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -926,17 +793,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-west-2",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -966,17 +826,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-west-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1031,17 +884,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-west-2",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1071,17 +917,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-west-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1157,17 +996,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-west-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1196,17 +1028,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-west-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1238,17 +1063,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1278,17 +1096,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1318,17 +1129,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1401,17 +1205,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-west-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1441,17 +1238,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1481,17 +1271,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-gov-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-gov-east-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1521,17 +1304,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-gov-west-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-gov-west-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1561,17 +1337,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1622,17 +1391,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "cn-north-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "cn-north-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1662,17 +1424,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1702,17 +1457,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-gov-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-gov-east-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1742,17 +1490,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-gov-west-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-gov-west-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1782,17 +1523,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1843,17 +1577,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "af-south-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "af-south-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1883,17 +1610,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1923,17 +1643,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-gov-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-gov-east-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1963,17 +1676,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-gov-west-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-gov-west-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2003,17 +1709,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2148,17 +1847,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-west-2",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2186,17 +1878,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2224,17 +1909,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2262,17 +1940,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2296,17 +1967,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2331,17 +1995,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2366,17 +2023,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2402,17 +2052,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2436,17 +2079,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "cn-north-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "cn-north-1",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2493,17 +2129,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2552,17 +2181,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2590,17 +2212,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2627,17 +2242,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2722,17 +2330,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2758,17 +2359,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2794,17 +2388,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2830,17 +2417,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3009,17 +2589,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-west-2",
-                        "signingName": "s3",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3048,17 +2621,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-west-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3220,17 +2786,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-west-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3305,17 +2864,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3345,17 +2897,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-east-1",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-east-1",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -3453,17 +2998,10 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-<<<<<<< HEAD
                         "name": "sigv4",
                         "signingName": "s3-outposts",
                         "signingRegion": "us-west-2",
                         "disableDoubleEncoding": true
-=======
-                        "signingRegion": "us-west-2",
-                        "signingName": "s3-outposts",
-                        "disableDoubleEncoding": true,
-                        "name": "sigv4"
->>>>>>> e9e9f86da6 (chore: regen models)
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]

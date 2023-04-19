@@ -3076,11 +3076,7 @@ extension EntityNotFoundException {
 }
 
 /// A specified entity does not exist.
-<<<<<<< HEAD
-public struct EntityNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
-=======
 public struct EntityNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
->>>>>>> e9e9f86da6 (chore: regen models)
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

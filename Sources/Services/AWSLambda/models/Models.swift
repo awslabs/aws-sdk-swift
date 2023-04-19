@@ -11171,9 +11171,9 @@ public struct InvokeWithResponseStreamInputBodyMiddleware: ClientRuntime.Middlew
     Self.Context == H.Context
     {
         if let payload = input.operationInput.payload {
-            let payloaddata = payload
-            let payloadbody = ClientRuntime.HttpBody.data(payloaddata)
-            input.builder.withBody(payloadbody)
+            let payloadData = payload
+            let payloadBody = ClientRuntime.HttpBody.data(payloadData)
+            input.builder.withBody(payloadBody)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -11391,13 +11391,10 @@ extension InvokeWithResponseStreamOutputResponse: ClientRuntime.HttpResponseBind
         } else {
             self.responseStreamContentType = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: LambdaClientTypes.InvokeWithResponseStreamResponseEvent = try responseDecoder.decode(responseBody: data)
-                self.eventStream = output
-            } else {
-                self.eventStream = nil
-            }
+        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
+            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<LambdaClientTypes.InvokeWithResponseStreamResponseEvent>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
+            self.eventStream = decoderStream.toAsyncStream()
         } else {
             self.eventStream = nil
         }
@@ -11407,7 +11404,7 @@ extension InvokeWithResponseStreamOutputResponse: ClientRuntime.HttpResponseBind
 
 public struct InvokeWithResponseStreamOutputResponse: Swift.Equatable {
     /// The stream of response payloads.
-    public var eventStream: LambdaClientTypes.InvokeWithResponseStreamResponseEvent?
+    public var eventStream: AsyncThrowingStream<LambdaClientTypes.InvokeWithResponseStreamResponseEvent, Swift.Error>?
     /// The version of the function that executed. When you invoke a function with an alias, this indicates which version the alias resolved to.
     public var executedVersion: Swift.String?
     /// The type of data the stream is returning.
@@ -11416,7 +11413,7 @@ public struct InvokeWithResponseStreamOutputResponse: Swift.Equatable {
     public var statusCode: Swift.Int
 
     public init (
-        eventStream: LambdaClientTypes.InvokeWithResponseStreamResponseEvent? = nil,
+        eventStream: AsyncThrowingStream<LambdaClientTypes.InvokeWithResponseStreamResponseEvent, Swift.Error>? = nil,
         executedVersion: Swift.String? = nil,
         responseStreamContentType: Swift.String? = nil,
         statusCode: Swift.Int = 0
@@ -11429,58 +11426,36 @@ public struct InvokeWithResponseStreamOutputResponse: Swift.Equatable {
     }
 }
 
-struct InvokeWithResponseStreamOutputResponseBody: Swift.Equatable {
-    let statusCode: Swift.Int
-    let eventStream: LambdaClientTypes.InvokeWithResponseStreamResponseEvent?
-}
-
-extension InvokeWithResponseStreamOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case eventStream = "EventStream"
-        case statusCode = "StatusCode"
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statusCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .statusCode) ?? 0
-        statusCode = statusCodeDecoded
-        let eventStreamDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.InvokeWithResponseStreamResponseEvent.self, forKey: .eventStream)
-        eventStream = eventStreamDecoded
-    }
-}
-
-extension LambdaClientTypes.InvokeWithResponseStreamResponseEvent: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case invokecomplete = "InvokeComplete"
-        case payloadchunk = "PayloadChunk"
-        case sdkUnknown
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        switch self {
-            case let .invokecomplete(invokecomplete):
-                try container.encode(invokecomplete, forKey: .invokecomplete)
-            case let .payloadchunk(payloadchunk):
-                try container.encode(payloadchunk, forKey: .payloadchunk)
-            case let .sdkUnknown(sdkUnknown):
-                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+extension LambdaClientTypes.InvokeWithResponseStreamResponseEvent: ClientRuntime.MessageUnmarshallable {
+    public init(message: ClientRuntime.EventStream.Message, decoder: ClientRuntime.ResponseDecoder) throws {
+        switch try message.type() {
+        case .event(let params):
+            switch params.eventType {
+            case "PayloadChunk":
+                var event = LambdaClientTypes.InvokeResponseStreamUpdate()
+                event.payload = message.payload
+                self = .payloadchunk(event)
+            case "InvokeComplete":
+                self = .invokecomplete(try decoder.decode(responseBody: message.payload))
+            default:
+                self = .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
+            }
+        case .exception(let params):
+            let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                switch params.exceptionType {
+                default:
+                    let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                    return AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")")
+                }
+            }
+            let error = try makeError(message, params)
+            throw error
+        case .error(let params):
+            let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+            throw AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")")
+        case .unknown(messageType: let messageType):
+            throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
         }
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        let payloadchunkDecoded = try values.decodeIfPresent(LambdaClientTypes.InvokeResponseStreamUpdate.self, forKey: .payloadchunk)
-        if let payloadchunk = payloadchunkDecoded {
-            self = .payloadchunk(payloadchunk)
-            return
-        }
-        let invokecompleteDecoded = try values.decodeIfPresent(LambdaClientTypes.InvokeWithResponseStreamCompleteEvent.self, forKey: .invokecomplete)
-        if let invokecomplete = invokecompleteDecoded {
-            self = .invokecomplete(invokecomplete)
-            return
-        }
-        self = .sdkUnknown("")
     }
 }
 
