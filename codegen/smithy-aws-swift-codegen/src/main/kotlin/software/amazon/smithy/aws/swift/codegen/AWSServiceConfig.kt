@@ -31,7 +31,7 @@ const val USE_DUAL_STACK_CONFIG_NAME = "useDualStack"
 const val RUNTIME_CONFIG_NAME = "runtimeConfig"
 const val ENDPOINT_CONFIG_NAME = "endpoint"
 
-const val FILE_BASED_CONFIG_LOCAL_NAME = "fileBasedConfigurationStore"
+const val FILE_BASED_CONFIG_LOCAL_NAME = "fileBasedConfig"
 
 val runtimeConfig = ConfigField(
     RUNTIME_CONFIG_NAME,
@@ -53,11 +53,45 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
         // aws configs including service specific configs
         var awsConfigs = (otherConfigs + serviceConfigs + runtimeConfig).sortedBy { it.memberName }
 
-        writer.openBlock("public init(", ") async throws {") {
+        renderAsyncInitializer(awsConfigs)
+        writer.write("")
+        renderSyncInitializer(awsConfigs)
+        writer.write("")
+        renderDesignatedInitializer(runtimeConfigs, awsConfigs)
+        writer.write("")
+
+        // partitionID computed var
+        writer.openBlock("public var partitionID: String? {", "}") {
+            writer.write("return \"\$L - \\(region ?? \"\")\"", serviceName)
+        }
+    }
+
+    fun renderDesignatedInitializer(
+        runtimeConfigs: List<ConfigField>,
+        awsConfigs: List<ConfigField>
+    ) {
+        writer.writeDocs("Internal designated init")
+        writer.writeDocs("All convenience inits should call this")
+        writer.openBlock("public init(", ") throws {") {
             awsConfigs.forEachIndexed { index, config ->
-                val terminator = if (index != awsConfigs.lastIndex) ", " else ""
-                writer.write("${config.memberName}: ${config.paramFormatter}$terminator", config.type)
+                when (config.memberName) {
+                    // Skip regionResolver since region is required
+                    REGION_RESOLVER -> {}
+
+                    // We'll always do the runtimeConfig last, so skip here
+                    RUNTIME_CONFIG_NAME -> {}
+
+                    CREDENTIALS_PROVIDER_CONFIG_NAME -> {
+                        // Render non-optional
+                        writer.write("\$L: \$N,", config.memberName, config.type)
+                    }
+                    else -> {
+                        writer.write("\$L: \$T,", config.memberName, config.type)
+                    }
+                }
             }
+
+            writer.write("\$L: \$T", RUNTIME_CONFIG_NAME, ClientRuntimeTypes.Core.SDKRuntimeConfiguration)
         }
         writer.indent()
 
@@ -66,34 +100,8 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
         writer.write("let \$L = try \$L ?? \$N(\"\$L\")", RUNTIME_CONFIG_NAME, RUNTIME_CONFIG_NAME, ClientRuntimeTypes.Core.DefaultSDKRuntimeConfiguration, serviceName)
         writer.write("")
 
-        // Create our file based config store
-        writer.write("let \$L = try CRTFiledBasedConfigurationStore()", FILE_BASED_CONFIG_LOCAL_NAME)
-        writer.write("")
-
-        // Resolve the region resolver
-        writer.write("let resolvedRegionResolver = try \$L ?? DefaultRegionResolver(fileBasedConfigurationProvider: \$L)", REGION_RESOLVER, FILE_BASED_CONFIG_LOCAL_NAME)
-        writer.write("")
-
-        // Resolve the region
-        writer.write("let resolvedRegion: String?")
-        writer.openBlock("if let region = region {", "} else {") {
-            writer.write("resolvedRegion = region")
-        }
-        writer.indent()
-        writer.write("resolvedRegion = await resolvedRegionResolver.resolveRegion()")
-        writer.dedent()
-        writer.write("}")
-        writer.write("")
-
         // Resolve the signing region
-        writer.write("let resolvedSigningRegion = signingRegion ?? resolvedRegion")
-        writer.write("")
-
-        // Resolve the credentials provider
-        writer.openBlock("let resolvedCredentialProvider = try await \$N.resolvedProvider(", ")", AWSClientRuntimeTypes.Core.AWSCredentialsProvider) {
-            writer.write("\$L,", CREDENTIALS_PROVIDER_CONFIG_NAME)
-            writer.write("configuration: .init(fileBasedConfigurationStore: \$L)", FILE_BASED_CONFIG_LOCAL_NAME)
-        }
+        writer.write("let resolvedSigningRegion = \$L ?? \$L", SIGNING_REGION_CONFIG_NAME, REGION_CONFIG_NAME)
         writer.write("")
 
         // Resolve the endpointsResolver
@@ -102,20 +110,13 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
 
         awsConfigs.forEach {
             when (it.memberName) {
-                CREDENTIALS_PROVIDER_CONFIG_NAME -> {
-                    writer.write("self.\$L = resolvedCredentialProvider", it.memberName)
-                }
-
                 ENDPOINT_RESOLVER -> {
                     writer.write("self.\$L = resolvedEndpointsResolver", it.memberName)
                 }
 
                 REGION_RESOLVER -> {
-                    writer.write("self.\$L = resolvedRegionResolver", it.memberName)
-                }
-
-                REGION_CONFIG_NAME -> {
-                    writer.write("self.\$L = resolvedRegion", it.memberName)
+                    writer.write("// TODO: Remove region resolver. Region must already be resolved and there is no point in storing the resolver.")
+                    writer.write("self.\$L = nil", it.memberName)
                 }
 
                 SIGNING_REGION_CONFIG_NAME -> {
@@ -138,12 +139,134 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
         }
 
         writer.dedent().write("}")
+    }
+
+    fun renderAsyncInitializer(
+        awsConfigs: List<ConfigField>
+    ) {
+        writer.writeDocs("Creates a configuration asynchronously")
+        writer.openBlock("public convenience init(", ") async throws {") {
+            awsConfigs.forEachIndexed { index, config ->
+                val terminator = if (index != awsConfigs.lastIndex) ", " else ""
+                writer.write("${config.memberName}: ${config.paramFormatter}$terminator", config.type)
+            }
+        }
+        writer.indent()
+
+        // Create our file based config
+        writer.write("let \$L = try await CRTFileBasedConfiguration.makeAsync()", FILE_BASED_CONFIG_LOCAL_NAME)
         writer.write("")
 
-        // partitionID computed var
-        writer.openBlock("public var partitionID: String? {", "}") {
-            writer.write("return \"\$L - \\(region ?? \"\")\"", serviceName)
+        // Resolve the region resolver
+        writer.write("let resolvedRegionResolver = try \$L ?? DefaultRegionResolver { _, _ in \$L }", REGION_RESOLVER, FILE_BASED_CONFIG_LOCAL_NAME)
+        writer.write("")
+
+        // Resolve the region
+        writer.write("let resolvedRegion: String?")
+        writer.openBlock("if let \$L = \$L {", "} else {", REGION_CONFIG_NAME, REGION_CONFIG_NAME) {
+            writer.write("resolvedRegion = \$L", REGION_CONFIG_NAME)
         }
+        writer.indent()
+        writer.write("resolvedRegion = await resolvedRegionResolver.resolveRegion()")
+        writer.dedent()
+        writer.write("}")
+        writer.write("")
+
+        // Resolve the credentials provider
+        writer.write("let resolvedCredentialsProvider: \$N", AWSClientRuntimeTypes.Core.CredentialsProviding)
+        writer.openBlock("if let \$L = \$L {", "} else {", CREDENTIALS_PROVIDER_CONFIG_NAME, CREDENTIALS_PROVIDER_CONFIG_NAME) {
+            writer.write("resolvedCredentialsProvider = \$L", CREDENTIALS_PROVIDER_CONFIG_NAME)
+        }
+        writer.indent()
+        writer.write("resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: \$L)", FILE_BASED_CONFIG_LOCAL_NAME)
+        writer.dedent()
+        writer.write("}")
+        writer.write("")
+
+        writer.openBlock("try self.init(", ")") {
+            awsConfigs.forEach {
+                when (it.memberName) {
+                    CREDENTIALS_PROVIDER_CONFIG_NAME -> {
+                        writer.write("\$L: resolvedCredentialsProvider,", it.memberName)
+                    }
+
+                    REGION_CONFIG_NAME -> {
+                        writer.write("\$L: resolvedRegion,", it.memberName)
+                    }
+
+                    // Skip, region should already be resolved
+                    REGION_RESOLVER -> {}
+
+                    // Skip, we'll always do runtime config last
+                    RUNTIME_CONFIG_NAME -> {}
+
+                    else -> {
+                        writer.write("\$L: \$L,", it.memberName, it.memberName)
+                    }
+                }
+            }
+            writer.write("\$L: \$L", RUNTIME_CONFIG_NAME, RUNTIME_CONFIG_NAME)
+        }
+
+        writer.dedent().write("}")
+    }
+
+    fun renderSyncInitializer(
+        awsConfigs: List<ConfigField>
+    ) {
+        writer.openBlock("public convenience init(", ") throws {") {
+            writer.write("\$L: \$N,", REGION_CONFIG_NAME, SwiftTypes.String)
+
+            awsConfigs.forEachIndexed { index, config ->
+                when (config.memberName) {
+                    // Skip, region is handled above
+                    REGION_CONFIG_NAME -> {}
+
+                    // Skip, region is required and so no resolver is needed
+                    REGION_RESOLVER -> {}
+
+                    else -> {
+                        val terminator = if (index != awsConfigs.lastIndex) ", " else ""
+                        writer.write("${config.memberName}: ${config.paramFormatter}$terminator", config.type)
+                    }
+                }
+            }
+        }
+        writer.indent()
+
+        writer.write("let resolvedCredentialsProvider: CredentialsProviding")
+        writer.openBlock("if let \$L = \$L {", "} else {", CREDENTIALS_PROVIDER_CONFIG_NAME, CREDENTIALS_PROVIDER_CONFIG_NAME) {
+            writer.write("resolvedCredentialsProvider = \$L", CREDENTIALS_PROVIDER_CONFIG_NAME)
+        }
+        writer.indent()
+        writer.write("let \$L = try CRTFileBasedConfiguration.make()", FILE_BASED_CONFIG_LOCAL_NAME)
+        writer.write("resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: \$L)", FILE_BASED_CONFIG_LOCAL_NAME)
+        writer.dedent()
+        writer.write("}")
+        writer.write("")
+
+        writer.openBlock("try self.init(", ")") {
+            awsConfigs.forEach {
+                when (it.memberName) {
+                    CREDENTIALS_PROVIDER_CONFIG_NAME -> {
+                        writer.write("\$L: resolvedCredentialsProvider,", it.memberName)
+                    }
+
+                    // Skip, region should already be resolved
+                    REGION_RESOLVER -> {}
+
+                    // Skip, we'll always do runtime config last
+                    RUNTIME_CONFIG_NAME -> {}
+
+                    else -> {
+                        writer.write("\$L: \$L,", it.memberName, it.memberName)
+                    }
+                }
+            }
+            writer.write("\$L: \$L", RUNTIME_CONFIG_NAME, RUNTIME_CONFIG_NAME)
+        }
+
+        writer.dedent().write("}")
     }
 
     override fun otherRuntimeConfigProperties(): List<ConfigField> {
@@ -151,7 +274,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
             ConfigField(ENDPOINT_CONFIG_NAME, SwiftTypes.String, "\$T"),
             ConfigField(
                 CREDENTIALS_PROVIDER_CONFIG_NAME,
-                AWSClientRuntimeTypes.Core.CredentialsProvider,
+                AWSClientRuntimeTypes.Core.CredentialsProviding,
                 documentation = "The credentials provider to use to authenticate requests."
             ),
             ConfigField(REGION_CONFIG_NAME, SwiftTypes.String, "\$T"),

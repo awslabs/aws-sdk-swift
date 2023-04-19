@@ -6,12 +6,12 @@
 //
 import ClientRuntime
 
-@_spi(Internal)
+@_spi(FileBasedConfig)
 public struct DefaultRegionResolver: RegionResolver {
     public let providers: [RegionProvider]
     let logger: SwiftLogger
 
-    public init(fileBasedConfigurationProvider: FileBasedConfigurationProviding) throws {
+    public init(fileBasedConfigurationProvider: @escaping FileBasedConfigurationProviding) throws {
         self.providers = [
             BundleRegionProvider(),
             EnvironmentRegionProvider(),
@@ -39,5 +39,17 @@ public struct DefaultRegionResolver: RegionResolver {
         }
         logger.debug("Unable to resolve region")
         return nil
+    }
+}
+
+public struct StaticRegionResolver: RegionResolver {
+    public let providers: [RegionProvider] = []
+    private let region: String
+    public init(_ region: String) {
+        self.region = region
+    }
+
+    public func resolveRegion() async -> String? {
+        return region
     }
 }

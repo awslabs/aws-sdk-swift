@@ -5,57 +5,57 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-@_spi(Internal) public typealias FileBasedConfiguration = FileBasedConfigurationSectionProviding
-@_spi(Internal) public typealias FileBasedConfigurationSection = FileBasedConfigurationPropertyProviding
-@_spi(Internal) public typealias FileBasedConfigurationSubsection = FileBasedConfigurationValueProviding
+@_spi(FileBasedConfig) public typealias FileBasedConfiguration = FileBasedConfigurationSectionProviding
+@_spi(FileBasedConfig) public typealias FileBasedConfigurationSection = FileBasedConfigurationPropertyProviding
+@_spi(FileBasedConfig) public typealias FileBasedConfigurationSubsection = FileBasedConfigurationValueProviding
 
-@_spi(Internal)
+@_spi(FileBasedConfig)
 public enum FileBasedConfigurationSectionType {
     case profile
     case ssoSession
 }
 
-@_spi(Internal)
+@_spi(FileBasedConfig)
 public struct FileBasedConfigurationSources: Hashable {
     let configPath: String
     let credentialPath: String
 }
 
-@_spi(Internal)
-public protocol FileBasedConfigurationProviding {
-    func fileBasedConfiguration(configFilePath: String?, credentialsFilePath: String?) async throws
-        -> FileBasedConfigurationSectionProviding?
-}
+@_spi(FileBasedConfig)
+public typealias FileBasedConfigurationProviding = (
+    _ configFilePath: String?,
+    _ credentialsFilePath: String?
+) async throws -> FileBasedConfigurationSectionProviding?
 
-@_spi(Internal)
+@_spi(FileBasedConfig)
 public enum FileBasedConfigurationProperty {
     case string(String)
     case subsection(FileBasedConfigurationSubsection)
 }
 
-@_spi(Internal)
+@_spi(FileBasedConfig)
 public protocol FileBasedConfigurationSectionProviding {
     func section(for name: String, type: FileBasedConfigurationSectionType) -> FileBasedConfigurationSection?
 }
 
-@_spi(Internal)
+@_spi(FileBasedConfig)
 public extension FileBasedConfigurationSectionProviding {
     func section(for name: String) -> FileBasedConfigurationSection? {
         section(for: name, type: .profile)
     }
 }
 
-@_spi(Internal)
+@_spi(FileBasedConfig)
 public protocol FileBasedConfigurationPropertyProviding {
     func property(for name: FileBasedConfigurationKey) -> FileBasedConfigurationProperty?
 }
 
-@_spi(Internal)
+@_spi(FileBasedConfig)
 public protocol FileBasedConfigurationValueProviding {
     func value(for name: FileBasedConfigurationKey) -> String?
 }
 
-@_spi(Internal)
+@_spi(FileBasedConfig)
 public extension FileBasedConfigurationPropertyProviding {
     func string(for name: FileBasedConfigurationKey) -> String? {
         guard let value = property(for: name) else { return nil }

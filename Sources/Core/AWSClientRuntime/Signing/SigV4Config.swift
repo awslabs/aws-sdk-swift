@@ -8,7 +8,7 @@
 import Foundation
 
 public struct SigV4Config {
-    let credentialsProvider: AWSCredentialsProvider?
+    let credentialsProvider: CredentialsProviding?
     let signingService: String?
     let signatureType: AWSSignatureType
     let useDoubleURIEncode: Bool
@@ -20,7 +20,7 @@ public struct SigV4Config {
     let signingAlgorithm: AWSSigningAlgorithm
 
     public init(
-        credentialsProvider: AWSCredentialsProvider? = nil,
+        credentialsProvider: CredentialsProviding? = nil,
         signingService: String? = nil,
         signatureType: AWSSignatureType = .requestHeaders,
         useDoubleURIEncode: Bool = true,
