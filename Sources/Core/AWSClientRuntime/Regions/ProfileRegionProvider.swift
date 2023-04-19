@@ -34,12 +34,12 @@ struct ProfileRegionProvider: RegionProvider {
             logger.debug("Failed to resolve region from configuration file. No configuration file found.")
             return nil
         }
-        
+
         guard let profile = configuration.section(for: profileName) else {
             logger.debug("Failed to resolve region from configuration file. No profile with name: \(profileName)")
             return nil
         }
-        
+
         return profile.string(for: .region)
     }
 }

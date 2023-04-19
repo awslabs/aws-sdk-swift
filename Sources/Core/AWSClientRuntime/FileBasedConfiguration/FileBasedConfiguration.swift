@@ -65,7 +65,7 @@ public extension FileBasedConfigurationPropertyProviding {
             return nil
         }
     }
-    
+
     func subproperties(for name: FileBasedConfigurationKey) -> FileBasedConfigurationSubsection? {
         guard let value = property(for: name) else { return nil }
         switch value {
