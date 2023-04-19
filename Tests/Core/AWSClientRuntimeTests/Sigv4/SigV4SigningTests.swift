@@ -9,7 +9,7 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 import XCTest
 
-@testable @_spi(Internal) import AWSClientRuntime
+@testable import AWSClientRuntime
 
 class Sigv4SigningTests: XCTestCase {
     override func setUp() {
@@ -64,10 +64,9 @@ class Sigv4SigningTests: XCTestCase {
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         let epoch = formatter.date(from: "1973-11-29T21:33:09.000001234Z")!
         
-        var credentialsProvider = try! AWSCredentialsProvider.fromStatic(
+        var credentialsProvider = try! StaticCredentialsProvider(
             credentials
         )
-        try! await credentialsProvider.configure(.init(fileBasedConfigurationStore: .init()))
         
         let context = HttpContextBuilder()
             .withSigningName(value: "testservice")
